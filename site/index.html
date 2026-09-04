@@ -3,415 +3,159 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#08090E">
+<meta name="theme-color" content="#0a0b12">
 <title>Rafael C. R. de Lima</title>
-<meta name="description" content="Rafael Camargo Rodrigues de Lima — Professor Associado de Física na UDESC/CCT. Astrofísica relativística, objetos compactos, equação de estado da matéria densa e neutrinos em espaço-tempo curvo. Disciplinas, programas abertos e publicações.">
+<meta name="description" content="Rafael Camargo Rodrigues de Lima — Professor Associado de Física na UDESC/CCT. Astrofísica relativística, objetos compactos e neutrinos em espaço-tempo curvo.">
 <meta name="author" content="Rafael Camargo Rodrigues de Lima">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="canonical" href="https://rafael-lima.pages.dev/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Rafael C. R. de Lima">
-<meta property="og:description" content="Astrofísica relativística e física nuclear — UDESC/CCT. Disciplinas, programas abertos e publicações.">
+<meta property="og:description" content="Rafael Camargo Rodrigues de Lima — Professor Associado de Física na UDESC/CCT. Astrofísica relativística, objetos compactos e neutrinos em espaço-tempo curvo.">
+<meta property="og:image" content="https://rafael-lima.pages.dev/rafael-cern.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="/styles.css">
 </head>
-<body>
+<body class="capa">
 
 <a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="#topo">R. C. R. de Lima</a>
+<div class="panel panel-capa">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+          <path d="M16 4C8 9.5 8 22.5 16 28"/><path d="M16 4c8 4.5 8 17.5 0 24"/>
+          <circle cx="16" cy="16" r="3.4" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brandname">R. C. R. de Lima</span>
+    </a>
     <nav class="nav" aria-label="Seções / Sections">
-      <a href="#pesquisa"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
-      <a href="#codes">Codes</a>
-      <a href="#producao"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
-      <a href="#material"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+      <a href="/pesquisa.html"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="/codes.html">Codes</a>
+      <a href="/producao.html"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="/material.html"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
     </nav>
-    <div class="langswitch" role="group" aria-label="Idioma / Language">
-      <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
-      <span class="langsep" aria-hidden="true">/</span>
-      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    <div class="topbar-end">
+      <div class="langswitch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <span class="langsep" aria-hidden="true">/</span>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn" href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
     </div>
+  </header>
+
+  <div class="stage">
+      <span class="pill p1">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(-28 12 12)"/></svg></span>
+        <span lang="pt">Objetos compactos</span><span lang="en">Compact objects</span>
+      </span>
+
+      <span class="pill p2">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 8h16M4 12h16M4 16h16" opacity=".55"/><circle cx="9" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="11" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></span>
+        <span lang="pt">Matéria densa</span><span lang="en">Dense matter</span>
+      </span>
+
+      <span class="pill p3 pill-ic" aria-hidden="true">
+        <span class="ic ic-solid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3.5C7 6.5 7 17.5 12 20.5"/><path d="M12 3.5c5 3 5 14 0 17"/><circle cx="12" cy="12" r="2.8" fill="currentColor" stroke="none"/></svg></span>
+      </span>
+
+      <span class="pill p4">
+        <span class="ic ic-wave" aria-hidden="true">👋</span>
+        <span lang="pt">Oi! Sou o Rafael</span><span lang="en">Hi! I'm Rafael</span>
+      </span>
+
+      <span class="pill p5">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2.5 14c2.5-6 5-6 7.5 0s5 6 7.5 0 3-4.5 4-4.5" /></svg></span>
+        <span lang="pt">Neutrinos · DUNE</span><span lang="en">Neutrinos · DUNE</span>
+      </span>
+
+      <a class="pill p6 pill-cta" href="mailto:rafael.lima@udesc.br">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3.5 6.8l8.5 6 8.5-6"/></svg></span>
+        <span lang="pt">Fale comigo</span><span lang="en">Get in touch</span>
+      </a>
+    <figure class="portrait">
+      <picture>
+        <source srcset="/rafael-cern.webp" type="image/webp">
+        <img src="/rafael-cern.jpg" width="760" height="760" alt="Rafael de Lima de capacete do CERN, na passarela do hall experimental do ProtoDUNE">
+      </picture>
+    </figure>
   </div>
-</header>
+</div>
 
-<main id="conteudo">
+<section class="intro">
+  <p class="kicker"><span lang="pt">Olá, eu sou o Rafael</span><span lang="en">Hi there, I'm Rafael</span></p>
+  <h1 lang="pt">Um <em>físico</em> atrás do que a matéria faz sob <em>gravidade extrema</em></h1>
+  <h1 lang="en">A <em>physicist</em> after what matter does under <em>extreme gravity</em></h1>
+  <p class="introsub" lang="pt">Professor Associado no Departamento de Física da UDESC/CCT, em Joinville, e docente permanente do PPGF. Estudo estrelas de nêutrons, magnetares e anãs brancas magnetizadas — e construo as ferramentas que uso para ensinar isso.</p>
+  <p class="introsub" lang="en">Associate Professor in the Department of Physics at UDESC/CCT, Joinville, and permanent faculty in the graduate physics program. I study neutron stars, magnetars and magnetized white dwarfs — and I build the tools I use to teach them.</p>
+</section>
 
-  <!-- ─────────────────────────────  HERO  ───────────────────────────── -->
-  <div class="glow" aria-hidden="true"></div>
-  <section class="hero" id="topo">
-    <p class="kicker"><span lang="pt">Astrofísica relativística · Física nuclear</span><span lang="en">Relativistic astrophysics · Nuclear physics</span></p>
+  <section class="destinos" id="conteudo">
+    <h2 class="sr-only"><span lang="pt">Seções do site</span><span lang="en">Site sections</span></h2>
 
-    <h1>Rafael Camargo Rodrigues de&nbsp;Lima</h1>
+    <a class="destino" href="/pesquisa.html">
+      <span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.6" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(-30 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(30 12 12)"/></svg></span>
+      <h3><span lang="pt">Pesquisa</span><span lang="en">Research</span></h3>
+      <p lang="pt">Matéria acima da densidade nuclear, magnetares, e agora neutrinos em espaço-tempo curvo.</p>
+      <p lang="en">Matter above nuclear density, magnetars, and now neutrinos in curved spacetime.</p>
+      <span class="dmeta"><span lang="pt">Quatro frentes</span><span lang="en">Four strands</span></span>
+    </a>
 
-    <p class="role">
-      <span lang="pt">Professor Associado · Departamento de Física</span>
-      <span lang="en">Associate Professor · Department of Physics</span>
-    </p>
-    <p class="affil">
-      <span lang="pt">Centro de Ciências Tecnológicas (CCT) · Universidade do Estado de Santa Catarina (UDESC)<br>Joinville, Santa Catarina, Brasil</span>
-      <span lang="en">Centre for Technological Sciences (CCT) · Santa Catarina State University (UDESC)<br>Joinville, Santa Catarina, Brazil</span>
-    </p>
-    <p class="affil">
-      <span lang="pt">Docente permanente do Programa de Pós-Graduação em Física (PPGF)</span>
-      <span lang="en">Permanent faculty member, Graduate Program in Physics (PPGF)</span>
-    </p>
+    <a class="destino" href="/codes.html">
+      <span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.5L3.5 12 9 17.5"/><path d="M15 6.5L20.5 12 15 17.5"/></svg></span>
+      <h3>Codes</h3>
+      <p lang="pt">ODEROM, TESSERA, ÁLETRA e PATHS — abertos, e rodando dentro do navegador.</p>
+      <p lang="en">ODEROM, TESSERA, ÁLETRA and PATHS — open, and running inside the browser.</p>
+      <span class="dmeta"><span lang="pt">Quatro programas</span><span lang="en">Four programs</span></span>
+    </a>
 
-    <p class="lede">
-      <span lang="pt">Astrofísica relativística e física nuclear — o que a matéria faz quando está mais densa que um núcleo atômico, e que assinatura isso deixa no céu.</span>
-      <span lang="en">Relativistic astrophysics and nuclear physics — what matter does when it is denser than an atomic nucleus, and what signature that leaves in the sky.</span>
-    </p>
+    <a class="destino" href="/producao.html">
+      <span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h9l5 5v10a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19.5z"/><path d="M13.8 4.7V10h5.1"/><path d="M8.5 14h7M8.5 17.2h4.5"/></svg></span>
+      <h3><span lang="pt">Produção</span><span lang="en">Publications</span></h3>
+      <p lang="pt">Artigos com DOI, do <i>pasta</i> nuclear de 2013 ao DUNE e ao preprint de brana.</p>
+      <p lang="en">Papers with DOI, from nuclear <i>pasta</i> in 2013 to DUNE and the braneworld preprint.</p>
+      <span class="dmeta"><span lang="pt">14 trabalhos</span><span lang="en">14 works</span></span>
+    </a>
 
-    <ul class="idlinks">
-      <li><a href="http://lattes.cnpq.br/0799234795742587">Currículo Lattes</a></li>
-      <li><a href="https://orcid.org/0000-0003-1718-3838">ORCID <span class="mono">0000-0003-1718-3838</span></a></li>
-      <li><a href="https://github.com/RafaelCRdeLima">GitHub</a></li>
-      <li><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></li>
-    </ul>
+    <a class="destino" href="/material.html">
+      <span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.2C10 5.6 7.6 5.2 4.5 5.4v12.4c3.1-.2 5.5.2 7.5 1.8 2-1.6 4.4-2 7.5-1.8V5.4c-3.1-.2-5.5.2-7.5 1.8z"/><path d="M12 7.2v11.4"/></svg></span>
+      <h3><span lang="pt">Material didático</span><span lang="en">Teaching</span></h3>
+      <p lang="pt">Apostilas, slides, códigos e laboratórios — abertos, e em português.</p>
+      <p lang="en">Lecture notes, slides, code and labs — open, and in Portuguese.</p>
+      <span class="dmeta"><span lang="pt">Quatro disciplinas</span><span lang="en">Four courses</span></span>
+    </a>
   </section>
-
-  <!-- ─────────────────────────────  PESQUISA  ───────────────────────────── -->
-  <section id="pesquisa">
-    <h2 class="seclabel"><span class="secnum">01</span><span lang="pt">Pesquisa</span><span lang="en">Research</span></h2>
-
-    <div lang="pt" class="prose">
-      <p>Estudo matéria em condições que nenhum laboratório na Terra alcança: densidades acima da densidade nuclear de saturação e campos magnéticos da ordem de 10<sup>14</sup>–10<sup>15</sup> gauss. O laboratório são os objetos compactos — estrelas de nêutrons, magnetares, anãs brancas massivas e magnetizadas — e a pergunta atravessa a ponte nos dois sentidos: que equação de estado a matéria obedece lá dentro, e que assinatura observável isso deixa aqui fora.</p>
-
-      <p><strong>Do lado da matéria:</strong> as fases <em>pasta</em> nucleares e como campos magnéticos intensos reorganizam sua estrutura; equações de estado com graus de liberdade de quarks; e os vínculos que massa máxima, raio e deformabilidade de maré impõem sobre elas.</p>
-
-      <p><strong>Do lado da observação:</strong> curvas de luz em raios X e o que revelam sobre a geometria do campo magnético — a evidência de um campo multipolar no magnetar do centro galáctico, SGR&nbsp;J1745−2900, saiu dessa análise; a natureza <em>rotation-powered</em> de SGRs e AXPs; emissão térmica de anãs brancas em rotação rápida; e a identificação de 3XMM&nbsp;J185246.6+003317 como um magnetar massivo de campo baixo.</p>
-
-      <p><strong>Uma linha nova, que estou explorando agora:</strong> oscilações de neutrinos em espaços-tempos curvos — o que muda na fase de oscilação quando a propagação segue uma geodésica em vez de uma reta, e o que a gravidade acrescenta ao efeito MSW. Participo também da colaboração <a href="https://www.dunescience.org/">DUNE</a>.</p>
-
-      <p><strong>Há ainda uma linha computacional e didática:</strong> ferramentas que tornam manipulável o que normalmente só existe como símbolo no papel — <a href="#codes">ODEROM, TESSERA, ÁLETRA e PATHS</a>, todos abertos para uso e rodando no navegador.</p>
-    </div>
-
-    <div lang="en" class="prose">
-      <p>I study matter under conditions no laboratory on Earth can reach: densities above nuclear saturation and magnetic fields of order 10<sup>14</sup>–10<sup>15</sup> gauss. Compact objects are the laboratory — neutron stars, magnetars, massive and magnetized white dwarfs — and the question crosses the bridge in both directions: which equation of state does matter obey in there, and what observable signature does that leave out here?</p>
-
-      <p><strong>On the matter side:</strong> nuclear <em>pasta</em> phases and how strong magnetic fields reorganize their structure; equations of state with quark degrees of freedom; and the constraints that maximum mass, radius, and tidal deformability place on them.</p>
-
-      <p><strong>On the observational side:</strong> X-ray light curves and what they reveal about magnetic field geometry — the evidence for a multipolar field in the Galactic-centre magnetar SGR&nbsp;J1745−2900 came out of that analysis; the <em>rotation-powered</em> nature of SGRs and AXPs; thermal emission from fast-rotating white dwarfs; and the identification of 3XMM&nbsp;J185246.6+003317 as a massive, low-field magnetar.</p>
-
-      <p><strong>A new line I am exploring right now:</strong> neutrino oscillations in curved spacetimes — what changes in the oscillation phase when propagation follows a geodesic rather than a straight line, and what gravity adds to the MSW effect. I am also a member of the <a href="https://www.dunescience.org/">DUNE</a> collaboration.</p>
-
-      <p><strong>There is also a computational and pedagogical line:</strong> tools that make manipulable what usually exists only as symbols on paper — <a href="#codes">ODEROM, TESSERA, ÁLETRA and PATHS</a>, all open to use and running in the browser.</p>
-    </div>
-
-    <ul class="chips" aria-label="Temas / Topics">
-      <li><span lang="pt">Estrelas de nêutrons</span><span lang="en">Neutron stars</span></li>
-      <li><span lang="pt">Magnetares · SGRs · AXPs</span><span lang="en">Magnetars · SGRs · AXPs</span></li>
-      <li><span lang="pt">Anãs brancas magnetizadas</span><span lang="en">Magnetized white dwarfs</span></li>
-      <li><span lang="pt">Equação de estado da matéria densa</span><span lang="en">Dense-matter equation of state</span></li>
-      <li><span lang="pt">Fases <em>pasta</em> nucleares</span><span lang="en">Nuclear <em>pasta</em> phases</span></li>
-      <li><span lang="pt">Estrelas de quarks</span><span lang="en">Quark stars</span></li>
-      <li><span lang="pt">Astronomia de raios X</span><span lang="en">X-ray astronomy</span></li>
-      <li><span lang="pt">Neutrinos em espaço-tempo curvo</span><span lang="en">Neutrinos in curved spacetime</span></li>
-      <li>DUNE</li>
-      <li><span lang="pt">Relatividade Geral</span><span lang="en">General Relativity</span></li>
-    </ul>
-
-    <p class="note">
-      <span lang="pt">Formação: bacharelado (2005) e mestrado (2008) em Física pela UFSC; doutorado em Física Nuclear pela UFSC com estágio na Universidade de Coimbra (2012); pós-doutorado em Astrofísica Relativística na Sapienza Università di Roma / ICRANet (2014–2016).</span>
-      <span lang="en">Education: BSc (2005) and MSc (2008) in Physics, UFSC; PhD in Nuclear Physics, UFSC with a sandwich period at the University of Coimbra (2012); postdoc in Relativistic Astrophysics at Sapienza Università di Roma / ICRANet (2014–2016).</span>
-    </p>
-  </section>
-
-  <!-- ─────────────────────────────  PROGRAMAS  ───────────────────────────── -->
-  <section id="codes">
-    <h2 class="seclabel"><span class="secnum">02</span>Codes</h2>
-    <p class="secintro">
-      <span lang="pt">Abertos ao público e prontos para usar. Rodam no navegador — não instalam nada, não enviam nada para servidor nenhum: toda a conta acontece na aba aberta.</span>
-      <span lang="en">Open to the public and ready to use. They run in the browser — nothing to install, nothing sent to any server: all computation happens in the open tab.</span>
-    </p>
-
-    <article class="prog">
-      <div class="mark" aria-hidden="true">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-          <path d="M5 13C15 6 33 20 43 13"/><path d="M5 24C15 17 33 31 43 24"/><path d="M5 35C15 28 33 42 43 35"/>
-          <path d="M13 5C6 15 20 33 13 43"/><path d="M24 5C17 15 31 33 24 43"/><path d="M35 5C28 15 42 33 35 43"/>
-        </svg>
-      </div>
-      <div class="prog-body">
-        <h3>ODEROM</h3>
-        <p class="prog-expand">Operational Differential Engine for Riemannian Object Manipulation</p>
-        <p lang="pt">Motor simbólico de geometria diferencial. Você escreve a métrica; ele devolve símbolos de Christoffel, tensor de Riemann, Ricci, escalar de curvatura e as equações de campo — com os passos abertos, não só o resultado. Abre num caderno dentro do navegador: funciona igual num laboratório da universidade, num notebook emprestado e numa máquina onde não se pode instalar nada.</p>
-        <p lang="en">A symbolic engine for differential geometry. You write the metric; it returns Christoffel symbols, the Riemann and Ricci tensors, the curvature scalar, and the field equations — with the steps shown, not just the answer. It opens as a notebook inside the browser: it behaves the same in a university lab, on a borrowed laptop, and on a machine where nothing can be installed.</p>
-        <p class="prog-links">
-          <a class="cta" href="https://oderom.pages.dev"><span lang="pt">Abrir no navegador</span><span lang="en">Open in browser</span></a>
-          <a href="https://doi.org/10.5281/zenodo.22262763"><span lang="pt">Como citar</span><span lang="en">How to cite</span> · <span class="mono">Zenodo</span></a>
-        </p>
-      </div>
-    </article>
-
-    <article class="prog">
-      <div class="mark" aria-hidden="true">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">
-          <path d="M7 12H22V17.5A4.5 4.5 0 0 1 22 26.5V36H7Z"/>
-          <path d="M28 12H41V36H28V26.5A4.5 4.5 0 0 1 28 17.5Z"/>
-        </svg>
-      </div>
-      <div class="prog-body">
-        <h3>TESSERA</h3>
-        <p class="prog-expand"><span lang="pt">Manipulador visual de álgebra tensorial</span><span lang="en">Visual tensor-algebra manipulator</span></p>
-        <p lang="pt">Expressões tensoriais se constroem encaixando peças, seguindo o modelo <em>T-mosaic</em> de Giancarlo Bernacchi. A metáfora é matemática, não geométrica: a geometria da peça <em>é</em> a assinatura do tensor, e checar validade algébrica <em>é</em> detectar colisão. Se uma expressão não é bem formada, as peças simplesmente não encaixam.</p>
-        <p lang="en">Tensor expressions are built by snapping pieces together, following Giancarlo Bernacchi's <em>T-mosaic</em> model. The metaphor is mathematical, not geometric: the shape of a piece <em>is</em> the tensor's signature, and checking algebraic validity <em>is</em> collision detection. If an expression is not well formed, the pieces simply do not fit.</p>
-        <p class="prog-links">
-          <a class="cta" href="https://tessera-2ux.pages.dev/"><span lang="pt">Abrir no navegador</span><span lang="en">Open in browser</span></a>
-          <a href="https://tessera-2ux.pages.dev/tutorial"><span lang="pt">Tutorial</span><span lang="en">Tutorial</span></a>
-        </p>
-      </div>
-    </article>
-
-    <article class="prog">
-      <div class="mark" aria-hidden="true">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-          <path d="M6 13H42M6 20H42M6 27H42M6 34H42" opacity=".5"/>
-          <path d="M9 41L39 9"/><path d="M39 9L30.5 11M39 9L37 19.5"/>
-        </svg>
-      </div>
-      <div class="prog-body">
-        <h3>ÁLETRA</h3>
-        <p class="prog-expand"><span lang="pt">Atlas, Levantamento e Exterior de Tangentes em Renderização Animada</span><span lang="en">Atlas, survey and exterior of tangents in animated rendering</span></p>
-        <p lang="pt">Geometria diferencial que se lê como contagem. Uma 1-forma ω é uma pilha de folhas, um vetor v é uma seta, e ⟨ω,&nbsp;v⟩ é literalmente <em>quantas folhas a seta atravessa</em> — o número na tela e a imagem são a mesma leitura, não dois fatos a reconciliar. Oito superfícies, incluindo o paraboloide de Flamm da fatia equatorial de Schwarzschild, ou qualquer métrica <span class="mono">g<sub>ij</sub></span> que você digitar.</p>
-        <p lang="en">Differential geometry read as counting. A 1-form ω is a stack of leaves, a vector v is an arrow, and ⟨ω,&nbsp;v⟩ is literally <em>how many leaves the arrow crosses</em> — the number on screen and the picture are one reading, not two facts to reconcile. Eight surfaces, including Flamm's paraboloid for the equatorial slice of Schwarzschild, or any metric <span class="mono">g<sub>ij</sub></span> you type in.</p>
-        <p class="prog-links">
-          <a class="cta" href="https://aletra.pages.dev/"><span lang="pt">Abrir no navegador</span><span lang="en">Open in browser</span></a>
-          <a href="https://aletra.pages.dev/tutorial"><span lang="pt">Tutorial</span><span lang="en">Tutorial</span></a>
-        </p>
-      </div>
-    </article>
-
-    <article class="prog">
-      <div class="mark" aria-hidden="true">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-          <path d="M6 9L19 24L6 39"/>
-          <path d="M42 9L29 24L42 39"/>
-          <path d="M19 24q1.25-3.5 2.5 0t2.5 0t2.5 0t2.5 0"/>
-          <circle cx="19" cy="24" r="1.7" fill="currentColor" stroke="none"/>
-          <circle cx="29" cy="24" r="1.7" fill="currentColor" stroke="none"/>
-        </svg>
-      </div>
-      <div class="prog-body">
-        <h3>PATHS</h3>
-        <p class="prog-expand"><span lang="pt">Editor de diagramas de Feynman</span><span lang="en">Feynman diagram editor</span></p>
-        <p lang="pt">Desenhe o diagrama, leia a amplitude. As regras de Feynman não estão embutidas no programa: vêm de um arquivo de modelo declarativo, e trocar QED pura pelo Modelo Padrão é trocar um arquivo. O PATHS monta a expressão e para — não simplifica álgebra, não faz traços de Dirac, não integra laço; a saída dele é entrada para o FeynCalc ou o FORM. O diagrama inteiro vive na URL, então mandar um diagrama para alguém é mandar um link.</p>
-        <p lang="en">Draw the diagram, read the amplitude. Feynman rules are not hard-coded: they come from a declarative model file, and swapping pure QED for the Standard Model means swapping a file. PATHS assembles the expression and stops — no algebraic simplification, no Dirac traces, no loop integration; its output is input for FeynCalc or FORM. The whole diagram lives in the URL, so sending someone a diagram means sending a link.</p>
-        <p class="prog-links">
-          <a class="cta" href="https://paths-feynman.pages.dev/"><span lang="pt">Abrir no navegador</span><span lang="en">Open in browser</span></a>
-        </p>
-      </div>
-    </article>
-  </section>
-
-  <!-- ─────────────────────────────  PUBLICAÇÕES  ───────────────────────────── -->
-  <section id="producao">
-    <h2 class="seclabel"><span class="secnum">03</span><span lang="pt">Produção</span><span lang="en">Publications</span></h2>
-    <p class="secintro">
-      <span lang="pt">Lista completa e atualizada no <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a> e no <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>. Cada título abaixo leva ao artigo pelo DOI.</span>
-      <span lang="en">The complete, up-to-date list lives on <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a> and <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>. Each title below resolves to the paper through its DOI.</span>
-    </p>
-
-    <ol class="pubs" reversed>
-
-      <li>
-        <span class="year">2026</span>
-        <div>
-          <p class="authors"><span lang="pt">DUNE Collaboration — <b>R. C. R. Lima</b> entre os 1371 autores</span><span lang="en">DUNE Collaboration — <b>R. C. R. Lima</b> among the 1371 authors</span></p>
-          <p class="title"><a href="https://doi.org/10.1088/1748-0221/21/08/P08018">Charge readout electronics for the DUNE horizontal drift far detector: design and performance in ProtoDUNE-HD</a></p>
-          <p class="venue">Journal of Instrumentation <b>21</b>, P08018</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2026<span class="tag"><span lang="pt">preprint</span><span lang="en">preprint</span></span></span>
-        <div>
-          <p class="authors">S. I. dos Santos Júnior, <b>R. C. R. de Lima</b>, P. H. R. S. Moraes</p>
-          <p class="title"><a href="https://arxiv.org/abs/2607.09836">Compact stars in a large-tension braneworld: mildly negative Weyl coupling consistent with NICER and gravitational-wave data</a></p>
-          <p class="venue"><span class="mono">arXiv:2607.09836</span> <span lang="pt">· submetido</span><span lang="en">· submitted</span></p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2025</span>
-        <div>
-          <p class="authors">J. V. Zastrow, J. P. Pereira, <b>R. C. R. de Lima</b>, J. E. Horvath</p>
-          <p class="title"><a href="https://doi.org/10.1103/254t-zjzk">Constraints on QCD-based equation of state of quark stars from neutron star maximum mass, radius, and tidal deformability observations</a></p>
-          <p class="venue">Physical Review D <b>112</b>, 083010</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2024</span>
-        <div>
-          <p class="authors"><b>R. C. R. de Lima</b>, J. P. Pereira, J. G. Coelho, R. C. Nunes, P. E. Stecchini, M. Castro, P. Gomes, R. R. da Silva, C. V. Rodrigues, J. C. N. de Araujo, M. Bejger, P. Haensel, J. L. Zdunik</p>
-          <p class="title"><a href="https://doi.org/10.1016/j.jheap.2024.04.001">Evidence for 3XMM J185246.6+003317 as a massive magnetar with a low magnetic field</a></p>
-          <p class="venue">Journal of High Energy Astrophysics <b>42</b>, 52–62</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2023</span>
-        <div>
-          <p class="authors">R. R. Silva, <b>R. C. R. de Lima</b>, J. G. Coelho, P. E. Stecchini, C. M. de Liz, J. C. N. de Araujo</p>
-          <p class="title"><a href="https://doi.org/10.3390/galaxies11010018">A Method to Fit Phase Diagrams of Slow-Rotation Pulsars with Accretion Columns</a></p>
-          <p class="venue">Galaxies <b>11</b>, 18</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2020</span>
-        <div>
-          <p class="authors"><b>R. C. R. de Lima</b>, J. G. Coelho, J. P. Pereira, C. V. Rodrigues, J. A. Rueda</p>
-          <p class="title"><a href="https://doi.org/10.3847/1538-4357/ab65f4">Evidence for a Multipolar Magnetic Field in SGR J1745−2900 from X-Ray Light-curve Analysis</a></p>
-          <p class="venue">The Astrophysical Journal <b>889</b>, 165</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2018</span>
-        <div>
-          <p class="authors">J. P. Pereira, J. G. Coelho, <b>R. C. R. de Lima</b></p>
-          <p class="title"><a href="https://doi.org/10.1140/epjc/s10052-018-5849-2">Born–Infeld magnetars: larger than classical toroidal magnetic fields and implications for gravitational-wave astronomy</a></p>
-          <p class="venue">The European Physical Journal C <b>78</b>, 361</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2017</span>
-        <div>
-          <p class="authors">J. G. Coelho, D. L. Cáceres, <b>R. C. R. de Lima</b>, M. Malheiro, J. A. Rueda, R. Ruffini</p>
-          <p class="title"><a href="https://doi.org/10.1051/0004-6361/201629521">The rotation-powered nature of some soft gamma-ray repeaters and anomalous X-ray pulsars</a></p>
-          <p class="venue">Astronomy &amp; Astrophysics <b>599</b>, A87</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2017</span>
-        <div>
-          <p class="authors">M. Malheiro, J. G. Coelho, D. L. Cáceres, <b>R. C. R. de Lima</b>, R. V. Lobato, J. A. Rueda, R. Ruffini</p>
-          <p class="title"><a href="https://doi.org/10.1088/1742-6596/861/1/012003">Possible rotation-power nature of SGRs and AXPs</a></p>
-          <p class="venue">Journal of Physics: Conference Series <b>861</b>, 012003</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2017</span>
-        <div>
-          <p class="authors"><b>R. C. R. de Lima</b>, J. G. Coelho, M. Malheiro, J. A. Rueda, R. Ruffini</p>
-          <p class="title"><a href="https://doi.org/10.1142/S2010194517600308">SGRs/AXPs as Rotation-Powered Neutron Stars</a></p>
-          <p class="venue">International Journal of Modern Physics: Conference Series <b>45</b>, 1760030</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2016</span>
-        <div>
-          <p class="authors">D. L. Cáceres, S. M. de Carvalho, J. G. Coelho, <b>R. C. R. de Lima</b>, J. A. Rueda</p>
-          <p class="title"><a href="https://doi.org/10.1093/mnras/stw3047">Thermal X-ray emission from massive, fast rotating, highly magnetized white dwarfs</a></p>
-          <p class="venue">Monthly Notices of the Royal Astronomical Society <b>465</b>, 4434–4440</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2015</span>
-        <div>
-          <p class="authors"><b>R. C. R. de Lima</b>, J. G. Coelho, J. A. Rueda, M. Malheiro, R. Ruffini</p>
-          <p class="title"><a href="https://doi.org/10.1063/1.4937192">Analysis of the properties of SGRs and AXPs with realistic neutron star configurations</a></p>
-          <p class="venue">AIP Conference Proceedings <b>1693</b>, 030009</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2015</span>
-        <div>
-          <p class="authors">L. Becerra, C. L. Bianco, F. Cipolletta, M. Enderli, C. L. Fryer, L. Izzo, M. Kovacevic, <b>R. C. R. de Lima</b>, M. Muccino, F. G. de Oliveira, A. V. Penacchioni, G. B. Pisani, J. A. Rueda, R. Ruffini, Y. Wang, E. Zaninoni</p>
-          <p class="title"><a href="https://doi.org/10.1063/1.4937180">Black holes, neutron stars and supernovae within the induced gravitational collapse paradigm for GRBs</a></p>
-          <p class="venue">AIP Conference Proceedings <b>1693</b>, 020002</p>
-        </div>
-      </li>
-
-      <li>
-        <span class="year">2013</span>
-        <div>
-          <p class="authors"><b>R. C. R. de Lima</b>, S. S. Avancini, C. Providência</p>
-          <p class="title"><a href="https://doi.org/10.1103/PhysRevC.88.035804">Effect of strong magnetic fields on the nuclear “pasta” phase structure</a></p>
-          <p class="venue">Physical Review C <b>88</b>, 035804</p>
-        </div>
-      </li>
-
-    </ol>
-
-    <p class="note">
-      <span lang="pt">Software com registro arquivado: <b>ODEROM</b> — de Lima, R. C. R. (2026). <i>ODEROM: a symbolic engine for differential geometry</i> [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.22262763"><span class="mono">10.5281/zenodo.22262763</span></a></span>
-      <span lang="en">Archived software record: <b>ODEROM</b> — de Lima, R. C. R. (2026). <i>ODEROM: a symbolic engine for differential geometry</i> [Computer software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.22262763"><span class="mono">10.5281/zenodo.22262763</span></a></span>
-    </p>
-  </section>
-
-<!-- ─────────────────────────────  DISCIPLINAS  ───────────────────────────── -->
-  <section id="material">
-    <h2 class="seclabel"><span class="secnum">04</span><span lang="pt">Material didático</span><span lang="en">Teaching material</span></h2>
-    <p class="secintro">
-      <span lang="pt">Material didático aberto: apostilas, slides, códigos e laboratórios. Tudo em português.</span>
-      <span lang="en">Open course material: lecture notes, slides, code and labs. All in Portuguese.</span>
-    </p>
-
-    <article class="course">
-      <p class="level"><span lang="pt">Pós-graduação · PPGF</span><span lang="en">Graduate · PPGF</span></p>
-      <h3><a href="https://rafaelcrdelima.github.io/RelatividadeGeral/">Relatividade Geral</a></h3>
-      <p lang="pt">Apostila completa em PDF com o fonte LaTeX; os 21 programas citados no texto, em Python e Wolfram Language, cada um com notebook para abrir direto no Google Colab; laboratórios computacionais em Jupyter; e dashboards de exploração visual que não exigem programar.</p>
-      <p lang="en">A complete PDF textbook with its LaTeX source; the 21 programs cited in the text, in Python and Wolfram Language, each with a notebook that opens straight in Google Colab; computational labs in Jupyter; and visual exploration dashboards that require no programming.</p>
-      <p class="prog-links">
-        <a class="cta" href="https://rafaelcrdelima.github.io/RelatividadeGeral/"><span lang="pt">Abrir a página</span><span lang="en">Open the site</span></a>
-        <a href="https://github.com/RafaelCRdeLima/RelatividadeGeral"><span lang="pt">Repositório</span><span lang="en">Repository</span></a>
-      </p>
-    </article>
-
-    <article class="course">
-      <p class="level"><span lang="pt">Graduação</span><span lang="en">Undergraduate</span></p>
-      <h3><a href="https://rafaelcrdelima.github.io/Astronomia/">Astronomia</a></h3>
-      <p lang="pt">Apostila de astrofísica moderna e plano completo de 48 aulas; slides navegáveis para projetar em sala; simulações 3D e 2D de mecânica celeste (leis de Kepler, eclíptica, tempo sideral, paralaxe); cinco laboratórios — observação do céu, fotometria e distâncias, espectroscopia, análise de dados reais do SDSS e mecânica orbital; e modelos LaTeX para os relatórios.</p>
-      <p lang="en">A modern-astrophysics textbook and a full 48-lecture plan; navigable slides for the classroom; 3D and 2D simulations of celestial mechanics (Kepler's laws, the ecliptic, sidereal time, parallax); five labs — sky observation, photometry and distances, spectroscopy, real SDSS data analysis, and orbital mechanics; plus LaTeX templates for student reports.</p>
-      <p class="prog-links">
-        <a class="cta" href="https://rafaelcrdelima.github.io/Astronomia/"><span lang="pt">Abrir a página</span><span lang="en">Open the site</span></a>
-        <a href="https://github.com/RafaelCRdeLima/Astronomia"><span lang="pt">Repositório</span><span lang="en">Repository</span></a>
-      </p>
-    </article>
-
-    <div class="course-more">
-      <p class="level"><span lang="pt">Também no ar</span><span lang="en">Also online</span></p>
-      <ul>
-        <li>
-          <a href="https://rafaelcrdelima.github.io/Eletromagnetismo/">Eletromagnetismo Clássico</a>
-          <span class="dim"><span lang="pt">— pós-graduação · apresentações de aula</span><span lang="en">— graduate · lecture presentations</span></span>
-        </li>
-        <li>
-          <a href="https://rafaelcrdelima.github.io/FEX1001/">Física Experimental I <span class="mono">(FEX1001)</span></a>
-          <span class="dim"><span lang="pt">— graduação · apostilas e roteiros de experiências</span><span lang="en">— undergraduate · lab notes and experiment guides</span></span>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  </main>
 
 <footer>
-  <p>
-    <span lang="pt">Rafael Camargo Rodrigues de Lima · Departamento de Física, UDESC/CCT · Joinville, SC</span>
-    <span lang="en">Rafael Camargo Rodrigues de Lima · Department of Physics, UDESC/CCT · Joinville, SC, Brazil</span>
-  </p>
-  <p class="footlinks">
-    <a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a>
-    <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
-    <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
-    <a href="https://github.com/RafaelCRdeLima">GitHub</a>
-  </p>
+  <div class="footer-inner">
+    <div class="foot-block">
+      <p class="footlabel"><span lang="pt">Vamos conversar</span><span lang="en">Let's talk</span></p>
+      <p class="footmail"><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></p>
+    </div>
+
+    <a class="footbtn" href="mailto:rafael.lima@udesc.br" aria-label="Enviar e-mail / Send an email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/>
+      </svg>
+    </a>
+
+    <div class="foot-block foot-right">
+      <p class="footlabel"><span lang="pt">Onde me encontrar</span><span lang="en">Find me</span></p>
+      <p class="footlinks">
+        <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+        <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
+        <a href="https://github.com/RafaelCRdeLima">GitHub</a>
+      </p>
+    </div>
+  </div>
+  <p class="footnote">Universidade do Estado de Santa Catarina · CCT · Joinville, SC</p>
 </footer>
 
 <script>
@@ -425,54 +169,26 @@
     buttons.forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
     });
-    try { localStorage.setItem(KEY, lang); } catch (e) { /* private mode */ }
+    try { localStorage.setItem(KEY, lang); } catch (e) { /* modo privado */ }
   }
 
   var stored = null;
-  try { stored = localStorage.getItem(KEY); } catch (e) { /* private mode */ }
+  try { stored = localStorage.getItem(KEY); } catch (e) { /* modo privado */ }
 
-  var initial = stored === 'pt' || stored === 'en'
+  apply(stored === 'pt' || stored === 'en'
     ? stored
-    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en');
-
-  apply(initial);
+    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
 
   buttons.forEach(function (b) {
     b.addEventListener('click', function () { apply(b.dataset.setLang); });
   });
 
-  // A navegação acompanha a leitura. Sem IntersectionObserver — navegador
-  // antigo — os links continuam funcionando, só não acendem sozinhos.
-  if (!('IntersectionObserver' in window)) return;
-
-  var links = {};
-  document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) {
-    links[a.getAttribute('href').slice(1)] = a;
-  });
-
-  var visiveis = new Set();
-
-  function marcar() {
-    // Entre as seções visíveis, a primeira na ordem do documento manda:
-    // rolando devagar, duas aparecem juntas e a de cima é a que se lê.
-    var alvo = Object.keys(links).find(function (id) { return visiveis.has(id); });
-    Object.keys(links).forEach(function (id) {
-      if (id === alvo) links[id].setAttribute('aria-current', 'true');
-      else links[id].removeAttribute('aria-current');
-    });
-  }
-
-  var observador = new IntersectionObserver(function (entradas) {
-    entradas.forEach(function (e) {
-      if (e.isIntersecting) visiveis.add(e.target.id);
-      else visiveis.delete(e.target.id);
-    });
-    marcar();
-  }, { rootMargin: '-20% 0px -55% 0px' });
-
-  Object.keys(links).forEach(function (id) {
-    var sec = document.getElementById(id);
-    if (sec) observador.observe(sec);
+  // A navegação é idêntica nas cinco páginas; quem acende o item da página
+  // atual é isto, não uma classe escrita à mão em cada arquivo.
+  var aqui = location.pathname.replace(/index\.html$/, '') || '/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    var alvo = new URL(a.getAttribute('href'), location.origin).pathname;
+    if (alvo === aqui) a.setAttribute('aria-current', 'page');
   });
 })();
 </script>

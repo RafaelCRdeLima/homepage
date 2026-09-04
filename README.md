@@ -15,45 +15,66 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
+Cinco páginas de HTML puro. Não há build, não há dependência e não há
+`node_modules`.
+
 ```text
-site/index.html   a página inteira (conteúdo dos dois idiomas)
-site/styles.css   apresentação
-site/favicon.svg  ícone
+site/index.html      capa — retrato, pílulas, a frase, os quatro destinos
+site/pesquisa.html   01 · as frentes de pesquisa
+site/codes.html      02 · ODEROM, TESSERA, ÁLETRA, PATHS
+site/producao.html   03 · publicações com DOI
+site/material.html   04 · disciplinas e material didático
+site/styles.css      a apresentação inteira
+site/rafael-cern.*   o retrato, em WebP (52 KB) e JPEG (98 KB)
+site/favicon.svg     ícone
 ```
 
-Quatro seções, na ordem em que a navegação as lista: **Pesquisa**, **Codes**,
-**Produção**, **Material didático**. A abertura antes delas é a parte pessoal —
-nome, cargo, vínculo e os identificadores (Lattes, ORCID, GitHub, e-mail). Os
-links da barra são âncoras para as próprias seções; a `main` é uma página só.
-
-## Desenho
-
-Escuro por decisão, não por `prefers-color-scheme`: a paleta inteira supõe
-fundo escuro e não existe um modo claro para cair. Fundo `#08090E`, violeta
-`#9E8CFF` como acento e turquesa `#56E1D0` como segundo, este reservado para
-ano de publicação, nível de disciplina e a linha acima do nome.
-
-Três tipografias, cada uma no seu papel:
-
-| família | papel |
-|---|---|
-| Instrument Serif | nome, títulos de disciplina, a frase de abertura em itálico |
-| Literata | texto corrido — serifa desenhada para tela |
-| Inter Tight | navegação, rótulos, autores, metadados |
-
-A barra fica fixa no topo e a navegação acende sozinha a seção que está sendo
-lida, por `IntersectionObserver`. Sem ele os links continuam funcionando; só
-não acendem. Em tela estreita a navegação rola na horizontal — por isso a
-`.nav` precisa de `min-width: 0`, senão um item flex se recusa a encolher
-abaixo do próprio conteúdo e estica a barra.
-
-Não há build, não há dependência e não há `node_modules`. Para ver localmente:
+Para ver localmente:
 
 ```bash
 python3 -m http.server -d site 8000
 ```
 
-e abrir <http://localhost:8000>.
+**A navegação é byte-a-byte idêntica nas cinco páginas.** Quem acende o item
+da página atual é o JS, comparando `location.pathname` com o `href` de cada
+link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
+navegação, troque o bloco `<nav class="nav">` nos cinco arquivos e confira com:
+
+```bash
+grep -c 'class="nav"' site/*.html      # 1 em cada
+md5sum <(grep -A5 '<nav class="nav"' site/*.html)
+```
+
+## Desenho
+
+Escuro por decisão, não por `prefers-color-scheme`: a paleta inteira supõe
+fundo escuro e não existe um modo claro para cair. Fundo `#0A0B12`, violeta
+`#9E8CFF` como acento e turquesa `#56E1D0` como segundo.
+
+O topo de cada página é o mesmo componente `.panel` — faixa de gradiente
+índigo com o canto de baixo arredondado. Na capa ele é alto e guarda o palco
+do retrato; nas outras é a versão `.panel-slim`, só com navegação e título.
+
+Na capa o retrato fica centrado e as pílulas em volta, posicionadas em
+porcentagem do palco. Abaixo de 46rem elas saem do posicionamento absoluto e
+embrulham numa faixa; o retrato leva `order: -1` para continuar vindo antes
+delas, já que no HTML as pílulas é que vêm primeiro.
+
+Três tipografias, cada uma no seu papel:
+
+| família | papel |
+|---|---|
+| Instrument Serif | a frase da capa, títulos de página, e-mail do rodapé |
+| Literata | texto corrido — serifa desenhada para tela |
+| Inter Tight | navegação, rótulos, autores, metadados |
+
+Duas armadilhas que já custaram tempo, para não voltarem:
+
+- O `<img>` do retrato tem `width`/`height` para reservar espaço e evitar
+  salto no carregamento. Esses atributos viram altura fixa e atropelam o
+  `aspect-ratio`, deixando o círculo oval — por isso o CSS traz `height: auto`.
+- A `.nav` precisa de `min-width: 0`. Item flex não encolhe abaixo do próprio
+  conteúdo, e sem isso ela estica a barra e a página inteira em tela estreita.
 
 ## Como a troca de idioma funciona
 
