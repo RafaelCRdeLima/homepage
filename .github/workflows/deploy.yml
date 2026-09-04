@@ -1,0 +1,53 @@
+# Publica a página pessoal no Cloudflare Pages.
+#
+# O site é HTML, CSS e um punhado de linhas de JavaScript — não há build, não há
+# dependência, não há passo que possa quebrar. O que a Action faz é enviar a
+# pasta `site/` como está.
+#
+# Publica por "direct upload": o Action envia o conteúdo pronto. O Cloudflare
+# nunca precisa de acesso ao repositório — não usamos "Connect to Git".
+#
+# Segredos necessários (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   token com permissão "Cloudflare Pages: Edit"
+#   CLOUDFLARE_ACCOUNT_ID  id da conta, visível no painel do Cloudflare
+#
+# `--project-name` é o nome do PROJETO na conta; o subdomínio é escolha da
+# Cloudflare, e `*.pages.dev` é único no mundo inteiro, não por conta. Se
+# `rafael-lima` já pertencer a outra pessoa, o site sai com um sufixo. Nunca
+# presuma o endereço: leia-o no log do wrangler ou no painel.
+name: Publicar no Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Uma publicação por vez; não cancela a que já está no ar.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # Criar duas vezes não é erro, é a segunda execução do mesmo workflow.
+      - name: Garantir que o projeto existe
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create rafael-lima --production-branch=main
+        continue-on-error: true
+
+      - name: Enviar para o Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=rafael-lima --branch=main

@@ -1,0 +1,433 @@
+/* ─────────────────────────────────────────────────────────────
+   Rafael C. R. de Lima — página pessoal
+   Uma coluna, tipografia serifada, sem framework e sem build.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light dark;
+
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --bg: #fbfaf8;
+  --bg-raise: #ffffff;
+  --ink: #16161a;
+  --ink-2: #4a4a52;
+  --ink-3: #807e87;
+  --rule: #e5e2dc;
+  --accent: #3d3392;
+  --accent-soft: #efedfb;
+
+  --measure: 44rem;
+  --pad: clamp(1.25rem, 5vw, 2.5rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f13;
+    --bg-raise: #17171e;
+    --ink: #e9e7e3;
+    --ink-2: #b3b1b0;
+    --ink-3: #83818a;
+    --rule: #2a2a34;
+    --accent: #ab9df6;
+    --accent-soft: #1c1930;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.65;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Troca de idioma: esconde o bloco do idioma que não está ativo. */
+html[data-lang="pt"] [lang="en"],
+html[data-lang="en"] [lang="pt"] { display: none; }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, var(--accent) 38%, transparent);
+}
+a:hover { text-decoration-color: currentColor; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.mono { font-family: var(--mono); font-size: 0.9em; letter-spacing: -0.01em; }
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+.skip:focus {
+  left: var(--pad);
+  top: 0.75rem;
+  z-index: 10;
+  background: var(--bg-raise);
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+
+/* ── barra superior ─────────────────────────────────────────── */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 1.5rem var(--pad) 0;
+}
+
+.topbar-name {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.langswitch {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+.langswitch button {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0.2rem 0.35rem;
+  margin: 0;
+  font: inherit;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-radius: 3px;
+}
+.langswitch button:hover { color: var(--ink); }
+.langswitch button[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+.langsep { color: var(--rule); }
+
+/* ── estrutura ──────────────────────────────────────────────── */
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--pad) 1rem;
+}
+
+section { padding-block: clamp(2.5rem, 6vw, 3.75rem); }
+section + section { border-top: 1px solid var(--rule); }
+
+.seclabel {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 1.5rem;
+}
+
+.secintro {
+  margin: -0.75rem 0 2rem;
+  color: var(--ink-2);
+  max-width: 36rem;
+}
+
+/* ── hero ───────────────────────────────────────────────────── */
+
+.hero { padding-top: clamp(2rem, 6vw, 3.25rem); }
+
+.hero h1 {
+  font-size: clamp(2.15rem, 1.5rem + 3.1vw, 3.35rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.021em;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+
+.role {
+  font-size: 1.05rem;
+  margin: 0 0 0.35rem;
+  color: var(--ink);
+}
+
+.affil {
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0 0 0.35rem;
+}
+
+.lede {
+  margin: 1.75rem 0 0;
+  font-size: clamp(1.1rem, 1.02rem + 0.4vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--ink);
+  border-left: 2px solid var(--accent);
+  padding-left: 1.1rem;
+  text-wrap: pretty;
+}
+
+.idlinks {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  margin: 1.9rem 0 0;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: 0.86rem;
+}
+
+/* ── prosa ──────────────────────────────────────────────────── */
+
+.prose p {
+  margin: 0 0 1.15rem;
+  text-wrap: pretty;
+}
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { font-weight: 600; }
+
+.note {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+  margin: 2.25rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+.chips li {
+  font-family: var(--sans);
+  font-size: 0.775rem;
+  line-height: 1;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--ink-2);
+  background: var(--bg-raise);
+}
+.chips em { font-style: italic; }
+
+/* ── programas ──────────────────────────────────────────────── */
+
+.prog {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0 1.35rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--rule);
+}
+/* sem borda inferior no último: o divisor da seção já traça essa linha. */
+
+.mark { color: var(--accent); }
+.mark svg { width: 2.75rem; height: 2.75rem; display: block; }
+
+.prog-body > *:first-child { margin-top: 0; }
+
+.prog h3 {
+  font-family: var(--sans);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  margin: 0 0 0.15rem;
+}
+
+.prog-expand {
+  font-family: var(--sans);
+  font-size: 0.775rem;
+  letter-spacing: 0.01em;
+  color: var(--ink-3);
+  margin: 0 0 0.85rem;
+}
+
+.prog p:not(.prog-expand):not(.prog-links) {
+  margin: 0 0 1rem;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.prog-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.35rem;
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+}
+
+.cta {
+  font-weight: 600;
+  text-decoration: none;
+}
+.cta::after {
+  content: " →";
+  font-weight: 400;
+}
+.cta:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* ── disciplinas ────────────────────────────────────────────── */
+
+.course {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.level {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 0.4rem;
+}
+
+.course h3 {
+  font-size: 1.45rem;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  margin: 0 0 0.7rem;
+}
+.course h3 a { text-decoration: none; color: var(--ink); }
+.course h3 a:hover { color: var(--accent); }
+
+.course > p:not(.level):not(.prog-links) {
+  margin: 0 0 1.1rem;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.course-more {
+  margin-top: 1.75rem;
+  padding: 1.35rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--bg-raise);
+}
+.course-more .level { margin-bottom: 0.65rem; }
+.course-more ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+.dim { color: var(--ink-3); }
+
+/* ── publicações ────────────────────────────────────────────── */
+
+.pubs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pubs > li {
+  display: grid;
+  grid-template-columns: 3.25rem 1fr;
+  gap: 0 1.25rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--rule);
+}
+/* idem: a nota de rodapé da seção traz a própria régua. */
+
+.year {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--ink-3);
+  padding-top: 0.42rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.authors {
+  font-family: var(--sans);
+  font-size: 0.775rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+  margin: 0 0 0.3rem;
+}
+.authors b { color: var(--ink-2); font-weight: 600; }
+
+.title {
+  margin: 0 0 0.28rem;
+  font-size: 1.03rem;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+.title a { color: var(--ink); text-decoration: none; }
+.title a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 0.18em; }
+
+.venue {
+  font-family: var(--sans);
+  font-size: 0.79rem;
+  color: var(--ink-3);
+  margin: 0;
+}
+.venue b { color: var(--ink-2); font-weight: 600; }
+
+/* ── rodapé ─────────────────────────────────────────────────── */
+
+footer {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 2rem var(--pad) 3.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+footer p { margin: 0 0 0.6rem; }
+.footlinks { display: flex; flex-wrap: wrap; gap: 0.35rem 1.15rem; }
+
+/* ── telas estreitas ────────────────────────────────────────── */
+
+@media (max-width: 32rem) {
+  .prog { grid-template-columns: 1fr; gap: 0.9rem; }
+  .mark svg { width: 2.25rem; height: 2.25rem; }
+  .pubs > li { grid-template-columns: 1fr; gap: 0.3rem; }
+  .year { padding-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
