@@ -18,8 +18,34 @@ em `site/index.html` e esta seção.
 ```text
 site/index.html   a página inteira (conteúdo dos dois idiomas)
 site/styles.css   apresentação
-site/favicon.svg  ícone, claro e escuro
+site/favicon.svg  ícone
 ```
+
+Quatro seções, na ordem em que a navegação as lista: **Pesquisa**, **Codes**,
+**Produção**, **Material didático**. A abertura antes delas é a parte pessoal —
+nome, cargo, vínculo e os identificadores (Lattes, ORCID, GitHub, e-mail). Os
+links da barra são âncoras para as próprias seções; a `main` é uma página só.
+
+## Desenho
+
+Escuro por decisão, não por `prefers-color-scheme`: a paleta inteira supõe
+fundo escuro e não existe um modo claro para cair. Fundo `#08090E`, violeta
+`#9E8CFF` como acento e turquesa `#56E1D0` como segundo, este reservado para
+ano de publicação, nível de disciplina e a linha acima do nome.
+
+Três tipografias, cada uma no seu papel:
+
+| família | papel |
+|---|---|
+| Instrument Serif | nome, títulos de disciplina, a frase de abertura em itálico |
+| Literata | texto corrido — serifa desenhada para tela |
+| Inter Tight | navegação, rótulos, autores, metadados |
+
+A barra fica fixa no topo e a navegação acende sozinha a seção que está sendo
+lida, por `IntersectionObserver`. Sem ele os links continuam funcionando; só
+não acendem. Em tela estreita a navegação rola na horizontal — por isso a
+`.nav` precisa de `min-width: 0`, senão um item flex se recusa a encolher
+abaixo do próprio conteúdo e estica a barra.
 
 Não há build, não há dependência e não há `node_modules`. Para ver localmente:
 

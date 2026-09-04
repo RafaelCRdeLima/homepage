@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090E">
 <title>Rafael C. R. de Lima</title>
 <meta name="description" content="Rafael Camargo Rodrigues de Lima — Professor Associado de Física na UDESC/CCT. Astrofísica relativística, objetos compactos, equação de estado da matéria densa e neutrinos em espaço-tempo curvo. Disciplinas, programas abertos e publicações.">
 <meta name="author" content="Rafael Camargo Rodrigues de Lima">
@@ -15,7 +16,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -24,18 +25,29 @@
 <a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
 
 <header class="topbar">
-  <span class="topbar-name">R. C. R. de Lima</span>
-  <div class="langswitch" role="group" aria-label="Idioma / Language">
-    <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
-    <span class="langsep" aria-hidden="true">/</span>
-    <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+  <div class="topbar-inner">
+    <a class="brand" href="#topo">R. C. R. de Lima</a>
+    <nav class="nav" aria-label="Seções / Sections">
+      <a href="#pesquisa"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="#codes">Codes</a>
+      <a href="#producao"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="#material"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+    </nav>
+    <div class="langswitch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+      <span class="langsep" aria-hidden="true">/</span>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
   </div>
 </header>
 
 <main id="conteudo">
 
   <!-- ─────────────────────────────  HERO  ───────────────────────────── -->
-  <section class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <section class="hero" id="topo">
+    <p class="kicker"><span lang="pt">Astrofísica relativística · Física nuclear</span><span lang="en">Relativistic astrophysics · Nuclear physics</span></p>
+
     <h1>Rafael Camargo Rodrigues de&nbsp;Lima</h1>
 
     <p class="role">
@@ -66,7 +78,7 @@
 
   <!-- ─────────────────────────────  PESQUISA  ───────────────────────────── -->
   <section id="pesquisa">
-    <h2 class="seclabel"><span lang="pt">Pesquisa</span><span lang="en">Research</span></h2>
+    <h2 class="seclabel"><span class="secnum">01</span><span lang="pt">Pesquisa</span><span lang="en">Research</span></h2>
 
     <div lang="pt" class="prose">
       <p>Estudo matéria em condições que nenhum laboratório na Terra alcança: densidades acima da densidade nuclear de saturação e campos magnéticos da ordem de 10<sup>14</sup>–10<sup>15</sup> gauss. O laboratório são os objetos compactos — estrelas de nêutrons, magnetares, anãs brancas massivas e magnetizadas — e a pergunta atravessa a ponte nos dois sentidos: que equação de estado a matéria obedece lá dentro, e que assinatura observável isso deixa aqui fora.</p>
@@ -77,7 +89,7 @@
 
       <p><strong>Uma linha nova, que estou explorando agora:</strong> oscilações de neutrinos em espaços-tempos curvos — o que muda na fase de oscilação quando a propagação segue uma geodésica em vez de uma reta, e o que a gravidade acrescenta ao efeito MSW. Participo também da colaboração <a href="https://www.dunescience.org/">DUNE</a>.</p>
 
-      <p><strong>Há ainda uma linha computacional e didática:</strong> ferramentas que tornam manipulável o que normalmente só existe como símbolo no papel — <a href="#programas">ODEROM, TESSERA, ÁLETRA e PATHS</a>, todos abertos para uso e rodando no navegador.</p>
+      <p><strong>Há ainda uma linha computacional e didática:</strong> ferramentas que tornam manipulável o que normalmente só existe como símbolo no papel — <a href="#codes">ODEROM, TESSERA, ÁLETRA e PATHS</a>, todos abertos para uso e rodando no navegador.</p>
     </div>
 
     <div lang="en" class="prose">
@@ -89,7 +101,7 @@
 
       <p><strong>A new line I am exploring right now:</strong> neutrino oscillations in curved spacetimes — what changes in the oscillation phase when propagation follows a geodesic rather than a straight line, and what gravity adds to the MSW effect. I am also a member of the <a href="https://www.dunescience.org/">DUNE</a> collaboration.</p>
 
-      <p><strong>There is also a computational and pedagogical line:</strong> tools that make manipulable what usually exists only as symbols on paper — <a href="#programas">ODEROM, TESSERA, ÁLETRA and PATHS</a>, all open to use and running in the browser.</p>
+      <p><strong>There is also a computational and pedagogical line:</strong> tools that make manipulable what usually exists only as symbols on paper — <a href="#codes">ODEROM, TESSERA, ÁLETRA and PATHS</a>, all open to use and running in the browser.</p>
     </div>
 
     <ul class="chips" aria-label="Temas / Topics">
@@ -112,8 +124,8 @@
   </section>
 
   <!-- ─────────────────────────────  PROGRAMAS  ───────────────────────────── -->
-  <section id="programas">
-    <h2 class="seclabel"><span lang="pt">Programas</span><span lang="en">Software</span></h2>
+  <section id="codes">
+    <h2 class="seclabel"><span class="secnum">02</span>Codes</h2>
     <p class="secintro">
       <span lang="pt">Abertos ao público e prontos para usar. Rodam no navegador — não instalam nada, não enviam nada para servidor nenhum: toda a conta acontece na aba aberta.</span>
       <span lang="en">Open to the public and ready to use. They run in the browser — nothing to install, nothing sent to any server: all computation happens in the open tab.</span>
@@ -198,54 +210,9 @@
     </article>
   </section>
 
-  <!-- ─────────────────────────────  DISCIPLINAS  ───────────────────────────── -->
-  <section id="disciplinas">
-    <h2 class="seclabel"><span lang="pt">Disciplinas</span><span lang="en">Courses</span></h2>
-    <p class="secintro">
-      <span lang="pt">Material didático aberto: apostilas, slides, códigos e laboratórios. Tudo em português.</span>
-      <span lang="en">Open course material: lecture notes, slides, code and labs. All in Portuguese.</span>
-    </p>
-
-    <article class="course">
-      <p class="level"><span lang="pt">Pós-graduação · PPGF</span><span lang="en">Graduate · PPGF</span></p>
-      <h3><a href="https://rafaelcrdelima.github.io/RelatividadeGeral/">Relatividade Geral</a></h3>
-      <p lang="pt">Apostila completa em PDF com o fonte LaTeX; os 21 programas citados no texto, em Python e Wolfram Language, cada um com notebook para abrir direto no Google Colab; laboratórios computacionais em Jupyter; e dashboards de exploração visual que não exigem programar.</p>
-      <p lang="en">A complete PDF textbook with its LaTeX source; the 21 programs cited in the text, in Python and Wolfram Language, each with a notebook that opens straight in Google Colab; computational labs in Jupyter; and visual exploration dashboards that require no programming.</p>
-      <p class="prog-links">
-        <a class="cta" href="https://rafaelcrdelima.github.io/RelatividadeGeral/"><span lang="pt">Abrir a página</span><span lang="en">Open the site</span></a>
-        <a href="https://github.com/RafaelCRdeLima/RelatividadeGeral"><span lang="pt">Repositório</span><span lang="en">Repository</span></a>
-      </p>
-    </article>
-
-    <article class="course">
-      <p class="level"><span lang="pt">Graduação</span><span lang="en">Undergraduate</span></p>
-      <h3><a href="https://rafaelcrdelima.github.io/Astronomia/">Astronomia</a></h3>
-      <p lang="pt">Apostila de astrofísica moderna e plano completo de 48 aulas; slides navegáveis para projetar em sala; simulações 3D e 2D de mecânica celeste (leis de Kepler, eclíptica, tempo sideral, paralaxe); cinco laboratórios — observação do céu, fotometria e distâncias, espectroscopia, análise de dados reais do SDSS e mecânica orbital; e modelos LaTeX para os relatórios.</p>
-      <p lang="en">A modern-astrophysics textbook and a full 48-lecture plan; navigable slides for the classroom; 3D and 2D simulations of celestial mechanics (Kepler's laws, the ecliptic, sidereal time, parallax); five labs — sky observation, photometry and distances, spectroscopy, real SDSS data analysis, and orbital mechanics; plus LaTeX templates for student reports.</p>
-      <p class="prog-links">
-        <a class="cta" href="https://rafaelcrdelima.github.io/Astronomia/"><span lang="pt">Abrir a página</span><span lang="en">Open the site</span></a>
-        <a href="https://github.com/RafaelCRdeLima/Astronomia"><span lang="pt">Repositório</span><span lang="en">Repository</span></a>
-      </p>
-    </article>
-
-    <div class="course-more">
-      <p class="level"><span lang="pt">Também no ar</span><span lang="en">Also online</span></p>
-      <ul>
-        <li>
-          <a href="https://rafaelcrdelima.github.io/Eletromagnetismo/">Eletromagnetismo Clássico</a>
-          <span class="dim"><span lang="pt">— pós-graduação · apresentações de aula</span><span lang="en">— graduate · lecture presentations</span></span>
-        </li>
-        <li>
-          <a href="https://rafaelcrdelima.github.io/FEX1001/">Física Experimental I <span class="mono">(FEX1001)</span></a>
-          <span class="dim"><span lang="pt">— graduação · apostilas e roteiros de experiências</span><span lang="en">— undergraduate · lab notes and experiment guides</span></span>
-        </li>
-      </ul>
-    </div>
-  </section>
-
   <!-- ─────────────────────────────  PUBLICAÇÕES  ───────────────────────────── -->
-  <section id="publicacoes">
-    <h2 class="seclabel"><span lang="pt">Publicações</span><span lang="en">Publications</span></h2>
+  <section id="producao">
+    <h2 class="seclabel"><span class="secnum">03</span><span lang="pt">Produção</span><span lang="en">Publications</span></h2>
     <p class="secintro">
       <span lang="pt">Lista completa e atualizada no <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a> e no <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>. Cada título abaixo leva ao artigo pelo DOI.</span>
       <span lang="en">The complete, up-to-date list lives on <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a> and <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>. Each title below resolves to the paper through its DOI.</span>
@@ -387,7 +354,52 @@
     </p>
   </section>
 
-</main>
+<!-- ─────────────────────────────  DISCIPLINAS  ───────────────────────────── -->
+  <section id="material">
+    <h2 class="seclabel"><span class="secnum">04</span><span lang="pt">Material didático</span><span lang="en">Teaching material</span></h2>
+    <p class="secintro">
+      <span lang="pt">Material didático aberto: apostilas, slides, códigos e laboratórios. Tudo em português.</span>
+      <span lang="en">Open course material: lecture notes, slides, code and labs. All in Portuguese.</span>
+    </p>
+
+    <article class="course">
+      <p class="level"><span lang="pt">Pós-graduação · PPGF</span><span lang="en">Graduate · PPGF</span></p>
+      <h3><a href="https://rafaelcrdelima.github.io/RelatividadeGeral/">Relatividade Geral</a></h3>
+      <p lang="pt">Apostila completa em PDF com o fonte LaTeX; os 21 programas citados no texto, em Python e Wolfram Language, cada um com notebook para abrir direto no Google Colab; laboratórios computacionais em Jupyter; e dashboards de exploração visual que não exigem programar.</p>
+      <p lang="en">A complete PDF textbook with its LaTeX source; the 21 programs cited in the text, in Python and Wolfram Language, each with a notebook that opens straight in Google Colab; computational labs in Jupyter; and visual exploration dashboards that require no programming.</p>
+      <p class="prog-links">
+        <a class="cta" href="https://rafaelcrdelima.github.io/RelatividadeGeral/"><span lang="pt">Abrir a página</span><span lang="en">Open the site</span></a>
+        <a href="https://github.com/RafaelCRdeLima/RelatividadeGeral"><span lang="pt">Repositório</span><span lang="en">Repository</span></a>
+      </p>
+    </article>
+
+    <article class="course">
+      <p class="level"><span lang="pt">Graduação</span><span lang="en">Undergraduate</span></p>
+      <h3><a href="https://rafaelcrdelima.github.io/Astronomia/">Astronomia</a></h3>
+      <p lang="pt">Apostila de astrofísica moderna e plano completo de 48 aulas; slides navegáveis para projetar em sala; simulações 3D e 2D de mecânica celeste (leis de Kepler, eclíptica, tempo sideral, paralaxe); cinco laboratórios — observação do céu, fotometria e distâncias, espectroscopia, análise de dados reais do SDSS e mecânica orbital; e modelos LaTeX para os relatórios.</p>
+      <p lang="en">A modern-astrophysics textbook and a full 48-lecture plan; navigable slides for the classroom; 3D and 2D simulations of celestial mechanics (Kepler's laws, the ecliptic, sidereal time, parallax); five labs — sky observation, photometry and distances, spectroscopy, real SDSS data analysis, and orbital mechanics; plus LaTeX templates for student reports.</p>
+      <p class="prog-links">
+        <a class="cta" href="https://rafaelcrdelima.github.io/Astronomia/"><span lang="pt">Abrir a página</span><span lang="en">Open the site</span></a>
+        <a href="https://github.com/RafaelCRdeLima/Astronomia"><span lang="pt">Repositório</span><span lang="en">Repository</span></a>
+      </p>
+    </article>
+
+    <div class="course-more">
+      <p class="level"><span lang="pt">Também no ar</span><span lang="en">Also online</span></p>
+      <ul>
+        <li>
+          <a href="https://rafaelcrdelima.github.io/Eletromagnetismo/">Eletromagnetismo Clássico</a>
+          <span class="dim"><span lang="pt">— pós-graduação · apresentações de aula</span><span lang="en">— graduate · lecture presentations</span></span>
+        </li>
+        <li>
+          <a href="https://rafaelcrdelima.github.io/FEX1001/">Física Experimental I <span class="mono">(FEX1001)</span></a>
+          <span class="dim"><span lang="pt">— graduação · apostilas e roteiros de experiências</span><span lang="en">— undergraduate · lab notes and experiment guides</span></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  </main>
 
 <footer>
   <p>
@@ -427,6 +439,40 @@
 
   buttons.forEach(function (b) {
     b.addEventListener('click', function () { apply(b.dataset.setLang); });
+  });
+
+  // A navegação acompanha a leitura. Sem IntersectionObserver — navegador
+  // antigo — os links continuam funcionando, só não acendem sozinhos.
+  if (!('IntersectionObserver' in window)) return;
+
+  var links = {};
+  document.querySelectorAll('.nav a[href^="#"]').forEach(function (a) {
+    links[a.getAttribute('href').slice(1)] = a;
+  });
+
+  var visiveis = new Set();
+
+  function marcar() {
+    // Entre as seções visíveis, a primeira na ordem do documento manda:
+    // rolando devagar, duas aparecem juntas e a de cima é a que se lê.
+    var alvo = Object.keys(links).find(function (id) { return visiveis.has(id); });
+    Object.keys(links).forEach(function (id) {
+      if (id === alvo) links[id].setAttribute('aria-current', 'true');
+      else links[id].removeAttribute('aria-current');
+    });
+  }
+
+  var observador = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (e.isIntersecting) visiveis.add(e.target.id);
+      else visiveis.delete(e.target.id);
+    });
+    marcar();
+  }, { rootMargin: '-20% 0px -55% 0px' });
+
+  Object.keys(links).forEach(function (id) {
+    var sec = document.getElementById(id);
+    if (sec) observador.observe(sec);
   });
 })();
 </script>
