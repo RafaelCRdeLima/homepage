@@ -71,6 +71,7 @@ Enquanto os segredos não existirem, a Action falha e o site fica no ar com a
   inversa; cada entrada é um `<li>` com ano, autores, título com DOI e revista.
   A fonte de verdade continua sendo o [ORCID](https://orcid.org/0000-0003-1718-3838)
   e o [Lattes](http://lattes.cnpq.br/0799234795742587) — a página é um recorte.
-- **Programas e disciplinas**: os links apontam para os sites públicos. ODEROM,
-  TESSERA e ÁLETRA são repositórios privados com site público, então não têm
-  link de repositório; o PATHS é público e tem.
+- **Programas**: os quatro são repositórios privados com site público, então
+  nenhum tem link de repositório — só o link do app.
+- **Disciplinas**: essas sim são públicas no GitHub, e a Relatividade Geral e a
+  Astronomia levam link para o repositório além do link da página.
