@@ -369,6 +369,17 @@ section + section { border-top: 1px solid var(--rule); }
 }
 /* idem: a nota de rodapé da seção traz a própria régua. */
 
+/* O ano abre a entrada; o selo de preprint desce logo abaixo dele. */
+.tag {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
 .year {
   font-family: var(--sans);
   font-size: 0.78rem;
@@ -426,6 +437,8 @@ footer p { margin: 0 0 0.6rem; }
   .mark svg { width: 2.25rem; height: 2.25rem; }
   .pubs > li { grid-template-columns: 1fr; gap: 0.3rem; }
   .year { padding-top: 0; }
+  /* Em coluna única o selo cabe ao lado do ano. */
+  .tag { display: inline; margin: 0 0 0 0.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
