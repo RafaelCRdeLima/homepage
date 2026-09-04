@@ -6,13 +6,12 @@ publicações com DOI.
 
 ## No ar
 
-O endereço definitivo sai no log do primeiro deploy — `*.pages.dev` é único no
-mundo inteiro, e a Cloudflare acrescenta um sufixo se `rafael-lima` já estiver
-tomado. Leia o endereço em **Actions → Publicar no Cloudflare Pages → Enviar
-para o Cloudflare**, ou no painel da Cloudflare.
+**<https://rafael-lima.pages.dev>**
 
-Quando souber o endereço, vale atualizar duas linhas em `site/index.html`:
-a tag `<link rel="canonical">` e o `--canonical` mencionado aqui.
+O subdomínio saiu sem sufixo — `rafael-lima` estava livre. `*.pages.dev` é único
+no mundo inteiro, então se um dia o projeto for recriado com outro nome o
+endereço muda, e duas coisas precisam acompanhar: a tag `<link rel="canonical">`
+em `site/index.html` e esta seção.
 
 ## Estrutura
 
@@ -49,10 +48,22 @@ com a página em inglês, é porque o par ficou incompleto.
 
 ## Publicação
 
-`push` na `main` → a Action envia `site/` para o Cloudflare Pages. Os segredos
-`CLOUDFLARE_API_TOKEN` e `CLOUDFLARE_ACCOUNT_ID` precisam existir em
-*Settings → Secrets and variables → Actions* (são os mesmos usados no ALETRA,
-no TESSERA e no ODEROM).
+`push` na `main` → a Action envia `site/` para o Cloudflare Pages.
+
+**Falta um passo para isso funcionar:** os segredos `CLOUDFLARE_API_TOKEN` e
+`CLOUDFLARE_ACCOUNT_ID` ainda não existem neste repositório. São os mesmos
+valores já usados no ALETRA, no TESSERA e no ODEROM — o GitHub não deixa ler o
+valor de um segredo depois de gravado, então eles têm de vir do painel da
+Cloudflare:
+
+```bash
+gh secret set CLOUDFLARE_API_TOKEN  --repo RafaelCRdeLima/homepage
+gh secret set CLOUDFLARE_ACCOUNT_ID --repo RafaelCRdeLima/homepage
+```
+
+Enquanto os segredos não existirem, a Action falha e o site fica no ar com a
+última versão publicada — o primeiro deploy foi feito à mão, daqui, com
+`wrangler pages deploy site --project-name=rafael-lima`.
 
 ## Manutenção
 
