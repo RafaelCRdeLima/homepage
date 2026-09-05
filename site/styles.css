@@ -277,13 +277,6 @@ a:hover { color: var(--acc-2); }
 }
 .pill .ic svg { width: 1rem; height: 1rem; }
 .pill .ic-wave { background: rgba(86, 225, 208, 0.14); }
-.pill-ic { padding: 0.45rem; }
-.pill-ic .ic-solid {
-  width: 2.1rem; height: 2.1rem; border-radius: 50%;
-  background: var(--acc); color: #14092e;
-}
-.pill-ic .ic-solid svg { width: 1.25rem; height: 1.25rem; }
-
 .pill-cta { text-decoration: none; transition: transform 0.18s ease, border-color 0.18s ease; }
 .pill-cta:hover { color: var(--text); border-color: var(--acc-edge); transform: translateY(-2px); }
 
@@ -751,7 +744,6 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
     margin: 0.6rem 0.2rem 0;
     font-size: 0.78rem;
   }
-  .pill-ic { display: none; }
 }
 
 @media (max-width: 34rem) {
