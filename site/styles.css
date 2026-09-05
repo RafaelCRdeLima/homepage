@@ -98,7 +98,6 @@ a:hover { color: var(--acc-2); }
     radial-gradient(70rem 34rem at 50% -18%, rgba(158, 140, 255, 0.42), transparent 62%),
     radial-gradient(42rem 26rem at 88% 4%, rgba(86, 225, 208, 0.16), transparent 60%),
     linear-gradient(180deg, #1a1348 0%, #16173a 52%, #111530 100%);
-  overflow: hidden;
 }
 
 
@@ -258,7 +257,14 @@ a:hover { color: var(--acc-2); }
   font-weight: 500;
   color: var(--text);
   white-space: nowrap;
+  cursor: default;
   animation: flutua 7s ease-in-out infinite;
+}
+.pill:hover, .pill:focus-visible {
+  /* Parar a flutuação enquanto o balão está aberto: texto que se mexe
+     é difícil de ler, e o balão acompanha a pílula. */
+  animation-play-state: paused;
+  z-index: 6;
 }
 .pill .ic {
   width: 1.55rem; height: 1.55rem;
@@ -285,13 +291,66 @@ a:hover { color: var(--acc-2); }
 .p1 { left: 1%;  top: 15%; animation-delay: -0.6s; }
 .p2 { left: -1%; top: 46%; animation-delay: -2.4s; }
 .p3 { left: 12%; top: 76%; animation-delay: -4.1s; }
-.p4 { right: 3%; top: 9%;  animation-delay: -1.5s; }
-.p5 { right: -1%; top: 43%; animation-delay: -3.3s; }
-.p6 { right: 6%; top: 74%; animation-delay: -5.2s; }
+.p5 { right: -1%; top: 24%; animation-delay: -3.3s; }
+.p6 { right: 5%; top: 64%; animation-delay: -5.2s; }
 
 @keyframes flutua {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-7px); }
+}
+
+/* ── a explicação que aparece ao passar o mouse ───────────────
+   Só isso: nada reage a clique. O balão é `pointer-events: none`
+   para nunca roubar o mouse da pílula que o abriu, e só existe
+   onde há mouse de verdade — em toque, `:hover` gruda no toque e
+   viraria justamente a reação a clique que não queremos.        */
+
+.tip {
+  /* Fora de aparelho com mouse o balão nem existe: assim ele não deixa
+     uma caixa invisível passando da borda da tela no celular. */
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  left: 0;                 /* ancorado pelo lado de dentro do palco, */
+  right: auto;             /* senão o balão sai da tela nas bordas   */
+  z-index: 7;
+  width: max-content;
+  max-width: min(19rem, 68vw);
+  padding: 0.75rem 0.9rem;
+  border-radius: 13px;
+  background: rgba(11, 13, 22, 0.97);
+  border: 1px solid var(--line-2);
+  box-shadow: 0 20px 44px -14px rgba(0, 0, 0, 0.95);
+  font-family: var(--ui);
+  font-size: 0.775rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--text-2);
+  white-space: normal;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  pointer-events: none;
+}
+.tip b { color: var(--text); font-weight: 600; }
+.tip em { font-style: italic; color: var(--text); }
+.tip sup { line-height: 0; font-size: 0.75em; }
+
+.p5 .tip { left: auto; right: 0; }
+.up .tip { top: auto; bottom: calc(100% + 0.55rem); }
+
+@media (hover: hover) and (pointer: fine) {
+  .tip { display: block; }
+
+  .pill:hover > .tip,
+  .pill:focus-visible > .tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 }
 
 /* ── capa: a frase grande ───────────────────────────────────── */
@@ -664,9 +723,8 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
   .p1 { left: 0; top: 8%; }
   .p2 { left: 0; top: 44%; }
   .p3 { left: 6%; top: 80%; }
-  .p4 { right: 0; top: 4%; }
-  .p5 { right: 0; top: 41%; }
-  .p6 { right: 2%; top: 78%; }
+  .p5 { right: 0; top: 20%; }
+  .p6 { right: 2%; top: 66%; }
 }
 
 /* ── telas estreitas ────────────────────────────────────────── */
@@ -688,7 +746,7 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
   .portrait { order: -1; flex: 0 0 100%; display: flex; justify-content: center; }
   .portrait img { width: min(15rem, 62vw); }
   .pill {
-    position: static;
+    position: relative;
     animation: none;
     margin: 0.6rem 0.2rem 0;
     font-size: 0.78rem;

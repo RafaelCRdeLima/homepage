@@ -56,7 +56,18 @@ O topo de cada página é o mesmo componente `.panel` — faixa de gradiente
 do retrato; nas outras é a versão `.panel-slim`, só com navegação e título.
 
 Na capa o retrato fica centrado e as pílulas em volta, posicionadas em
-porcentagem do palco. Abaixo de 46rem elas saem do posicionamento absoluto e
+porcentagem do palco. Quatro delas abrem uma explicação curta ao passar o
+mouse; a quinta, "Fale comigo", é a única clicável e não tem balão — não há
+o que explicar num convite. Nada mais reage a clique.
+
+O balão só existe sob `@media (hover: hover) and (pointer: fine)`. Em tela de
+toque `:hover` gruda no toque, e o balão viraria exatamente a reação a clique
+que não se quer; fora do mouse ele nem entra no layout. Ele é
+`pointer-events: none` para nunca roubar o mouse da pílula que o abriu, e é
+ancorado pelo lado de dentro do palco (`left: 0` à esquerda, `right: 0` à
+direita) porque centralizado ele sairia da tela nas bordas. As pílulas de
+baixo levam `.up` e abrem para cima. A flutuação para no hover: texto que se
+mexe não se lê. Abaixo de 46rem elas saem do posicionamento absoluto e
 embrulham numa faixa; o retrato leva `order: -1` para continuar vindo antes
 delas, já que no HTML as pílulas é que vêm primeiro.
 
