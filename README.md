@@ -194,17 +194,27 @@ Três coisas que exigiram cuidado:
 3. **A quadratura quebra nos joelhos** `ψ = ψ_max` e `ψ = 2π − ψ_max`, onde
    uma imagem nasce ou morre. Simpson atravessando um joelho erra de um jeito
    que varia com a fase, e era isso que serrilhava a curva de luz.
-4. **Desenhar a imagem do spot pela borda não funciona.** Quando o spot
-   engole o antípoda (`ψ_c > 180° − ρ`), a imagem vira um anel em volta da
-   estrela: a borda passa a dar a volta no centro, e preenchê-la pintava o
-   disco inteiro — 47% da tela em vez de 0,3%. O desenho é feito por faixas
-   de ψ, cada uma indo por um arco e voltando pelo outro, o que dá o anel
-   pela regra de *winding*.
-5. **As faixas não podem ser uniformes em ψ.** Perto de `ψ = 180°` a largura
-   em azimute `χ_max` sobe quase na vertical — de 94° para 180° em menos de
-   5° de ψ. O segmento que liga uma faixa à seguinte atravessava dezenas de
-   graus de arco e aparecia na tela como gravata-borboleta. As bordas das
-   faixas são escolhidas para `χ_max` andar em passos de 0,10 rad.
+4. **A imagem do spot é desenhada pixel a pixel, pelo caminho inverso** —
+   o método do PULSARIS. Para cada pixel do disco, `q = b/b_max` dá o ângulo
+   varrido ψ(q) pela tabela, e `n = sin ψ·t̂ + cos ψ·ô` diz de que ponto da
+   superfície ele veio; o pixel testa sozinho se está dentro do spot. Com
+   ψ > π o `sin ψ` fica negativo e a segunda imagem cai do outro lado sem
+   caso especial. Duas tentativas pelo caminho direto (região → pixels)
+   morreram no cáustico: preencher a borda do spot pintava o disco inteiro
+   quando ele engolia o antípoda, e faixas de ψ deixavam gravatas-borboleta
+   onde a borda tangencia o antípoda — ali `χ_max` salta de 90° a 180° numa
+   descontinuidade real, e nenhuma faixa atravessa isso sem erro.
+5. **Brilho uniforme por pixel.** Intensidade específica se conserva ao
+   longo do raio (Liouville) a menos de `g⁴`, constante numa estrela
+   estática. O fluxo sobe no cáustico porque a imagem cobre mais pixels,
+   não porque os pixels brilham mais. O `cos α` e o jacobiano moram na
+   integral do fluxo sobre a fonte, não no desenho.
+
+Os dois caminhos foram validados um contra o outro: a razão entre a área da
+imagem (inverso, contando pixels numa grade de 700²) e o fluxo da integral
+(direto) é constante em 0,162 ao longo de toda a fase, nos dois presets,
+atravessando o cáustico, para a primária e para a secundária — dispersão de
+1,4–2,7%, que é discretização de pixel num anel fino.
 
 Presets: *Recomeçar* dá 1,4 M☉ e 12 km (`R = 5,80M`, realista, sem segunda
 imagem); *estrela compacta* dá 2,1 M☉ e 10,2 km (`R = 3,29M`, com segunda

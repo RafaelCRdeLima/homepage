@@ -323,28 +323,6 @@
     return c >= 1 ? 0 : (c <= -1 ? Math.PI : Math.acos(c));
   }
 
-  // Bordas das faixas de ψ para desenhar a imagem do spot. Uniformes em ψ
-  // não servem: perto de ψ = 180° a largura em azimute χ_max sobe quase na
-  // vertical — de 94° para 180° em menos de 5° de ψ. O segmento que liga uma
-  // faixa à seguinte então atravessa dezenas de graus de arco, e é ele que
-  // aparecia na tela como uma gravata-borboleta. Aqui a faixa fecha sempre
-  // que χ_max andou 0,10 rad, doa o ψ que doer.
-  function bandasPsi(psic) {
-    const lo = Math.max(0, psic - RHO), hi = Math.min(Math.PI, psic + RHO);
-    const FINO = 400, larg = hi - lo;
-    if (larg < 1e-9) return [lo, hi];
-    const bordas = [lo];
-    let cAnt = chiMax(lo, psic), pAnt = lo;
-    for (let i = 1; i <= FINO; i++) {
-      const psi = lo + larg * i / FINO;
-      const c = chiMax(psi, psic);
-      if (Math.abs(c - cAnt) > 0.10 || psi - pAnt > larg / 10 || i === FINO) {
-        bordas.push(psi); cAnt = c; pAnt = psi;
-      }
-    }
-    return bordas;
-  }
-
   function fluxoSpot(psic) {
     const lo = Math.max(0, psic - RHO), hi = Math.min(Math.PI, psic + RHO);
     // O integrando tem joelho onde uma imagem nasce ou morre: em ψ = ψ_max
@@ -403,6 +381,87 @@
       y: cy - im.sinal * im.b * p2 * esc,
       ...im
     }));
+  }
+
+  // ── a imagem do spot, pixel a pixel: o método do PULSARIS ──────────
+  // Para cada pixel do disco aparente, o caminho INVERSO: q = b/b_max dá o
+  // ângulo varrido ψ(q) pela tabela, e a direção do pixel no céu mais ψ
+  // dão o ponto da superfície de onde ele veio, n = sin ψ·t̂ + cos ψ·ô.
+  // Com ψ > π o sin ψ fica negativo e o ponto cai do outro lado do céu
+  // sozinho — é a imagem secundária, sem caso especial nenhum. Cada pixel
+  // decide por si se está dentro do spot. Não há polígono, logo não há
+  // topologia para errar: foi o polígono, preenchido pela borda, que
+  // pintava o disco inteiro quando o spot engolia o antípoda.
+  //
+  // O brilho por pixel é UNIFORME dentro do spot: intensidade específica se
+  // conserva ao longo do raio (Liouville), a menos do fator g⁴ do desvio
+  // para o vermelho, que é constante numa estrela estática. O que faz o
+  // fluxo subir no cáustico é a imagem cobrir MAIS pixels, não pixels mais
+  // brilhantes. O cos α e o jacobiano ficam onde pertencem: na integral do
+  // fluxo sobre a fonte, em fluxoSpot.
+  const S = 300;
+  const off = document.createElement("canvas"); off.width = off.height = S;
+  const octx = off.getContext("2d");
+  let PIX = null;
+
+  function precomputaPixels() {
+    if (!T.ok) { PIX = null; return; }
+    const NQ = 1024, psiQ = new Float32Array(NQ);
+    for (let i = 0; i < NQ; i++) {
+      // q = b/b_max = sin α (para R ≥ 3M, α_max = 90°): interpola ψ(α)
+      const x = Math.asin(Math.min(1, i / (NQ - 1))) / (Math.PI / 2) * (T.N - 1);
+      const k = Math.min(T.N - 2, Math.floor(x)), t = x - k;
+      psiQ[i] = T.ps[k] + t * (T.ps[k + 1] - T.ps[k]);
+    }
+    const o = obs(), b2 = base(), e1 = b2[0], e2 = b2[1];
+    const nx = new Float32Array(S * S), ny = new Float32Array(S * S), nz = new Float32Array(S * S);
+    const ordem = new Int8Array(S * S);
+    for (let j = 0; j < S; j++) for (let i = 0; i < S; i++) {
+      const idx = j * S + i;
+      const px = (i + 0.5) / S * 2 - 1, py = 1 - (j + 0.5) / S * 2;
+      const q = Math.hypot(px, py);
+      if (q >= 1) { ordem[idx] = -1; continue; }
+      const x = q * (NQ - 1), k = Math.min(NQ - 2, Math.floor(x)), t = x - k;
+      const psi = psiQ[k] + t * (psiQ[k + 1] - psiQ[k]);
+      const ord = Math.floor(psi / Math.PI);
+      if (ord > 2) { ordem[idx] = -1; continue; }
+      const sp = Math.sin(psi), cp = Math.cos(psi);
+      const t1 = q > 1e-9 ? px / q : 1, t2 = q > 1e-9 ? py / q : 0;
+      nx[idx] = sp * (t1 * e1[0] + t2 * e2[0]) + cp * o[0];
+      ny[idx] = sp * (t1 * e1[1] + t2 * e2[1]) + cp * o[1];
+      nz[idx] = sp * (t1 * e1[2] + t2 * e2[2]) + cp * o[2];
+      ordem[idx] = ord;
+    }
+    PIX = { nx, ny, nz, ordem, inc: state.inc, img: octx.createImageData(S, S) };
+  }
+
+  function pintaSpots(cx, cy, Rap) {
+    if (!PIX) return;
+    const d = PIX.img.data, cosR = Math.cos(RHO), esc = 1 - cosR;
+    const fase = state.fase;
+    const cs = colatitudes().map((th, j) => dir(th, j === 0 ? fase : fase + Math.PI));
+    const N = S * S;
+    for (let idx = 0; idx < N; idx++) {
+      const o4 = idx * 4, ord = PIX.ordem[idx];
+      if (ord < 0) { d[o4 + 3] = 0; continue; }
+      let a = 0;
+      for (let k = 0; k < cs.length; k++) {
+        const c = cs[k];
+        // borda suavizada em ±3% do raio do spot, como no PULSARIS
+        const e = ((PIX.nx[idx] * c[0] + PIX.ny[idx] * c[1] + PIX.nz[idx] * c[2]) - cosR) / esc;
+        const m = e <= -0.03 ? 0 : (e >= 0.03 ? 1 : (e + 0.03) / 0.06);
+        if (m > a) a = m;
+      }
+      if (a <= 0) { d[o4 + 3] = 0; continue; }
+      if (ord === 0) { d[o4] = 255; d[o4 + 1] = 208; d[o4 + 2] = 112; d[o4 + 3] = (240 * a) | 0; }
+      else          { d[o4] = 86;  d[o4 + 1] = 225; d[o4 + 2] = 208; d[o4 + 3] = (215 * a) | 0; }
+    }
+    octx.putImageData(PIX.img, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.filter = "blur(7px)"; ctx.globalAlpha = 0.55;
+    ctx.drawImage(off, cx - Rap, cy - Rap, 2 * Rap, 2 * Rap);   // o brilho
+    ctx.filter = "none"; ctx.globalAlpha = 1;
+    ctx.drawImage(off, cx - Rap, cy - Rap, 2 * Rap, 2 * Rap);
   }
 
   const colatitudes = () => {
@@ -494,69 +553,9 @@
       }
     }
 
-    // ── as imagens do spot ────────────────────────────────────────────
-    // Traçar a BORDA do spot e preencher só funciona enquanto a imagem é
-    // uma mancha simples. Quando o spot engole o antípoda (ψ_c > 180° − ρ),
-    // a imagem vira um ANEL em volta da estrela: a borda passa a dar a volta
-    // no centro, e preencher aquilo pinta o disco inteiro.
-    //
-    // Então em vez da borda, desenha-se a região por faixas de ψ. Cada faixa
-    // vai pelo arco interno num sentido e volta pelo externo no outro; onde
-    // a faixa fecha os 360°, as duas voltas em sentidos opostos dão um anel
-    // pela regra de winding, que é exatamente o que se quer. Todas as faixas
-    // num caminho só, preenchidas de uma vez: sem costura entre elas.
+    pintaSpots(cx, cy, Rap);
+
     const colats = colatitudes();
-    colats.forEach((th, j) => {
-      const lon = j === 0 ? fase : fase + Math.PI;
-      const c = dir(th, lon);
-      const psic = Math.acos(Math.max(-1, Math.min(1, dot(c, o))));
-      const q1 = dot(c, e1), q2 = dot(c, e2);
-      const ang0 = Math.hypot(q1, q2) < 1e-9 ? 0 : Math.atan2(q2, q1);
-      const bordas = bandasPsi(psic);
-
-      for (const ordem of [1, 0]) {              // a secundária vai por baixo
-        const ramo = psi => imagens(psi).find(q => q.ordem === ordem);
-        let algum = false;
-        ctx.beginPath();
-        for (let g = 0; g < bordas.length - 1; g++) {
-          const pa = bordas[g], pb = bordas[g + 1];
-          const ia = ramo(pa), ib = ramo(pb);
-          if (!ia || !ib) continue;
-          const ca = chiMax(pa, psic), cb = chiMax(pb, psic);
-          if (ca <= 0 && cb <= 0) continue;
-          // pontos por arco proporcionais à abertura: um arco de 5° não
-          // precisa dos mesmos 56 pontos que um de 360°
-          const NC = Math.max(6, Math.min(64, Math.ceil(2 * Math.max(ca, cb) / 0.12)));
-          for (let k = 0; k <= NC; k++) {
-            const a = ang0 - ca + 2 * ca * k / NC;
-            const x = cx + ia.sinal * ia.b * Math.cos(a) * esc;
-            const y = cy - ia.sinal * ia.b * Math.sin(a) * esc;
-            k ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-          }
-          for (let k = NC; k >= 0; k--) {
-            const a = ang0 - cb + 2 * cb * k / NC;
-            ctx.lineTo(cx + ib.sinal * ib.b * Math.cos(a) * esc,
-                       cy - ib.sinal * ib.b * Math.sin(a) * esc);
-          }
-          ctx.closePath();
-          algum = true;
-        }
-        if (!algum) continue;
-        const cen = ramo(psic);
-        const br = cen ? Math.min(1, cen.cosA) : 0.3;
-        if (ordem === 0) {
-          ctx.fillStyle = "rgba(255," + (180 + (60 * br | 0)) + "," + (90 + (40 * br | 0)) + "," + (0.35 + 0.6 * br) + ")";
-          ctx.shadowColor = "rgba(255,190,90,.85)"; ctx.shadowBlur = 18;
-          ctx.fill(); ctx.shadowBlur = 0;
-        } else {
-          ctx.fillStyle = "rgba(86,225,208," + (0.30 + 0.5 * br) + ")";
-          ctx.strokeStyle = "rgba(86,225,208,.9)"; ctx.lineWidth = 1;
-          ctx.shadowColor = "rgba(86,225,208,.7)"; ctx.shadowBlur = 12;
-          ctx.fill(); ctx.shadowBlur = 0; ctx.stroke();
-        }
-      }
-    });
-
     const gm = Math.round(T.psiMax * 180 / Math.PI);
     const n = imagens(Math.acos(Math.max(-1, Math.min(1, dot(dir(colats[0], fase), o))))).length;
     $("readout").innerHTML =
@@ -662,7 +661,11 @@
     $("lblLat").textContent = state.lat + "°";
     $("lblInc").textContent = state.inc + "°";
   };
-  const refaz = tab => { if (tab) tabela(); fazCurva(); regime(); rotulos(); };
+  const refaz = tab => {
+    if (tab) tabela();
+    if (tab || !PIX || PIX.inc !== state.inc) precomputaPixels();
+    fazCurva(); regime(); rotulos();
+  };
 
   $("mm").oninput = e => { state.Msol = +e.target.value; refaz(true); };
   $("rr").oninput = e => { state.Rkm = +e.target.value; refaz(true); };
