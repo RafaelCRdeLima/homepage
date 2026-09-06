@@ -323,6 +323,28 @@
     return c >= 1 ? 0 : (c <= -1 ? Math.PI : Math.acos(c));
   }
 
+  // Bordas das faixas de ψ para desenhar a imagem do spot. Uniformes em ψ
+  // não servem: perto de ψ = 180° a largura em azimute χ_max sobe quase na
+  // vertical — de 94° para 180° em menos de 5° de ψ. O segmento que liga uma
+  // faixa à seguinte então atravessa dezenas de graus de arco, e é ele que
+  // aparecia na tela como uma gravata-borboleta. Aqui a faixa fecha sempre
+  // que χ_max andou 0,10 rad, doa o ψ que doer.
+  function bandasPsi(psic) {
+    const lo = Math.max(0, psic - RHO), hi = Math.min(Math.PI, psic + RHO);
+    const FINO = 400, larg = hi - lo;
+    if (larg < 1e-9) return [lo, hi];
+    const bordas = [lo];
+    let cAnt = chiMax(lo, psic), pAnt = lo;
+    for (let i = 1; i <= FINO; i++) {
+      const psi = lo + larg * i / FINO;
+      const c = chiMax(psi, psic);
+      if (Math.abs(c - cAnt) > 0.10 || psi - pAnt > larg / 10 || i === FINO) {
+        bordas.push(psi); cAnt = c; pAnt = psi;
+      }
+    }
+    return bordas;
+  }
+
   function fluxoSpot(psic) {
     const lo = Math.max(0, psic - RHO), hi = Math.min(Math.PI, psic + RHO);
     // O integrando tem joelho onde uma imagem nasce ou morre: em ψ = ψ_max
@@ -472,24 +494,55 @@
       }
     }
 
+    // ── as imagens do spot ────────────────────────────────────────────
+    // Traçar a BORDA do spot e preencher só funciona enquanto a imagem é
+    // uma mancha simples. Quando o spot engole o antípoda (ψ_c > 180° − ρ),
+    // a imagem vira um ANEL em volta da estrela: a borda passa a dar a volta
+    // no centro, e preencher aquilo pinta o disco inteiro.
+    //
+    // Então em vez da borda, desenha-se a região por faixas de ψ. Cada faixa
+    // vai pelo arco interno num sentido e volta pelo externo no outro; onde
+    // a faixa fecha os 360°, as duas voltas em sentidos opostos dão um anel
+    // pela regra de winding, que é exatamente o que se quer. Todas as faixas
+    // num caminho só, preenchidas de uma vez: sem costura entre elas.
     const colats = colatitudes();
     colats.forEach((th, j) => {
       const lon = j === 0 ? fase : fase + Math.PI;
-      const c = dir(th, lon), tg = tangentes(c, lon);
-      const borda = [];
-      for (let k = 0; k <= 48; k++) borda.push(pontoSpot(c, tg[0], tg[1], RHO, k / 48 * TAU));
+      const c = dir(th, lon);
+      const psic = Math.acos(Math.max(-1, Math.min(1, dot(c, o))));
+      const q1 = dot(c, e1), q2 = dot(c, e2);
+      const ang0 = Math.hypot(q1, q2) < 1e-9 ? 0 : Math.atan2(q2, q1);
+      const bordas = bandasPsi(psic);
 
-      for (const ordem of [1, 0]) {          // a secundária vai por baixo
-        const pts = [];
-        for (const p of borda) {
-          const v = naTela(p, o, e1, e2, cx, cy, esc).find(q => q.ordem === ordem);
-          if (v) pts.push(v);
-        }
-        if (pts.length < 3) continue;
+      for (const ordem of [1, 0]) {              // a secundária vai por baixo
+        const ramo = psi => imagens(psi).find(q => q.ordem === ordem);
+        let algum = false;
         ctx.beginPath();
-        pts.forEach((p, k) => k ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-        ctx.closePath();
-        const cen = naTela(c, o, e1, e2, cx, cy, esc).find(q => q.ordem === ordem);
+        for (let g = 0; g < bordas.length - 1; g++) {
+          const pa = bordas[g], pb = bordas[g + 1];
+          const ia = ramo(pa), ib = ramo(pb);
+          if (!ia || !ib) continue;
+          const ca = chiMax(pa, psic), cb = chiMax(pb, psic);
+          if (ca <= 0 && cb <= 0) continue;
+          // pontos por arco proporcionais à abertura: um arco de 5° não
+          // precisa dos mesmos 56 pontos que um de 360°
+          const NC = Math.max(6, Math.min(64, Math.ceil(2 * Math.max(ca, cb) / 0.12)));
+          for (let k = 0; k <= NC; k++) {
+            const a = ang0 - ca + 2 * ca * k / NC;
+            const x = cx + ia.sinal * ia.b * Math.cos(a) * esc;
+            const y = cy - ia.sinal * ia.b * Math.sin(a) * esc;
+            k ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+          }
+          for (let k = NC; k >= 0; k--) {
+            const a = ang0 - cb + 2 * cb * k / NC;
+            ctx.lineTo(cx + ib.sinal * ib.b * Math.cos(a) * esc,
+                       cy - ib.sinal * ib.b * Math.sin(a) * esc);
+          }
+          ctx.closePath();
+          algum = true;
+        }
+        if (!algum) continue;
+        const cen = ramo(psic);
         const br = cen ? Math.min(1, cen.cosA) : 0.3;
         if (ordem === 0) {
           ctx.fillStyle = "rgba(255," + (180 + (60 * br | 0)) + "," + (90 + (40 * br | 0)) + "," + (0.35 + 0.6 * br) + ")";

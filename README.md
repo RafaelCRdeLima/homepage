@@ -194,6 +194,17 @@ Três coisas que exigiram cuidado:
 3. **A quadratura quebra nos joelhos** `ψ = ψ_max` e `ψ = 2π − ψ_max`, onde
    uma imagem nasce ou morre. Simpson atravessando um joelho erra de um jeito
    que varia com a fase, e era isso que serrilhava a curva de luz.
+4. **Desenhar a imagem do spot pela borda não funciona.** Quando o spot
+   engole o antípoda (`ψ_c > 180° − ρ`), a imagem vira um anel em volta da
+   estrela: a borda passa a dar a volta no centro, e preenchê-la pintava o
+   disco inteiro — 47% da tela em vez de 0,3%. O desenho é feito por faixas
+   de ψ, cada uma indo por um arco e voltando pelo outro, o que dá o anel
+   pela regra de *winding*.
+5. **As faixas não podem ser uniformes em ψ.** Perto de `ψ = 180°` a largura
+   em azimute `χ_max` sobe quase na vertical — de 94° para 180° em menos de
+   5° de ψ. O segmento que liga uma faixa à seguinte atravessava dezenas de
+   graus de arco e aparecia na tela como gravata-borboleta. As bordas das
+   faixas são escolhidas para `χ_max` andar em passos de 0,10 rad.
 
 Presets: *Recomeçar* dá 1,4 M☉ e 12 km (`R = 5,80M`, realista, sem segunda
 imagem); *estrela compacta* dá 2,1 M☉ e 10,2 km (`R = 3,29M`, com segunda
