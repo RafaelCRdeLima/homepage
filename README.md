@@ -147,9 +147,13 @@ aproximação bate com a raiz de `1/b² = (1−2M/r)/r²` em quatro casas.
 
 Três coisas foram corrigidas em relação ao rascunho em `Codes/BH Demo`:
 
-1. **Sem deformação artística.** O rascunho remapeava o raio perto do buraco
-   (`warp`), o que desenhava o horizonte 32% menor que 2M e cisalhava as
-   formas em até 50%. O desenho agora é o plano de Schwarzschild como é.
+1. **A curvatura da grade virou geometria de verdade.** O rascunho encurvava
+   a grade com um remapeamento radial inventado (`warp`), que desenhava o
+   horizonte 32% menor que 2M e cisalhava as formas em até 50%. No lugar
+   dele entrou o **paraboloide de Flamm**, `z(r) = 2√(2M(r−2M))` — o mergulho
+   isométrico da fatia equatorial —, visto de 62° de elevação. A grade
+   afunila porque a superfície afunila. O interruptor *relevo do espaço*
+   desliga e devolve o plano `(r, φ)`, de linhas retas.
 2. **Ultravioleta não é magenta.** A aproximação usual de espectro pinta tudo
    abaixo de 380 nm com `R=1, B=1`. Como a luz AZULA ao cair no poço, o efeito
    correto saía avermelhado na tela — invertendo a leitura. Agora as duas

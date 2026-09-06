@@ -93,6 +93,8 @@
           <span lang="pt">grade</span><span lang="en">grid</span></label>
         <label class="lab-check"><input type="checkbox" id="refs" checked>
           <span lang="pt">raios de referência</span><span lang="en">reference radii</span></label>
+        <label class="lab-check"><input type="checkbox" id="relevo" checked>
+          <span lang="pt">relevo do espaço</span><span lang="en">space relief</span></label>
         <button id="reset"><span lang="pt">Recomeçar</span><span lang="en">Reset</span></button>
       </div>
     </div>
@@ -118,6 +120,8 @@
 
       <p class="destaque"><b>Atenção ao sentido, que costuma surpreender.</b> Um raio que <b>se aproxima</b> do buraco fica mais <b>azul</b>, não mais vermelho: ele está caindo no poço e ganhando energia. O avermelhamento aparece na <b>subida</b>, quando ele volta a se afastar. Os dois se cancelam num raio que só passa de raspão e vai embora à mesma distância de onde veio. O avermelhamento que <em>sobra</em> — a lente clássica do buraco negro — é o de luz <b>emitida</b> lá dentro do poço e vista de longe: arraste a estrela para perto do horizonte e veja o feixe que escapa avermelhar e apagar.</p>
 
+      <p><b>A grade é o relevo do espaço, não enfeite.</b> Com <em>relevo do espaço</em> ligado, o lençol é o <b>paraboloide de Flamm</b> — o mergulho isométrico da fatia equatorial <span class="mono">dl² = dr²/(1−2M/r) + r²dφ²</span> num espaço euclidiano de três dimensões, dado por <span class="mono">z(r) = 2√(2M(r−2M))</span>. A grade se encurva porque a superfície é curva de verdade: em <span class="mono">r = 2,05M</span> o lençol desce a 81° da horizontal, em <span class="mono">r = 10M</span> a 27°. Desligue o relevo e sobra o plano <span class="mono">(r, φ)</span> desenhado como plano — honesto também, mas de linhas retas, porque linha de coordenada é reta por construção. É por isso que o espaço <em>parece</em> plano ali: quem foi achatado foi o desenho, não a geometria.</p>
+
       <p><b>As cores não têm efeito na trajetória.</b> O desvio gravitacional é acromático: violeta e vermelho com o mesmo <b>b</b> percorrem exatamente o mesmo caminho. O arco-íris aqui só serve para você seguir cada fio com o olho — o que separa os fios é o parâmetro de impacto, não a cor.</p>
     </div>
 
@@ -132,12 +136,14 @@
 
       <p class="destaque"><b>Mind the direction — it usually surprises.</b> A ray <b>approaching</b> the hole turns <b>bluer</b>, not redder: it is falling into the well and gaining energy. The reddening happens on the way <b>out</b>, as it climbs back. The two cancel for a ray that merely grazes past and leaves at the same distance it came from. The reddening that <em>survives</em> — the classic black-hole one — is for light <b>emitted</b> down in the well and seen from far away: drag the star close to the horizon and watch the escaping beam redden and fade out.</p>
 
+      <p><b>The grid is the relief of space, not decoration.</b> With <em>space relief</em> on, the sheet is <b>Flamm's paraboloid</b> — the isometric embedding of the equatorial slice <span class="mono">dl² = dr²/(1−2M/r) + r²dφ²</span> into three-dimensional Euclidean space, given by <span class="mono">z(r) = 2√(2M(r−2M))</span>. The grid bends because the surface really is curved: at <span class="mono">r = 2.05M</span> the sheet drops at 81° from horizontal, at <span class="mono">r = 10M</span> at 27°. Turn the relief off and what remains is the <span class="mono">(r, φ)</span> plane drawn as a plane — honest too, but with straight lines, because a coordinate line is straight by construction. That is why space <em>looks</em> flat there: what was flattened is the drawing, not the geometry.</p>
+
       <p><b>Colour has no effect on the path.</b> Gravitational deflection is achromatic: violet and red with the same <b>b</b> travel exactly the same route. The rainbow is only so you can follow each thread with your eye — what separates the threads is the impact parameter, not the colour.</p>
     </div>
 
     <p class="note">
-      <span lang="pt">Unidades geométricas, <span class="mono">G = c = M = 1</span>, de modo que o horizonte fica em <span class="mono">r = 2</span>. O desenho é o plano de Schwarzschild <span class="mono">(r, φ)</span> sem nenhuma deformação artística: o que a grade mostra é a grade, e o disco preto tem o tamanho do horizonte. O que a simulação <em>não</em> inclui: rotação (é Schwarzschild, não Kerr), disco de acreção, imagens de ordem superior dando a volta no buraco, e o desvio Doppler que existiria se a fonte estivesse em movimento.</span>
-      <span lang="en">Geometric units, <span class="mono">G = c = M = 1</span>, so the horizon sits at <span class="mono">r = 2</span>. The drawing is the Schwarzschild plane <span class="mono">(r, φ)</span> with no artistic warping: the grid is the grid, and the black disc is the true size of the horizon. What the simulation does <em>not</em> include: rotation (this is Schwarzschild, not Kerr), an accretion disc, higher-order images looping around the hole, and the Doppler shift there would be if the source were moving.</span>
+      <span lang="pt">Unidades geométricas, <span class="mono">G = c = M = 1</span>, de modo que o horizonte fica em <span class="mono">r = 2</span>. Nada aqui é deformado por gosto: com relevo, o lençol é o paraboloide de Flamm; sem relevo, é o plano <span class="mono">(r, φ)</span> tal e qual. Nos dois, o disco preto tem o tamanho exato do horizonte. O que a simulação <em>não</em> inclui: rotação (é Schwarzschild, não Kerr), disco de acreção, imagens de ordem superior dando a volta no buraco, e o desvio Doppler que existiria se a fonte estivesse em movimento.</span>
+      <span lang="en">Geometric units, <span class="mono">G = c = M = 1</span>, so the horizon sits at <span class="mono">r = 2</span>. Nothing here is warped for looks: with relief on, the sheet is Flamm's paraboloid; with it off, it is the <span class="mono">(r, φ)</span> plane as it is. In both, the black disc is the exact size of the horizon. What the simulation does <em>not</em> include: rotation (this is Schwarzschild, not Kerr), an accretion disc, higher-order images looping around the hole, and the Doppler shift there would be if the source were moving.</span>
     </p>
   </div>
 
@@ -218,6 +224,7 @@
     exag: 1,        // 1 = desvio de cor real, sem ênfase
     grid: true,
     refs: true,
+    relevo: true,
     touched: false
   };
 
@@ -230,12 +237,46 @@
   let rays = [], stats = { captured: 0, z: 0, re: 0 };
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // O desenho é o plano de Schwarzschild (r, φ) tal como é. Sem remapear o
-  // raio: qualquer afunilamento perto do horizonte deixaria o disco preto
-  // menor que o horizonte e cisalharia as formas, e aí a figura deixaria de
-  // ser medível contra a própria grade.
-  const toPx = (x, y) => [cx + x * scale, cy + y * scale];
-  const toWorld = (px, py) => [(px - cx) / scale, (py - cy) / scale];
+  // ── o relevo do espaço: paraboloide de Flamm ─────────────────────────
+  // A fatia equatorial dl² = dr²/(1−2M/r) + r²dφ² mergulha isometricamente
+  // em 3D como a superfície de revolução z(r) = 2√(2M(r−2M)). Desenhar a
+  // grade sobre ela e olhar de viés é o "lençol afundado" clássico — e a
+  // curvatura que se vê é a geometria de verdade, não licença artística.
+  //
+  // Sem o relevo, o que resta é o plano (r, φ) plotado como plano: honesto,
+  // mas de linhas retas, porque linha de coordenada é reta por construção.
+  const ALFA = 62 * Math.PI / 180;      // elevação da câmera sobre o lençol
+  const SIN = Math.sin(ALFA), COS = Math.cos(ALFA);
+  const zF = r => 2 * Math.sqrt(2 * M * Math.max(0, r - RS));
+  let EDGE = 14, cyOff = 0;
+  const depth = r => zF(EDGE) - zF(Math.min(Math.max(r, RS), EDGE));
+
+  const toPx = (x, y) => {
+    if (!state.relevo) return [cx + x * scale, cy + y * scale];
+    const r = Math.hypot(x, y);
+    return [cx + x * scale, cy + cyOff + (y * SIN + depth(r) * COS) * scale];
+  };
+
+  // A inversa é ambígua no relevo: dois pontos do lençol caem no mesmo pixel.
+  // Newton a partir de onde a fonte já estava desfaz o empate pela
+  // continuidade do arrasto.
+  const toWorld = (px, py) => {
+    const x = (px - cx) / scale;
+    if (!state.relevo) return [x, (py - cy) / scale];
+    const alvo = (py - cy - cyOff) / scale;
+    let y = state.src.y;
+    for (let i = 0; i < 30; i++) {
+      const r = Math.max(Math.hypot(x, y), RS + 1e-3);
+      const g = y * SIN + depth(r) * COS - alvo;
+      const dd = (r > RS + 1e-3 && r < EDGE) ? -Math.sqrt(2 * M / (r - RS)) : 0;
+      let dg = SIN + COS * dd * (y / r);
+      if (Math.abs(dg) < 0.06) dg = dg < 0 ? -0.06 : 0.06;
+      const passo = Math.max(-2, Math.min(2, g / dg));
+      y -= passo;
+      if (Math.abs(passo) < 1e-6) break;
+    }
+    return [x, y];
+  };
 
   // ── geodésica nula ───────────────────────────────────────────────────
   // d²x/dλ² = −3M h² x / r⁵, com h = |x × v| conservado, reproduz
@@ -346,38 +387,70 @@
     c.fillStyle = "#06070d";
     c.fillRect(0, 0, W, H);
 
+    // Uma reta do plano vira curva ao subir no lençol, então toda linha é
+    // amostrada ponto a ponto em vez de traçada de ponta a ponta.
+    const poli = (pontos) => {
+      c.beginPath();
+      let dentro = false;
+      for (const [wx, wy] of pontos) {
+        if (Math.hypot(wx, wy) < RS * 0.999 && state.relevo) { dentro = false; continue; }
+        const [a, b] = toPx(wx, wy);
+        dentro ? c.lineTo(a, b) : c.moveTo(a, b);
+        dentro = true;
+      }
+      c.stroke();
+    };
+
+    const half = Math.max(W, H) / scale / 2 + 6;
+
     if (state.grid) {
-      const half = Math.max(W, H) / scale / 2 + 4;
+      const passo = state.relevo ? 0.22 : half * 2;
       for (let v = -Math.ceil(half); v <= half; v++) {
         const major = v % 5 === 0;
-        c.strokeStyle = major ? "#2a3145" : "#171c28";
+        c.strokeStyle = major ? "#2f3750" : "#191f2c";
         c.lineWidth = major ? 1.1 : 0.7;
-        // Retas de verdade: sem remapeamento, a grade cartesiana é reta.
-        c.beginPath();
-        c.moveTo(...toPx(v, -half)); c.lineTo(...toPx(v, half));
-        c.moveTo(...toPx(-half, v)); c.lineTo(...toPx(half, v));
-        c.stroke();
+        const vert = [], horiz = [];
+        for (let t = -half; t <= half + 1e-9; t += passo) {
+          vert.push([v, t]); horiz.push([t, v]);
+        }
+        poli(vert); poli(horiz);
       }
     }
 
     if (state.refs) {
-      const circle = (rw, dash, col, lw) => {
-        c.beginPath();
-        c.arc(cx, cy, rw * scale, 0, 7);
-        c.setLineDash(dash); c.strokeStyle = col; c.lineWidth = lw; c.stroke(); c.setLineDash([]);
+      const circulo = (rw, dash, col, lw) => {
+        const pts = [];
+        for (let a = 0; a <= 360; a += 2) {
+          const t = a * Math.PI / 180;
+          pts.push([rw * Math.cos(t), rw * Math.sin(t)]);
+        }
+        c.setLineDash(dash); c.strokeStyle = col; c.lineWidth = lw;
+        poli(pts); c.setLineDash([]);
       };
-      circle(BCRIT, [1, 6], "rgba(158,140,255,.42)", 1);   // b crítico
-      circle(3 * M, [5, 5], "rgba(86,225,208,.5)", 1);     // esfera de fótons
+      circulo(BCRIT, [1, 6], "rgba(158,140,255,.45)", 1);
+      circulo(3 * M, [5, 5], "rgba(86,225,208,.55)", 1);
     }
 
+    // O horizonte: a garganta do funil. No relevo é a borda do lençol, não
+    // um disco no plano — daí ser desenhada como caminho fechado amostrado.
+    const gar = [];
+    for (let a = 0; a <= 360; a += 2) {
+      const t = a * Math.PI / 180;
+      gar.push(toPx(RS * Math.cos(t), RS * Math.sin(t)));
+    }
+    const [hx, hy] = toPx(0, 0);
     const rh = RS * scale;
-    const halo = c.createRadialGradient(cx, cy, rh * 0.9, cx, cy, rh * 3.4);
+    const halo = c.createRadialGradient(hx, hy, rh * 0.9, hx, hy, rh * 3.4);
     halo.addColorStop(0, "rgba(0,0,0,.95)");
-    halo.addColorStop(0.35, "rgba(0,0,0,.55)");
+    halo.addColorStop(0.35, "rgba(0,0,0,.5)");
     halo.addColorStop(1, "rgba(0,0,0,0)");
-    c.fillStyle = halo; c.beginPath(); c.arc(cx, cy, rh * 3.4, 0, 7); c.fill();
-    c.fillStyle = "#000"; c.beginPath(); c.arc(cx, cy, rh, 0, 7); c.fill();
-    c.strokeStyle = "rgba(165,172,189,.4)"; c.lineWidth = 1; c.stroke();
+    c.fillStyle = halo; c.beginPath(); c.arc(hx, hy, rh * 3.4, 0, 7); c.fill();
+
+    c.beginPath();
+    gar.forEach(([a, b], i) => i ? c.lineTo(a, b) : c.moveTo(a, b));
+    c.closePath();
+    c.fillStyle = "#000"; c.fill();
+    c.strokeStyle = "rgba(165,172,189,.45)"; c.lineWidth = 1.2; c.stroke();
   }
 
   // ── os raios ─────────────────────────────────────────────────────────
@@ -539,10 +612,12 @@
   eIn.oninput = () => { state.exag = +eIn.value; sync(); build(); };
   $("grid").onchange = e => { state.grid = e.target.checked; drawBackground(); };
   $("refs").onchange = e => { state.refs = e.target.checked; drawBackground(); };
+  $("relevo").onchange = e => { state.relevo = e.target.checked; drawBackground(); };
   $("reset").onclick = () => {
     state.src = { x: -9, y: 5 }; state.ang = 0;
-    state.width = 5; state.exag = 1;
-    wIn.value = 5; eIn.value = 1; sync(); build();
+    state.width = 5; state.exag = 1; state.relevo = true;
+    wIn.value = 5; eIn.value = 1; $("relevo").checked = true;
+    sync(); drawBackground(); build();
   };
 
   // ── layout ───────────────────────────────────────────────────────────
@@ -553,6 +628,9 @@
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     scale = Math.min(W, H) / 27;
     cx = W / 2; cy = H / 2;
+    EDGE = Math.hypot(W, H) / 2 / scale;
+    // Recentra: sem isso o funil inteiro desce e a garganta encosta na borda.
+    cyOff = -0.46 * depth(RS) * COS * scale;
     drawBackground();
     build();
   }
