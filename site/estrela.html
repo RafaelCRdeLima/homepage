@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0b12">
+<title>Laboratório · Estrela de nêutrons girando</title>
+<meta name="description" content="Demonstrador interativo: um ponto quente numa estrela de nêutrons em rotação, com o desvio da luz revelando o lado oculto e, se a estrela for compacta, uma segunda imagem.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Laboratório · Estrela de nêutrons girando">
+<meta property="og:description" content="Demonstrador interativo: um ponto quente numa estrela de nêutrons em rotação, com o desvio da luz revelando o lado oculto e, se a estrela for compacta, uma segunda imagem.">
+<meta property="og:image" content="https://rafael-lima.pages.dev/rafael-cern.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
+
+<div class="panel panel-slim">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M11.6 5.6A11.4 11.4 0 1 1 5.9 21.6"/>
+          <circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brandname">R. C. R. de Lima</span>
+    </a>
+    <nav class="nav" aria-label="Seções / Sections">
+      <a href="/pesquisa.html"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="/codes.html">Codes</a>
+      <a href="/producao.html"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="/material.html"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+      <a href="/laboratorio.html"><span lang="pt">Laboratório</span><span lang="en">Lab</span></a>
+    </nav>
+    <div class="topbar-end">
+      <div class="langswitch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <span class="langsep" aria-hidden="true">/</span>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn" href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+    </div>
+  </header>
+
+  <header class="pagehead">
+    <p class="pagenum">06</p>
+    <h1><span lang="pt">Estrela de nêutrons<br>girando</span><span lang="en">Spinning<br>neutron star</span></h1>
+    <p class="pagelede" lang="pt">Um ponto quente na superfície, visto de longe. A gravidade encurva a luz o bastante para você enxergar o lado de trás da estrela — e, se ela for compacta o suficiente, para o mesmo spot aparecer duas vezes.</p>
+    <p class="pagelede" lang="en">A hot spot on the surface, seen from far away. Gravity bends the light enough to let you see round the back of the star — and, if it is compact enough, for the same spot to appear twice.</p>
+  </header>
+</div>
+
+<main id="conteudo">
+  <p class="lab-switch">
+    <span lang="pt">Laboratórios:</span><span lang="en">Labs:</span>
+    <a href="/laboratorio.html"><span lang="pt">Luz em torno de um buraco negro</span><span lang="en">Light around a black hole</span></a>
+    <b aria-current="page"><span lang="pt">Estrela de nêutrons girando</span><span lang="en">Spinning neutron star</span></b>
+  </p>
+
+  <div class="lab ns">
+    <div class="ns-telas">
+      <div class="lab-stage ns-ceu">
+        <canvas id="ceu"></canvas>
+        <div class="lab-readout" id="readout"></div>
+        <div class="lab-hint" id="hint">
+          <span lang="pt">o disco é a estrela vista de longe</span>
+          <span lang="en">the disc is the star seen from far away</span>
+        </div>
+      </div>
+      <div class="lab-stage ns-curva">
+        <canvas id="curva"></canvas>
+        <div class="lab-readout" id="legenda"></div>
+      </div>
+    </div>
+
+    <div class="lab-controls">
+      <div class="lab-ctl">
+        <span><span lang="pt">Massa</span><span lang="en">Mass</span><i id="lblM"></i></span>
+        <input id="mm" type="range" min="1" max="2.4" step="0.05" value="1.4" aria-label="Massa / Mass">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Raio</span><span lang="en">Radius</span><i id="lblR"></i></span>
+        <input id="rr" type="range" min="7" max="16" step="0.1" value="12" aria-label="Raio / Radius">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Latitude do spot</span><span lang="en">Spot latitude</span><i id="lblLat"></i></span>
+        <input id="lat" type="range" min="-90" max="90" step="1" value="20" aria-label="Latitude do spot / Spot latitude">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Inclinação da visada</span><span lang="en">Viewing inclination</span><i id="lblInc"></i></span>
+        <input id="inc" type="range" min="0" max="90" step="1" value="70" aria-label="Inclinação / Inclination">
+      </div>
+      <div class="lab-toggles">
+        <label class="lab-check"><input type="checkbox" id="dois">
+          <span lang="pt">spot antípoda</span><span lang="en">antipodal spot</span></label>
+        <label class="lab-check"><input type="checkbox" id="malha" checked>
+          <span lang="pt">malha da superfície</span><span lang="en">surface mesh</span></label>
+        <button id="parar"><span lang="pt">Pausar</span><span lang="en">Pause</span></button>
+        <button id="compacta"><span lang="pt">Estrela compacta</span><span lang="en">Compact star</span></button>
+        <button id="reset"><span lang="pt">Recomeçar</span><span lang="en">Reset</span></button>
+      </div>
+    </div>
+
+    <p class="ns-regime" id="regime"></p>
+  </div>
+
+  <div class="lab-notas">
+    <h2><span lang="pt">O que está sendo calculado</span><span lang="en">What is being computed</span></h2>
+
+    <div lang="pt" class="prose">
+      <p>Um ponto quente na superfície de uma estrela de nêutrons, visto de longe. A luz que sai dele não viaja em linha reta: cada fóton segue uma geodésica nula de Schwarzschild, e o ângulo total que ele varre entre a superfície e o infinito é</p>
+      <p class="eq">ψ(b) = ∫₀<sup>1/R</sup> du / √( 1/b² − u² + 2M u³ )</p>
+      <p>com <b>b = R sen α / √(1 − 2M/R)</b> o parâmetro de impacto e <b>α</b> o ângulo de emissão em relação à vertical local. A integral é feita numericamente, com a substituição que remove a singularidade de raiz no extremo. <b>Não é a aproximação de Beloborodov</b> — que é excelente até <span class="mono">u ≈ 0,35</span> mas erra por 0,26 em cos α no regime compacto, que é justamente onde a coisa fica interessante.</p>
+
+      <p class="destaque"><b>Você vê mais do que metade da estrela.</b> Em espaço plano, o horizonte visível está a 90° do ponto sub-observador. Aqui a luz encurva e traz notícia do lado oculto: com <span class="mono">R = 12 km</span> e <span class="mono">M = 1,4 M☉</span> a visada alcança <b>ψ ≈ 120°</b>, ou seja, 30° para dentro do lado de trás. Arraste a latitude e veja o spot desaparecer <em>depois</em> de passar pela borda, não antes.</p>
+
+      <p><b>A imagem dupla.</b> Se a estrela for compacta o bastante para que ψ<sub>máx</sub> passe de 180°, um segundo caminho fecha: o fóton dá a volta pelo outro lado e chega ao observador pela borda oposta. Aí o mesmo spot aparece <b>duas vezes</b> ao mesmo tempo, em lados opostos do disco. Isso pede <span class="mono">R &lt; 3,5M</span> — aperte <em>estrela compacta</em> para chegar lá.</p>
+
+      <p>O brilho de cada imagem é <span class="mono">F ∝ cos α · |d cos α / d cos ψ|</span>, que no limite plano vira o <span class="mono">cos ψ</span> de Lambert. A segunda imagem é sempre bem mais fraca que a primeira, e mora colada na borda: é um anel fino, não um segundo disco.</p>
+    </div>
+
+    <div lang="en" class="prose">
+      <p>A hot spot on the surface of a neutron star, seen from far away. The light leaving it does not travel in a straight line: each photon follows a Schwarzschild null geodesic, and the total angle it sweeps between the surface and infinity is</p>
+      <p class="eq">ψ(b) = ∫₀<sup>1/R</sup> du / √( 1/b² − u² + 2M u³ )</p>
+      <p>with <b>b = R sin α / √(1 − 2M/R)</b> the impact parameter and <b>α</b> the emission angle from the local vertical. The integral is done numerically, with the substitution that removes the square-root singularity at the endpoint. <b>This is not Beloborodov's approximation</b> — excellent up to <span class="mono">u ≈ 0.35</span>, but off by 0.26 in cos α in the compact regime, which is exactly where it gets interesting.</p>
+
+      <p class="destaque"><b>You see more than half the star.</b> In flat space the visible horizon sits 90° from the sub-observer point. Here light bends and brings news from the hidden side: at <span class="mono">R = 12 km</span> and <span class="mono">M = 1.4 M☉</span> the view reaches <b>ψ ≈ 120°</b>, that is, 30° round the back. Drag the latitude and watch the spot vanish <em>after</em> it crosses the limb, not before.</p>
+
+      <p><b>The double image.</b> If the star is compact enough that ψ<sub>max</sub> passes 180°, a second path closes: the photon goes round the other way and reaches the observer at the opposite limb. The same spot then appears <b>twice at once</b>, on opposite sides of the disc. This needs <span class="mono">R &lt; 3.5M</span> — press <em>compact star</em> to get there.</p>
+
+      <p>The brightness of each image is <span class="mono">F ∝ cos α · |d cos α / d cos ψ|</span>, which in the flat limit becomes Lambert's <span class="mono">cos ψ</span>. The second image is always far fainter than the first and lives glued to the limb: a thin ring, not a second disc.</p>
+    </div>
+
+    <p class="note">
+      <span lang="pt">Unidades geométricas internamente, com <span class="mono">GM☉/c² = 1,4766 km</span> para converter. A rotação aqui é <b>lenta</b>: a geometria gira, mas não há efeito Doppler nem achatamento por rotação, que num pulsar de centenas de hertz seriam importantes. Também não há: campo magnético, atmosfera (a emissão é isotrópica no referencial local), limb darkening, atraso de tempo entre as imagens, nem Kerr. O desvio gravitacional para o vermelho é um fator constante e não muda a <em>forma</em> da curva de luz, por isso não aparece nela.</span>
+      <span lang="en">Geometric units internally, with <span class="mono">GM☉/c² = 1.4766 km</span> for conversion. Rotation here is <b>slow</b>: the geometry turns, but there is no Doppler boosting and no rotational flattening, both of which matter for a pulsar spinning at hundreds of hertz. Also absent: magnetic field, atmosphere (emission is isotropic in the local frame), limb darkening, light travel-time delay between images, and Kerr. The gravitational redshift is a constant factor and does not change the <em>shape</em> of the light curve, so it does not appear in it.</span>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="foot-block">
+      <p class="footlabel"><span lang="pt">Vamos conversar</span><span lang="en">Let's talk</span></p>
+      <p class="footmail"><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></p>
+    </div>
+
+    <a class="footbtn" href="mailto:rafael.lima@udesc.br" aria-label="Enviar e-mail / Send an email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/>
+      </svg>
+    </a>
+
+    <div class="foot-block foot-right">
+      <p class="footlabel"><span lang="pt">Onde me encontrar</span><span lang="en">Find me</span></p>
+      <p class="footlinks">
+        <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+        <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
+        <a href="https://github.com/RafaelCRdeLima">GitHub</a>
+      </p>
+    </div>
+  </div>
+  <p class="footnote">Universidade do Estado de Santa Catarina · CCT · Joinville, SC</p>
+</footer>
+
+<script>
+(function () {
+  var KEY = 'rcrl-lang';
+  var buttons = document.querySelectorAll('[data-set-lang]');
+
+  function apply(lang) {
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    try { localStorage.setItem(KEY, lang); } catch (e) { /* modo privado */ }
+  }
+
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) { /* modo privado */ }
+
+  apply(stored === 'pt' || stored === 'en'
+    ? stored
+    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.setLang); });
+  });
+
+  // A navegação é idêntica nas cinco páginas; quem acende o item da página
+  // atual é isto, não uma classe escrita à mão em cada arquivo.
+  var aqui = location.pathname.replace(/index\.html$/, '') || '/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    var alvo = new URL(a.getAttribute('href'), location.origin).pathname;
+    if (alvo === aqui) a.setAttribute('aria-current', 'page');
+  });
+})();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  const KM = 1.476625;              // GM☉/c², em km — a ponte para unidades geométricas
+  const TAU = Math.PI * 2;
+  const RHO = 13 * Math.PI / 180;   // raio angular do spot
+  const AREA = TAU * (1 - Math.cos(RHO));
+
+  const state = {
+    Msol: 1.4, Rkm: 12,
+    lat: 20, inc: 70,
+    dois: false, malha: true, rodando: true,
+    fase: 0
+  };
+
+  const $ = id => document.getElementById(id);
+  const cv = $("ceu"), ctx = cv.getContext("2d");
+  const lc = $("curva"), lctx = lc.getContext("2d");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ── ψ(b): ângulo varrido por um fóton da superfície até o infinito ────
+  //   ψ = ∫₀^{1/R} du / √(1/b² − u² + 2M u³)
+  // A raiz zera no extremo quando α = 90°. A troca w = 1 − τ² transforma
+  // du/√f em 2τ dτ/√f, que é regular mesmo ali.
+  function psiOf(b, R, M, n) {
+    const inv = 1 / (b * b);
+    const f = w => { const u = w / R; return inv - u * u + 2 * M * u * u * u; };
+    let s = 0;
+    const h = 1 / n;
+    for (let k = 0; k <= n; k++) {
+      const tau = k * h;
+      const val = 2 * tau / Math.sqrt(Math.max(1e-14, f(1 - tau * tau)));
+      s += (k === 0 || k === n ? 1 : (k % 2 ? 4 : 2)) * val;
+    }
+    return (h / 3) * s / R;
+  }
+
+  // ── tabela ψ(α), refeita só quando M ou R mudam ───────────────────────
+  let T = null;
+  function tabela() {
+    const R = state.Rkm / (KM * state.Msol);     // raio em unidades de M
+    const u = 2 / R;
+    // Abaixo de 3M a estrela fica dentro da própria esfera de fótons: só
+    // escapa luz com b < 3√3 M, o ângulo varrido diverge conforme b sobe até
+    // esse limite, e o número de imagens é infinito. A integral acima deixa
+    // de valer ali — melhor recusar o regime do que devolver número inventado.
+    if (R <= 2.25) { T = { ok: false, motivo: "buchdahl", R, u }; return; }
+    if (R < 3) { T = { ok: false, motivo: "fotons", R, u }; return; }
+
+    const N = 420, M = 1;
+    // Perto de 3M o fóton quase orbita e o integrando quase diverge: custa
+    // pouco pedir mais passos justo aí.
+    const passos = R < 3.4 ? 480 : 160;
+    const al = new Float64Array(N), ps = new Float64Array(N), bs = new Float64Array(N);
+    const raiz = Math.sqrt(1 - u);
+    for (let i = 0; i < N; i++) {
+      const a = (i / (N - 1)) * Math.PI / 2;
+      const b = R * Math.sin(a) / raiz;
+      al[i] = a; bs[i] = b;
+      ps[i] = i === 0 ? 0 : psiOf(b, R, M, passos);
+    }
+    T = { ok: true, R, u, al, ps, bs, N, psiMax: ps[N - 1], bMax: bs[N - 1] };
+  }
+
+  // α para um ângulo varrido ψt, por busca na tabela (ψ cresce com α)
+  function alphaDe(psit) {
+    if (!T.ok || psit > T.psiMax) return null;
+    let lo = 0, hi = T.N - 1;
+    while (hi - lo > 1) { const m = (lo + hi) >> 1; (T.ps[m] < psit) ? lo = m : hi = m; }
+    const d = T.ps[hi] - T.ps[lo];
+    const t = d > 1e-12 ? (psit - T.ps[lo]) / d : 0;
+    return { alpha: T.al[lo] + t * (T.al[hi] - T.al[lo]), b: T.bs[lo] + t * (T.bs[hi] - T.bs[lo]) };
+  }
+
+  // Imagens de um ponto que está a ψ do observador. O caminho direto varre ψ;
+  // o que dá a volta por trás varre 2π − ψ e chega pela borda oposta.
+  function imagens(psi) {
+    const out = [];
+    const ramos = [[psi, +1], [TAU - psi, -1], [TAU + psi, +1]];
+    for (let k = 0; k < ramos.length; k++) {
+      const s = alphaDe(ramos[k][0]);
+      if (!s) continue;
+      const ca = Math.cos(s.alpha);
+      if (ca <= 0) continue;
+      // dcosα/dcosψ por diferença finita no próprio ψ do observador
+      const p2 = Math.min(Math.PI - 1e-6, Math.max(1e-6, psi + 1e-4));
+      const s2 = alphaDe(k === 1 ? TAU - p2 : (k === 2 ? TAU + p2 : p2));
+      let der = 0;
+      if (s2) {
+        const dcp = Math.cos(p2) - Math.cos(psi);
+        if (Math.abs(dcp) > 1e-12) der = Math.abs((Math.cos(s2.alpha) - ca) / dcp);
+      }
+      out.push({ b: s.b, cosA: ca, sinal: ramos[k][1], fluxo: ca * der, ordem: k });
+    }
+    return out;
+  }
+
+  // ── o cáustico, e por que o spot precisa ter tamanho ─────────────────
+  // Um spot PONTUAL tem brilho divergente quando passa exatamente por trás
+  // (ψ = 180°): ali a imagem vira um anel e a ampliação de fonte pontual vai
+  // a infinito. É um cáustico de verdade, não erro de conta. O que o
+  // regulariza é o spot ter área.
+  //
+  // Como o fluxo só depende de ψ, integra-se em ψ com a largura em azimute
+  // da calota: o peso traz um sen ψ que cancela o 1/sen ψ da divergência, e o
+  // integrando fica liso. Sortear pontos na área, em vez disso, deixava a
+  // curva serrilhada justo no cáustico.
+  function chiMax(psi, psic) {
+    const s1 = Math.sin(psi), s2 = Math.sin(psic);
+    if (s1 < 1e-7 || s2 < 1e-7) return Math.abs(psi - psic) <= RHO ? Math.PI : 0;
+    const c = (Math.cos(RHO) - Math.cos(psi) * Math.cos(psic)) / (s1 * s2);
+    return c >= 1 ? 0 : (c <= -1 ? Math.PI : Math.acos(c));
+  }
+
+  function fluxoSpot(psic) {
+    const lo = Math.max(0, psic - RHO), hi = Math.min(Math.PI, psic + RHO);
+    // O integrando tem joelho onde uma imagem nasce ou morre: em ψ = ψ_max
+    // (a primeira some) e em 2π − ψ_max (a segunda aparece). Simpson
+    // atravessando um joelho erra de um jeito que varia com a fase, e era
+    // isso que serrilhava a curva. Quebrar a quadratura ali resolve.
+    const cortes = [lo, hi];
+    for (const c of [T.psiMax, TAU - T.psiMax]) if (c > lo && c < hi) cortes.push(c);
+    cortes.sort((a, b) => a - b);
+
+    let pri = 0, sec = 0;
+    for (let g = 0; g < cortes.length - 1; g++) {
+      const a = cortes[g], b = cortes[g + 1];
+      if (b - a < 1e-12) continue;
+      const NQ = 20, h = (b - a) / NQ;
+      for (let k = 0; k <= NQ; k++) {
+        const psi = Math.min(Math.PI, Math.max(0, a + k * h));
+        const chi = chiMax(psi, psic);
+        if (chi <= 0) continue;
+        const simp = (k === 0 || k === NQ ? 1 : (k % 2 ? 4 : 2)) * (h / 3);
+        const peso = simp * 2 * Math.sin(psi) * chi / AREA;
+        for (const im of imagens(psi)) {
+          if (im.ordem === 0) pri += im.fluxo * peso; else sec += im.fluxo * peso;
+        }
+      }
+    }
+    return [pri, sec];
+  }
+
+  // ── geometria ────────────────────────────────────────────────────────
+  const obs = () => { const i = state.inc * Math.PI / 180; return [Math.sin(i), 0, Math.cos(i)]; };
+  const base = () => { const i = state.inc * Math.PI / 180; return [[Math.cos(i), 0, -Math.sin(i)], [0, 1, 0]]; };
+  const dir = (colat, lon) => [Math.sin(colat) * Math.cos(lon), Math.sin(colat) * Math.sin(lon), Math.cos(colat)];
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+  function tangentes(c, lon) {
+    const t1 = [-Math.sin(lon), Math.cos(lon), 0];
+    const t2 = [c[1] * t1[2] - c[2] * t1[1], c[2] * t1[0] - c[0] * t1[2], c[0] * t1[1] - c[1] * t1[0]];
+    return [t1, t2];
+  }
+  function pontoSpot(c, t1, t2, rho, az) {
+    const sr = Math.sin(rho), cr = Math.cos(rho), ca = Math.cos(az), sa = Math.sin(az);
+    return [c[0] * cr + (t1[0] * ca + t2[0] * sa) * sr,
+            c[1] * cr + (t1[1] * ca + t2[1] * sa) * sr,
+            c[2] * cr + (t1[2] * ca + t2[2] * sa) * sr];
+  }
+
+  // ponto da estrela → posições na tela (uma por imagem)
+  function naTela(n, o, e1, e2, cx, cy, esc) {
+    const psi = Math.acos(Math.max(-1, Math.min(1, dot(n, o))));
+    let p1 = dot(n, e1), p2 = dot(n, e2);
+    const m = Math.hypot(p1, p2);
+    if (m < 1e-9) { p1 = 1; p2 = 0; } else { p1 /= m; p2 /= m; }
+    return imagens(psi).map(im => ({
+      x: cx + im.sinal * im.b * p1 * esc,
+      y: cy - im.sinal * im.b * p2 * esc,
+      ...im
+    }));
+  }
+
+  const colatitudes = () => {
+    const c = [(90 - state.lat) * Math.PI / 180];
+    if (state.dois) c.push(Math.PI - c[0]);
+    return c;
+  };
+
+  // ── curva de luz ─────────────────────────────────────────────────────
+  let curva = null;
+  function fazCurva() {
+    if (!T.ok) { curva = null; return; }
+    const NP = 361, i = state.inc * Math.PI / 180;
+    const colats = colatitudes();
+    const tot = new Float64Array(NP), pri = new Float64Array(NP), sec = new Float64Array(NP);
+    for (let k = 0; k < NP; k++) {
+      const f = k / (NP - 1) * TAU;
+      for (let j = 0; j < colats.length; j++) {
+        const th = colats[j], lon = j === 0 ? f : f + Math.PI;
+        const cp = Math.cos(i) * Math.cos(th) + Math.sin(i) * Math.sin(th) * Math.cos(lon);
+        const par = fluxoSpot(Math.acos(Math.max(-1, Math.min(1, cp))));
+        pri[k] += par[0]; sec[k] += par[1]; tot[k] += par[0] + par[1];
+      }
+    }
+    let max = 0; for (const v of tot) max = Math.max(max, v);
+    curva = { tot, pri, sec, max: max || 1, NP };
+  }
+
+  // ── desenho: o céu ───────────────────────────────────────────────────
+  let W = 0, H = 0;
+  function drawCeu() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = "#06070d"; ctx.fillRect(0, 0, W, H);
+
+    if (!T.ok) {
+      ctx.fillStyle = "#a5acbd";
+      ctx.font = "500 14px 'Inter Tight', system-ui, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(T.motivo === "fotons"
+        ? "R < 3M — dentro da esfera de fótons: infinitas imagens"
+        : "R < 9M/4 — essa estrela não pode existir", W / 2, H / 2);
+      ctx.textAlign = "left";
+      $("readout").innerHTML = "";
+      return;
+    }
+
+    const cx = W / 2, cy = H / 2;
+    const esc = Math.min(W, H) * 0.40 / T.bMax;
+    const o = obs(), b2 = base(), e1 = b2[0], e2 = b2[1];
+    const fase = state.fase;
+
+    // disco aparente: raio b_max, o tamanho angular da estrela vista de longe
+    const Rap = T.bMax * esc;
+    const g = ctx.createRadialGradient(cx - Rap * 0.25, cy - Rap * 0.3, Rap * 0.1, cx, cy, Rap);
+    g.addColorStop(0, "#1d2233"); g.addColorStop(1, "#0b0e17");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, Rap, 0, TAU); ctx.fill();
+    ctx.strokeStyle = "rgba(165,172,189,.35)"; ctx.lineWidth = 1; ctx.stroke();
+
+    // eixo de rotação, projetado
+    const az1 = dot([0, 0, 1], e1), az2 = dot([0, 0, 1], e2);
+    ctx.strokeStyle = "rgba(158,140,255,.35)"; ctx.setLineDash([3, 4]); ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - az1 * Rap * 1.25, cy + az2 * Rap * 1.25);
+    ctx.lineTo(cx + az1 * Rap * 1.25, cy - az2 * Rap * 1.25);
+    ctx.stroke(); ctx.setLineDash([]);
+
+    if (state.malha) {
+      ctx.strokeStyle = "rgba(120,132,160,.30)"; ctx.lineWidth = 0.7;
+      const traco = pts => {
+        ctx.beginPath(); let ligado = false;
+        for (const p of pts) {
+          const v = naTela(p, o, e1, e2, cx, cy, esc).find(q => q.ordem === 0);
+          if (!v) { ligado = false; continue; }
+          ligado ? ctx.lineTo(v.x, v.y) : ctx.moveTo(v.x, v.y);
+          ligado = true;
+        }
+        ctx.stroke();
+      };
+      for (let m = 0; m < 12; m++) {
+        const lon = fase + m * Math.PI / 6, pts = [];
+        for (let k = 0; k <= 60; k++) pts.push(dir(k / 60 * Math.PI, lon));
+        traco(pts);
+      }
+      for (let pl = 1; pl < 6; pl++) {
+        const th = pl * Math.PI / 6, pts = [];
+        for (let k = 0; k <= 90; k++) pts.push(dir(th, fase + k / 90 * TAU));
+        traco(pts);
+      }
+    }
+
+    const colats = colatitudes();
+    colats.forEach((th, j) => {
+      const lon = j === 0 ? fase : fase + Math.PI;
+      const c = dir(th, lon), tg = tangentes(c, lon);
+      const borda = [];
+      for (let k = 0; k <= 48; k++) borda.push(pontoSpot(c, tg[0], tg[1], RHO, k / 48 * TAU));
+
+      for (const ordem of [1, 0]) {          // a secundária vai por baixo
+        const pts = [];
+        for (const p of borda) {
+          const v = naTela(p, o, e1, e2, cx, cy, esc).find(q => q.ordem === ordem);
+          if (v) pts.push(v);
+        }
+        if (pts.length < 3) continue;
+        ctx.beginPath();
+        pts.forEach((p, k) => k ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+        ctx.closePath();
+        const cen = naTela(c, o, e1, e2, cx, cy, esc).find(q => q.ordem === ordem);
+        const br = cen ? Math.min(1, cen.cosA) : 0.3;
+        if (ordem === 0) {
+          ctx.fillStyle = "rgba(255," + (180 + (60 * br | 0)) + "," + (90 + (40 * br | 0)) + "," + (0.35 + 0.6 * br) + ")";
+          ctx.shadowColor = "rgba(255,190,90,.85)"; ctx.shadowBlur = 18;
+          ctx.fill(); ctx.shadowBlur = 0;
+        } else {
+          ctx.fillStyle = "rgba(86,225,208," + (0.30 + 0.5 * br) + ")";
+          ctx.strokeStyle = "rgba(86,225,208,.9)"; ctx.lineWidth = 1;
+          ctx.shadowColor = "rgba(86,225,208,.7)"; ctx.shadowBlur = 12;
+          ctx.fill(); ctx.shadowBlur = 0; ctx.stroke();
+        }
+      }
+    });
+
+    const gm = Math.round(T.psiMax * 180 / Math.PI);
+    const n = imagens(Math.acos(Math.max(-1, Math.min(1, dot(dir(colats[0], fase), o))))).length;
+    $("readout").innerHTML =
+      '<span lang="pt">compacidade <b>u = ' + T.u.toFixed(3) + '</b> &nbsp;·&nbsp; <b>R = ' + T.R.toFixed(2) + ' M</b>' +
+      '<br>visada alcança <b>ψ = ' + gm + '°</b> (' + (gm - 90) + '° do lado oculto)' +
+      '<br>' + n + ' ' + (n === 1 ? 'imagem' : 'imagens') + ' do spot agora</span>' +
+      '<span lang="en">compactness <b>u = ' + T.u.toFixed(3) + '</b> &nbsp;·&nbsp; <b>R = ' + T.R.toFixed(2) + ' M</b>' +
+      '<br>view reaches <b>ψ = ' + gm + '°</b> (' + (gm - 90) + '° round the back)' +
+      '<br>' + n + ' image' + (n === 1 ? '' : 's') + ' of the spot right now</span>';
+  }
+
+  // ── desenho: a curva de luz ──────────────────────────────────────────
+  let LW = 0, LH = 0;
+  function drawCurva() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    lctx.fillStyle = "#06070d"; lctx.fillRect(0, 0, LW, LH);
+    if (!curva) { $("legenda").innerHTML = ""; return; }
+
+    const ml = 34, mr = 12, mt = 16, mb = 30;
+    const w = LW - ml - mr, h = LH - mt - mb;
+    const X = f => ml + f * w, Y = v => mt + h * (1 - v / curva.max);
+
+    lctx.strokeStyle = "#1c2230"; lctx.lineWidth = 1;
+    for (let k = 0; k <= 4; k++) {
+      lctx.beginPath(); lctx.moveTo(ml, mt + h * k / 4); lctx.lineTo(ml + w, mt + h * k / 4); lctx.stroke();
+      lctx.beginPath(); lctx.moveTo(X(k / 4), mt); lctx.lineTo(X(k / 4), mt + h); lctx.stroke();
+    }
+
+    const linha = (arr, cor, lw) => {
+      lctx.beginPath();
+      for (let k = 0; k < curva.NP; k++) {
+        const x = X(k / (curva.NP - 1)), y = Y(arr[k]);
+        k ? lctx.lineTo(x, y) : lctx.moveTo(x, y);
+      }
+      lctx.strokeStyle = cor; lctx.lineWidth = lw; lctx.stroke();
+    };
+    let temSec = false;
+    for (let k = 0; k < curva.NP; k++) if (curva.sec[k] > 1e-9) { temSec = true; break; }
+    if (temSec) linha(curva.sec, "rgba(86,225,208,.9)", 1.4);
+    linha(curva.tot, "rgba(255,196,110,.95)", 1.8);
+
+    const f = (state.fase % TAU) / TAU;
+    lctx.strokeStyle = "rgba(158,140,255,.8)"; lctx.lineWidth = 1.2;
+    lctx.beginPath(); lctx.moveTo(X(f), mt); lctx.lineTo(X(f), mt + h); lctx.stroke();
+
+    lctx.fillStyle = "#6e7689";
+    lctx.font = "500 10px 'Inter Tight', system-ui, sans-serif";
+    lctx.fillText("0", ml - 3, mt + h + 13);
+    lctx.fillText("1", ml + w - 3, mt + h + 13);
+    lctx.save(); lctx.translate(11, mt + h / 2); lctx.rotate(-Math.PI / 2);
+    lctx.textAlign = "center"; lctx.fillText("fluxo / flux", 0, 0); lctx.restore();
+
+    const sPt = temSec ? ' &nbsp; <b style="color:#56e1d0">—</b> 2ª imagem' : '';
+    const sEn = temSec ? ' &nbsp; <b style="color:#56e1d0">—</b> 2nd image' : '';
+    $("legenda").innerHTML =
+      '<span lang="pt"><b style="color:#ffc46e">—</b> total' + sPt + ' &nbsp;·&nbsp; eixo x: uma volta</span>' +
+      '<span lang="en"><b style="color:#ffc46e">—</b> total' + sEn + ' &nbsp;·&nbsp; x axis: one turn</span>';
+  }
+
+  // ── regime físico ────────────────────────────────────────────────────
+  function regime() {
+    const el = $("regime");
+    if (!T.ok) {
+      el.className = "ns-regime alerta";
+      const pt = T.motivo === "fotons"
+        ? 'R = ' + T.R.toFixed(2) + 'M põe a estrela <b>dentro da própria esfera de fótons</b>. Ali só escapa luz com b &lt; 3√3 M, o ângulo varrido diverge e o número de imagens é infinito — regime que este demonstrador não cobre.'
+        : 'R = ' + T.R.toFixed(2) + 'M está abaixo do limite de Buchdahl (9M/4): nenhuma estrela estática pode ser tão compacta.';
+      const en = T.motivo === "fotons"
+        ? 'R = ' + T.R.toFixed(2) + 'M puts the star <b>inside its own photon sphere</b>. There only light with b &lt; 3√3 M escapes, the swept angle diverges and the number of images is infinite — a regime this demonstrator does not cover.'
+        : 'R = ' + T.R.toFixed(2) + 'M is below the Buchdahl bound (9M/4): no static star can be this compact.';
+      el.innerHTML = '<span lang="pt">' + pt + '</span><span lang="en">' + en + '</span>';
+      return;
+    }
+    const R = T.R.toFixed(2);
+    let cls, pt, en;
+    if (T.R < 3.52) {
+      cls = "ns-regime exotico";
+      pt = 'R = ' + R + 'M: compacta o bastante para a <b>segunda imagem</b>. Mais compacta que qualquer equação de estado plausível, mas fisicamente consistente.';
+      en = 'R = ' + R + 'M: compact enough for the <b>second image</b>. More compact than any plausible equation of state, yet physically consistent.';
+    } else {
+      cls = "ns-regime";
+      pt = 'R = ' + R + 'M: faixa realista para uma estrela de nêutrons. Sem segunda imagem — ela exigiria R &lt; 3,5M.';
+      en = 'R = ' + R + 'M: realistic range for a neutron star. No second image — that would need R &lt; 3.5M.';
+    }
+    el.className = cls;
+    el.innerHTML = '<span lang="pt">' + pt + '</span><span lang="en">' + en + '</span>';
+  }
+
+  // ── laço ─────────────────────────────────────────────────────────────
+  let ultimo = 0;
+  function quadro(t) {
+    const dt = ultimo ? Math.min(60, t - ultimo) : 16; ultimo = t;
+    if (state.rodando && !reduced) state.fase = (state.fase + dt * 0.00055) % TAU;
+    drawCeu(); drawCurva();
+    requestAnimationFrame(quadro);
+  }
+
+  // ── controles ────────────────────────────────────────────────────────
+  const rotulos = () => {
+    $("lblM").textContent = state.Msol.toFixed(2) + " M☉";
+    $("lblR").textContent = state.Rkm.toFixed(1) + " km";
+    $("lblLat").textContent = state.lat + "°";
+    $("lblInc").textContent = state.inc + "°";
+  };
+  const refaz = tab => { if (tab) tabela(); fazCurva(); regime(); rotulos(); };
+
+  $("mm").oninput = e => { state.Msol = +e.target.value; refaz(true); };
+  $("rr").oninput = e => { state.Rkm = +e.target.value; refaz(true); };
+  $("lat").oninput = e => { state.lat = +e.target.value; refaz(false); };
+  $("inc").oninput = e => { state.inc = +e.target.value; refaz(false); };
+  $("dois").onchange = e => { state.dois = e.target.checked; refaz(false); };
+  $("malha").onchange = e => { state.malha = e.target.checked; };
+  $("parar").onclick = () => {
+    state.rodando = !state.rodando;
+    $("parar").innerHTML = state.rodando
+      ? '<span lang="pt">Pausar</span><span lang="en">Pause</span>'
+      : '<span lang="pt">Girar</span><span lang="en">Spin</span>';
+  };
+  const poe = (M, R, lat, inc) => {
+    state.Msol = M; state.Rkm = R; state.lat = lat; state.inc = inc;
+    $("mm").value = M; $("rr").value = R; $("lat").value = lat; $("inc").value = inc;
+    refaz(true);
+  };
+  $("compacta").onclick = () => poe(2.1, 10.2, -15, 75);
+  $("reset").onclick = () => { poe(1.4, 12, 20, 70); state.fase = 0; };
+
+  // arrastar no céu gira a estrela e inclina a visada
+  let arrasto = null;
+  cv.addEventListener("pointerdown", ev => {
+    arrasto = { x: ev.clientX, y: ev.clientY, inc: state.inc, fase: state.fase };
+    cv.setPointerCapture(ev.pointerId); cv.classList.add("grabbing");
+    $("hint").style.opacity = 0;
+  });
+  cv.addEventListener("pointermove", ev => {
+    if (!arrasto) return;
+    state.fase = (arrasto.fase + (ev.clientX - arrasto.x) * 0.012 + TAU) % TAU;
+    state.inc = Math.max(0, Math.min(90, Math.round(arrasto.inc + (ev.clientY - arrasto.y) * 0.25)));
+    $("inc").value = state.inc;
+    refaz(false);
+  });
+  const solta = () => { arrasto = null; cv.classList.remove("grabbing"); };
+  cv.addEventListener("pointerup", solta);
+  cv.addEventListener("pointercancel", solta);
+
+  // ── layout ───────────────────────────────────────────────────────────
+  function medir(canvas) {
+    const r = canvas.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(Math.max(1, r.width) * dpr);
+    canvas.height = Math.round(Math.max(1, r.height) * dpr);
+    return [Math.max(1, r.width), Math.max(1, r.height)];
+  }
+  function resize() {
+    const a = medir(cv); W = a[0]; H = a[1];
+    const b = medir(lc); LW = b[0]; LH = b[1];
+  }
+  new ResizeObserver(resize).observe(cv);
+  new ResizeObserver(resize).observe(lc);
+  resize(); refaz(true);
+  requestAnimationFrame(quadro);
+})();
+</script>
+
+</body>
+</html>

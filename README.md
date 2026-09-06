@@ -15,7 +15,7 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
-Seis páginas de HTML puro. Não há build, não há dependência e não há
+Sete páginas de HTML puro. Não há build, não há dependência e não há
 `node_modules`.
 
 ```text
@@ -24,7 +24,8 @@ site/pesquisa.html   01 · as frentes de pesquisa
 site/codes.html      02 · ODEROM, TESSERA, ÁLETRA, PATHS
 site/producao.html   03 · publicações com DOI
 site/material.html   04 · disciplinas e material didático
-site/laboratorio.html 05 · demonstrador de luz em torno de um buraco negro
+site/laboratorio.html 05 · luz em torno de um buraco negro
+site/estrela.html     06 · estrela de nêutrons girando, com hot spot
 site/styles.css      a apresentação inteira
 site/rafael-cern.*   o retrato, em WebP (52 KB) e JPEG (98 KB)
 site/favicon.svg     ícone
@@ -36,7 +37,7 @@ Para ver localmente:
 python3 -m http.server -d site 8000
 ```
 
-**A navegação é byte-a-byte idêntica nas seis páginas.** Quem acende o item
+**A navegação é byte-a-byte idêntica nas sete páginas.** Quem acende o item
 da página atual é o JS, comparando `location.pathname` com o `href` de cada
 link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
 navegação, troque o bloco `<nav class="nav">` nos cinco arquivos e confira com:
@@ -162,3 +163,37 @@ Três coisas foram corrigidas em relação ao rascunho em `Codes/BH Demo`:
 
 O `g` de emissão passou a ser o de cada fio, não o do centro do feixe: com
 feixe largo, os fios partem de potenciais diferentes.
+
+## O laboratório da estrela de nêutrons
+
+`/estrela.html` traça o desvio da luz de um *hot spot* na superfície pela
+integral exata
+
+```
+ψ(b) = ∫₀^{1/R} du / √(1/b² − u² + 2M u³),   b = R sen α / √(1 − 2M/R)
+```
+
+**não** pela aproximação de Beloborodov 2002 (`cos α = u + (1−u)cos ψ`), que
+bate com a integral a 0,002 em `u = 0,20` e 0,008 em `u = 0,33`, mas erra por
+0,26 em `u = 0,63` — e é justamente no regime compacto que a segunda imagem
+aparece.
+
+Conferências: a integral reproduz `arcsin(b/R)` no limite `M → 0` a quatro
+casas; ψ_max bate com a literatura (104° em `u = 0,2`, 152° em `u = 0,5`).
+
+Três coisas que exigiram cuidado:
+
+1. **Abaixo de `R = 3M` a estrela fica dentro da própria esfera de fótons.**
+   Ali só escapa luz com `b < 3√3 M`, ψ diverge e há infinitas imagens — a
+   integral deixa de valer. Sem a barreira, o código devolvia ψ = 10⁷ graus.
+2. **O cáustico em ψ = 180°.** Fonte pontual passando exatamente por trás tem
+   ampliação infinita: é física de verdade, e o que a regulariza é o spot ter
+   área. Integra-se em ψ com a largura em azimute da calota — o `sen ψ` do
+   peso cancela o `1/sen ψ` da divergência.
+3. **A quadratura quebra nos joelhos** `ψ = ψ_max` e `ψ = 2π − ψ_max`, onde
+   uma imagem nasce ou morre. Simpson atravessando um joelho erra de um jeito
+   que varia com a fase, e era isso que serrilhava a curva de luz.
+
+Presets: *Recomeçar* dá 1,4 M☉ e 12 km (`R = 5,80M`, realista, sem segunda
+imagem); *estrela compacta* dá 2,1 M☉ e 10,2 km (`R = 3,29M`, com segunda
+imagem em ~19% da volta).
