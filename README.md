@@ -15,7 +15,7 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
-Cinco páginas de HTML puro. Não há build, não há dependência e não há
+Seis páginas de HTML puro. Não há build, não há dependência e não há
 `node_modules`.
 
 ```text
@@ -24,6 +24,7 @@ site/pesquisa.html   01 · as frentes de pesquisa
 site/codes.html      02 · ODEROM, TESSERA, ÁLETRA, PATHS
 site/producao.html   03 · publicações com DOI
 site/material.html   04 · disciplinas e material didático
+site/laboratorio.html 05 · demonstrador de luz em torno de um buraco negro
 site/styles.css      a apresentação inteira
 site/rafael-cern.*   o retrato, em WebP (52 KB) e JPEG (98 KB)
 site/favicon.svg     ícone
@@ -35,7 +36,7 @@ Para ver localmente:
 python3 -m http.server -d site 8000
 ```
 
-**A navegação é byte-a-byte idêntica nas cinco páginas.** Quem acende o item
+**A navegação é byte-a-byte idêntica nas seis páginas.** Quem acende o item
 da página atual é o JS, comparando `location.pathname` com o `href` de cada
 link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
 navegação, troque o bloco `<nav class="nav">` nos cinco arquivos e confira com:
@@ -133,3 +134,27 @@ Enquanto os segredos não existirem, a Action falha e o site fica no ar com a
   nenhum tem link de repositório — só o link do app.
 - **Disciplinas**: essas sim são públicas no GitHub, e a Relatividade Geral e a
   Astronomia levam link para o repositório além do link da página.
+
+## O laboratório
+
+`/laboratorio.html` traça geodésicas nulas de Schwarzschild pela equação de
+órbita exata `u″ + u = 3Mu²`, em Runge–Kutta de 4ª ordem, com
+`d²x/dλ² = −3M h² x/r⁵` e `h` conservado (Binet para força central ∝ 1/r⁴).
+Conferido contra três resultados independentes: o desvio bate com
+`4M/b + (15π/4)(M/b)²` a 0,03% em b = 200M; o limiar de captura cai entre
+b = 5,1961M e 5,2000M, cercando `3√3 M = 5,196152M`; e o ponto de maior
+aproximação bate com a raiz de `1/b² = (1−2M/r)/r²` em quatro casas.
+
+Três coisas foram corrigidas em relação ao rascunho em `Codes/BH Demo`:
+
+1. **Sem deformação artística.** O rascunho remapeava o raio perto do buraco
+   (`warp`), o que desenhava o horizonte 32% menor que 2M e cisalhava as
+   formas em até 50%. O desenho agora é o plano de Schwarzschild como é.
+2. **Ultravioleta não é magenta.** A aproximação usual de espectro pinta tudo
+   abaixo de 380 nm com `R=1, B=1`. Como a luz AZULA ao cair no poço, o efeito
+   correto saía avermelhado na tela — invertendo a leitura. Agora as duas
+   pontas do espectro somem por decaimento, como luz invisível deve sumir.
+3. **Exagero começa em 1,0×**, o valor real, e não em 2×.
+
+O `g` de emissão passou a ser o de cada fio, não o do centro do feixe: com
+feixe largo, os fios partem de potenciais diferentes.

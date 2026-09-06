@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0b12">
+<title>Laboratório · Luz em torno de um buraco negro</title>
+<meta name="description" content="Demonstrador interativo: arraste uma estrela perto de um buraco negro de Schwarzschild e veja a luz encurvar e mudar de cor. Geodésicas nulas exatas.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Laboratório · Luz em torno de um buraco negro">
+<meta property="og:description" content="Demonstrador interativo: arraste uma estrela perto de um buraco negro de Schwarzschild e veja a luz encurvar e mudar de cor. Geodésicas nulas exatas.">
+<meta property="og:image" content="https://rafael-lima.pages.dev/rafael-cern.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
+
+<div class="panel panel-slim">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M11.6 5.6A11.4 11.4 0 1 1 5.9 21.6"/>
+          <circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brandname">R. C. R. de Lima</span>
+    </a>
+    <nav class="nav" aria-label="Seções / Sections">
+      <a href="/pesquisa.html"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="/codes.html">Codes</a>
+      <a href="/producao.html"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="/material.html"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+      <a href="/laboratorio.html"><span lang="pt">Laboratório</span><span lang="en">Lab</span></a>
+    </nav>
+    <div class="topbar-end">
+      <div class="langswitch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <span class="langsep" aria-hidden="true">/</span>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn" href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+    </div>
+  </header>
+
+  <header class="pagehead">
+    <p class="pagenum">05</p>
+    <h1><span lang="pt">Luz em torno de<br>um buraco negro</span><span lang="en">Light around<br>a black hole</span></h1>
+    <p class="pagelede" lang="pt">Arraste a estrela pelo espaço e gire o feixe pelo anel. Cada fio é um raio de luz seguindo uma geodésica nula de Schwarzschild — encurvado pela gravidade, e deslocado no comprimento de onda pelo poço de potencial.</p>
+    <p class="pagelede" lang="en">Drag the star through space and turn the beam by its ring. Each thread is a light ray following a Schwarzschild null geodesic — bent by gravity, and shifted in wavelength by the potential well.</p>
+  </header>
+</div>
+
+<main id="conteudo">
+  <div class="lab">
+    <div class="lab-stage">
+      <canvas id="ceu"></canvas>
+      <div class="lab-readout" id="readout"></div>
+      <div class="lab-hint" id="hint">
+        <span lang="pt">arraste a estrela · gire pelo anel</span>
+        <span lang="en">drag the star · turn it by the ring</span>
+      </div>
+    </div>
+
+    <div class="lab-controls">
+      <div class="lab-ctl">
+        <span>
+          <span lang="pt">Largura do feixe</span><span lang="en">Beam width</span>
+          <i id="lblW"></i>
+        </span>
+        <input id="w" type="range" min="0.5" max="12" step="0.1" value="5"
+               aria-label="Largura do feixe / Beam width">
+      </div>
+      <div class="lab-ctl">
+        <span>
+          <span lang="pt">Exagero da cor</span><span lang="en">Colour exaggeration</span>
+          <i id="lblE"></i>
+        </span>
+        <input id="e" type="range" min="1" max="6" step="0.1" value="1"
+               aria-label="Exagero do desvio de cor / Colour shift exaggeration">
+      </div>
+      <div class="lab-toggles">
+        <label class="lab-check"><input type="checkbox" id="grid" checked>
+          <span lang="pt">grade</span><span lang="en">grid</span></label>
+        <label class="lab-check"><input type="checkbox" id="refs" checked>
+          <span lang="pt">raios de referência</span><span lang="en">reference radii</span></label>
+        <button id="reset"><span lang="pt">Recomeçar</span><span lang="en">Reset</span></button>
+      </div>
+    </div>
+
+    <ul class="lab-legend">
+      <li><span class="sw sw-h"></span><span lang="pt">horizonte, <b>2M</b></span><span lang="en">horizon, <b>2M</b></span></li>
+      <li><span class="sw sw-p"></span><span lang="pt">esfera de fótons, <b>3M</b></span><span lang="en">photon sphere, <b>3M</b></span></li>
+      <li><span class="sw sw-b"></span><span lang="pt">parâmetro de impacto crítico, <b>3√3 M ≈ 5,20M</b></span><span lang="en">critical impact parameter, <b>3√3 M ≈ 5.20M</b></span></li>
+    </ul>
+  </div>
+
+  <div class="lab-notas">
+    <h2><span lang="pt">O que está sendo calculado</span><span lang="en">What is being computed</span></h2>
+
+    <div lang="pt" class="prose">
+      <p>Cada fio do feixe é um raio de luz com parâmetro de impacto <b>b</b> ligeiramente diferente. A trajetória vem da equação de órbita <b>exata</b> das geodésicas nulas de Schwarzschild,</p>
+      <p class="eq">u″ + u = 3M u², &nbsp; u = 1/r,</p>
+      <p>integrada por Runge–Kutta de 4ª ordem. Não é aproximação de campo fraco: vale igual perto e longe do horizonte. Quem chega com <b>b &lt; 3√3 M</b> cruza o horizonte e não volta; o resto sai desviado.</p>
+
+      <p>A cor de cada trecho é o comprimento de onda que um observador <em>estático</em> mediria ali. Com <span class="mono">g(r) = √(1 − 2M/r)</span>,</p>
+      <p class="eq">λ<sub>lá</sub> / λ<sub>emitido</sub> = g(r) / g(r<sub>emissão</sub>).</p>
+      <p>Luz que <b>sobe</b> do poço perde energia e avermelha; a que <b>desce</b> azula de volta na mesma medida. O deslizador de exagero eleva essa razão a uma potência — em <b>1,0× o que se vê é o valor real</b>, e acima disso é só ênfase para enxergar o efeito longe do horizonte.</p>
+
+      <p class="destaque"><b>Atenção ao sentido, que costuma surpreender.</b> Um raio que <b>se aproxima</b> do buraco fica mais <b>azul</b>, não mais vermelho: ele está caindo no poço e ganhando energia. O avermelhamento aparece na <b>subida</b>, quando ele volta a se afastar. Os dois se cancelam num raio que só passa de raspão e vai embora à mesma distância de onde veio. O avermelhamento que <em>sobra</em> — a lente clássica do buraco negro — é o de luz <b>emitida</b> lá dentro do poço e vista de longe: arraste a estrela para perto do horizonte e veja o feixe que escapa avermelhar e apagar.</p>
+
+      <p><b>As cores não têm efeito na trajetória.</b> O desvio gravitacional é acromático: violeta e vermelho com o mesmo <b>b</b> percorrem exatamente o mesmo caminho. O arco-íris aqui só serve para você seguir cada fio com o olho — o que separa os fios é o parâmetro de impacto, não a cor.</p>
+    </div>
+
+    <div lang="en" class="prose">
+      <p>Each thread of the beam is a light ray with a slightly different impact parameter <b>b</b>. The path comes from the <b>exact</b> orbit equation for Schwarzschild null geodesics,</p>
+      <p class="eq">u″ + u = 3M u², &nbsp; u = 1/r,</p>
+      <p>integrated with 4th-order Runge–Kutta. This is not a weak-field approximation: it holds just as well near the horizon as far from it. Anything arriving with <b>b &lt; 3√3 M</b> crosses the horizon and never returns; the rest leaves deflected.</p>
+
+      <p>The colour of each stretch is the wavelength a <em>static</em> observer would measure there. With <span class="mono">g(r) = √(1 − 2M/r)</span>,</p>
+      <p class="eq">λ<sub>there</sub> / λ<sub>emitted</sub> = g(r) / g(r<sub>emission</sub>).</p>
+      <p>Light climbing <b>out</b> of the well loses energy and reddens; light falling <b>in</b> blueshifts back by the same amount. The exaggeration slider raises that ratio to a power — at <b>1.0× what you see is the real value</b>, and above that it is only emphasis, to make the effect visible far from the horizon.</p>
+
+      <p class="destaque"><b>Mind the direction — it usually surprises.</b> A ray <b>approaching</b> the hole turns <b>bluer</b>, not redder: it is falling into the well and gaining energy. The reddening happens on the way <b>out</b>, as it climbs back. The two cancel for a ray that merely grazes past and leaves at the same distance it came from. The reddening that <em>survives</em> — the classic black-hole one — is for light <b>emitted</b> down in the well and seen from far away: drag the star close to the horizon and watch the escaping beam redden and fade out.</p>
+
+      <p><b>Colour has no effect on the path.</b> Gravitational deflection is achromatic: violet and red with the same <b>b</b> travel exactly the same route. The rainbow is only so you can follow each thread with your eye — what separates the threads is the impact parameter, not the colour.</p>
+    </div>
+
+    <p class="note">
+      <span lang="pt">Unidades geométricas, <span class="mono">G = c = M = 1</span>, de modo que o horizonte fica em <span class="mono">r = 2</span>. O desenho é o plano de Schwarzschild <span class="mono">(r, φ)</span> sem nenhuma deformação artística: o que a grade mostra é a grade, e o disco preto tem o tamanho do horizonte. O que a simulação <em>não</em> inclui: rotação (é Schwarzschild, não Kerr), disco de acreção, imagens de ordem superior dando a volta no buraco, e o desvio Doppler que existiria se a fonte estivesse em movimento.</span>
+      <span lang="en">Geometric units, <span class="mono">G = c = M = 1</span>, so the horizon sits at <span class="mono">r = 2</span>. The drawing is the Schwarzschild plane <span class="mono">(r, φ)</span> with no artistic warping: the grid is the grid, and the black disc is the true size of the horizon. What the simulation does <em>not</em> include: rotation (this is Schwarzschild, not Kerr), an accretion disc, higher-order images looping around the hole, and the Doppler shift there would be if the source were moving.</span>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="foot-block">
+      <p class="footlabel"><span lang="pt">Vamos conversar</span><span lang="en">Let's talk</span></p>
+      <p class="footmail"><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></p>
+    </div>
+
+    <a class="footbtn" href="mailto:rafael.lima@udesc.br" aria-label="Enviar e-mail / Send an email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/>
+      </svg>
+    </a>
+
+    <div class="foot-block foot-right">
+      <p class="footlabel"><span lang="pt">Onde me encontrar</span><span lang="en">Find me</span></p>
+      <p class="footlinks">
+        <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+        <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
+        <a href="https://github.com/RafaelCRdeLima">GitHub</a>
+      </p>
+    </div>
+  </div>
+  <p class="footnote">Universidade do Estado de Santa Catarina · CCT · Joinville, SC</p>
+</footer>
+
+<script>
+(function () {
+  var KEY = 'rcrl-lang';
+  var buttons = document.querySelectorAll('[data-set-lang]');
+
+  function apply(lang) {
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    try { localStorage.setItem(KEY, lang); } catch (e) { /* modo privado */ }
+  }
+
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) { /* modo privado */ }
+
+  apply(stored === 'pt' || stored === 'en'
+    ? stored
+    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.setLang); });
+  });
+
+  // A navegação é idêntica nas cinco páginas; quem acende o item da página
+  // atual é isto, não uma classe escrita à mão em cada arquivo.
+  var aqui = location.pathname.replace(/index\.html$/, '') || '/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    var alvo = new URL(a.getAttribute('href'), location.origin).pathname;
+    if (alvo === aqui) a.setAttribute('aria-current', 'page');
+  });
+})();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  // ── unidades geométricas: G = c = M = 1 ──────────────────────────────
+  const M = 1, RS = 2, BCRIT = 3 * Math.sqrt(3), RMAX = 90;
+  const N = 9;                 // fios do feixe
+  const WL0 = 400, WL1 = 680;  // nm, violeta → vermelho
+
+  const state = {
+    src: { x: -9, y: 5 },
+    ang: 0,
+    width: 5,
+    exag: 1,        // 1 = desvio de cor real, sem ênfase
+    grid: true,
+    refs: true,
+    touched: false
+  };
+
+  const cv = document.getElementById("ceu");
+  const ctx = cv.getContext("2d");
+  const readout = document.getElementById("readout");
+  const hint = document.getElementById("hint");
+  let W = 0, H = 0, scale = 1, cx = 0, cy = 0;
+  let bg = document.createElement("canvas");
+  let rays = [], stats = { captured: 0, z: 0, re: 0 };
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // O desenho é o plano de Schwarzschild (r, φ) tal como é. Sem remapear o
+  // raio: qualquer afunilamento perto do horizonte deixaria o disco preto
+  // menor que o horizonte e cisalharia as formas, e aí a figura deixaria de
+  // ser medível contra a própria grade.
+  const toPx = (x, y) => [cx + x * scale, cy + y * scale];
+  const toWorld = (px, py) => [(px - cx) / scale, (py - cy) / scale];
+
+  // ── geodésica nula ───────────────────────────────────────────────────
+  // d²x/dλ² = −3M h² x / r⁵, com h = |x × v| conservado, reproduz
+  // exatamente u″ + u = 3Mu² (Binet para força central ∝ 1/r⁴).
+  function trace(x0, y0, vx, vy) {
+    const h = x0 * vy - y0 * vx, h2 = 3 * M * h * h;
+    let x = x0, y = y0, ux = vx, uy = vy;
+    const pts = [x, y];
+    let captured = false;
+
+    const acc = (X, Y) => {
+      const r2 = X * X + Y * Y, r = Math.sqrt(r2);
+      const k = -h2 / (r2 * r2 * r);
+      return [k * X, k * Y];
+    };
+
+    for (let i = 0; i < 5200; i++) {
+      const r = Math.hypot(x, y);
+      if (r <= RS * 1.001) { captured = true; break; }
+      if (r > RMAX) break;
+      const dt = Math.min(0.45, Math.max(0.006, 0.055 * (r - RS) + 0.006));
+
+      const [a1x, a1y] = acc(x, y);
+      const [a2x, a2y] = acc(x + 0.5 * dt * ux, y + 0.5 * dt * uy);
+      const k2x = ux + 0.5 * dt * a1x, k2y = uy + 0.5 * dt * a1y;
+      const [a3x, a3y] = acc(x + 0.5 * dt * k2x, y + 0.5 * dt * k2y);
+      const k3x = ux + 0.5 * dt * a2x, k3y = uy + 0.5 * dt * a2y;
+      const [a4x, a4y] = acc(x + dt * k3x, y + dt * k3y);
+      const k4x = ux + dt * a3x, k4y = uy + dt * a3y;
+
+      x += dt / 6 * (ux + 2 * k2x + 2 * k3x + k4x);
+      y += dt / 6 * (uy + 2 * k2y + 2 * k3y + k4y);
+      ux += dt / 6 * (a1x + 2 * a2x + 2 * a3x + a4x);
+      uy += dt / 6 * (a1y + 2 * a2y + 2 * a3y + a4y);
+      pts.push(x, y);
+    }
+    return { pts, captured, b: Math.abs(h) };
+  }
+
+  const gOf = r => Math.sqrt(Math.max(1e-9, 1 - RS / r));
+
+  function build() {
+    const dx = Math.cos(state.ang), dy = Math.sin(state.ang);
+    const nx = -dy, ny = dx;
+    const re = Math.max(Math.hypot(state.src.x, state.src.y), RS * 1.002);
+    rays = [];
+    let cap = 0;
+
+    for (let i = 0; i < N; i++) {
+      const t = N === 1 ? 0.5 : i / (N - 1);
+      const off = (t - 0.5) * state.width;
+      const x0 = state.src.x + nx * off, y0 = state.src.y + ny * off;
+      const r0 = Math.hypot(x0, y0);
+      if (r0 <= RS * 1.05) { rays.push(null); cap++; continue; }
+      const r = trace(x0, y0, dx, dy);
+      r.wl = WL0 + t * (WL1 - WL0);
+      // Cada fio parte de um ponto diferente, logo de um potencial diferente:
+      // o g de emissão é o do próprio fio, não o do centro do feixe.
+      r.gEmit = gOf(r0);
+      if (r.captured) cap++;
+      rays.push(r);
+    }
+    stats = { captured: cap, z: 1 / gOf(re) - 1, re };
+
+    const linha = (lang, txt) => `<span lang="${lang}">${txt}</span>`;
+    readout.innerHTML =
+      linha("pt", `fonte em <b>r = ${re.toFixed(1)} M</b> &nbsp;·&nbsp; desvio ao escapar para longe <b>z = ${stats.z.toFixed(2)}</b>` +
+                  `<br>${cap} de ${N} raios engolidos`) +
+      linha("en", `source at <b>r = ${re.toFixed(1)} M</b> &nbsp;·&nbsp; shift on escaping to infinity <b>z = ${stats.z.toFixed(2)}</b>` +
+                  `<br>${cap} of ${N} rays swallowed`);
+  }
+
+  // ── comprimento de onda → cor ────────────────────────────────────────
+  // Luz fora da faixa visível tem de PARECER invisível. A aproximação usual
+  // de espectro pinta tudo abaixo de 380 nm de magenta (R=1, B=1), e aí o
+  // ultravioleta — para onde a luz vai quando AZULA caindo no poço — sai
+  // avermelhado na tela, invertendo a leitura do efeito. Aqui o violeta
+  // guarda pouco vermelho e as duas pontas somem por decaimento.
+  function wlRGB(wl) {
+    let r, g, b, f = 1;
+    if (wl < 380) {                       // ultravioleta: some
+      r = 0.38; g = 0; b = 1;
+      f = Math.exp(-(380 - wl) / 28);
+    }
+    else if (wl < 440) { r = 0.38 * (440 - wl) / 60; g = 0; b = 1; f = 0.45 + 0.55 * (wl - 380) / 60; }
+    else if (wl < 490) { r = 0; g = (wl - 440) / 50; b = 1; }
+    else if (wl < 510) { r = 0; g = 1; b = -(wl - 510) / 20; }
+    else if (wl < 580) { r = (wl - 510) / 70; g = 1; b = 0; }
+    else if (wl < 645) { r = 1; g = -(wl - 645) / 65; b = 0; }
+    else if (wl < 700) { r = 1; g = 0; b = 0; }
+    else {                                // infravermelho: some
+      r = 1; g = 0; b = 0;
+      f = Math.exp(-(wl - 700) / 62);
+    }
+    const p = 0.85;
+    return [
+      Math.round(255 * Math.pow(Math.max(0, r) * f, p)),
+      Math.round(255 * Math.pow(Math.max(0, g) * f, p)),
+      Math.round(255 * Math.pow(Math.max(0, b) * f, p))
+    ];
+  }
+
+  // ── fundo: grade, raios de referência, horizonte ─────────────────────
+  function drawBackground() {
+    bg.width = cv.width; bg.height = cv.height;
+    const c = bg.getContext("2d");
+    c.setTransform(cv.width / W, 0, 0, cv.width / W, 0, 0);
+    c.fillStyle = "#06070d";
+    c.fillRect(0, 0, W, H);
+
+    if (state.grid) {
+      const half = Math.max(W, H) / scale / 2 + 4;
+      for (let v = -Math.ceil(half); v <= half; v++) {
+        const major = v % 5 === 0;
+        c.strokeStyle = major ? "#2a3145" : "#171c28";
+        c.lineWidth = major ? 1.1 : 0.7;
+        // Retas de verdade: sem remapeamento, a grade cartesiana é reta.
+        c.beginPath();
+        c.moveTo(...toPx(v, -half)); c.lineTo(...toPx(v, half));
+        c.moveTo(...toPx(-half, v)); c.lineTo(...toPx(half, v));
+        c.stroke();
+      }
+    }
+
+    if (state.refs) {
+      const circle = (rw, dash, col, lw) => {
+        c.beginPath();
+        c.arc(cx, cy, rw * scale, 0, 7);
+        c.setLineDash(dash); c.strokeStyle = col; c.lineWidth = lw; c.stroke(); c.setLineDash([]);
+      };
+      circle(BCRIT, [1, 6], "rgba(158,140,255,.42)", 1);   // b crítico
+      circle(3 * M, [5, 5], "rgba(86,225,208,.5)", 1);     // esfera de fótons
+    }
+
+    const rh = RS * scale;
+    const halo = c.createRadialGradient(cx, cy, rh * 0.9, cx, cy, rh * 3.4);
+    halo.addColorStop(0, "rgba(0,0,0,.95)");
+    halo.addColorStop(0.35, "rgba(0,0,0,.55)");
+    halo.addColorStop(1, "rgba(0,0,0,0)");
+    c.fillStyle = halo; c.beginPath(); c.arc(cx, cy, rh * 3.4, 0, 7); c.fill();
+    c.fillStyle = "#000"; c.beginPath(); c.arc(cx, cy, rh, 0, 7); c.fill();
+    c.strokeStyle = "rgba(165,172,189,.4)"; c.lineWidth = 1; c.stroke();
+  }
+
+  // ── os raios ─────────────────────────────────────────────────────────
+  function drawRays(phase) {
+    ctx.globalCompositeOperation = "lighter";
+    const CH = 7;
+
+    for (const ray of rays) {
+      if (!ray) continue;
+      const pts = ray.pts, n = pts.length / 2;
+      if (n < 2) continue;
+
+      const px = new Float64Array(n), py = new Float64Array(n);
+      const cols = new Array(n);
+      for (let i = 0; i < n; i++) {
+        const X = pts[2 * i], Y = pts[2 * i + 1];
+        const [a, b] = toPx(X, Y);
+        px[i] = a; py[i] = b;
+        const r = Math.max(Math.hypot(X, Y), RS * 1.0005);
+        const ratio = Math.pow(gOf(r) / ray.gEmit, state.exag);
+        cols[i] = wlRGB(ray.wl * ratio);
+      }
+
+      const pass = (lw, alpha) => {
+        for (let s = 0; s < n - 1; s += CH) {
+          const e = Math.min(n - 1, s + CH);
+          const c0 = cols[(s + e) >> 1];
+          ctx.beginPath();
+          ctx.moveTo(px[s], py[s]);
+          for (let i = s + 1; i <= e; i++) ctx.lineTo(px[i], py[i]);
+          ctx.strokeStyle = `rgba(${c0[0]},${c0[1]},${c0[2]},${alpha})`;
+          ctx.lineWidth = lw;
+          ctx.lineCap = "round";
+          ctx.stroke();
+        }
+      };
+
+      pass(7, 0.10);
+      pass(3, 0.22);
+      pass(1.35, 0.95);
+
+      if (!reduced) {
+        let cum = 0;
+        ctx.setLineDash([5, 130]);
+        for (let s = 0; s < n - 1; s += CH) {
+          const e = Math.min(n - 1, s + CH);
+          let seg = 0;
+          ctx.beginPath();
+          ctx.moveTo(px[s], py[s]);
+          for (let i = s + 1; i <= e; i++) { ctx.lineTo(px[i], py[i]); seg += Math.hypot(px[i] - px[i - 1], py[i] - py[i - 1]); }
+          ctx.lineDashOffset = -(phase - cum) % 135;
+          ctx.strokeStyle = "rgba(255,255,255,.55)";
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+          cum += seg;
+        }
+        ctx.setLineDash([]);
+      }
+    }
+    ctx.globalCompositeOperation = "source-over";
+  }
+
+  function drawHandles() {
+    const [sx, sy] = toPx(state.src.x, state.src.y);
+    const R = 13;
+    ctx.globalCompositeOperation = "lighter";
+    const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, R * 3.2);
+    g.addColorStop(0, "rgba(255,255,255,.95)");
+    g.addColorStop(0.18, "rgba(255,225,150,.75)");
+    g.addColorStop(0.5, "rgba(255,190,90,.22)");
+    g.addColorStop(1, "rgba(255,170,60,0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx, sy, R * 3.2, 0, 7); ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(sx, sy, 4.2, 0, 7); ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+
+    const hx = sx + Math.cos(state.ang) * 74, hy = sy + Math.sin(state.ang) * 74;
+    ctx.strokeStyle = "rgba(220,235,255,.28)";
+    ctx.setLineDash([2, 5]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(hx, hy); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(hx, hy, 8, 0, 7);
+    ctx.strokeStyle = "rgba(230,240,255,.75)"; ctx.lineWidth = 1.4; ctx.stroke();
+    ctx.fillStyle = "rgba(230,240,255,.15)"; ctx.fill();
+  }
+
+  let phase = 0, last = 0;
+  function frame(t) {
+    const dt = last ? Math.min(50, t - last) : 16; last = t;
+    phase += dt * 0.09;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.drawImage(bg, 0, 0);
+    ctx.setTransform(cv.width / W, 0, 0, cv.width / W, 0, 0);
+    drawRays(phase);
+    drawHandles();
+    requestAnimationFrame(frame);
+  }
+
+  // ── interação ────────────────────────────────────────────────────────
+  let drag = null;
+  const local = ev => {
+    const r = cv.getBoundingClientRect();
+    return [(ev.clientX - r.left) * (W / r.width), (ev.clientY - r.top) * (H / r.height)];
+  };
+
+  cv.addEventListener("pointerdown", ev => {
+    const [mx, my] = local(ev);
+    const [sx, sy] = toPx(state.src.x, state.src.y);
+    const hx = sx + Math.cos(state.ang) * 74, hy = sy + Math.sin(state.ang) * 74;
+    drag = Math.hypot(mx - hx, my - hy) < 34 ? "aim" : "src";
+    cv.setPointerCapture(ev.pointerId);
+    cv.classList.add("grabbing");
+    if (!state.touched) { state.touched = true; hint.style.opacity = 0; }
+    move(ev);
+  });
+  cv.addEventListener("pointermove", ev => { if (drag) move(ev); });
+  const stop = () => { drag = null; cv.classList.remove("grabbing"); };
+  cv.addEventListener("pointerup", stop);
+  cv.addEventListener("pointercancel", stop);
+
+  function move(ev) {
+    const [mx, my] = local(ev);
+    if (drag === "src") {
+      const [wx, wy] = toWorld(mx, my);
+      const r = Math.hypot(wx, wy);
+      // Não deixa a fonte entrar no horizonte: não existe observador
+      // estático em r ≤ 2M, e o desvio divergiria.
+      const k = r < RS * 1.15 ? (RS * 1.15) / (r || 1e-6) : 1;
+      state.src.x = wx * k; state.src.y = wy * k;
+    } else {
+      const [sx, sy] = toPx(state.src.x, state.src.y);
+      state.ang = Math.atan2(my - sy, mx - sx);
+    }
+    build();
+  }
+
+  cv.tabIndex = 0;
+  cv.addEventListener("keydown", ev => {
+    const d = ev.shiftKey ? 1.5 : 0.5;
+    const map = { ArrowLeft: [-d, 0], ArrowRight: [d, 0], ArrowUp: [0, -d], ArrowDown: [0, d] };
+    if (map[ev.key]) {
+      ev.preventDefault();
+      state.src.x += map[ev.key][0]; state.src.y += map[ev.key][1];
+      const r = Math.hypot(state.src.x, state.src.y);
+      if (r < RS * 1.15) { const k = RS * 1.15 / r; state.src.x *= k; state.src.y *= k; }
+      build();
+    }
+  });
+
+  // ── controles ────────────────────────────────────────────────────────
+  const $ = id => document.getElementById(id);
+  const wIn = $("w"), eIn = $("e");
+  const sync = () => {
+    $("lblW").textContent = (+wIn.value).toFixed(1) + " M";
+    const x = +eIn.value;
+    $("lblE").textContent = x.toFixed(1) + "×" +
+      (x === 1 ? (document.documentElement.dataset.lang === "en" ? " (real)" : " (real)") : "");
+  };
+  wIn.oninput = () => { state.width = +wIn.value; sync(); build(); };
+  eIn.oninput = () => { state.exag = +eIn.value; sync(); build(); };
+  $("grid").onchange = e => { state.grid = e.target.checked; drawBackground(); };
+  $("refs").onchange = e => { state.refs = e.target.checked; drawBackground(); };
+  $("reset").onclick = () => {
+    state.src = { x: -9, y: 5 }; state.ang = 0;
+    state.width = 5; state.exag = 1;
+    wIn.value = 5; eIn.value = 1; sync(); build();
+  };
+
+  // ── layout ───────────────────────────────────────────────────────────
+  function resize() {
+    const r = cv.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = Math.max(1, r.width); H = Math.max(1, r.height);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    scale = Math.min(W, H) / 27;
+    cx = W / 2; cy = H / 2;
+    drawBackground();
+    build();
+  }
+  new ResizeObserver(resize).observe(cv);
+  resize(); sync();
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
