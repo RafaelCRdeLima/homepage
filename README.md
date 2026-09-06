@@ -27,7 +27,7 @@ site/material.html   04 · disciplinas e material didático
 site/laboratorio.html 05 · luz em torno de um buraco negro
 site/estrela.html     06 · estrela de nêutrons girando, com hot spot
 site/styles.css      a apresentação inteira
-site/rafael-cern.*   o retrato, em WebP (52 KB) e JPEG (98 KB)
+site/rafael-atlas.*  o retrato, em WebP (78 KB) e JPEG (121 KB)
 site/favicon.svg     ícone
 ```
 
