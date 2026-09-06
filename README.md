@@ -59,7 +59,8 @@ do retrato; nas outras é a versão `.panel-slim`, só com navegação e título
 
 Na capa o retrato fica centrado e as pílulas em volta, posicionadas em
 porcentagem do palco. Quatro delas abrem uma explicação curta ao passar o
-mouse; a quinta, "Fale comigo", é a única clicável e não tem balão — não há
+mouse; as outras três — os dois laboratórios e "Fale comigo" — são links e
+não têm balão — não há
 o que explicar num convite. Nada mais reage a clique.
 
 O balão só existe sob `@media (hover: hover) and (pointer: fine)`. Em tela de
