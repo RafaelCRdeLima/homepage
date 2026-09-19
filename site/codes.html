@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0b12">
 <title>Codes · Rafael C. R. de Lima</title>
-<meta name="description" content="ODEROM, TESSERA, ÁLETRA e PATHS — programas abertos que rodam no navegador.">
+<meta name="description" content="ODEROM, TESSERA, ÁLETRA, PATHS e SUCURI — programas abertos que rodam no navegador.">
 <meta name="author" content="Rafael Camargo Rodrigues de Lima">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Codes · Rafael C. R. de Lima">
-<meta property="og:description" content="ODEROM, TESSERA, ÁLETRA e PATHS — programas abertos que rodam no navegador.">
+<meta property="og:description" content="ODEROM, TESSERA, ÁLETRA, PATHS e SUCURI — programas abertos que rodam no navegador.">
 <meta property="og:image" content="https://rafael-lima.pages.dev/rafael-atlas.jpg?v=3">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -135,6 +135,33 @@
         <p lang="en">Draw the diagram, read the amplitude. Feynman rules are not hard-coded: they come from a declarative model file, and swapping pure QED for the Standard Model means swapping a file. PATHS assembles the expression and stops — no algebraic simplification, no Dirac traces, no loop integration; its output is input for FeynCalc or FORM. The whole diagram lives in the URL, so sending someone a diagram means sending a link.</p>
         <p class="prog-links">
           <a class="cta" href="https://paths-feynman.pages.dev/"><span lang="pt">Abrir no navegador</span><span lang="en">Open in browser</span></a>
+        </p>
+      </div>
+    </article>
+
+    <!--
+      O símbolo é o da identidade do próprio SUCURI: a sucuri-verde de que
+      vem o nome, com a cabeça num ponto e o cursor na cauda. A geometria
+      é a da marca, sem tocar; o traço caiu de 10 para 3.6 no mesmo
+      viewBox, porque a marca é grossa de propósito e ao lado dos outros
+      quatro ícones ela saltava da fileira. `currentColor` deixa o violeta
+      da página valer, como nos demais.
+    -->
+    <article class="prog">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M68 28 C68 16, 44 14, 40 28 C36 42, 62 50, 62 66 C62 80, 40 82, 34 72"/>
+          <circle cx="68" cy="28" r="2.6" fill="currentColor" stroke="none"/>
+          <g transform="rotate(-31 34 72)"><rect x="32" y="70" width="4" height="4" rx="0.55" fill="currentColor" stroke="none"/></g>
+        </svg>
+      </div>
+      <div class="prog-body">
+        <h3>SUCURI</h3>
+        <p class="prog-expand">SymPy Unified Compiler for Unambiguous Rendered Input</p>
+        <p lang="pt">LaTeX é tipografia, não semântica. Entregue <span class="mono">\dot{x}</span> a um interpretador e ele vira um símbolo chamado <span class="mono">dot</span> multiplicando <span class="mono">x</span> — a conta segue, sem erro nenhum, e sai errada. O SUCURI varre a entrada, localiza os sítios ambíguos e <em>se recusa</em> a produzir uma expressão enquanto algum estiver sem anotação; resolvido uma vez, o nó guarda a decisão. A equação escrita é o objeto manipulável: a vista em LaTeX é descartável, a árvore semântica debaixo dela não.</p>
+        <p lang="en">LaTeX is typography, not semantics. Hand <span class="mono">\dot{x}</span> to a parser and it becomes a symbol named <span class="mono">dot</span> multiplying <span class="mono">x</span> — the computation carries on, raising nothing, and comes out wrong. SUCURI scans the input, locates the ambiguous sites and <em>refuses</em> to produce an expression while any of them is unannotated; once resolved, the node keeps the decision. The equation you write is the object you manipulate: the LaTeX view is disposable, the semantic tree beneath it is not.</p>
+        <p class="prog-links">
+          <a class="cta" href="https://sucuri.pages.dev/"><span lang="pt">Abrir no navegador</span><span lang="en">Open in browser</span></a>
         </p>
       </div>
     </article>

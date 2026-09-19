@@ -21,7 +21,7 @@ Sete páginas de HTML puro. Não há build, não há dependência e não há
 ```text
 site/index.html      capa — pulsar, pílulas, a frase, o cartão, os destinos
 site/pesquisa.html   01 · as frentes de pesquisa
-site/codes.html      02 · ODEROM, TESSERA, ÁLETRA, PATHS
+site/codes.html      02 · ODEROM, TESSERA, ÁLETRA, PATHS, SUCURI
 site/producao.html   03 · publicações com DOI
 site/material.html   04 · disciplinas e material didático
 site/laboratorio.html 05 · luz em torno de um buraco negro
@@ -149,7 +149,7 @@ Enquanto os segredos não existirem, a Action falha e o site fica no ar com a
   inversa; cada entrada é um `<li>` com ano, autores, título com DOI e revista.
   A fonte de verdade continua sendo o [ORCID](https://orcid.org/0000-0003-1718-3838)
   e o [Lattes](http://lattes.cnpq.br/0799234795742587) — a página é um recorte.
-- **Programas**: os quatro são repositórios privados com site público, então
+- **Programas**: os cinco são repositórios privados com site público, então
   nenhum tem link de repositório — só o link do app.
 - **Disciplinas**: essas sim são públicas no GitHub, e a Relatividade Geral e a
   Astronomia levam link para o repositório além do link da página.
