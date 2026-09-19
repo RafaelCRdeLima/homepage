@@ -67,26 +67,27 @@ em fase porque a animação é a mesma e começa junto. O SVG ocupa exatamente a
 caixa que era do retrato: as pílulas de fora encostam nela, e crescer ali é
 atropelar a `.p3`.
 
-Quatro pílulas abrem uma explicação curta ao passar o mouse; as outras três
-— os dois laboratórios e "Fale comigo" — são links e não têm balão: não há
-o que explicar num convite. Nada mais reage a clique.
+As sete pílulas são links, e só isso: quatro para as seções do site, duas
+para os laboratórios e uma para o e-mail. Cada uma das quatro leva o mesmo
+ícone do cartão de destino lá embaixo — mesmo lugar, mesmo desenho — e a
+ordem delas no HTML segue a da navegação, porque abaixo de 46rem elas
+embrulham numa faixa e essa ordem vira a que se lê.
+
+Até setembro de 2026 quatro delas eram conceitos (objetos compactos, matéria
+densa, magnetares, neutrinos) que abriam um balão de explicação ao passar o
+mouse. O balão saiu com elas, e com ele umas cinquenta linhas de CSS. Os
+quatro temas têm seção própria em `pesquisa.html`, que é onde cabe explicá-los
+com espaço; a capa passou a apontar caminhos em vez de ensinar.
 
 O retrato mudou para o cartão logo abaixo da frase, ao lado dos dados que ele
 identifica — nome, cargo, universidade, unidade e e-mail. O parágrafo que
 ficava sob a frase veio junto, porque dizia cargo e instituição e ficaria
 repetido a dois palmos de distância.
 
-O balão só existe sob `@media (hover: hover) and (pointer: fine)`. Em tela de
-toque `:hover` gruda no toque, e o balão viraria exatamente a reação a clique
-que não se quer; fora do mouse ele nem entra no layout. Ele é
-`pointer-events: none` para nunca roubar o mouse da pílula que o abriu, e é
-ancorado pelo lado de dentro do palco (`left: 0` à esquerda, `right: 0` à
-direita) porque centralizado ele sairia da tela nas bordas. As pílulas de
-baixo levam `.up` e abrem para cima. A flutuação para no hover: texto que se
-mexe não se lê. Abaixo de 46rem elas saem do posicionamento absoluto e
-embrulham numa faixa; o pulsar leva `order: -1` para continuar vindo antes
-delas, já que no HTML as pílulas é que vêm primeiro. O cartão vira coluna na
-mesma largura.
+A flutuação para no hover: texto que se mexe não se lê. Abaixo de 46rem as
+pílulas saem do posicionamento absoluto e embrulham numa faixa; o pulsar leva
+`order: -1` para continuar vindo antes delas, já que no HTML as pílulas é que
+vêm primeiro. O cartão vira coluna na mesma largura.
 
 Três tipografias, cada uma no seu papel:
 

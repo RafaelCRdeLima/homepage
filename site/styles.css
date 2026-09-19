@@ -278,7 +278,6 @@ a:hover { color: var(--acc-2); }
   font-weight: 500;
   color: var(--text);
   white-space: nowrap;
-  cursor: default;
   animation: flutua 7s ease-in-out infinite;
 }
 .pill:hover, .pill:focus-visible {
@@ -313,60 +312,6 @@ a:hover { color: var(--acc-2); }
 @keyframes flutua {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-7px); }
-}
-
-/* ── a explicação que aparece ao passar o mouse ───────────────
-   Só isso: nada reage a clique. O balão é `pointer-events: none`
-   para nunca roubar o mouse da pílula que o abriu, e só existe
-   onde há mouse de verdade — em toque, `:hover` gruda no toque e
-   viraria justamente a reação a clique que não queremos.        */
-
-.tip {
-  /* Fora de aparelho com mouse o balão nem existe: assim ele não deixa
-     uma caixa invisível passando da borda da tela no celular. */
-  display: none;
-  position: absolute;
-  top: calc(100% + 0.55rem);
-  left: 0;                 /* ancorado pelo lado de dentro do palco, */
-  right: auto;             /* senão o balão sai da tela nas bordas   */
-  z-index: 7;
-  width: max-content;
-  max-width: min(19rem, 68vw);
-  padding: 0.75rem 0.9rem;
-  border-radius: 13px;
-  background: rgba(11, 13, 22, 0.97);
-  border: 1px solid var(--line-2);
-  box-shadow: 0 20px 44px -14px rgba(0, 0, 0, 0.95);
-  font-family: var(--ui);
-  font-size: 0.775rem;
-  font-weight: 400;
-  line-height: 1.55;
-  letter-spacing: 0;
-  color: var(--text-2);
-  white-space: normal;
-  text-align: left;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-5px);
-  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
-  pointer-events: none;
-}
-.tip b { color: var(--text); font-weight: 600; }
-.tip em { font-style: italic; color: var(--text); }
-.tip sup { line-height: 0; font-size: 0.75em; }
-
-.p5 .tip { left: auto; right: 0; }
-.up .tip { top: auto; bottom: calc(100% + 0.55rem); }
-
-@media (hover: hover) and (pointer: fine) {
-  .tip { display: block; }
-
-  .pill:hover > .tip,
-  .pill:focus-visible > .tip {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
 }
 
 /* ── capa: a frase grande ───────────────────────────────────── */

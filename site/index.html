@@ -53,46 +53,39 @@
   </header>
 
   <div class="stage">
-      <span class="pill p1" tabindex="0">
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(-28 12 12)"/></svg></span>
-        <span lang="pt">Objetos compactos</span><span lang="en">Compact objects</span>
-        <span class="tip" role="tooltip">
-          <span lang="pt">O que sobra quando uma estrela queima o combustível e colapsa: estrelas de nêutrons, anãs brancas, buracos negros. Massa de estrela espremida em dezenas de quilômetros.</span>
-          <span lang="en">What is left when a star burns through its fuel and collapses: neutron stars, white dwarfs, black holes. A star's mass squeezed into tens of kilometres.</span>
-        </span>
-      </span>
+      <!--
+        As pílulas eram conceitos com um balão de explicação ao passar o
+        mouse; agora são as portas do site. Os quatro temas que elas
+        descreviam têm seção própria em `pesquisa.html`, que é onde cabe
+        explicá-los com espaço. Cada uma leva o mesmo ícone do cartão de
+        destino lá embaixo: mesmo lugar, mesmo desenho. A ordem no HTML
+        segue a da navegação, porque abaixo de 46rem elas embrulham numa
+        faixa e essa ordem vira a que se lê.
+      -->
+      <a class="pill p1 pill-cta" href="/pesquisa.html">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.6" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(-30 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.3" transform="rotate(30 12 12)"/></svg></span>
+        <span lang="pt">Pesquisa</span><span lang="en">Research</span>
+      </a>
 
-      <span class="pill p2" tabindex="0">
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 8h16M4 12h16M4 16h16" opacity=".55"/><circle cx="9" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="11" cy="16" r="1.5" fill="currentColor" stroke="none"/></svg></span>
-        <span lang="pt">Matéria densa</span><span lang="en">Dense matter</span>
-        <span class="tip" role="tooltip">
-          <span lang="pt">Acima da densidade de um núcleo atômico, a matéria se reorganiza em formas que nenhum acelerador na Terra alcança — como as fases <em>pasta</em>, em que prótons e nêutrons viram lâminas e tubos.</span>
-          <span lang="en">Above the density of an atomic nucleus, matter reorganizes into forms no accelerator on Earth can reach — such as the <em>pasta</em> phases, where protons and neutrons turn into sheets and tubes.</span>
-        </span>
-      </span>
+      <a class="pill p2 pill-cta" href="/codes.html">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.5L3.5 12 9 17.5"/><path d="M15 6.5L20.5 12 15 17.5"/></svg></span>
+        Codes
+      </a>
 
-      <span class="pill p3 up" tabindex="0">
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M17 12h5M12 7V2M7 12H2M12 17v5" /><path d="M15.5 8.5l2.2-2.2M8.5 8.5L6.3 6.3M8.5 15.5l-2.2 2.2M15.5 15.5l2.2 2.2" opacity=".6"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg></span>
-        <span lang="pt">Magnetares</span><span lang="en">Magnetars</span>
-        <span class="tip" role="tooltip">
-          <span lang="pt">Estrelas de nêutrons com campo magnético de 10<sup>14</sup>–10<sup>15</sup> gauss — os ímãs mais fortes que se conhece. A curva de luz em raios X denuncia a forma desse campo.</span>
-          <span lang="en">Neutron stars with 10<sup>14</sup>–10<sup>15</sup> gauss magnetic fields — the strongest magnets known. Their X-ray light curve gives away the shape of that field.</span>
-        </span>
-      </span>
+      <a class="pill p5 pill-cta" href="/producao.html">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h9l5 5v10a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19.5z"/><path d="M13.8 4.7V10h5.1"/><path d="M8.5 14h7M8.5 17.2h4.5"/></svg></span>
+        <span lang="pt">Produção</span><span lang="en">Publications</span>
+      </a>
+
+      <a class="pill p3 pill-cta" href="/material.html">
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.2C10 5.6 7.6 5.2 4.5 5.4v12.4c3.1-.2 5.5.2 7.5 1.8 2-1.6 4.4-2 7.5-1.8V5.4c-3.1-.2-5.5.2-7.5 1.8z"/><path d="M12 7.2v11.4"/></svg></span>
+        <span lang="pt">Material didático</span><span lang="en">Teaching</span>
+      </a>
 
       <a class="pill p7 pill-cta" href="/estrela.html">
         <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6"/><circle cx="14.6" cy="11.3" r="2.1" fill="currentColor" stroke="none"/><path d="M5.6 6.8A8 8 0 0 1 18.4 6.8"/><path d="M18.4 6.8 15.9 6.1M18.4 6.8 17.7 4"/></svg></span>
         <span lang="pt">Estrela de nêutrons · brincar</span><span lang="en">Neutron star · play</span>
       </a>
-
-      <span class="pill p5" tabindex="0">
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2.5 14c2.5-6 5-6 7.5 0s5 6 7.5 0 3-4.5 4-4.5" /></svg></span>
-        <span lang="pt">Neutrinos · DUNE</span><span lang="en">Neutrinos · DUNE</span>
-        <span class="tip" role="tooltip">
-          <span lang="pt">Partículas que quase não interagem e trocam de sabor no caminho. O DUNE vai medir essa oscilação; eu estudo o que muda nela quando a viagem acontece num espaço-tempo curvo.</span>
-          <span lang="en">Particles that barely interact and switch flavour along the way. DUNE will measure that oscillation; I study what changes in it when the trip happens in a curved spacetime.</span>
-        </span>
-      </span>
 
       <a class="pill p4 pill-cta" href="/laboratorio.html">
         <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/><path d="M2 6.4c4.6 0 6.2 11.2 10.8 11.2S20.2 12 22 12" opacity=".85"/></svg></span>
