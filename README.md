@@ -19,7 +19,7 @@ Sete páginas de HTML puro. Não há build, não há dependência e não há
 `node_modules`.
 
 ```text
-site/index.html      capa — retrato, pílulas, a frase, os quatro destinos
+site/index.html      capa — pulsar, pílulas, a frase, o cartão, os destinos
 site/pesquisa.html   01 · as frentes de pesquisa
 site/codes.html      02 · ODEROM, TESSERA, ÁLETRA, PATHS
 site/producao.html   03 · publicações com DOI
@@ -27,7 +27,7 @@ site/material.html   04 · disciplinas e material didático
 site/laboratorio.html 05 · luz em torno de um buraco negro
 site/estrela.html     06 · estrela de nêutrons girando, com hot spot
 site/styles.css      a apresentação inteira
-site/rafael-atlas.*  o retrato, em WebP (78 KB) e JPEG (121 KB)
+site/rafael-atlas.*  o retrato do cartão, em WebP (78 KB) e JPEG (121 KB)
 site/favicon.svg     ícone
 ```
 
@@ -57,11 +57,24 @@ O topo de cada página é o mesmo componente `.panel` — faixa de gradiente
 índigo com o canto de baixo arredondado. Na capa ele é alto e guarda o palco
 do retrato; nas outras é a versão `.panel-slim`, só com navegação e título.
 
-Na capa o retrato fica centrado e as pílulas em volta, posicionadas em
-porcentagem do palco. Quatro delas abrem uma explicação curta ao passar o
-mouse; as outras três — os dois laboratórios e "Fale comigo" — são links e
-não têm balão — não há
+No centro da capa gira um pulsar — SVG desenhado à mão, sem imagem e sem
+biblioteca — e as pílulas ficam em volta, posicionadas em porcentagem do
+palco. O eixo de rotação aponta para quem olha e o magnético faz ângulo com
+ele: por isso os dois feixes varrem o céu em círculo e aparecem sempre do
+mesmo tamanho, e por isso basta girar o grupo magnético e deixar a esfera
+quieta. São dois grupos `.pulsar-gira`, um atrás da esfera e outro na frente,
+em fase porque a animação é a mesma e começa junto. O SVG ocupa exatamente a
+caixa que era do retrato: as pílulas de fora encostam nela, e crescer ali é
+atropelar a `.p3`.
+
+Quatro pílulas abrem uma explicação curta ao passar o mouse; as outras três
+— os dois laboratórios e "Fale comigo" — são links e não têm balão: não há
 o que explicar num convite. Nada mais reage a clique.
+
+O retrato mudou para o cartão logo abaixo da frase, ao lado dos dados que ele
+identifica — nome, cargo, universidade, unidade e e-mail. O parágrafo que
+ficava sob a frase veio junto, porque dizia cargo e instituição e ficaria
+repetido a dois palmos de distância.
 
 O balão só existe sob `@media (hover: hover) and (pointer: fine)`. Em tela de
 toque `:hover` gruda no toque, e o balão viraria exatamente a reação a clique
@@ -71,8 +84,9 @@ ancorado pelo lado de dentro do palco (`left: 0` à esquerda, `right: 0` à
 direita) porque centralizado ele sairia da tela nas bordas. As pílulas de
 baixo levam `.up` e abrem para cima. A flutuação para no hover: texto que se
 mexe não se lê. Abaixo de 46rem elas saem do posicionamento absoluto e
-embrulham numa faixa; o retrato leva `order: -1` para continuar vindo antes
-delas, já que no HTML as pílulas é que vêm primeiro.
+embrulham numa faixa; o pulsar leva `order: -1` para continuar vindo antes
+delas, já que no HTML as pílulas é que vêm primeiro. O cartão vira coluna na
+mesma largura.
 
 Três tipografias, cada uma no seu papel:
 
@@ -87,6 +101,8 @@ Duas armadilhas que já custaram tempo, para não voltarem:
 - O `<img>` do retrato tem `width`/`height` para reservar espaço e evitar
   salto no carregamento. Esses atributos viram altura fixa e atropelam o
   `aspect-ratio`, deixando o círculo oval — por isso o CSS traz `height: auto`.
+  A armadilha mudou de endereço junto com o retrato: hoje é `.cartao-retrato`
+  que precisa dela.
 - A `.nav` precisa de `min-width: 0`. Item flex não encolhe abaixo do próprio
   conteúdo, e sem isso ela estica a barra e a página inteira em tela estreita.
 

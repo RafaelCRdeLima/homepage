@@ -222,21 +222,42 @@ a:hover { color: var(--acc-2); }
   justify-content: center;
 }
 
-.portrait { margin: 0; }
-.portrait img {
+/* O pulsar ocupa exatamente a caixa que era do retrato: as pílulas estão
+   posicionadas em porcentagem do palco e algumas encostam nela, então
+   crescer aqui é atropelar as de fora. */
+.pulsar { margin: 0; }
+.pulsar svg {
   display: block;
   width: clamp(12.5rem, 27vw, 21rem);
-  /* Os atributos width/height do <img> existem para reservar o espaço e
-     evitar salto no carregamento, mas viram altura fixa e atropelam o
-     aspect-ratio. `height: auto` devolve a decisão ao aspect-ratio. */
   height: auto;
   aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid rgba(255, 255, 255, 0.16);
-  box-shadow:
-    0 0 0 14px rgba(158, 140, 255, 0.07),
-    0 34px 70px -22px rgba(0, 0, 0, 0.85);
+  /* O borrão dos feixes passa da caixa. Recortado no viewport do SVG,
+     ele deixa uma aresta reta visível justo quando o feixe aponta para
+     a borda — `overflow: visible` deixa o brilho terminar por conta
+     própria. Passa por trás das pílulas, que têm `z-index: 2`. */
+  overflow: visible;
+}
+
+/* Gira o grupo magnético, não a esfera. São dois grupos com a mesma
+   regra — um atrás da esfera, outro na frente — e eles ficam em fase
+   porque a animação é idêntica e começa junto. `transform-box: view-box`
+   é o que faz `200px 200px` valer no sistema do viewBox; sem ele a
+   origem cai na caixa do próprio grupo, que não é o centro da estrela. */
+.pulsar-gira {
+  transform-box: view-box;
+  transform-origin: 200px 200px;
+  animation: pulsar-gira 16s linear infinite;
+}
+
+@keyframes pulsar-gira {
+  to { transform: rotate(360deg); }
+}
+
+.pulsar-feixes { animation: pulsar-brilha 3.4s ease-in-out infinite; }
+
+@keyframes pulsar-brilha {
+  0%, 100% { opacity: 0.8; }
+  50%      { opacity: 1; }
 }
 
 .pill {
@@ -376,9 +397,98 @@ a:hover { color: var(--acc-2); }
 }
 .intro h1 em { font-style: italic; color: var(--acc); }
 
-.introsub {
-  max-width: 36rem;
+/* ── capa: o cartão de identidade ─────────────────────────────
+   O retrato mora aqui desde que saiu do palco: círculo à esquerda,
+   nome, cargo, instituição e e-mail à direita. Abaixo de 46rem a caixa
+   vira coluna e tudo centraliza.                                  */
+
+.cartao {
+  /* Dois rem a mais que a frase da capa: em 48rem o nome inteiro não
+     cabe na linha e quebra em "de Lima" sozinho. */
+  max-width: 52rem;
   margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3rem) var(--pad) 0;
+}
+
+.cartao-caixa {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3.5vw, 2.25rem);
+  padding: clamp(1.4rem, 3.5vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--raio);
+}
+
+.cartao-retrato { margin: 0; flex: none; }
+.cartao-retrato img {
+  display: block;
+  width: clamp(6.5rem, 15vw, 9.5rem);
+  /* A armadilha do palco veio junto com o retrato: os atributos
+     width/height do <img> reservam o espaço e evitam salto, mas viram
+     altura fixa e ovalam o círculo. `height: auto` devolve a decisão
+     ao aspect-ratio. */
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 0 0 9px rgba(158, 140, 255, 0.06),
+    0 18px 40px -16px rgba(0, 0, 0, 0.8);
+}
+
+/* Item flex não encolhe abaixo do próprio conteúdo: sem `min-width: 0`
+   o e-mail estica a caixa e a página em tela estreita — a mesma coisa
+   que a `.nav` já exigia. */
+.cartao-dados { min-width: 0; }
+
+.cartao-dados h2 {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.4rem;
+  color: var(--text);
+}
+
+.cartao-cargo {
+  margin: 0 0 1.1rem;
+  font-family: var(--ui);
+  font-size: 0.76rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--acc-2);
+}
+
+.cartao-lista { margin: 0 0 1.1rem; display: grid; gap: 0.55rem; }
+.cartao-lista > div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0.2rem 1rem;
+  align-items: baseline;
+}
+.cartao-lista dt {
+  font-family: var(--ui);
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-3);
+}
+.cartao-lista dd {
+  margin: 0;
+  font-size: 0.95rem; line-height: 1.55;
+  color: var(--text-2);
+}
+.cartao-lista a {
+  color: var(--acc);
+  text-decoration: none;
+  border-bottom: 1px solid var(--acc-edge);
+}
+.cartao-lista a:hover { color: var(--text); border-bottom-color: var(--acc); }
+
+.cartao-prosa {
+  margin: 0;
+  font-size: 0.95rem; line-height: 1.6;
   color: var(--text-2);
   text-wrap: pretty;
 }
@@ -884,9 +994,9 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
 /* ── telas estreitas ────────────────────────────────────────── */
 
 @media (max-width: 46rem) {
-  /* Sem espaço em volta do retrato, as pílulas saem da posição
+  /* Sem espaço em volta do pulsar, as pílulas saem da posição
      absoluta e viram uma faixa que embrulha embaixo dele. No HTML
-     elas vêm antes do retrato — `order` recoloca o retrato na
+     elas vêm antes do pulsar — `order` recoloca o pulsar na
      frente sem mexer na ordem do documento.                      */
   .stage {
     display: flex;
@@ -897,8 +1007,11 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
     min-height: 0;
     padding-bottom: clamp(2rem, 6vw, 3rem);
   }
-  .portrait { order: -1; flex: 0 0 100%; display: flex; justify-content: center; }
-  .portrait img { width: min(15rem, 62vw); }
+  .pulsar { order: -1; flex: 0 0 100%; display: flex; justify-content: center; }
+  .pulsar svg { width: min(16rem, 66vw); }
+
+  .cartao-caixa { flex-direction: column; text-align: center; }
+  .cartao-lista > div { grid-template-columns: 1fr; gap: 0.1rem; }
   .pill {
     position: relative;
     animation: none;

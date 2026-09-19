@@ -103,11 +103,99 @@
         <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="M3.5 6.8l8.5 6 8.5-6"/></svg></span>
         <span lang="pt">Fale comigo</span><span lang="en">Get in touch</span>
       </a>
-    <figure class="portrait">
-      <picture>
-        <source srcset="/rafael-atlas.webp?v=3" type="image/webp">
-        <img src="/rafael-atlas.jpg?v=3" width="760" height="760" alt="Rafael de Lima de capacete do CERN, diante do detector ATLAS no LHC">
-      </picture>
+    <!--
+      No centro do palco, onde estava o retrato: um pulsar. O eixo de
+      rotação aponta para quem olha e o eixo magnético faz ângulo com
+      ele — por isso os dois feixes varrem o céu em círculo e aparecem
+      sempre do mesmo tamanho. Gira só o grupo magnético (feixes, linhas
+      de campo, calotas quentes); a esfera é simétrica e girar não
+      mudaria nada nela. São dois grupos porque um fica atrás da esfera
+      e o outro na frente, e o desenho precisa dessa ordem.
+    -->
+    <figure class="pulsar">
+      <svg viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="ps-corpo" cx="40%" cy="34%" r="74%">
+            <stop offset="0%"   stop-color="#ffffff"/>
+            <stop offset="28%"  stop-color="#e6dfff"/>
+            <stop offset="64%"  stop-color="#8a72f0"/>
+            <stop offset="100%" stop-color="#241a52"/>
+          </radialGradient>
+
+          <radialGradient id="ps-halo" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#9e8cff" stop-opacity=".26"/>
+            <stop offset="42%"  stop-color="#9e8cff" stop-opacity=".07"/>
+            <stop offset="100%" stop-color="#9e8cff" stop-opacity="0"/>
+          </radialGradient>
+
+          <!-- y1=1 é a base do feixe (junto à estrela), y2=0 a ponta. -->
+          <linearGradient id="ps-feixe" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%"   stop-color="#ffffff" stop-opacity=".98"/>
+            <stop offset="18%"  stop-color="#e4dcff" stop-opacity=".82"/>
+            <stop offset="46%"  stop-color="#a794ff" stop-opacity=".60"/>
+            <stop offset="78%"  stop-color="#56e1d0" stop-opacity=".32"/>
+            <stop offset="100%" stop-color="#56e1d0" stop-opacity="0"/>
+          </linearGradient>
+
+          <linearGradient id="ps-nucleo" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+            <stop offset="34%"  stop-color="#ffffff" stop-opacity=".58"/>
+            <stop offset="72%"  stop-color="#ffffff" stop-opacity=".16"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+          </linearGradient>
+
+          <filter id="ps-borrao" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="7"/>
+          </filter>
+
+          <filter id="ps-borrao-largo" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="20"/>
+          </filter>
+
+          <!-- Três larguras para o mesmo feixe: o brilho que vaza em volta,
+               o cone, e o núcleo. Sozinho, o cone sai fino como um risco. -->
+          <path id="ps-aura"  d="M200,200 L96,0   L304,0  Z"/>
+          <path id="ps-cone"  d="M200,200 L134,6  L266,6  Z"/>
+          <path id="ps-miolo" d="M200,200 L172,18 L228,18 Z"/>
+          <ellipse id="ps-calota" cx="200" cy="136" rx="31" ry="10"/>
+        </defs>
+
+        <circle cx="200" cy="200" r="196" fill="url(#ps-halo)"/>
+
+        <g class="pulsar-gira">
+          <g class="pulsar-feixes">
+            <use href="#ps-aura"  fill="url(#ps-feixe)" opacity=".55" filter="url(#ps-borrao-largo)"/>
+            <use href="#ps-aura"  fill="url(#ps-feixe)" opacity=".55" filter="url(#ps-borrao-largo)" transform="rotate(180 200 200)"/>
+            <use href="#ps-cone"  fill="url(#ps-feixe)" filter="url(#ps-borrao)"/>
+            <use href="#ps-cone"  fill="url(#ps-feixe)" filter="url(#ps-borrao)" transform="rotate(180 200 200)"/>
+            <use href="#ps-miolo" fill="url(#ps-nucleo)"/>
+            <use href="#ps-miolo" fill="url(#ps-nucleo)" transform="rotate(180 200 200)"/>
+          </g>
+
+          <g fill="none" stroke="#56e1d0" stroke-width="1.5" opacity=".45">
+            <path d="M200,132 C  72, 96  72,304 200,268"/>
+            <path d="M200,132 C 328, 96 328,304 200,268"/>
+            <path d="M200,134 C  10, 58  10,342 200,266" opacity=".55"/>
+            <path d="M200,134 C 390, 58 390,342 200,266" opacity=".55"/>
+          </g>
+        </g>
+
+        <circle cx="200" cy="200" r="86" fill="#9e8cff" opacity=".16" filter="url(#ps-borrao)"/>
+        <circle cx="200" cy="200" r="72" fill="url(#ps-corpo)"/>
+        <circle cx="200" cy="200" r="72" fill="none" stroke="#ffffff" stroke-opacity=".34" stroke-width="1.4"/>
+
+        <g class="pulsar-gira">
+          <use href="#ps-calota" fill="#ffffff" opacity=".9"/>
+          <use href="#ps-calota" fill="#ffffff" opacity=".9" transform="rotate(180 200 200)"/>
+          <use href="#ps-calota" fill="#ffffff" opacity=".5" filter="url(#ps-borrao)"/>
+          <use href="#ps-calota" fill="#ffffff" opacity=".5" transform="rotate(180 200 200)" filter="url(#ps-borrao)"/>
+        </g>
+      </svg>
+
+      <figcaption class="sr-only">
+        <span lang="pt">Uma estrela de nêutrons girando, com dois feixes saindo dos polos magnéticos.</span>
+        <span lang="en">A spinning neutron star, with two beams leaving the magnetic poles.</span>
+      </figcaption>
     </figure>
   </div>
 </div>
@@ -116,8 +204,57 @@
   <p class="kicker"><span lang="pt">Olá, eu sou o Rafael</span><span lang="en">Hi there, I'm Rafael</span></p>
   <h1 lang="pt">Um <em>físico</em> atrás do que a matéria faz sob <em>gravidade extrema</em></h1>
   <h1 lang="en">A <em>physicist</em> after what matter does under <em>extreme gravity</em></h1>
-  <p class="introsub" lang="pt">Professor Associado no Departamento de Física da UDESC/CCT, em Joinville, e docente permanente do PPGF. Estudo estrelas de nêutrons, magnetares e anãs brancas magnetizadas — e construo as ferramentas que uso para ensinar isso.</p>
-  <p class="introsub" lang="en">Associate Professor in the Department of Physics at UDESC/CCT, Joinville, and permanent faculty in the graduate physics program. I study neutron stars, magnetars and magnetized white dwarfs — and I build the tools I use to teach them.</p>
+</section>
+
+<!--
+  O retrato saiu do palco e veio para cá, ao lado dos dados que ele
+  identifica. O parágrafo que ficava embaixo da frase da capa veio
+  junto: dizia cargo e instituição, e mantido lá apareceria duas vezes
+  na mesma tela. O que sobrou dele é a última frase, que não é dado de
+  cadastro e não cabia na lista.
+-->
+<section class="cartao" aria-labelledby="cartao-nome">
+  <div class="cartao-caixa">
+    <figure class="cartao-retrato">
+      <picture>
+        <source srcset="/rafael-atlas.webp?v=3" type="image/webp">
+        <img src="/rafael-atlas.jpg?v=3" width="760" height="760" alt="Rafael de Lima de capacete do CERN, diante do detector ATLAS no LHC">
+      </picture>
+    </figure>
+
+    <div class="cartao-dados">
+      <h2 id="cartao-nome">Rafael Camargo Rodrigues de Lima</h2>
+
+      <p class="cartao-cargo">
+        <span lang="pt">Professor Associado · Departamento de Física</span>
+        <span lang="en">Associate Professor · Department of Physics</span>
+      </p>
+
+      <dl class="cartao-lista">
+        <div>
+          <dt><span lang="pt">Universidade</span><span lang="en">University</span></dt>
+          <dd>
+            <span lang="pt">UDESC — Universidade do Estado de Santa Catarina</span>
+            <span lang="en">UDESC — Santa Catarina State University</span>
+          </dd>
+        </div>
+        <div>
+          <dt><span lang="pt">Unidade</span><span lang="en">Campus</span></dt>
+          <dd>
+            <span lang="pt">CCT · Joinville, SC · docente permanente do PPGF</span>
+            <span lang="en">CCT · Joinville, Brazil · permanent faculty in the graduate physics program</span>
+          </dd>
+        </div>
+        <div>
+          <dt><span lang="pt">E-mail</span><span lang="en">Email</span></dt>
+          <dd><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></dd>
+        </div>
+      </dl>
+
+      <p class="cartao-prosa" lang="pt">Estudo estrelas de nêutrons, magnetares e anãs brancas magnetizadas — e construo as ferramentas que uso para ensinar isso.</p>
+      <p class="cartao-prosa" lang="en">I study neutron stars, magnetars and magnetized white dwarfs — and I build the tools I use to teach them.</p>
+    </div>
+  </div>
 </section>
 
   <section class="destinos" id="conteudo">
