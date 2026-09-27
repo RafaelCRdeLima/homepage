@@ -2,6 +2,13 @@
    Motor do deck + utilitários de gráfico + fundo animado da capa
    ===================================================================== */
 
+/* ------------------------------ idioma ------------------------------
+   O deck existe em duas cópias (index.html em português, en.html em inglês);
+   o JS lê o idioma do <html lang> e escolhe textos e separador decimal. */
+const LANG = document.documentElement.lang.startsWith('en') ? 'en' : 'pt';
+const T = (pt, en) => (LANG === 'en' ? en : pt);
+const DEC = T(',', '.');
+
 /* ---------------------------- navegação ---------------------------- */
 const Deck = (() => {
   const slides = [...document.querySelectorAll('.slide')];
@@ -18,7 +25,7 @@ const Deck = (() => {
     if (!s.classList.contains('content')) return;
     const f = document.createElement('div');
     f.className = 'foot';
-    f.innerHTML = `<span>Neutrinos em espaço-tempo curvo · II EBN</span>
+    f.innerHTML = `<span>${T('Neutrinos em espaço-tempo curvo · II EBN', 'Neutrinos in curved spacetime · II EBN')}</span>
       <span class="parts"><span></span><span></span><span></span></span>
       <span>${String(k + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span>`;
     s.appendChild(f);
@@ -83,6 +90,11 @@ const Deck = (() => {
     if (Math.abs(dx) > 55) show(index + (dx < 0 ? 1 : -1));
     x0 = null;
   }, { passive: true });
+  // PT/EN: grava a escolha na mesma chave da página pessoal e mantém o slide atual
+  document.querySelectorAll('.langsw a').forEach(a => a.addEventListener('click', () => {
+    try { localStorage.setItem('rcrl-lang', a.dataset.setLang); } catch (e) { /* modo privado */ }
+    a.href = a.getAttribute('href').split('#')[0] + location.hash;
+  }));
   addEventListener('hashchange', () => show((parseInt(location.hash.slice(1)) || 1) - 1, false));
   addEventListener('resize', fit);
 
@@ -154,7 +166,7 @@ class Plot {
   }
   static fmt(v, log) {
     if (log) { const e = Math.round(Math.log10(v)); if (e >= -2 && e <= 3) return String(+v.toPrecision(3)); return '10' + String(e).split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹'['0123456789'.indexOf(c)] ?? '⁻').join(''); }
-    return String(+v.toPrecision(4)).replace('.', ',');
+    return String(+v.toPrecision(4)).replace('.', DEC);
   }
   frame(xlabel, ylabel) {
     const { ctx, o } = this;

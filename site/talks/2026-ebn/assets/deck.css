@@ -338,6 +338,13 @@ body.show-notes #notes-panel { display: block; }
 #help dt { font-family: var(--mono); color: var(--text); }
 #help dd { margin: 0; }
 
+/* seletor de idioma, discreto como o contador */
+.langsw { position: fixed; top: 14px; right: 18px; z-index: 30; display: flex; gap: 2px; font: 600 12px var(--ui); letter-spacing: .1em; opacity: 0; transition: opacity .3s; }
+body:hover .langsw, .langsw:focus-within { opacity: .9; }
+.langsw a { color: var(--text-3); text-decoration: none; padding: 5px 9px; border-radius: 6px; }
+.langsw a:hover { color: var(--text); }
+.langsw a.on { color: var(--text); background: rgba(255,255,255,.09); }
+
 /* visão geral: grade de miniaturas */
 body.overview { overflow: auto; }
 body.overview #stage { position: static; transform: none; width: auto; height: auto; display: grid; grid-template-columns: repeat(auto-fill, 384px); gap: 18px; padding: 24px; justify-content: center; }
@@ -351,6 +358,6 @@ body.overview .progress, body.overview .counter { display: none; }
   html, body { overflow: visible; height: auto; }
   #stage { position: static; transform: none; }
   .slide { position: relative; width: var(--W); height: var(--H); opacity: 1; visibility: visible; break-after: page; }
-  .progress, .counter, #notes-panel, #help { display: none !important; }
+  .progress, .counter, .langsw, #notes-panel, #help { display: none !important; }
   .rise { animation: none !important; }
 }

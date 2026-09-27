@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080e">
+<title>Neutrinos in curved spacetime · Rafael C. R. de Lima</title>
+<meta name="description" content="Seminar at the II Brazilian School of Neutrinos, 2 October 2026 — flavour oscillation when propagation follows a geodesic.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Neutrinos in curved spacetime">
+<meta property="og:description" content="II Brazilian School of Neutrinos · 2 Oct 2026 · Rafael C. R. de Lima (UDESC/CCT)">
+<link rel="alternate" hreflang="pt-BR" href="index.html">
+
+<script>
+/* same language preference as the personal site (key rcrl-lang) */
+(function () {
+  var l = null; try { l = localStorage.getItem('rcrl-lang'); } catch (e) {}
+  if (l === 'pt') location.replace('index.html' + location.hash);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/deck.css">
+</head>
+<body>
+
+<main id="stage" aria-live="polite">
+
+<!-- ================================================================
+     COVER
+     ================================================================ -->
+<section class="slide cover" data-title="Cover">
+  <canvas id="spacetime" aria-hidden="true"></canvas>
+  <div class="veil"></div>
+  <div class="grain"></div>
+  <header class="top rise d1">
+    <div class="school"><span class="flavours" aria-hidden="true"><i></i><i></i><i></i></span><span><b>II</b> Brazilian School of Neutrinos</span></div>
+    <div class="date">Friday · <b>02 · 10 · 2026</b></div>
+  </header>
+  <div class="legend rise d5" aria-label="Flavours">
+    <span style="--c: var(--nu-e)"><b>ν<sub>e</sub></b></span>
+    <span style="--c: var(--nu-mu)"><b>ν<sub>μ</sub></b></span>
+    <span style="--c: var(--nu-tau)"><b>ν<sub>τ</sub></b></span>
+  </div>
+  <div class="main">
+    <p class="kicker rise d1">Seminar</p>
+    <h1 class="rise d2">Neutrinos in<br><em>curved spacetime</em></h1>
+    <p class="lede rise d3">What happens to flavour oscillation when the journey follows a <i>geodesic</i> — and not a straight line.</p>
+  </div>
+  <footer class="bottom rise d5">
+    <div class="author">
+      <p class="name">Rafael C. R. de Lima</p>
+      <p class="aff">Department of Physics<span>·</span>UDESC/CCT<span>·</span>Joinville, Brazil</p>
+    </div>
+    <div class="right">
+      <div class="phase"><span class="eqn">Φ<sub><i>k</i></sub> = ∫ <i>p</i><sub>μ</sub><sup>(<i>k</i>)</sup> <i>dx</i><sup>μ</sup></span><small>covariant phase</small></div>
+      <div class="links"><a href="https://rafael-lima.pages.dev">rafael-lima.pages.dev</a><span>·</span><a href="https://github.com/RafaelCRdeLima/Seminario2026">github.com/RafaelCRdeLima/Seminario2026</a></div>
+    </div>
+  </footer>
+  <aside class="notes">Good afternoon. The question of this seminar fits in one line: the oscillation phase is the integral of p·dx along the path — and when the path is a geodesic in a curved spacetime, that integral changes. The trajectories in the background are exactly that: packets changing colour (flavour) while the well bends the path and changes the pace of the phase.</aside>
+</section>
+
+<!-- OUTLINE -->
+<section class="slide content p1">
+  <header><p class="eyebrow">Outline</p><h2>Three parts, <em>one question</em></h2></header>
+  <div class="body cols c3">
+    <div class="card" style="--part: var(--nu-e)">
+      <p class="stat c-e" style="font-style: italic">I</p>
+      <h3>Neutrinos</h3>
+      <p class="small">From Pauli's “desperate remedy” to the discovery that neutrinos have mass — and what that does to the Standard Model.</p>
+    </div>
+    <div class="card" style="--part: var(--nu-tau)">
+      <p class="stat c-tau" style="font-style: italic">II</p>
+      <h3>Curved spacetime</h3>
+      <p class="small">Einstein, Schwarzschild, compact objects: the regions only General Relativity describes well — all the way to collapsars.</p>
+    </div>
+    <div class="card glow" style="--part: var(--nu-mu)">
+      <p class="stat c-mu" style="font-style: italic">III</p>
+      <h3>Neutrinos in curved spacetime</h3>
+      <p class="small">Neutrinos are born in deep gravitational wells. What that does to flavour — and what DUNE and its peers can learn.</p>
+    </div>
+  </div>
+  <aside class="notes">Three parts. The first two build the tools; the third puts them together, and that is where current research is.</aside>
+</section>
+
+<!-- ================================================================
+     PART I — NEUTRINOS
+     ================================================================ -->
+<section class="slide partcover p1">
+  <div class="bg" style="background-image: url('assets/img/homestake-tank.jpg')"></div>
+  <div class="inner">
+    <p class="num rise d1">I</p>
+    <p class="label rise d2">Part one</p>
+    <h2 class="rise d2">Neutrinos</h2>
+    <p class="sub lede rise d3">A particle postulated out of desperation, detected 26 years later, which then spent three more decades “going missing” on its way from the Sun to us.</p>
+    <div class="topics rise d4"><span>prediction · 1930</span><span>discovery · 1956</span><span>solar problem</span><span>flavour oscillation</span><span>Standard Model</span></div>
+  </div>
+  <span class="credit">Chlorine experiment tank, Homestake mine · U.S. DOE / BNL</span>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1914 – 1930 · the crisis</p><h2>The beta spectrum <em>doesn't add up</em></h2></header>
+  <div class="body cols l center">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 640px">
+      <div class="cv"><canvas id="beta-spectrum"></canvas></div>
+      <p class="ref">Fermi allowed spectrum, illustrative (Q = 1.16 MeV). Chadwick (1914) saw the continuum; Ellis &amp; Wooster (1927) measured the energy calorimetrically: no energy was hiding in γ rays.</p>
+    </div>
+    <div class="stack">
+      <p class="big">In a two-body decay <i>n → p + e⁻</i>, the electron would <b>always come out with the same energy</b>.</p>
+      <p>Instead it comes out with <b>any energy</b> between zero and Q. Energy and angular momentum seemed to vanish.</p>
+      <p>Niels Bohr went as far as considering that energy conservation might hold only <i>on average</i> in the nuclear world.</p>
+    </div>
+  </div>
+  <aside class="notes">This is the starting problem. Two bodies in the final state, fixed energy. Experiment shows a continuum. Bohr was ready to give up energy conservation.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">4 December 1930</p><h2>“Liebe Radioaktive <em>Damen und Herren</em>”</h2></header>
+  <div class="body cols" style="grid-template-columns: .62fr .78fr 1fr; gap: 48px">
+    <figure class="portrait"><img src="assets/img/pauli.jpg" alt="Wolfgang Pauli"><figcaption><b>Wolfgang Pauli</b>1900 – 1958</figcaption></figure>
+    <figure><img src="assets/img/pauli-letter.jpg" alt="Pauli's letter of 4 December 1930" style="max-height: 640px; object-fit: contain; background: #f4f1e8; padding: 10px"><span class="credit">ETH-Bibliothek · CC BY 4.0</span></figure>
+    <div class="stack">
+      <blockquote>“…a desperate remedy to save the law of conservation of energy.”<footer>Pauli, letter to the participants of the Tübingen meeting</footer></blockquote>
+      <p>A <b>neutral</b> particle, spin ½, small mass, emitted together with the electron. He called it the “neutron”.</p>
+      <p class="small muted">He didn't go to Tübingen: he preferred a ball in Zurich. He only published the idea in 1933.</p>
+    </div>
+  </div>
+  <aside class="notes">The famous letter. Pauli did not even attend the meeting; he sent the letter. He himself thought the particle might never be detected.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1934 · Fermi</p><h2>The <em>neutrino</em> gets a name and a theory</h2></header>
+  <div class="body cols rr">
+    <figure class="portrait"><img src="assets/img/fermi.jpg" alt="Enrico Fermi"><span class="credit">U.S. DOE · public domain</span><figcaption><b>Enrico Fermi</b>1901 – 1954</figcaption></figure>
+    <div class="stack" style="gap: 28px">
+      <p class="big">With Chadwick's neutron (1932) taking the name, Fermi rebaptises Pauli's particle: <i>neutrino</i>, “the little neutral one”.</p>
+      <div class="eq sm"><i>n</i> → <i>p</i> + <i>e</i><sup>−</sup> + <span class="c-e">ν̄<sub>e</sub></span><span class="note">contact interaction, constant G<sub>F</sub></span></div>
+      <div class="cols c2" style="gap: 28px">
+        <div class="card"><h4>Rejected</h4><p class="small"><i>Nature</i> turned the paper down: “speculations too remote from reality”. It appeared in <i>Zeitschrift für Physik</i>.</p></div>
+        <div class="card"><h4>Bethe &amp; Peierls, 1934</h4><p class="small">σ ≲ 10<sup>−44</sup> cm². An MeV neutrino would cross <b>light-years of lead</b>: “no practically possible way of observing the neutrino”.</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Fermi's theory is the first theory of the weak interaction. And the Bethe–Peierls estimate explains why it took so long: the cross section is ridiculously small.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1956 · Savannah River</p><h2>Detected, <em>26 years later</em></h2></header>
+  <div class="body cols r">
+    <figure><img src="assets/img/cowan-reines.jpg" alt="Clyde Cowan and Frederick Reines" style="max-height: 660px; object-fit: cover"><span class="credit">Savannah River Site · public domain</span><figcaption><b>Frederick Reines</b> and <b>Clyde Cowan</b> — Nobel Prize 1995 (Reines)</figcaption></figure>
+    <div class="stack" style="gap: 26px">
+      <p>A reactor is a colossal source of antineutrinos: ~10<sup>13</sup> cm<sup>−2</sup> s<sup>−1</sup> near the core. They looked for <b>inverse beta decay</b>:</p>
+      <div class="eq sm"><span class="c-e">ν̄<sub>e</sub></span> + <i>p</i> → <i>e</i><sup>+</sup> + <i>n</i><span class="note">delayed signal: positron annihilates at once · neutron captured μs later</span></div>
+      <blockquote style="font-size: 36px">“We are happy to inform you that we have definitely detected neutrinos… Observed cross section agrees well with expected six times ten to minus forty-four square centimeters.”<footer>Telegram to Pauli, 14 June 1956</footer></blockquote>
+    </div>
+  </div>
+  <aside class="notes">The delayed-coincidence signature was the key to beating the background. Pauli replied: everything comes to him who knows how to wait.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1962 – 2000</p><h2>Three flavours, <em>and only three</em></h2></header>
+  <div class="body cols ll center">
+    <div class="stack" style="gap: 40px">
+      <div class="timeline">
+        <div><p class="yr c-e">1956</p><p><b>ν<sub>e</sub></b> — Cowan &amp; Reines, reactor</p></div>
+        <div style="--part: var(--nu-mu)"><p class="yr c-mu">1962</p><p><b>ν<sub>μ</sub></b> — Lederman, Schwartz, Steinberger, Brookhaven (Nobel 1988)</p></div>
+        <div style="--part: var(--nu-tau)"><p class="yr c-tau">2000</p><p><b>ν<sub>τ</sub></b> — DONUT, Fermilab</p></div>
+      </div>
+      <div class="card glow"><h4>Z width at LEP</h4>
+        <p class="big" style="margin: 0">N<sub>ν</sub> = 2.984 ± 0.008</p>
+        <p class="small" style="margin: 8px 0 0">The number of light neutrinos coupling to the Z. The Standard Model has exactly three families — and, in it, <b>massless</b> neutrinos.</p></div>
+    </div>
+    <figure><img src="assets/img/standard-model.svg" alt="Standard Model particle chart" style="background: #fff; padding: 14px; max-height: 660px; object-fit: contain"><span class="credit">Cush · public domain</span></figure>
+  </div>
+  <aside class="notes">Keep the last sentence in mind: in the original Standard Model, neutrinos are massless. That is what oscillations will break.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The most intense source we have</p><h2>The Sun is a <em>ν<sub>e</sub> factory</em></h2></header>
+  <div class="body cols r center">
+    <figure><img src="assets/img/sun.jpg" alt="The Sun seen by SDO" style="max-height: 680px; object-fit: contain; background: #000"><span class="credit">NASA/SDO (AIA) · public domain</span></figure>
+    <div class="stack" style="gap: 30px">
+      <div class="eq">4<i>p</i> → <sup>4</sup>He + 2<i>e</i><sup>+</sup> + 2<span class="c-e">ν<sub>e</sub></span> + 26.7 MeV<span class="note">pp chain and CNO cycle</span></div>
+      <div class="cols c2" style="gap: 24px">
+        <div><p class="stat">6×10<sup style="font-size:.5em">10</sup></p><p class="stat-label">neutrinos per cm² per second, here on Earth</p></div>
+        <div><p class="stat">8 <small>min</small></p><p class="stat-label">from the solar core to us — light's energy takes ~10⁵ years to leave the Sun</p></div>
+      </div>
+      <p>Only νₑ are produced. Measuring this flux tests, at once, the <b>nuclear physics of the Sun</b> and the <b>physics of the neutrino</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">Important for Part III: neutrinos leave the solar core directly; the energy carried by photons takes tens of thousands of years. Neutrinos are messengers from the interior.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The Standard Solar Model</p><h2>The spectrum predicted by <em>Bahcall</em></h2></header>
+  <div class="body cols ll center">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 690px"><div class="cv"><canvas id="solar-spectrum"></canvas></div>
+      <p class="ref">Fluxes from the B16-GS98 Standard Solar Model (Vinyoles et al. 2017); simplified beta spectral shapes, for illustration only. Bands: threshold of each technique.</p></div>
+    <div class="stack">
+      <p>Each experiment sees a different slice:</p>
+      <ul class="list">
+        <li><b class="c-e">Gallium</b> (0.23 MeV): sees the pp</li>
+        <li><b class="c-tau">Chlorine</b> (0.81 MeV): ⁷Be and ⁸B</li>
+        <li><b class="c-mu">Water</b> (≳ 3.5 MeV): ⁸B only, but in real time and with direction</li>
+      </ul>
+      <p class="small muted">John Bahcall spent 40 years refining this prediction.</p>
+    </div>
+  </div>
+  <aside class="notes">The canonical plot. What matters are the thresholds: each technique sees a piece of the spectrum, which later allows separating solar physics from neutrino physics.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1968 – 1994 · Homestake</p><h2>Ray Davis and the tank <em>1,478 m underground</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .75fr 1.1fr 1fr; gap: 44px">
+    <figure class="portrait"><img src="assets/img/davis.jpg" alt="Raymond Davis Jr."><span class="credit">BNL / U.S. DOE · public domain</span><figcaption><b>Raymond Davis Jr.</b>Nobel 2002</figcaption></figure>
+    <figure class="fill"><img src="assets/img/homestake-tank.jpg" alt="Homestake mine tank" style="max-height: 660px"><span class="credit">BNL / U.S. DOE · public domain</span></figure>
+    <div class="stack">
+      <div class="eq sm"><span class="c-e">ν<sub>e</sub></span> + <sup>37</sup>Cl → <sup>37</sup>Ar + <i>e</i><sup>−</sup></div>
+      <p><b>615 t</b> of perchloroethylene (dry-cleaning fluid). Every few months the argon atoms produced were extracted: <b>about one every two days</b>.</p>
+      <p>Result of 25 years: <b>2.56 ± 0.23 SNU</b>. The prediction was <b>~8 SNU</b>.</p>
+      <p class="big c-tau" style="margin:0">Two thirds were missing.</p>
+    </div>
+  </div>
+  <aside class="notes">Counting individual argon atoms in a 615-tonne tank. A heroic experiment. And the result went 30 years without an accepted explanation.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The solar neutrino problem</p><h2>Everyone sees <em>less</em> — and not the same fraction</h2></header>
+  <div class="body cols ll center">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 660px"><div class="cv"><canvas id="solar-deficit"></canvas></div>
+      <p class="ref">Measured/predicted ratio relative to SSM BP04; rounded values, approximate combined error bars.</p></div>
+    <div class="stack">
+      <p>Either the <b>Sun</b> was wrong — or the <b>neutrino</b>.</p>
+      <p>Helioseismology confirmed the solar interior to ~0.1%. And the missing fraction <b>depended on energy</b>: no temperature tweak could explain the three experiments together.</p>
+      <p class="c-mu"><b>The last bar changes everything:</b> SNO measures <i>all</i> flavours together — and the total flux matches the Sun.</p>
+    </div>
+  </div>
+  <aside class="notes">Reading the plot: all bars below 1, but different. The white bar is SNO's neutral current, sensitive to all flavours: the total is there, just in other flavours.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1957 – 1968 · Pontecorvo, Maki, Nakagawa, Sakata</p><h2>What if the neutrino <em>changed flavour</em>?</h2></header>
+  <div class="body cols rr">
+    <figure class="portrait"><img src="assets/img/pontecorvo.jpg" alt="Bruno Pontecorvo"><figcaption><b>Bruno Pontecorvo</b>1913 – 1993</figcaption></figure>
+    <div class="stack" style="gap: 26px">
+      <p>If the <b>flavour</b> states (the ones that interact) are not the <b>mass</b> states (the ones that propagate), each component accumulates phase at its own pace:</p>
+      <div class="cols c2" style="gap: 24px">
+        <div class="eq sm">|ν<sub>α</sub>⟩ = Σ<sub><i>k</i></sub> <i>U</i><sup>*</sup><sub>α<i>k</i></sub> |ν<sub><i>k</i></sub>⟩</div>
+        <div class="eq sm">Φ<sub><i>k</i></sub> ≈ <span class="frac"><span><i>m</i><sub><i>k</i></sub><sup>2</sup> <i>L</i></span><span>2<i>E</i></span></span></div>
+      </div>
+      <div class="eq">P(ν<sub>α</sub>→ν<sub>β</sub>) = sin²2θ · sin²<span class="frac"><span>Δ<i>m</i>² <i>L</i></span><span>4<i>E</i></span></span><span class="note">two flavours · vacuum · flat spacetime</span></div>
+      <p class="small">In 1968, before Davis's result, Pontecorvo predicted the solar flux would arrive <b>reduced by half</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">Keep the phase Φ_k = m²L/2E in mind: it is the flat-space approximation of ∫p·dx. In Part III we will compute this same phase along a geodesic. And note the words in small print: vacuum, flat spacetime.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Dashboard · vacuum oscillation</p><h2>Distance and energy <em>make the pattern</em></h2></header>
+  <div class="body">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interactive</span>
+        <div class="seg" id="osc2-presets"><button data-v="2000,2.5e-3,1" class="on">atmospheric · 2 GeV</button><button data-v="4,7.5e-5,0.85">reactor / solar · 4 MeV</button><button data-v="3,2.5e-3,0.085">θ₁₃ · 3 MeV</button></div></div>
+      <div class="cv"><canvas id="osc2"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="osc2-E">energy <output for="osc2-E"></output></label><input type="range" id="osc2-E" min="0" max="4.3" step="0.01" value="3.301"></div>
+        <div class="ctl"><label for="osc2-dm">Δm² <output for="osc2-dm"></output></label><input type="range" id="osc2-dm" min="-5.5" max="-2" step="0.01" value="-2.602"></div>
+        <div class="ctl"><label for="osc2-th">sin²2θ <output for="osc2-th"></output></label><input type="range" id="osc2-th" min="0" max="1" step="0.01" value="1"></div>
+      </div>
+      <div class="readout" id="osc2-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Show: with the atmospheric preset, the first oscillation falls at hundreds to thousands of km — which is why T2K and DUNE have those baselines. Much farther, the oscillation becomes fast and only the average survives: that is what happens to solar neutrinos.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1998 · Super-Kamiokande</p><h2>The ν<sub>μ</sub> that cross the Earth <em>disappear</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .55fr 1.45fr; gap: 44px">
+    <div class="stack">
+      <figure><img src="assets/img/pmt.jpg" alt="50 cm photomultiplier tube" style="max-height: 330px; object-fit: cover"><span class="credit">Daderot · CC0</span><figcaption>A 50 cm photomultiplier — the “eye” of Kamiokande and Super-K</figcaption></figure>
+      <p class="small"><b>50 kt</b> of ultrapure water 1,000 m underground, <b>11,146</b> photomultipliers. Cherenkov light tells flavour and direction.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interactive</span><div class="legend-line"><span style="--c: var(--nu-mu)">multi-GeV (1.3–20 GeV)</span><span class="dash-l" style="--c: var(--nu-e)">sub-GeV (0.3–1.2 GeV)</span></div></div>
+      <div class="cv"><canvas id="zenith"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="zen-dm">Δm²₃₂ <output for="zen-dm"></output></label><input type="range" id="zen-dm" min="-3.7" max="-1.7" step="0.01" value="-2.6"></div>
+        <div class="ctl"><label for="zen-th">sin²2θ₂₃ <output for="zen-th"></output></label><input type="range" id="zen-th" min="0" max="1" step="0.01" value="1"></div>
+      </div>
+      <div class="readout" id="zen-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Atmospheric neutrinos from above travelled ~15 km; those from below, ~13,000 km. Same flux at production, by symmetry. Those from below arrive halved. Setting sin²2θ to zero shows the flat line that was expected. Kajita presented this in Takayama in June 1998.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">2001 – 2002 · Sudbury Neutrino Observatory</p><h2>The total flux <em>was there</em></h2></header>
+  <div class="body cols r">
+    <div class="stack">
+      <figure><img src="assets/img/snoplus.jpg" alt="SNO+ detector" style="max-height: 300px; object-fit: cover"><span class="credit">SNO+ Collaboration · CC BY 4.0</span><figcaption>SNO's acrylic sphere, now SNO+</figcaption></figure>
+      <p class="small"><b>1,000 t of heavy water</b> 2 km underground. The deuteron allows three reactions:</p>
+      <p class="small ui" style="line-height: 1.8">
+        <b class="c-e">CC</b> νₑ + d → p + p + e⁻ <span class="muted">νₑ only</span><br>
+        <b>NC</b> ν<sub>x</sub> + d → p + n + ν<sub>x</sub> <span class="muted">all, equally</span><br>
+        <b class="c-tau">ES</b> ν<sub>x</sub> + e⁻ → ν<sub>x</sub> + e⁻ <span class="muted">all, νₑ weighs more</span></p>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="sno-plane"></canvas></div>
+      <p class="ref">1σ bands from SNO, PRL 89, 011301 (2002). Without oscillation, the point would sit on the horizontal axis.</p>
+    </div>
+  </div>
+  <aside class="notes">The three bands cross at a point far from the axis: two thirds of the νₑ arrive as νμ or ντ. And the total, the NC band, agrees with the Solar Model. Bahcall was right about the Sun.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Wolfenstein 1978 · Mikheyev &amp; Smirnov 1985</p><h2>Matter <em>also</em> changes oscillation</h2></header>
+  <div class="body cols c2 center">
+    <div class="stack" style="gap: 30px">
+      <p>Electrons in the medium forward-scatter νₑ through the charged current. The other flavours do not feel this term:</p>
+      <div class="eq"><i>V</i><sub>CC</sub> = √2 <i>G</i><sub>F</sub> <i>n</i><sub>e</sub><span class="note">effective potential for νₑ</span></div>
+      <p>When <i>2√2 G<sub>F</sub> n<sub>e</sub> E</i> ≈ Δm² cos 2θ, the effective mixing becomes <b>maximal</b>: the <b>MSW resonance</b>. In the Sun it converts ⁸B νₑ almost adiabatically into ν₂.</p>
+    </div>
+    <div class="card glow" style="--part: var(--nu-mu)">
+      <h4>Keep for Part III</h4>
+      <p class="big" style="margin-bottom: 18px">The potential acts in the <b>local</b> frame of the medium, with the neutrino's <b>local</b> energy.</p>
+      <p>In a supernova or a collapsar disk, density, energy and neutrino directions are measured next to a compact object — where “local” and “at infinity” are no longer the same thing.</p>
+    </div>
+  </div>
+  <aside class="notes">I won't go into MSW details; it is enough that matter enters as a potential. Highlight the card: potential and energy are local quantities. That will be central in Part III.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Nobel Prize in Physics 2015</p><h2>“…which shows that neutrinos <em>have mass</em>”</h2></header>
+  <div class="body cols" style="grid-template-columns: .9fr .9fr 1.1fr; gap: 48px">
+    <figure class="portrait"><img src="assets/img/kajita.jpg" alt="Takaaki Kajita"><span class="credit">Bengt Nyman · CC BY-SA 4.0</span><figcaption><b>Takaaki Kajita</b>Super-Kamiokande · atmospheric</figcaption></figure>
+    <figure class="portrait"><img src="assets/img/mcdonald.jpg" alt="Arthur B. McDonald"><span class="credit">Bengt Nyman · CC BY-SA 4.0</span><figcaption><b>Arthur B. McDonald</b>SNO · solar</figcaption></figure>
+    <div class="stack" style="align-self: center">
+      <blockquote>“for the discovery of neutrino oscillations, which shows that neutrinos have mass.”<footer>Royal Swedish Academy of Sciences</footer></blockquote>
+      <p class="small">Then came KamLAND (reactors, 2002), T2K, Daya Bay and RENO (θ₁₃, 2012), NOvA… The three-flavour picture closes.</p>
+    </div>
+  </div>
+  <aside class="notes">Two experiments, two sources, one conclusion: oscillation, hence mass.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Consequence</p><h2>The Standard Model <em>has to grow</em></h2></header>
+  <div class="body cols l">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 690px"><div class="cv"><canvas id="mass-order"></canvas></div>
+      <div class="legend-line"><span style="--c: var(--nu-e)">νₑ fraction</span><span style="--c: var(--nu-mu)">ν_μ fraction</span><span style="--c: var(--nu-tau)">ν_τ fraction</span><span class="muted" style="--c: transparent">|U<sub>αk</sub>|², NuFIT 6.0 with θ₂₃ = 45°, δ = 3π/2</span></div></div>
+    <div class="stack">
+      <ul class="list">
+        <li>There is no ν<sub>R</sub> in the Standard Model, hence no Dirac mass. <b>Something new</b> generates the masses.</li>
+        <li>At least one neutrino has <i>m</i> ≳ √|Δm²₃ₗ| ≈ <b>0.05 eV</b> — 10⁷ times lighter than the electron.</li>
+        <li>Seesaw mechanism: <i>m</i><sub>ν</sub> ~ <i>v</i>²/<i>M</i>, with <i>M</i> near the grand-unification scale?</li>
+        <li>If the neutrino is <b>Majorana</b>, it is its own antiparticle, and lepton number is not conserved.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">The mass spectrum with the flavour content of each eigenstate. We don't know which of the two orderings is real — that is one of the goals of DUNE and JUNO.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">What we still don't know</p><h2>Six <em>open</em> questions</h2></header>
+  <div class="body cols c3" style="grid-template-rows: 1fr 1fr; gap: 28px">
+    <div class="card"><h4>Ordering</h4><p class="small">Is ν₃ the heaviest or the lightest? <b>DUNE, JUNO, Hyper-K</b>.</p></div>
+    <div class="card"><h4>CP violation</h4><p class="small">Is the phase δ<sub>CP</sub> ≠ 0, π? It may be behind the matter–antimatter asymmetry (leptogenesis).</p></div>
+    <div class="card"><h4>θ₂₃ octant</h4><p class="small">θ₂₃ &lt; 45° or &gt; 45°? The data can't tell yet.</p></div>
+    <div class="card"><h4>Absolute scale</h4><p class="small">KATRIN: <i>m</i><sub>ν</sub> &lt; 0.45 eV (2025). Cosmology (DESI + CMB): Σ<i>m</i> ≲ 0.07 eV, model dependent.</p></div>
+    <div class="card"><h4>Dirac or Majorana</h4><p class="small">Only neutrinoless ββ decay can tell: LEGEND, nEXO, KamLAND-Zen, SNO+…</p></div>
+    <div class="card glow" style="--part: var(--nu-mu)"><h4>Gravity</h4><p class="small">Every measurement assumes <b>flat</b> spacetime. What if the source sits in a deep gravitational well? <b>Part III</b>.</p></div>
+  </div>
+  <aside class="notes">The sixth question is the bridge to the rest of the seminar. It's not on the “official list”, but it is where compact-object physics comes in.</aside>
+</section>
+
+<!-- ================================================================
+     PART II — CURVED SPACETIME
+     ================================================================ -->
+<section class="slide partcover p2">
+  <div class="bg" style="background-image: url('assets/img/eclipse-1919.jpg'); background-position: 70% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">II</p>
+    <p class="label rise d2">Part two</p>
+    <h2 class="rise d2">Curved<br><em>spacetime</em></h2>
+    <p class="sub lede rise d3">Gravity is not a force: it is geometry. Far from stars, the difference is a tiny correction. Next to a compact object, it is everything.</p>
+    <div class="topics rise d4"><span>Einstein · 1915</span><span>Schwarzschild · 1916</span><span>compact objects</span><span>gravitational waves</span><span>collapsars</span></div>
+  </div>
+  <span class="credit">Eclipse of 29 May 1919 · ESO / Landessternwarte Heidelberg · CC BY 4.0</span>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">25 November 1915</p><h2>Einstein and <em>his field equations</em></h2></header>
+  <div class="body cols rr">
+    <figure class="portrait"><img src="assets/img/einstein.jpg" alt="Albert Einstein, 1921"><span class="credit">F. Schmutzer · public domain</span><figcaption><b>Albert Einstein</b>1921</figcaption></figure>
+    <div class="stack" style="gap: 30px">
+      <div class="eq" style="font-size: 64px"><i>G</i><sub>μν</sub> = <span class="frac"><span>8π<i>G</i></span><span><i>c</i><sup>4</sup></span></span> <i>T</i><sub>μν</sub><span class="note">curvature = energy and momentum content</span></div>
+      <div class="cols c2" style="gap: 24px">
+        <div class="eq sm"><span class="frac"><span><i>d</i>²<i>x</i><sup>μ</sup></span><span><i>d</i>λ²</span></span> + Γ<sup>μ</sup><sub>αβ</sub> <span class="frac"><span><i>dx</i><sup>α</sup></span><span><i>d</i>λ</span></span> <span class="frac"><span><i>dx</i><sup>β</sup></span><span><i>d</i>λ</span></span> = 0<span class="note">geodesic</span></div>
+        <div class="eq sm"><i>ds</i>² = <i>g</i><sub>μν</sub> <i>dx</i><sup>μ</sup><i>dx</i><sup>ν</sup><span class="note">the metric is the field</span></div>
+      </div>
+      <blockquote style="font-size: 40px">“Spacetime tells matter how to move; matter tells spacetime how to curve.”<footer>John A. Wheeler</footer></blockquote>
+    </div>
+  </div>
+  <aside class="notes">Ten coupled non-linear differential equations for the metric. Free particles, including light and neutrinos, follow geodesics of that metric.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">The classical tests</p><h2>Sobral, 1919: light <em>bends</em></h2></header>
+  <div class="body cols l">
+    <figure class="fill"><img src="assets/img/eclipse-1919.jpg" alt="1919 eclipse plate" style="object-position: 40% 50%"><span class="credit">ESO / Landessternwarte Heidelberg-Königstuhl / Dyson, Eddington &amp; Davidson · CC BY 4.0</span></figure>
+    <div class="stack">
+      <table class="tbl">
+        <tr><th>effect</th><th>GR predicts</th></tr>
+        <tr><td>perihelion of Mercury (1915)</td><td class="n">43″ / century</td></tr>
+        <tr class="hl"><td>light grazing the Sun (1919)</td><td class="n">1.75″</td></tr>
+        <tr><td>redshift, Pound–Rebka (1959)</td><td class="n">2.5×10⁻¹⁵ over 22.5 m</td></tr>
+        <tr><td>Shapiro delay (1964)</td><td class="n">~200 μs</td></tr>
+        <tr><td>GPS clocks</td><td class="n">+38 μs / day</td></tr>
+      </table>
+      <p class="small">Sobral expedition (Ceará, Brazil): <b>1.98 ± 0.12″</b>. Príncipe: 1.61 ± 0.30″. The sky over north-eastern Brazil confirmed Einstein.</p>
+    </div>
+  </div>
+  <aside class="notes">A point of Brazilian pride: the best 1919 measurement was made in Sobral, Ceará. All these effects are small because here GM/Rc² is small. Let's see where it stops being small.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">December 1915 · Russian front</p><h2>Schwarzschild and the <em>first exact solution</em></h2></header>
+  <div class="body cols rr">
+    <figure class="portrait"><img src="assets/img/schwarzschild.jpg" alt="Karl Schwarzschild"><figcaption><b>Karl Schwarzschild</b>1873 – 1916</figcaption></figure>
+    <div class="stack" style="gap: 28px">
+      <div class="eq"><i>ds</i>² = −(1 − <span class="frac"><span><i>r</i><sub>s</sub></span><span><i>r</i></span></span>) <i>c</i>²<i>dt</i>² + <span class="frac"><span><i>dr</i>²</span><span>1 − <i>r</i><sub>s</sub>/<i>r</i></span></span> + <i>r</i>²<i>d</i>Ω²<span class="note"><i>r</i><sub>s</sub> = 2GM/c² · valid outside any non-rotating spherical body</span></div>
+      <div class="cols c4" style="gap: 18px">
+        <div class="card"><p class="stat" style="font-size: 60px">1 <small>r<sub>s</sub></small></p><p class="stat-label">event horizon</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">1.5 <small>r<sub>s</sub></small></p><p class="stat-label">photon sphere</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">3 <small>r<sub>s</sub></small></p><p class="stat-label">ISCO: last stable orbit</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">2.95 <small>km</small></p><p class="stat-label">r<sub>s</sub> of the Sun (Earth: 8.9 mm)</p></div>
+      </div>
+      <p class="small">He wrote to Einstein on 22 December 1915 while serving as an artillery officer. He died in May 1916.</p>
+    </div>
+  </div>
+  <aside class="notes">The Schwarzschild metric is the laboratory for everything that follows. The three characteristic radii: horizon, photon sphere, ISCO.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Dashboard · Schwarzschild null geodesics</p><h2>Light and neutrinos <em>near a black hole</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .65fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">interactive · RK4 in the browser</span><span class="ref">u″ + u = (3/2) r<sub>s</sub> u², u = 1/r</span></div>
+      <div class="cv"><canvas id="geo"></canvas></div>
+      <div class="controls"><div class="ctl"><label for="geo-b">impact parameter b <output for="geo-b"></output></label><input type="range" id="geo-b" min="1" max="8" step="0.001" value="2.75"></div></div>
+    </div>
+    <div class="stack">
+      <p>Every ray arriving with <b>b &lt; 3√3 M</b> falls in. Just above that, it loops around the photon sphere before escaping.</p>
+      <div class="readout" id="geo-out" style="flex-direction: column; gap: 12px"></div>
+      <p class="small muted">An ultra-relativistic neutrino follows, to first order, the same null geodesic. Mass enters as a correction ∝ m²/E² — and that correction is exactly what carries the oscillation phase.</p>
+    </div>
+  </div>
+  <aside class="notes">Drag b close to 2.6 r_s: the ray loops around. That is what forms the photon ring in the EHT images. And it is the same geometry neutrinos will cross in Part III.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Dashboard · compactness</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">interactive</span><div class="seg" id="compact-sel"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale"></canvas></div><div class="cv"><canvas id="compact-well"></canvas></div></div>
+      <div class="readout" id="compact-out"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">From the Earth to the horizon there are ten orders of magnitude in r_s/R. The Flamm well on the right is to true scale: for the Earth and the Sun it is flat. For a neutron star, 24% redshift — and the proto-neutron star, where supernova neutrinos are born, is already in the full-GR regime.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compact objects</p><h2>The zoo where <em>only GR works</em></h2></header>
+  <div class="body cols c4" style="gap: 26px">
+    <figure><img src="assets/img/crab.jpg" alt="Crab Nebula" style="aspect-ratio: 3/4; object-fit: cover"><span class="credit">NASA, ESA, J. Hester &amp; A. Loll · PD</span><figcaption><b>Crab</b> — remnant of the supernova of 1054, with a 33 ms pulsar at its centre.</figcaption></figure>
+    <figure><img src="assets/img/neutron-star.jpg" alt="Neutron star illustration" style="aspect-ratio: 3/4; object-fit: cover"><span class="credit">NASA/CXC/M. Weiss · PD</span><figcaption><b>Neutron star</b> — 1.4 M☉ in 12 km, central density of several 10¹⁴ g/cm³.</figcaption></figure>
+    <figure><img src="assets/img/m87.jpg" alt="Shadow of the M87* black hole" style="aspect-ratio: 3/4; object-fit: cover"><span class="credit">EHT Collaboration · CC BY 4.0</span><figcaption><b>M87*</b> (EHT, 2019) — 6.5 billion M☉; 42 μas ring.</figcaption></figure>
+    <figure><img src="assets/img/sgra.jpg" alt="Sagittarius A*" style="aspect-ratio: 3/4; object-fit: cover"><span class="credit">EHT Collaboration · CC BY 4.0</span><figcaption><b>Sgr A*</b> (EHT, 2022) — 4 million M☉, at the centre of the Milky Way.</figcaption></figure>
+  </div>
+  <aside class="notes">The EHT rings have diameters close to 2√27 GM/c², the shadow of the photon sphere. Neutron stars are the other extreme: matter at supranuclear densities, with r_s/R around 0.3.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Strong gravity, measured</p><h2>Binary pulsars and <em>gravitational waves</em></h2></header>
+  <div class="body cols c2">
+    <figure><img src="assets/img/psr1913.svg" alt="Periastron shift of PSR B1913+16" style="background: #fff; padding: 22px; max-height: 560px; object-fit: contain"><span class="credit">Inductiveload · public domain</span>
+      <figcaption><b>PSR B1913+16</b> (Hulse &amp; Taylor, 1974; Nobel 1993): the orbit shrinks exactly as gravitational-wave emission predicts.</figcaption></figure>
+    <figure><img src="assets/img/ligo-gw150914.svg" alt="GW150914 measured by LIGO" style="background: #fff; padding: 22px; max-height: 560px; object-fit: contain"><span class="credit">LIGO/Virgo · CC BY 3.0</span>
+      <figcaption><b>GW150914</b>: 36 + 29 M☉ → 62 M☉; three solar masses became gravitational waves (Nobel 2017).</figcaption></figure>
+  </div>
+  <aside class="notes">Two tests in the strong-field, dynamical regime. LIGO saw the merger of two black holes 1.3 billion light-years away.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Astrophysics · Woosley 1993</p><h2>Collapsars: when a star <em>fails to explode</em></h2></header>
+  <div class="body cols c2">
+    <figure class="fill"><img src="assets/img/wr124.jpg" alt="Wolf-Rayet star WR 124 seen by JWST"><span class="credit">NASA, ESA, CSA, STScI, Webb ERO · CC BY 4.0</span></figure>
+    <div class="stack">
+      <p class="big">A rapidly rotating <b>Wolf–Rayet</b> star of ~30 M☉ that has lost its hydrogen envelope.</p>
+      <ul class="list">
+        <li>The iron core collapses and the shock <b>does not revive</b>: a <b>black hole</b> of ~2–3 M☉ forms.</li>
+        <li>The envelope has too much angular momentum to fall straight in: an <b>accretion disk</b> forms a few r<sub>s</sub> out.</li>
+        <li>Accretion at 0.01–1 M☉/s for tens of seconds → <b>relativistic jets</b> that drill through the star.</li>
+      </ul>
+      <p class="small muted">WR 124, imaged by JWST in 2023: the kind of star that may end this way.</p>
+    </div>
+  </div>
+  <aside class="notes">The collapsar is the standard model for long gamma-ray bursts. Woosley 1993, MacFadyen and Woosley 1999. Evidence: GRB 980425 with supernova 1998bw.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">MacFadyen &amp; Woosley 1999 · Popham, Woosley &amp; Fryer 1999</p><h2>An engine <em>cooled by neutrinos</em></h2></header>
+  <div class="body cols l center">
+    <svg viewBox="0 0 900 640" class="fig" style="width: 100%; height: 660px" role="img" aria-label="Collapsar diagram">
+      <defs>
+        <radialGradient id="env" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffb86b" stop-opacity=".30"/><stop offset=".7" stop-color="#ffb86b" stop-opacity=".10"/><stop offset="1" stop-color="#ffb86b" stop-opacity="0"/></radialGradient>
+        <linearGradient id="jet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9e8cff" stop-opacity="0"/><stop offset=".5" stop-color="#9e8cff" stop-opacity=".9"/><stop offset="1" stop-color="#9e8cff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="disk" cx="50%" cy="50%" r="50%"><stop offset=".08" stop-color="#ffffff"/><stop offset=".25" stop-color="#56e1d0"/><stop offset="1" stop-color="#56e1d0" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle cx="450" cy="320" r="300" fill="url(#env)"/>
+      <circle cx="450" cy="320" r="300" fill="none" stroke="#ffb86b" stroke-opacity=".35" stroke-dasharray="4 8"/>
+      <path d="M450 320 L420 0 L480 0 Z M450 320 L420 640 L480 640 Z" fill="url(#jet)"/>
+      <ellipse cx="450" cy="320" rx="170" ry="30" fill="url(#disk)"/>
+      <circle cx="450" cy="320" r="16" fill="#000" stroke="#ffb86b" stroke-width="1.5"/>
+      <g fill="none" stroke="#56e1d0" stroke-width="2" stroke-opacity=".8">
+        <path d="M560 305 q 60 -70 150 -110"/><path d="M340 305 q -60 -70 -150 -110"/><path d="M560 336 q 60 70 150 110"/><path d="M340 336 q -60 70 -150 110"/>
+      </g>
+      <g font-family="Inter Tight, sans-serif" font-size="19" fill="#b3b9c9">
+        <text x="600" y="60">relativistic jet → long GRB</text>
+        <text x="720" y="185" fill="#56e1d0">ν, ν̄ ~10⁵² erg/s</text>
+        <text x="600" y="600">rotating envelope falling in</text>
+        <text x="40" y="330">black hole · 2–3 M☉</text>
+        <line x1="250" y1="325" x2="430" y2="322" stroke="#737b90" stroke-dasharray="3 5"/>
+        <text x="560" y="385" fill="#eef0f6">disk: T ~ MeV, ρ ~ 10¹⁰⁻¹² g/cm³</text>
+      </g>
+    </svg>
+    <div class="stack">
+      <p>In the inner disk, matter is so hot and dense that <b>photons are trapped</b>. What carries the heat away are <b>neutrinos</b>: an NDAF (<i>neutrino-dominated accretion flow</i>).</p>
+      <figure><img src="assets/img/grb-mechanism.jpg" alt="Gamma-ray burst schematic" style="max-height: 240px; object-fit: cover"><span class="credit">NASA/GSFC/ICRAR · PD</span></figure>
+      <p class="small">And these neutrinos are emitted <b>a few r<sub>s</sub></b> from a spinning black hole, where the geometry is Kerr, not Minkowski.</p>
+    </div>
+  </div>
+  <aside class="notes">This is the link to Part III: the neutrino-emitting region of a collapsar sits in the full-GR zone. Light doesn't get out of there directly; neutrinos do.</aside>
+</section>
+
+<!-- ================================================================
+     PART III — NEUTRINOS IN CURVED SPACETIME
+     ================================================================ -->
+<section class="slide partcover p3">
+  <div class="bg" style="background-image: url('assets/img/grb-illustration.jpg'); background-position: 65% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">III</p>
+    <p class="label rise d2">Part three</p>
+    <h2 class="rise d2">Neutrinos in<br><em class="grad">curved spacetime</em></h2>
+    <p class="sub lede rise d3">They are born inside the well. They cross regions light cannot cross. And they reach us carrying a phase that remembers the path.</p>
+    <div class="topics rise d4"><span>messengers</span><span>covariant phase</span><span>bending and redshift</span><span>lensing</span><span>DUNE</span></div>
+  </div>
+  <span class="credit">GRB illustration · NASA/CXC/M. Weiss · public domain</span>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">23 February 1987 · Large Magellanic Cloud</p><h2>SN 1987A: neutrinos <em>before the light</em></h2></header>
+  <div class="body cols r">
+    <figure class="fill"><img src="assets/img/sn1987a.jpg" alt="SN 1987A by Hubble"><span class="credit">ESA/Hubble &amp; NASA · CC BY 4.0</span></figure>
+    <div class="stack" style="gap: 26px">
+      <div class="cols c3" style="gap: 18px">
+        <div class="card"><p class="stat" style="font-size: 72px">11</p><p class="stat-label">Kamiokande-II</p></div>
+        <div class="card"><p class="stat" style="font-size: 72px">8</p><p class="stat-label">IMB</p></div>
+        <div class="card"><p class="stat" style="font-size: 72px">5</p><p class="stat-label">Baksan</p></div>
+      </div>
+      <p>Within ~13 s, from 168,000 light-years. They arrived <b>hours before</b> the light: photons are trapped in the envelope, neutrinos are not. <b>99%</b> of the ~3×10⁵³ erg of the collapse leaves as neutrinos.</p>
+      <div class="card glow"><h4>A gravity test with two dozen events</h4>
+        <p class="small">Neutrinos and photons suffered the same Shapiro delay in the Galaxy's potential (months) — to within ~0.5% (Krauss &amp; Tremaine; Longo, 1988). Neutrinos fall like light.</p></div>
+    </div>
+  </div>
+  <aside class="notes">The birth of neutrino astronomy beyond the solar system. And a test of the equivalence principle for neutrinos: they suffer the same gravitational delay as photons.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Where neutrinos are born</p><h2>Emission happens <em>inside the well</em></h2></header>
+  <div class="body cols l center">
+    <table class="tbl">
+      <tr><th>source</th><th>emission radius</th><th style="text-align:right">r<sub>s</sub>/R</th><th style="text-align:right">E<sub>emitted</sub>/E<sub>∞</sub></th></tr>
+      <tr><td>Sun, core</td><td>~0.2 R☉</td><td class="n">2×10⁻⁵</td><td class="n">1.00001</td></tr>
+      <tr><td>proto-neutron star, ~1 s</td><td>neutrinosphere ≈ 30 km</td><td class="n">0.14</td><td class="n">1.08</td></tr>
+      <tr><td>neutron star, late</td><td>≈ 12 km</td><td class="n">0.34</td><td class="n">1.24</td></tr>
+      <tr class="hl"><td>collapsar disk, ISCO (Schwarzschild)</td><td>3 r<sub>s</sub>, orbiting</td><td class="n">0.33</td><td class="n">1.41</td></tr>
+      <tr class="hl"><td>disk around a fast Kerr hole</td><td>&lt; 3 r<sub>s</sub></td><td class="n">&gt; 0.5</td><td class="n">&gt; 1.4 · + Doppler</td></tr>
+    </table>
+    <div class="stack">
+      <p>The energy DUNE measures is <b>E<sub>∞</sub></b>. The energy that enters the MSW potential, the collisions and the collective conversions is the <b>local</b> one — up to 40% larger.</p>
+      <p>Rays leave <b>bent</b>: the neutrinosphere looks bigger, and the angular distribution of the neutrinos crossing above it changes.</p>
+      <p class="small muted">In the disk the ratio is u<sup>t</sup> = (1 − 3M/r)<sup>−1/2</sup>: gravitational and transverse redshift together. Doppler from the orbital motion adds or subtracts depending on direction.</p>
+    </div>
+  </div>
+  <aside class="notes">Simple numbers: 1/√(1−r_s/R) for a static emitter, 1/√(1−3M/r) for an emitter on a circular orbit. The point is that all flavour physics near the source happens in local quantities.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Stodolsky 1979 · Fornengo, Giunti, Kim &amp; Song 1997</p><h2>The phase <em>along the geodesic</em></h2></header>
+  <div class="body cols c2">
+    <div class="stack" style="gap: 26px">
+      <div class="eq sm">Φ<sub><i>k</i></sub> = ∫ <i>p</i><sub>μ</sub><sup>(<i>k</i>)</sup> <i>dx</i><sup>μ</sup><span class="note">covariant phase: valid in any metric</span></div>
+      <div class="eq" style="font-size: 44px">Φ<sub><i>k</i></sub> = <span class="frac"><span><i>m</i><sub><i>k</i></sub><sup>2</sup></span><span>2<i>E</i><sub>∞</sub></span></span> ∫ <span class="frac"><span><i>dr</i></span><span>√(1 − <i>b</i>²(1 − <i>r</i><sub>s</sub>/<i>r</i>)/<i>r</i>²)</span></span><span class="note">Schwarzschild, first order in m², along the null geodesic</span></div>
+      <p class="small">One-line derivation: with <i>E</i> and <i>J</i> = <i>Eb</i> conserved, <i>Et</i> − <i>J</i>φ − ∫<i>p<sub>r</sub>dr</i> cancels everything except the mass term.</p>
+    </div>
+    <div class="stack">
+      <div class="card"><h4>1 · Radial: gravity “hides”</h4><p class="small">Φ = Δm²(r<sub>B</sub> − r<sub>A</sub>)/2E<sub>∞</sub>, the same form as flat space. But in <b>local</b> quantities (proper distance ∫dr/√B, energy E<sub>local</sub>) the flat formula is wrong.</p></div>
+      <div class="card"><h4>2 · Non-radial: the path matters</h4><p class="small">The phase depends on <b>b</b>. Different paths between the same source and detector accumulate different phases.</p></div>
+      <div class="card glow"><h4>3 · Many paths: interference</h4><p class="small">In a lens, the phase difference between paths is ∝ <b>m<sub>k</sub>²</b>, not just Δm²: gravity gives access to the <b>absolute mass</b>.</p></div>
+    </div>
+  </div>
+  <aside class="notes">It is the same phase as in Part I, m²L/2E, now written covariantly. Three consequences, which the next two dashboards show.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Dashboard · a geodesic born at the source</p><h2>Redshift, bending and phase <em>from emission</em></h2></header>
+  <div class="body">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interactive · exact Fornengo et al. integral along the orbit</span>
+        <div class="seg" id="emit-src"><button data-v="star" class="on">proto-neutron star surface</button><button data-v="disk">disk around a black hole</button></div></div>
+      <div class="plots two"><div class="cv"><canvas id="emit"></canvas></div><div class="cv"><canvas id="emit-p"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="emit-R">emission radius R <output for="emit-R"></output></label><input type="range" id="emit-R" min="1.6" max="15" step="0.05" value="2.2"></div>
+        <div class="ctl"><label for="emit-a">local emission angle α <output for="emit-a"></output></label><input type="range" id="emit-a" min="0" max="90" step="1" value="80"></div>
+        <div class="ctl"><label for="emit-L">oscillation length λ <output for="emit-L"></output></label><input type="range" id="emit-L" min="0.5" max="2.3" step="0.01" value="1.2"></div>
+      </div>
+      <div class="readout" id="emit-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Left: the trajectory, coloured by conversion probability (violet νₑ, turquoise ν_x); dashed is the straight line without gravity. Right: P versus r. At α = 0 (radial) the curves coincide — gravity hides in E∞. Raising α and lowering R shows the difference. λ is free: in vacuum, with Δm²₃₁ and 10 MeV, λ ~ 10⁴ km ~ 2,500 r_s; r_s-sized scales appear in the matter and collective regimes. The focus here is the geometry. In disk mode, angles above 90° send the neutrino inward: below b_c it is captured.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Dashboard · Swami, Lochan &amp; Dixit 2020</p><h2>A gravitational lens <em>weighs the neutrino</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .55fr; gap: 40px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interactive</span><div class="legend-line"><span style="--c: var(--nu-e)">normal ordering</span><span style="--c: var(--nu-tau)">inverted</span></div></div>
+      <div class="cv"><canvas id="lens"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="lens-m">lightest mass <output for="lens-m"></output></label><input type="range" id="lens-m" min="0" max="0.1" step="0.001" value="0.02"></div>
+        <div class="ctl"><label for="lens-beta">misalignment β/θ<sub>E</sub> <output for="lens-beta"></output></label><input type="range" id="lens-beta" min="0.05" max="2" step="0.01" value="0.5"></div>
+        <div class="ctl"><label for="lens-M">lens mass <output for="lens-M"></output></label><input type="range" id="lens-M" min="0" max="1.7" step="0.01" value="1"></div>
+      </div>
+      <div class="readout" id="lens-out"></div>
+    </div>
+    <div class="stack">
+      <p class="small">Source at 10 kpc, lens halfway. Two paths, b₊ and b₋. The common phase, ~m²L/E, is huge and washes out with any energy resolution. The difference between paths survives:</p>
+      <div class="eq sm" style="font-size: 32px">ΔΦ<sub><i>k</i></sub> = <span class="frac"><span><i>m</i><sub><i>k</i></sub><sup>2</sup> Δ<i>b</i><sup>2</sup></span><span>4<i>E</i></span></span> (<span class="frac"><span>1</span><span><i>r</i><sub>A</sub></span></span> + <span class="frac"><span>1</span><span><i>r</i><sub>B</sub></span></span>)</div>
+      <p class="small">Each mass eigenstate makes <b>its own fringe</b>. Change the lightest mass: the pattern changes, and the ordering leaves a mark too.</p>
+      <p class="ref">Point lens, weak field, no matter; amplitudes ∝ √|μ<sub>±</sub>|.</p>
+    </div>
+  </div>
+  <aside class="notes">The physical message: ordinary oscillation only sees Δm². With two paths, interference sees m² of each state. The numbers are realistic: with a ~10 M☉ lens, the effective path difference is tens of km, and the phase is of order one or more for masses of tens of meV and supernova energies.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">The frontier</p><h2>What gravity <em>can tell us</em></h2></header>
+  <div class="body cols c3" style="grid-template-rows: 1fr 1fr; gap: 26px">
+    <div class="card glow"><h4>Absolute mass</h4><p class="small">Interference between lensed paths is sensitive to m<sub>k</sub>² and to the ordering (Fornengo et al. 1997; Swami et al. 2020).</p></div>
+    <div class="card"><h4>Flavour near the source</h4><p class="small">MSW and collective conversions in local quantities; bent rays change the “halo” and fast flavour instabilities (Cherry et al. 2012).</p></div>
+    <div class="card"><h4>Black-hole formation</h4><p class="small">The neutrino signal of a supernova that turns into a black hole is <b>cut off abruptly</b>: a clock for time-of-flight and mass measurements (Beacom, Boyd &amp; Mezzacappa 2001).</p></div>
+    <div class="card"><h4>Nucleosynthesis</h4><p class="small">In collapsar disks, the ν and ν̄ spectra that set Y<sub>e</sub> are shifted and focused by GR — changing heavy-element production (Caballero, McLaughlin &amp; Surman 2012).</p></div>
+    <div class="card"><h4>Equivalence principle</h4><p class="small">If different flavours felt gravity differently, oscillation would gain a term ∝ ΔγΦE (Gasperini 1988; Halprin &amp; Leung 1991).</p></div>
+    <div class="card"><h4>Decoherence</h4><p class="small">Wave packets of different masses separate; in strong fields, Shapiro delays and deflections also depend on m<sub>k</sub>.</p></div>
+  </div>
+  <aside class="notes">Six research lines, several of them open. The first and the third have direct consequences for detectors like DUNE.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Deep Underground Neutrino Experiment</p><h2>DUNE: <em>1,300 km</em> from Fermilab to South Dakota</h2></header>
+  <div class="body cols l center">
+    <svg viewBox="0 0 1000 520" class="fig" style="width: 100%; height: 560px" role="img" aria-label="DUNE baseline schematic">
+      <defs><linearGradient id="beam" x1="0" x2="1"><stop offset="0" stop-color="#56e1d0"/><stop offset="1" stop-color="#9e8cff"/></linearGradient>
+        <linearGradient id="earth" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a2030"/><stop offset="1" stop-color="#0c0f18"/></linearGradient></defs>
+      <path d="M 20 150 Q 500 20 980 150 L 980 520 L 20 520 Z" fill="url(#earth)" stroke="#313850"/>
+      <path d="M 120 122 Q 500 330 880 122" fill="none" stroke="url(#beam)" stroke-width="5" stroke-dasharray="14 10"><animate attributeName="stroke-dashoffset" from="48" to="0" dur="1.2s" repeatCount="indefinite"/></path>
+      <circle cx="120" cy="122" r="11" fill="#56e1d0"/><circle cx="880" cy="122" r="11" fill="#9e8cff"/>
+      <rect x="852" y="165" width="56" height="34" rx="4" fill="none" stroke="#9e8cff" stroke-width="2"/>
+      <line x1="880" y1="122" x2="880" y2="165" stroke="#9e8cff" stroke-dasharray="3 4"/>
+      <g font-family="Inter Tight, sans-serif" fill="#b3b9c9" font-size="22">
+        <text x="120" y="92" text-anchor="middle" fill="#eef0f6">Fermilab</text>
+        <text x="120" y="68" text-anchor="middle" font-size="17">Illinois · LBNF beam 1.2 → 2.4 MW</text>
+        <text x="880" y="92" text-anchor="middle" fill="#eef0f6">SURF</text>
+        <text x="880" y="68" text-anchor="middle" font-size="17">South Dakota</text>
+        <text x="925" y="190" font-size="17" text-anchor="start">1.5 km</text>
+        <text x="500" y="200" text-anchor="middle" fill="#eef0f6" font-size="26">1,300 km through the crust</text>
+        <text x="500" y="232" text-anchor="middle" font-size="17">maximum beam depth ≈ 33 km</text>
+        <text x="500" y="420" text-anchor="middle" font-size="19">r<tspan baseline-shift="sub" font-size="13">s⊕</tspan>/R<tspan baseline-shift="sub" font-size="13">⊕</tspan> ≈ 1.4 × 10⁻⁹ · for the beam, spacetime is flat</text>
+      </g>
+    </svg>
+    <div class="stack">
+      <p><b>Far detector:</b> 4 modules of ~17 kt of liquid argon (TPCs), 1.5 km underground. <b>ProtoDUNE</b>, at CERN, is the full-scale prototype.</p>
+      <figure><img src="assets/img/protodune.jpg" alt="Inside ProtoDUNE" style="max-height: 250px; object-fit: cover"><span class="credit">Mark Benecke · CC BY-SA 4.0</span></figure>
+      <p class="small">Goals: <b>δ<sub>CP</sub></b>, <b>ordering</b>, <b>octant</b> — and supernova neutrinos.</p>
+    </div>
+  </div>
+  <aside class="notes">The beam crosses the crust, with a matter effect that distinguishes the orderings. For the beam, Earth's gravity is irrelevant: DUNE is the flat reference laboratory. Curvature comes in when the source is a supernova.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Dashboard · <span style="text-transform: none">ν<sub>e</sub></span> appearance at DUNE</p><h2>CP and ordering <em>in one plot</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .55fr; gap: 40px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interactive</span><div class="legend-line"><span style="--c: var(--nu-mu)">ν<sub>μ</sub> → ν<sub>e</sub></span><span style="--c: var(--nu-tau)">ν̄<sub>μ</sub> → ν̄<sub>e</sub></span><span style="--c: rgba(86,225,208,.35)">δ = 0, 90°, 180°, 270°</span></div></div>
+      <div class="cv"><canvas id="dune"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="dune-d">δ<sub>CP</sub> <output for="dune-d"></output></label><input type="range" id="dune-d" min="-180" max="180" step="1" value="-90"></div>
+        <div class="ctl"><label for="dune-t">sin²θ₂₃ <output for="dune-t"></output></label><input type="range" id="dune-t" min="0.4" max="0.6" step="0.005" value="0.5"></div>
+        <div class="ctl"><label>ordering</label><div class="seg" id="dune-o"><button data-v="no" class="on">normal</button><button data-v="io">inverted</button></div></div>
+      </div>
+      <div class="readout" id="dune-out"></div>
+    </div>
+    <div class="stack">
+      <p class="small">L = 1,285 km, crust with ρ = 2.85 g/cm³. Cervera et al. (2000) expansion in θ₁₃ and Δm²₂₁/Δm²₃₁.</p>
+      <p class="small">The matter effect <b>separates ν from ν̄</b> depending on the ordering; δ<sub>CP</sub> shifts and reshapes the peak.</p>
+      <div class="card glow"><h4>A supernova in the Galaxy</h4><p class="small">DUNE is unique for <b>νₑ</b> (νₑ + ⁴⁰Ar → e⁻ + ⁴⁰K*): thousands of events for an SN at 10 kpc, with the neutronization peak and, if it happens, the <b>cut-off</b> of black-hole formation.</p></div>
+    </div>
+  </div>
+  <aside class="notes">δ = −90° favours neutrinos in normal ordering: the two effects add up. In inverted ordering, they compete. Here spacetime is flat; the contrast with the astrophysical part is the point.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">A network of observatories</p><h2>Ears open for <em>the next collapse</em></h2></header>
+  <div class="body cols c4" style="gap: 26px">
+    <figure><img src="assets/img/hyperk.jpg" alt="Hyper-Kamiokande schematic" style="aspect-ratio: 4/5; object-fit: cover; background: #fff"><span class="credit">Hyper-K Collab. · CC BY 3.0</span><figcaption><b>Hyper-Kamiokande</b> — 260 kt of water, ~2028. Thousands of ν̄ₑ from a galactic SN.</figcaption></figure>
+    <figure><img src="assets/img/juno.jpg" alt="JUNO schematic" style="aspect-ratio: 4/5; object-fit: cover; background: #fff"><span class="credit">JUNO Collab. · CC BY 4.0</span><figcaption><b>JUNO</b> — 20 kt of scintillator in Jiangmen, running since 2025. Ordering from reactors at 53 km.</figcaption></figure>
+    <figure><img src="assets/img/icecube-lab.jpg" alt="IceCube Lab at night" style="aspect-ratio: 4/5; object-fit: cover"><span class="credit">John Hardin · CC BY 4.0</span><figcaption><b>IceCube</b> — 1 km³ of ice at the South Pole. TXS 0506+056 (2017), NGC 1068, the Galactic plane.</figcaption></figure>
+    <figure><img src="assets/img/icecube-schematic.jpg" alt="IceCube schematic" style="aspect-ratio: 4/5; object-fit: cover; background: #fff"><span class="credit">IceCube Collab. · CC BY 4.0</span><figcaption><b>The detector:</b> 5,160 optical modules between 1.45 and 2.45 km deep. And KM3NeT, in the Mediterranean, saw ~220 PeV (2025).</figcaption></figure>
+  </div>
+  <aside class="notes">Together with DUNE, this network forms SNEWS: an automatic supernova alert. The next galactic supernova will be seen in tens of thousands of events, with millisecond resolution — enough to see the physics of the proto-neutron star, gravity included.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Summary</p><h2>Three things to <em>take home</em></h2></header>
+  <div class="body cols c3">
+    <div class="card" style="--part: var(--nu-e)"><p class="stat c-e" style="font-style: italic">1</p><p>Flavour oscillation is <b>phase interference</b>. The phase is ∫p<sub>μ</sub>dx<sup>μ</sup> — and that holds in any geometry.</p></div>
+    <div class="card" style="--part: var(--nu-tau)"><p class="stat c-tau" style="font-style: italic">2</p><p>Supernovae and collapsars emit neutrinos <b>a few r<sub>s</sub></b> out. There, redshift, bending and local quantities are not corrections: they are the physics.</p></div>
+    <div class="card glow" style="--part: var(--nu-mu)"><p class="stat c-mu" style="font-style: italic">3</p><p>Gravity doesn't only get in the way: with several paths, it <b>measures m<sub>k</sub>²</b>. DUNE and the SNEWS network are ready for the next galactic supernova.</p></div>
+  </div>
+  <aside class="notes">Recap the three ideas. Leave the question: what will the next galactic supernova tell us about neutrinos and gravity at the same time?</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">References</p><h2>To <em>go further</em></h2></header>
+  <div class="body cols c3" style="gap: 40px">
+    <div class="stack" style="gap: 8px">
+      <p class="ref"><b>Part I</b></p>
+      <p class="ref">W. Pauli, letter of 4/12/1930</p>
+      <p class="ref">E. Fermi, <i>Z. Phys.</i> 88, 161 (1934)</p>
+      <p class="ref">H. Bethe, R. Peierls, <i>Nature</i> 133, 532 (1934)</p>
+      <p class="ref">C. L. Cowan et al., <i>Science</i> 124, 103 (1956)</p>
+      <p class="ref">G. Danby et al., <i>PRL</i> 9, 36 (1962)</p>
+      <p class="ref">R. Davis et al., <i>PRL</i> 20, 1205 (1968)</p>
+      <p class="ref">B. Pontecorvo, <i>Sov. Phys. JETP</i> 26, 984 (1968)</p>
+      <p class="ref">Z. Maki, M. Nakagawa, S. Sakata, <i>PTP</i> 28, 870 (1962)</p>
+      <p class="ref">L. Wolfenstein, <i>PRD</i> 17, 2369 (1978)</p>
+      <p class="ref">S. Mikheyev, A. Smirnov, <i>Sov. J. Nucl. Phys.</i> 42, 913 (1985)</p>
+      <p class="ref">Super-Kamiokande, <i>PRL</i> 81, 1562 (1998)</p>
+      <p class="ref">SNO, <i>PRL</i> 89, 011301 (2002)</p>
+      <p class="ref">DONUT, <i>PLB</i> 504, 218 (2001)</p>
+      <p class="ref">NuFIT 6.0, <i>JHEP</i> 12, 216 (2024)</p>
+      <p class="ref">KATRIN, <i>Science</i> 388, 180 (2025)</p>
+    </div>
+    <div class="stack" style="gap: 8px">
+      <p class="ref"><b>Part II</b></p>
+      <p class="ref">A. Einstein, <i>Sitzungsber. Preuss. Akad.</i> 844 (1915)</p>
+      <p class="ref">K. Schwarzschild, <i>Sitzungsber. Preuss. Akad.</i> 189 (1916)</p>
+      <p class="ref">F. Dyson, A. Eddington, C. Davidson, <i>Phil. Trans. A</i> 220, 291 (1920)</p>
+      <p class="ref">R. Pound, G. Rebka, <i>PRL</i> 4, 337 (1960)</p>
+      <p class="ref">R. Hulse, J. Taylor, <i>ApJ</i> 195, L51 (1975)</p>
+      <p class="ref">LIGO/Virgo, <i>PRL</i> 116, 061102 (2016)</p>
+      <p class="ref">EHT, <i>ApJL</i> 875, L1 (2019); 930, L12 (2022)</p>
+      <p class="ref">S. Woosley, <i>ApJ</i> 405, 273 (1993)</p>
+      <p class="ref">A. MacFadyen, S. Woosley, <i>ApJ</i> 524, 262 (1999)</p>
+      <p class="ref">R. Popham, S. Woosley, C. Fryer, <i>ApJ</i> 518, 356 (1999)</p>
+    </div>
+    <div class="stack" style="gap: 8px">
+      <p class="ref"><b>Part III</b></p>
+      <p class="ref">K. Hirata et al., <i>PRL</i> 58, 1490 (1987)</p>
+      <p class="ref">R. Bionta et al., <i>PRL</i> 58, 1494 (1987)</p>
+      <p class="ref">L. Krauss, S. Tremaine, <i>PRL</i> 60, 176 (1988)</p>
+      <p class="ref">M. Longo, <i>PRL</i> 60, 173 (1988)</p>
+      <p class="ref">L. Stodolsky, <i>Gen. Rel. Grav.</i> 11, 391 (1979)</p>
+      <p class="ref">N. Fornengo, C. Giunti, C. W. Kim, J. Song, <i>PRD</i> 56, 1895 (1997)</p>
+      <p class="ref">C. Cardall, G. Fuller, <i>PRD</i> 55, 7960 (1997)</p>
+      <p class="ref">H. Swami, K. Lochan, K. Dixit, <i>PRD</i> 102, 024043 (2020)</p>
+      <p class="ref">M. Gasperini, <i>PRD</i> 38, 2635 (1988)</p>
+      <p class="ref">A. Halprin, C. Leung, <i>PRL</i> 67, 1833 (1991)</p>
+      <p class="ref">J. Beacom, R. Boyd, A. Mezzacappa, <i>PRD</i> 63, 073011 (2001)</p>
+      <p class="ref">A. Cervera et al., <i>NPB</i> 579, 17 (2000)</p>
+      <p class="ref">O. Caballero, G. McLaughlin, R. Surman, <i>ApJ</i> 745, 170 (2012)</p>
+      <p class="ref">J. Cherry et al., <i>PRL</i> 108, 261104 (2012)</p>
+      <p class="ref">DUNE FD TDR, arXiv:2002.03005 (2020)</p>
+    </div>
+  </div>
+  <aside class="notes">Reference slide; it stays in the repository.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Image credits</p><h2>Freely licensed <em>photos and figures</em></h2></header>
+  <div class="body credits" style="columns: 2; column-gap: 60px">
+    <!--CREDITS-->
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Wolfgang_Pauli.jpg"><b>Wolfgang Pauli</b></a> — unknown author · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pauli_letter_collection%2C_letter_to_Lise_Meitner_4_December_1930.pdf"><b>Pauli&#x27;s letter, 1930</b></a> — Wolfgang Pauli · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Enrico_Fermi_1943-49_%28cropped%29.jpg"><b>Enrico Fermi</b></a> — Department of Energy. Office of Public Affairs · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Clyde_Cowan_and_Frederick_Reines.jpg"><b>Cowan and Reines</b></a> — Savannah River Site · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:U.S._Department_of_Energy_-_Science_-_390_001_007_%289952117314%29.jpg"><b>Raymond Davis Jr.</b></a> — U.S. Department of Energy from United States · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:U.S._Department_of_Energy_-_Science_-_390_002_007_%289952118384%29.jpg"><b>Homestake tank</b></a> — U.S. Department of Energy from United States · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Bruno_Pontecorvo_1955.jpg"><b>Bruno Pontecorvo</b></a> — unknown author · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Neutrino_detector_-_National_Museum_of_Nature_and_Science%2C_Tokyo_-_DSC07824.JPG"><b>50 cm photomultiplier</b></a> — Daderot · CC0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Takaaki_Kajita_5171-2015.jpg"><b>Takaaki Kajita</b></a> — Bengt Nyman · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Arthur_B._McDonald_5193-2015.jpg"><b>Arthur B. McDonald</b></a> — Bengt Nyman · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:SNO%2B_Detector%2C_Partially_Filled_with_Scintillator_and_Water.webp"><b>SNO+</b></a> — The SNO+ Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Standard_Model_of_Elementary_Particles.svg"><b>Standard Model</b></a> — Cush · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg"><b>Albert Einstein</b></a> — Ferdinand Schmutzer / Adam Cuerden · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Highest_resolution_image_of_the_1919_solar_eclipse_%28potw1926a%29.jpg"><b>1919 eclipse</b></a> — ESO/Landessternwarte Heidelberg-Königstuhl/F. W. Dyson, A. S. Eddington, &amp; C. Davidson · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Karl_Schwarzschild.png"><b>Karl Schwarzschild</b></a> — unknown author · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg"><b>M87*</b></a> — Event Horizon Telescope, uploader cropped and converted TIF to JPG · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Sag_A%2A.jpg"><b>Sgr A*</b></a> — EHT Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:LIGO_measurement_of_gravitational_waves.svg"><b>GW150914</b></a> — B. P. Abbott et al. (LIGO Scientific Collaboration and Virgo Collaboration) — full list… · CC BY 3.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:PSR_B1913%2B16_period_shift_graph.svg"><b>PSR B1913+16</b></a> — Inductiveload · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Crab_Nebula.jpg"><b>Crab Nebula</b></a> — NASA, ESA, J. Hester and A. Loll (Arizona State University) · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:SN_1987A_HST.jpg"><b>SN 1987A</b></a> — ESA/Hubble &amp; NASA · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Wolf-Rayet_124_%28NIRCam_and_MIRI_composite_image%29_%28weic2307a%29.jpeg"><b>WR 124 (JWST)</b></a> — NASA, ESA, CSA, STScI, Webb ERO Production Team · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Gamma-ray-burst-Mechanism.jpg"><b>GRB mechanism</b></a> — NASA/Goddard Space Flight Center/ICRAR. · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Gamma_Ray_Burst_Illustration_%28no_labels%29_%282003-grb020813-more-3%29.tiff"><b>GRB illustration</b></a> — (Credit: NASA/CXC/M.Weiss) · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_ICL_at_Night.jpg"><b>IceCube Lab</b></a> — John Hardin · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_IceCube_Neutrino_Observatory.jpg"><b>IceCube schematic</b></a> — Karen Andeen and Matthias Plum for the IceCube Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Neutron_Star_Illustration_%282002-1132-more-1%29.tiff"><b>Neutron star (illustration)</b></a> — (Credit: CXC/M. Weiss) · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Schematic_of_the_main_JUNO_detector.png"><b>JUNO</b></a> — JUNO Collaboration: Angel Abusleme, Thomas Adam, Shakeel Ahmad, Rizwan Ahmed,… · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Hyper-Kamiokande_scheme.png"><b>Hyper-Kamiokande</b></a> — Shota Izumiyama (Tokyo Inst. Tech.) for the Hyper-Kamiokande collaboration · CC BY 3.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg"><b>The Sun (SDO)</b></a> — NASA/SDO (AIA) · Public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:CERN_Geneva%2C_Neutrino_detections_chamber_at_protoDUNE_experiment%2C_seen_from_inside%2C_Dec_2023_%28Mark_Benecke%29.jpg"><b>ProtoDUNE</b></a> — Markbenecke · CC BY-SA 4.0</p>
+    <!--/CREDITS-->
+  </div>
+  <aside class="notes">All images come from Wikimedia Commons, in the public domain or under Creative Commons licences.</aside>
+</section>
+
+<section class="slide cover end">
+  <div class="grain"></div>
+  <div class="main" style="top: 300px">
+    <p class="kicker rise d1">Thank you</p>
+    <h1 class="rise d2"><em>Questions?</em></h1>
+    <p class="lede rise d3">Slides and dashboards open at <i>rafael-lima.pages.dev/talks</i></p>
+  </div>
+  <footer class="bottom rise d4">
+    <div class="author"><p class="name">Rafael C. R. de Lima</p><p class="aff">rafael.lima@udesc.br<span>·</span>rafael-lima.pages.dev</p></div>
+    <div class="right"><div class="links"><a href="https://github.com/RafaelCRdeLima/Seminario2026">github.com/RafaelCRdeLima/Seminario2026</a></div></div>
+  </footer>
+  <aside class="notes">Thank you.</aside>
+</section>
+
+</main>
+
+<nav class="langsw" aria-label="Idioma / Language"><a href="index.html" data-set-lang="pt">PT</a><a href="en.html" data-set-lang="en" class="on">EN</a></nav>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="counter" id="counter"></div>
+<div id="notes-panel"><h4>Notes</h4><div id="notes-body"></div></div>
+<div id="help" role="dialog" aria-label="Shortcuts">
+  <div class="box">
+    <h3>Shortcuts</h3>
+    <dl>
+      <dt>→ / space</dt><dd>next</dd>
+      <dt>←</dt><dd>previous</dd>
+      <dt>Home / End</dt><dd>first / last</dd>
+      <dt>F</dt><dd>full screen</dd>
+      <dt>O</dt><dd>overview</dd>
+      <dt>N</dt><dd>speaker notes</dd>
+      <dt>Esc</dt><dd>release a control and go back to navigating</dd>
+      <dt>?</dt><dd>this help</dd>
+      <dt>PT / EN</dt><dd>top-right corner</dd>
+    </dl>
+  </div>
+</div>
+
+<script src="assets/deck.js"></script>
+<script src="assets/dash.js"></script>
+<script>Deck.start();</script>
+</body>
+</html>

@@ -28,17 +28,17 @@ function pmnsAbs2(s12, s13, s23, delta) {
 (() => {
   const cv = document.getElementById('beta-spectrum'); if (!cv) return;
   const Q = 1.16, me = 0.511;
-  const T = linspace(0.0005, Q - 0.0005, 400);
-  const N = T.map(t => { const W = t + me, p = Math.sqrt(W * W - me * me); return p * W * (Q - t) ** 2; });
+  const Te = linspace(0.0005, Q - 0.0005, 400);
+  const N = Te.map(t => { const W = t + me, p = Math.sqrt(W * W - me * me); return p * W * (Q - t) ** 2; });
   const mx = Math.max(...N), Nn = N.map(v => v / mx);
   const P = new Plot(cv, { x: [0, 1.3], y: [0, 1.15], m: [30, 30, 80, 90], fs: 19, yticks: [0, 0.5, 1] });
   onSlide(cv, () => {
-    P.begin().frame('energia cinética do elétron (MeV)', 'número de elétrons');
-    P.area(T, Nn, 0, { color: COL.e, alpha: .18 }).line(T, Nn, { color: COL.e, width: 3.5, glow: 12 });
+    P.begin().frame(T('energia cinética do elétron (MeV)', 'electron kinetic energy (MeV)'), T('número de elétrons', 'number of electrons'));
+    P.area(Te, Nn, 0, { color: COL.e, alpha: .18 }).line(Te, Nn, { color: COL.e, width: 3.5, glow: 12 });
     P.ctx.save(); P.ctx.strokeStyle = COL.tau; P.ctx.lineWidth = 5; P.ctx.shadowColor = COL.tau; P.ctx.shadowBlur = 16;
     P.ctx.beginPath(); P.ctx.moveTo(P.X(Q), P.Y(0)); P.ctx.lineTo(P.X(Q), P.Y(1.02)); P.ctx.stroke(); P.ctx.restore();
-    P.text(Q - 0.03, 1.08, 'esperado: tudo em E = Q', { color: COL.tau, align: 'right', size: 21 });
-    P.text(0.34, 0.55, 'observado: contínuo', { color: COL.e, size: 21 });
+    P.text(Q - 0.03, 1.08, T('esperado: tudo em E = Q', 'expected: everything at E = Q'), { color: COL.tau, align: 'right', size: 21 });
+    P.text(0.34, 0.55, T('observado: contínuo', 'observed: continuous'), { color: COL.e, size: 21 });
     P.text(Q, -0.02, 'Q', { color: COL.tau, align: 'center', base: 'top', size: 20 });
   });
 })();
@@ -65,12 +65,12 @@ function pmnsAbs2(s12, s13, s23, delta) {
     s.norm = s.F / I;
   });
   const P = new Plot(cv, { x: [0.1, 20], y: [1e1, 1e12], xlog: true, ylog: true, m: [30, 30, 82, 104], fs: 18,
-    yticks: [1e2, 1e4, 1e6, 1e8, 1e10, 1e12], xticks: [0.1, 0.2, 0.5, 1, 2, 5, 10, 20], xfmt: v => String(v).replace('.', ',') });
+    yticks: [1e2, 1e4, 1e6, 1e8, 1e10, 1e12], xticks: [0.1, 0.2, 0.5, 1, 2, 5, 10, 20], xfmt: v => String(v).replace('.', DEC) });
   onSlide(cv, () => {
     P.begin();
-    const thr = [{ n: 'Gálio', E: 0.233, c: COL.e }, { n: 'Cloro', E: 0.814, c: COL.tau }, { n: 'Super-K / SNO', E: 3.5, c: COL.mu }];
+    const thr = [{ n: T('Gálio', 'Gallium'), E: 0.233, c: COL.e }, { n: T('Cloro', 'Chlorine'), E: 0.814, c: COL.tau }, { n: 'Super-K / SNO', E: 3.5, c: COL.mu }];
     thr.forEach(t => { P.ctx.save(); P.ctx.fillStyle = t.c; P.ctx.globalAlpha = .06; P.ctx.fillRect(P.X(t.E), P.T, P.R - P.X(t.E), P.B - P.T); P.ctx.restore(); });
-    P.frame('energia do neutrino (MeV)', 'fluxo (cm⁻² s⁻¹ MeV⁻¹ · linhas: cm⁻² s⁻¹)');
+    P.frame(T('energia do neutrino (MeV)', 'neutrino energy (MeV)'), T('fluxo (cm⁻² s⁻¹ MeV⁻¹ · linhas: cm⁻² s⁻¹)', 'flux (cm⁻² s⁻¹ MeV⁻¹ · lines: cm⁻² s⁻¹)'));
     P.clip();
     thr.forEach((t, i) => P.vline(t.E, { color: t.c, label: t.n, y: P.T + 8 + 26 * i }));
     cont.forEach(s => {
@@ -90,18 +90,18 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const D = [
     { n: 'Homestake', s: 'Cl · 1970–94', r: 2.56 / 8.5, e: 0.07, c: COL.tau },
     { n: 'SAGE + GALLEX/GNO', s: 'Ga · 1990–2007', r: 68 / 131, e: 0.05, c: COL.e },
-    { n: 'Super-K', s: '⁸B, espalhamento', r: 2.35 / 5.79, e: 0.05, c: COL.mu },
-    { n: 'SNO · CC', s: 'só νₑ', r: 1.76 / 5.79, e: 0.04, c: COL.mu },
-    { n: 'SNO · NC', s: 'todos os sabores', r: 5.09 / 5.79, e: 0.11, c: '#ffffff' },
+    { n: 'Super-K', s: T('⁸B, espalhamento', '⁸B, scattering'), r: 2.35 / 5.79, e: 0.05, c: COL.mu },
+    { n: 'SNO · CC', s: T('só νₑ', 'νₑ only'), r: 1.76 / 5.79, e: 0.04, c: COL.mu },
+    { n: 'SNO · NC', s: T('todos os sabores', 'all flavours'), r: 5.09 / 5.79, e: 0.11, c: '#ffffff' },
   ];
   onSlide(cv, () => {
     const { ctx, w, h } = fitCanvas(cv);
     const L = 330, R = w - 70, top = 20, rowH = (h - 70) / D.length;
     const X = v => L + v / 1.2 * (R - L);
     ctx.font = `17px ${FONT}`; ctx.fillStyle = COL.text3; ctx.textAlign = 'center';
-    [0, 0.25, 0.5, 0.75, 1].forEach(v => { ctx.strokeStyle = COL.grid; ctx.beginPath(); ctx.moveTo(X(v), top); ctx.lineTo(X(v), h - 44); ctx.stroke(); ctx.fillText(String(v).replace('.', ','), X(v), h - 22); });
+    [0, 0.25, 0.5, 0.75, 1].forEach(v => { ctx.strokeStyle = COL.grid; ctx.beginPath(); ctx.moveTo(X(v), top); ctx.lineTo(X(v), h - 44); ctx.stroke(); ctx.fillText(String(v).replace('.', DEC), X(v), h - 22); });
     ctx.save(); ctx.strokeStyle = COL.text2; ctx.setLineDash([8, 6]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(1), top - 6); ctx.lineTo(X(1), h - 44); ctx.stroke(); ctx.restore();
-    ctx.fillStyle = COL.text2; ctx.textAlign = 'left'; ctx.fillText('previsto pelo Modelo Solar Padrão', X(1) + 10, top + 4);
+    ctx.fillStyle = COL.text2; ctx.textAlign = 'left'; ctx.fillText(T('previsto pelo Modelo Solar Padrão', 'Standard Solar Model prediction'), X(1) + 10, top + 4);
     D.forEach((d, i) => {
       const y = top + i * rowH + rowH * 0.5;
       ctx.textAlign = 'right'; ctx.fillStyle = COL.text; ctx.font = `24px ${FONT}`; ctx.fillText(d.n, L - 24, y - 6);
@@ -110,7 +110,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
       ctx.fillStyle = g; ctx.globalAlpha = .9; ctx.beginPath(); ctx.roundRect(L, y - 20, X(d.r) - L, 40, 8); ctx.fill(); ctx.globalAlpha = 1;
       ctx.strokeStyle = COL.text; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(d.r - d.e), y); ctx.lineTo(X(d.r + d.e), y);
       ctx.moveTo(X(d.r - d.e), y - 9); ctx.lineTo(X(d.r - d.e), y + 9); ctx.moveTo(X(d.r + d.e), y - 9); ctx.lineTo(X(d.r + d.e), y + 9); ctx.stroke();
-      ctx.fillStyle = COL.text; ctx.textAlign = 'left'; ctx.font = `600 20px ${FONT}`; ctx.fillText(d.r.toFixed(2).replace('.', ','), X(d.r + d.e) + 14, y + 1);
+      ctx.fillStyle = COL.text; ctx.textAlign = 'left'; ctx.font = `600 20px ${FONT}`; ctx.fillText(d.r.toFixed(2).replace('.', DEC), X(d.r + d.e) + 14, y + 1);
     });
   });
 })();
@@ -139,12 +139,12 @@ function pmnsAbs2(s12, s13, s23, delta) {
     P.line([0, 5.05], [5.05, 0], { color: COL.text2, dash: [8, 7], width: 2 });
     P.unclip();
     P.dot(1.76, 3.41, { color: COL.mu, r: 9, glow: 24 });
-    P.text(1.9, 3.75, 'SNO: 1,76 e 3,41', { color: COL.mu, size: 21 });
-    P.text(1.62, 7.5, 'CC (só νₑ)', { color: COL.e, align: 'right', size: 20 });
+    P.text(1.9, 3.75, T('SNO: 1,76 e 3,41', 'SNO: 1.76 and 3.41'), { color: COL.mu, size: 21 });
+    P.text(1.62, 7.5, T('CC (só νₑ)', 'CC (νₑ only)'), { color: COL.e, align: 'right', size: 20 });
     P.text(2.55, 0.35, 'ES', { color: COL.tau, size: 20 });
-    P.text(4.9, 0.9, 'NC (todos)', { color: COL.text, size: 20 });
-    P.text(5.25, 2.3, 'Modelo Solar', { color: COL.text2, size: 18 });
-    P.text(0.12, 0.35, 'sem oscilação: φ(ν_μ+ν_τ) = 0', { color: COL.warn, size: 18 });
+    P.text(4.9, 0.9, T('NC (todos)', 'NC (all)'), { color: COL.text, size: 20 });
+    P.text(5.25, 2.3, T('Modelo Solar', 'Solar Model'), { color: COL.text2, size: 18 });
+    P.text(0.12, 0.35, T('sem oscilação: φ(ν_μ+ν_τ) = 0', 'no oscillation: φ(ν_μ+ν_τ) = 0'), { color: COL.warn, size: 18 });
     P.ctx.save(); P.ctx.strokeStyle = COL.warn; P.ctx.lineWidth = 4; P.ctx.beginPath(); P.ctx.moveTo(P.X(0), P.Y(0)); P.ctx.lineTo(P.X(6), P.Y(0)); P.ctx.stroke(); P.ctx.restore();
   });
 })();
@@ -153,10 +153,10 @@ function pmnsAbs2(s12, s13, s23, delta) {
 (() => {
   const cv = document.getElementById('osc2'); if (!cv) return;
   const P = new Plot(cv, { x: [0.1, 2e8], y: [0, 1.05], xlog: true, m: [40, 30, 80, 90], fs: 18, yticks: [0, 0.25, 0.5, 0.75, 1],
-    xfmt: v => v >= 1e3 ? Plot.fmt(v, true) : String(v).replace('.', ',') });
-  const gE = bindRange('osc2-E', v => { const E = 10 ** v; return E < 1000 ? E.toFixed(E < 10 ? 1 : 0) + ' MeV' : (E / 1000).toFixed(1).replace('.', ',') + ' GeV'; }, draw);
-  const gM = bindRange('osc2-dm', v => (10 ** v).toExponential(1).replace('.', ',').replace('e-', '×10⁻') + ' eV²', draw);
-  const gT = bindRange('osc2-th', v => v.toFixed(2).replace('.', ','), draw);
+    xfmt: v => v >= 1e3 ? Plot.fmt(v, true) : String(v).replace('.', DEC) });
+  const gE = bindRange('osc2-E', v => { const E = 10 ** v; return E < 1000 ? E.toFixed(E < 10 ? 1 : 0) + ' MeV' : (E / 1000).toFixed(1).replace('.', DEC) + ' GeV'; }, draw);
+  const gM = bindRange('osc2-dm', v => (10 ** v).toExponential(1).replace('.', DEC).replace('e-', '×10⁻') + ' eV²', draw);
+  const gT = bindRange('osc2-th', v => v.toFixed(2).replace('.', DEC), draw);
   const out = document.getElementById('osc2-out');
   document.getElementById('osc2-presets').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -165,11 +165,11 @@ function pmnsAbs2(s12, s13, s23, delta) {
     document.querySelectorAll('#osc2-presets button').forEach(x => x.classList.toggle('on', x === b));
     ['osc2-E', 'osc2-dm', 'osc2-th'].forEach(id => document.getElementById(id).dispatchEvent(new Event('input')));
   });
-  const EXP = [[1.6, 'Daya Bay'], [180, 'KamLAND'], [295, 'T2K'], [1300, 'DUNE'], [12700, 'diâmetro da Terra'], [1.5e8, 'Sol → Terra']];
+  const EXP = [[1.6, 'Daya Bay'], [180, 'KamLAND'], [295, 'T2K'], [1300, 'DUNE'], [12700, T('diâmetro da Terra', 'Earth diameter')], [1.5e8, T('Sol → Terra', 'Sun → Earth')]];
   function draw() {
     const E = 10 ** gE(), dm = 10 ** gM(), s2 = gT();         // E em MeV
     const f = L => s2 * Math.sin(1.267 * dm * L / (E / 1000)) ** 2;   // L em km, E em GeV
-    P.begin().frame('distância percorrida L (km)', 'P(ν_α → ν_β)');
+    P.begin().frame(T('distância percorrida L (km)', 'distance travelled L (km)'), 'P(ν_α → ν_β)');
     const c = P.ctx; P.clip();
     // por coluna de pixels: mínimo e máximo de P → oscilação rápida vira faixa
     c.save(); c.fillStyle = COL.e; c.globalAlpha = .35;
@@ -182,11 +182,11 @@ function pmnsAbs2(s12, s13, s23, delta) {
     c.beginPath(); top.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); bot.reverse().forEach(([x, y]) => c.lineTo(x, y)); c.closePath(); c.fill(); c.restore();
     c.save(); c.strokeStyle = COL.e; c.lineWidth = 2.5; c.shadowColor = COL.e; c.shadowBlur = 10; c.beginPath();
     top.forEach(([x], i) => { const L = P.invX(x), y = P.Y(f(L)); i ? c.lineTo(x, y) : c.moveTo(x, y); }); c.stroke(); c.restore();
-    P.hline(s2 / 2, { color: COL.mu, label: 'média: ½ sin²2θ', align: 'left' });
+    P.hline(s2 / 2, { color: COL.mu, label: T('média: ½ sin²2θ', 'average: ½ sin²2θ'), align: 'left' });
     EXP.forEach(([L, n], i) => P.vline(L, { color: COL.text3, label: n, y: P.T + 6 + (i % 2) * 24, dash: [3, 6] }));
     P.unclip();
     const Losc = 2.48 * (E / 1000) / dm;               // km = 2,48 E[GeV] / Δm²[eV²]
-    out.innerHTML = `comprimento de oscilação <b>${Losc < 1e4 ? Losc.toFixed(Losc < 10 ? 2 : 0).replace('.', ',') : Losc.toExponential(1).replace('.', ',')} km</b>`;
+    out.innerHTML = `${T('comprimento de oscilação', 'oscillation length')} <b>${Losc < 1e4 ? Losc.toFixed(Losc < 10 ? 2 : 0).replace('.', DEC) : Losc.toExponential(1).replace('.', DEC)} km</b>`;
   }
   onSlide(cv, draw);
 })();
@@ -197,8 +197,8 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const Rt = 6371, h = 15;
   const Lz = cz => Math.sqrt((Rt + h) ** 2 - Rt * Rt * (1 - cz * cz)) - Rt * cz;
   const P = new Plot(cv, { x: [-1, 1], y: [0, 1.1], m: [40, 30, 80, 90], fs: 18, yticks: [0, 0.25, 0.5, 0.75, 1] });
-  const gM = bindRange('zen-dm', v => ((10 ** v) * 1e3).toFixed(2).replace('.', ',') + '×10⁻³ eV²', draw);
-  const gT = bindRange('zen-th', v => v.toFixed(2).replace('.', ','), draw);
+  const gM = bindRange('zen-dm', v => ((10 ** v) * 1e3).toFixed(2).replace('.', DEC) + '×10⁻³ eV²', draw);
+  const gT = bindRange('zen-th', v => v.toFixed(2).replace('.', DEC), draw);
   const out = document.getElementById('zen-out');
   // espectro de eventos multi-GeV ~ E^-1.7 (fluxo E^-2.7 × seção de choque ∝ E), de 1,3 a 20 GeV
   const Es = logspace(1.33, 20, 90), wE = Es.map(E => E ** -1.7 * E), W = wE.reduce((a, b) => a + b, 0);
@@ -209,20 +209,20 @@ function pmnsAbs2(s12, s13, s23, delta) {
   }
   function draw() {
     const dm = 10 ** gM(), s2 = gT();
-    P.begin().frame('cos θ_zenital   (−1: atravessou a Terra · +1: veio de cima)', 'ν_μ observados / esperados');
+    P.begin().frame(T('cos θ_zenital   (−1: atravessou a Terra · +1: veio de cima)', 'cos θ_zenith   (−1: crossed the Earth · +1: from above)'), T('ν_μ observados / esperados', 'observed / expected ν_μ'));
     const cz = linspace(-1, 1, 240);
     const sub = logspace(0.3, 1.2, 40);
     P.clip();
     P.area(cz, cz.map(c => surv(c, dm, s2, Es)), 0, { color: COL.mu, alpha: .12 });
     P.line(cz, cz.map(c => surv(c, dm, s2, sub)), { color: COL.e, width: 2.5, dash: [8, 6] });
     P.line(cz, cz.map(c => surv(c, dm, s2, Es)), { color: COL.mu, width: 4, glow: 14 });
-    P.hline(1, { color: COL.text2, label: 'sem oscilação', dash: [4, 6] });
+    P.hline(1, { color: COL.text2, label: T('sem oscilação', 'no oscillation'), dash: [4, 6] });
     P.unclip();
     // assimetria cima/baixo (modelo simples, sem resolução angular)
     let U = 0, D = 0;
     cz.forEach(c => { if (c < -0.2) U += surv(c, dm, s2, Es); if (c > 0.2) D += surv(c, dm, s2, Es); });
     const A = (U - D) / (U + D);
-    out.innerHTML = `assimetria (U−D)/(U+D) neste modelo <b>${A.toFixed(3).replace('.', ',')}</b> · Super-K 1998, multi-GeV <b>−0,296 ± 0,048</b>`;
+    out.innerHTML = `${T('assimetria (U−D)/(U+D) neste modelo', 'asymmetry (U−D)/(U+D) in this model')} <b>${A.toFixed(3).replace('.', DEC)}</b> · Super-K 1998, multi-GeV <b>${T('−0,296 ± 0,048', '−0.296 ± 0.048')}</b>`;
   }
   onSlide(cv, draw);
 })();
@@ -245,10 +245,10 @@ function pmnsAbs2(s12, s13, s23, delta) {
     };
     const top = 110, bot = h - 40;
     // escala esquemática: Δm²₂₁ é ~30× menor que |Δm²₃ₗ|, desenhado ampliado para ficar visível
-    draw(gap / 2 - bw / 2 - 40, 'normal', [[0, bot], [1, bot - 60], [2, top]]);
-    draw(gap + gap / 2 - bw / 2 - 40, 'invertido', [[2, bot], [0, top + 60], [1, top]]);
+    draw(gap / 2 - bw / 2 - 40, T('normal', 'normal'), [[0, bot], [1, bot - 60], [2, top]]);
+    draw(gap + gap / 2 - bw / 2 - 40, T('invertido', 'inverted'), [[2, bot], [0, top + 60], [1, top]]);
     ctx.font = `18px ${FONT}`; ctx.fillStyle = COL.text3; ctx.textAlign = 'center';
-    ctx.fillText('Δm²₂₁ ≈ 7,5×10⁻⁵ eV² (ampliado)   ·   |Δm²₃ₗ| ≈ 2,5×10⁻³ eV²', w / 2, h - 2);
+    ctx.fillText(T('Δm²₂₁ ≈ 7,5×10⁻⁵ eV² (ampliado)   ·   |Δm²₃ₗ| ≈ 2,5×10⁻³ eV²', 'Δm²₂₁ ≈ 7.5×10⁻⁵ eV² (enlarged)   ·   |Δm²₃ₗ| ≈ 2.5×10⁻³ eV²'), w / 2, h - 2);
     ctx.strokeStyle = COL.text3; ctx.setLineDash([5, 6]); ctx.beginPath(); ctx.moveTo(w / 2, 70); ctx.lineTo(w / 2, bot); ctx.stroke(); ctx.setLineDash([]);
   });
 })();
@@ -260,18 +260,18 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const cv = document.getElementById('compact-scale'); if (!cv) return;
   const cv2 = document.getElementById('compact-well');
   const OBJ = [
-    { n: 'Terra', rsR: 8.87e-3 / 6.371e6, R: '6 371 km' },
-    { n: 'Sol', rsR: 2953 / 6.957e8, R: '696 000 km' },
-    { n: 'Sirius B', rsR: 3010 / 5.84e6, R: '5 840 km', d: 'anã branca, 1,02 M☉' },
-    { n: 'proto-estrela de nêutrons', rsR: 4135 / 30e3, R: '≈ 30 km', d: 'neutrinosfera, 1,4 M☉' },
-    { n: 'estrela de nêutrons', rsR: 4135 / 12e3, R: '12 km', d: '1,4 M☉' },
-    { n: 'ISCO', rsR: 1 / 3, R: '3 r_s', d: 'última órbita circular estável' },
-    { n: 'esfera de fótons', rsR: 1 / 1.5, R: '1,5 r_s', d: 'luz em órbita circular' },
-    { n: 'horizonte', rsR: 1, R: 'r_s', d: 'buraco negro' },
+    { n: T('Terra', 'Earth'), s: T('Terra', 'Earth'), rsR: 8.87e-3 / 6.371e6, R: '6 371 km' },
+    { n: T('Sol', 'Sun'), s: T('Sol', 'Sun'), rsR: 2953 / 6.957e8, R: '696 000 km' },
+    { n: 'Sirius B', s: 'Sirius B', rsR: 3010 / 5.84e6, R: '5 840 km', d: T('anã branca, 1,02 M☉', 'white dwarf, 1.02 M☉') },
+    { n: T('proto-estrela de nêutrons', 'proto-neutron star'), s: T('proto-EN', 'proto-NS'), rsR: 4135 / 30e3, R: '≈ 30 km', d: T('neutrinosfera, 1,4 M☉', 'neutrinosphere, 1.4 M☉') },
+    { n: T('estrela de nêutrons', 'neutron star'), s: T('est. nêutrons', 'neutron star'), rsR: 4135 / 12e3, R: '12 km', d: T('1,4 M☉', '1.4 M☉') },
+    { n: 'ISCO', s: 'ISCO', rsR: 1 / 3, R: '3 r_s', d: T('última órbita circular estável', 'innermost stable circular orbit') },
+    { n: T('esfera de fótons', 'photon sphere'), s: T('esf. fótons', 'photon sph.'), rsR: 1 / 1.5, R: T('1,5 r_s', '1.5 r_s'), d: T('luz em órbita circular', 'light on a circular orbit') },
+    { n: T('horizonte', 'horizon'), s: T('horizonte', 'horizon'), rsR: 1, R: 'r_s', d: T('buraco negro', 'black hole') },
   ];
   let sel = 4;
   const seg = document.getElementById('compact-sel');
-  seg.innerHTML = OBJ.map((o, i) => `<button data-v="${i}" class="${i === sel ? 'on' : ''}">${o.n.replace('proto-estrela de nêutrons', 'proto-EN').replace('estrela de nêutrons', 'est. nêutrons').replace('esfera de fótons', 'esf. fótons')}</button>`).join('');
+  seg.innerHTML = OBJ.map((o, i) => `<button data-v="${i}" class="${i === sel ? 'on' : ''}">${o.s}</button>`).join('');
   bindSeg('compact-sel', () => { sel = +seg.querySelector('.on').dataset.v; draw(); });
   const out = document.getElementById('compact-out');
   const P = new Plot(cv, { x: [1e-10, 1.5], y: [0, 1], xlog: true, m: [26, 30, 60, 30], fs: 17, yticks: [], xticks: [1e-10, 1e-8, 1e-6, 1e-4, 1e-2, 1] });
@@ -289,7 +289,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
     const o = OBJ[sel], x = o.rsR;
     P.begin();
     const c = P.ctx;
-    [[1e-10, 1e-5, 'Newton basta', 'rgba(255,255,255,.03)'], [1e-5, 0.05, 'correções pós-newtonianas', 'rgba(255,184,107,.06)'], [0.05, 1.5, 'RG plena', 'rgba(255,184,107,.16)']]
+    [[1e-10, 1e-5, T('Newton basta', 'Newton is enough'), 'rgba(255,255,255,.03)'], [1e-5, 0.05, T('correções pós-newtonianas', 'post-Newtonian corrections'), 'rgba(255,184,107,.06)'], [0.05, 1.5, T('RG plena', 'full GR'), 'rgba(255,184,107,.16)']]
       .forEach(([a, b, t, f]) => { c.fillStyle = f; c.fillRect(P.X(a), P.T, P.X(b) - P.X(a), P.B - P.T); P.text(Math.sqrt(a * b), 0.93, t, { color: COL.text3, align: 'center', size: 17 }); });
     P.frame(null, null);
     P.text(0.5 * (P.L + P.R), P.h - 6, 'r_s / R = 2GM/(Rc²)', { px: true, align: 'center', base: 'bottom', color: COL.text2, size: 18 });
@@ -302,25 +302,25 @@ function pmnsAbs2(s12, s13, s23, delta) {
     });
     // poço: perfil de Flamm z = 2√(r_s(r − r_s)), em unidades de R, fora do objeto
     const { ctx, w, h } = fitCanvas(cv2);
-    const L = 40, Rr = w - 20, T = 30, B = h - 40, xmax = 6;
+    const L = 40, Rr = w - 20, Tp = 30, B = h - 40, xmax = 6;
     const X = r => L + (r / xmax) * (Rr - L);
     const zOf = r => 2 * Math.sqrt(x * Math.max(r - x, 0));
     const z6 = zOf(xmax), zR = zOf(1), dz = Math.max(z6 - zR, 1e-12);
-    const Y = r => T + (z6 - zOf(r)) / Math.max(dz, 1.2) * (B - T) * 0.95;
+    const Y = r => Tp + (z6 - zOf(r)) / Math.max(dz, 1.2) * (B - Tp) * 0.95;
     ctx.strokeStyle = 'rgba(255,184,107,.9)'; ctx.lineWidth = 3; ctx.shadowColor = COL.tau; ctx.shadowBlur = 12;
     ctx.beginPath();
     for (let i = 0; i <= 300; i++) { const r = 1 + (xmax - 1) * i / 300; i ? ctx.lineTo(X(r), Y(r)) : ctx.moveTo(X(r), Y(r)); }
     ctx.stroke(); ctx.shadowBlur = 0;
     ctx.fillStyle = 'rgba(255,184,107,.18)'; ctx.fillRect(L, Y(1), X(1) - L, B - Y(1) + 10);
     ctx.fillStyle = COL.text3; ctx.font = `16px ${FONT}`; ctx.textAlign = 'center';
-    ctx.fillText('R', X(1), h - 12); ctx.fillText('6R', X(6), h - 12); ctx.fillText('superfície de mergulho (Flamm), escala real', (L + Rr) / 2, 16);
+    ctx.fillText('R', X(1), h - 12); ctx.fillText('6R', X(6), h - 12); ctx.fillText(T('superfície de mergulho (Flamm), escala real', 'embedding surface (Flamm), true scale'), (L + Rr) / 2, 16);
     const z = 1 / Math.sqrt(1 - Math.min(x, 0.999999)) - 1, dt = (1 - Math.sqrt(1 - Math.min(x, 1))) * 86400, df = deflect(x);
-    const fmt = v => v < 1e-3 ? v.toExponential(2).replace('.', ',') : v.toPrecision(3).replace('.', ',');
+    const fmt = v => v < 1e-3 ? v.toExponential(2).replace('.', DEC) : v.toPrecision(3).replace('.', DEC);
     out.innerHTML = `<span>${o.n}${o.d ? ' · ' + o.d : ''} · R = ${o.R}</span>
       <span>r_s/R <b>${fmt(x)}</b></span>
-      <span>desvio para o vermelho z <b>${x >= 1 ? '∞' : fmt(z)}</b></span>
-      <span>relógio perde <b>${x >= 1 ? '—' : dt < 1 ? (dt * 1e6).toPrecision(3).replace('.', ',') + ' μs' : (dt / 3600).toPrecision(3).replace('.', ',') + ' h'}</b> por dia</span>
-      <span>desvio da luz rasante <b>${isFinite(df) ? (df / deg < 1 ? (df / deg * 3600).toPrecision(3).replace('.', ',') + '″' : (df / deg).toFixed(0) + '°') : 'captura'}</b></span>`;
+      <span>${T('desvio para o vermelho', 'redshift')} z <b>${x >= 1 ? '∞' : fmt(z)}</b></span>
+      <span>${T('relógio perde', 'clock loses')} <b>${x >= 1 ? '—' : dt < 1 ? (dt * 1e6).toPrecision(3).replace('.', DEC) + ' μs' : (dt / 3600).toPrecision(3).replace('.', DEC) + ' h'}</b> ${T('por dia', 'per day')}</span>
+      <span>${T('desvio da luz rasante', 'grazing light deflection')} <b>${isFinite(df) ? (df / deg < 1 ? (df / deg * 3600).toPrecision(3).replace('.', DEC) + '″' : (df / deg).toFixed(0) + '°') : T('captura', 'capture')}</b></span>`;
   }
   onSlide(cv, draw);
 })();
@@ -328,7 +328,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
 /* Dashboard: geodésicas nulas de Schwarzschild, u'' = −u + (3/2) r_s u². */
 (() => {
   const cv = document.getElementById('geo'); if (!cv) return;
-  const gB = bindRange('geo-b', v => v.toFixed(3).replace('.', ',') + ' r_s', draw);
+  const gB = bindRange('geo-b', v => v.toFixed(3).replace('.', DEC) + ' r_s', draw);
   const out = document.getElementById('geo-out');
   const bc = 1.5 * Math.sqrt(3);                 // 3√3 M = (3√3/2) r_s
   function trace(b) {                          // rs = 1; parte de r = 40 vindo da esquerda
@@ -369,10 +369,10 @@ function pmnsAbs2(s12, s13, s23, delta) {
     ctx.strokeStyle = t.captured ? COL.warn : COL.mu; ctx.lineWidth = 3.5; ctx.shadowColor = ctx.strokeStyle; ctx.shadowBlur = 16;
     ctx.beginPath(); t.pts.forEach(([x, y], i) => i ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y))); ctx.stroke(); ctx.shadowBlur = 0;
     ctx.font = `17px ${FONT}`; ctx.fillStyle = COL.tau; ctx.textAlign = 'left';
-    ctx.fillText('esfera de fótons 1,5 r_s', X(1.2), Y(-1.9)); ctx.fillStyle = COL.mu; ctx.fillText('ISCO 3 r_s', X(2.3), Y(-3.3));
+    ctx.fillText(T('esfera de fótons 1,5 r_s', 'photon sphere 1.5 r_s'), X(1.2), Y(-1.9)); ctx.fillStyle = COL.mu; ctx.fillText('ISCO 3 r_s', X(2.3), Y(-3.3));
     out.innerHTML = t.captured
-      ? `<span>b < b_c = 3√3 M ≈ 2,598 r_s → <b style="color:var(--warn)">capturado</b></span>`
-      : `<span>maior aproximação <b>${t.rmin.toFixed(2).replace('.', ',')} r_s</b></span><span>desvio total <b>${(t.defl / deg).toFixed(1).replace('.', ',')}°</b></span><span>voltas completas <b>${Math.floor((t.defl + Math.PI) / (2 * Math.PI))}</b></span><span>b_c <b>2,598 r_s</b></span>`;
+      ? `<span>b < b_c = 3√3 M ≈ ${T('2,598', '2.598')} r_s → <b style="color:var(--warn)">${T('capturado', 'captured')}</b></span>`
+      : `<span>${T('maior aproximação', 'closest approach')} <b>${t.rmin.toFixed(2).replace('.', DEC)} r_s</b></span><span>${T('desvio total', 'total deflection')} <b>${(t.defl / deg).toFixed(1).replace('.', DEC)}°</b></span><span>${T('voltas completas', 'full loops')} <b>${Math.floor((t.defl + Math.PI) / (2 * Math.PI))}</b></span><span>b_c <b>${T('2,598', '2.598')} r_s</b></span>`;
   }
   onSlide(cv, draw);
 })();
@@ -385,7 +385,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
 (() => {
   const cv = document.getElementById('emit'); if (!cv) return;
   const cv2 = document.getElementById('emit-p');
-  const gR = bindRange('emit-R', v => v.toFixed(1).replace('.', ',') + ' r_s', draw);
+  const gR = bindRange('emit-R', v => v.toFixed(1).replace('.', DEC) + ' r_s', draw);
   const gA = bindRange('emit-a', v => v.toFixed(0) + '°', draw);
   const gL = bindRange('emit-L', v => (10 ** v).toFixed(0) + ' r_s', draw);
   const gS = bindSeg('emit-src', () => {
@@ -455,22 +455,22 @@ function pmnsAbs2(s12, s13, s23, delta) {
     }
     ctx.fillStyle = '#fff'; ctx.shadowColor = '#fff'; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(X(R), Y(0), 6, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
     ctx.font = `16px ${FONT}`; ctx.fillStyle = COL.text3; ctx.textAlign = 'left';
-    ctx.fillText('— — reta sem gravidade', 16, h - 16);
+    ctx.fillText(T('— — reta sem gravidade', '— — straight line, no gravity'), 16, h - 16);
     // painel da direita: P(νe→νx) contra r
-    P.begin().frame('coordenada radial r (r_s)', 'P(νₑ → ν_x)');
+    P.begin().frame(T('coordenada radial r (r_s)', 'radial coordinate r (r_s)'), 'P(νₑ → ν_x)');
     P.clip();
     P.line(fl.map(p => p[2]), fl.map(p => Pr(p[3])), { color: COL.text2, width: 2, dash: [7, 6] });
     const step = Math.max(1, Math.floor(g.pts.length / 1500)), gp = g.pts.filter((_, i) => i % step === 0);
     P.line(gp.map(p => p[2]), gp.map(p => Pr(p[3])), { color: COL.mu, width: 3.5, glow: 12 });
-    P.vline(R, { color: COL.tau, label: 'emissão', dash: [3, 5] });
+    P.vline(R, { color: COL.tau, label: T('emissão', 'emission'), dash: [3, 5] });
     P.unclip();
     const last = g.pts[g.pts.length - 1], lf = fl[fl.length - 1];
     const Eloc = 1 / Math.sqrt(1 - 1 / R);
-    out.innerHTML = `<span>E<sub>local</sub>/E<sub>∞</sub> na fonte <b>${Eloc.toFixed(3).replace('.', ',')}</b></span>
-      <span>parâmetro de impacto <b>${g.b.toFixed(2).replace('.', ',')} r_s</b></span>
-      ${g.captured ? '<span><b style="color:var(--warn)">capturado pelo buraco negro</b></span>'
-        : `<span>desvio até 40 r_s <b>${((g.defl - alpha) / deg).toFixed(1).replace('.', ',')}°</b></span>
-           <span>fase até r = 40 r_s, RG ÷ plano <b>${(last[3] / lf[3]).toFixed(3).replace('.', ',')}</b></span>`}`;
+    out.innerHTML = `<span>E<sub>local</sub>/E<sub>∞</sub> ${T('na fonte', 'at the source')} <b>${Eloc.toFixed(3).replace('.', DEC)}</b></span>
+      <span>${T('parâmetro de impacto', 'impact parameter')} <b>${g.b.toFixed(2).replace('.', DEC)} r_s</b></span>
+      ${g.captured ? `<span><b style="color:var(--warn)">${T('capturado pelo buraco negro', 'captured by the black hole')}</b></span>`
+        : `<span>${T('desvio até 40 r_s', 'deflection up to 40 r_s')} <b>${((g.defl - alpha) / deg).toFixed(1).replace('.', DEC)}°</b></span>
+           <span>${T('fase até r = 40 r_s, RG ÷ plano', 'phase up to r = 40 r_s, GR ÷ flat')} <b>${(last[3] / lf[3]).toFixed(3).replace('.', DEC)}</b></span>`}`;
   }
   onSlide(cv, draw);
 })();
@@ -483,8 +483,8 @@ function pmnsAbs2(s12, s13, s23, delta) {
 (() => {
   const cv = document.getElementById('lens'); if (!cv) return;
   const gm = bindRange('lens-m', v => (v * 1000).toFixed(0) + ' meV', draw);
-  const gb = bindRange('lens-beta', v => v.toFixed(2).replace('.', ','), draw);
-  const gM = bindRange('lens-M', v => (10 ** v).toFixed(1).replace('.', ',') + ' M☉', draw);
+  const gb = bindRange('lens-beta', v => v.toFixed(2).replace('.', DEC), draw);
+  const gM = bindRange('lens-M', v => (10 ** v).toFixed(1).replace('.', DEC) + ' M☉', draw);
   const out = document.getElementById('lens-out');
   const kpc = 3.0857e19, hbarc = 1.97327e-7, rsSun = 2953.25;
   const DS = 10 * kpc, DL = 5 * kpc, DLS = DS - DL;
@@ -514,19 +514,19 @@ function pmnsAbs2(s12, s13, s23, delta) {
       return num / den;
     };
     const Es = linspace(5, 60, 700);
-    P.begin().frame('energia do neutrino E (MeV)', 'P(νₑ → νₑ) na Terra');
+    P.begin().frame(T('energia do neutrino E (MeV)', 'neutrino energy E (MeV)'), T('P(νₑ → νₑ) na Terra', 'P(νₑ → νₑ) at Earth'));
     P.clip();
     const noLens = Ue.reduce((s, x) => s + x * x, 0);
-    P.hline(noLens, { color: COL.text2, label: 'sem lente (média de vácuo)', dash: [4, 6], align: 'right' });
+    P.hline(noLens, { color: COL.text2, label: T('sem lente (média de vácuo)', 'no lens (vacuum average)'), dash: [4, 6], align: 'right' });
     P.line(Es, Es.map(E => Pee(masses(m0, true), E)), { color: COL.tau, width: 3, glow: 10 });
     P.line(Es, Es.map(E => Pee(masses(m0, false), E)), { color: COL.e, width: 3.5, glow: 12 });
     P.unclip();
     const AU = 1.496e11;
     const ph10 = masses(m0, false).map(mk => (mk * mk * Db2 / (4 * 10e6 * hbarc)));
-    out.innerHTML = `<span>raio de Einstein <b>${(thE * 206264.8e3).toFixed(2).replace('.', ',')} mas</b></span>
-      <span>b₊, b₋ <b>${(bp / AU).toFixed(1).replace('.', ',')} · ${(bm / AU).toFixed(1).replace('.', ',')} UA</b></span>
-      <span>diferença efetiva de caminho <b>${(Db2 / 1000).toFixed(1).replace('.', ',')} km</b></span>
-      <span>fase das franjas a 10 MeV (NO) <b>${ph10.map(v => v.toFixed(2).replace('.', ',')).join(' · ')} rad</b></span>`;
+    out.innerHTML = `<span>${T('raio de Einstein', 'Einstein radius')} <b>${(thE * 206264.8e3).toFixed(2).replace('.', DEC)} mas</b></span>
+      <span>b₊, b₋ <b>${(bp / AU).toFixed(1).replace('.', DEC)} · ${(bm / AU).toFixed(1).replace('.', DEC)} ${T('UA', 'AU')}</b></span>
+      <span>${T('diferença efetiva de caminho', 'effective path difference')} <b>${(Db2 / 1000).toFixed(1).replace('.', DEC)} km</b></span>
+      <span>${T('fase das franjas a 10 MeV (NO)', 'fringe phases at 10 MeV (NO)')} <b>${ph10.map(v => v.toFixed(2).replace('.', DEC)).join(' · ')} rad</b></span>`;
   }
   onSlide(cv, draw);
 })();
@@ -536,7 +536,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
 (() => {
   const cv = document.getElementById('dune'); if (!cv) return;
   const gD = bindRange('dune-d', v => v.toFixed(0) + '°', draw);
-  const gT = bindRange('dune-t', v => v.toFixed(2).replace('.', ','), draw);
+  const gT = bindRange('dune-t', v => v.toFixed(2).replace('.', DEC), draw);
   const gO = bindSeg('dune-o', draw);
   const out = document.getElementById('dune-out');
   const L = 1285, rhoYe = 2.848 * 0.5;
@@ -560,17 +560,17 @@ function pmnsAbs2(s12, s13, s23, delta) {
     P.begin();
     const fl = Es.map(E => E * E * Math.exp(-E / 1.25)), fm = Math.max(...fl);
     P.area(Es, fl.map(v => 0.13 * v / fm), 0, { color: '#ffffff', alpha: .05 });
-    P.frame('energia E (GeV)', 'P(ν_μ → ν_e)');
-    P.text(4.6, 0.012, 'fluxo do feixe (ilustrativo)', { color: COL.text3, size: 16 });
+    P.frame(T('energia E (GeV)', 'energy E (GeV)'), 'P(ν_μ → ν_e)');
+    P.text(4.6, 0.012, T('fluxo do feixe (ilustrativo)', 'beam flux (illustrative)'), { color: COL.text3, size: 16 });
     P.clip();
     [0, 90, 180, 270].forEach(dd => { P.line(Es, Es.map(E => prob(E, dd * deg, s23, io, false)), { color: COL.mu, width: 1.2, alpha: .22 }); });
     P.line(Es, Es.map(E => prob(E, d, s23, io, true)), { color: COL.tau, width: 3, glow: 10 });
     P.line(Es, Es.map(E => prob(E, d, s23, io, false)), { color: COL.mu, width: 4, glow: 14 });
     P.unclip();
     const pn = prob(2.5, d, s23, io, false), pa = prob(2.5, d, s23, io, true);
-    out.innerHTML = `<span>em 2,5 GeV · ν <b>${(pn * 100).toFixed(1).replace('.', ',')}%</b></span><span>ν̄ <b>${(pa * 100).toFixed(1).replace('.', ',')}%</b></span>
-      <span>assimetria (ν−ν̄)/(ν+ν̄) <b>${((pn - pa) / (pn + pa)).toFixed(2).replace('.', ',')}</b></span>
-      <span>r_s⊕/R⊕ <b>1,4×10⁻⁹</b> — o feixe viaja em espaço-tempo praticamente plano</span>`;
+    out.innerHTML = `<span>${T('em 2,5 GeV', 'at 2.5 GeV')} · ν <b>${(pn * 100).toFixed(1).replace('.', DEC)}%</b></span><span>ν̄ <b>${(pa * 100).toFixed(1).replace('.', DEC)}%</b></span>
+      <span>${T('assimetria', 'asymmetry')} (ν−ν̄)/(ν+ν̄) <b>${((pn - pa) / (pn + pa)).toFixed(2).replace('.', DEC)}</b></span>
+      <span>r_s⊕/R⊕ <b>${T('1,4×10⁻⁹', '1.4×10⁻⁹')}</b> — ${T('o feixe viaja em espaço-tempo praticamente plano', 'the beam travels in essentially flat spacetime')}</span>`;
   }
   onSlide(cv, draw);
 })();

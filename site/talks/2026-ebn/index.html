@@ -8,9 +8,18 @@
 <meta name="description" content="Seminário na II Escola Brasileira de Neutrinos, 02 de outubro de 2026 — oscilação de sabor quando a propagação segue uma geodésica.">
 <meta name="author" content="Rafael Camargo Rodrigues de Lima">
 <meta property="og:type" content="website">
+<link rel="alternate" hreflang="en" href="en.html">
 <meta property="og:title" content="Neutrinos em espaço-tempo curvo">
 <meta property="og:description" content="II Escola Brasileira de Neutrinos · 02/10/2026 · Rafael C. R. de Lima (UDESC/CCT)">
 
+<script>
+/* mesma preferência de idioma da página pessoal (chave rcrl-lang); sem preferência, segue o navegador */
+(function () {
+  var l = null; try { l = localStorage.getItem('rcrl-lang'); } catch (e) {}
+  if (!l) l = (navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en';
+  if (l === 'en') location.replace('en.html' + location.hash);
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
@@ -848,6 +857,7 @@
 
 </main>
 
+<nav class="langsw" aria-label="Idioma / Language"><a href="index.html" data-set-lang="pt" class="on">PT</a><a href="en.html" data-set-lang="en">EN</a></nav>
 <div class="progress" aria-hidden="true"><i id="bar"></i></div>
 <div class="counter" id="counter"></div>
 <div id="notes-panel"><h4>Notas</h4><div id="notes-body"></div></div>
@@ -863,6 +873,7 @@
       <dt>N</dt><dd>notas do apresentador</dd>
       <dt>Esc</dt><dd>solta o controle e volta a navegar</dd>
       <dt>?</dt><dd>esta ajuda</dd>
+      <dt>PT / EN</dt><dd>canto superior direito</dd>
     </dl>
   </div>
 </div>
