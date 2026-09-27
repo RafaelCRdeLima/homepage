@@ -277,6 +277,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const P = new Plot(cv, { x: [1e-10, 1.5], y: [0, 1], xlog: true, m: [26, 30, 60, 30], fs: 17, yticks: [], xticks: [1e-10, 1e-8, 1e-6, 1e-4, 1e-2, 1] });
   const deflect = (x) => {                     // desvio exato de um raio rasante à superfície r = R (rs = 1)
     const R = 1 / x; if (R <= 1.5) return Infinity;
+    if (x < 1e-3) return 2 * x + (15 * Math.PI / 16 - 1) * x * x;   // campo fraco: a quadratura perderia a precisão
     const u0 = 1 / R, ib2 = u0 * u0 * (1 - u0);  // 1/b² com ponto de retorno em R
     let s = 0; const n = 4000;
     for (let i = 0; i < n; i++) {             // u = u0 (1 − t²): regular no ponto de retorno
@@ -316,10 +317,12 @@ function pmnsAbs2(s12, s13, s23, delta) {
     ctx.fillText('R', X(1), h - 12); ctx.fillText('6R', X(6), h - 12); ctx.fillText(T('superfície de mergulho (Flamm), escala real', 'embedding surface (Flamm), true scale'), (L + Rr) / 2, 16);
     const z = 1 / Math.sqrt(1 - Math.min(x, 0.999999)) - 1, dt = (1 - Math.sqrt(1 - Math.min(x, 1))) * 86400, df = deflect(x);
     const fmt = v => v < 1e-3 ? v.toExponential(2).replace('.', DEC) : v.toPrecision(3).replace('.', DEC);
+    const p3 = v => v.toPrecision(3).replace('.', DEC);
+    const dur = s => s < 1e-3 ? p3(s * 1e6) + ' μs' : s < 1 ? p3(s * 1e3) + ' ms' : s < 60 ? p3(s) + ' s' : s < 3600 ? p3(s / 60) + ' min' : p3(s / 3600) + ' h';
     out.innerHTML = `<span>${o.n}${o.d ? ' · ' + o.d : ''} · R = ${o.R}</span>
       <span>r_s/R <b>${fmt(x)}</b></span>
       <span>${T('desvio para o vermelho', 'redshift')} z <b>${x >= 1 ? '∞' : fmt(z)}</b></span>
-      <span>${T('relógio perde', 'clock loses')} <b>${x >= 1 ? '—' : dt < 1 ? (dt * 1e6).toPrecision(3).replace('.', DEC) + ' μs' : (dt / 3600).toPrecision(3).replace('.', DEC) + ' h'}</b> ${T('por dia', 'per day')}</span>
+      <span>${T('relógio perde', 'clock loses')} <b>${x >= 1 ? '—' : dur(dt)}</b> ${T('por dia', 'per day')}</span>
       <span>${T('desvio da luz rasante', 'grazing light deflection')} <b>${isFinite(df) ? (df / deg < 1 ? (df / deg * 3600).toPrecision(3).replace('.', DEC) + '″' : (df / deg).toFixed(0) + '°') : T('captura', 'capture')}</b></span>`;
   }
   onSlide(cv, draw);
@@ -331,8 +334,8 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const gB = bindRange('geo-b', v => v.toFixed(3).replace('.', DEC) + ' r_s', draw);
   const out = document.getElementById('geo-out');
   const bc = 1.5 * Math.sqrt(3);                 // 3√3 M = (3√3/2) r_s
-  function trace(b) {                          // rs = 1; parte de r = 40 vindo da esquerda
-    const r0 = 40; let u = 1 / r0, v = Math.sqrt(Math.max(1 / (b * b) - u * u + u ** 3, 0));
+  function trace(b) {                          // rs = 1; parte de r = 1000 vindo da esquerda (desvio de ponta a ponta)
+    const r0 = 1000; let u = 1 / r0, v = Math.sqrt(Math.max(1 / (b * b) - u * u + u ** 3, 0));
     const f = (u, v) => [v, -u + 1.5 * u * u];
     const ph0 = Math.PI - Math.asin(Math.min(1, b / r0)); let ph = 0; const pts = [[Math.cos(ph0) * r0, Math.sin(ph0) * r0]];
     let umax = u, h = 0.004, captured = false;
@@ -344,7 +347,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
       if (u <= 1 / r0 && ph > 0.5) break;
       pts.push([Math.cos(ph0 - ph) / u, Math.sin(ph0 - ph) / u]);
     }
-    return { pts, captured, rmin: 1 / umax, defl: ph - Math.PI };
+    return { pts, captured, rmin: 1 / umax, defl: ph - (Math.PI - 2 * Math.asin(Math.min(1, b / r0))) };
   }
   function draw() {
     const b = gB();
@@ -469,7 +472,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
     out.innerHTML = `<span>E<sub>local</sub>/E<sub>∞</sub> ${T('na fonte', 'at the source')} <b>${Eloc.toFixed(3).replace('.', DEC)}</b></span>
       <span>${T('parâmetro de impacto', 'impact parameter')} <b>${g.b.toFixed(2).replace('.', DEC)} r_s</b></span>
       ${g.captured ? `<span><b style="color:var(--warn)">${T('capturado pelo buraco negro', 'captured by the black hole')}</b></span>`
-        : `<span>${T('desvio até 40 r_s', 'deflection up to 40 r_s')} <b>${((g.defl - alpha) / deg).toFixed(1).replace('.', DEC)}°</b></span>
+        : `<span>${T('desvio até 40 r_s', 'deflection up to 40 r_s')} <b>${((g.defl - (alpha - Math.asin(Math.min(1, R * Math.sin(alpha) / RMAX)))) / deg).toFixed(1).replace('.', DEC)}°</b></span>
            <span>${T('fase até r = 40 r_s, RG ÷ plano', 'phase up to r = 40 r_s, GR ÷ flat')} <b>${(last[3] / lf[3]).toFixed(3).replace('.', DEC)}</b></span>`}`;
   }
   onSlide(cv, draw);
