@@ -1,0 +1,219 @@
+{
+ "pauli": {
+  "file": "assets/img/pauli.jpg",
+  "title": "Wolfgang Pauli.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Wolfgang_Pauli.jpg",
+  "license": "CC BY 4.0",
+  "artist": "autor desconhecido"
+ },
+ "pauli-letter": {
+  "file": "assets/img/pauli-letter.jpg",
+  "title": "Pauli letter collection, letter to Lise Meitner 4 December 1930.pdf",
+  "page": "https://commons.wikimedia.org/wiki/File:Pauli_letter_collection%2C_letter_to_Lise_Meitner_4_December_1930.pdf",
+  "license": "CC BY 4.0",
+  "artist": "Wolfgang Pauli"
+ },
+ "fermi": {
+  "file": "assets/img/fermi.jpg",
+  "title": "Enrico Fermi 1943-49 (cropped).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Enrico_Fermi_1943-49_%28cropped%29.jpg",
+  "license": "Public domain",
+  "artist": "Department of Energy. Office of Public Affairs"
+ },
+ "cowan-reines": {
+  "file": "assets/img/cowan-reines.jpg",
+  "title": "Clyde Cowan and Frederick Reines.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Clyde_Cowan_and_Frederick_Reines.jpg",
+  "license": "Public domain",
+  "artist": "Savannah River Site"
+ },
+ "davis": {
+  "file": "assets/img/davis.jpg",
+  "title": "U.S. Department of Energy - Science - 390 001 007 (9952117314).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:U.S._Department_of_Energy_-_Science_-_390_001_007_%289952117314%29.jpg",
+  "license": "Public domain",
+  "artist": "U.S. Department of Energy from United States"
+ },
+ "homestake-tank": {
+  "file": "assets/img/homestake-tank.jpg",
+  "title": "U.S. Department of Energy - Science - 390 002 007 (9952118384).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:U.S._Department_of_Energy_-_Science_-_390_002_007_%289952118384%29.jpg",
+  "license": "Public domain",
+  "artist": "U.S. Department of Energy from United States"
+ },
+ "pontecorvo": {
+  "file": "assets/img/pontecorvo.jpg",
+  "title": "Bruno Pontecorvo 1955.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Bruno_Pontecorvo_1955.jpg",
+  "license": "Public domain",
+  "artist": "autor desconhecido"
+ },
+ "pmt": {
+  "file": "assets/img/pmt.jpg",
+  "title": "Neutrino detector - National Museum of Nature and Science, Tokyo - DSC07824.JPG",
+  "page": "https://commons.wikimedia.org/wiki/File:Neutrino_detector_-_National_Museum_of_Nature_and_Science%2C_Tokyo_-_DSC07824.JPG",
+  "license": "CC0",
+  "artist": "Daderot"
+ },
+ "kajita": {
+  "file": "assets/img/kajita.jpg",
+  "title": "Takaaki Kajita 5171-2015.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Takaaki_Kajita_5171-2015.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Bengt Nyman"
+ },
+ "mcdonald": {
+  "file": "assets/img/mcdonald.jpg",
+  "title": "Arthur B. McDonald 5193-2015.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Arthur_B._McDonald_5193-2015.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Bengt Nyman"
+ },
+ "snoplus": {
+  "file": "assets/img/snoplus.jpg",
+  "title": "SNO+ Detector, Partially Filled with Scintillator and Water.webp",
+  "page": "https://commons.wikimedia.org/wiki/File:SNO%2B_Detector%2C_Partially_Filled_with_Scintillator_and_Water.webp",
+  "license": "CC BY 4.0",
+  "artist": "The SNO+ Collaboration"
+ },
+ "standard-model": {
+  "file": "assets/img/standard-model.svg",
+  "title": "Standard Model of Elementary Particles.svg",
+  "page": "https://commons.wikimedia.org/wiki/File:Standard_Model_of_Elementary_Particles.svg",
+  "license": "Public domain",
+  "artist": "Cush"
+ },
+ "einstein": {
+  "file": "assets/img/einstein.jpg",
+  "title": "Einstein 1921 by F Schmutzer - restoration.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
+  "license": "Public domain",
+  "artist": "Ferdinand Schmutzer / Adam Cuerden"
+ },
+ "eclipse-1919": {
+  "file": "assets/img/eclipse-1919.jpg",
+  "title": "Highest resolution image of the 1919 solar eclipse (potw1926a).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Highest_resolution_image_of_the_1919_solar_eclipse_%28potw1926a%29.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESO/Landessternwarte Heidelberg-Königstuhl/F. W. Dyson, A. S. Eddington, & C. Davidson"
+ },
+ "schwarzschild": {
+  "file": "assets/img/schwarzschild.jpg",
+  "title": "Karl Schwarzschild.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Karl_Schwarzschild.png",
+  "license": "Public domain",
+  "artist": "autor desconhecido"
+ },
+ "m87": {
+  "file": "assets/img/m87.jpg",
+  "title": "Black hole - Messier 87 crop max res.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Event Horizon Telescope, uploader cropped and converted TIF to JPG"
+ },
+ "sgra": {
+  "file": "assets/img/sgra.jpg",
+  "title": "Sag A*.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Sag_A%2A.jpg",
+  "license": "CC BY 4.0",
+  "artist": "EHT Collaboration"
+ },
+ "ligo-gw150914": {
+  "file": "assets/img/ligo-gw150914.svg",
+  "title": "LIGO measurement of gravitational waves.svg",
+  "page": "https://commons.wikimedia.org/wiki/File:LIGO_measurement_of_gravitational_waves.svg",
+  "license": "CC BY 3.0",
+  "artist": "B. P. Abbott et al. (LIGO Scientific Collaboration and Virgo Collaboration) — full list at the end of the article"
+ },
+ "psr1913": {
+  "file": "assets/img/psr1913.svg",
+  "title": "PSR B1913+16 period shift graph.svg",
+  "page": "https://commons.wikimedia.org/wiki/File:PSR_B1913%2B16_period_shift_graph.svg",
+  "license": "Public domain",
+  "artist": "Inductiveload"
+ },
+ "crab": {
+  "file": "assets/img/crab.jpg",
+  "title": "Crab Nebula.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Crab_Nebula.jpg",
+  "license": "Public domain",
+  "artist": "NASA, ESA, J. Hester and A. Loll (Arizona State University)"
+ },
+ "sn1987a": {
+  "file": "assets/img/sn1987a.jpg",
+  "title": "SN 1987A HST.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:SN_1987A_HST.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESA/Hubble & NASA"
+ },
+ "wr124": {
+  "file": "assets/img/wr124.jpg",
+  "title": "Wolf-Rayet 124 (NIRCam and MIRI composite image) (weic2307a).jpeg",
+  "page": "https://commons.wikimedia.org/wiki/File:Wolf-Rayet_124_%28NIRCam_and_MIRI_composite_image%29_%28weic2307a%29.jpeg",
+  "license": "CC BY 4.0",
+  "artist": "NASA, ESA, CSA, STScI, Webb ERO Production Team"
+ },
+ "grb-mechanism": {
+  "file": "assets/img/grb-mechanism.jpg",
+  "title": "Gamma-ray-burst-Mechanism.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Gamma-ray-burst-Mechanism.jpg",
+  "license": "Public domain",
+  "artist": "NASA/Goddard Space Flight Center/ICRAR."
+ },
+ "grb-illustration": {
+  "file": "assets/img/grb-illustration.jpg",
+  "title": "Gamma Ray Burst Illustration (no labels) (2003-grb020813-more-3).tiff",
+  "page": "https://commons.wikimedia.org/wiki/File:Gamma_Ray_Burst_Illustration_%28no_labels%29_%282003-grb020813-more-3%29.tiff",
+  "license": "Public domain",
+  "artist": "(Credit: NASA/CXC/M.Weiss)"
+ },
+ "icecube-lab": {
+  "file": "assets/img/icecube-lab.jpg",
+  "title": "The ICL at Night.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_ICL_at_Night.jpg",
+  "license": "CC BY 4.0",
+  "artist": "John Hardin"
+ },
+ "icecube-schematic": {
+  "file": "assets/img/icecube-schematic.jpg",
+  "title": "The IceCube Neutrino Observatory.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_IceCube_Neutrino_Observatory.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Karen Andeen and Matthias Plum for the IceCube Collaboration"
+ },
+ "neutron-star": {
+  "file": "assets/img/neutron-star.jpg",
+  "title": "Neutron Star Illustration (2002-1132-more-1).tiff",
+  "page": "https://commons.wikimedia.org/wiki/File:Neutron_Star_Illustration_%282002-1132-more-1%29.tiff",
+  "license": "Public domain",
+  "artist": "(Credit: CXC/M. Weiss)"
+ },
+ "juno": {
+  "file": "assets/img/juno.jpg",
+  "title": "Schematic of the main JUNO detector.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Schematic_of_the_main_JUNO_detector.png",
+  "license": "CC BY 4.0",
+  "artist": "JUNO Collaboration: Angel Abusleme, Thomas Adam, Shakeel Ahmad, Rizwan Ahmed, Sebastiano Aiello, Muhammad Akram, Abid Aleem, Tsagkarakis Alexandros, Fengpeng An"
+ },
+ "hyperk": {
+  "file": "assets/img/hyperk.jpg",
+  "title": "Hyper-Kamiokande scheme.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Hyper-Kamiokande_scheme.png",
+  "license": "CC BY 3.0",
+  "artist": "Shota Izumiyama (Tokyo Inst. Tech.) for the Hyper-Kamiokande collaboration"
+ },
+ "sun": {
+  "file": "assets/img/sun.jpg",
+  "title": "The Sun by the Atmospheric Imaging Assembly of NASA's Solar Dynamics Observatory - 20100819.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+  "license": "Public domain",
+  "artist": "NASA/SDO (AIA)"
+ },
+ "protodune": {
+  "file": "assets/img/protodune.jpg",
+  "title": "CERN Geneva, Neutrino detections chamber at protoDUNE experiment, seen from inside, Dec 2023 (Mark Benecke).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:CERN_Geneva%2C_Neutrino_detections_chamber_at_protoDUNE_experiment%2C_seen_from_inside%2C_Dec_2023_%28Mark_Benecke%29.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Markbenecke"
+ }
+}

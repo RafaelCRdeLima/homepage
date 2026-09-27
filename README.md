@@ -15,7 +15,7 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
-Sete páginas de HTML puro. Não há build, não há dependência e não há
+Oito páginas de HTML puro, mais os slides das palestras em `site/talks/`. Não há build, não há dependência e não há
 `node_modules`.
 
 ```text
@@ -26,6 +26,8 @@ site/producao.html   03 · publicações com DOI
 site/material.html   04 · disciplinas e material didático
 site/laboratorio.html 05 · luz em torno de um buraco negro
 site/estrela.html     06 · estrela de nêutrons girando, com hot spot
+site/talks.html       07 · seminários e palestras
+site/talks/2026-ebn/  slides da II Escola Brasileira de Neutrinos (cópia de RafaelCRdeLima/Seminario2026)
 site/styles.css      a apresentação inteira
 site/rafael-atlas.*  o retrato do cartão, em WebP (78 KB) e JPEG (121 KB)
 site/favicon.svg     ícone
@@ -37,7 +39,7 @@ Para ver localmente:
 python3 -m http.server -d site 8000
 ```
 
-**A navegação é byte-a-byte idêntica nas sete páginas.** Quem acende o item
+**A navegação é byte-a-byte idêntica nas oito páginas.** Quem acende o item
 da página atual é o JS, comparando `location.pathname` com o `href` de cada
 link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
 navegação, troque o bloco `<nav class="nav">` nos cinco arquivos e confira com:
@@ -236,3 +238,10 @@ atravessando o cáustico, para a primária e para a secundária — dispersão d
 Presets: *Recomeçar* dá 1,4 M☉ e 12 km (`R = 5,80M`, realista, sem segunda
 imagem); *estrela compacta* dá 2,1 M☉ e 10,2 km (`R = 3,29M`, com segunda
 imagem em ~19% da volta).
+
+## Talks
+
+Cada palestra vive no próprio repositório e é copiada para `site/talks/<ano>-<evento>/`. A fonte da
+de 2026 é `~/Codes/Talk Neutrinos em Epaçotempo curvo` (RafaelCRdeLima/Seminario2026); o README de lá
+tem o `rsync` que atualiza a cópia daqui. Os slides não usam a navegação do site: são um deck de tela
+cheia, com CSS e JS próprios.
