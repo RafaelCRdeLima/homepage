@@ -264,6 +264,31 @@
 </section>
 
 <section class="slide content p1">
+  <header><p class="eyebrow">Dashboard · duas bases</p><h2>Sabor e massa: <em>o mesmo estado, dois eixos</em></h2></header>
+  <div class="body">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interativo</span>
+        <div style="display:flex; gap: 14px">
+          <div class="seg" id="basis-from"><button data-v="e" class="on">produz νₑ</button><button data-v="mu">produz ν<sub>μ</sub></button></div>
+          <div class="seg" id="basis-in"><button data-v="mass" class="on">medir massa</button><button data-v="flav">medir sabor</button></div>
+          <div class="seg" id="basis-act"><button data-v="play">▶ propagar</button><button data-v="one" class="plain">medir 1×</button><button data-v="many" class="plain">medir 1000×</button><button data-v="reset" class="plain">zerar</button></div>
+        </div></div>
+      <div class="plots" style="grid-template-columns: 1fr 1.25fr 1fr">
+        <div class="cv"><canvas id="basis-plane"></canvas></div>
+        <div class="cv"><canvas id="basis-phase"></canvas></div>
+        <div class="cv"><canvas id="basis-meas"></canvas></div>
+      </div>
+      <div class="controls">
+        <div class="ctl"><label for="basis-th">ângulo de mistura θ <output for="basis-th"></output></label><input type="range" id="basis-th" min="0" max="90" step="1" value="33"></div>
+        <div class="ctl"><label for="basis-L">distância L <output for="basis-L"></output></label><input type="range" id="basis-L" min="0" max="2" step="0.005" value="0"></div>
+      </div>
+      <div class="readout" id="basis-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Esquerda: o mesmo plano visto em duas bases. Os eixos de sabor (νₑ, ν_μ) são os da interação; os de massa (ν₁, ν₂), os da propagação, girados por θ. O neutrino nasce como νₑ, a seta branca; suas projeções nos eixos de massa são as amplitudes cos θ e sen θ. Meio: cada componente de massa é um relógio que gira no seu ritmo, ∝ m². A amplitude de voltar a ser νₑ é a soma das duas setas: quando elas se opõem, o νₑ some. Direita: medir massa dá cos²θ e sen²θ em qualquer L — isso não oscila. Medir sabor dá a oscilação. Roteiro: com L = 0, medir massa 1000× (converge a cos²θ); propagar; trocar para medir sabor e medir de novo em L = ½ L_osc.</aside>
+</section>
+
+<section class="slide content p1">
   <header><p class="eyebrow">Dashboard · oscilação no vácuo</p><h2>A distância e a energia <em>fazem o padrão</em></h2></header>
   <div class="body">
     <div class="dash">

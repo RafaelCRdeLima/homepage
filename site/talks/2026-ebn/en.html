@@ -263,6 +263,31 @@
 </section>
 
 <section class="slide content p1">
+  <header><p class="eyebrow">Dashboard · two bases</p><h2>Flavour and mass: <em>one state, two sets of axes</em></h2></header>
+  <div class="body">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interactive</span>
+        <div style="display:flex; gap: 14px">
+          <div class="seg" id="basis-from"><button data-v="e" class="on">produce νₑ</button><button data-v="mu">produce ν<sub>μ</sub></button></div>
+          <div class="seg" id="basis-in"><button data-v="mass" class="on">measure mass</button><button data-v="flav">measure flavour</button></div>
+          <div class="seg" id="basis-act"><button data-v="play">▶ propagate</button><button data-v="one" class="plain">measure 1×</button><button data-v="many" class="plain">measure 1000×</button><button data-v="reset" class="plain">reset</button></div>
+        </div></div>
+      <div class="plots" style="grid-template-columns: 1fr 1.25fr 1fr">
+        <div class="cv"><canvas id="basis-plane"></canvas></div>
+        <div class="cv"><canvas id="basis-phase"></canvas></div>
+        <div class="cv"><canvas id="basis-meas"></canvas></div>
+      </div>
+      <div class="controls">
+        <div class="ctl"><label for="basis-th">mixing angle θ <output for="basis-th"></output></label><input type="range" id="basis-th" min="0" max="90" step="1" value="33"></div>
+        <div class="ctl"><label for="basis-L">distance L <output for="basis-L"></output></label><input type="range" id="basis-L" min="0" max="2" step="0.005" value="0"></div>
+      </div>
+      <div class="readout" id="basis-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Left: one plane seen in two bases. The flavour axes (νₑ, ν_μ) are the ones of the interaction; the mass axes (ν₁, ν₂) are the ones of propagation, rotated by θ. The neutrino is born as νₑ, the white arrow; its projections on the mass axes are the amplitudes cos θ and sin θ. Middle: each mass component is a clock turning at its own pace, ∝ m². The amplitude to be νₑ again is the sum of the two arrows: when they oppose, the νₑ vanishes. Right: measuring mass gives cos²θ and sin²θ at any L — it does not oscillate. Measuring flavour gives the oscillation. Script: at L = 0, measure mass 1000× (converges to cos²θ); propagate; switch to measuring flavour and measure again at L = ½ L_osc.</aside>
+</section>
+
+<section class="slide content p1">
   <header><p class="eyebrow">Dashboard · vacuum oscillation</p><h2>Distance and energy <em>make the pattern</em></h2></header>
   <div class="body">
     <div class="dash">

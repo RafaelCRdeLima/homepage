@@ -708,3 +708,164 @@ function pmnsAbs2(s12, s13, s23, delta) {
   function play() { if (+elT.value >= T_MAX - 1e-9) elT.value = T_MIN; playing = true; last = 0; playBtn.textContent = T('❚❚ pausar', '❚❚ pause'); requestAnimationFrame(frame); }
   onSlide(cvA, draw);
 })();
+
+/* Dashboard: base de sabor × base de massa (dois sabores).
+   |ν_e⟩ = cosθ|ν₁⟩ + sinθ|ν₂⟩,  |ν_μ⟩ = −sinθ|ν₁⟩ + cosθ|ν₂⟩.
+   Ao longo de L cada autoestado de massa ganha fase φ_k; só a diferença
+   Δφ = Δm²L/2E = 2πL/L_osc é física. Medir em massa dá |U_αk|², que não muda com L;
+   medir em sabor dá P = |Σ_k U_βk U*_αk e^{−iφ_k}|², que oscila. */
+(() => {
+  const cvP = document.getElementById('basis-plane'); if (!cvP) return;
+  const cvF = document.getElementById('basis-phase'), cvM = document.getElementById('basis-meas');
+  const C1 = '#ffb86b', C2 = '#ff8fb1';               // ν₁, ν₂ (massa); νe, νμ usam COL.e, COL.mu
+  const gTh = bindRange('basis-th', v => v.toFixed(0) + '°', draw);
+  const elL = document.getElementById('basis-L');
+  const gL = bindRange('basis-L', v => v.toFixed(2).replace('.', DEC) + ' L_osc', draw);
+  const gA = bindSeg('basis-from', () => { reset(); draw(); });
+  const gB = bindSeg('basis-in', draw);
+  const out = document.getElementById('basis-out');
+  let counts = [0, 0], nTot = 0, last = null;
+  function reset() { counts = [0, 0]; nTot = 0; last = null; }
+  function state() {
+    const th = gTh() * deg, x = gL(), c = Math.cos(th), s = Math.sin(th);
+    const mu = gA() === 'mu';
+    const a = mu ? [-s, c] : [c, s];                   // amplitudes em massa, L = 0 (reais)
+    const ph = [Math.PI * x, 3 * Math.PI * x];         // φ₁, φ₂: Δφ = 2πL/L_osc; a fase comum é arbitrária
+    const amp = a.map((ak, k) => [ak * Math.cos(-ph[k]), ak * Math.sin(-ph[k])]);
+    const Ue = [c, s], Um = [-s, c];                   // ⟨ν_β|ν_k⟩
+    const fl = [Ue, Um].map(U => [U[0] * amp[0][0] + U[1] * amp[1][0], U[0] * amp[0][1] + U[1] * amp[1][1]]);
+    return { th, c, s, mu, a, ph, amp, fl, pm: a.map(v => v * v), pf: fl.map(([re, im]) => re * re + im * im) };
+  }
+  function measure(n) {
+    const st = state(), p = gB() === 'mass' ? st.pm : st.pf;
+    for (let i = 0; i < n; i++) { const k = Math.random() < p[0] ? 0 : 1; counts[k]++; nTot++; last = k; }
+    draw();
+  }
+  document.getElementById('basis-act').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.v === 'one') measure(1); else if (b.dataset.v === 'many') measure(1000);
+    else if (b.dataset.v === 'reset') { reset(); draw(); }
+    else if (b.dataset.v === 'play') playing ? stop() : play();
+  });
+  let playing = false, t0 = 0;
+  const playBtn = document.querySelector('#basis-act [data-v="play"]');
+  function frame(now) {
+    if (!playing) return;
+    if (!cvP.closest('.slide').classList.contains('active')) return stop();
+    const dt = t0 ? Math.min((now - t0) / 1000, 0.1) : 0; t0 = now;
+    let x = +elL.value + dt * 0.25; if (x > 2) x -= 2;
+    elL.value = x; document.querySelector('output[for="basis-L"]').textContent = x.toFixed(2).replace('.', DEC) + ' L_osc';
+    draw(); requestAnimationFrame(frame);
+  }
+  function stop() { playing = false; t0 = 0; playBtn.textContent = T('▶ propagar', '▶ propagate'); }
+  function play() { playing = true; t0 = 0; playBtn.textContent = T('❚❚ pausar', '❚❚ pause'); requestAnimationFrame(frame); }
+  const arrow = (c, x0, y0, x1, y1, col, w = 3, head = 12) => {
+    const a = Math.atan2(y1 - y0, x1 - x0);
+    c.strokeStyle = col; c.fillStyle = col; c.lineWidth = w;
+    c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1 - Math.cos(a) * head * .6, y1 - Math.sin(a) * head * .6); c.stroke();
+    c.beginPath(); c.moveTo(x1, y1); c.lineTo(x1 - head * Math.cos(a - .4), y1 - head * Math.sin(a - .4)); c.lineTo(x1 - head * Math.cos(a + .4), y1 - head * Math.sin(a + .4)); c.closePath(); c.fill();
+  };
+  const label = (c, s, x, y, col, size = 26, align = 'center') => { c.fillStyle = col; c.font = `italic ${size}px ${SERIF}`; c.textAlign = align; c.textBaseline = 'middle'; c.fillText(s, x, y); };
+  function draw() {
+    const st = state();
+    /* ---- o plano: duas bases ortonormais, giradas por θ ---- */
+    {
+      const { ctx: c, w, h } = fitCanvas(cvP);
+      const cx = w / 2, cy = h / 2 + 6, R = Math.min(w, h) / 2 - 46;
+      const P = (x, y) => [cx + x * R, cy - y * R];
+      c.strokeStyle = 'rgba(255,255,255,.06)'; c.lineWidth = 1; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.stroke();
+      const axis = (ang, col, name, dash) => {
+        const [x0, y0] = P(-Math.cos(ang) * 1.08, -Math.sin(ang) * 1.08), [x1, y1] = P(Math.cos(ang) * 1.08, Math.sin(ang) * 1.08);
+        c.save(); c.setLineDash(dash || []); c.strokeStyle = col; c.globalAlpha = .55; c.lineWidth = 1.6;
+        c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke(); c.restore();
+        const [lx, ly] = P(Math.cos(ang) * 1.2, Math.sin(ang) * 1.2); label(c, name, lx, ly, col);
+      };
+      axis(0, COL.e, 'νₑ'); axis(Math.PI / 2, COL.mu, 'νμ');
+      axis(-st.th, C1, 'ν₁', [8, 6]); axis(Math.PI / 2 - st.th, C2, 'ν₂', [8, 6]);
+      // θ entre νe e ν1
+      c.strokeStyle = COL.text2; c.lineWidth = 1.5; c.beginPath(); c.arc(cx, cy, R * .28, 0, st.th, false); c.stroke();
+      label(c, 'θ', ...P(Math.cos(st.th / 2) * .36, -Math.sin(st.th / 2) * .36), COL.text2, 24);
+      // o estado produzido e suas projeções nos eixos de massa
+      const v = st.mu ? [0, 1] : [1, 0];
+      const e1 = [Math.cos(-st.th), Math.sin(-st.th)], e2 = [Math.cos(Math.PI / 2 - st.th), Math.sin(Math.PI / 2 - st.th)];
+      [[e1, st.a[0], C1], [e2, st.a[1], C2]].forEach(([e, a, col]) => {
+        const [fx, fy] = P(e[0] * a, e[1] * a), [vx, vy] = P(v[0], v[1]);
+        c.save(); c.setLineDash([4, 5]); c.strokeStyle = col; c.globalAlpha = .7; c.lineWidth = 1.5; c.beginPath(); c.moveTo(vx, vy); c.lineTo(fx, fy); c.stroke(); c.restore();
+        c.save(); c.shadowColor = col; c.shadowBlur = 10; arrow(c, cx, cy, fx, fy, col, 5, 14); c.restore();
+      });
+      const [sx, sy] = P(v[0], v[1]);
+      c.save(); c.shadowColor = '#fff'; c.shadowBlur = 16; arrow(c, cx, cy, sx, sy, '#ffffff', 3.5, 16); c.restore();
+      c.font = `16px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
+      c.fillText(T('estado produzido: ', 'produced state: ') + (st.mu ? 'νμ' : 'νₑ') + T(' (L = 0)', ' (L = 0)'), 10, 8);
+    }
+    /* ---- as fases: cada autoestado de massa é um relógio; a amplitude de sabor é a soma ---- */
+    {
+      const { ctx: c, w, h } = fitCanvas(cvF);
+      const r = Math.min(w * 0.135, h / 3.4), y1 = h * 0.42;
+      const clock = (x, a, ph, col, name) => {
+        c.strokeStyle = 'rgba(255,255,255,.14)'; c.lineWidth = 1.5; c.beginPath(); c.arc(x, y1, r, 0, 7); c.stroke();
+        const L = Math.abs(a) * r * .95, ang = -ph + (a < 0 ? Math.PI : 0);
+        c.save(); c.shadowColor = col; c.shadowBlur = 12; arrow(c, x, y1, x + L * Math.cos(ang), y1 - L * Math.sin(ang), col, 4, 13); c.restore();
+        label(c, name, x, y1 + r + 22, col, 26);
+        c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'center'; c.fillText('φ = ' + (ph % (2 * Math.PI) / Math.PI).toFixed(2).replace('.', DEC) + 'π', x, y1 - r - 14);
+      };
+      clock(w * .16, st.a[0], st.ph[0], C1, 'ν₁');
+      clock(w * .5, st.a[1], st.ph[1], C2, 'ν₂');
+      // soma cabeça-com-cauda para a amplitude no sabor de origem
+      const k = st.mu ? 1 : 0, U = st.mu ? [-st.s, st.c] : [st.c, st.s];
+      const x0 = w * .84, rr = r * 1.0;
+      c.strokeStyle = 'rgba(255,255,255,.14)'; c.lineWidth = 1.5; c.beginPath(); c.arc(x0, y1, rr, 0, 7); c.stroke();
+      let px = x0, py = y1;
+      [0, 1].forEach(j => {
+        const [re, im] = [U[j] * st.amp[j][0], U[j] * st.amp[j][1]];
+        const nx = px + re * rr * .95, ny = py - im * rr * .95;
+        arrow(c, px, py, nx, ny, j ? C2 : C1, 3, 10); px = nx; py = ny;
+      });
+      c.save(); c.shadowColor = '#fff'; c.shadowBlur = 14; arrow(c, x0, y1, px, py, '#ffffff', 3, 12); c.restore();
+      label(c, st.mu ? '⟨νμ|ν(L)⟩' : '⟨νₑ|ν(L)⟩', x0, y1 + r + 22, st.mu ? COL.mu : COL.e, 24);
+      c.font = `16px ${FONT}`; c.fillStyle = COL.text2; c.textAlign = 'center';
+      c.textAlign = 'right'; c.fillText(T('soma das setas → amplitude', 'sum of arrows → amplitude'), w - 4, h - 16); c.textAlign = 'center';
+      c.fillStyle = COL.text3; c.fillText('Δφ = 2π L / L_osc', w * .33, h - 16);
+    }
+    /* ---- a medição: massa (constante) × sabor (oscila) ---- */
+    {
+      const { ctx: c, w, h } = fitCanvas(cvM);
+      const inMass = gB() === 'mass';
+      const groups = [
+        { t: T('medindo massa', 'measuring mass'), on: inMass, p: st.pm, n: ['ν₁', 'ν₂'], col: [C1, C2] },
+        { t: T('medindo sabor', 'measuring flavour'), on: !inMass, p: st.pf, n: ['νₑ', 'νμ'], col: [COL.e, COL.mu] },
+      ];
+      const top = 44, bot = h - 44, H = bot - top, gw = w / 2;
+      groups.forEach((g, gi) => {
+        const x0 = gi * gw;
+        c.globalAlpha = g.on ? 1 : .38;
+        c.font = `600 15px ${FONT}`; c.fillStyle = g.on ? COL.text : COL.text3; c.textAlign = 'center'; c.textBaseline = 'top';
+        c.fillText(g.t.toUpperCase(), x0 + gw / 2, 6);
+        [0, 1].forEach(k => {
+          const bx = x0 + gw * (.18 + .42 * k), bw = gw * .26, ph = g.p[k] * H;
+          c.fillStyle = 'rgba(255,255,255,.05)'; c.fillRect(bx, top, bw, H);
+          c.fillStyle = g.col[k]; c.globalAlpha = (g.on ? 1 : .38) * .85; c.fillRect(bx, bot - ph, bw, ph); c.globalAlpha = g.on ? 1 : .38;
+          c.font = `600 18px ${FONT}`; c.fillStyle = COL.text; const inside = ph > H - 34; c.textBaseline = inside ? 'top' : 'bottom'; c.fillStyle = inside ? '#0a0b12' : COL.text; c.fillText(g.p[k].toFixed(2).replace('.', DEC), bx + bw / 2, inside ? bot - ph + 8 : bot - ph - 6);
+          label(c, g.n[k], bx + bw / 2, bot + 20, g.col[k], 24);
+          if (g.on && nTot) {                       // frações medidas
+            const f = counts[k] / nTot, y = bot - f * H;
+            c.strokeStyle = '#fff'; c.lineWidth = 3; c.beginPath(); c.moveTo(bx - 8, y); c.lineTo(bx + bw + 8, y); c.stroke();
+            if (last === k) { c.save(); c.shadowColor = '#fff'; c.shadowBlur = 20; c.strokeStyle = '#fff'; c.lineWidth = 2; c.strokeRect(bx - 4, top - 4, bw + 8, H + 8); c.restore(); }
+          }
+        });
+        c.globalAlpha = 1;
+      });
+      c.strokeStyle = 'rgba(255,255,255,.12)'; c.beginPath(); c.moveTo(gw, top); c.lineTo(gw, bot); c.stroke();
+    }
+    const P0 = 1 - Math.sin(2 * st.th) ** 2 * Math.sin(Math.PI * gL()) ** 2;
+    const src = st.mu ? 'νμ' : 'νₑ';
+    out.innerHTML = `<span>|U<sub>${st.mu ? 'μ' : 'e'}1</sub>|² <b>${st.pm[0].toFixed(3).replace('.', DEC)}</b></span>
+      <span>|U<sub>${st.mu ? 'μ' : 'e'}2</sub>|² <b>${st.pm[1].toFixed(3).replace('.', DEC)}</b></span>
+      <span>P(${src}→${src}) = 1 − sin²2θ sin²(πL/L<sub>osc</sub>) <b>${P0.toFixed(3).replace('.', DEC)}</b></span>
+      <span>${T('medições', 'measurements')} <b>${nTot}</b>${nTot ? ` · ${T('última', 'last')}: <b>${gB() === 'mass' ? ['ν₁', 'ν₂'][last] : ['νₑ', 'νμ'][last]}</b>` : ''}</span>`;
+  }
+  // mudar θ, L ou a base invalida as contagens (medem outra distribuição)
+  ['basis-th', 'basis-L'].forEach(id => document.getElementById(id).addEventListener('input', () => { if (!playing) reset(); }));
+  document.getElementById('basis-in').addEventListener('click', () => { reset(); draw(); });
+  onSlide(cvP, draw);
+})();
