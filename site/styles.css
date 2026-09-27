@@ -438,7 +438,7 @@ a:hover { color: var(--acc-2); }
   text-wrap: pretty;
 }
 
-/* ── capa: os quatro destinos ───────────────────────────────── */
+/* ── capa: os cinco destinos ───────────────────────────────── */
 
 .destinos {
   max-width: var(--wide);
@@ -459,6 +459,7 @@ a:hover { color: var(--acc-2); }
   color: inherit;
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
+.destino-largo { grid-column: 1 / -1; }
 .destino:hover {
   border-color: var(--acc-edge);
   background: var(--surface-2);
