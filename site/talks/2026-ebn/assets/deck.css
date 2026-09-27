@@ -22,6 +22,7 @@
   --nu-mu: #56e1d0;
   --nu-tau: #ffb86b;
   --warn: #ff7a8a;
+  --ghost: #ff8fb1;               /* Parte IV: resultados do GHOST */
 
   --part: var(--nu-e);            /* cor da parte atual; cada seção redefine */
   --W: 1920px;
@@ -50,6 +51,7 @@ a { color: inherit; }
 .slide.p1 { --part: var(--nu-e); }
 .slide.p2 { --part: var(--nu-tau); }
 .slide.p3 { --part: var(--nu-mu); }
+.slide.p4 { --part: var(--ghost); }
 
 /* ---------- slide de conteúdo ---------- */
 .content {
@@ -82,7 +84,7 @@ p i, li i { color: var(--text); }
 .muted { color: var(--text-3); }
 .ui { font-family: var(--ui); }
 .mono { font-family: var(--mono); font-size: .88em; }
-.c-e { color: var(--nu-e); } .c-mu { color: var(--nu-mu); } .c-tau { color: var(--nu-tau); } .c-part { color: var(--part); }
+.c-g { color: var(--ghost); } .c-e { color: var(--nu-e); } .c-mu { color: var(--nu-mu); } .c-tau { color: var(--nu-tau); } .c-part { color: var(--part); }
 
 ul.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
 ul.list li { position: relative; padding-left: 38px; margin: 0; }
@@ -176,6 +178,7 @@ table.tbl tr.hl td { color: var(--text); background: color-mix(in srgb, var(--pa
 .tag { display: inline-block; font: 600 15px var(--ui); letter-spacing: .14em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2); }
 .tag.part { border-color: color-mix(in srgb, var(--part) 55%, transparent); color: var(--part); }
 .ref { font: 17px/1.5 var(--ui); color: var(--text-3); }
+.cols.c4 .stack > p.ref { font-size: 15.5px; }
 .ref i { color: var(--text-2); }
 .stack > p.ref { margin: 0; }
 
@@ -189,7 +192,8 @@ table.tbl tr.hl td { color: var(--text); background: color-mix(in srgb, var(--pa
 .foot .parts span { width: 36px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.12); }
 .slide.p1 .foot .parts span:nth-child(1),
 .slide.p2 .foot .parts span:nth-child(2),
-.slide.p3 .foot .parts span:nth-child(3) { background: var(--part); box-shadow: 0 0 10px var(--part); }
+.slide.p3 .foot .parts span:nth-child(3),
+.slide.p4 .foot .parts span:nth-child(4) { background: var(--part); box-shadow: 0 0 10px var(--part); }
 
 /* ---------- capa de parte ---------- */
 .partcover { display: grid; align-items: center; padding: 0 150px; }
@@ -361,3 +365,15 @@ body.overview .progress, body.overview .counter { display: none; }
   .progress, .counter, .langsw, #notes-panel, #help { display: none !important; }
   .rise { animation: none !important; }
 }
+
+/* ---------- Parte IV: figuras do paper (fundo branco) e painel do choque ---------- */
+figure.paper img { background: #fff; padding: 14px; object-fit: contain; }
+.ghost-cover svg { position: absolute; right: 0; top: 0; width: 62%; height: 100%; }
+.verdict td:last-child { color: var(--text); }
+.verdict .ok { color: var(--nu-mu); } .verdict .no { color: var(--warn); }
+.plots.chq { grid-template-columns: 1.55fr 1fr; grid-template-rows: 1.3fr 1fr; }
+.plots.chq > .cv:nth-child(1) { grid-row: 1; grid-column: 1; }
+.plots.chq > .cv:nth-child(2) { grid-row: 2; grid-column: 1; }
+.plots.chq > .cv:nth-child(3) { grid-row: 1; grid-column: 2; }
+.plots.chq > .cv:nth-child(4) { grid-row: 2; grid-column: 2; }
+.seg button.plain { border-left: 1px solid var(--line-2); }

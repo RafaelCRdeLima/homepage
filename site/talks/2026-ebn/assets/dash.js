@@ -574,3 +574,137 @@ function pmnsAbs2(s12, s13, s23, delta) {
   }
   onSlide(cv, draw);
 })();
+
+/* ============================ PARTE IV ============================ */
+
+/* Dashboard: a frente de choque alcançando a ressonância H (GHOST).
+   Porta do painel de GHOST/slides/choque.js, com a mesma física, sem aproximação adicional:
+     x = cos2θ13 · Yeρ / (Yeρ)_res,  θ_m = ½ atan2(sin2θ13, cos2θ13 − x)
+     P_súbita = sin²(θ_m,fora − θ_m,dentro)
+     γ = 2π tan2θ13 · H / L_osc,  H = w / ln(compressão)
+     P_H = P_súbita · exp(−πγ/2)
+   Dados em ghost-choque.js: dois epochs de M15-7b (Garching CCSN Archive), perfis derivados.
+   Medido: os dois perfis, o raio da frente e a compressão. Modelo: a interpolação entre
+   os epochs. Controle: a LARGURA da frente, que nenhum dado fornece. */
+(() => {
+  const cvA = document.getElementById('shock-rho'); if (!cvA || !window.CHOQUE) return;
+  const cvB = document.getElementById('shock-mix'), cvC = document.getElementById('shock-ph'), cvD = document.getElementById('shock-zoom');
+  const D = window.CHOQUE, EP = D.epocas, U = D.u, NU = U.length;
+  const T13 = 8.6 * deg, S2 = Math.sin(2 * T13), C2 = Math.cos(2 * T13), TG2 = Math.tan(2 * T13);
+  const YR20 = 792.0, LOSC20 = 66.8;             // a 20 MeV (raio3d.py do GHOST)
+  const A_PEE = 0.27389, B_PEE = 0.02236;        // P_ee = A P_H + B
+  const R_MIN = 3e3, R_MAX = 1e6, T_MIN = 2, T_MAX = 10;
+  const ROSE = '#ff8fb1';
+  const yrRes = E => YR20 * 20 / E, losc = E => LOSC20 * E / 20;
+  const thetaM = (yr, yrr) => 0.5 * Math.atan2(S2, C2 - C2 * yr / yrr);
+  function estado(t) {
+    const s = Math.log(t / EP[0].t) / Math.log(EP[1].t / EP[0].t);
+    const din = new Float64Array(NU), dfo = new Float64Array(NU);
+    for (let i = 0; i < NU; i++) {
+      din[i] = EP[0].dentro[i] + s * (EP[1].dentro[i] - EP[0].dentro[i]);
+      dfo[i] = EP[0].fora[i] + s * (EP[1].fora[i] - EP[0].fora[i]);
+    }
+    return { R: EP[0].R_choque * Math.pow(t / EP[0].t, D.expoente_R), dentro: din, fora: dfo,
+      compressao: EP[0].compressao + s * (EP[1].compressao - EP[0].compressao),
+      gravado_km: EP[0].largura_km * Math.pow(t / EP[0].t, D.expoente_R) };
+  }
+  function perfil(e, wu) {                       // ramos misturados por tanh de largura wu em u = r/R
+    const y = new Float64Array(NU), meia = Math.max(wu, 1e-4) / 2;
+    for (let i = 0; i < NU; i++) { const s = 0.5 * (1 - Math.tanh((U[i] - 1) / meia)); y[i] = e.dentro[i] * s + e.fora[i] * (1 - s); }
+    return y;
+  }
+  function interpU(a, u) {
+    if (u <= U[0]) return a[0]; if (u >= U[NU - 1]) return a[NU - 1];
+    let lo = 0, hi = NU - 1;
+    while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (U[mid] > u) hi = mid; else lo = mid; }
+    const f = (Math.log(u) - Math.log(U[lo])) / (Math.log(U[hi]) - Math.log(U[lo]));
+    return a[lo] + f * (a[hi] - a[lo]);
+  }
+  function crossProb(e, E, wLosc) {
+    const yrr = yrRes(E);
+    const subita = Math.sin(thetaM(10 ** interpU(e.fora, 1), yrr) - thetaM(10 ** interpU(e.dentro, 1), yrr)) ** 2;
+    const H = wLosc / Math.log(Math.max(e.compressao, 1.01));
+    return { subita, PH: subita * Math.exp(-Math.PI * (2 * Math.PI * TG2 * H) / 2) };
+  }
+  const fmtKm = v => v >= 1e3 ? (v / 1e3).toFixed(1).replace('.', DEC) + ' × 10³ km' : v.toFixed(0) + ' km';
+  const gt = bindRange('shock-t', v => v.toFixed(2).replace('.', DEC) + ' s', () => { stop(); draw(); });
+  const gE = bindRange('shock-E', v => v.toFixed(0) + ' MeV', draw);
+  const elW = document.getElementById('shock-w');
+  const gw = bindRange('shock-w', v => { const w = 10 ** v; return (w < 0.1 ? w.toFixed(3) : w.toFixed(2)).replace('.', DEC) + ' L_osc'; }, draw);
+  const out = document.getElementById('shock-out'), btn = document.getElementById('shock-btn');
+  const setW = v => { elW.value = v; elW.dispatchEvent(new Event('input')); };
+  btn.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.v === 'play') return playing ? stop() : play();
+    if (b.dataset.v === 'stored') setW(Math.log10(estado(gt()).gravado_km / losc(gE())));
+    if (b.dataset.v === 'phys') setW(elW.min);
+  });
+  const PA = new Plot(cvA, { x: [R_MIN, R_MAX], y: [0.1, 1e5], xlog: true, ylog: true, m: [26, 20, 34, 92], fs: 16, xfmt: () => '' });
+  const PB = new Plot(cvB, { x: [R_MIN, R_MAX], y: [0, 1], xlog: true, m: [10, 20, 66, 92], fs: 16, yticks: [0, 0.5, 1] });
+  const PC = new Plot(cvC, { x: [T_MIN, T_MAX], y: [0, 1], xlog: true, m: [26, 20, 66, 76], fs: 16, xticks: [2, 3, 5, 10], yticks: [0, 0.25, 0.5, 0.75, 1] });
+  const PD = new Plot(cvD, { x: [-5, 5], y: [0, 1], m: [34, 20, 60, 30], fs: 15, yticks: [], xticks: [-5, -2.5, 0, 2.5, 5] });
+  function draw() {
+    const t = gt(), E = gE(), wLosc = 10 ** +elW.value;
+    const e = estado(t), L = losc(E), yrr = yrRes(E), wkm = wLosc * L, wu = wkm / e.R;
+    const y = perfil(e, wu), pr = crossProb(e, E, wLosc);
+    const rs = [], ys = [];
+    for (let i = 0; i < NU; i++) { const r = U[i] * e.R; if (r >= R_MIN && r <= R_MAX) { rs.push(r); ys.push(10 ** y[i]); } }
+    // A: Yeρ(r) com a condição de ressonância
+    PA.begin(); const fw = TG2 * yrr;
+    PA.ctx.fillStyle = 'rgba(255,143,177,.10)'; PA.ctx.fillRect(PA.L, PA.Y(yrr + fw), PA.R - PA.L, PA.Y(yrr - fw) - PA.Y(yrr + fw));
+    PA.frame(null, 'Yₑρ (g/cm³)').clip();
+    PA.hline(yrr, { color: ROSE, dash: [8, 7], width: 2, label: T('ressonância H a ', 'H resonance at ') + E.toFixed(0) + ' MeV' });
+    PA.line(rs, ys, { color: COL.mu, width: 3, glow: 10 }).vline(e.R, { color: COL.text2, dash: [], width: 1.5, label: T('frente de choque', 'shock front'), side: 'left' });
+    const cruz = [];
+    for (let i = 1; i < rs.length; i++) if ((ys[i - 1] - yrr) * (ys[i] - yrr) < 0) {
+      const f = Math.log(yrr / ys[i - 1]) / Math.log(ys[i] / ys[i - 1]); cruz.push(rs[i - 1] * (rs[i] / rs[i - 1]) ** f);
+    }
+    cruz.forEach(rc => PA.dot(rc, yrr, { color: ROSE, r: 7, glow: 18 }));
+    PA.unclip();
+    // B: sin²2θ_m(r), onde a mistura em matéria é máxima
+    PB.begin().frame(T('raio (km)', 'radius (km)'), 'sin²2θₘ').clip();
+    const sm = ys.map(q => { const x = C2 * q / yrr; return S2 * S2 / ((C2 - x) ** 2 + S2 * S2); });
+    PB.area(rs, sm, 0, { color: ROSE, alpha: .18 }).line(rs, sm, { color: ROSE, width: 2.5 }).vline(e.R, { color: COL.text2, dash: [], width: 1.5 });
+    PB.unclip();
+    // C: P_H(t) para a largura escolhida, e o limite súbito
+    PC.begin().frame(T('tempo após o ricochete (s)', 'time after bounce (s)'), T('probabilidade de cruzamento', 'crossing probability'));
+    const ts = logspace(T_MIN, T_MAX, 160), st = ts.map(estado);
+    PC.clip().line(ts, st.map(s => crossProb(s, E, wLosc).subita), { color: COL.text3, width: 2, dash: [7, 7] })
+      .line(ts, st.map(s => crossProb(s, E, wLosc).PH), { color: ROSE, width: 3.5, glow: 12 }).unclip();
+    PC.dot(t, pr.PH, { color: ROSE, r: 7, glow: 18 });
+    PC.text(T_MAX, 0.96, T('limite súbito', 'sudden limit'), { color: COL.text3, align: 'right', size: 15 });
+    EP.forEach(ep => PC.text(ep.t, 0.03, '▲', { color: COL.text2, align: 'center', size: 14 }));
+    PC.text(2.05, 0.10, T('▲ os dois epochs medidos', '▲ the two measured epochs'), { color: COL.text3, size: 14 });
+    // D: a frente de perto, ±5 L_osc, onde a largura aparece
+    const yIn = 10 ** interpU(e.dentro, 1), yOut = 10 ** interpU(e.fora, 1);
+    const i0 = yOut / 1.7, i1 = yIn * 1.7;
+    PD.set('y', [i0, i1]).set('ylog', true).begin().frame(T('distância à frente (L_osc)', 'distance from the front (L_osc)'), null).clip();
+    if (yrr > i0 && yrr < i1) PD.hline(yrr, { color: ROSE, dash: [6, 6], width: 1.5 });
+    const xs = linspace(-5, 5, 300), mi = Math.max(wu, 1e-7) / 2;
+    PD.line(xs, xs.map(x => { const uj = 1 + x * L / e.R, s = 0.5 * (1 - Math.tanh((uj - 1) / mi)); return 10 ** (interpU(e.dentro, uj) * s + interpU(e.fora, uj) * (1 - s)); }), { color: COL.mu, width: 3, glow: 10 });
+    PD.ctx.save(); PD.ctx.strokeStyle = COL.text; PD.ctx.lineWidth = 3; PD.ctx.beginPath(); PD.ctx.moveTo(PD.X(-4.6), PD.B - 14); PD.ctx.lineTo(PD.X(-3.6), PD.B - 14); PD.ctx.stroke(); PD.ctx.restore();
+    PD.text(PD.X(-3.45), PD.B - 14, '1 L_osc', { px: true, color: COL.text, size: 15 });
+    PD.unclip();
+    PD.text(PD.L + 2, 18, T('a frente de perto', 'the front, close up'), { px: true, color: COL.text2, size: 15 });
+    const f3 = v => v < 1e-3 ? v.toExponential(1).replace('.', DEC) : v.toFixed(3).replace('.', DEC);
+    out.innerHTML = `<span>R<sub>${T('choque', 'shock')}</sub> <b>${fmtKm(e.R)}</b></span>
+      <span>R<sub>res</sub> <b>${cruz.length ? cruz.map(c => (c / 1e3).toFixed(1).replace('.', DEC)).join(' · ') + ' × 10³ km' : '—'}</b></span>
+      <span>${T('largura', 'width')} <b>${wkm < 10 ? wkm.toFixed(1).replace('.', DEC) : wkm.toFixed(0)} km</b></span>
+      <span>P<sub>H</sub> <b style="color:var(--ghost)">${f3(pr.PH)}</b></span>
+      <span>P<sub>ee</sub> (NO) <b>${(A_PEE * pr.PH + B_PEE).toFixed(3).replace('.', DEC)}</b></span>`;
+  }
+  let playing = false, last = 0;
+  const playBtn = btn.querySelector('[data-v="play"]'), elT = document.getElementById('shock-t');
+  function frame(now) {
+    if (!playing) return;
+    if (!cvA.closest('.slide').classList.contains('active')) return stop();
+    const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+    let t = +elT.value * Math.pow(T_MAX / T_MIN, dt / 9);
+    if (t >= T_MAX) { elT.value = T_MAX; elT.dispatchEvent(new Event('input')); return; }
+    elT.value = t; document.querySelector('output[for="shock-t"]').textContent = t.toFixed(2).replace('.', DEC) + ' s';
+    draw(); requestAnimationFrame(frame);
+  }
+  function stop() { playing = false; last = 0; playBtn.textContent = T('▶ tocar', '▶ play'); }
+  function play() { if (+elT.value >= T_MAX - 1e-9) elT.value = T_MIN; playing = true; last = 0; playBtn.textContent = T('❚❚ pausar', '❚❚ pause'); requestAnimationFrame(frame); }
+  onSlide(cvA, draw);
+})();

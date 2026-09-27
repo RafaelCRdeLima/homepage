@@ -64,8 +64,8 @@
 
 <!-- OUTLINE -->
 <section class="slide content p1">
-  <header><p class="eyebrow">Outline</p><h2>Three parts, <em>one question</em></h2></header>
-  <div class="body cols c3">
+  <header><p class="eyebrow">Outline</p><h2>Four parts, <em>one question</em></h2></header>
+  <div class="body cols c4">
     <div class="card" style="--part: var(--nu-e)">
       <p class="stat c-e" style="font-style: italic">I</p>
       <h3>Neutrinos</h3>
@@ -76,10 +76,15 @@
       <h3>Curved spacetime</h3>
       <p class="small">Einstein, Schwarzschild, compact objects: the regions only General Relativity describes well — all the way to collapsars.</p>
     </div>
-    <div class="card glow" style="--part: var(--nu-mu)">
+    <div class="card" style="--part: var(--nu-mu)">
       <p class="stat c-mu" style="font-style: italic">III</p>
       <h3>Neutrinos in curved spacetime</h3>
       <p class="small">Neutrinos are born in deep gravitational wells. What that does to flavour — and what DUNE and its peers can learn.</p>
+    </div>
+    <div class="card glow" style="--part: var(--ghost)">
+      <p class="stat c-g" style="font-style: italic">IV</p>
+      <h3>GHOST: results</h3>
+      <p class="small">A supernova shock front at the MSW resonance: the criterion, the cost for DUNE, and where to look.</p>
     </div>
   </div>
   <aside class="notes">Three parts. The first two build the tools; the third puts them together, and that is where current research is.</aside>
@@ -734,19 +739,238 @@
   <aside class="notes">Together with DUNE, this network forms SNEWS: an automatic supernova alert. The next galactic supernova will be seen in tens of thousands of events, with millisecond resolution — enough to see the physics of the proto-neutron star, gravity included.</aside>
 </section>
 
+<!-- ================================================================
+     PART IV — GHOST: THE SHOCK FRONT AT THE MSW RESONANCE
+     ================================================================ -->
+<section class="slide partcover p4 ghost-cover">
+  <svg viewBox="0 0 1200 1080" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="gcv" x1="0" x2="1"><stop offset="0" stop-color="#56e1d0" stop-opacity=".15"/><stop offset=".55" stop-color="#56e1d0"/><stop offset="1" stop-color="#9e8cff"/></linearGradient>
+      <radialGradient id="gglow"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ff8fb1"/><stop offset="1" stop-color="#ff8fb1" stop-opacity="0"/></radialGradient>
+      <filter id="gblur"><feGaussianBlur stdDeviation="6"/></filter>
+    </defs>
+    <g stroke="rgba(255,255,255,.05)">
+      <path d="M0 180H1200M0 360H1200M0 540H1200M0 720H1200M0 900H1200M200 0V1080M400 0V1080M600 0V1080M800 0V1080M1000 0V1080"/>
+    </g>
+    <rect x="0" y="470" width="1200" height="44" fill="#ff8fb1" opacity=".08"/>
+    <path d="M0 492H1200" stroke="#ff8fb1" stroke-width="2.5" stroke-dasharray="14 10" opacity=".9"/>
+    <path d="M60 170 C 240 230, 420 300, 560 355 S 700 395, 720 400 L 724 640 C 800 690, 950 780, 1200 900" fill="none" stroke="url(#gcv)" stroke-width="10" filter="url(#gblur)" opacity=".7"/>
+    <path d="M60 170 C 240 230, 420 300, 560 355 S 700 395, 720 400 L 724 640 C 800 690, 950 780, 1200 900" fill="none" stroke="url(#gcv)" stroke-width="3.5"/>
+    <circle cx="722" cy="492" r="46" fill="url(#gglow)"/>
+    <circle cx="722" cy="492" r="7" fill="#fff"/>
+    <g font-family="Inter Tight, sans-serif" font-size="22" fill="#b3b9c9">
+      <text x="1180" y="462" text-anchor="end" fill="#ff8fb1">H resonance</text>
+      <text x="742" y="720">shock front</text>
+      <text x="80" y="140">Yₑρ</text>
+      <text x="1180" y="1040" text-anchor="end">radius →</text>
+    </g>
+  </svg>
+  <div class="inner">
+    <p class="num rise d1">IV</p>
+    <p class="label rise d2">Part four · results</p>
+    <h2 class="rise d2">GHOST</h2>
+    <p class="sub lede rise d3">Which density structures in a supernova change the flavour that reaches DUNE — and what it costs to ignore the only one that matters: the shock front at the MSW resonance.</p>
+    <div class="topics rise d4"><span>Chebyshev propagator</span><span>H resonance</span><span>shock front</span><span>12,878 rays</span><span>DUNE</span></div>
+  </div>
+  <aside class="notes">Part four is my own work. After three parts on where neutrinos are born and what geometry does to the phase, the concrete question: what decides the flavour composition an argon detector will count in a galactic supernova.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">The code</p><h2>GHOST: flavour oscillation <em>without shortcuts</em></h2></header>
+  <div class="body cols c2">
+    <div class="stack" style="gap: 24px">
+      <div class="eq sm" style="font-size: 31px"><i>H</i>(<i>r</i>) = <span class="frac"><span>1</span><span>2<i>E</i></span></span> <i>U</i> diag(0, Δ<i>m</i>²₂₁, Δ<i>m</i>²₃₁) <i>U</i><sup>†</sup> + diag(√2 <i>G</i><sub>F</sub> <i>Y</i><sub>e</sub>ρ(<i>r</i>)/<i>m</i><sub>u</sub>, 0, 0)<span class="note">three flavours, with CP phase, along each ray</span></div>
+      <div class="eq sm">|ψ(<i>r</i>+Δ<i>r</i>)⟩ = e<sup>−<i>iH</i>Δ<i>r</i></sup> |ψ(<i>r</i>)⟩ ≈ Σ<sub><i>k</i></sub> <i>c</i><sub><i>k</i></sub> <i>T</i><sub><i>k</i></sub>(<i>H̃</i>) |ψ⟩<span class="note">Chebyshev expansion · rigorous spectral bounds · bisected slices</span></div>
+      <p class="small">C core (a fork of DAEDALUS, quantum walks on graphs). The complex Hamiltonian runs in a real 2n×2n embedding; exposed as a SNEWPY <i>FlavorTransformation</i>, the rest of the pipeline is unchanged.</p>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <table class="tbl">
+        <tr><th>validation</th><th style="text-align:right">result</th></tr>
+        <tr class="hl"><td>against NuOscProbExact (independent method)</td><td class="n">2.2×10⁻¹⁴ over 320 cases</td></tr>
+        <tr><td>3 flavours + δ<sub>CP</sub> in matter, against <span class="mono">expm</span></td><td class="n">7.2×10⁻¹⁵</td></tr>
+        <tr><td>ρ ∝ r⁻³ envelope: P<sub>ee</sub> against sin²θ₁₃</td><td class="n">0.0223635 vs 0.0223608</td></tr>
+        <tr><td>DUNE spectrum, 200 energies × 2</td><td class="n">13 ms</td></tr>
+      </table>
+      <div class="card glow" style="--part: var(--nu-mu)"><h4>From Part III to here</h4><p class="small">Along a radial path, the gravitational terms in the phase <b>cancel</b> (Fornengo et al.). What decides the flavour leaving the star is the <b>density structure</b> the neutrino crosses.</p></div>
+    </div>
+  </div>
+  <aside class="notes">GHOST is a fork of my quantum-walk code, DAEDALUS. An n-flavour neutrino is an n-level system; I propagate it with Chebyshev. Validation: 10⁻¹⁴ against a public code using a different method. And the bridge with Part III: radially, gravity cancels in the phase; what remains of flavour physics inside the star is matter.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">The problem</p><h2>A shock wave crosses <em>the resonance</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1fr 1fr; gap: 36px">
+    <figure class="paper"><img src="assets/img/ghost/intro_niveis.svg" alt="Matter eigenvalues near the resonance" style="height: 380px"><figcaption>At the H resonance the two matter eigenstates almost touch.</figcaption></figure>
+    <figure class="paper"><img src="assets/img/ghost/intro_salto.svg" alt="Crossing probability against transition width" style="height: 380px"><figcaption>Cross slowly: P<sub>H</sub> = 0. Cross a discontinuity: P<sub>H</sub> → 1.</figcaption></figure>
+    <div class="stack">
+      <p>For the first seconds after bounce, <b>the shock front sits on the H resonance</b>. What decides the flavour DUNE measures is the shape of a shock wave.</p>
+      <table class="tbl">
+        <tr><th>ordering</th><th style="text-align:right">adiabatic P<sub>ee</sub></th></tr>
+        <tr><td>normal</td><td class="n">0.022</td></tr>
+        <tr><td>inverted</td><td class="n">0.30</td></tr>
+      </table>
+      <p class="small">A factor of <b>13</b> in νₑ survival — and argon counts precisely νₑ.</p>
+    </div>
+  </div>
+  <aside class="notes">The whole question is P_H, the probability of jumping between eigenstates at the resonance. In normal ordering, adiabatic gives 2%; inverted, 30%. A huge lever, and it goes through the shape of the shock front.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">The gap</p><h2>Three steps, and <em>only two have matured</em></h2></header>
+  <div class="body cols c2 center">
+    <div class="stack" style="gap: 22px">
+      <div class="card"><h4 style="color: var(--nu-mu)">1 · Hydrodynamics</h4><p class="small">3D models deliver time- and angle-resolved fluxes.</p></div>
+      <div class="card glow"><h4>2 · Flavour transformation — this step</h4><p class="small">In SNEWPY 1.5.1, for standard MSW, only two numbers: <b>P<sub>H</sub> = 0</b> and <b>P<sub>H</sub> = 1</b>. None of the ten classes depends on post-bounce time.</p></div>
+      <div class="card"><h4 style="color: var(--nu-mu)">3 · Detector</h4><p class="small">SNOwGLoBES turns fluxes into event rates.</p></div>
+    </div>
+    <div class="stack">
+      <blockquote style="font-size: 38px">“the shock front is steepened artificially to reintroduce the physical requirement of a density discontinuity which is lost in hydrodynamic simulations”<footer>Barger, Huber &amp; Marfatia, 2005</footer></blockquote>
+      <p class="small">Tomàs et al. (2004) already steepened the front by hand. Twenty years later the correction has lapsed: recent work passes 24 3D models through an adiabatic constant.</p>
+    </div>
+  </div>
+  <aside class="notes">The problem has been known for twenty years, and so has the remedy. What happened is that, with 3D models and automated pipelines, the flavour step became a constant. This work measures what that costs.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Conclusion 1 · the criterion</p><h2>What the resonance <em>can see</em></h2></header>
+  <div class="body cols r">
+    <figure class="paper"><img src="assets/img/ghost/fig_resposta.svg" alt="Response of the conversion to the fluctuation wavelength" style="max-height: 520px"><figcaption>Induced leakage against fluctuation wavelength: the response dies above L<sub>osc</sub> at the resonance.</figcaption></figure>
+    <div class="stack" style="gap: 22px">
+      <p>A structure perturbs the conversion only if it is <b>shorter than L<sub>osc</sub></b> at the resonance. Below that, the effect grows as the <b>square</b> of the contrast — measured as the <b>2.02 ± 0.03</b> power — and saturates at 8%.</p>
+      <table class="tbl verdict">
+        <tr><th>structure</th><th>contrast</th><th>scale &lt; L<sub>osc</sub>?</th><th>verdict</th></tr>
+        <tr><td>turbulence</td><td class="n">7×10⁻⁴</td><td class="ok">✓</td><td>111× below saturation</td></tr>
+        <tr><td>convection, SASI</td><td class="n">𝒪(1)</td><td class="no">✗ far too large</td><td>nothing</td></tr>
+        <tr class="hl"><td>shock front</td><td class="n">𝒪(1)</td><td class="ok">✓ discontinuity</td><td>saturated</td></tr>
+      </table>
+    </div>
+  </div>
+  <aside class="notes">The criterion has two parts: scale and amplitude. Turbulence has the scale but far too little amplitude; large-scale flows have the amplitude but far too long a scale. Only the front passes both — and only by being a discontinuity.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">But in a simulation…</p><h2>The front <em>has no physical width</em></h2></header>
+  <div class="body cols l">
+    <figure class="paper"><img src="assets/img/ghost/fig_perfis.svg" alt="Density profiles along individual rays and the front close up" style="max-height: 560px"><figcaption>Each ray crosses the resonance sharply; the angular average does not. Right: the front as stored and at the physical limit.</figcaption></figure>
+    <div class="stack">
+      <p class="small">The real shock is centimetres wide. The file stores the width of the <b>numerical scheme</b>.</p>
+      <table class="tbl">
+        <tr><th>model (Garching)</th><th style="text-align:right">width (L<sub>osc</sub>)</th><th style="text-align:right">zones</th></tr>
+        <tr><td>M15-7b</td><td class="n">4.20</td><td class="n">1.67</td></tr>
+        <tr><td>W16-3</td><td class="n">3.81</td><td class="n">1.65</td></tr>
+        <tr><td>W18-3</td><td class="n">3.52</td><td class="n">1.64</td></tr>
+        <tr><td>W18r-2</td><td class="n">3.76</td><td class="n">1.63</td></tr>
+        <tr><td>W18x-2</td><td class="n">4.67</td><td class="n">1.65</td></tr>
+        <tr><td>W20-5</td><td class="n">4.22</td><td class="n">1.65</td></tr>
+      </table>
+      <p class="small">All above the ≃ 3 L<sub>osc</sub> threshold: propagating the file as it comes returns the adiabatic result. <b>A null produced by resolution.</b></p>
+    </div>
+  </div>
+  <aside class="notes">In grid zones, the six models agree to three significant figures: the width belongs to the scheme, not to the star. And all six sit on the wrong side of the criterion.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Dashboard · the GHOST panel</p><h2>The shock overtakes the resonance <em>at t ≈ 3 s</em></h2></header>
+  <div class="body">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interactive · M15-7b</span>
+        <div class="seg" id="shock-btn"><button data-v="play">▶ play</button><button data-v="stored" class="plain">width as stored</button><button data-v="phys" class="plain">physical width</button></div></div>
+      <div class="plots chq">
+        <div class="cv"><canvas id="shock-rho"></canvas></div>
+        <div class="cv"><canvas id="shock-mix"></canvas></div>
+        <div class="cv"><canvas id="shock-ph"></canvas></div>
+        <div class="cv"><canvas id="shock-zoom"></canvas></div>
+      </div>
+      <div class="controls">
+        <div class="ctl"><label for="shock-t">time after bounce <output for="shock-t"></output></label><input type="range" id="shock-t" min="2" max="10" step="0.01" value="3"></div>
+        <div class="ctl"><label for="shock-E">energy <output for="shock-E"></output></label><input type="range" id="shock-E" min="5" max="60" step="1" value="20"></div>
+        <div class="ctl"><label for="shock-w">front width w <output for="shock-w"></output></label><input type="range" id="shock-w" min="-2" max="0.9" step="0.01" value="0.62"></div>
+      </div>
+      <div class="readout" id="shock-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Measured: the two epochs of M15-7b (3 and 10 s). Model: the interpolation between them. Control: the front width, which no data provides. With the stored width, P_H sits at the adiabatic value; at the physical width it rises to ~0.5–0.6. Play shows the front sweeping through the resonance.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Conclusion 2 · the cost</p><h2>Restoring the front removes <em>half of P<sub>H</sub></em></h2></header>
+  <div class="body cols l">
+    <figure class="paper"><img src="assets/img/ghost/ceu.svg" alt="Distribution of P_H over 12,878 lines of sight and comparison with the closed form" style="max-height: 470px"><figcaption>The whole sky of M15-7b: <b>12,878 rays</b>, each propagated twice.</figcaption></figure>
+    <div class="stack">
+      <div><p class="stat c-g">0.44–0.76</p><p class="stat-label">absolute ΔP<sub>H</sub>, six progenitors, 5 to 100 MeV (median 0.56)</p></div>
+      <p class="small">The file as stored returns the adiabatic limit in <b>99.9%</b> of rays. With the front restored, the spread (s.d. 0.32) is where one supernova is drawn from.</p>
+      <p class="small">The closed form tracks each ray: <b>Pearson 0.9987</b>, no free parameter.</p>
+    </div>
+  </div>
+  <aside class="notes">It does not perturb P_H: omitting the correction removes half of it. And we measured it on every line of sight, not only on average — a supernova is observed from one direction.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Conclusion 3 · at the detector</p><h2>A few per cent, <em>with a sign set by the source</em></h2></header>
+  <div class="body cols c2 center">
+    <table class="tbl">
+      <tr><th>model family</th><th style="text-align:right">bias in the νₑ CC count</th></tr>
+      <tr><td>Nakazato</td><td class="n">−4.0 to −4.2%</td></tr>
+      <tr><td>Garching</td><td class="n">−3.9 and −4.4%</td></tr>
+      <tr><td>Sukhbold</td><td class="n">−2.9%</td></tr>
+      <tr class="hl"><td>Fornax 2022</td><td class="n">+1.3 and +1.4%</td></tr>
+    </table>
+    <div class="stack">
+      <p>SNOwGLoBES, <b>40 kt argon at 10 kpc</b>.</p>
+      <p>A bias of fixed sign could be absorbed into a correction factor. One whose sign follows the flavour hierarchy of the source cannot — and it is <b>degenerate</b> with the spectral quantities one wants to extract.</p>
+      <p class="small">It survives in both orderings, for different reasons: <b>−4.1%</b> in normal, <b>−5.4%</b> in inverted. The systematic cannot be avoided by assuming an ordering.</p>
+    </div>
+  </div>
+  <aside class="notes">The consequence at DUNE: a few per cent, but with a sign that changes between model families. That is what makes the effect dangerous: it is not a universal correction factor.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Conclusion 4 · where to look</p><h2>The error lives in a band, <em>in closed form</em></h2></header>
+  <div class="body cols c2">
+    <figure class="paper"><img src="assets/img/ghost/fig_mapa.svg" alt="Map of the error in the time–energy plane" style="max-height: 470px"><figcaption>Treating the front as a constant is off by up to a factor <b>13.7</b> in a band of (t, E) that closes at t ≃ 4 s.</figcaption></figure>
+    <figure class="paper"><img src="assets/img/ghost/bandas.svg" alt="Affected energy bands per progenitor" style="max-height: 470px"><figcaption>Five sibling progenitors at one epoch: from <b>1.4 to 61.6 MeV</b>, with no single energy inside all of them.</figcaption></figure>
+  </div>
+  <aside class="notes">The band follows from the presupernova density profile, given the shock radius and the compression — no flavour calculation. Comparing models at one fixed energy returns a false null; we fell into that trap before measuring it.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Honestly</p><h2>What this settles <em>and what it doesn't</em></h2></header>
+  <div class="body cols c2">
+    <div class="stack">
+      <h3 class="c-g">Three statements</h3>
+      <ul class="list">
+        <li><b>A criterion with a number:</b> the response is extinguished above ≃ 3 L<sub>osc</sub>. “Steepen the front by hand” becomes a checkable condition.</li>
+        <li><b>The cost:</b> 0.44–0.76 in P<sub>H</sub> and a few per cent in the argon count, with a sign set by the source.</li>
+        <li><b>Where to look:</b> the (t, E) band in closed form, from presupernova structure.</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <h3>Limits</h3>
+      <ul class="list" style="--part: var(--text-3)">
+        <li class="small">The scales that act are in no model: grids resolve nothing shorter than 4.7 L<sub>osc</sub>. The turbulence amplitude is <i>extrapolated</i>.</li>
+        <li class="small">Blue supergiants only (six Garching models).</li>
+        <li class="small">Not yet an observable: a few σ at 10 kpc, scaling as 1/d.</li>
+      </ul>
+      <p class="ref">R. C. R. de Lima, <i>Which density structures affect supernova neutrino flavour conversion, and the shock front at the MSW resonance</i> — in preparation (2026).</p>
+    </div>
+  </div>
+  <aside class="notes">Three statements checkable against any model set, with no code of mine in the loop. And the limits, stated plainly.</aside>
+</section>
+
 <section class="slide content p3">
-  <header><p class="eyebrow">Summary</p><h2>Three things to <em>take home</em></h2></header>
-  <div class="body cols c3">
+  <header><p class="eyebrow">Summary</p><h2>Four things to <em>take home</em></h2></header>
+  <div class="body cols c4">
     <div class="card" style="--part: var(--nu-e)"><p class="stat c-e" style="font-style: italic">1</p><p>Flavour oscillation is <b>phase interference</b>. The phase is ∫p<sub>μ</sub>dx<sup>μ</sup> — and that holds in any geometry.</p></div>
     <div class="card" style="--part: var(--nu-tau)"><p class="stat c-tau" style="font-style: italic">2</p><p>Supernovae and collapsars emit neutrinos <b>a few r<sub>s</sub></b> out. There, redshift, bending and local quantities are not corrections: they are the physics.</p></div>
     <div class="card glow" style="--part: var(--nu-mu)"><p class="stat c-mu" style="font-style: italic">3</p><p>Gravity doesn't only get in the way: with several paths, it <b>measures m<sub>k</sub>²</b>. DUNE and the SNEWS network are ready for the next galactic supernova.</p></div>
+    <div class="card glow" style="--part: var(--ghost)"><p class="stat c-g" style="font-style: italic">4</p><p>In a supernova only the <b>shock front</b> passes the resonance criterion — and simulations store it too wide. Restoring it changes P<sub>H</sub> by 0.44–0.76 and the DUNE count by a few per cent.</p></div>
   </div>
   <aside class="notes">Recap the three ideas. Leave the question: what will the next galactic supernova tell us about neutrinos and gravity at the same time?</aside>
 </section>
 
 <section class="slide content p3">
   <header><p class="eyebrow">References</p><h2>To <em>go further</em></h2></header>
-  <div class="body cols c3" style="gap: 40px">
+  <div class="body cols c4" style="gap: 30px">
     <div class="stack" style="gap: 8px">
       <p class="ref"><b>Part I</b></p>
       <p class="ref">W. Pauli, letter of 4/12/1930</p>
@@ -796,6 +1020,21 @@
       <p class="ref">J. Cherry et al., <i>PRL</i> 108, 261104 (2012)</p>
       <p class="ref">DUNE FD TDR, arXiv:2002.03005 (2020)</p>
     </div>
+    <div class="stack" style="gap: 8px">
+      <p class="ref"><b>Part IV</b></p>
+      <p class="ref">R. Schirato, G. Fuller, astro-ph/0205390 (2002)</p>
+      <p class="ref">G. Fogli et al., <i>PRD</i> 68, 033005 (2003)</p>
+      <p class="ref">R. Tomàs et al., <i>JCAP</i> 0409, 015 (2004)</p>
+      <p class="ref">V. Barger, P. Huber, D. Marfatia, <i>PLB</i> 617, 167 (2005)</p>
+      <p class="ref">A. Dighe, A. Smirnov, <i>PRD</i> 62, 033007 (2000)</p>
+      <p class="ref">J. Kneller, G. McLaughlin, K. Patton, <i>J. Phys. G</i> 40, 055002 (2013)</p>
+      <p class="ref">K. Patton, J. Kneller, G. McLaughlin, <i>PRD</i> 89, 073022 (2014)</p>
+      <p class="ref">A. Wongwathanarat, E. Müller, H.-T. Janka, <i>A&amp;A</i> 577, A48 (2015)</p>
+      <p class="ref">A. Baxter et al. (SNEWPY), <i>ApJ</i> 925, 107 (2022)</p>
+      <p class="ref">M. Bustamante (NuOscProbExact), arXiv:1904.12391</p>
+      <p class="ref">DUNE, <i>EPJC</i> 81, 423 (2021)</p>
+      <p class="ref">R. C. R. de Lima, in preparation (2026)</p>
+    </div>
   </div>
   <aside class="notes">Reference slide; it stays in the repository.</aside>
 </section>
@@ -835,6 +1074,7 @@
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Hyper-Kamiokande_scheme.png"><b>Hyper-Kamiokande</b></a> — Shota Izumiyama (Tokyo Inst. Tech.) for the Hyper-Kamiokande collaboration · CC BY 3.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg"><b>The Sun (SDO)</b></a> — NASA/SDO (AIA) · Public domain</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:CERN_Geneva%2C_Neutrino_detections_chamber_at_protoDUNE_experiment%2C_seen_from_inside%2C_Dec_2023_%28Mark_Benecke%29.jpg"><b>ProtoDUNE</b></a> — Markbenecke · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Part IV figures and shock panel</b> — R. C. R. de Lima (GHOST); profiles derived from the Garching CCSN Archive (M15-7b, A. Wongwathanarat); archive files are not redistributed</p>
     <!--/CREDITS-->
   </div>
   <aside class="notes">All images come from Wikimedia Commons, in the public domain or under Creative Commons licences.</aside>
@@ -878,6 +1118,7 @@
 </div>
 
 <script src="assets/deck.js"></script>
+<script src="assets/ghost-choque.js"></script>
 <script src="assets/dash.js"></script>
 <script>Deck.start();</script>
 </body>
