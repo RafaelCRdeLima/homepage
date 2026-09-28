@@ -301,9 +301,10 @@ a:hover { color: var(--acc-2); }
 .pill-cta:hover { color: var(--text); border-color: var(--acc-edge); transform: translateY(-2px); }
 
 /* Posições: espelhadas em torno do retrato, como na referência. */
-.p1 { left: 1%;  top: 15%; animation-delay: -0.6s; }
-.p2 { left: -1%; top: 46%; animation-delay: -2.4s; }
-.p3 { left: 12%; top: 76%; animation-delay: -4.1s; }
+.p8 { left: 3%;  top: 5%;  animation-delay: -3.7s; }
+.p1 { left: 1%;  top: 28%; animation-delay: -0.6s; }
+.p2 { left: -1%; top: 53%; animation-delay: -2.4s; }
+.p3 { left: 12%; top: 77%; animation-delay: -4.1s; }
 .p4 { right: 2%;  top: 5%;  animation-delay: -1.5s; }
 .p7 { right: 0%;  top: 28%; animation-delay: -2.9s; }
 .p5 { right: 1%;  top: 53%; animation-delay: -3.3s; }
@@ -928,9 +929,10 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
 /* ── telas médias: as pílulas encostam demais no retrato ─────── */
 
 @media (max-width: 60rem) {
-  .p1 { left: 0; top: 8%; }
-  .p2 { left: 0; top: 44%; }
-  .p3 { left: 6%; top: 80%; }
+  .p8 { left: 0; top: 2%; }
+  .p1 { left: 0; top: 26%; }
+  .p2 { left: 0; top: 52%; }
+  .p3 { left: 6%; top: 78%; }
   .p4 { right: 0; top: 2%; }
   .p7 { right: 0; top: 26%; }
   .p5 { right: 0; top: 52%; }

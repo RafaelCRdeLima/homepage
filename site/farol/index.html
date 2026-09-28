@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAROL · pulsares</title>
+<meta name="description" content="FAROL: os pulsares do catálogo ATNF girando no período medido. / ATNF pulsars spinning at their measured period.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23060b16'/%3E%3Cpath d='M16 4l2.6 9.4L28 16l-9.4 2.6L16 28l-2.6-9.4L4 16l9.4-2.6z' fill='%236ee7d0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #060b16;
+  --panel: #0b1424;
+  --panel-2: #0f1b2f;
+  --line: #1b2a40;
+  --ink: #e8f0f7;
+  --ink-2: #a9bbcf;
+  --muted: #7a8ea6;
+  --accent: #6ee7d0;
+  --accent-dim: #2b6f66;
+  /* classes no diagrama P–Ṗ: slots 1–3 da paleta validada (modo escuro) */
+  --c-msp: #3987e5;
+  --c-mag: #d95926;
+  --c-young: #199e70;
+  --c-other: #4d5d73;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+canvas { max-width: 100%; }
+body { overflow-x: hidden; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); }
+body { min-height: 100vh; }
+html[data-lang="pt"] [lang="en"], html[data-lang="en"] [lang="pt"] { display: none !important; }
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+
+.top {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 18px 24px; border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand svg { width: 22px; height: 22px; }
+.brand b { font: 500 22px/1 var(--mono); letter-spacing: .08em; color: var(--accent); }
+.tagline { color: var(--ink-2); font-size: 14px; flex: 1 1 260px; }
+.toplinks { display: flex; gap: 12px; align-items: center; font: 13px var(--mono); }
+.toplinks a { color: var(--ink-2); text-decoration: none; }
+.toplinks a:hover { color: var(--accent); }
+.langswitch button {
+  background: none; border: 0; cursor: pointer; color: var(--muted); padding: 2px 4px; font: 13px var(--mono);
+}
+.langswitch button[aria-pressed="true"] { color: var(--accent); }
+
+.layout {
+  display: grid; gap: 20px; padding: 20px 24px 40px;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr) minmax(300px, 420px);
+  align-items: start;
+}
+@media (max-width: 1280px) { .layout { grid-template-columns: minmax(250px, 300px) minmax(0, 1fr); } .col-right { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; } }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); padding: 16px; }
+  .col-right { grid-template-columns: minmax(0, 1fr); }
+  .top { padding: 14px 16px; }
+  .col-list { order: 2; } .col-card { order: 1; } .col-right { order: 3; }
+}
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.eyebrow { font: 500 12px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* ------------ lista ------------- */
+.col-list { position: sticky; top: 12px; display: flex; flex-direction: column; gap: 12px; max-height: calc(100vh - 24px); }
+@media (max-width: 860px) { .col-list { position: static; max-height: none; } }
+.search {
+  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--panel-2); color: var(--ink); font: 14px var(--mono);
+}
+.search:focus { outline: 2px solid var(--accent-dim); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  border: 1px solid var(--line); background: var(--panel-2); border-radius: 999px;
+  padding: 4px 10px; font: 12px var(--mono); cursor: pointer; color: var(--ink-2);
+}
+.chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.chip:hover { color: var(--ink); }
+.famous { display: flex; flex-wrap: wrap; gap: 6px; }
+.famous button {
+  border: 0; background: none; padding: 2px 0; margin-right: 8px; cursor: pointer;
+  color: var(--ink-2); font: 13px var(--sans); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px;
+}
+.famous button:hover { color: var(--accent); }
+.listhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.listhead select { background: var(--panel-2); color: var(--ink-2); border: 1px solid var(--line); border-radius: 8px; font: 12px var(--mono); padding: 3px 6px; }
+.list { overflow: auto; flex: 1 1 auto; min-height: 200px; border-radius: 12px; }
+@media (max-width: 860px) { .list { max-height: 420px; } }
+.row {
+  display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: center;
+  width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line);
+  padding: 8px 12px; cursor: pointer;
+}
+.row:hover { background: var(--panel-2); }
+.row[aria-current="true"] { background: #10243a; }
+.row .dot { width: 8px; height: 8px; border-radius: 50%; }
+.row .nm { font: 13px var(--mono); }
+.row .nm small { display: block; color: var(--muted); font: 11px var(--sans); }
+.row .pp { font: 12px var(--mono); color: var(--ink-2); }
+.more { width: 100%; padding: 10px; background: none; border: 0; color: var(--accent); cursor: pointer; font: 12px var(--mono); }
+
+/* ------------ cartão ------------- */
+.card { padding: 26px 28px; }
+@media (max-width: 860px) { .card { padding: 20px 18px; } }
+.pname { font: 500 clamp(34px, 5vw, 54px)/1.05 var(--mono); margin: 10px 0 4px; letter-spacing: .01em; }
+.pclass { font: 500 13px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.freq { font: 400 clamp(52px, 8vw, 84px)/1 var(--mono); color: #d8fbf4; margin-top: 22px; }
+.stage { position: relative; margin: 18px -8px 0; }
+#star { width: 100%; aspect-ratio: 1 / 1; max-height: 560px; display: block; border-radius: 12px; }
+.caption { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.ramp { display: inline-flex; align-items: center; gap: 6px; }
+.ramp i { display: inline-block; width: 90px; height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, #ffb070, #f3ead2, #bfe9ff, #8fa8ff); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 16px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.seg button { background: var(--panel-2); border: 0; padding: 6px 10px; cursor: pointer; font: 12px var(--mono); color: var(--ink-2); }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: #123a36; color: var(--accent); }
+.btn { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 6px 12px; cursor: pointer; font: 12px var(--mono); color: var(--ink-2); }
+.btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.note { font: 12.5px/1.45 var(--sans); color: var(--ink-2); margin: 10px 0 0; }
+.note.warn { color: #f0c987; }
+.rule { border: 0; border-top: 1px solid var(--line); margin: 20px 0; }
+.counter { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.counter b { font: 400 40px/1 var(--mono); }
+.counter span.eyebrow { color: var(--accent); }
+#train { width: 100%; height: 56px; display: block; margin-top: 10px; }
+.params { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-top: 6px; }
+@media (max-width: 520px) { .params { grid-template-columns: 1fr; } }
+.param { border-top: 1px solid var(--line); padding: 10px 0 12px; }
+.param .k { color: var(--ink-2); font: 14px var(--sans); }
+.param .v { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-top: 4px; }
+.param .v b { font: 400 22px/1.2 var(--mono); }
+.param .v i { font: normal 12px var(--mono); color: var(--muted); }
+.param .s { font: 12px var(--sans); color: var(--muted); margin-top: 2px; }
+
+/* ------------ gráficos ------------- */
+.col-right { display: flex; flex-direction: column; gap: 20px; }
+.chart { padding: 16px 16px 12px; }
+.chart h2 { margin: 0; font: 500 15px var(--sans); }
+.chart .sub { color: var(--muted); font: 12.5px var(--sans); margin: 4px 0 10px; }
+.chart canvas { width: 100%; display: block; cursor: crosshair; }
+#ppdot { aspect-ratio: 1 / 0.92; }
+#galaxy { aspect-ratio: 1 / 1; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; font: 12px var(--sans); color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.tip {
+  position: fixed; pointer-events: none; z-index: 10; background: #0d1a2c; border: 1px solid #2a3d58;
+  border-radius: 8px; padding: 6px 9px; font: 12px/1.4 var(--mono); color: var(--ink); display: none; white-space: nowrap;
+}
+.tip small { color: var(--ink-2); }
+footer { padding: 0 24px 32px; color: var(--muted); font: 12.5px/1.6 var(--sans); max-width: 980px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./" aria-label="FAROL">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2l3 11 11 3-11 3-3 11-3-11-11-3 11-3z" fill="#6ee7d0"/></svg>
+    <b>FAROL</b>
+  </a>
+  <div class="tagline">
+    <span lang="pt">Os pulsares do catálogo ATNF, girando no período que foi medido.</span>
+    <span lang="en">The pulsars of the ATNF catalogue, spinning at their measured period.</span>
+  </div>
+  <nav class="toplinks">
+    <a href="https://rafael-lima.pages.dev/codes.html">rafael-lima.pages.dev</a>
+    <div class="langswitch" role="group" aria-label="Idioma / Language">
+      <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>/<button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </nav>
+</header>
+
+<main class="layout">
+  <!-- ======================= LISTA ======================= -->
+  <section class="col-list" aria-label="Catálogo / Catalogue">
+    <input id="q" class="search" type="search" autocomplete="off" spellcheck="false"
+           placeholder="J0534+2200, B1919+21, Crab…" aria-label="Buscar pulsar / Search pulsar">
+    <div class="chips" id="filters"></div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:6px"><span lang="pt">Famosos</span><span lang="en">Famous</span></div>
+      <div class="famous" id="famous"></div>
+    </div>
+    <div class="listhead">
+      <span class="eyebrow" id="count"></span>
+      <select id="sort" aria-label="Ordenar / Sort">
+        <option value="p">P ↑</option>
+        <option value="pr">P ↓</option>
+        <option value="d">dist ↑</option>
+        <option value="n">J2000</option>
+      </select>
+    </div>
+    <div class="list panel" id="list" role="list"></div>
+  </section>
+
+  <!-- ======================= CARTÃO ======================= -->
+  <section class="col-card panel card" aria-live="polite">
+    <div class="eyebrow" style="color:var(--accent)">✦ FAROL</div>
+    <h1 class="pname" id="pname">—</h1>
+    <div class="pclass" id="pclass"></div>
+    <div class="freq" id="freq">—</div>
+    <div class="eyebrow"><span lang="pt">rotações por segundo</span><span lang="en">rotations per second</span></div>
+
+    <div class="stage">
+      <canvas id="star" aria-label="Estrela de nêutrons girando / Spinning neutron star"></canvas>
+    </div>
+    <div class="caption">
+      <span class="eyebrow"><span lang="pt">aparência ilustrativa · cor codifica a rotação</span><span lang="en">illustrative appearance · color encodes spin</span></span>
+      <span class="eyebrow ramp">0.01 Hz <i></i> 1 kHz</span>
+    </div>
+
+    <div class="controls">
+      <div class="seg" id="speed" role="group" aria-label="Escala de tempo / Time scale"></div>
+      <button class="btn" id="sound" aria-pressed="false">♪ <span lang="pt">som</span><span lang="en">sound</span></button>
+      <button class="btn" id="random">⚄ <span lang="pt">sortear</span><span lang="en">random</span></button>
+    </div>
+    <p class="note" id="speednote"></p>
+
+    <hr class="rule">
+    <div class="counter">
+      <b id="revs">0</b>
+      <span class="eyebrow" id="revlabel"></span>
+    </div>
+    <div class="eyebrow" id="trainlabel" style="margin-top:12px"></div>
+    <canvas id="train" aria-hidden="true"></canvas>
+    <p class="note" id="trainnote"></p>
+
+    <hr class="rule">
+    <div class="eyebrow"><span lang="pt">Parâmetros</span><span lang="en">Parameters</span></div>
+    <div class="params" id="params"></div>
+  </section>
+
+  <!-- ======================= GRÁFICOS ======================= -->
+  <aside class="col-right">
+    <section class="panel chart">
+      <h2><span lang="pt">Diagrama P–Ṗ</span><span lang="en">P–Ṗ diagram</span></h2>
+      <p class="sub"><span lang="pt">Clique num ponto para escolher. Linhas: campo de dipolo (tracejado) e idade característica (pontilhado).</span><span lang="en">Click a point to select it. Lines: dipole field (dashed) and characteristic age (dotted).</span></p>
+      <canvas id="ppdot" role="img" aria-label="Period versus period derivative of the catalogue pulsars"></canvas>
+      <div class="legend" id="ppleg"></div>
+    </section>
+    <section class="panel chart">
+      <h2><span lang="pt">Onde está no catálogo</span><span lang="en">Catalogue location</span></h2>
+      <p class="sub"><span lang="pt">Plano da Galáxia visto de cima, centrado no Sol, raio em escala logarítmica.</span><span lang="en">Galactic plane seen from above, Sun-centred, logarithmic radius.</span></p>
+      <canvas id="galaxy" role="img" aria-label="Sun-centred map of pulsar positions projected on the Galactic plane"></canvas>
+      <p class="note" id="distnote"></p>
+    </section>
+  </aside>
+</main>
+
+<footer>
+  <span lang="pt">Dados: <a href="https://www.atnf.csiro.au/research/pulsar/psrcat/">ATNF Pulsar Catalogue</a> (Manchester et al. 2005, AJ 129, 1993), versão <span class="atnfv"></span>. B = 3,2×10¹⁹ (PṖ)<sup>1/2</sup> G, τ = P/2Ṗ e Ė = 4π²IṖ/P³ com I = 10⁴⁵ g cm². A largura do pulso vem do W50 do catálogo. A estrela é ilustrativa: a geometria do feixe (α = 50°, ζ = 55°) é escolhida para que ele cruze a linha de visada.</span>
+  <span lang="en">Data: <a href="https://www.atnf.csiro.au/research/pulsar/psrcat/">ATNF Pulsar Catalogue</a> (Manchester et al. 2005, AJ 129, 1993), version <span class="atnfv"></span>. B = 3.2×10¹⁹ (PṖ)<sup>1/2</sup> G, τ = P/2Ṗ and Ė = 4π²IṖ/P³ with I = 10⁴⁵ g cm². Pulse width from the catalogue W50. The star is illustrative: the beam geometry (α = 50°, ζ = 55°) is chosen so that it crosses the line of sight.</span>
+</footer>
+
+<div class="tip" id="tip"></div>
+
+<script>
+"use strict";
+// ============================================================ estado
+const S = {
+  lang: "pt", all: [], byName: new Map(), sel: null, filter: "all", q: "", sort: "p", shown: 150,
+  scale: 1, tSim: 0, lastReal: null, sound: false, refreshHz: 60, frameDts: [],
+};
+const $ = (id) => document.getElementById(id);
+const T = (pt, en) => (S.lang === "pt" ? pt : en);
+const LY_PER_KPC = 3261.563777;
+const YEAR = 3.15576e7;
+
+const FAMOUS = [
+  ["J0534+2200", "Caranguejo", "Crab"],
+  ["J0835-4510", "Vela", "Vela"],
+  ["J1921+2153", "CP 1919, o primeiro", "CP 1919, the first"],
+  ["J1748-2446ad", "o mais rápido", "the fastest"],
+  ["J1939+2134", "primeiro de milissegundo", "first millisecond"],
+  ["J1915+1606", "Hulse–Taylor", "Hulse–Taylor"],
+  ["J0737-3039A", "pulsar duplo", "double pulsar"],
+  ["J1300+1240", "com planetas", "with planets"],
+  ["J0633+1746", "Geminga", "Geminga"],
+  ["J1935+2154", "magnetar do FRB", "FRB magnetar"],
+  ["J0901-4046", "76 s", "76 s"],
+  ["J0058-7218", "na SMC", "in the SMC"],
+];
+const NICK = { "crab": "J0534+2200", "caranguejo": "J0534+2200", "vela": "J0835-4510", "geminga": "J0633+1746",
+  "hulse": "J1915+1606", "taylor": "J1915+1606", "cp1919": "J1921+2153", "sgr 1935": "J1935+2154", "frb": "J1935+2154" };
+
+const CLASS = {
+  msp:    { pt: "Pulsar de milissegundo", en: "Millisecond pulsar", col: "--c-msp" },
+  mag:    { pt: "Magnetar", en: "Magnetar", col: "--c-mag" },
+  young:  { pt: "Pulsar jovem", en: "Young pulsar", col: "--c-young" },
+  normal: { pt: "Pulsar", en: "Pulsar", col: "--c-other" },
+  rrat:   { pt: "RRAT · transiente rotativo", en: "RRAT · rotating radio transient", col: "--c-other" },
+  xins:   { pt: "Estrela de nêutrons isolada (raios X)", en: "X-ray isolated neutron star", col: "--c-other" },
+};
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const colorOf = (p) => css(CLASS[p.c].col);
+
+const FILTERS = [
+  ["all", "todos", "all", () => true],
+  ["msp", "milissegundo", "millisecond", (p) => p.c === "msp"],
+  ["young", "jovens", "young", (p) => p.c === "young"],
+  ["mag", "magnetares", "magnetars", (p) => p.c === "mag"],
+  ["bin", "binários", "binaries", (p) => !!p.bin],
+  ["gc", "aglomerados", "glob. clusters", (p) => (p.a || []).some((a) => a.startsWith("GC:"))],
+  ["he", "raios γ", "γ-ray", (p) => !!p.he],
+  ["mc", "Nuvens de Magalhães", "Magellanic Clouds", (p) => (p.a || []).some((a) => a === "EXGAL:SMC" || a === "EXGAL:LMC")],
+];
+
+// ============================================================ formatação
+const loc = () => (S.lang === "pt" ? "pt-BR" : "en-US");
+function sig(x, n = 4) { return new Intl.NumberFormat(loc(), { maximumSignificantDigits: n }).format(x); }
+function fix(x, d) { return new Intl.NumberFormat(loc(), { minimumFractionDigits: d, maximumFractionDigits: d }).format(x); }
+const SUP = { "-": "⁻", 0: "⁰", 1: "¹", 2: "²", 3: "³", 4: "⁴", 5: "⁵", 6: "⁶", 7: "⁷", 8: "⁸", 9: "⁹" };
+function sci(x, n = 3) {
+  if (x == null || !isFinite(x)) return "—";
+  const e = Math.floor(Math.log10(Math.abs(x)));
+  if (e >= -2 && e < 5) return sig(x, n);
+  const m = x / 10 ** e;
+  return `${sig(m, n)} × 10${String(e).split("").map((c) => SUP[c]).join("")}`;
+}
+function freqText(f) {
+  if (f >= 10) return fix(f, 3);
+  if (f >= 1) return fix(f, 4);
+  return sig(f, 4);
+}
+function periodText(p, n = 8) {
+  if (p < 1) return [sig(p * 1e3, n), "ms"];
+  return [sig(p, n), "s"];
+}
+function durText(s) {
+  if (s < 1e-3) return `${sig(s * 1e6, 3)} µs`;
+  if (s < 1) return `${sig(s * 1e3, 3)} ms`;
+  if (s < 120) return `${sig(s, 3)} s`;
+  return `${sig(s / 60, 3)} min`;
+}
+function ageText(yr) {
+  if (yr < 1e3) return [sig(yr, 3), T("anos", "yr")];
+  if (yr < 1e6) return [sig(yr / 1e3, 3), T("mil anos", "kyr")];
+  if (yr < 1e9) return [sig(yr / 1e6, 3), T("milhões de anos", "Myr")];
+  return [sig(yr / 1e9, 3), T("bilhões de anos", "Gyr")];
+}
+
+// grandezas derivadas
+const freq = (p) => 1 / p.p;
+const bfield = (p) => (p.pd > 0 ? 3.2e19 * Math.sqrt(p.p * p.pd) : null);
+const tauc = (p) => (p.pd > 0 ? p.p / (2 * p.pd) / YEAR : null);
+const edot = (p) => (p.pd > 0 ? 4 * Math.PI ** 2 * 1e45 * p.pd / p.p ** 3 : null);
+// largura do pulso: W50 do catálogo, senão 3 % do período (típico)
+function duty(p) { return p.w ? Math.min(0.45, Math.max(0.002, p.w / 1e3 / p.p)) : 0.03; }
+
+// ============================================================ idioma
+function setLang(l) {
+  S.lang = l;
+  document.documentElement.dataset.lang = l;
+  document.documentElement.lang = l === "pt" ? "pt-BR" : "en";
+  document.querySelectorAll("[data-set-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.setLang === l)));
+  try { localStorage.setItem("farol-lang", l); } catch (e) {}
+  buildFilters(); buildFamous(); buildSpeed(); renderList(); if (S.sel) renderCard(); drawPPdotBase(); drawGalaxyBase(); drawOverlays();
+}
+document.querySelectorAll("[data-set-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.setLang)));
+
+// ============================================================ lista
+function buildFilters() {
+  $("filters").innerHTML = "";
+  for (const [k, pt, en] of FILTERS) {
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = T(pt, en);
+    b.setAttribute("aria-pressed", String(S.filter === k));
+    b.onclick = () => { S.filter = k; S.shown = 150; buildFilters(); renderList(); };
+    $("filters").appendChild(b);
+  }
+}
+function buildFamous() {
+  $("famous").innerHTML = "";
+  for (const [n, pt, en] of FAMOUS) {
+    if (!S.byName.has(n)) continue;
+    const b = document.createElement("button");
+    b.textContent = T(pt, en); b.title = n;
+    b.onclick = () => select(n);
+    $("famous").appendChild(b);
+  }
+}
+function matches(p, q) {
+  if (!q) return true;
+  const z = q.toLowerCase().replace(/\s+/g, "").replace("−", "-");
+  const nick = Object.entries(NICK).find(([k]) => k.replace(/\s+/g, "").startsWith(z) && z.length >= 3);
+  if (nick && nick[1] === p.n) return true;
+  return p.n.toLowerCase().includes(z) || (p.b && p.b.toLowerCase().includes(z)) || (p.a || []).some((a) => a.toLowerCase().replace(/\s+/g, "").includes(z));
+}
+function filtered() {
+  const f = FILTERS.find((x) => x[0] === S.filter)[3];
+  const out = S.all.filter((p) => f(p) && matches(p, S.q));
+  const key = { p: (a, b) => a.p - b.p, pr: (a, b) => b.p - a.p, d: (a, b) => (a.d ?? 1e9) - (b.d ?? 1e9), n: (a, b) => a.n.localeCompare(b.n) }[S.sort];
+  return out.sort(key);
+}
+function renderList() {
+  const rows = filtered();
+  $("count").textContent = `${sig(rows.length, 6)} ${T("pulsares", "pulsars")}`;
+  const L = $("list"); L.innerHTML = "";
+  const frag = document.createDocumentFragment();
+  for (const p of rows.slice(0, S.shown)) {
+    const b = document.createElement("button");
+    b.className = "row"; b.setAttribute("role", "listitem");
+    if (S.sel === p) b.setAttribute("aria-current", "true");
+    const [pv, pu] = periodText(p.p, 4);
+    b.innerHTML = `<span class="dot" style="background:${colorOf(p)}"></span>
+      <span class="nm">${p.n}<small>${p.b ? p.b + " · " : ""}${T(CLASS[p.c].pt, CLASS[p.c].en)}</small></span>
+      <span class="pp">${pv} ${pu}</span>`;
+    b.onclick = () => select(p.n);
+    frag.appendChild(b);
+  }
+  L.appendChild(frag);
+  if (rows.length > S.shown) {
+    const m = document.createElement("button");
+    m.className = "more"; m.textContent = T(`mostrar mais (${rows.length - S.shown})`, `show more (${rows.length - S.shown})`);
+    m.onclick = () => { S.shown += 300; renderList(); };
+    L.appendChild(m);
+  }
+}
+$("q").addEventListener("input", (e) => { S.q = e.target.value.trim(); S.shown = 150; renderList(); });
+$("q").addEventListener("keydown", (e) => { if (e.key === "Enter") { const r = filtered(); if (r.length) select(r[0].n); } });
+$("sort").addEventListener("change", (e) => { S.sort = e.target.value; renderList(); });
+$("random").onclick = () => { const r = filtered(); const pool = r.length ? r : S.all; select(pool[Math.floor(Math.random() * pool.length)].n); };
+
+// ============================================================ seleção e cartão
+function select(name, push = true) {
+  const p = S.byName.get(name); if (!p) return;
+  S.sel = p; S.tSim = 0;
+  if (push) history.replaceState(null, "", "#" + encodeURIComponent(p.n));
+  renderCard(); renderList(); drawOverlays(); restartAudio();
+  const cur = $("list").querySelector('[aria-current="true"]');
+  if (cur && window.innerWidth > 860) cur.scrollIntoView({ block: "nearest" });
+}
+function classLine(p) {
+  const bits = [T(CLASS[p.c].pt, CLASS[p.c].en)];
+  if (p.bin) bits.push(p.bin > 0 ? T(`binário, Pb = ${durDays(p.bin)}`, `binary, Pb = ${durDays(p.bin)}`) : T("binário", "binary"));
+  if (p.nr) bits.push(T("sem rádio", "radio-quiet"));
+  if (p.he) bits.push(T("raios γ", "γ-ray"));
+  for (const a of p.a || []) {
+    const [k, v] = a.split(":");
+    if (k === "GC") bits.push(T(`aglomerado ${v}`, `cluster ${v}`));
+    else if (k === "SNR") bits.push(`SNR ${v}`);
+    else if (k === "EXGAL") bits.push(v);
+  }
+  return bits.join(" · ");
+}
+function durDays(d) { return d < 1 ? `${sig(d * 24, 3)} h` : `${sig(d, 4)} ${T("d", "d")}`; }
+function param(k, v, unit, sub) {
+  return `<div class="param"><div class="k">${k}</div><div class="v"><b>${v}</b><i>${unit || ""}</i></div>${sub ? `<div class="s">${sub}</div>` : ""}</div>`;
+}
+function renderCard() {
+  const p = S.sel;
+  $("pname").textContent = p.n.replace("-", "−");
+  $("pclass").textContent = (p.b ? p.b + " · " : "") + classLine(p);
+  $("freq").textContent = freqText(freq(p));
+  const [pv, pu] = periodText(p.p);
+  const B = bfield(p), tau = tauc(p), Ed = edot(p);
+  const noPd = p.pd == null ? T("Ṗ não medido", "Ṗ not measured") : p.pd <= 0 ? T("Ṗ < 0: aceleração no aglomerado", "Ṗ < 0: cluster acceleration") : "";
+  let dist = "—", dunit = "", dsub = "";
+  if (p.d) {
+    dist = sig(p.d * LY_PER_KPC, 3); dunit = T("anos-luz", "ly");
+    dsub = `${sig(p.d, 3)} kpc · ` + { ind: T("medida independente", "independent estimate"), px: T("paralaxe", "parallax"), dm: T("modelo de DM (YMW16)", "DM model (YMW16)") }[p.ds];
+  }
+  const [av, au] = tau ? ageText(tau) : ["—", ""];
+  let html = "";
+  html += param(T("Período", "Period"), pv, pu);
+  html += param(T("Distância", "Distance"), dist, dunit, dsub);
+  html += param(T("Campo de dipolo (estimativa)", "Dipole field estimate"), B ? sci(B) : "—", "G", B ? "" : noPd);
+  html += param(T("Idade característica", "Characteristic age"), av, au, tau ? "" : noPd);
+  html += param("Ṗ", p.pd ? sci(p.pd) : "—", "s/s");
+  html += param(T("Energia perdida, Ė", "Spin-down power, Ė"), Ed ? sci(Ed) : "—", "erg/s");
+  html += param(T("Largura do pulso, W50", "Pulse width, W50"), p.w ? sig(p.w, 3) : "—", p.w ? "ms" : "", p.w ? T(`${sig(100 * duty(p), 2)} % do período`, `${sig(100 * duty(p), 2)} % of the period`) : T("não catalogada: supõe 3 %", "not catalogued: 3 % assumed"));
+  html += param(T("Medida de dispersão", "Dispersion measure"), p.dm ? sig(p.dm, 5) : "—", "pc cm⁻³");
+  $("params").innerHTML = html;
+  $("distnote").textContent = p.d ? (p.ds === "dm" ? T("Distância pelo modelo de elétrons da Galáxia: pode errar por um fator 2.", "Distance from the Galactic electron model: may be off by a factor of 2.") : "")
+    : T("Sem distância no catálogo: o pulsar não aparece no mapa.", "No distance in the catalogue: the pulsar is not on the map.");
+  document.title = `${p.n} · FAROL`;
+  setupTrain(); speedNote();
+}
+
+// ============================================================ escala de tempo
+const SPEEDS = [[1, "1×", "1×"], [0.1, "1/10", "1/10"], [0.01, "1/100", "1/100"], [0.001, "1/1000", "1/1000"]];
+function buildSpeed() {
+  $("speed").innerHTML = "";
+  for (const [v, pt, en] of SPEEDS) {
+    const b = document.createElement("button");
+    b.textContent = T(pt, en); b.setAttribute("aria-pressed", String(S.scale === v));
+    b.title = v === 1 ? T("tempo real", "real time") : T("câmera lenta", "slow motion");
+    b.onclick = () => { S.scale = v; buildSpeed(); setupTrain(); speedNote(); restartAudio(); };
+    $("speed").appendChild(b);
+  }
+}
+function speedNote() {
+  if (!S.sel) return;
+  const fEff = freq(S.sel) * S.scale;
+  const nyq = S.refreshHz / 2;
+  const n = $("speednote");
+  const real = S.scale === 1 ? T("Tempo real.", "Real time.") : T(`Câmera lenta: ${1 / S.scale}× mais devagar.`, `Slow motion: ${1 / S.scale}× slower.`);
+  if (fEff > nyq) {
+    n.className = "note warn";
+    n.textContent = `${real} ` + T(
+      `Gira ${sig(fEff, 3)} vezes por segundo, mais do que a tela (~${Math.round(S.refreshHz)} Hz) consegue mostrar: a imagem sai borrada, como o olho a veria. O som e o contador seguem o período exato; use a câmera lenta para ver o giro.`,
+      `It turns ${sig(fEff, 3)} times per second, more than your screen (~${Math.round(S.refreshHz)} Hz) can show: the image is motion-blurred, as your eye would see it. Sound and counter follow the exact period; use slow motion to see the spin.`);
+  } else {
+    n.className = "note";
+    n.textContent = `${real} ` + T(`Uma volta a cada ${durText(S.sel.p / S.scale)} na tela.`, `One turn every ${durText(S.sel.p / S.scale)} on screen.`);
+  }
+}
+
+// ============================================================ perfil de pulso
+// intensidade no instante de fase φ (voltas; pico em φ = 0): gaussiana com FWHM = W50
+function profile(phase, d) {
+  let x = phase - Math.round(phase);
+  const s = d / 2.3548;
+  return Math.exp(-0.5 * (x / s) ** 2);
+}
+
+// ============================================================ trem de pulsos
+const NICE = [1e-3, 2e-3, 5e-3, 1e-2, 2e-2, 5e-2, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500];
+let TR = { W: 0.1, animate: false };
+function setupTrain() {
+  const p = S.sel; if (!p) return;
+  TR.W = NICE.find((w) => w >= 4 * p.p) || 500;
+  TR.animate = TR.W / S.scale >= 2;  // só rola se a janela leva ≥ 2 s para passar
+  $("trainlabel").textContent = `${T("trem de pulsos", "pulse train")} / ${durText(TR.W)}`;
+  $("trainnote").textContent = TR.animate ? "" : T("Rápido demais para rolar na tela nesta escala; o desenho mostra a janela parada.", "Too fast to scroll at this time scale; the window is shown frozen.");
+}
+function drawTrain(tNow) {
+  const c = $("train"), g = c.getContext("2d");
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const w = c.clientWidth, h = c.clientHeight;
+  if (c.width !== Math.round(w * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.clearRect(0, 0, w, h);
+  const p = S.sel; if (!p) return;
+  const d = duty(p);
+  const t1 = TR.animate ? tNow : TR.W - 0.5 * p.p;   // parado: janela fixa
+  const t0 = t1 - TR.W;
+  const N = Math.min(2400, Math.max(400, Math.round(w * 3)));
+  g.strokeStyle = "#a9c6ee"; g.lineWidth = 1.5; g.beginPath();
+  for (let i = 0; i <= N; i++) {
+    const t = t0 + (i / N) * TR.W;
+    // amostra o máximo no subintervalo para que pulsos estreitos não sumam
+    let I = 0;
+    for (let k = 0; k < 4; k++) I = Math.max(I, profile((t + (k / 4) * TR.W / N) / p.p, d));
+    const x = (i / N) * w, y = h - 4 - I * (h - 10);
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  }
+  g.stroke();
+}
+
+// ============================================================ estrela (WebGL)
+const VS = `attribute vec2 a; varying vec2 v; void main(){ v=a; gl_Position=vec4(a,0.,1.); }`;
+const FS = `
+precision highp float;
+varying vec2 v;
+uniform vec2 uRes;
+uniform float uPhi[12];
+uniform int uN;
+uniform vec3 uOm, uE1, uE2;
+uniform float uCa, uSa, uFlash, uNeb, uTime;
+uniform vec3 uCol;
+const float R = 0.30;
+
+float h3(vec3 p){ p=fract(p*0.3183099+.1); p*=17.; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
+float vn(vec3 x){ vec3 i=floor(x), f=fract(x); f=f*f*(3.-2.*f);
+  return mix(mix(mix(h3(i),h3(i+vec3(1,0,0)),f.x),mix(h3(i+vec3(0,1,0)),h3(i+vec3(1,1,0)),f.x),f.y),
+             mix(mix(h3(i+vec3(0,0,1)),h3(i+vec3(1,0,1)),f.x),mix(h3(i+vec3(0,1,1)),h3(i+vec3(1,1,1)),f.x),f.y),f.z); }
+float fbm(vec3 p){ float s=0., a=.5; for(int i=0;i<5;i++){ s+=a*vn(p); p=p*2.03+vec3(1.7,9.2,3.1); a*=.5; } return s; }
+vec3 rot(vec3 x, vec3 k, float t){ float c=cos(t), s=sin(t); return x*c + cross(k,x)*s + k*dot(k,x)*(1.-c); }
+
+void main(){
+  vec2 uv = v * vec2(uRes.x/uRes.y, 1.) ;
+  float r2 = dot(uv,uv);
+  // fundo: estrelas e nebulosa
+  vec3 col = vec3(0.02,0.035,0.07);
+  float st = h3(vec3(floor(uv*220.),3.)); col += vec3(.7,.8,1.)*step(.9965,st)*(.5+.5*h3(vec3(floor(uv*220.),7.)));
+  float rr = sqrt(r2);
+  float neb = fbm(vec3(uv*2.2, uTime*0.01)) * smoothstep(1.05,.45,rr) * smoothstep(.25,.5,rr);
+  col += uNeb * neb * vec3(.34,.27,.24) * 1.1;
+  col += vec3(.20,.30,.45) * exp(-r2/0.09) * .35;        // halo
+  col += vec3(.55,.75,.95) * uFlash * exp(-r2/0.35) * .35; // clarão quando o feixe nos varre
+
+  vec3 acc = vec3(0.);
+  float z = sqrt(max(0., R*R - r2));
+  vec3 n = normalize(vec3(uv, z));
+  for (int k=0; k<12; k++){
+    if (k >= uN) break;
+    float ph = uPhi[k];
+    vec3 m = uCa*uOm + uSa*(cos(ph)*uE1 + sin(ph)*uE2);
+    vec3 s = vec3(0.);
+    if (r2 < R*R){
+      vec3 nb = rot(n, uOm, -ph);                      // normal no referencial da estrela
+      float t = fbm(nb*3.2);
+      float veins = smoothstep(.42,.60,t) - .55*smoothstep(.60,.78,t);
+      vec3 base = mix(vec3(.07,.08,.10), uCol, clamp(veins*1.3,0.,1.));
+      float limb = .35 + .65*n.z;
+      float spot = exp(-(1.-abs(dot(n,m)))/0.006);
+      s = base*limb + vec3(1.)*spot*1.2;
+    }
+    // feixes: cone de meia-abertura ~12° em torno de ±m
+    for (int sgn=0; sgn<2; sgn++){
+      vec3 mm = sgn==0 ? m : -m;
+      float b = mm.z, e = dot(mm, vec3(uv,0.));
+      float den = max(1e-4, 1.-b*b);
+      float sAx = e/den, tR = b*e/den;
+      vec3 P1 = vec3(uv, tR), P2 = sAx*mm;
+      float dist = length(P1-P2);
+      float wdt = max(0.004, (sAx-R*0.8)*0.21);
+      float beam = exp(-pow(dist/wdt,2.)) * smoothstep(R*0.9, R*1.3, sAx) * exp(-max(0.,sAx-R)*0.9);
+      // atrás da estrela: escondido pelo disco
+      if (r2 < R*R && tR < 0.) beam = 0.;
+      s += vec3(.55,.72,1.)*beam*0.9;
+    }
+    acc += s;
+  }
+  acc /= float(uN);
+  col = col*(r2<R*R ? .0 : 1.) + acc;
+  // anel fino na borda
+  col += vec3(.45,.6,.85)*exp(-pow((sqrt(r2)-R)/0.006,2.))*.35;
+  gl_FragColor = vec4(pow(col, vec3(0.9)), 1.);
+}`;
+const GL = {};
+function initGL() {
+  const c = $("star");
+  const gl = c.getContext("webgl", { antialias: false, premultipliedAlpha: false });
+  if (!gl) { c.replaceWith(Object.assign(document.createElement("p"), { className: "note", textContent: "WebGL indisponível / WebGL unavailable" })); return; }
+  const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(o); return o; };
+  const pr = gl.createProgram();
+  gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr);
+  gl.useProgram(pr);
+  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const a = gl.getAttribLocation(pr, "a"); gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
+  const U = {}; for (const u of ["uRes", "uPhi", "uN", "uOm", "uE1", "uE2", "uCa", "uSa", "uFlash", "uNeb", "uTime", "uCol"]) U[u] = gl.getUniformLocation(pr, u);
+  Object.assign(GL, { gl, c, U });
+  // geometria fixa: eixo de rotação a ζ = 55° da visada, inclinado 30° na tela; α = 50°
+  const zeta = 55 * Math.PI / 180, psi = -30 * Math.PI / 180, alpha = 50 * Math.PI / 180;
+  const Om = [Math.sin(zeta) * -Math.sin(psi), Math.sin(zeta) * Math.cos(psi), Math.cos(zeta)];
+  let e1 = cross(Om, [0, 0, 1]); e1 = norm(e1);
+  const e2 = cross(Om, e1);
+  // fase em que m passa mais perto da visada: sen φ = sinal(e2.z)
+  GL.phi0 = Math.sign(e2[2]) * Math.PI / 2;
+  gl.uniform3fv(U.uOm, Om); gl.uniform3fv(U.uE1, e1); gl.uniform3fv(U.uE2, e2);
+  gl.uniform1f(U.uCa, Math.cos(alpha)); gl.uniform1f(U.uSa, Math.sin(alpha));
+}
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const norm = (a) => { const l = Math.hypot(...a); return a.map((x) => x / l); };
+// cor pela frequência de rotação (log): âmbar lento → creme → ciano → azul-violeta rápido
+function spinColor(f) {
+  const stops = [[-2, [1.0, 0.69, 0.44]], [0, [0.95, 0.92, 0.82]], [1.5, [0.75, 0.91, 1.0]], [3, [0.56, 0.66, 1.0]]];
+  const x = Math.max(-2, Math.min(3, Math.log10(f)));
+  for (let i = 0; i < stops.length - 1; i++) {
+    const [x0, c0] = stops[i], [x1, c1] = stops[i + 1];
+    if (x <= x1) { const t = (x - x0) / (x1 - x0); return c0.map((c, j) => c + t * (c1[j] - c));  }
+  }
+  return stops[3][1];
+}
+function drawStar(tPrev, tNow) {
+  if (!GL.gl || !S.sel) return;
+  const { gl, c, U } = GL;
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const w = Math.round(c.clientWidth * dpr), h = Math.round(c.clientHeight * dpr);
+  if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
+  gl.viewport(0, 0, w, h);
+  const p = S.sel;
+  // borrão de movimento: amostra o intervalo do quadro; se passa de uma volta,
+  // o que o olho integra é a volta inteira, então espalha uniforme em 2π
+  const turns = (tNow - tPrev) / p.p;
+  const spread = Math.min(1, Math.abs(turns));
+  const N = spread < 0.02 ? 1 : Math.min(12, Math.max(3, Math.ceil(spread * 24)));
+  const j = Math.random();
+  const phis = new Float32Array(12);
+  let flash = 0;
+  for (let k = 0; k < N; k++) {
+    const ph = tNow / p.p - spread * (k + (N > 1 ? j : 0)) / N;
+    phis[k] = 2 * Math.PI * (ph - Math.floor(ph)) + GL.phi0;
+  }
+  const d = duty(p);
+  for (let k = 0; k < 32; k++) flash += profile(tNow / p.p - spread * (k + j) / 32, d);
+  flash /= 32;
+  gl.uniform2f(U.uRes, w, h);
+  gl.uniform1fv(U.uPhi, phis); gl.uniform1i(U.uN, N);
+  gl.uniform1f(U.uFlash, flash);
+  gl.uniform1f(U.uNeb, (p.a || []).some((a) => a.startsWith("SNR") || a.startsWith("PWN")) ? 1 : 0.35);
+  gl.uniform1f(U.uTime, performance.now() / 1000);
+  gl.uniform3fv(U.uCol, spinColor(freq(p)));
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+}
+
+// ============================================================ som
+// sonificação como a da radioastronomia: ruído modulado pelo perfil de pulso,
+// num buffer de UM período, tocado em laço. playbackRate corrige o arredondamento
+// do número de amostras, então o período tocado é o medido (÷ escala de tempo).
+let AC = null, SRC = null;
+function restartAudio() {
+  if (SRC) { try { SRC.stop(); } catch (e) {} SRC = null; }
+  if (!S.sound || !S.sel) return;
+  AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+  const Peff = S.sel.p / S.scale;
+  if (Peff > 30) { $("speednote").textContent += " " + T("(Som desligado: período longo demais nesta escala.)", "(Sound off: period too long at this scale.)"); return; }
+  const sr = AC.sampleRate;
+  const n = Math.max(2, Math.round(Peff * sr));
+  const buf = AC.createBuffer(1, n, sr), ch = buf.getChannelData(0);
+  const d = duty(S.sel);
+  for (let i = 0; i < n; i++) ch[i] = (Math.random() * 2 - 1) * profile(i / n, d);
+  SRC = AC.createBufferSource(); SRC.buffer = buf; SRC.loop = true;
+  SRC.playbackRate.value = n / (Peff * sr);
+  const gain = AC.createGain(); gain.gain.value = 0.35;
+  SRC.connect(gain).connect(AC.destination);
+  // alinha a fase do som com a da imagem
+  const ph = (S.tSim / S.sel.p) % 1;
+  SRC.start(AC.currentTime + 0.02, ph * n / sr);
+  if (AC.state === "suspended") AC.resume();
+}
+$("sound").onclick = () => { S.sound = !S.sound; $("sound").setAttribute("aria-pressed", String(S.sound)); restartAudio(); };
+
+// ============================================================ gráficos: utilidades
+function fitCanvas(c) {
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const w = c.clientWidth, h = c.clientHeight;
+  if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
+  const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return [g, w, h];
+}
+const tip = $("tip");
+function showTip(e, html) { tip.innerHTML = html; tip.style.display = "block";
+  const x = Math.min(innerWidth - tip.offsetWidth - 8, e.clientX + 14), y = Math.max(8, e.clientY - tip.offsetHeight - 10);
+  tip.style.left = x + "px"; tip.style.top = y + "px"; }
+const hideTip = () => { tip.style.display = "none"; };
+function tipHtml(p) {
+  const [pv, pu] = periodText(p.p, 5);
+  return `${p.n}${p.b ? ` <small>${p.b}</small>` : ""}<br><small>P = ${pv} ${pu}${p.pd ? ` · Ṗ = ${sci(p.pd, 2)}` : ""}${p.d ? ` · ${sig(p.d, 3)} kpc` : ""}</small>`;
+}
+// camada base em canvas fora da tela; seleção e hover desenhados por cima
+const BASE = {};
+
+// ============================================================ P–Ṗ
+const PP = { x0: -3.2, x1: 2.2, y0: -22, y1: -9, pad: { l: 62, r: 10, t: 8, b: 38 } };
+function ppXY(p, w, h) {
+  const { x0, x1, y0, y1, pad } = PP;
+  return [pad.l + (Math.log10(p.p) - x0) / (x1 - x0) * (w - pad.l - pad.r),
+          h - pad.b - (Math.log10(p.pd) - y0) / (y1 - y0) * (h - pad.t - pad.b)];
+}
+function drawPPdotBase() {
+  const c = $("ppdot"); const [, w, h] = fitCanvas(c);
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const off = BASE.pp = BASE.pp || document.createElement("canvas");
+  off.width = c.width; off.height = c.height;
+  const g = off.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const { x0, x1, y0, y1, pad } = PP;
+  const X = (lx) => pad.l + (lx - x0) / (x1 - x0) * (w - pad.l - pad.r);
+  const Y = (ly) => h - pad.b - (ly - y0) / (y1 - y0) * (h - pad.t - pad.b);
+  g.font = "11px 'IBM Plex Mono', monospace";
+  // grade e eixos
+  g.strokeStyle = "#16233a"; g.lineWidth = 1; g.fillStyle = "#7a8ea6";
+  for (let lx = -3; lx <= 2; lx++) { g.beginPath(); g.moveTo(X(lx), Y(y0)); g.lineTo(X(lx), Y(y1)); g.stroke();
+    g.textAlign = "center"; g.fillText(`10${String(lx).split("").map((c) => SUP[c]).join("")}`, X(lx), h - pad.b + 15); }
+  for (let ly = -21; ly <= -9; ly += 2) { g.beginPath(); g.moveTo(X(x0), Y(ly)); g.lineTo(X(x1), Y(ly)); g.stroke();
+    g.textAlign = "right"; g.fillText(`10${String(ly).split("").map((c) => SUP[c]).join("")}`, pad.l - 5, Y(ly) + 4); }
+  g.textAlign = "center"; g.fillStyle = "#a9bbcf";
+  g.fillText("Period P (s)", pad.l + (w - pad.l - pad.r) / 2, h - 6);
+  g.save(); g.translate(12, pad.t + (h - pad.t - pad.b) / 2); g.rotate(-Math.PI / 2); g.fillText("Period derivative Ṗ (s/s)", 0, 0); g.restore();
+  // linhas de B e τ constantes
+  g.save(); g.beginPath(); g.rect(pad.l, pad.t, w - pad.l - pad.r, h - pad.t - pad.b); g.clip();
+  g.lineWidth = 1; g.strokeStyle = "#35506f"; g.fillStyle = "#6f86a3"; g.font = "10px 'IBM Plex Mono', monospace";
+  g.setLineDash([5, 4]);
+  for (const lb of [8, 10, 12, 14]) {        // Ṗ = (B/3.2e19)² / P
+    const f = (lx) => 2 * (lb - Math.log10(3.2e19)) - lx;
+    g.beginPath(); g.moveTo(X(x0), Y(f(x0))); g.lineTo(X(x1), Y(f(x1))); g.stroke();
+    const lx = lb >= 14 ? 0.3 : lb >= 12 ? 1.4 : lb >= 10 ? -1.4 : -2.9;
+    g.textAlign = "left"; g.fillText(`10${String(lb).split("").map((c) => SUP[c]).join("")} G`, X(lx) + 3, Y(f(lx)) - 3);
+  }
+  g.setLineDash([1.5, 3]);
+  for (const lt of [3, 5, 7, 9]) {           // Ṗ = P / (2 τ)
+    const f = (lx) => lx - Math.log10(2 * 10 ** lt * YEAR);
+    g.beginPath(); g.moveTo(X(x0), Y(f(x0))); g.lineTo(X(x1), Y(f(x1))); g.stroke();
+    const lx = 1.75; g.textAlign = "right"; g.fillText(`10${String(lt).split("").map((c) => SUP[c]).join("")} yr`, X(lx) - 2, Y(f(lx)) - 4);
+  }
+  g.setLineDash([]);
+  // pontos: primeiro "outros", depois as classes, para as classes ficarem por cima
+  const order = ["normal", "rrat", "xins", "young", "msp", "mag"];
+  for (const cl of order) {
+    g.fillStyle = css(CLASS[cl].col);
+    g.globalAlpha = cl === "normal" || cl === "rrat" || cl === "xins" ? 0.75 : 0.9;
+    for (const p of S.all) {
+      if (p.c !== cl || !(p.pd > 0)) continue;
+      const [x, y] = ppXY(p, w, h);
+      g.beginPath(); g.arc(x, y, 2, 0, 2 * Math.PI); g.fill();
+    }
+  }
+  g.globalAlpha = 1; g.restore();
+  // legenda (HTML)
+  const nPd = S.all.filter((p) => p.pd > 0).length;
+  $("ppleg").innerHTML = [["msp", "Millisecond (recycled)"], ["young", "Young (τ < 100 kyr)"], ["mag", "Magnetar"], ["normal", "Other"]]
+    .map(([k, lab]) => `<span><i style="background:${css(CLASS[k].col)}"></i>${lab}</span>`).join("") +
+    `<span style="color:var(--muted)">${sig(nPd, 5)} ${T("com Ṗ > 0", "with Ṗ > 0")}</span>`;
+}
+
+// ============================================================ Galáxia
+const GX = { r0: 0.05, rMax: 80 };  // kpc: raio em log entre 50 pc e 80 kpc
+function gxR(dk, R) { return R * Math.log10(Math.max(dk, GX.r0) / GX.r0) / Math.log10(GX.rMax / GX.r0); }
+function gxXY(p, w, h) {
+  const R = Math.min(w, h) / 2 - 18, cx = w / 2, cy = h / 2;
+  const dproj = p.d * Math.cos(p.gb * Math.PI / 180);
+  const r = gxR(dproj, R), l = p.l * Math.PI / 180;
+  // visto do polo norte galáctico: l = 0 (centro) à direita, l = 90° para cima
+  return [cx + r * Math.cos(l), cy - r * Math.sin(l)];
+}
+function drawGalaxyBase() {
+  const c = $("galaxy"); const [, w, h] = fitCanvas(c);
+  const dpr = Math.min(2, devicePixelRatio || 1);
+  const off = BASE.gx = BASE.gx || document.createElement("canvas");
+  off.width = c.width; off.height = c.height;
+  const g = off.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const R = Math.min(w, h) / 2 - 18, cx = w / 2, cy = h / 2;
+  g.font = "10px 'IBM Plex Mono', monospace";
+  g.strokeStyle = "#1e3048"; g.fillStyle = "#7a8ea6"; g.lineWidth = 1;
+  for (const [kly, lab] of [[1, "1 kly"], [10, "10 kly"], [100, "100 kly"]]) {
+    const r = gxR(kly * 1e3 / LY_PER_KPC, R);
+    g.beginPath(); g.arc(cx, cy, r, 0, 2 * Math.PI); g.stroke();
+    g.textAlign = "left"; g.fillText(lab, cx + r * 0.72 + 3, cy + r * 0.7 + 10);
+  }
+  // direção do centro galáctico (8,2 kpc)
+  const rgc = gxR(8.2, R);
+  g.strokeStyle = "#35506f"; g.setLineDash([2, 3]); g.beginPath(); g.moveTo(cx, cy); g.lineTo(cx + rgc, cy); g.stroke(); g.setLineDash([]);
+  g.fillStyle = "#e0b872"; g.beginPath(); g.arc(cx + rgc, cy, 3, 0, 2 * Math.PI); g.fill();
+  g.fillStyle = "#a9bbcf"; g.textAlign = "center"; g.fillText("Galactic centre", cx + rgc, cy + 16);
+  g.fillStyle = "#7a8ea6";
+  g.fillText("l = 90°", cx, 11); g.fillText("l = 270°", cx, h - 3);
+  for (const p of S.all) {
+    if (!p.d || p.l == null) continue;
+    const [x, y] = gxXY(p, w, h);
+    g.fillStyle = css(CLASS[p.c].col); g.globalAlpha = 0.55;
+    g.fillRect(x - 1, y - 1, 2, 2);
+  }
+  g.globalAlpha = 1;
+  g.fillStyle = "#ffd27a"; g.beginPath(); g.arc(cx, cy, 3.5, 0, 2 * Math.PI); g.fill();
+  g.font = "11px 'IBM Plex Mono', monospace"; g.fillText(T("SOL", "SUN"), cx, cy - 8);
+}
+
+let HOVER = { pp: null, gx: null };
+function drawOverlays() {
+  for (const [id, key, xy] of [["ppdot", "pp", ppXY], ["galaxy", "gx", gxXY]]) {
+    const c = $(id); if (!BASE[key]) continue;
+    const [g, w, h] = fitCanvas(c);
+    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, c.width, c.height); g.drawImage(BASE[key], 0, 0); g.restore();
+    const hv = HOVER[key];
+    if (hv) { const [x, y] = xy(hv, w, h); g.strokeStyle = "#e8f0f7"; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 6, 0, 2 * Math.PI); g.stroke(); }
+    const p = S.sel;
+    const ok = p && (key === "pp" ? p.pd > 0 : p.d && p.l != null);
+    if (!ok) continue;
+    const [x, y] = xy(p, w, h);
+    if (key === "gx") {
+      g.strokeStyle = "#6ee7d0"; g.setLineDash([3, 3]); g.lineWidth = 1;
+      g.beginPath(); g.moveTo(w / 2, h / 2); g.lineTo(x, y); g.stroke(); g.setLineDash([]);
+    }
+    g.fillStyle = "#6ee7d0"; g.beginPath(); g.arc(x, y, 4, 0, 2 * Math.PI); g.fill();
+    g.strokeStyle = "#0b1424"; g.lineWidth = 2; g.stroke();
+    g.strokeStyle = "#6ee7d0"; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 9, 0, 2 * Math.PI); g.stroke();
+    g.font = "12px 'IBM Plex Mono', monospace"; g.fillStyle = "#e8f0f7";
+    const right = x < w - 110;
+    g.textAlign = right ? "left" : "right";
+    g.fillText(key === "gx" ? `PSR · ${sig(p.d * LY_PER_KPC, 3)} ly` : p.n, x + (right ? 13 : -13), y - 8);
+  }
+}
+function nearest(key, e) {
+  const c = $(key === "pp" ? "ppdot" : "galaxy"), r = c.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top, w = r.width, h = r.height;
+  let best = null, bd = 10 * 10;
+  for (const p of S.all) {
+    if (key === "pp" ? !(p.pd > 0) : !(p.d && p.l != null)) continue;
+    const [x, y] = (key === "pp" ? ppXY : gxXY)(p, w, h);
+    const dd = (x - mx) ** 2 + (y - my) ** 2;
+    if (dd < bd) { bd = dd; best = p; }
+  }
+  return best;
+}
+for (const [id, key] of [["ppdot", "pp"], ["galaxy", "gx"]]) {
+  const c = $(id);
+  c.addEventListener("mousemove", (e) => { const p = nearest(key, e); if (p !== HOVER[key]) { HOVER[key] = p; drawOverlays(); }
+    p ? showTip(e, tipHtml(p)) : hideTip(); c.style.cursor = p ? "pointer" : "crosshair"; });
+  c.addEventListener("mouseleave", () => { HOVER[key] = null; hideTip(); drawOverlays(); });
+  c.addEventListener("click", (e) => { const p = nearest(key, e); if (p) select(p.n); });
+}
+
+// ============================================================ laço
+function frame(now) {
+  if (S.lastReal != null) {
+    const dt = Math.min(0.1, (now - S.lastReal) / 1000);
+    S.frameDts.push(dt); if (S.frameDts.length > 90) S.frameDts.shift();
+    const tPrev = S.tSim;
+    S.tSim += dt * S.scale;
+    drawStar(tPrev, S.tSim);
+    if (S.sel) {
+      $("revs").textContent = sig(Math.floor(S.tSim / S.sel.p), 12);
+      $("revlabel").textContent = T(`voltas em ${fix(S.tSim, 2)} s`, `revolutions in ${fix(S.tSim, 2)} s`) + (S.scale !== 1 ? T(" (tempo da estrela)", " (star time)") : "");
+    }
+    drawTrain(S.tSim);
+  }
+  S.lastReal = now;
+  requestAnimationFrame(frame);
+}
+// taxa de atualização da tela: mediana dos intervalos entre quadros
+setInterval(() => {
+  if (S.frameDts.length < 30) return;
+  const s = [...S.frameDts].sort((a, b) => a - b), med = s[s.length >> 1];
+  const hz = 1 / med;
+  if (Math.abs(hz - S.refreshHz) > 3) { S.refreshHz = hz; speedNote(); }
+}, 2000);
+let rsz; addEventListener("resize", () => { clearTimeout(rsz); rsz = setTimeout(() => { drawPPdotBase(); drawGalaxyBase(); drawOverlays(); }, 150); });
+
+// ============================================================ início
+(async function () {
+  let stored = null;
+  try { stored = localStorage.getItem("farol-lang"); } catch (e) {}
+  S.lang = stored || ((navigator.language || "").startsWith("pt") ? "pt" : "en");
+  initGL();
+  const r = await fetch("pulsares.json");
+  const J = await r.json();
+  S.all = J.pulsares; for (const p of S.all) S.byName.set(p.n, p);
+  document.querySelectorAll(".atnfv").forEach((e) => (e.textContent = J.atnf));
+  await document.fonts.ready;
+  setLang(S.lang);
+  // ?lento=1000 abre em câmera lenta (1/1000); útil para compartilhar
+  const lento = +new URLSearchParams(location.search).get("lento");
+  if (SPEEDS.some(([v]) => v === 1 / lento)) { S.scale = 1 / lento; buildSpeed(); }
+  const h = decodeURIComponent(location.hash.slice(1));
+  select(S.byName.has(h) ? h : "J0058-7218", false);
+  requestAnimationFrame(frame);
+})();
+addEventListener("hashchange", () => { const h = decodeURIComponent(location.hash.slice(1)); if (S.byName.has(h) && (!S.sel || S.sel.n !== h)) select(h, false); });
+</script>
+</body>
+</html>
