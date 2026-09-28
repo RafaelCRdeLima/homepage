@@ -702,27 +702,34 @@ function drawStar(tPrev, tNow) {
 // começa na fase 0, quando o feixe passa por nós. playbackRate corrige o
 // arredondamento do número de amostras, então o período tocado é o medido
 // (÷ escala de tempo). Três regimes:
-//   P ≥ 70 ms   batida grave de 220 Hz por pulso;
-//   10–70 ms    a batida não cabe no período: tom de ~220 Hz modulado pelos
+//   P ≥ 70 ms   batida grave por pulso, como um bumbo: o tom cai de 150 para
+//               85 Hz em ~30 ms; 2º e 3º harmônicos fracos para o alto-falante
+//               de celular (que quase não toca abaixo de 150 Hz) mostrar a batida;
+//   10–70 ms    a batida não cabe no período: tom de ~110 Hz modulado pelos
 //               pulsos (1/P de 14 a 100 Hz, grave demais para alto-falante de
 //               notebook tocar sozinho, vira o "ronco" do tom);
 //   P < 10 ms   1/P já é audível (100–716 Hz): pulso suave, sem agudos.
-const BATIDA_MIN = 0.07, RONCO_MIN = 0.01, TOM = 220;   // s, s, Hz
+const BATIDA_MIN = 0.07, RONCO_MIN = 0.01, TOM = 110;   // s, s, Hz
+const F_INI = 150, F_FIM = 85, T_QUEDA = 0.03;           // Hz, Hz, s
 function periodoSonoro(ch, n, sr, Peff, d) {
   if (Peff >= RONCO_MIN && Peff < BATIDA_MIN) {
     // número inteiro de ciclos por período: o laço emenda sem estalo
     const fc = Math.max(1, Math.round(TOM * Peff)) / Peff, dd = Math.max(d, 0.35);
-    for (let i = 0; i < n; i++) ch[i] = 0.9 * Math.sin(2 * Math.PI * fc * i / sr) * profile(i / n, dd);
+    for (let i = 0; i < n; i++) {
+      const w = 2 * Math.PI * fc * i / sr;
+      ch[i] = (Math.sin(w) + 0.45 * Math.sin(2 * w) + 0.2 * Math.sin(3 * w)) * profile(i / n, dd);
+    }
     return false;
   }
   if (Peff >= BATIDA_MIN) {
-    const tau = Math.min(0.05, Peff / 6), fim = Math.min(0.3, 0.9 * Peff);
+    const tau = Math.min(0.08, Peff / 5), fim = Math.min(0.4, 0.9 * Peff);
     for (let i = 0; i < n; i++) {
       const t = i / sr;
       if (t >= fim) { ch[i] = 0; continue; }
       const env = (1 - Math.exp(-t / 0.003)) * Math.exp(-t / tau) * Math.min(1, (fim - t) / 0.005);
-      const w = 2 * Math.PI * TOM * t;
-      ch[i] = env * (Math.sin(w) + 0.35 * Math.sin(2 * w) + 0.12 * Math.sin(3 * w)) / 1.2;
+      // fase = 2π ∫ f dt, com f(t) = F_FIM + (F_INI − F_FIM) e^(−t/T_QUEDA)
+      const w = 2 * Math.PI * (F_FIM * t + (F_INI - F_FIM) * T_QUEDA * (1 - Math.exp(-t / T_QUEDA)));
+      ch[i] = env * (Math.sin(w) + 0.45 * Math.sin(2 * w) + 0.2 * Math.sin(3 * w));
     }
     return false;
   }
@@ -745,9 +752,11 @@ function restartAudio() {
   const buf = AC.createBuffer(1, n, sr), ch = buf.getChannelData(0);
   const d = duty(S.sel);
   const tom = periodoSonoro(ch, n, sr, Peff, d);
+  let pico = 0; for (const v of ch) pico = Math.max(pico, Math.abs(v));
+  if (pico > 0) for (let i = 0; i < n; i++) ch[i] *= 0.9 / pico;   // volume igual nos três regimes
   SRC = AC.createBufferSource(); SRC.buffer = buf; SRC.loop = true;
   SRC.playbackRate.value = n / (Peff * sr);
-  const gain = AC.createGain(); gain.gain.value = 0.45;
+  const gain = AC.createGain(); gain.gain.value = 0.7;
   const lp = AC.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = tom ? 900 : 2500;
   SRC.connect(lp).connect(gain).connect(AC.destination);
   // alinha a fase do som com a da imagem
