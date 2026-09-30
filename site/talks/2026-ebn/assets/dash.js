@@ -872,3 +872,110 @@ function pmnsAbs2(s12, s13, s23, delta) {
   document.getElementById('basis-in').addEventListener('click', () => { reset(); draw(); });
   onSlide(cvP, draw);
 })();
+
+/* Dashboard: G_μν = 8π T_μν numa estrela de densidade uniforme (Schwarzschild 1916,
+   interior + exterior). T vem do fluido perfeito; G é CALCULADO DA MÉTRICA por diferenças
+   finitas, nas componentes ortonormais de ds² = −e^{2Φ}dt² + e^{2Λ}dr² + r²dΩ² (MTW Box 23.2):
+     G_t̂t̂ = (1/r²) d/dr [r(1 − e^{−2Λ})]
+     G_r̂r̂ = −(1/r²)(1 − e^{−2Λ}) + (2/r) Φ' e^{−2Λ}
+     G_θ̂θ̂ = G_φ̂φ̂ = e^{−2Λ} [Φ'' + Φ'² − Φ'Λ' + (Φ' − Λ')/r]
+   “Momento”: as duas matrizes vistas por um observador em relação ao qual a estrela se move
+   com velocidade v ao longo de r̂ (boost de Lorentz no referencial local).
+   Maré (parte de Weyl, fluido isotrópico): E = m(r)/r³ − (4π/3)ρ(r) — zero dentro de uma
+   estrela uniforme, M/r³ fora. Unidades geométricas em km; R fixo em 12 km. */
+(() => {
+  const cv = document.getElementById('efe-well'); if (!cv) return;
+  const MSUN = 1.4766, R = 12;                  // km
+  const TO_MEV = 8 * Math.PI / 3.327e-5;        // T geométrico [km⁻²] → MeV/fm³  (8πG/c⁴ · 1 MeV/fm³ = 3,327×10⁻⁵ km⁻²)
+  const gM = bindRange('efe-M', v => v.toFixed(2).replace('.', DEC) + ' M☉', draw);
+  const gr = bindRange('efe-r', v => v.toFixed(1).replace('.', DEC) + ' km', draw);
+  const gv = bindRange('efe-v', v => v.toFixed(2).replace('.', DEC) + ' c', draw);
+  const out = document.getElementById('efe-out'), elT = document.getElementById('efe-T'), elG = document.getElementById('efe-G');
+  document.getElementById('efe-pre').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    e.currentTarget.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    const [M, r, v] = b.dataset.v.split(',').map(Number);
+    [['efe-M', M], ['efe-r', r], ['efe-v', v]].forEach(([id, x]) => { const el = document.getElementById(id); el.value = x; el.dispatchEvent(new Event('input')); });
+  });
+  function model(M) {
+    const c0 = Math.sqrt(1 - 2 * M / R), rho = 3 * M / (4 * Math.PI * R ** 3);
+    const m = r => r < R ? M * r ** 3 / R ** 3 : M;
+    const Phi = r => r < R ? Math.log(1.5 * c0 - 0.5 * Math.sqrt(1 - 2 * M * r * r / R ** 3)) : 0.5 * Math.log(1 - 2 * M / r);
+    const Lam = r => -0.5 * Math.log(1 - 2 * m(r) / r);
+    const p = r => { if (r >= R) return 0; const s = Math.sqrt(1 - 2 * M * r * r / R ** 3); return rho * (s - c0) / (3 * c0 - s); };
+    return { M, rho, m, Phi, Lam, p, rhoAt: r => r < R ? rho : 0 };
+  }
+  function einstein(md, r) {                     // G ortonormal a partir da métrica, diferenças finitas centrais
+    const h = 1e-3 * r, d1 = f => (f(r + h) - f(r - h)) / (2 * h), d2 = f => (f(r + h) - 2 * f(r) + f(r - h)) / (h * h);
+    const e2L = x => Math.exp(-2 * md.Lam(x));
+    const P1 = d1(md.Phi), P2 = d2(md.Phi), L1 = d1(md.Lam), eL = e2L(r);
+    const tt = d1(x => x * (1 - e2L(x))) / (r * r);
+    const rr = -(1 - eL) / (r * r) + 2 * P1 * eL / r;
+    const th = eL * (P2 + P1 * P1 - P1 * L1 + (P1 - L1) / r);
+    return [tt, rr, th, th];
+  }
+  const boost = (D, v) => {                     // D = diagonal (tt, rr, θθ, φφ) no repouso; boost ao longo de r̂
+    const g = 1 / Math.sqrt(1 - v * v), M = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, D[2], 0], [0, 0, 0, D[3]]];
+    M[0][0] = g * g * (D[0] + v * v * D[1]); M[1][1] = g * g * (v * v * D[0] + D[1]); M[0][1] = M[1][0] = g * g * v * (D[0] + D[1]);
+    return M;
+  };
+  const IDX = ['t', 'r', 'θ', 'φ'];
+  function matrix(el, A, scale, title) {
+    const f = x => { const y = x * scale; return Math.abs(y) < 5e-4 ? '0' : (Math.abs(y) >= 100 ? y.toFixed(0) : y.toPrecision(3)).replace('.', DEC); };
+    let h = `<div class="mat-t">${title}</div><div class="mat">`;
+    h += '<span></span>' + IDX.map(i => `<span class="ix">${i}</span>`).join('');
+    A.forEach((row, i) => {
+      h += `<span class="ix">${IDX[i]}</span>` + row.map((x, j) => {
+        const z = f(x) === '0'; return `<span class="${z ? 'z' : i !== j ? 'off' : 'on'}">${f(x)}</span>`;
+      }).join('');
+    });
+    el.innerHTML = h + '</div>';
+  }
+  function draw() {
+    const M = gM() * MSUN, v = gv(), md = model(M);
+    const r = Math.max(gr(), 0.25), rr = Math.abs(r - R) < 0.05 ? R + (r < R ? -0.05 : 0.05) : r;   // a derivada salta na superfície
+    const Gd = einstein(md, rr), rho = md.rhoAt(rr), p = md.p(rr), Td = [rho, p, p, p];
+    matrix(elT, boost(Td, v), TO_MEV, `T<sup>μ̂ν̂</sup> <small>${T('do fluido', 'from the fluid')} · MeV/fm³</small>`);
+    matrix(elG, boost(Gd, v), 1e3, `G<sup>μ̂ν̂</sup> <small>${T('calculado da métrica', 'computed from the metric')} · 10⁻³ km⁻²</small>`);
+    // o poço: superfície de mergulho z(r) = ∫ √(e^{2Λ} − 1) dr, interior + exterior, em escala real
+    const { ctx: c, w, h } = fitCanvas(cv);
+    const XR = 3.2 * R, N = 480, zs = [0];
+    for (let i = 1; i <= N; i++) { const a = (i - .5) * XR / N; zs.push(zs[i - 1] + Math.sqrt(Math.max(Math.exp(2 * md.Lam(a)) - 1, 0)) * XR / N); }
+    const zmax = zs[N], S = Math.min((w - 40) / (2 * XR), (h - 64) / Math.max(zmax, 8)), cx = w / 2, y0 = 38;
+    const X = a => cx + a * S, Y = i => y0 + (zmax - zs[i]) * S;
+    c.fillStyle = 'rgba(255,184,107,.10)'; c.beginPath();
+    const iR = Math.round(R / XR * N);
+    c.moveTo(X(-R), Y(iR)); for (let i = iR; i >= 0; i--) c.lineTo(X(-i * XR / N), Y(i)); for (let i = 1; i <= iR; i++) c.lineTo(X(i * XR / N), Y(i)); c.closePath(); c.fill();
+    for (const sg of [-1, 1]) {
+      c.lineWidth = 3; c.lineCap = 'round';
+      for (let i = 1; i <= N; i++) {
+        const a = i * XR / N; c.strokeStyle = a <= R ? COL.tau : COL.mu; c.shadowColor = c.strokeStyle; c.shadowBlur = 8;
+        c.beginPath(); c.moveTo(X(sg * (i - 1) * XR / N), Y(i - 1)); c.lineTo(X(sg * a), Y(i)); c.stroke();
+      }
+    }
+    c.shadowBlur = 0;
+    // a estrela, em cima do poço, com a seta de velocidade
+    c.fillStyle = 'rgba(255,184,107,.9)'; c.font = `16px ${FONT}`; c.textAlign = 'center';
+    c.fillText(T('estrela uniforme · R = 12 km', 'uniform star · R = 12 km'), cx, 18);
+    if (v > 0.005) { const L = 30 + 120 * v; c.strokeStyle = COL.warn; c.fillStyle = COL.warn; c.lineWidth = 3; c.beginPath(); c.moveTo(cx - L / 2, 30); c.lineTo(cx + L / 2, 30); c.stroke(); c.beginPath(); c.moveTo(cx + L / 2 + 10, 30); c.lineTo(cx + L / 2 - 2, 24); c.lineTo(cx + L / 2 - 2, 36); c.fill(); }
+    // o ponto onde as matrizes são calculadas
+    const ir = Math.min(N, Math.round(r / XR * N)), px = X(r), py = Y(ir);
+    c.setLineDash([5, 6]); c.strokeStyle = COL.text2; c.lineWidth = 1.5; c.beginPath(); c.moveTo(px, 26); c.lineTo(px, h - 18); c.stroke(); c.setLineDash([]);
+    c.fillStyle = '#fff'; c.shadowColor = '#fff'; c.shadowBlur = 16; c.beginPath(); c.arc(px, py, 7, 0, 7); c.fill(); c.shadowBlur = 0;
+    c.font = `15px ${FONT}`; c.fillStyle = COL.tau; c.textAlign = 'center';
+    c.fillText(T('dentro: T ≠ 0 · Weyl = 0', 'inside: T ≠ 0 · Weyl = 0'), X(0), h - 6);
+    c.fillStyle = COL.mu; c.fillText(T('fora: T = 0 · Weyl ≠ 0', 'outside: T = 0 · Weyl ≠ 0'), X(2.2 * R), h - 6);
+    c.fillText(T('fora: T = 0 · Weyl ≠ 0', 'outside: T = 0 · Weyl ≠ 0'), X(-2.2 * R), h - 6);
+    // leituras
+    const E = md.m(rr) / rr ** 3 - (4 * Math.PI / 3) * rho;            // km⁻²
+    const tidal = 2 * E * 8.988e10;                                      // s⁻²: aceleração de maré radial por metro de régua
+    const ratio = Gd[0] / (8 * Math.PI * Td[0]);
+    const sci = x => x.toExponential(1).replace('.', DEC).replace(/e\+?(-?)(\d+)/, (_, s, d) => '×10' + (s ? '⁻' : '') + d.split('').map(k => '⁰¹²³⁴⁵⁶⁷⁸⁹'[k]).join(''));
+    out.innerHTML = `<span>2M/R <b>${(2 * M / R).toFixed(2).replace('.', DEC)}</b></span>
+      <span>${T('pressão central', 'central pressure')} <b>${(md.p(0.01) * TO_MEV).toFixed(0)} MeV/fm³</b></span>
+      <span>${rr < R ? `G<sub>t̂t̂</sub> ÷ 8πT<sub>t̂t̂</sub> <b>${ratio.toFixed(4).replace('.', DEC)}</b>` : `${T('fora', 'outside')}: G = 0 ${T('e', 'and')} T = 0`}</span>
+      <span>${T('maré radial', 'radial tide')} <b>${Math.abs(tidal) < 1 ? '0' : sci(tidal) + ' s⁻²'}</b></span>
+      <span>${T('limite de Buchdahl', 'Buchdahl limit')} 2M/R &lt; 8/9</span>`;
+  }
+  onSlide(cv, draw);
+})();
