@@ -157,28 +157,26 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Dashboard · as equações de campo por dentro</p><h2>Matéria de um lado, <em>geometria do outro</em></h2></header>
+  <header><p class="eyebrow">Dashboard · Baez &amp; Bunn 2005</p><h2>A equação de Einstein <em>numa bola de poeira</em></h2></header>
   <div class="body">
     <div class="dash">
       <div class="dash-head"><span class="tag part">interativo · Schwarzschild interior + exterior</span>
-        <div class="seg" id="efe-pre"><button data-v="1.4,4,0" class="on">dentro</button><button data-v="1.4,20,0">fora</button><button data-v="1.4,4,0.6">em movimento</button><button data-v="3.4,4,0">perto de Buchdahl</button></div></div>
-      <div class="efe">
-        <div class="efe-top">
-          <div id="efe-G"></div>
-          <div class="efe-eq">= <span class="frac"><span>8π<i>G</i></span><span><i>c</i><sup>4</sup></span></span><small>Einstein</small></div>
-          <div id="efe-T"></div>
-        </div>
-        <div class="cv"><canvas id="efe-well"></canvas></div>
+        <div class="seg" id="efe-pre"><button data-v="play">▶ soltar</button><button data-v="1.4,4,0" class="plain on">dentro</button><button data-v="1.4,20,0" class="plain">fora</button><button data-v="1.4,4,0.6" class="plain">matéria fluindo</button><button data-v="3.4,4,0" class="plain">perto de Buchdahl</button></div></div>
+      <div class="plots efe">
+        <div class="cv"><canvas id="efe-ball"></canvas></div>
+        <div class="cv"><canvas id="efe-eq"></canvas></div>
+        <div class="cv"><canvas id="efe-prof"></canvas></div>
       </div>
       <div class="controls">
-        <div class="ctl"><label for="efe-M">massa da estrela M <output for="efe-M"></output></label><input type="range" id="efe-M" min="0.2" max="3.5" step="0.01" value="1.4"></div>
-        <div class="ctl"><label for="efe-r">onde medir r <output for="efe-r"></output></label><input type="range" id="efe-r" min="0.3" max="36" step="0.1" value="4"></div>
-        <div class="ctl"><label for="efe-v">velocidade da estrela (momento) v <output for="efe-v"></output></label><input type="range" id="efe-v" min="0" max="0.9" step="0.01" value="0"></div>
+        <div class="ctl"><label for="efe-M">massa da estrela (R = 12 km) <output for="efe-M"></output></label><input type="range" id="efe-M" min="0.2" max="3.5" step="0.01" value="1.4"></div>
+        <div class="ctl"><label for="efe-r">onde soltar a bola r <output for="efe-r"></output></label><input type="range" id="efe-r" min="0.3" max="36" step="0.1" value="4"></div>
+        <div class="ctl"><label for="efe-v">matéria passando pela bola v <output for="efe-v"></output></label><input type="range" id="efe-v" min="0" max="0.9" step="0.01" value="0"></div>
+        <div class="ctl"><label for="efe-t">tempo (fração da escala) <output for="efe-t"></output></label><input type="range" id="efe-t" min="0" max="1" step="0.005" value="0"></div>
       </div>
       <div class="readout" id="efe-out"></div>
     </div>
   </div>
-  <aside class="notes">À esquerda, o tensor de Einstein — curvatura — calculado da própria métrica, por derivadas numéricas. À direita, o tensor energia-momento do fluido. Dentro da estrela as duas matrizes coincidem: G ÷ 8πT dá 1,0000. Essa é a equação de Einstein verificada, não suposta. Levar r para fora: as duas matrizes zeram — é Schwarzschild, é vácuo. Mas o espaço-tempo continua curvo: a maré, que é a parte de Weyl, era zero dentro de uma estrela uniforme e agora vale M/r³. A equação de Einstein não fixa a curvatura toda: fixa só a parte que a matéria toca. Aumentar a massa: o poço se aprofunda e a pressão central explode perto de Buchdahl, 2M/R = 8/9. Ligar a velocidade: aparece G tr e T tr — fluxo de energia, momento — e as duas continuam iguais. Momento também curva o espaço-tempo.</aside>
+  <aside class="notes">Baez e Bunn mostraram que a equação de Einstein inteira cabe numa frase: solte uma bola de partículas em repouso; ela encolhe numa taxa igual a 4πG vezes a densidade de energia mais as três pressões. À direita, as quatro barras são a diagonal de T no ponto; embaixo, V̈/V calculado da métrica (desvio geodésico) e da matéria — iguais. Soltar dentro da estrela: a bola encolhe sem mudar de forma. Soltar fora: no instante em que é solta, o volume não acelera — V̈/V = 0 (com o tempo aparece uma variação pequena, de ordem t⁴) —, mas ela estica na radial e aperta nas transversais — maré, a parte de Weyl, que a matéria local não fixa. Perto de Buchdahl as barras de pressão passam a de ρ: a pressão pesa, e mais pressão faz encolher mais — por isso existe massa máxima. Com a matéria fluindo, a soma cresce: momento também gravita. O gráfico de baixo é o ritmo dos relógios: a queda vem da curvatura do tempo, não de uma folha de borracha.</aside>
 </section>
 
 <section class="slide content p2">

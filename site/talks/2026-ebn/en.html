@@ -156,28 +156,26 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Dashboard · inside the field equations</p><h2>Matter on one side, <em>geometry on the other</em></h2></header>
+  <header><p class="eyebrow">Dashboard · Baez &amp; Bunn 2005</p><h2>Einstein’s equation <em>in a ball of dust</em></h2></header>
   <div class="body">
     <div class="dash">
       <div class="dash-head"><span class="tag part">interactive · Schwarzschild interior + exterior</span>
-        <div class="seg" id="efe-pre"><button data-v="1.4,4,0" class="on">inside</button><button data-v="1.4,20,0">outside</button><button data-v="1.4,4,0.6">moving</button><button data-v="3.4,4,0">near Buchdahl</button></div></div>
-      <div class="efe">
-        <div class="efe-top">
-          <div id="efe-G"></div>
-          <div class="efe-eq">= <span class="frac"><span>8π<i>G</i></span><span><i>c</i><sup>4</sup></span></span><small>Einstein</small></div>
-          <div id="efe-T"></div>
-        </div>
-        <div class="cv"><canvas id="efe-well"></canvas></div>
+        <div class="seg" id="efe-pre"><button data-v="play">▶ release</button><button data-v="1.4,4,0" class="plain on">inside</button><button data-v="1.4,20,0" class="plain">outside</button><button data-v="1.4,4,0.6" class="plain">matter flowing</button><button data-v="3.4,4,0" class="plain">near Buchdahl</button></div></div>
+      <div class="plots efe">
+        <div class="cv"><canvas id="efe-ball"></canvas></div>
+        <div class="cv"><canvas id="efe-eq"></canvas></div>
+        <div class="cv"><canvas id="efe-prof"></canvas></div>
       </div>
       <div class="controls">
-        <div class="ctl"><label for="efe-M">star mass M <output for="efe-M"></output></label><input type="range" id="efe-M" min="0.2" max="3.5" step="0.01" value="1.4"></div>
-        <div class="ctl"><label for="efe-r">where to measure r <output for="efe-r"></output></label><input type="range" id="efe-r" min="0.3" max="36" step="0.1" value="4"></div>
-        <div class="ctl"><label for="efe-v">star velocity (momentum) v <output for="efe-v"></output></label><input type="range" id="efe-v" min="0" max="0.9" step="0.01" value="0"></div>
+        <div class="ctl"><label for="efe-M">star mass (R = 12 km) <output for="efe-M"></output></label><input type="range" id="efe-M" min="0.2" max="3.5" step="0.01" value="1.4"></div>
+        <div class="ctl"><label for="efe-r">where to release the ball r <output for="efe-r"></output></label><input type="range" id="efe-r" min="0.3" max="36" step="0.1" value="4"></div>
+        <div class="ctl"><label for="efe-v">matter flowing past the ball v <output for="efe-v"></output></label><input type="range" id="efe-v" min="0" max="0.9" step="0.01" value="0"></div>
+        <div class="ctl"><label for="efe-t">time (fraction of the scale) <output for="efe-t"></output></label><input type="range" id="efe-t" min="0" max="1" step="0.005" value="0"></div>
       </div>
       <div class="readout" id="efe-out"></div>
     </div>
   </div>
-  <aside class="notes">On the left, the Einstein tensor — curvature — computed from the metric itself, by numerical derivatives. On the right, the fluid stress–energy tensor. Inside the star the two matrices coincide: G ÷ 8πT reads 1.0000. That is Einstein’s equation checked, not assumed. Move r outside: both matrices vanish — this is Schwarzschild, it is vacuum. But spacetime is still curved: the tide, the Weyl part, was zero inside a uniform star and is now M/r³. Einstein’s equation does not fix all of the curvature, only the part matter touches. Raise the mass: the well deepens and the central pressure blows up near Buchdahl, 2M/R = 8/9. Turn on the velocity: G tr and T tr appear — energy flux, momentum — and the two stay equal. Momentum curves spacetime too.</aside>
+  <aside class="notes">Baez and Bunn showed that all of Einstein’s equation fits in one sentence: release a ball of particles at rest; it shrinks at a rate equal to 4πG times energy density plus the three pressures. On the right, the four bars are the diagonal of T at the point; below, V̈/V computed from the metric (geodesic deviation) and from matter — equal. Release inside the star: the ball shrinks without changing shape. Release outside: at the moment of release the volume does not accelerate — V̈/V = 0 (a small change of order t⁴ appears later) — but it stretches radially and squeezes transversally — the tide, the Weyl part, which local matter does not fix. Near Buchdahl the pressure bars overtake ρ: pressure weighs, and more pressure means more shrinking — hence a maximum mass. With matter flowing, the sum grows: momentum gravitates too. The bottom plot is the clock rate: falling comes from the curvature of time, not from a rubber sheet.</aside>
 </section>
 
 <section class="slide content p2">
