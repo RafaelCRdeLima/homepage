@@ -63,154 +63,30 @@
   <aside class="notes">Boa tarde. A pergunta do seminário cabe numa linha: a fase de oscilação é a integral de p·dx ao longo do caminho — e, quando o caminho é uma geodésica num espaço-tempo curvo, essa integral muda. As trajetórias ao fundo são isso: pacotes que trocam de cor (sabor) enquanto o poço entorta o caminho e muda o ritmo da fase.</aside>
 </section>
 
-<!-- ROTEIRO -->
 <section class="slide content p1">
-  <header><p class="eyebrow">Roteiro</p><h2>Quatro partes, <em>uma pergunta</em></h2></header>
-  <div class="body cols c4">
-    <div class="card" style="--part: var(--nu-e)">
-      <p class="stat c-e" style="font-style: italic">I</p>
-      <h3>Neutrinos</h3>
-      <p class="small">Da “solução desesperada” de Pauli à descoberta de que neutrinos têm massa — e o que isso faz com o Modelo Padrão.</p>
-    </div>
+  <header><p class="eyebrow">Roteiro</p><h2>Três partes, <em>uma pergunta</em></h2></header>
+  <div class="body cols c3">
     <div class="card" style="--part: var(--nu-tau)">
-      <p class="stat c-tau" style="font-style: italic">II</p>
+      <p class="stat c-tau" style="font-style: italic">I</p>
       <h3>Espaço-tempo curvo</h3>
-      <p class="small">Einstein, Schwarzschild, objetos compactos: as regiões onde só a Relatividade Geral descreve bem — até os colapsares.</p>
+      <p class="small">Einstein, Schwarzschild, objetos compactos: onde só a Relatividade Geral descreve bem, e o que a métrica faz com um neutrino.</p>
     </div>
     <div class="card" style="--part: var(--nu-mu)">
-      <p class="stat c-mu" style="font-style: italic">III</p>
-      <h3>Neutrinos em espaço-tempo curvo</h3>
-      <p class="small">Neutrinos nascem em poços gravitacionais fundos. O que isso faz com o sabor — e o que o DUNE e seus pares podem aprender.</p>
+      <p class="stat c-mu" style="font-style: italic">II</p>
+      <h3>A supernova, e os neutrinos no poço</h3>
+      <p class="small">Como a estrela colapsa, de onde vem a onda de choque, e o que acontece com o sabor quando a emissão é dentro de um poço gravitacional fundo.</p>
     </div>
     <div class="card glow" style="--part: var(--ghost)">
-      <p class="stat c-g" style="font-style: italic">IV</p>
+      <p class="stat c-g" style="font-style: italic">III</p>
       <h3>GHOST: resultados</h3>
-      <p class="small">A frente de choque de uma supernova na ressonância MSW: o critério, o custo para o DUNE e onde procurar.</p>
+      <p class="small">A frente de choque na ressonância MSW: o critério, o custo em P<sub>H</sub>, o viés no DUNE e onde procurar.</p>
     </div>
   </div>
-  <aside class="notes">Três partes. As duas primeiras montam as ferramentas; a terceira junta as duas e é onde está a pesquisa atual.</aside>
-</section>
-
-<!-- ================================================================
-     PARTE I — NEUTRINOS
-     ================================================================ -->
-<section class="slide partcover p1">
-  <div class="bg" style="background-image: url('assets/img/homestake-tank.jpg')"></div>
-  <div class="inner">
-    <p class="num rise d1">I</p>
-    <p class="label rise d2">Parte um</p>
-    <h2 class="rise d2">Neutrinos</h2>
-    <p class="sub lede rise d3">Uma partícula postulada por desespero, detectada 26 anos depois, que passou mais três décadas “sumindo” no caminho do Sol até nós.</p>
-    <div class="topics rise d4"><span>previsão · 1930</span><span>descoberta · 1956</span><span>problema solar</span><span>oscilação de sabor</span><span>Modelo Padrão</span></div>
-  </div>
-  <span class="credit">Tanque do experimento de cloro, mina Homestake · U.S. DOE / BNL</span>
+  <aside class="notes">Mudei o desenho para esta escola: a história do neutrino e a oscilação já foram dadas aqui por outros, então entro direto na gravitação. As duas laminas seguintes so recapitulam o que vou usar.</aside>
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">1914 – 1930 · a crise, e o remédio desesperado</p><h2>O espectro beta não fecha, e <em>Pauli inventa uma saída</em></h2></header>
-  <div class="body cols" style="grid-template-columns: 1.15fr .45fr 1fr; gap: 36px">
-    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 620px">
-      <div class="cv"><canvas id="beta-spectrum"></canvas></div>
-      <p class="ref">Espectro permitido de Fermi, ilustrativo (Q = 1,16 MeV). Chadwick (1914) viu o contínuo; Ellis &amp; Wooster (1927) mediram a energia por calorimetria: não havia energia escondida em raios γ.</p>
-    </div>
-    <figure class="portrait"><img src="assets/img/pauli.jpg" alt="Wolfgang Pauli"><figcaption><b>Wolfgang Pauli</b>1900 – 1958</figcaption></figure>
-    <div class="stack" style="gap: 20px">
-      <p class="big">No decaimento <i>n → p + e⁻</i> de dois corpos, o elétron sairia <b>sempre com a mesma energia</b>. Mas ele sai com <b>qualquer</b> energia entre zero e Q.</p>
-      <blockquote>“…um remédio desesperado para salvar a lei de conservação da energia.”<footer>Pauli, 4 de dezembro de 1930, carta ao encontro de Tübingen</footer></blockquote>
-      <p>Uma partícula <b>neutra</b>, de spin ½ e massa pequena, emitida junto com o elétron.</p>
-    </div>
-  </div>
-  <aside class="notes">Dois corpos no estado final dariam energia fixa, e o experimento mostra um contínuo: parecia que energia e momento angular sumiam. Bohr estava disposto a abrir mão da conservação da energia; Pauli preferiu inventar uma partícula. Nem foi ao encontro de Tübingen, mandou a carta e foi a um baile em Zurique. Ele mesmo achava que ela talvez nunca fosse detectada.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">1934 – 1956 · da teoria à detecção</p><h2>O neutrino ganha nome, e <em>22 anos depois aparece</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .48fr .78fr 1.24fr; gap: 30px">
-    <figure class="portrait"><img src="assets/img/fermi.jpg" alt="Enrico Fermi"><span class="credit">U.S. DOE · domínio público</span><figcaption><b>Enrico Fermi</b>1901 – 1954</figcaption></figure>
-    <figure><img src="assets/img/cowan-reines.jpg" alt="Clyde Cowan e Frederick Reines" style="max-height: 540px; object-fit: cover"><span class="credit">Savannah River Site · domínio público</span><figcaption><b>Reines</b> e <b>Cowan</b> · Nobel 1995</figcaption></figure>
-    <div class="stack" style="gap: 14px">
-      <p>Com o nêutron de Chadwick (1932) ocupando o nome, Fermi rebatiza a partícula de Pauli: <i>neutrino</i>.</p>
-      <div class="eq sm"><i>n</i> → <i>p</i> + <i>e</i><sup>−</sup> + <span class="c-e">ν̄<sub>e</sub></span><span class="note">interação de contato, constante G<sub>F</sub></span></div>
-      <div class="card"><h4>Bethe &amp; Peierls, 1934</h4><p class="small">σ ≲ 10<sup>−44</sup> cm². Um neutrino de MeV atravessaria <b>anos-luz de chumbo</b>: “nenhuma forma prática de observá-lo”.</p></div>
-      <div class="eq sm"><span class="c-e">ν̄<sub>e</sub></span> + <i>p</i> → <i>e</i><sup>+</sup> + <i>n</i><span class="note">beta inverso, num reator de ~10<sup>13</sup> cm<sup>−2</sup> s<sup>−1</sup></span></div>
-      <blockquote style="font-size: 28px">“Temos o prazer de informar que detectamos definitivamente neutrinos.”<footer>Telegrama a Pauli, 14 de junho de 1956</footer></blockquote>
-    </div>
-  </div>
-  <aside class="notes">A teoria de Fermi é a primeira teoria de interação fraca, e a Nature recusou o artigo como especulação remota demais da realidade. A estimativa de Bethe e Peierls explica a demora de 22 anos. A chave experimental foi a coincidência atrasada: o pósitron aniquila na hora, o nêutron é capturado microssegundos depois. Pauli respondeu ao telegrama: tudo chega para quem sabe esperar.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">1962 – 2000</p><h2>Três sabores, <em>e só três</em></h2></header>
-  <div class="body cols ll center">
-    <div class="stack" style="gap: 40px">
-      <div class="timeline">
-        <div><p class="yr c-e">1956</p><p><b>ν<sub>e</sub></b> — Cowan &amp; Reines, reator</p></div>
-        <div style="--part: var(--nu-mu)"><p class="yr c-mu">1962</p><p><b>ν<sub>μ</sub></b> — Lederman, Schwartz, Steinberger, Brookhaven (Nobel 1988)</p></div>
-        <div style="--part: var(--nu-tau)"><p class="yr c-tau">2000</p><p><b>ν<sub>τ</sub></b> — DONUT, Fermilab</p></div>
-      </div>
-      <div class="card glow"><h4>Largura do Z no LEP</h4>
-        <p class="big" style="margin: 0">N<sub>ν</sub> = 2,984 ± 0,008</p>
-        <p class="small" style="margin: 8px 0 0">Número de neutrinos leves que se acoplam ao Z. O Modelo Padrão tem exatamente três famílias — e, nele, neutrinos <b>sem massa</b>.</p></div>
-    </div>
-    <figure><img src="assets/img/standard-model.svg" alt="Tabela das partículas do Modelo Padrão" style="background: #fff; padding: 14px; max-height: 660px; object-fit: contain"><span class="credit">Cush · domínio público</span></figure>
-  </div>
-  <aside class="notes">Guarde a última frase: no Modelo Padrão original, neutrinos não têm massa. É isso que as oscilações vão quebrar.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">A fonte mais intensa que temos</p><h2>O Sol é uma fábrica de ν<sub>e</sub>, e <em>Bahcall previu o espectro</em></h2></header>
-  <div class="body cols ll center">
-    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 660px"><div class="cv"><canvas id="solar-spectrum"></canvas></div>
-      <p class="ref">Fluxos do Modelo Solar Padrão B16-GS98 (Vinyoles et al. 2017); formas espectrais beta simplificadas, só para ilustração. Faixas: limiar de cada técnica.</p></div>
-    <div class="stack" style="gap: 22px">
-      <div class="eq sm">4<i>p</i> → <sup>4</sup>He + 2<i>e</i><sup>+</sup> + 2<span class="c-e">ν<sub>e</sub></span> + 26,7 MeV<span class="note">cadeia pp e ciclo CNO · só ν<sub>e</sub> são produzidos</span></div>
-      <div class="cols c2" style="gap: 20px">
-        <div><p class="stat">6×10<sup style="font-size:.5em">10</sup></p><p class="stat-label">ν por cm² por segundo, aqui na Terra</p></div>
-        <div><p class="stat">8 <small>min</small></p><p class="stat-label">do núcleo solar até nós; a luz leva ~10⁵ anos para sair</p></div>
-      </div>
-      <p>Cada técnica enxerga uma fatia: <b class="c-e">gálio</b> (0,23 MeV) vê os pp, <b class="c-tau">cloro</b> (0,81 MeV) vê ⁷Be e ⁸B, <b class="c-mu">água</b> (≳ 3,5 MeV) só ⁸B, mas em tempo real e com direção.</p>
-      <p class="small muted">John Bahcall passou 40 anos refinando essa previsão.</p>
-    </div>
-  </div>
-  <aside class="notes">Ponto importante para a Parte III: os neutrinos saem do núcleo solar direto, enquanto a energia em fótons leva dezenas de milhares de anos. Medir o fluxo testa ao mesmo tempo a física nuclear do Sol e a física do neutrino. No gráfico o que importa são os limiares, porque é isso que depois permite separar as duas.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">1968 – 2002 · o problema dos neutrinos solares</p><h2>Todos veem <em>menos</em>, e não a mesma fração</h2></header>
-  <div class="body cols" style="grid-template-columns: 1.42fr .40fr .92fr; gap: 30px">
-    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 640px"><div class="cv"><canvas id="solar-deficit"></canvas></div>
-      <p class="ref">Razão medida/prevista em relação ao MSS BP04; valores arredondados, barras de erro combinadas aproximadas.</p></div>
-    <figure class="portrait"><img src="assets/img/davis.jpg" alt="Raymond Davis Jr."><span class="credit">BNL / U.S. DOE · domínio público</span><figcaption><b>Raymond Davis Jr.</b>Nobel 2002</figcaption></figure>
-    <div class="stack" style="gap: 18px">
-      <div class="eq sm"><span class="c-e">ν<sub>e</sub></span> + <sup>37</sup>Cl → <sup>37</sup>Ar + <i>e</i><sup>−</sup><span class="note">615 t de percloroetileno, 1 478 m abaixo do chão</span></div>
-      <p>Davis extraía <b>um átomo de argônio a cada dois dias</b>. Em 25 anos: <b>2,56 ± 0,23 SNU</b>, contra <b>~8</b> previstos.</p>
-      <p class="big c-tau" style="margin:0">Faltavam dois terços.</p>
-      <p>Ou o <b>Sol</b> estava errado, ou o <b>neutrino</b>. A heliossismologia confirmava o interior solar em ~0,1%, e a fração faltante <b>dependia da energia</b>.</p>
-      <p class="c-mu"><b>A última barra muda tudo:</b> o SNO mede <i>todos</i> os sabores juntos, e o fluxo total bate com o Sol.</p>
-    </div>
-  </div>
-  <aside class="notes">Contar átomos individuais de argônio num tanque de 615 toneladas foi heroico, e o resultado ficou 30 anos sem explicação aceita. No gráfico, todas as barras abaixo de 1, mas diferentes: nenhum ajuste de temperatura explicava os três experimentos juntos. A barra branca é o SNO com corrente neutra, sensível a todos os sabores.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">1957 – 1968 · Pontecorvo, Maki, Nakagawa, Sakata</p><h2>E se o neutrino <em>mudasse de sabor</em>?</h2></header>
-  <div class="body cols rr">
-    <figure class="portrait"><img src="assets/img/pontecorvo.jpg" alt="Bruno Pontecorvo"><figcaption><b>Bruno Pontecorvo</b>1913 – 1993</figcaption></figure>
-    <div class="stack" style="gap: 26px">
-      <p>Se os estados de <b>sabor</b> (os que interagem) não forem os de <b>massa</b> (os que se propagam), cada componente acumula fase no próprio ritmo:</p>
-      <div class="cols c2" style="gap: 24px">
-        <div class="eq sm">|ν<sub>α</sub>⟩ = Σ<sub><i>k</i></sub> <i>U</i><sup>*</sup><sub>α<i>k</i></sub> |ν<sub><i>k</i></sub>⟩</div>
-        <div class="eq sm">Φ<sub><i>k</i></sub> ≈ <span class="frac"><span><i>m</i><sub><i>k</i></sub><sup>2</sup> <i>L</i></span><span>2<i>E</i></span></span></div>
-      </div>
-      <div class="eq">P(ν<sub>α</sub>→ν<sub>β</sub>) = sin²2θ · sin²<span class="frac"><span>Δ<i>m</i>² <i>L</i></span><span>4<i>E</i></span></span><span class="note">dois sabores · no vácuo · espaço-tempo plano</span></div>
-      <p class="small">Em 1968, antes do resultado de Davis, Pontecorvo previu que o fluxo solar chegaria <b>reduzido pela metade</b>.</p>
-    </div>
-  </div>
-  <aside class="notes">Guardem a fase Φ_k = m²L/2E: ela é a aproximação plana de ∫p·dx. Na Parte III vamos calcular essa mesma fase ao longo de uma geodésica. E note as palavras entre parênteses: vácuo, espaço-tempo plano.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">Dashboard · duas bases</p><h2>Sabor e massa: <em>o mesmo estado, dois eixos</em></h2></header>
+  <header><p class="eyebrow">Premissa 1 · duas bases</p><h2>Sabor e massa: <em>o mesmo estado, dois eixos</em></h2></header>
   <div class="body">
     <div class="dash">
       <div class="dash-head"><span class="tag part">interativo</span>
@@ -235,113 +111,23 @@
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">Dashboard · oscilação no vácuo</p><h2>A distância e a energia <em>fazem o padrão</em></h2></header>
-  <div class="body">
-    <div class="dash">
-      <div class="dash-head"><span class="tag part">interativo</span>
-        <div class="seg" id="osc2-presets"><button data-v="2000,2.5e-3,1" class="on">atmosférico · 2 GeV</button><button data-v="4,7.5e-5,0.85">reator / solar · 4 MeV</button><button data-v="3,2.5e-3,0.085">θ₁₃ · 3 MeV</button></div></div>
-      <div class="cv"><canvas id="osc2"></canvas></div>
-      <div class="controls">
-        <div class="ctl"><label for="osc2-E">energia <output for="osc2-E"></output></label><input type="range" id="osc2-E" min="0" max="4.3" step="0.01" value="3.301"></div>
-        <div class="ctl"><label for="osc2-dm">Δm² <output for="osc2-dm"></output></label><input type="range" id="osc2-dm" min="-5.5" max="-2" step="0.01" value="-2.602"></div>
-        <div class="ctl"><label for="osc2-th">sin²2θ <output for="osc2-th"></output></label><input type="range" id="osc2-th" min="0" max="1" step="0.01" value="1"></div>
+  <header><p class="eyebrow">Premissa 2 · Wolfenstein 1978 · Mikheyev &amp; Smirnov 1985</p><h2>A ressonância MSW, e <em>o peso do ordenamento</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1.05fr; gap: 40px">
+    <div class="stack" style="gap: 22px">
+      <p>Elétrons do meio espalham νₑ para frente por corrente carregada, e os outros sabores não sentem esse termo:</p>
+      <div class="eq sm"><i>V</i><sub>CC</sub> = √2 <i>G</i><sub>F</sub> <i>n</i><sub>e</sub><span class="note">potencial efetivo para νₑ</span></div>
+      <p>Quando <i>2√2 G<sub>F</sub> n<sub>e</sub> E</i> ≈ Δm² cos 2θ, a mistura fica <b>máxima</b>: é a <b>ressonância MSW</b>, e é dela que trata todo o resto.</p>
+      <div class="card glow" style="--part: var(--nu-mu)">
+        <h4>Guarde para a Parte I</h4>
+        <p class="small">O potencial age no referencial <b>local</b>, com a energia <b>local</b>. Perto de um objeto compacto, “local” e “no infinito” não são a mesma coisa.</p>
       </div>
-      <div class="readout" id="osc2-out"></div>
     </div>
-  </div>
-  <aside class="notes">Mostrar: com o preset atmosférico, a primeira oscilação cai perto de centenas a milhares de km — por isso T2K e DUNE têm essas distâncias. Longe demais, a oscilação fica rápida e só sobra a média: é o que acontece com neutrinos do Sol.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">1998 · Super-Kamiokande</p><h2>Os ν<sub>μ</sub> que atravessam a Terra <em>somem</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .55fr 1.45fr; gap: 44px">
-    <div class="stack">
-      <figure><img src="assets/img/pmt.jpg" alt="Fotomultiplicadora de 50 cm" style="max-height: 330px; object-fit: cover"><span class="credit">Daderot · CC0</span><figcaption>Fotomultiplicadora de 50 cm — o “olho” do Kamiokande e do Super-K</figcaption></figure>
-      <p class="small"><b>50 kt</b> de água ultrapura a 1 000 m de profundidade, <b>11 146</b> fotomultiplicadoras. A luz Cherenkov diz o sabor e a direção.</p>
-    </div>
-    <div class="dash">
-      <div class="dash-head"><span class="tag part">interativo</span><div class="legend-line"><span style="--c: var(--nu-mu)">multi-GeV (1,3–20 GeV)</span><span class="dash-l" style="--c: var(--nu-e)">sub-GeV (0,3–1,2 GeV)</span></div></div>
-      <div class="cv"><canvas id="zenith"></canvas></div>
-      <div class="controls">
-        <div class="ctl"><label for="zen-dm">Δm²₃₂ <output for="zen-dm"></output></label><input type="range" id="zen-dm" min="-3.7" max="-1.7" step="0.01" value="-2.6"></div>
-        <div class="ctl"><label for="zen-th">sin²2θ₂₃ <output for="zen-th"></output></label><input type="range" id="zen-th" min="0" max="1" step="0.01" value="1"></div>
-      </div>
-      <div class="readout" id="zen-out"></div>
-    </div>
-  </div>
-  <aside class="notes">Neutrinos atmosféricos vindos de cima percorreram ~15 km; os de baixo, ~13 000 km. Mesmo fluxo na origem, por simetria. Os de baixo chegam pela metade. Zerar sin²2θ mostra a linha plana que se esperava. Kajita apresentou isso em Takayama em junho de 1998.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">2001 – 2002 · Sudbury Neutrino Observatory</p><h2>O fluxo total <em>estava lá</em></h2></header>
-  <div class="body cols r">
-    <div class="stack">
-      <figure><img src="assets/img/snoplus.jpg" alt="Detector SNO+" style="max-height: 300px; object-fit: cover"><span class="credit">SNO+ Collaboration · CC BY 4.0</span><figcaption>A esfera acrílica do SNO, hoje SNO+</figcaption></figure>
-      <p class="small"><b>1 000 t de água pesada</b> a 2 km de profundidade. O dêuteron permite três reações:</p>
-      <p class="small ui" style="line-height: 1.8">
-        <b class="c-e">CC</b> νₑ + d → p + p + e⁻ <span class="muted">só νₑ</span><br>
-        <b>NC</b> ν<sub>x</sub> + d → p + n + ν<sub>x</sub> <span class="muted">todos, igual</span><br>
-        <b class="c-tau">ES</b> ν<sub>x</sub> + e⁻ → ν<sub>x</sub> + e⁻ <span class="muted">todos, νₑ pesa mais</span></p>
-    </div>
-    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
-      <div class="cv"><canvas id="sno-plane"></canvas></div>
-      <p class="ref">Faixas de 1σ de SNO, PRL 89, 011301 (2002). Sem oscilação, o ponto estaria sobre o eixo horizontal.</p>
-    </div>
-  </div>
-  <aside class="notes">As três faixas se cruzam num ponto longe do eixo: dois terços dos νₑ chegam como νμ ou ντ. E o total, a faixa NC, concorda com o Modelo Solar. Bahcall estava certo sobre o Sol.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">Wolfenstein 1978 · Mikheyev &amp; Smirnov 1985</p><h2>A matéria <em>também</em> muda a oscilação</h2></header>
-  <div class="body cols c2 center">
-    <div class="stack" style="gap: 30px">
-      <p>Elétrons do meio espalham νₑ para frente por corrente carregada. Os outros sabores não sentem esse termo:</p>
-      <div class="eq"><i>V</i><sub>CC</sub> = √2 <i>G</i><sub>F</sub> <i>n</i><sub>e</sub><span class="note">potencial efetivo para νₑ</span></div>
-      <p>Quando <i>2√2 G<sub>F</sub> n<sub>e</sub> E</i> ≈ Δm² cos 2θ, a mistura efetiva fica <b>máxima</b>: é a <b>ressonância MSW</b>. No Sol, ela converte os νₑ de ⁸B quase adiabaticamente em ν₂.</p>
-    </div>
-    <div class="card glow" style="--part: var(--nu-mu)">
-      <h4>Guarde para a Parte III</h4>
-      <p class="big" style="margin-bottom: 18px">O potencial age no referencial <b>local</b> do meio, com a energia <b>local</b> do neutrino.</p>
-      <p>Numa supernova ou num disco de colapsar, densidade, energia e direções dos neutrinos são medidas perto de um objeto compacto — onde “local” e “no infinito” já não são a mesma coisa.</p>
-    </div>
-  </div>
-  <aside class="notes">Não vou detalhar MSW; basta saber que a matéria entra como um potencial. Destaque para o card: potencial e energia são grandezas locais. Isso será central na Parte III.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">Nobel de Física 2015 · e a conta que sobra</p><h2>Oscilam, logo <em>têm massa</em></h2></header>
-  <div class="body cols" style="grid-template-columns: 1.1fr 1fr; gap: 40px">
     <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 660px"><div class="cv"><canvas id="mass-order"></canvas></div>
       <div class="legend-line"><span style="--c: var(--nu-e)">fração νₑ</span><span style="--c: var(--nu-mu)">fração ν_μ</span><span style="--c: var(--nu-tau)">fração ν_τ</span><span class="muted" style="--c: transparent">|U<sub>αk</sub>|², NuFIT 6.0 com θ₂₃ = 45°, δ = 3π/2</span></div></div>
-    <div class="stack" style="gap: 22px">
-      <blockquote style="font-size: 32px">“pela descoberta das oscilações de neutrinos, que mostra que os neutrinos têm massa.”<footer>Academia Real Sueca de Ciências · Kajita (Super-K) e McDonald (SNO)</footer></blockquote>
-      <ul class="list">
-        <li>Não há ν<sub>R</sub> no Modelo Padrão, logo não há massa de Dirac. <b>Algo novo</b> gera as massas.</li>
-        <li>Pelo menos um neutrino tem <i>m</i> ≳ <b>0,05 eV</b>, 10⁷ vezes mais leve que o elétron.</li>
-        <li>Se o neutrino for de <b>Majorana</b>, ele é a própria antipartícula e o número leptônico não se conserva.</li>
-      </ul>
-      <p class="small muted">Depois vieram KamLAND (2002), T2K, Daya Bay e RENO (θ₁₃, 2012), NOvA. O quadro de três sabores fecha.</p>
-    </div>
   </div>
-  <aside class="notes">Dois experimentos, duas fontes, uma conclusão: oscilação, logo massa. O gráfico mostra o conteúdo de sabor de cada autoestado de massa. Não sabemos qual dos dois ordenamentos é o real, e essa é uma das metas do DUNE e do JUNO. Gangorra: m_nu ~ v²/M, com M perto da escala de grande unificação.</aside>
+  <aside class="notes">Não vou detalhar MSW, que voces ja viram aqui. Dois pontos: o potencial e uma grandeza local, e o ordenamento de massas nao e detalhe. Na Parte III o mesmo calculo da sobrevivencia de 2,2 por cento no ordenamento normal e 30 por cento no invertido, um fator 13, e o argonio do DUNE conta justamente neutrinos do eletron.</aside>
 </section>
 
-<section class="slide content p1">
-  <header><p class="eyebrow">O que ainda não sabemos</p><h2>Seis perguntas <em>abertas</em></h2></header>
-  <div class="body cols c3" style="grid-template-rows: 1fr 1fr; gap: 28px">
-    <div class="card"><h4>Ordenamento</h4><p class="small">ν₃ é o mais pesado ou o mais leve? <b>DUNE, JUNO, Hyper-K</b>.</p></div>
-    <div class="card"><h4>Violação de CP</h4><p class="small">A fase δ<sub>CP</sub> é ≠ 0, π? Ela pode estar por trás da assimetria matéria–antimatéria (leptogênese).</p></div>
-    <div class="card"><h4>Octante de θ₂₃</h4><p class="small">θ₂₃ &lt; 45° ou &gt; 45°? Os dados ainda não decidem.</p></div>
-    <div class="card"><h4>Escala absoluta</h4><p class="small">KATRIN: <i>m</i><sub>ν</sub> &lt; 0,45 eV (2025). Cosmologia (DESI + CMB): Σ<i>m</i> ≲ 0,07 eV, dependente do modelo.</p></div>
-    <div class="card"><h4>Dirac ou Majorana</h4><p class="small">Só o decaimento ββ sem neutrinos responde: LEGEND, nEXO, KamLAND-Zen, SNO+…</p></div>
-    <div class="card glow" style="--part: var(--nu-mu)"><h4>Gravidade</h4><p class="small">Todas as medidas assumem espaço-tempo <b>plano</b>. E quando a fonte está num poço gravitacional fundo? <b>Parte III</b>.</p></div>
-  </div>
-  <aside class="notes">A sexta pergunta é a ponte para o resto do seminário. Não é uma pergunta "da lista oficial", mas é onde a física de objetos compactos entra.</aside>
-</section>
-
-<!-- ================================================================
-     PARTE II — ESPAÇO-TEMPO CURVO
-     ================================================================ -->
 <section class="slide partcover p2">
   <div class="bg" style="background-image: url('assets/img/eclipse-1919.jpg'); background-position: 70% 50%"></div>
   <div class="inner">
@@ -408,6 +194,50 @@
 </section>
 
 <section class="slide content p2">
+  <header><p class="eyebrow">O que nos interessa da métrica</p><h2>A curvatura faz <em>duas coisas</em> com um neutrino</h2></header>
+  <div class="body cols c2">
+    <div class="stack" style="gap: 24px">
+      <div class="card"><h4>1 · Muda a energia</h4>
+        <p>Um neutrino emitido em <i>r</i> com energia local <i>E</i> chega ao infinito com</p>
+        <div class="eq sm"><i>E</i><sub>∞</sub> = <i>E</i> √(1 − <i>r</i><sub>s</sub>/<i>r</i>)<span class="note">redshift gravitacional, r<sub>s</sub> = 2GM/c²</span></div>
+        <p class="small">O espectro inteiro desliza para baixo, e o relógio da fonte anda mais devagar visto de fora.</p></div>
+      <div class="card"><h4>2 · Encurva o caminho</h4>
+        <p>A trajetória é uma <b>geodésica</b>, não uma reta. Perto de um objeto compacto o desvio é grande, e caminhos diferentes podem ligar a mesma fonte ao mesmo detector.</p>
+        <p class="small">Fótons e neutrinos seguem a mesma geometria, o que a SN 1987A confirmou a ~0,5%.</p></div>
+    </div>
+    <div class="stack" style="gap: 24px">
+      <p class="big">As duas importam porque, numa supernova, a emissão é <b>fundo no poço</b> e a detecção é <b>longe dele</b>.</p>
+      <div class="card glow"><h4>E há uma terceira, mais sutil</h4>
+        <p>A fase de oscilação é acumulada ao longo da geodésica, com o tempo próprio da partícula. Em espaço-tempo plano ela vira o familiar Δm²L/4E; em métrica curva, não.</p>
+        <p class="small">Voltamos a isso em três laminas.</p></div>
+      <p class="small muted">Nada disso é opcional quando a densidade que define a ressonância MSW é medida no referencial local e o detector está a 10 kpc.</p>
+    </div>
+  </div>
+  <aside class="notes">Esta e a lamina que justifica a parte inteira para uma plateia de neutrinos: nao e relatividade por gosto, sao tres efeitos concretos sobre o que se mede. Redshift no espectro, curvatura no caminho, e a fase covariante.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Quanto, em números</p><h2>O que chega <em>não é o que saiu</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.1fr 1fr; gap: 40px">
+    <table class="tbl">
+      <tr><th>onde</th><th style="text-align:right">R</th><th style="text-align:right">u = r<sub>s</sub>/R</th><th style="text-align:right">z</th></tr>
+      <tr class="hl"><td><b>neutrinosfera</b>, 1,4 M☉</td><td class="n">30 km</td><td class="n">0,138</td><td class="n">0,077</td></tr>
+      <tr><td>neutrinosfera mais fria</td><td class="n">50 km</td><td class="n">0,083</td><td class="n">0,044</td></tr>
+      <tr><td>estrela de nêutrons fria</td><td class="n">12 km</td><td class="n">0,345</td><td class="n">0,235</td></tr>
+      <tr><td>disco de colapsar, 3 M☉</td><td class="n">3 r<sub>s</sub></td><td class="n">0,333</td><td class="n">0,225</td></tr>
+    </table>
+    <div class="stack" style="gap: 22px">
+      <p class="big">Na fase de acreção, o espectro que o DUNE vê saiu <b>~8% mais energético</b> do que chega.</p>
+      <p>E o intervalo de tempo também: o que a estrela vive em 1 s, nós medimos em 1,08 s. A curva de luz de neutrinos é lida com o relógio errado se a métrica for ignorada.</p>
+      <div class="card"><h4>Por que isso morde a ressonância</h4>
+        <p class="small">A condição MSW envolve a energia <b>local</b>. Usar a energia detectada no lugar dela desloca a densidade de ressonância por ~8%, e portanto desloca o raio onde a conversão acontece.</p></div>
+      <p class="small muted">u e z calculados com r<sub>s</sub> = 2GM/c²; z = (1 − u)<sup>−1/2</sup> − 1.</p>
+    </div>
+  </div>
+  <aside class="notes">Numeros para a plateia sentir a escala: nao e um efeito de segunda ordem escondido, sao 8 por cento no espectro e no relogio durante a fase que mais conta. E o ponto final e o que liga com a Parte III: a ressonancia depende da energia local.</aside>
+</section>
+
+<section class="slide content p2">
   <header><p class="eyebrow">Dashboard · geodésicas nulas de Schwarzschild</p><h2>Luz e neutrinos <em>perto de um buraco negro</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.35fr .65fr; gap: 44px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
@@ -460,60 +290,40 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Astrofísica · Woosley 1993</p><h2>Colapsares: quando a estrela <em>não consegue explodir</em></h2></header>
+  <header><p class="eyebrow">Stodolsky 1979 · Fornengo, Giunti, Kim &amp; Song 1997</p><h2>A fase <em>ao longo da geodésica</em></h2></header>
   <div class="body cols c2">
-    <figure class="fill"><img src="assets/img/wr124.jpg" alt="Estrela Wolf-Rayet WR 124 vista pelo JWST"><span class="credit">NASA, ESA, CSA, STScI, Webb ERO · CC BY 4.0</span></figure>
+    <div class="stack" style="gap: 26px">
+      <div class="eq sm">Φ<sub><i>k</i></sub> = ∫ <i>p</i><sub>μ</sub><sup>(<i>k</i>)</sup> <i>dx</i><sup>μ</sup><span class="note">fase covariante: vale em qualquer métrica</span></div>
+      <div class="eq" style="font-size: 44px">Φ<sub><i>k</i></sub> = <span class="frac"><span><i>m</i><sub><i>k</i></sub><sup>2</sup></span><span>2<i>E</i><sub>∞</sub></span></span> ∫ <span class="frac"><span><i>dr</i></span><span>√(1 − <i>b</i>²(1 − <i>r</i><sub>s</sub>/<i>r</i>)/<i>r</i>²)</span></span><span class="note">Schwarzschild, em primeira ordem em m², ao longo da geodésica nula</span></div>
+      <p class="small">Dedução em uma linha: com <i>E</i> e <i>J</i> = <i>Eb</i> conservados, <i>Et</i> − <i>J</i>φ − ∫<i>p<sub>r</sub>dr</i> cancela tudo, menos o termo de massa.</p>
+    </div>
     <div class="stack">
-      <p class="big">Uma estrela <b>Wolf–Rayet</b> de ~30 M☉, girando depressa, perdeu o envelope de hidrogênio.</p>
-      <ul class="list">
-        <li>O núcleo de ferro colapsa e o choque <b>não reverte</b>: forma-se um <b>buraco negro</b> de ~2–3 M☉.</li>
-        <li>O envelope tem momento angular demais para cair direto: forma-se um <b>disco de acreção</b> a poucos r<sub>s</sub>.</li>
-        <li>Acreção de 0,01–1 M☉/s por dezenas de segundos → <b>jatos relativísticos</b> que furam a estrela.</li>
-      </ul>
-      <p class="small muted">WR 124, fotografada pelo JWST em 2023: o tipo de estrela que pode terminar assim.</p>
+      <div class="card"><h4>1 · Radial: a gravidade “se esconde”</h4><p class="small">Φ = Δm²(r<sub>B</sub> − r<sub>A</sub>)/2E<sub>∞</sub>, a mesma forma do caso plano. Mas em grandezas <b>locais</b> (distância própria ∫dr/√B, energia E<sub>local</sub>) a fórmula plana erra.</p></div>
+      <div class="card"><h4>2 · Não radial: o caminho importa</h4><p class="small">A fase depende de <b>b</b>. Caminhos diferentes entre a mesma fonte e o mesmo detector acumulam fases diferentes.</p></div>
+      <div class="card glow"><h4>3 · Muitos caminhos: interferência</h4><p class="small">Numa lente, a diferença de fase entre caminhos é ∝ <b>m<sub>k</sub>²</b>, não só Δm²: a gravidade dá acesso à <b>massa absoluta</b>.</p></div>
     </div>
   </div>
-  <aside class="notes">O colapsar é o modelo padrão para surtos de raios gama longos. Woosley 1993, MacFadyen e Woosley 1999. Evidência: GRB 980425 com a supernova 1998bw.</aside>
+  <aside class="notes">É a mesma fase da Parte I, m²L/2E, agora escrita de modo covariante. Três consequências, que os dois próximos dashboards mostram.</aside>
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">MacFadyen &amp; Woosley 1999 · Popham, Woosley &amp; Fryer 1999</p><h2>Um motor <em>resfriado por neutrinos</em></h2></header>
-  <div class="body cols l center">
-    <svg viewBox="0 0 900 640" class="fig" style="width: 100%; height: 660px" role="img" aria-label="Diagrama de um colapsar">
-      <defs>
-        <radialGradient id="env" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffb86b" stop-opacity=".30"/><stop offset=".7" stop-color="#ffb86b" stop-opacity=".10"/><stop offset="1" stop-color="#ffb86b" stop-opacity="0"/></radialGradient>
-        <linearGradient id="jet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9e8cff" stop-opacity="0"/><stop offset=".5" stop-color="#9e8cff" stop-opacity=".9"/><stop offset="1" stop-color="#9e8cff" stop-opacity="0"/></linearGradient>
-        <radialGradient id="disk" cx="50%" cy="50%" r="50%"><stop offset=".08" stop-color="#ffffff"/><stop offset=".25" stop-color="#56e1d0"/><stop offset="1" stop-color="#56e1d0" stop-opacity="0"/></radialGradient>
-      </defs>
-      <circle cx="450" cy="320" r="300" fill="url(#env)"/>
-      <circle cx="450" cy="320" r="300" fill="none" stroke="#ffb86b" stroke-opacity=".35" stroke-dasharray="4 8"/>
-      <path d="M450 320 L420 0 L480 0 Z M450 320 L420 640 L480 640 Z" fill="url(#jet)"/>
-      <ellipse cx="450" cy="320" rx="170" ry="30" fill="url(#disk)"/>
-      <circle cx="450" cy="320" r="16" fill="#000" stroke="#ffb86b" stroke-width="1.5"/>
-      <g fill="none" stroke="#56e1d0" stroke-width="2" stroke-opacity=".8">
-        <path d="M560 305 q 60 -70 150 -110"/><path d="M340 305 q -60 -70 -150 -110"/><path d="M560 336 q 60 70 150 110"/><path d="M340 336 q -60 70 -150 110"/>
-      </g>
-      <g font-family="Inter Tight, sans-serif" font-size="19" fill="#b3b9c9">
-        <text x="600" y="60">jato relativístico → GRB longo</text>
-        <text x="720" y="185" fill="#56e1d0">ν, ν̄ ~10⁵² erg/s</text>
-        <text x="600" y="600">envelope em rotação caindo</text>
-        <text x="40" y="330">buraco negro · 2–3 M☉</text>
-        <line x1="250" y1="325" x2="430" y2="322" stroke="#737b90" stroke-dasharray="3 5"/>
-        <text x="560" y="385" fill="#eef0f6">disco: T ~ MeV, ρ ~ 10¹⁰⁻¹² g/cm³</text>
-      </g>
-    </svg>
-    <div class="stack">
-      <p>No disco interno, a matéria é tão quente e densa que <b>fótons ficam presos</b>. Quem leva o calor embora são os <b>neutrinos</b>: é um NDAF (<i>neutrino-dominated accretion flow</i>).</p>
-      <figure><img src="assets/img/grb-mechanism.jpg" alt="Esquema de um surto de raios gama" style="max-height: 240px; object-fit: cover"><span class="credit">NASA/GSFC/ICRAR · DP</span></figure>
-      <p class="small">E esses neutrinos são emitidos a <b>poucos r<sub>s</sub></b> de um buraco negro em rotação, onde a geometria é Kerr, não Minkowski.</p>
+  <header><p class="eyebrow">Dashboard · uma geodésica que nasce na fonte</p><h2>Redshift, desvio e fase <em>desde a emissão</em></h2></header>
+  <div class="body">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">interativo · integral exata de Fornengo et al. ao longo da órbita</span>
+        <div class="seg" id="emit-src"><button data-v="star" class="on">superfície de proto-estrela</button><button data-v="disk">disco em torno de buraco negro</button></div></div>
+      <div class="plots two"><div class="cv"><canvas id="emit"></canvas></div><div class="cv"><canvas id="emit-p"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="emit-R">raio de emissão R <output for="emit-R"></output></label><input type="range" id="emit-R" min="1.6" max="15" step="0.05" value="2.2"></div>
+        <div class="ctl"><label for="emit-a">ângulo local de emissão α <output for="emit-a"></output></label><input type="range" id="emit-a" min="0" max="90" step="1" value="80"></div>
+        <div class="ctl"><label for="emit-L">comprimento de oscilação λ <output for="emit-L"></output></label><input type="range" id="emit-L" min="0.5" max="2.3" step="0.01" value="1.2"></div>
+      </div>
+      <div class="readout" id="emit-out"></div>
     </div>
   </div>
-  <aside class="notes">Esse é o elo com a Parte III: a região que emite neutrinos num colapsar está na zona de RG plena. A luz não sai de lá diretamente; os neutrinos saem.</aside>
+  <aside class="notes">Esquerda: a trajetória, colorida pela probabilidade de conversão (violeta νₑ, turquesa ν_x); tracejado é a reta sem gravidade. Direita: P contra r. Com α = 0 (radial) as curvas coincidem — a gravidade se esconde em E∞. Aumentar α e baixar R mostra a diferença. λ é livre: no vácuo, com Δm²₃₁ e 10 MeV, λ ~ 10⁴ km ~ 2 500 r_s; escalas de r_s aparecem nos regimes de matéria e coletivos. Aqui o foco é a geometria. No modo disco, ângulos maiores que 90° mandam o neutrino para dentro: abaixo de b_c ele é capturado.</aside>
 </section>
 
-<!-- ================================================================
-     PARTE III — NEUTRINOS EM ESPAÇO-TEMPO CURVO
-     ================================================================ -->
 <section class="slide partcover p3">
   <div class="bg" style="background-image: url('assets/img/grb-illustration.jpg'); background-position: 65% 50%"></div>
   <div class="inner">
@@ -592,26 +402,55 @@
 </section>
 
 <section class="slide content p3">
-  <header><p class="eyebrow">A ponte para a Parte IV · M15-7b</p><h2>O choque alcança <em>a ressonância</em></h2></header>
-  <div class="body cols" style="grid-template-columns: 1fr 1.1fr; gap: 44px">
-    <div class="stack" style="gap: 24px">
-      <p class="big">Revivido, o choque corre para fora a <b>~1,6×10<sup>4</sup> km/s</b>, varrendo o envelope.</p>
-      <p>A ressonância <b>MSW-H</b> não mora num raio: mora numa <b>densidade</b>.</p>
-      <div class="eq sm">ρ<sub>res</sub> ≈ 1,6×10³ g/cm³ <span class="note">a 20 MeV · 6,3×10³ a 5 MeV · 5,3×10² a 60 MeV</span></div>
-      <p>Como o choque comprime e empurra o envelope, <b>o raio onde essa densidade vive corre para dentro</b> enquanto o choque corre para fora. Os dois vão se encontrar.</p>
-    </div>
-    <div class="stack" style="gap: 22px">
-      <table class="tbl">
-        <tr><th>após o ricochete</th><th style="text-align:right">raio do choque</th><th style="text-align:right">raio da ressonância</th></tr>
-        <tr class="hl"><td><b>3,0 s</b></td><td class="n"><b>35 011 km</b></td><td class="n"><b>34 933 km</b></td></tr>
-        <tr><td>10,0 s</td><td class="n">149 106 km</td><td class="n">12 471 km</td></tr>
-      </table>
-      <div class="card glow"><h4>Em t ≈ 3 s eles coincidem</h4>
-        <p class="small">78 km de diferença em 35 mil, ou <b>0,2%</b>. Durante uma janela de poucos segundos, a frente de choque está <b>em cima</b> da ressonância, e é ali que o sabor do neutrino é decidido.</p></div>
-      <p class="small muted">Perfis derivados de M15-7b, Garching CCSN Archive (A. Wongwathanarat), medianas angulares.</p>
+  <header><p class="eyebrow">Astrofísica · Woosley 1993</p><h2>Colapsares: quando a estrela <em>não consegue explodir</em></h2></header>
+  <div class="body cols c2">
+    <figure class="fill"><img src="assets/img/wr124.jpg" alt="Estrela Wolf-Rayet WR 124 vista pelo JWST"><span class="credit">NASA, ESA, CSA, STScI, Webb ERO · CC BY 4.0</span></figure>
+    <div class="stack">
+      <p class="big">Uma estrela <b>Wolf–Rayet</b> de ~30 M☉, girando depressa, perdeu o envelope de hidrogênio.</p>
+      <ul class="list">
+        <li>O núcleo de ferro colapsa e o choque <b>não reverte</b>: forma-se um <b>buraco negro</b> de ~2–3 M☉.</li>
+        <li>O envelope tem momento angular demais para cair direto: forma-se um <b>disco de acreção</b> a poucos r<sub>s</sub>.</li>
+        <li>Acreção de 0,01–1 M☉/s por dezenas de segundos → <b>jatos relativísticos</b> que furam a estrela.</li>
+      </ul>
+      <p class="small muted">WR 124, fotografada pelo JWST em 2023: o tipo de estrela que pode terminar assim.</p>
     </div>
   </div>
-  <aside class="notes">Esta é a montagem da Parte IV. Tudo o que vem agora depende de uma coisa: quando o choque cruza a ressonância, ele é uma quase-descontinuidade. Se a travessia for suave, o neutrino acompanha o autoestado e P_H = 0. Se for abrupta, ele salta e P_H vai a 1. A diferença entre as duas é o que o DUNE mede.</aside>
+  <aside class="notes">O colapsar é o modelo padrão para surtos de raios gama longos. Woosley 1993, MacFadyen e Woosley 1999. Evidência: GRB 980425 com a supernova 1998bw.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">MacFadyen &amp; Woosley 1999 · Popham, Woosley &amp; Fryer 1999</p><h2>Um motor <em>resfriado por neutrinos</em></h2></header>
+  <div class="body cols l center">
+    <svg viewBox="0 0 900 640" class="fig" style="width: 100%; height: 660px" role="img" aria-label="Diagrama de um colapsar">
+      <defs>
+        <radialGradient id="env" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffb86b" stop-opacity=".30"/><stop offset=".7" stop-color="#ffb86b" stop-opacity=".10"/><stop offset="1" stop-color="#ffb86b" stop-opacity="0"/></radialGradient>
+        <linearGradient id="jet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9e8cff" stop-opacity="0"/><stop offset=".5" stop-color="#9e8cff" stop-opacity=".9"/><stop offset="1" stop-color="#9e8cff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="disk" cx="50%" cy="50%" r="50%"><stop offset=".08" stop-color="#ffffff"/><stop offset=".25" stop-color="#56e1d0"/><stop offset="1" stop-color="#56e1d0" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle cx="450" cy="320" r="300" fill="url(#env)"/>
+      <circle cx="450" cy="320" r="300" fill="none" stroke="#ffb86b" stroke-opacity=".35" stroke-dasharray="4 8"/>
+      <path d="M450 320 L420 0 L480 0 Z M450 320 L420 640 L480 640 Z" fill="url(#jet)"/>
+      <ellipse cx="450" cy="320" rx="170" ry="30" fill="url(#disk)"/>
+      <circle cx="450" cy="320" r="16" fill="#000" stroke="#ffb86b" stroke-width="1.5"/>
+      <g fill="none" stroke="#56e1d0" stroke-width="2" stroke-opacity=".8">
+        <path d="M560 305 q 60 -70 150 -110"/><path d="M340 305 q -60 -70 -150 -110"/><path d="M560 336 q 60 70 150 110"/><path d="M340 336 q -60 70 -150 110"/>
+      </g>
+      <g font-family="Inter Tight, sans-serif" font-size="19" fill="#b3b9c9">
+        <text x="600" y="60">jato relativístico → GRB longo</text>
+        <text x="720" y="185" fill="#56e1d0">ν, ν̄ ~10⁵² erg/s</text>
+        <text x="600" y="600">envelope em rotação caindo</text>
+        <text x="40" y="330">buraco negro · 2–3 M☉</text>
+        <line x1="250" y1="325" x2="430" y2="322" stroke="#737b90" stroke-dasharray="3 5"/>
+        <text x="560" y="385" fill="#eef0f6">disco: T ~ MeV, ρ ~ 10¹⁰⁻¹² g/cm³</text>
+      </g>
+    </svg>
+    <div class="stack">
+      <p>No disco interno, a matéria é tão quente e densa que <b>fótons ficam presos</b>. Quem leva o calor embora são os <b>neutrinos</b>: é um NDAF (<i>neutrino-dominated accretion flow</i>).</p>
+      <figure><img src="assets/img/grb-mechanism.jpg" alt="Esquema de um surto de raios gama" style="max-height: 240px; object-fit: cover"><span class="credit">NASA/GSFC/ICRAR · DP</span></figure>
+      <p class="small">E esses neutrinos são emitidos a <b>poucos r<sub>s</sub></b> de um buraco negro em rotação, onde a geometria é Kerr, não Minkowski.</p>
+    </div>
+  </div>
+  <aside class="notes">Esse é o elo com a Parte III: a região que emite neutrinos num colapsar está na zona de RG plena. A luz não sai de lá diretamente; os neutrinos saem.</aside>
 </section>
 
 <section class="slide content p3">
@@ -632,41 +471,6 @@
     </div>
   </div>
   <aside class="notes">Números simples: 1/√(1−r_s/R) para emissor estático, 1/√(1−3M/r) para emissor em órbita circular. O ponto é que toda a física de sabor perto da fonte acontece em grandezas locais.</aside>
-</section>
-
-<section class="slide content p3">
-  <header><p class="eyebrow">Stodolsky 1979 · Fornengo, Giunti, Kim &amp; Song 1997</p><h2>A fase <em>ao longo da geodésica</em></h2></header>
-  <div class="body cols c2">
-    <div class="stack" style="gap: 26px">
-      <div class="eq sm">Φ<sub><i>k</i></sub> = ∫ <i>p</i><sub>μ</sub><sup>(<i>k</i>)</sup> <i>dx</i><sup>μ</sup><span class="note">fase covariante: vale em qualquer métrica</span></div>
-      <div class="eq" style="font-size: 44px">Φ<sub><i>k</i></sub> = <span class="frac"><span><i>m</i><sub><i>k</i></sub><sup>2</sup></span><span>2<i>E</i><sub>∞</sub></span></span> ∫ <span class="frac"><span><i>dr</i></span><span>√(1 − <i>b</i>²(1 − <i>r</i><sub>s</sub>/<i>r</i>)/<i>r</i>²)</span></span><span class="note">Schwarzschild, em primeira ordem em m², ao longo da geodésica nula</span></div>
-      <p class="small">Dedução em uma linha: com <i>E</i> e <i>J</i> = <i>Eb</i> conservados, <i>Et</i> − <i>J</i>φ − ∫<i>p<sub>r</sub>dr</i> cancela tudo, menos o termo de massa.</p>
-    </div>
-    <div class="stack">
-      <div class="card"><h4>1 · Radial: a gravidade “se esconde”</h4><p class="small">Φ = Δm²(r<sub>B</sub> − r<sub>A</sub>)/2E<sub>∞</sub>, a mesma forma do caso plano. Mas em grandezas <b>locais</b> (distância própria ∫dr/√B, energia E<sub>local</sub>) a fórmula plana erra.</p></div>
-      <div class="card"><h4>2 · Não radial: o caminho importa</h4><p class="small">A fase depende de <b>b</b>. Caminhos diferentes entre a mesma fonte e o mesmo detector acumulam fases diferentes.</p></div>
-      <div class="card glow"><h4>3 · Muitos caminhos: interferência</h4><p class="small">Numa lente, a diferença de fase entre caminhos é ∝ <b>m<sub>k</sub>²</b>, não só Δm²: a gravidade dá acesso à <b>massa absoluta</b>.</p></div>
-    </div>
-  </div>
-  <aside class="notes">É a mesma fase da Parte I, m²L/2E, agora escrita de modo covariante. Três consequências, que os dois próximos dashboards mostram.</aside>
-</section>
-
-<section class="slide content p3">
-  <header><p class="eyebrow">Dashboard · uma geodésica que nasce na fonte</p><h2>Redshift, desvio e fase <em>desde a emissão</em></h2></header>
-  <div class="body">
-    <div class="dash">
-      <div class="dash-head"><span class="tag part">interativo · integral exata de Fornengo et al. ao longo da órbita</span>
-        <div class="seg" id="emit-src"><button data-v="star" class="on">superfície de proto-estrela</button><button data-v="disk">disco em torno de buraco negro</button></div></div>
-      <div class="plots two"><div class="cv"><canvas id="emit"></canvas></div><div class="cv"><canvas id="emit-p"></canvas></div></div>
-      <div class="controls">
-        <div class="ctl"><label for="emit-R">raio de emissão R <output for="emit-R"></output></label><input type="range" id="emit-R" min="1.6" max="15" step="0.05" value="2.2"></div>
-        <div class="ctl"><label for="emit-a">ângulo local de emissão α <output for="emit-a"></output></label><input type="range" id="emit-a" min="0" max="90" step="1" value="80"></div>
-        <div class="ctl"><label for="emit-L">comprimento de oscilação λ <output for="emit-L"></output></label><input type="range" id="emit-L" min="0.5" max="2.3" step="0.01" value="1.2"></div>
-      </div>
-      <div class="readout" id="emit-out"></div>
-    </div>
-  </div>
-  <aside class="notes">Esquerda: a trajetória, colorida pela probabilidade de conversão (violeta νₑ, turquesa ν_x); tracejado é a reta sem gravidade. Direita: P contra r. Com α = 0 (radial) as curvas coincidem — a gravidade se esconde em E∞. Aumentar α e baixar R mostra a diferença. λ é livre: no vácuo, com Δm²₃₁ e 10 MeV, λ ~ 10⁴ km ~ 2 500 r_s; escalas de r_s aparecem nos regimes de matéria e coletivos. Aqui o foco é a geometria. No modo disco, ângulos maiores que 90° mandam o neutrino para dentro: abaixo de b_c ele é capturado.</aside>
 </section>
 
 <section class="slide content p3">
@@ -769,9 +573,52 @@
   <aside class="notes">Com o DUNE, essa rede forma o SNEWS: um alerta automático de supernova. A próxima supernova galáctica será vista por dezenas de milhares de eventos, com resolução de milissegundos — suficiente para ver a física da proto-estrela de nêutrons, incluindo a gravidade.</aside>
 </section>
 
-<!-- ================================================================
-     PARTE IV — GHOST: A FRENTE DE CHOQUE NA RESSONÂNCIA MSW
-     ================================================================ -->
+<section class="slide content p3">
+  <header><p class="eyebrow">Onde as ressonâncias moram</p><h2>Duas densidades, <em>dois encontros</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1.05fr; gap: 40px">
+    <div class="stack" style="gap: 22px">
+      <p class="big">A estrela oferece <b>todas</b> as densidades entre 10<sup>14</sup> g/cm³ no núcleo e quase nada no envelope. Cada ressonância escolhe a sua.</p>
+      <div class="eq sm">ρ<sub>res</sub> = <span style="white-space:nowrap">Δm² cos 2θ · m<sub>N</sub> / (2√2 G<sub>F</sub> E Y<sub>e</sub>)</span><span class="note">a mesma condição, com o Δm² e o θ de cada par</span></div>
+      <table class="tbl">
+        <tr><th>ressonância</th><th style="text-align:right">Δm²</th><th style="text-align:right">ρ a 20 MeV</th></tr>
+        <tr class="hl"><td><b>H</b>, θ₁₃</td><td class="n">2,5×10⁻³ eV²</td><td class="n">1,6×10³ g/cm³</td></tr>
+        <tr><td>L, θ₁₂</td><td class="n">7,5×10⁻⁵ eV²</td><td class="n">19 g/cm³</td></tr>
+      </table>
+    </div>
+    <div class="stack" style="gap: 22px">
+      <p>As duas ficam no <b>envelope</b>, não no núcleo: a ressonância H está a dezenas de milhares de quilômetros do centro, e a L ainda mais longe.</p>
+      <div class="card glow"><h4>Só uma delas encontra o choque</h4>
+        <p>A frente de choque leva segundos para varrer o envelope. Quando ela passa por 1,6×10³ g/cm³, cruza a ressonância <b>H</b>. Quando chega aos 19 g/cm³ da <b>L</b>, já está fraca e difusa.</p>
+        <p class="small">Por isso todo o resto desta palestra é sobre a H.</p></div>
+      <p class="small muted">Y<sub>e</sub> = 0,5. A densidade escala com 1/E: a 5 MeV a ressonância H está em 6,3×10³ g/cm³, e a 60 MeV em 5,3×10².</p>
+    </div>
+  </div>
+  <aside class="notes">Esta lamina responde a pergunta que a plateia faz em silencio: por que a ressonancia esta onde esta. A resposta e que ela nao esta num raio, esta numa densidade, e a estrela oferece todas elas. E explica por que so a H interessa aqui.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">A ponte para a Parte IV · M15-7b</p><h2>A frente varre o envelope e <em>cruza a ressonância H</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1.1fr; gap: 44px">
+    <div class="stack" style="gap: 24px">
+      <p class="big">Revivido, o choque corre para fora a <b>~1,6×10<sup>4</sup> km/s</b>, varrendo o envelope.</p>
+      <p>A ressonância <b>MSW-H</b> não mora num raio: mora numa <b>densidade</b>.</p>
+      <div class="eq sm">ρ<sub>res</sub> ≈ 1,6×10³ g/cm³ <span class="note">a 20 MeV · 6,3×10³ a 5 MeV · 5,3×10² a 60 MeV</span></div>
+      <p>Como o choque comprime e empurra o envelope, <b>o raio onde essa densidade vive corre para dentro</b> enquanto o choque corre para fora. Os dois vão se encontrar.</p>
+    </div>
+    <div class="stack" style="gap: 22px">
+      <table class="tbl">
+        <tr><th>após o ricochete</th><th style="text-align:right">raio do choque</th><th style="text-align:right">raio da ressonância</th></tr>
+        <tr class="hl"><td><b>3,0 s</b></td><td class="n"><b>35 011 km</b></td><td class="n"><b>34 933 km</b></td></tr>
+        <tr><td>10,0 s</td><td class="n">149 106 km</td><td class="n">12 471 km</td></tr>
+      </table>
+      <div class="card glow"><h4>Em t ≈ 3 s eles coincidem</h4>
+        <p class="small">78 km de diferença em 35 mil, ou <b>0,2%</b>. Durante uma janela de poucos segundos, a frente de choque está <b>em cima</b> da ressonância, e é ali que o sabor do neutrino é decidido.</p></div>
+      <p class="small muted">Perfis derivados de M15-7b, Garching CCSN Archive (A. Wongwathanarat), medianas angulares.</p>
+    </div>
+  </div>
+  <aside class="notes">Esta é a montagem da Parte IV. Tudo o que vem agora depende de uma coisa: quando o choque cruza a ressonância, ele é uma quase-descontinuidade. Se a travessia for suave, o neutrino acompanha o autoestado e P_H = 0. Se for abrupta, ele salta e P_H vai a 1. A diferença entre as duas é o que o DUNE mede.</aside>
+</section>
+
 <section class="slide partcover p4 ghost-cover">
   <svg viewBox="0 0 1200 1080" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
     <defs>
@@ -859,6 +706,21 @@
     </div>
   </div>
   <aside class="notes">O problema é conhecido há vinte anos, e o remédio também. O que aconteceu foi que, com modelos 3D e cadeias automatizadas, a etapa de sabor virou uma constante. Este trabalho mede quanto isso custa.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">A régua do critério</p><h2>Adiabaticidade, e <em>o comprimento que mede tudo</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1.1fr; gap: 40px">
+    <figure class="paper"><img src="assets/img/ghost/fig_landau_zener.svg" alt="Probabilidade de salto de Landau-Zener contra a adiabaticidade" style="max-height: 520px"><figcaption>P<sub>H</sub> contra o parâmetro de adiabaticidade: o <b>GHOST</b> (círculos) sobre o perfil exponencial exato e sobre a fórmula de Landau–Zener. Abaixo, o desvio relativo a cada um.</figcaption></figure>
+    <div class="stack" style="gap: 20px">
+      <p>Na ressonância, os dois autoestados de matéria quase se tocam. Se o neutrino atravessa <b>devagar</b>, acompanha o autoestado e P<sub>H</sub> = 0. Se atravessa <b>depressa</b>, salta, e P<sub>H</sub> → 1.</p>
+      <p>“Devagar” e “depressa” se medem contra um único comprimento, o de oscilação <b>na</b> ressonância:</p>
+      <div class="eq sm">L<sub>osc</sub> = 4π<i>E</i> / (Δm² sen 2θ₁₃)<span class="note">na ressonância H, a 20 MeV: <b>67,6 km</b></span></div>
+      <div class="card glow"><h4>É esta a régua das próximas laminas</h4>
+        <p class="small">O critério de que uma estrutura só perturba a conversão se for <b>mais curta que L<sub>osc</sub></b> é medido nessa unidade. E a largura de frente gravada em M15-7b, <b>284 km</b>, são exatamente <b>4,2 L<sub>osc</sub></b>.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Sem esta lamina, o criterio de 3 L_osc das proximas aparece como numero caido do ceu. L_osc a 20 MeV da 67,6 km, e a largura gravada de M15-7b, 284 km, da 4,2 nessa unidade, que e exatamente a primeira linha da tabela de larguras. A figura de Landau-Zener ja estava nos assets e nunca tinha sido usada.</aside>
 </section>
 
 <section class="slide content p4">
@@ -956,11 +818,30 @@
 
 <section class="slide content p4">
   <header><p class="eyebrow">Conclusão 4 · onde procurar</p><h2>O erro vive numa banda, <em>em forma fechada</em></h2></header>
-  <div class="body cols c2">
-    <figure class="paper"><img src="assets/img/ghost/fig_mapa.svg" alt="Mapa do erro no plano tempo-energia" style="max-height: 470px"><figcaption>Tratar a frente como constante erra por um fator de até <b>13,7</b> numa banda de (t, E) que fecha em t ≃ 4 s.</figcaption></figure>
-    <figure class="paper"><img src="assets/img/ghost/bandas.svg" alt="Bandas de energia afetadas por progenitor" style="max-height: 470px"><figcaption>Cinco progenitores irmãos num mesmo instante: de <b>1,4 a 61,6 MeV</b>, sem nenhuma energia comum a todos.</figcaption></figure>
+  <div class="body cols l center">
+    <figure class="paper"><img src="assets/img/ghost/fig_mapa.svg" alt="Mapa do erro no plano tempo-energia" style="max-height: 620px"><figcaption>Tratar a frente como constante erra por um fator de até <b>13,7</b> numa banda de (t, E) que fecha em t ≃ 4 s.</figcaption></figure>
+    <div class="stack" style="gap: 22px">
+      <p class="big">O erro não está espalhado: ele ocupa uma <b>banda</b> no plano tempo-energia, e a banda tem forma fechada.</p>
+      <p>Ela sai do perfil de densidade pré-supernova, dados o raio do choque e a compressão. <b>Sem nenhum cálculo de sabor.</b></p>
+      <p>E ela <b>fecha</b>: passado t ≃ 4 s, o choque já deixou a região de densidade que a ressonância H ocupa nas energias observáveis.</p>
+    </div>
   </div>
-  <aside class="notes">A banda sai do perfil de densidade pré-supernova, dado o raio do choque e a compressão — sem cálculo de sabor. Comparar modelos numa energia fixa devolve um falso nulo; caímos nessa armadilha antes de medi-la.</aside>
+  <aside class="notes">O ponto forte aqui e que a banda e previsivel de antemao, so com a estrutura da estrela. Quem for procurar o efeito sabe onde olhar antes de rodar qualquer coisa de sabor.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Conclusão 4 · a armadilha</p><h2>Cada progenitor tem <em>a sua banda</em></h2></header>
+  <div class="body cols r center">
+    <figure class="paper"><img src="assets/img/ghost/bandas.svg" alt="Bandas de energia afetadas por progenitor" style="max-height: 620px"><figcaption>Cinco progenitores irmãos num mesmo instante: de <b>1,4 a 61,6 MeV</b>, sem nenhuma energia comum a todos.</figcaption></figure>
+    <div class="stack" style="gap: 22px">
+      <p class="big">Cinco progenitores irmãos, no mesmo instante, cobrem de <b>1,4 a 61,6 MeV</b>. E <b>nenhuma energia</b> cai dentro de todas as cinco bandas.</p>
+      <div class="card glow"><h4>A consequência prática</h4>
+        <p>Comparar modelos numa <b>energia fixa</b> devolve um falso nulo: em cada modelo você estará fora da banda de algum outro.</p>
+        <p class="small">Caímos nessa armadilha antes de medi-la.</p></div>
+      <p class="small muted">A banda depende da estrutura pré-supernova de cada estrela, que difere entre progenitores mesmo de mesma massa inicial.</p>
+    </div>
+  </div>
+  <aside class="notes">Esta e a lamina mais util para quem for repetir o trabalho: a energia onde o efeito aparece nao e universal. Se voce escolher uma energia e comparar modelos, voce mede zero e conclui errado.</aside>
 </section>
 
 <section class="slide content p4">
