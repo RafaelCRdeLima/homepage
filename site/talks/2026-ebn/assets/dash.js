@@ -890,16 +890,13 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const gM = bindRange('efe-M', v => v.toFixed(2).replace('.', DEC) + ' M☉', draw);
   const gr = bindRange('efe-r', v => v.toFixed(1).replace('.', DEC) + ' km', draw);
   const gv = bindRange('efe-v', v => v.toFixed(2).replace('.', DEC) + ' c', draw);
-  const elT = document.getElementById('efe-t');
-  const gt = bindRange('efe-t', v => v.toFixed(2).replace('.', DEC), draw);
   const out = document.getElementById('efe-out');
   document.getElementById('efe-pre').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.v === 'play') return playing ? stop() : play();
+    if (b.dataset.v === 'play') { paused = !paused; b.textContent = paused ? T('▶ continuar', '▶ resume') : T('❚❚ pausar', '❚❚ pause'); if (!paused) loop(); return; }
     e.currentTarget.querySelectorAll('button[data-v*=","]').forEach(x => x.classList.toggle('on', x === b));
     const [M, r, v] = b.dataset.v.split(',').map(Number);
-    [['efe-M', M], ['efe-r', r], ['efe-v', v], ['efe-t', 0]].forEach(([id, x]) => { const el = document.getElementById(id); el.value = x; el.dispatchEvent(new Event('input')); });
-    play();
+    [['efe-M', M], ['efe-r', r], ['efe-v', v]].forEach(([id, x]) => { const el = document.getElementById(id); el.value = x; el.dispatchEvent(new Event('input')); });
   });
   function model(M) {
     const c0 = Math.sqrt(1 - 2 * M / R), rho = 3 * M / (4 * Math.PI * R ** 3);
@@ -915,11 +912,51 @@ function pmnsAbs2(s12, s13, s23, delta) {
     return { Kr: e * (P2 + P1 * P1 - P1 * L1), Kt: g2 * (e * P1 / r + v * v * e * L1 / r) };
   }
   const f = (K, t) => K > 1e-12 ? Math.cos(Math.sqrt(K) * t) : K < -1e-12 ? Math.cosh(Math.sqrt(-K) * t) : 1;
-  // a bola: pontos numa esfera (Fibonacci) e dentro dela
-  const PTS = [];
-  for (let i = 0; i < 170; i++) { const y = 1 - 2 * (i + .5) / 170, rr = Math.sqrt(1 - y * y), ph = i * 2.39996; PTS.push([rr * Math.cos(ph), y, rr * Math.sin(ph)]); }
-  for (let i = 0; i < 90; i++) { const y = 1 - 2 * (i + .5) / 90, rr = Math.sqrt(1 - y * y), ph = i * 2.39996, s = 0.55; PTS.push([s * rr * Math.cos(ph), s * y, s * rr * Math.sin(ph)]); }
-  let state = null;
+  // Fluxo contínuo: cada partícula nasce na fronteira (esfera unitária), segue o desvio geodésico
+  // durante uma vida e some; as idades são espalhadas, então a tela mostra o regime todo de uma vez.
+  const N = 900, LIFE_S = 4.5;                                   // partículas; segundos de relógio por vida
+  const dir = () => { const u = 2 * Math.random() - 1, ph = 2 * Math.PI * Math.random(), s = Math.sqrt(1 - u * u); return [s * Math.cos(ph), u, s * Math.sin(ph)]; };
+  const PTS = Array.from({ length: N }, (_, i) => ({ d: dir(), a: (i + Math.random()) / N }));
+  const smooth = (e0, e1, x) => { const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
+  let state = null, paused = false, raf = 0, last = 0;
+  function renderBall() {
+    if (!state) return;
+    const { Kr, Kt, tmax, inside } = state;
+    const { ctx: c, w, h } = fitCanvas(cvB);
+    const cx = w / 2, cy = h / 2 + 10, S = Math.min(w, h) * 0.3, ca = Math.cos(.45), sa = Math.sin(.45), cb = Math.cos(.28), sb = Math.sin(.28);
+    const proj = ([x, y, z]) => { const X = x * ca + z * sa, Z = -x * sa + z * ca, Y = y * cb - Z * sb, D = y * sb + Z * cb; return [cx + X * S, cy - Y * S, D]; };
+    c.setLineDash([4, 6]); c.strokeStyle = 'rgba(255,255,255,.22)'; c.lineWidth = 1;
+    c.beginPath(); c.arc(cx, cy, S, 0, 7); c.stroke(); c.setLineDash([]);
+    const axis = (d, col, lab) => { const [x0, y0] = proj(d.map(k => -1.45 * k)), [x1, y1] = proj(d.map(k => 1.45 * k)); c.strokeStyle = col; c.globalAlpha = .4; c.lineWidth = 1.2; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke(); c.globalAlpha = 1; c.fillStyle = col; c.font = `15px ${FONT}`; c.textAlign = 'center'; c.fillText(lab, x1 + 4, y1 - 8); };
+    axis([1, 0, 0], COLR, T('radial →  (para fora)', 'radial →  (outward)')); axis([0, 1, 0], COLT, T('transversal', 'transverse'));
+    const P = PTS.map(q => {
+      const t = q.a * tmax, fr = f(Kr, t), ft = f(Kt, t);
+      const [X, Y, D] = proj([q.d[0] * fr, q.d[1] * ft, q.d[2] * ft]);
+      return [X, Y, D, smooth(0, 0.08, q.a) * (1 - smooth(0.62, 1, q.a))];
+    }).sort((a, b) => a[2] - b[2]);
+    P.forEach(([x, y, d, al]) => {
+      const k = (d + 1.2) / 2.4;
+      c.fillStyle = `rgba(${Math.round(160 + 95 * k)},${Math.round(170 + 75 * k)},255,${(al * (.3 + .65 * k)).toFixed(3)})`;
+      c.beginPath(); c.arc(x, y, 0.7 + 0.9 * k, 0, 7); c.fill();
+    });
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
+    c.fillText(T('cada partícula nasce na fronteira, solta em repouso', 'each particle is born on the boundary, released at rest'), 10, 8);
+    c.textAlign = 'right'; c.fillStyle = COL.text2; c.font = `16px ${FONT}`;
+    c.fillText(`${T('vida', 'lifetime')} ${(tmax * 1e6).toFixed(0)} μs`, w - 10, 8);
+    c.fillStyle = COL.text3; c.font = `14px ${FONT}`;
+    c.fillText(inside ? T('some ao chegar perto do centro', 'fades as it nears the centre') : T('some quando a bola estica 1,5×', 'fades once the ball stretches 1.5×'), w - 10, 30);
+    c.textBaseline = 'alphabetic';
+  }
+  function loop() {
+    cancelAnimationFrame(raf); last = 0;
+    const tick = now => {
+      if (paused || !cvB.closest('.slide').classList.contains('active')) { raf = 0; return; }
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      PTS.forEach(q => { q.a += dt / LIFE_S; if (q.a >= 1) { q.a -= 1; q.d = dir(); } });
+      renderBall(); raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
   function draw() {
     const M = gM() * MSUN, v = gv(), md = model(M);
     const r = gr(), rr = Math.abs(r - R) < 0.05 ? R + (r < R ? -0.05 : 0.05) : r;
@@ -927,32 +964,12 @@ function pmnsAbs2(s12, s13, s23, delta) {
     const rho = md.rhoAt(rr), p = md.p(rr), g2 = 1 / (1 - v * v);
     const E = g2 * (rho + v * v * p), Px = g2 * (v * v * rho + p), Py = p, Pz = p;
     const vGeo = -(Kr + 2 * Kt) * C2, vMat = -4 * Math.PI * (E + Px + Py + Pz) * C2;   // s⁻²
-    // escala de tempo: para no que vier primeiro — uma direção comprimir a 50% ou esticar 1,3×
+    // vida de cada partícula: até a direção que comprime chegar perto do centro (8%) ou a que estica chegar a 1,5×
     const kmax = Math.max(Math.abs(Kr), Math.abs(Kt), 1e-30) * C2;
     const kp = Math.max(Kr, Kt, 0) * C2, kn = -Math.min(Kr, Kt, 0) * C2;
-    const tmax = Math.min(kp > 1e-6 * kmax ? Math.acos(0.5) / Math.sqrt(kp) : Infinity, kn > 1e-6 * kmax ? Math.acosh(1.3) / Math.sqrt(kn) : Infinity);   // s
-    const t = gt() * tmax, fr = f(Kr * C2, t), ft = f(Kt * C2, t);
-    state = { t, tmax };
-    /* ---- a bola ---- */
-    {
-      const { ctx: c, w, h } = fitCanvas(cvB);
-      const cx = w / 2, cy = h / 2 + 10, S = Math.min(w, h) * 0.3, ca = Math.cos(.45), sa = Math.sin(.45), cb = Math.cos(.28), sb = Math.sin(.28);
-      const proj = ([x, y, z]) => { const X = x * ca + z * sa, Z = -x * sa + z * ca, Y = y * cb - Z * sb, D = y * sb + Z * cb; return [cx + X * S, cy - Y * S, D]; };
-      // o esqueleto inicial (tracejado) e os eixos
-      c.setLineDash([5, 6]); c.strokeStyle = 'rgba(255,255,255,.25)'; c.lineWidth = 1.2;
-      c.beginPath(); c.arc(cx, cy, S, 0, 7); c.stroke(); c.setLineDash([]);
-      const axis = (d, col, lab) => { const [x0, y0] = proj(d.map(k => -1.45 * k)), [x1, y1] = proj(d.map(k => 1.45 * k)); c.strokeStyle = col; c.globalAlpha = .45; c.lineWidth = 1.5; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke(); c.globalAlpha = 1; c.fillStyle = col; c.font = `15px ${FONT}`; c.textAlign = 'center'; c.fillText(lab, x1 + 4, y1 - 8); };
-      axis([1, 0, 0], COLR, T('radial →  (para fora)', 'radial →  (outward)')); axis([0, 1, 0], COLT, T('transversal', 'transverse'));
-      const P = PTS.map(([x, y, z]) => proj([x * fr, y * ft, z * ft])).sort((a, b) => a[2] - b[2]);
-      P.forEach(([x, y, d]) => { const k = (d + 1.2) / 2.4; c.fillStyle = `rgba(${Math.round(150 + 105 * k)},${Math.round(160 + 80 * k)},255,${.35 + .6 * k})`; c.beginPath(); c.arc(x, y, 2.2 + 2.2 * k, 0, 7); c.fill(); });
-      c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
-      c.fillText(T('bola de partículas-teste, solta em repouso', 'ball of test particles, released at rest'), 10, 8);
-      c.textAlign = 'right'; c.fillStyle = COL.text; c.font = `600 18px ${FONT}`;
-      c.fillText(`t = ${(t * 1e6).toFixed(0)} μs`, w - 10, 8);
-      c.font = `16px ${FONT}`; c.fillStyle = COL.text2;
-      c.fillText(`V/V₀ = ${(fr * ft * ft).toFixed(3).replace('.', DEC)}`, w - 10, 34);
-      c.textBaseline = 'alphabetic';
-    }
+    const tmax = Math.min(kp > 1e-6 * kmax ? Math.acos(0.08) / Math.sqrt(kp) : Infinity, kn > 1e-6 * kmax ? Math.acosh(1.5) / Math.sqrt(kn) : Infinity);   // s
+    state = { Kr: Kr * C2, Kt: Kt * C2, tmax, inside: rr < R };
+    renderBall();
     /* ---- a equação: o que alimenta o volume e o que muda a forma ---- */
     {
       const { ctx: c, w, h } = fitCanvas(cvQ);
@@ -999,21 +1016,9 @@ function pmnsAbs2(s12, s13, s23, delta) {
     const ratio = Math.abs(vMat) > 1e-6 * kmax ? (vGeo / vMat).toFixed(4).replace('.', DEC) : T('0 = 0', '0 = 0');
     out.innerHTML = `<span>2M/R <b>${(2 * M / R).toFixed(2).replace('.', DEC)}</b></span>
       <span>${T('métrica ÷ matéria', 'metric ÷ matter')} <b>${ratio}</b></span>
-      <span>${T('escala de tempo', 'time scale')} <b>${(tmax * 1e6).toFixed(0)} μs</b></span>
       <span>${rr < R ? T('dentro: a matéria fixa o volume', 'inside: matter sets the volume') : T('fora: vácuo — V̈/V = 0 quando solta (volume só varia em ordem t⁴); a forma muda', 'outside: vacuum — V̈/V = 0 at release (volume only changes at order t⁴); the shape changes')}</span>`;
   }
-  let playing = false, last = 0;
-  function frame(now) {
-    if (!playing) return;
-    if (!cvB.closest('.slide').classList.contains('active')) return stop();
-    const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
-    let x = +elT.value + dt / 3;
-    if (x >= 1) { x = 1; playing = false; }
-    elT.value = x; elT.dispatchEvent(new Event('input'));
-    if (playing) requestAnimationFrame(frame); else stop();
-  }
-  const playBtn = document.querySelector('#efe-pre [data-v="play"]');
-  function stop() { playing = false; last = 0; playBtn.textContent = T('▶ soltar', '▶ release'); }
-  function play() { if (+elT.value >= 1) { elT.value = 0; } playing = true; last = 0; playBtn.textContent = T('❚❚ pausar', '❚❚ pause'); requestAnimationFrame(frame); }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  addEventListener('slidechange', () => { if (!reduce && cvB.closest('.slide').classList.contains('active')) loop(); });
   onSlide(cvB, draw);
 })();
