@@ -325,6 +325,22 @@ function pmnsAbs2(s12, s13, s23, delta) {
       <span>${T('relógio perde', 'clock loses')} <b>${x >= 1 ? '—' : dur(dt)}</b> ${T('por dia', 'per day')}</span>
       <span>${T('desvio da luz rasante', 'grazing light deflection')} <b>${isFinite(df) ? (df / deg < 1 ? (df / deg * 3600).toPrecision(3).replace('.', DEC) + '″' : (df / deg).toFixed(0) + '°') : T('captura', 'capture')}</b></span>`;
   }
+  // automático: percorre os objetos, um a um, da Terra ao horizonte, e recomeça.
+  // Clicar num botão pausa o automático por 10 s.
+  const STEP_S = 4.5, slideC = cv.closest('.slide'), reduceC = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ctimer = 0, cpause = 0;
+  seg.addEventListener('click', () => { cpause = performance.now() + 10000; });
+  const pick = i => { sel = i; seg.querySelectorAll('button').forEach((x, k) => x.classList.toggle('on', k === i)); draw(); };
+  function cstart() {
+    clearInterval(ctimer); if (reduceC) return;
+    pick(0);
+    ctimer = setInterval(() => {
+      if (!slideC.classList.contains('active')) { clearInterval(ctimer); return; }
+      if (performance.now() < cpause) return;
+      pick((sel + 1) % OBJ.length);
+    }, STEP_S * 1000);
+  }
+  addEventListener('slidechange', () => { if (slideC.classList.contains('active')) cstart(); else clearInterval(ctimer); });
   onSlide(cv, draw);
 })();
 
