@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610012035">
+<link rel="stylesheet" href="assets/deck.css?v=202610012048">
 </head>
 <body>
 
@@ -909,6 +909,27 @@
 </section>
 
 <section class="slide content p4">
+  <header><p class="eyebrow">The data · Garching Core-Collapse Supernova Archive</p><h2>Six <em>blue</em> supergiants, exploded in 3D</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.05fr 1fr; gap: 44px">
+    <div class="stack" style="gap: 18px">
+      <p style="margin:0">Models by A. Wongwathanarat and H.-Th. Janka built for <b>SN 1987A</b>, whose progenitor, <b>Sanduleak −69 202</b>, was a <b>blue</b> supergiant — the atypical case that made it famous.</p>
+      <table class="tbl"><tr><th>model</th><th>progenitor</th><th>reference</th></tr><tr><td class="mono" style="color:var(--text)">M15-7b</td><td>binary merger (Menon &amp; Heger)</td><td>Utrobin+ 2021</td></tr><tr><td class="mono" style="color:var(--text)">W16-3</td><td>single star</td><td>Utrobin+ 2019</td></tr><tr><td class="mono" style="color:var(--text)">W18-3</td><td>single star</td><td>Utrobin+ 2019</td></tr><tr><td class="mono" style="color:var(--text)">W18r-2</td><td>single star</td><td>Utrobin+ 2019</td></tr><tr><td class="mono" style="color:var(--text)">W18x-2</td><td>single star</td><td>Utrobin+ 2019</td></tr><tr><td class="mono" style="color:var(--text)">W20-5</td><td>single star</td><td>Utrobin+ 2019</td></tr></table>
+      <p class="small muted" style="margin:0">Janka advised leaving out B15-1 and N20-4 (envelope attached by hand to a helium core). M15-7b reproduces Sanduleak’s colour and luminosity and the SN 1987A light curve.</p>
+    </div>
+    <div class="stack" style="gap: 16px">
+      <div class="card" style="padding: 20px 24px"><h4>What they simulate</h4>
+        <p class="small" style="margin:0"><b>Neutrino-driven</b> explosion in 3D (PROMETHEUS-HOTB): from bounce, through shock revival, to long after breakout at the surface — with element mixing and ⁵⁶Ni. Light curves (CRAB) are compared with SN 1987A.</p></div>
+      <div class="card" style="padding: 20px 24px"><h4>What we received</h4>
+        <p class="small" style="margin:0">3D snapshots on a Yin-Yang grid: 2 × 137 × 47 directions × 2400 radial zones = <b>12,878 rays</b>, with density, Yₑ, temperature, velocity and composition. Epochs from ~0.3 s to ~10 s after bounce — the window in which the shock crosses the H resonance.</p></div>
+      <div class="card glow" style="padding: 20px 24px"><h4>Blue, not red — and why it matters</h4>
+        <p class="small" style="margin:0">The next Galactic supernova will almost certainly be a <b>red</b> supergiant. The (t, E) band where the effect lives sits inside the helium core, which does not know the colour of the envelope; Janka expects the result to carry over. It is an argument, not yet a calculation.</p></div>
+      <p class="ref" style="margin:0">Data: Garching CCSN Archive, courtesy of H.-Th. Janka and A. Wongwathanarat (MPA). Wongwathanarat, Müller &amp; Janka, A&amp;A 577, A48 (2015); Utrobin et al., A&amp;A 624, A116 (2019); ApJ 914, 4 (2021).</p>
+    </div>
+  </div>
+  <aside class="notes">The data Janka gave us: six blue-supergiant models — blue, because they were built for SN 1987A, whose star was Sanduleak −69 202. Five are single stars; one, M15-7b, comes from a binary merger and best reproduces Sanduleak and the light curve. They are 3D neutrino-driven explosions, from bounce to after shock breakout at the surface. We use the 3D snapshots: 12,878 rays per epoch, between 0.3 and 10 seconds, which is when the shock crosses the H resonance. Honest limit: the next Galactic supernova should be a red supergiant. The argument for carrying the result over is that the band where the effect lives sits inside the helium core.</aside>
+</section>
+
+<section class="slide content p4">
   <header><p class="eyebrow">The problem</p><h2>A shock wave crosses <em>the resonance</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1fr 1fr 1fr; gap: 36px">
     <figure class="paper"><img src="assets/img/ghost/intro_niveis.svg" alt="Matter eigenvalues near the resonance" style="height: 380px"><figcaption>At the H resonance the two matter eigenstates almost touch.</figcaption></figure>
@@ -1280,9 +1301,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610012035"></script>
-<script src="assets/ghost-choque.js?v=202610012035"></script>
-<script src="assets/dash.js?v=202610012035"></script>
+<script src="assets/deck.js?v=202610012048"></script>
+<script src="assets/ghost-choque.js?v=202610012048"></script>
+<script src="assets/dash.js?v=202610012048"></script>
 <script>Deck.start();</script>
 </body>
 </html>
