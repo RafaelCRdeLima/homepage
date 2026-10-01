@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011807">
+<link rel="stylesheet" href="assets/deck.css?v=202610011816">
 </head>
 <body>
 
@@ -621,6 +621,18 @@
     </div>
   </div>
   <aside class="notes">This slide explains why supernovae have been a hard problem for 60 years. The prompt shock fails; the mechanism is delayed and depends on multidimensional hydrodynamics. For us, what matters is the output: a real, sharp shock front that starts running outward at around 0.3 s.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Animation · the delayed mechanism</p><h2>Neutrinos <em>relight the shock</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto auto">
+      <div class="plots" style="grid-template-columns: 1fr 1fr"><div class="cv"><canvas id="revive"></canvas></div><div class="cv"><canvas id="revive-plot"></canvas></div></div>
+      <div class="readout" id="revive-out"></div>
+      <p class="ref" style="margin:0">Schematic, not a simulation: radii and times typical of a ~15 M☉ star (those in the phase table), Bethe &amp; Wilson (1985) mechanism. Violet: neutrinos leaving the neutrinosphere; orange: those depositing energy in the gain region.</p>
+    </div>
+  </div>
+  <aside class="notes">The shock is born at bounce, reaches ~100 km in 5 ms, loses energy breaking iron and dumping neutrinos, and stalls at ~150 km. Below it, the proto-neutron star emits ~5×10⁵² erg/s in neutrinos. Between the gain radius and the shock, a few per cent of that luminosity is absorbed — the orange dots — and the region heats up, churns with convection and the shock sloshes (SASI). At ~0.3 s heating beats the ram pressure of infalling matter and the shock moves out again: the star explodes. On the right, the same in numbers: shock radius versus time.</aside>
 </section>
 
 <section class="slide content p3">
@@ -1238,9 +1250,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011807"></script>
-<script src="assets/ghost-choque.js?v=202610011807"></script>
-<script src="assets/dash.js?v=202610011807"></script>
+<script src="assets/deck.js?v=202610011816"></script>
+<script src="assets/ghost-choque.js?v=202610011816"></script>
+<script src="assets/dash.js?v=202610011816"></script>
 <script>Deck.start();</script>
 </body>
 </html>

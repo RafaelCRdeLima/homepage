@@ -1622,3 +1622,135 @@ riverPanel('river-bh', 6, 'bh');
   }
   addEventListener('slidechange', () => { if (!reduce && slide.classList.contains('active')) { t = 0; mode = null; pauseUntil = 0; loop(); } });
 })();
+
+/* Animação esquemática: o choque estagna e é revivido pelos neutrinos (mecanismo atrasado,
+   Bethe & Wilson 1985). Raios e tempos típicos de uma estrela de ~15 M☉ (os da tabela de fases):
+   choque nasce a ~10 km, chega a ~100 km em ~5 ms, para a ~150 km em ~20 ms; a região de ganho
+   (entre ~90 km e o choque) é aquecida por alguns % de L_ν; convecção e SASI crescem; em ~0,3 s
+   o choque volta a avançar. Não é simulação: o desenho é esquemático, os números são típicos. */
+(() => {
+  const cv = document.getElementById('revive'); if (!cv) return;
+  const cvP = document.getElementById('revive-plot'), out = document.getElementById('revive-out');
+  const slide = cv.closest('.slide'), reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TEND = 0.5, RMAXD = 1500;
+  // tempo de tela → tempo físico (câmera lenta no começo)
+  const SEG = [[0, 0, 3.0, 0.02], [3.0, 0.02, 11.0, 0.30], [11.0, 0.30, 15.0, 0.50]], HOLD = 2.2, CYC = 15.0 + HOLD;
+  const phys = s => { for (const [s0, t0, s1, t1] of SEG) if (s < s1) return t0 + (t1 - t0) * (s - s0) / (s1 - s0); return TEND; };
+  const smooth = (a, b, x) => { const u = Math.min(1, Math.max(0, (x - a) / (b - a))); return u * u * (3 - 2 * u); };
+  function Rs(t) {                                        // raio médio do choque (km)
+    if (t < 0.005) return 10 + 90 * Math.pow(t / 0.005, 0.7);
+    if (t < 0.02) return 100 + 50 * smooth(0.005, 0.02, t);
+    if (t < 0.30) return 150 - 15 * smooth(0.02, 0.12, t) + 25 * smooth(0.18, 0.30, t);   // recua um pouco, depois incha
+    const x = t - 0.30; return 160 + 9000 * x * x + 900 * x;                                  // revivido, acelerando
+  }
+  const Rnu = t => 60 - 28 * smooth(0, 0.4, t), Rpns = t => 22 - 8 * smooth(0, 0.5, t), Rgain = t => 70 + 25 * smooth(0, 0.25, t);
+  const heat = t => smooth(0.02, 0.30, t);                // aquecimento acumulado (0…1)
+  const sasi = t => 0.13 * smooth(0.06, 0.26, t) * (t < 0.3 ? 1 : Math.max(0, 1 - (t - 0.3) / 0.08));
+  const phase = t => t < 0.005 ? T('rebote e choque imediato', 'bounce and prompt shock') : t < 0.02 ? T('o choque perde energia', 'the shock loses energy')
+    : t < 0.12 ? T('estagnação: choque de acreção parado', 'stall: standing accretion shock') : t < 0.30 ? T('aquecimento por ν · convecção e SASI', 'ν heating · convection and SASI')
+    : T('revivescimento: a estrela explode', 'revival: the star explodes');
+  const shockR = (t, th) => { const a = sasi(t), lobe = t > 0.3 ? 0.12 * smooth(0.3, 0.45, t) * Math.cos(th - 0.6) : 0;
+    return Rs(t) * (1 + a * Math.sin(2 * Math.PI * t / 0.032) * Math.cos(th - 0.4 * t * 20) + 0.03 * a / 0.13 * Math.cos(4 * th + 9 * t) + lobe); };
+  // partículas
+  const NU = 140, INF = 220, BUB = 16;
+  const nus = Array.from({ length: NU }, () => ({ th: Math.random() * 6.283, x: Math.random(), f: 0 }));
+  const inf = Array.from({ length: INF }, () => ({ th: Math.random() * 6.283, r: 160 + Math.random() * 1300 }));
+  const bubs = Array.from({ length: BUB }, (_, i) => ({ th: i / BUB * 6.283 + Math.random() * .3, ph: Math.random() * 6.283, w: .7 + Math.random() * .6 }));
+  let s = 0, raf = 0, last = 0;
+  function render(dts) {
+    const t = phys(Math.min(s, 15)), { ctx: c, w, h } = fitCanvas(cv);
+    const cx = w / 2, cy = h / 2 + 10, RD = Math.min(w, h) / 2 - 24;
+    const D = r => RD * Math.log(Math.max(r, 9) / 9) / Math.log(RMAXD / 9);
+    const P = (r, th) => [cx + D(r) * Math.cos(th), cy - D(r) * Math.sin(th)];
+    // escala de raio (anéis em log)
+    c.strokeStyle = 'rgba(255,255,255,.06)'; c.lineWidth = 1; c.font = `13px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left';
+    [30, 100, 300, 1000].forEach(r => { c.beginPath(); c.arc(cx, cy, D(r), 0, 7); c.stroke(); c.fillText(r + ' km', cx + D(r) * .71 + 4, cy - D(r) * .71); });
+    // região entre neutrinosfera e choque, colorida pelo aquecimento
+    const H = heat(t), Rg = Rgain(t);
+    const shockPath = () => { c.beginPath(); for (let i = 0; i <= 180; i++) { const th = i / 180 * 6.283, [x, y] = P(shockR(t, th), th); i ? c.lineTo(x, y) : c.moveTo(x, y); } c.closePath(); };
+    if (t > 0.004) {
+      c.save(); shockPath(); c.clip();
+      const g = c.createRadialGradient(cx, cy, D(Rg), cx, cy, D(Rs(t) * 1.15));
+      g.addColorStop(0, `rgba(255,${Math.round(150 + 60 * H)},${Math.round(80 + 40 * H)},${(0.12 + 0.45 * H).toFixed(3)})`);
+      g.addColorStop(1, `rgba(255,120,90,${(0.06 + 0.25 * H).toFixed(3)})`);
+      c.fillStyle = 'rgba(86,140,255,.10)'; c.fillRect(0, 0, w, h);                       // abaixo do ganho: resfriamento
+      c.fillStyle = g; c.beginPath(); c.arc(cx, cy, D(Rs(t) * 1.4), 0, 2 * Math.PI); c.moveTo(cx + D(Rg), cy); c.arc(cx, cy, D(Rg), 2 * Math.PI, 0, true); c.fill('evenodd');
+      // bolhas convectivas na região de ganho
+      if (t > 0.04) bubs.forEach(b => {
+        const u = 0.5 + 0.5 * Math.sin(b.ph + t * 2 * Math.PI / 0.05 * b.w), r = Rg + (Rs(t) - Rg) * (0.15 + 0.7 * u);
+        const [x, y] = P(r, b.th + 0.15 * Math.sin(t * 40 + b.ph)), rad = (D(Rs(t)) - D(Rg)) * (0.16 + 0.1 * u);
+        const gg = c.createRadialGradient(x, y, 0, x, y, rad); gg.addColorStop(0, `rgba(255,230,180,${(0.25 + 0.5 * H) * smooth(0.04, 0.1, t)})`); gg.addColorStop(1, 'rgba(255,180,120,0)');
+        c.fillStyle = gg; c.beginPath(); c.arc(x, y, rad, 0, 7); c.fill();
+      });
+      c.restore();
+    }
+    // matéria caindo (fora do choque) e sendo varrida pelo choque revivido
+    inf.forEach(p => {
+      const rsh = shockR(t, p.th), inside = p.r < rsh;
+      if (dts) {
+        if (t > 0.3 && inside) p.r += dts * Rs(t) * 0.9;                               // carregada para fora
+        else p.r -= dts * (inside ? 25 : 200) * Math.sqrt(400 / Math.max(p.r, 40));     // queda (lenta depois do choque); dts = tempo de tela
+        if (p.r < Rg * 0.9 || p.r > RMAXD) { p.r = (t > 0.3 ? Math.max(Rs(t) * 1.3, 300) : 400) + Math.random() * (RMAXD - 400); p.th = Math.random() * 6.283; }
+      }
+      const [x, y] = P(p.r, p.th);
+      c.fillStyle = inside ? 'rgba(255,190,140,.55)' : 'rgba(180,190,215,.45)'; c.fillRect(x - 1, y - 1, 2, 2);
+    });
+    // neutrinos saindo da neutrinosfera; alguns depositam energia na região de ganho
+    nus.forEach(n => {
+      if (dts) { n.x += dts * 0.9; if (n.x > 1) { n.x = 0; n.th = Math.random() * 6.283; n.f = 0; } }
+      const r = Rnu(t) * Math.pow(RMAXD / Rnu(t), n.x), [x, y] = P(r, n.th);
+      if (t > 0.02 && !n.f && r > Rg && r < Rs(t) && Math.random() < 0.05 * dts * 60) n.f = 1;
+      c.fillStyle = n.f ? 'rgba(255,214,150,.95)' : 'rgba(158,140,255,.75)';
+      c.beginPath(); c.arc(x, y, n.f ? 2.4 : 1.4, 0, 7); c.fill();
+    });
+    // a frente de choque
+    if (t > 0.0005) { shockPath(); c.strokeStyle = '#fff'; c.lineWidth = 2.6; c.shadowColor = t > 0.3 ? COL.tau : '#fff'; c.shadowBlur = 14; c.stroke(); c.shadowBlur = 0; }
+    // neutrinosfera e proto-estrela de nêutrons
+    c.setLineDash([4, 5]); c.strokeStyle = 'rgba(158,140,255,.8)'; c.lineWidth = 1.5; c.beginPath(); c.arc(cx, cy, D(Rnu(t)), 0, 7); c.stroke(); c.setLineDash([]);
+    const gp = c.createRadialGradient(cx, cy, 0, cx, cy, Math.max(D(Rpns(t)), 6)); gp.addColorStop(0, '#fff'); gp.addColorStop(.5, 'rgba(200,190,255,.9)'); gp.addColorStop(1, 'rgba(158,140,255,.15)');
+    c.fillStyle = gp; c.beginPath(); c.arc(cx, cy, Math.max(D(Rpns(t)), 6), 0, 2 * Math.PI); c.fill();
+    // rótulos
+    c.font = `15px ${FONT}`; c.textAlign = 'left';
+    const lab = (txt, r, th, col) => { const [x, y] = P(r, th); c.fillStyle = col; c.fillText(txt, x + 6, y); };
+    lab(T('neutrinosfera', 'neutrinosphere'), Rnu(t), -2.4, COL.e);
+    if (t > 0.03) lab(T('região de ganho', 'gain region'), (Rg + Rs(t)) / 2, 2.6, COL.tau);
+    if (t > 0.002) lab(T('choque', 'shock'), shockR(t, -0.5) * 1.05, -0.5, '#fff');
+    lab(T('matéria caindo', 'infalling matter'), 900, 2.45, COL.text2);
+    c.font = `600 17px ${FONT}`; c.fillStyle = COL.text; c.textAlign = 'left'; c.fillText(phase(t), 12, 22);
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.fillText(T('esquemático · escala radial logarítmica', 'schematic · logarithmic radial scale'), 12, 44);
+    c.textAlign = 'right'; c.fillStyle = COL.text; c.font = `600 22px ${FONT}`; c.fillText(`t = ${(t * 1000).toFixed(0)} ms`, w - 12, 26);
+    /* ---- gráfico R_choque(t) ---- */
+    const PL = new Plot(cvP, { x: [0, TEND], y: [8, 1500], ylog: true, m: [24, 18, 66, 80], fs: 15, xticks: [0, 0.1, 0.2, 0.3, 0.4, 0.5], yticks: [10, 30, 100, 300, 1000], yfmt: v => String(v) });
+    PL.begin(); const g = PL.ctx;
+    [[0, 0.02, 'rgba(255,255,255,.04)'], [0.02, 0.3, 'rgba(255,184,107,.08)'], [0.3, TEND, 'rgba(86,225,208,.08)']].forEach(([a, b, col]) => { g.fillStyle = col; g.fillRect(PL.X(a), PL.T, PL.X(b) - PL.X(a), PL.B - PL.T); });
+    PL.frame(T('tempo após o rebote (s)', 'time after bounce (s)'), T('raio (km)', 'radius (km)'));
+    const ts = linspace(0, TEND, 400);
+    PL.clip();
+    PL.line(ts, ts.map(Rnu), { color: COL.e, width: 1.8, dash: [5, 5] });
+    PL.line(ts, ts.map(Rgain), { color: COL.tau, width: 1.8, dash: [3, 5] });
+    PL.line(ts.filter(x => x <= t), ts.filter(x => x <= t).map(Rs), { color: '#fff', width: 3.2, glow: 12 });
+    PL.line(ts.filter(x => x >= t), ts.filter(x => x >= t).map(Rs), { color: 'rgba(255,255,255,.25)', width: 1.5 });
+    PL.unclip();
+    PL.dot(t, Rs(t), { color: '#fff', r: 7, glow: 18 });
+    PL.text(0.01, 1150, T('choque imediato', 'prompt shock'), { color: COL.text3, size: 14 });
+    PL.text(0.16, 1150, T('estagnado', 'stalled'), { color: COL.tau, size: 15, align: 'center' });
+    PL.text(0.40, 1150, T('revivido', 'revived'), { color: COL.mu, size: 15, align: 'center' });
+    PL.text(0.42, Rnu(0.42) * 0.8, T('neutrinosfera', 'neutrinosphere'), { color: COL.e, size: 14, align: 'center' });
+    PL.text(0.42, Rgain(0.42) * 1.25, T('raio de ganho', 'gain radius'), { color: COL.tau, size: 14, align: 'center' });
+    out.innerHTML = `<span>R<sub>${T('choque', 'shock')}</sub> <b>${Rs(t).toFixed(0)} km</b></span>
+      <span>L<sub>ν</sub> <b>~5×10⁵² erg/s</b></span>
+      <span>${T('depositado na região de ganho', 'deposited in the gain region')} <b>~${t > 0.02 ? (2 + 8 * H).toFixed(0) : 0}%</b></span>`;
+  }
+  function loop() {
+    cancelAnimationFrame(raf); last = 0;
+    const tick = now => {
+      if (!slide.classList.contains('active')) { raf = 0; return; }
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      s += dt; if (s > CYC) s = 0;
+      render(dt); raf = requestAnimationFrame(tick);                          // partículas andam em tempo de tela (ilustrativo)
+    };
+    raf = requestAnimationFrame(tick);
+  }
+  addEventListener('slidechange', () => { if (slide.classList.contains('active')) { s = 0; if (reduce) { s = 12; render(0); } else loop(); } });
+  onSlide(cv, () => render(0));
+})();

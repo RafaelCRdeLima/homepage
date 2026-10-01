@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011807">
+<link rel="stylesheet" href="assets/deck.css?v=202610011816">
 </head>
 <body>
 
@@ -622,6 +622,18 @@
     </div>
   </div>
   <aside class="notes">Este é o slide que explica por que supernova é um problema difícil há 60 anos. O choque imediato falha; o mecanismo é atrasado e depende de hidrodinâmica multidimensional. Para nós, o que importa é o que sai daqui: uma frente de choque real, abrupta, que começa a correr para fora por volta de 0,3 s.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Animação · o mecanismo atrasado</p><h2>Os neutrinos <em>reacendem o choque</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto auto">
+      <div class="plots" style="grid-template-columns: 1fr 1fr"><div class="cv"><canvas id="revive"></canvas></div><div class="cv"><canvas id="revive-plot"></canvas></div></div>
+      <div class="readout" id="revive-out"></div>
+      <p class="ref" style="margin:0">Esquema, não simulação: raios e tempos típicos de uma estrela de ~15 M☉ (os da tabela de fases), mecanismo de Bethe &amp; Wilson (1985). Violeta: neutrinos saindo da neutrinosfera; laranja: os que depositam energia na região de ganho.</p>
+    </div>
+  </div>
+  <aside class="notes">O choque nasce no rebote, corre até ~100 km em 5 ms, perde energia quebrando ferro e despejando neutrinos, e para a ~150 km. Por baixo dele, a proto-estrela de nêutrons emite ~5×10⁵² erg/s em neutrinos. Entre o raio de ganho e o choque, alguns por cento dessa luminosidade são absorvidos — os pontos laranja — e a região esquenta, borbulha em convecção e o choque balança (SASI). Em ~0,3 s o aquecimento vence a pressão da matéria caindo, e o choque volta a avançar: a estrela explode. À direita, o mesmo, em números: raio do choque contra o tempo.</aside>
 </section>
 
 <section class="slide content p3">
@@ -1239,9 +1251,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011807"></script>
-<script src="assets/ghost-choque.js?v=202610011807"></script>
-<script src="assets/dash.js?v=202610011807"></script>
+<script src="assets/deck.js?v=202610011816"></script>
+<script src="assets/ghost-choque.js?v=202610011816"></script>
+<script src="assets/dash.js?v=202610011816"></script>
 <script>Deck.start();</script>
 </body>
 </html>
