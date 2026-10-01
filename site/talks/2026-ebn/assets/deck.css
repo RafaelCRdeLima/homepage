@@ -383,3 +383,9 @@ figure.paper img { background: #fff; padding: 14px; object-fit: contain; }
 .river-side { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 14px; min-height: 0; }
 .river-side p { font-size: 21px; line-height: 1.45; margin: 0; }
 #river { cursor: grab; touch-action: none; }
+
+/* matriz 2×2 escrita em HTML */
+.mx { display: inline-flex; align-items: center; vertical-align: middle; gap: 4px; }
+.mx-p { font: 300 3.1em/1 var(--display); transform: scaleY(1.35); color: var(--text-2); }
+.mx-g { display: grid; grid-template-columns: auto auto; gap: 6px 22px; text-align: center; font-size: .82em; }
+.boxed { display: inline-block; border: 2px solid var(--warn); border-radius: 10px; padding: 4px 18px; }

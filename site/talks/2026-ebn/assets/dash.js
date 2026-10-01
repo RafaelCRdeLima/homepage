@@ -1237,3 +1237,110 @@ riverPanel('river-bh', 6, 'bh');
   addEventListener('slidechange', () => { if (cvT.closest('.slide').classList.contains('active')) { if (reduce) { t = 1.3; render(); } else loop(); } });
   onSlide(cvT, render);
 })();
+
+/* Animação: a ressonância MSW como cruzamento evitado de dois níveis.
+   H = ½ [[V − Δcos2θ, Δ sin2θ], [Δ sin2θ, −(V − Δcos2θ)]],  Δ = Δm²/2E,  V = √2 G_F n_e.
+   Meio fixo (centro do Sol, ρYₑ = 100 g/cm³ → V = 7,63×10⁻¹² eV); Δm²₂₁ e θ₁₂ (NuFIT 6.0).
+   A energia varre até a diagonal zerar (E_res = Δm² cos2θ / 2V = 1,89 MeV), para ali, e segue.
+   θ_m = ½ atan2(Δ sin2θ, Δ cos2θ − V): fração de νₑ no autoestado pesado = sin²θ_m. */
+(() => {
+  const cv = document.getElementById('msw-anim'); if (!cv) return;
+  const out = document.getElementById('msw-out');
+  const V = 7.63e-12, DM = OSC.dm21, TH = Math.asin(Math.sqrt(OSC.s12)), C2 = Math.cos(2 * TH), S2 = Math.sin(2 * TH);
+  const ERES = DM * C2 / (2 * V) / 1e6, EMIN = 0.2, EMAX = 20;                         // MeV
+  const PH = [4.5, 3.2, 3.5, 1.2];                                                    // sobe até a ressonância · para · segue · volta
+  const CYC = PH.reduce((a, b) => a + b, 0);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let t = 0, raf = 0, last = 0;
+  const ease = x => 1 - (1 - x) ** 3;
+  function energy(tc) {
+    const lg = Math.log10, L0 = lg(EMIN), LR = lg(ERES), L1 = lg(EMAX);
+    if (tc < PH[0]) return { E: 10 ** (L0 + (LR - L0) * ease(tc / PH[0])), hold: 0 };
+    tc -= PH[0]; if (tc < PH[1]) return { E: ERES, hold: tc / PH[1] };
+    tc -= PH[1]; if (tc < PH[2]) { const x = tc / PH[2]; return { E: 10 ** (LR + (L1 - LR) * x * x), hold: 0 }; }
+    tc -= PH[2]; return { E: 10 ** (L1 + (L0 - L1) * (tc / PH[3])), hold: 0, back: true };
+  }
+  const phys = E => {
+    const D = DM / (2 * E * 1e6), diag = 0.5 * (V - D * C2), off = 0.5 * D * S2;     // eV
+    const thm = 0.5 * Math.atan2(D * S2, D * C2 - V);
+    return { D, diag, off, thm, s22: off * off / (off * off + diag * diag) };
+  };
+  function render() {
+    const { ctx: c, w, h } = fitCanvas(cv);
+    const { E, hold, back } = energy(((t % CYC) + CYC) % CYC), p = phys(E), U = 1e-12;
+    const fmt = x => { const y = x / U; return (Math.abs(y) < 0.005 ? '0,00' : (y > 0 ? '+' : '−') + Math.abs(y).toFixed(2)).replace('.', DEC).replace(',', DEC); };
+    /* ---- a matriz ao vivo ---- */
+    const mx = w * 0.33, my = 112, cw = 150, ch = 62, big = 3.2e-12;
+    c.font = `italic 44px ${SERIF}`; c.fillStyle = COL.text; c.textAlign = 'right'; c.textBaseline = 'middle';
+    c.fillText('H =', mx - cw - 40, my);
+    c.font = `30px ${SERIF}`; c.fillText('½', mx - cw - 6, my);
+    c.strokeStyle = COL.text2; c.lineWidth = 2.5;
+    [[-1, mx - cw + 8], [1, mx + cw - 8]].forEach(([sg, x]) => { c.beginPath(); c.ellipse(x, my, 18, ch + 8, 0, sg < 0 ? Math.PI * .62 : -Math.PI * .38, sg < 0 ? Math.PI * 1.38 : Math.PI * .38); c.stroke(); });
+    const cells = [[p.diag * 2, true], [p.off * 2, false], [p.off * 2, false], [-p.diag * 2, true]];
+    cells.forEach(([val, isDiag], k) => {
+      const x = mx + (k % 2 ? 0.5 : -0.5) * cw, y = my + (k < 2 ? -0.5 : 0.5) * ch, a = Math.min(1, Math.abs(val) / big);
+      c.fillStyle = isDiag ? `rgba(255,122,138,${(0.08 + 0.55 * a).toFixed(3)})` : `rgba(86,225,208,${(0.08 + 0.55 * a).toFixed(3)})`;
+      c.beginPath(); c.roundRect(x - cw / 2 + 8, y - ch / 2 + 5, cw - 16, ch - 10, 8); c.fill();
+      c.fillStyle = COL.text; c.font = `500 24px ${FONT}`; c.textAlign = 'center'; c.fillText(fmt(val), x, y);
+    });
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left';
+    const lx = mx + cw + 30;
+    [T('valores em 10⁻¹² eV', 'values in 10⁻¹² eV'), T('rosa: V − Δcos2θ · turquesa: Δ sin2θ', 'pink: V − Δcos2θ · turquoise: Δ sin2θ'),
+     T('meio: centro do Sol, ρYₑ = 100 g/cm³', 'medium: solar core, ρYₑ = 100 g/cm³'),
+     `V = ${(V / U).toFixed(2).replace('.', DEC)} · Δ = ${(p.D / U).toFixed(2).replace('.', DEC)}`].forEach((l, i) => c.fillText(l, lx, my - 39 + 26 * i));
+    /* ---- sin²2θ_m contra a energia ---- */
+    const P = new Plot(cv, { x: [EMIN, EMAX], y: [0, 1.08], xlog: true, m: [0, 0, 0, 0], fs: 16, yticks: [0, 0.5, 1], xticks: [0.2, 0.5, 1, 2, 5, 10, 20], xfmt: v => String(v).replace('.', DEC) });
+    P.ctx = c; P.w = w; P.h = h; P.L = 90; P.R = w * 0.66; P.T = 222; P.B = h - 58;
+    P.frame(T('energia do neutrino E (MeV)', 'neutrino energy E (MeV)'), null);
+    c.save(); c.translate(26, (P.T + P.B) / 2); c.rotate(-Math.PI / 2); c.fillStyle = COL.text2; c.font = `16px ${FONT}`; c.textAlign = 'center'; c.fillText('sin²2θₘ', 0, 0); c.restore();
+    const Es = logspace(EMIN, EMAX, 300);
+    P.clip();
+    P.hline(S2 * S2, { color: COL.text3, label: T('vácuo: sin²2θ', 'vacuum: sin²2θ'), align: 'right' });
+    P.area(Es, Es.map(e => phys(e).s22), 0, { color: COL.e, alpha: .12 }).line(Es, Es.map(e => phys(e).s22), { color: COL.e, width: 3, glow: 10 });
+    P.vline(ERES, { color: COL.warn, dash: [4, 5], label: `E_res = ${ERES.toFixed(2).replace('.', DEC)} MeV`, y: P.T + 4 });
+    P.unclip();
+    P.dot(E, p.s22, { color: '#fff', r: 8, glow: 20 });
+    /* ---- composição do autoestado pesado ---- */
+    const bx = w * 0.72, bw = w * 0.24, byT = P.T + 6, byB = P.B, fe = Math.sin(p.thm) ** 2;
+    c.fillStyle = COL.text2; c.font = `16px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+    c.fillText(T('autoestado de matéria ν₂ₘ', 'matter eigenstate ν₂ₘ'), bx + bw / 2, byT - 8);
+    const hb = byB - byT - 30, he = fe * hb;
+    c.fillStyle = COL.e; c.fillRect(bx + bw * .2, byT + 10 + (hb - he), bw * .6, he);
+    c.fillStyle = COL.mu; c.fillRect(bx + bw * .2, byT + 10, bw * .6, hb - he);
+    c.fillStyle = '#0a0b12'; c.font = `600 18px ${FONT}`;
+    if (he > 26) c.fillText(`νₑ ${Math.round(100 * fe)}%`, bx + bw / 2, byT + 10 + hb - he / 2 + 6);
+    if (hb - he > 26) c.fillText(`ν_μ ${Math.round(100 * (1 - fe))}%`, bx + bw / 2, byT + 10 + (hb - he) / 2 + 6);
+    c.strokeStyle = 'rgba(255,255,255,.5)'; c.setLineDash([5, 5]); c.beginPath(); c.moveTo(bx + bw * .12, byT + 10 + hb / 2); c.lineTo(bx + bw * .88, byT + 10 + hb / 2); c.stroke(); c.setLineDash([]);
+    c.fillStyle = COL.text3; c.font = `14px ${FONT}`; c.fillText('50/50', bx + bw * .95, byT + 10 + hb / 2 + 4);
+    /* ---- o anúncio ---- */
+    if (hold > 0) {
+      const a = Math.min(1, hold * 6, (1 - hold) * 6);
+      c.save(); c.globalAlpha = a;
+      const msg = T('50/50 · Mistura máxima → Ressonância', '50/50 · Maximal mixing → Resonance');
+      let fs = 50; c.font = `italic ${fs}px ${SERIF}`;
+      while (c.measureText(msg).width > w * 0.86 && fs > 24) { fs -= 2; c.font = `italic ${fs}px ${SERIF}`; }
+      const bw = c.measureText(msg).width + 70, bx0 = (w - bw) / 2;
+      c.fillStyle = 'rgba(7,8,14,.86)'; c.beginPath(); c.roundRect(bx0, h * 0.40, bw, 118, 18); c.fill();
+      c.strokeStyle = COL.warn; c.lineWidth = 2; c.stroke();
+      c.fillStyle = COL.text; c.textAlign = 'center';
+      c.fillText(msg, w / 2, h * 0.40 + 62);
+      c.fillStyle = COL.warn; c.font = `18px ${FONT}`;
+      c.fillText(T('a diagonal zerou: V = Δ cos 2θ', 'the diagonal vanished: V = Δ cos 2θ'), w / 2, h * 0.40 + 96);
+      c.restore();
+    }
+    out.innerHTML = `<span>E <b>${E.toFixed(2).replace('.', DEC)} MeV</b>${back ? ' ↺' : ''}</span>
+      <span>V − Δcos2θ <b>${fmt(2 * p.diag)}</b></span><span>Δ sin2θ <b>${fmt(2 * p.off)}</b></span>
+      <span>θₘ <b>${(p.thm * 180 / Math.PI).toFixed(1).replace('.', DEC)}°</b></span><span>sin²2θₘ <b>${p.s22.toFixed(3).replace('.', DEC)}</b></span>`;
+  }
+  function loop() {
+    cancelAnimationFrame(raf); last = 0;
+    const tick = now => {
+      if (!cv.closest('.slide').classList.contains('active')) { raf = 0; return; }
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      t += dt; render(); raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+  addEventListener('slidechange', () => { if (cv.closest('.slide').classList.contains('active')) { if (reduce) { t = PH[0] + PH[1] / 2; render(); } else { t = 0; loop(); } } });
+  onSlide(cv, render);
+})();

@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202609302203">
+<link rel="stylesheet" href="assets/deck.css?v=202610011547">
 </head>
 <body>
 
@@ -86,46 +86,25 @@
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">Premissa 1 · duas bases</p><h2>Sabor e massa: <em>o mesmo estado, dois eixos</em></h2></header>
-  <div class="body">
-    <div class="dash">
-      <div class="dash-head"><span class="tag part">interativo</span>
-        <div style="display:flex; gap: 14px">
-          <div class="seg" id="basis-from"><button data-v="e" class="on">produz νₑ</button><button data-v="mu">produz ν<sub>μ</sub></button></div>
-          <div class="seg" id="basis-in"><button data-v="mass" class="on">medir massa</button><button data-v="flav">medir sabor</button></div>
-          <div class="seg" id="basis-act"><button data-v="play">▶ propagar</button><button data-v="one" class="plain">medir 1×</button><button data-v="many" class="plain">medir 1000×</button><button data-v="reset" class="plain">zerar</button></div>
-        </div></div>
-      <div class="plots" style="grid-template-columns: 1fr 1.25fr 1fr">
-        <div class="cv"><canvas id="basis-plane"></canvas></div>
-        <div class="cv"><canvas id="basis-phase"></canvas></div>
-        <div class="cv"><canvas id="basis-meas"></canvas></div>
+  <header><p class="eyebrow">Premissa · Wolfenstein 1978 · Mikheyev &amp; Smirnov 1985</p><h2>MSW: um problema de <em>dois níveis</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.18fr; gap: 40px">
+    <div class="stack" style="gap: 16px">
+      <div class="eq sm" style="font-size: 30px; padding: 16px 20px"><i>H</i> = ½ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span><i>V</i> − Δ cos 2θ</span><span>Δ sin 2θ</span><span>Δ sin 2θ</span><span>−(<i>V</i> − Δ cos 2θ)</span></span><span class="mx-p">)</span></span><span class="note">hamiltoniano efetivo, dois sabores</span></div>
+      <div class="cols c2" style="gap: 14px">
+        <div class="eq sm" style="font-size: 30px; padding: 14px 10px">Δ = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span></div>
+        <div class="eq sm" style="font-size: 30px; padding: 14px 10px"><i>V</i>(<i>r</i>) = √2 <i>G</i><sub>F</sub> <i>n</i><sub>e</sub>(<i>r</i>)</div>
       </div>
-      <div class="controls">
-        <div class="ctl"><label for="basis-th">ângulo de mistura θ <output for="basis-th"></output></label><input type="range" id="basis-th" min="0" max="90" step="1" value="33"></div>
-        <div class="ctl"><label for="basis-L">distância L <output for="basis-L"></output></label><input type="range" id="basis-L" min="0" max="2" step="0.005" value="0"></div>
-      </div>
-      <div class="readout" id="basis-out"></div>
+      <p class="small" style="margin: 0">A ressonância acontece quando o termo diagonal se anula:</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="font-size: 36px; display: inline-block"><i>V</i> = Δ cos 2θ</span></div>
+      <div class="eq sm" style="font-size: 30px; padding: 14px 20px"><i>H</i><sub>res</sub> ~ ½ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>0</span><span>Δ sin 2θ</span><span>Δ sin 2θ</span><span>0</span></span><span class="mx-p">)</span></span><span class="note">só fora da diagonal: autoestados 50/50 — mistura máxima</span></div>
+      <p class="small" style="margin: 0">Um <b>cruzamento evitado</b> com evolução adiabática — e a ponte para supernovas, onde o perfil <i>n</i><sub>e</sub>(<i>r</i>) varre a ressonância.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="msw-anim"></canvas></div>
+      <div class="readout" id="msw-out"></div>
     </div>
   </div>
-  <aside class="notes">Esquerda: o mesmo plano visto em duas bases. Os eixos de sabor (νₑ, ν_μ) são os da interação; os de massa (ν₁, ν₂), os da propagação, girados por θ. O neutrino nasce como νₑ, a seta branca; suas projeções nos eixos de massa são as amplitudes cos θ e sen θ. Meio: cada componente de massa é um relógio que gira no seu ritmo, ∝ m². A amplitude de voltar a ser νₑ é a soma das duas setas: quando elas se opõem, o νₑ some. Direita: medir massa dá cos²θ e sen²θ em qualquer L — isso não oscila. Medir sabor dá a oscilação. Roteiro: com L = 0, medir massa 1000× (converge a cos²θ); propagar; trocar para medir sabor e medir de novo em L = ½ L_osc.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">Premissa 2 · Wolfenstein 1978 · Mikheyev &amp; Smirnov 1985</p><h2>A ressonância MSW, e <em>o peso do ordenamento</em></h2></header>
-  <div class="body cols" style="grid-template-columns: 1fr 1.05fr; gap: 40px">
-    <div class="stack" style="gap: 22px">
-      <p>Elétrons do meio espalham νₑ para frente por corrente carregada, e os outros sabores não sentem esse termo:</p>
-      <div class="eq sm"><i>V</i><sub>CC</sub> = √2 <i>G</i><sub>F</sub> <i>n</i><sub>e</sub><span class="note">potencial efetivo para νₑ</span></div>
-      <p>Quando <i>2√2 G<sub>F</sub> n<sub>e</sub> E</i> ≈ Δm² cos 2θ, a mistura fica <b>máxima</b>: é a <b>ressonância MSW</b>, e é dela que trata todo o resto.</p>
-      <div class="card glow" style="--part: var(--nu-mu)">
-        <h4>Guarde para a Parte I</h4>
-        <p class="small">O potencial age no referencial <b>local</b>, com a energia <b>local</b>. Perto de um objeto compacto, “local” e “no infinito” não são a mesma coisa.</p>
-      </div>
-    </div>
-    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 660px"><div class="cv"><canvas id="mass-order"></canvas></div>
-      <div class="legend-line"><span style="--c: var(--nu-e)">fração νₑ</span><span style="--c: var(--nu-mu)">fração ν_μ</span><span style="--c: var(--nu-tau)">fração ν_τ</span><span class="muted" style="--c: transparent">|U<sub>αk</sub>|², NuFIT 6.0 com θ₂₃ = 45°, δ = 3π/2</span></div></div>
-  </div>
-  <aside class="notes">Não vou detalhar MSW, que voces ja viram aqui. Dois pontos: o potencial e uma grandeza local, e o ordenamento de massas nao e detalhe. Na Parte III o mesmo calculo da sobrevivencia de 2,2 por cento no ordenamento normal e 30 por cento no invertido, um fator 13, e o argonio do DUNE conta justamente neutrinos do eletron.</aside>
+  <aside class="notes">O efeito MSW visto como problema de dois níveis. A matéria entra só na diagonal, como V = √2 G_F n_e; a mistura de vácuo fica fora da diagonal, Δ sin 2θ, com Δ = Δm²/2E. Na animação o meio está fixo — o centro do Sol — e a energia do neutrino sobe. A diagonal, em rosa, encolhe; quando ela zera, V = Δ cos 2θ, o hamiltoniano fica só fora da diagonal e os autoestados viram metade νe, metade νμ: mistura máxima, ressonância, em 1,9 MeV. Acima disso a matéria domina e o autoestado pesado vira νe puro. Não é “a matéria aumenta a oscilação”: é um cruzamento evitado, e o neutrino que o atravessa devagar troca de sabor adiabaticamente. Numa supernova, é o perfil n_e(r) que varre essa ressonância — e é aí que entra a frente de choque da Parte IV.</aside>
 </section>
 
 <section class="slide partcover p2">
@@ -1101,9 +1080,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202609302203"></script>
-<script src="assets/ghost-choque.js?v=202609302203"></script>
-<script src="assets/dash.js?v=202609302203"></script>
+<script src="assets/deck.js?v=202610011547"></script>
+<script src="assets/ghost-choque.js?v=202610011547"></script>
+<script src="assets/dash.js?v=202610011547"></script>
 <script>Deck.start();</script>
 </body>
 </html>

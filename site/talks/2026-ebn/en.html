@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202609302203">
+<link rel="stylesheet" href="assets/deck.css?v=202610011547">
 </head>
 <body>
 
@@ -85,46 +85,25 @@
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">Premise 1 · two bases</p><h2>Flavour and mass: <em>one state, two sets of axes</em></h2></header>
-  <div class="body">
-    <div class="dash">
-      <div class="dash-head"><span class="tag part">interactive</span>
-        <div style="display:flex; gap: 14px">
-          <div class="seg" id="basis-from"><button data-v="e" class="on">produce νₑ</button><button data-v="mu">produce ν<sub>μ</sub></button></div>
-          <div class="seg" id="basis-in"><button data-v="mass" class="on">measure mass</button><button data-v="flav">measure flavour</button></div>
-          <div class="seg" id="basis-act"><button data-v="play">▶ propagate</button><button data-v="one" class="plain">measure 1×</button><button data-v="many" class="plain">measure 1000×</button><button data-v="reset" class="plain">reset</button></div>
-        </div></div>
-      <div class="plots" style="grid-template-columns: 1fr 1.25fr 1fr">
-        <div class="cv"><canvas id="basis-plane"></canvas></div>
-        <div class="cv"><canvas id="basis-phase"></canvas></div>
-        <div class="cv"><canvas id="basis-meas"></canvas></div>
+  <header><p class="eyebrow">Premise · Wolfenstein 1978 · Mikheyev &amp; Smirnov 1985</p><h2>MSW: a <em>two-level</em> problem</h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.18fr; gap: 40px">
+    <div class="stack" style="gap: 16px">
+      <div class="eq sm" style="font-size: 30px; padding: 16px 20px"><i>H</i> = ½ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span><i>V</i> − Δ cos 2θ</span><span>Δ sin 2θ</span><span>Δ sin 2θ</span><span>−(<i>V</i> − Δ cos 2θ)</span></span><span class="mx-p">)</span></span><span class="note">effective Hamiltonian, two flavours</span></div>
+      <div class="cols c2" style="gap: 14px">
+        <div class="eq sm" style="font-size: 30px; padding: 14px 10px">Δ = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span></div>
+        <div class="eq sm" style="font-size: 30px; padding: 14px 10px"><i>V</i>(<i>r</i>) = √2 <i>G</i><sub>F</sub> <i>n</i><sub>e</sub>(<i>r</i>)</div>
       </div>
-      <div class="controls">
-        <div class="ctl"><label for="basis-th">mixing angle θ <output for="basis-th"></output></label><input type="range" id="basis-th" min="0" max="90" step="1" value="33"></div>
-        <div class="ctl"><label for="basis-L">distance L <output for="basis-L"></output></label><input type="range" id="basis-L" min="0" max="2" step="0.005" value="0"></div>
-      </div>
-      <div class="readout" id="basis-out"></div>
+      <p class="small" style="margin: 0">The resonance happens when the diagonal term vanishes:</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="font-size: 36px; display: inline-block"><i>V</i> = Δ cos 2θ</span></div>
+      <div class="eq sm" style="font-size: 30px; padding: 14px 20px"><i>H</i><sub>res</sub> ~ ½ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>0</span><span>Δ sin 2θ</span><span>Δ sin 2θ</span><span>0</span></span><span class="mx-p">)</span></span><span class="note">off-diagonal only: 50/50 eigenstates — maximal mixing</span></div>
+      <p class="small" style="margin: 0">An <b>avoided crossing</b> with adiabatic evolution — and the bridge to supernovae, where the profile <i>n</i><sub>e</sub>(<i>r</i>) sweeps through the resonance.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="msw-anim"></canvas></div>
+      <div class="readout" id="msw-out"></div>
     </div>
   </div>
-  <aside class="notes">Left: one plane seen in two bases. The flavour axes (νₑ, ν_μ) are the ones of the interaction; the mass axes (ν₁, ν₂) are the ones of propagation, rotated by θ. The neutrino is born as νₑ, the white arrow; its projections on the mass axes are the amplitudes cos θ and sin θ. Middle: each mass component is a clock turning at its own pace, ∝ m². The amplitude to be νₑ again is the sum of the two arrows: when they oppose, the νₑ vanishes. Right: measuring mass gives cos²θ and sin²θ at any L — it does not oscillate. Measuring flavour gives the oscillation. Script: at L = 0, measure mass 1000× (converges to cos²θ); propagate; switch to measuring flavour and measure again at L = ½ L_osc.</aside>
-</section>
-
-<section class="slide content p1">
-  <header><p class="eyebrow">Premise 2 · Wolfenstein 1978 · Mikheyev &amp; Smirnov 1985</p><h2>The MSW resonance, and <em>the weight of the ordering</em></h2></header>
-  <div class="body cols" style="grid-template-columns: 1fr 1.05fr; gap: 40px">
-    <div class="stack" style="gap: 22px">
-      <p>Electrons in the medium forward-scatter νₑ through the charged current, and the other flavours do not feel this term:</p>
-      <div class="eq sm"><i>V</i><sub>CC</sub> = √2 <i>G</i><sub>F</sub> <i>n</i><sub>e</sub><span class="note">effective potential for νₑ</span></div>
-      <p>When <i>2√2 G<sub>F</sub> n<sub>e</sub> E</i> ≈ Δm² cos 2θ, the mixing becomes <b>maximal</b>: the <b>MSW resonance</b>, which is what the rest of this talk is about.</p>
-      <div class="card glow" style="--part: var(--nu-mu)">
-        <h4>Keep for Part I</h4>
-        <p class="small">The potential acts in the <b>local</b> frame, with the <b>local</b> energy. Next to a compact object, “local” and “at infinity” are not the same thing.</p>
-      </div>
-    </div>
-    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto; height: 660px"><div class="cv"><canvas id="mass-order"></canvas></div>
-      <div class="legend-line"><span style="--c: var(--nu-e)">νₑ fraction</span><span style="--c: var(--nu-mu)">ν_μ fraction</span><span style="--c: var(--nu-tau)">ν_τ fraction</span><span class="muted" style="--c: transparent">|U<sub>αk</sub>|², NuFIT 6.0 with θ₂₃ = 45°, δ = 3π/2</span></div></div>
-  </div>
-  <aside class="notes">I will not go into MSW, which you have already seen here. Two points: the potential is a local quantity, and the mass ordering is not a detail. In Part III the same calculation gives 2.2 per cent survival in normal ordering and 30 per cent in inverted, a factor of 13, and DUNE's argon counts precisely electron neutrinos.</aside>
+  <aside class="notes">The MSW effect seen as a two-level problem. Matter enters only on the diagonal, as V = √2 G_F n_e; vacuum mixing sits off the diagonal, Δ sin 2θ, with Δ = Δm²/2E. In the animation the medium is fixed — the solar core — and the neutrino energy rises. The diagonal, in pink, shrinks; when it vanishes, V = Δ cos 2θ, the Hamiltonian is purely off-diagonal and the eigenstates become half νe, half νμ: maximal mixing, resonance, at 1.9 MeV. Above that, matter dominates and the heavy eigenstate becomes pure νe. It is not “matter enhances oscillation”: it is an avoided crossing, and a neutrino crossing it slowly changes flavour adiabatically. In a supernova, the profile n_e(r) sweeps this resonance — which is where the shock front of Part IV comes in.</aside>
 </section>
 
 <section class="slide partcover p2">
@@ -1100,9 +1079,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202609302203"></script>
-<script src="assets/ghost-choque.js?v=202609302203"></script>
-<script src="assets/dash.js?v=202609302203"></script>
+<script src="assets/deck.js?v=202610011547"></script>
+<script src="assets/ghost-choque.js?v=202610011547"></script>
+<script src="assets/dash.js?v=202610011547"></script>
 <script>Deck.start();</script>
 </body>
 </html>
