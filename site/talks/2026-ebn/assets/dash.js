@@ -1166,23 +1166,55 @@ riverPanel('river-bh', 6, 'bh');
       c.fillText(T('cores exageradas ~4×10¹³×', 'colours exaggerated ~4×10¹³×'), xm, h - 16);
       c.fillStyle = COL.text2; c.font = `15px ${FONT}`;
       c.fillText(down ? T('descendo: ganha energia', 'falling: gains energy') : T('subindo: perde energia', 'rising: loses energy'), xm, 24);
-      // o fundo da linha de absorção contra a velocidade
-      const P = new Plot(cvT, { x: [-VMAX, VMAX], y: [0, 5], m: [40, 18, 64, x1 + 80 - 0], fs: 15, yticks: [0, 1, 2, 3, 4, 5], xticks: [-3, -2, -1, 0, 1, 2, 3] });
-      P.L = x1 + 110; P.R = w - 18; P.T = 44; P.B = h - 64; P.ctx = c; P.w = w; P.h = h;
-      P.frame(T('velocidade do absorvedor (μm/s, + afastando da fonte)', 'absorber velocity (μm/s, + moving away from the source)'), null);
-      c.save(); c.translate(P.L - 44, (P.T + P.B) / 2); c.rotate(-Math.PI / 2); c.fillStyle = COL.text2; c.font = `16px ${FONT}`; c.textAlign = 'center';
-      c.fillText(T('contagem − mínimo (×10⁻⁴)', 'counts − minimum (×10⁻⁴)'), 0, 0); c.restore();
-      const vs = linspace(-VMAX, VMAX, 240), curve = vv0 => vs.map(x => 0.3 * (1 - 1 / (1 + ((x - vv0) / GAM) ** 2)) * 1e4);
-      P.clip();
-      P.line(vs, curve(-v0), { color: COL.text3, width: 1.5, dash: [5, 6], alpha: .6 });
-      P.line(vs, curve(v0), { color: COL.e, width: 3, glow: 10 });
-      P.vline(0, { color: COL.text3, label: T('sem gravidade', 'no gravity'), y: P.T + 6 });
-      P.vline(v0, { color: COL.mu, dash: [3, 4], label: `v = gh/c = ${(v0 >= 0 ? '+' : '−') + V0.toFixed(2).replace('.', DEC)} μm/s`, y: P.T + 26, side: v0 > 0 ? 'right' : 'left' });
-      P.unclip();
-      const yv = 0.3 * (1 - 1 / (1 + ((v - v0) / GAM) ** 2)) * 1e4;
-      P.dot(v, yv, { color: Math.abs(v - v0) < 0.15 ? '#fff' : COL.e, r: 7, glow: 18 });
-      c.fillStyle = COL.text3; c.font = `13px ${FONT}`; c.textAlign = 'right';
-      c.fillText(T('fundo da linha · FWHM real 194 μm/s · eixo vertical ampliado', 'bottom of the line · real FWHM 194 μm/s · vertical axis magnified'), P.R, P.T - 12);
+      // o encaixe em energia: a linha do fóton que chega (deslocada pela gravidade) e a linha que o
+      // absorvedor aceita (deslocada por Doppler, ΔE/E = v/c). Larguras desenhadas ~400× menores que as
+      // reais (FWHM 194 μm/s) para que o encaixe fique visível; as posições são as reais.
+      {
+        const L = x1 + 90, R = w - 24, top = 56, bot = h - 70, mid = (top + bot) / 2, X = e => L + (e + VMAX) / (2 * VMAX) * (R - L);
+        const HW = 0.22, lor = (x, x0) => 1 / (1 + ((x - x0) / HW) ** 2);
+        const amp = (bot - top) * 0.36, nmArr = down ? 430 : 650, nmLab = down ? 470 : 630;
+        // eixo
+        c.strokeStyle = 'rgba(255,255,255,.25)'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(L, mid); c.lineTo(R, mid); c.stroke();
+        c.fillStyle = COL.text3; c.font = `14px ${FONT}`; c.textAlign = 'center';
+        for (let k = -3; k <= 3; k++) { const x = X(k); c.beginPath(); c.moveTo(x, mid - 5); c.lineTo(x, mid + 5); c.stroke(); c.fillText(String(k).replace('-', '−'), x, mid + 22); }
+        const xl = T('deslocamento de energia ΔE/E₀, em μm/s  (1 μm/s = 3,3×10⁻¹⁵)', 'energy shift ΔE/E₀, in μm/s  (1 μm/s = 3.3×10⁻¹⁵)');
+        c.font = `15px ${FONT}`; while (c.measureText(xl).width > R - L && parseFloat(c.font) > 11) c.font = `${parseFloat(c.font) - 1}px ${FONT}`;
+        c.fillStyle = COL.text2; c.fillText(xl, (L + R) / 2, h - 34);
+        // E₀ de referência
+        c.setLineDash([4, 5]); c.strokeStyle = COL.text3; c.beginPath(); c.moveTo(X(0), top - 6); c.lineTo(X(0), bot); c.stroke(); c.setLineDash([]);
+        c.fillStyle = COL.text3; c.textAlign = 'center'; c.fillText(T('E₀ emitida', 'E₀ emitted'), X(0), top - 14);
+        // linha do fóton que chega (para cima)
+        const curve = (x0, sign, col, fill) => {
+          c.beginPath(); c.moveTo(L, mid);
+          for (let k = 0; k <= 300; k++) { const e = -VMAX + 2 * VMAX * k / 300; c.lineTo(X(e), mid - sign * amp * lor(e, x0)); }
+          c.lineTo(R, mid); c.closePath(); c.fillStyle = fill; c.fill();
+          c.beginPath(); for (let k = 0; k <= 300; k++) { const e = -VMAX + 2 * VMAX * k / 300, y = mid - sign * amp * lor(e, x0); k ? c.lineTo(X(e), y) : c.moveTo(X(e), y); }
+          c.strokeStyle = col; c.lineWidth = 3; c.shadowColor = col; c.shadowBlur = 12; c.stroke(); c.shadowBlur = 0;
+        };
+        curve(v0, 1, css(nmArr), css(nmArr, .22));
+        const fit = (txt, px, maxw, font = FONT, style = '') => { let f = px; c.font = `${style}${f}px ${font}`; while (c.measureText(txt).width > maxw && f > 11) { f -= 1; c.font = `${style}${f}px ${font}`; } };
+        const ptxt = down ? T('γ que chega embaixo: +0,74 (ganhou energia)', 'γ arriving below: +0.74 (gained energy)') : T('γ que chega em cima: −0,74 (perdeu energia)', 'γ arriving above: −0.74 (lost energy)');
+        fit(ptxt, 16, R - L); c.fillStyle = css(nmLab); c.textAlign = 'center';
+        c.fillText(ptxt, Math.min(R - c.measureText(ptxt).width / 2, Math.max(L + c.measureText(ptxt).width / 2, X(v0))), mid - amp - 14);
+        if (false) c.fillText(down ? T('γ que chega embaixo: +0,74 (ganhou energia)', 'γ arriving below: +0.74 (gained energy)') : T('γ que chega em cima: −0,74 (perdeu energia)', 'γ arriving above: −0.74 (lost energy)'), X(v0), mid - amp - 14);
+        // linha que o absorvedor aceita (para baixo), na posição Doppler v
+        curve(v, -1, COL.e, 'rgba(158,140,255,.22)');
+        const ov = 1 / (1 + ((v - v0) / (2 * HW)) ** 2);
+        if (ov > 0.9) {
+          const btx = T(`encaixe: absorção máxima em v = gh/c = ${v0 > 0 ? '+' : '−'}0,74 μm/s`, `match: maximum absorption at v = gh/c = ${v0 > 0 ? '+' : '−'}0.74 μm/s`);
+          fit(btx, 26, R - L, SERIF, 'italic '); c.fillStyle = '#fff'; c.textAlign = 'center'; c.shadowColor = '#fff'; c.shadowBlur = 14;
+          c.fillText(btx, (L + R) / 2, mid + amp + 32); c.shadowBlur = 0;
+        } else {
+          const atx = T(`o que o absorvedor aceita (movendo-se a ${v.toFixed(2).replace('.', DEC)} μm/s)`, `what the absorber accepts (moving at ${v.toFixed(2)} μm/s)`);
+          fit(atx, 16, R - L); c.fillStyle = COL.e; c.textAlign = 'center';
+          const hw = c.measureText(atx).width / 2; c.fillText(atx, Math.min(R - hw, Math.max(L + hw, X(v))), mid + amp + 30);
+        }
+        c.fillStyle = COL.text3; c.font = `14px ${FONT}`; c.textAlign = 'right'; c.fillText(T('absorção', 'absorption'), R, top - 14);
+        c.fillStyle = 'rgba(255,255,255,.08)'; c.fillRect(R - 150, top - 8, 150, 10);
+        c.fillStyle = ov > 0.9 ? '#fff' : COL.e; c.fillRect(R - 150, top - 8, 150 * ov, 10);
+        c.fillStyle = COL.text3; c.font = `13px ${FONT}`; c.textAlign = 'left';
+        c.fillText(T('larguras desenhadas ~400× menores que as reais', 'line widths drawn ~400× narrower than real'), L, h - 10);
+      }
       var vNow = v, v0Now = v0, downNow = down;
     }
     /* ---- a estrela de nêutrons: a mesma lei, sem exagero ---- */
