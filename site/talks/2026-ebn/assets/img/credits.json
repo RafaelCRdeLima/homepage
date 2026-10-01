@@ -222,5 +222,12 @@
   "page": "https://svs.gsfc.nasa.gov/20413/",
   "license": "Public domain",
   "artist": "NASA's Goddard Space Flight Center Conceptual Image Lab (Jonathan North)"
+ },
+ "hr-eso": {
+  "file": "assets/img/hr-eso.jpg",
+  "title": "Hertzsprung-Russell Diagram - ESO.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Hertzsprung-Russell_Diagram_-_ESO.png",
+  "license": "CC BY 4.0",
+  "artist": "ESO"
  }
 }
