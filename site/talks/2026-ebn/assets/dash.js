@@ -893,7 +893,7 @@ function riverPanel(id, Msun, mode) {                       // um slide por obje
   cv.addEventListener('pointermove', e => { if (!drag) return; yaw = drag[2] + (e.clientX - drag[0]) * 0.008; pitch = Math.max(-1.2, Math.min(1.2, drag[3] + (e.clientY - drag[1]) * 0.008)); if (paused) render(); });
   cv.addEventListener('pointerup', () => { drag = null; });
   // A rede: cascas cúbicas injetadas na borda (cubo de meia-aresta H) a cada Δ de tempo próprio.
-  // Um ponto da casca na direção n̂ nasce em r₀ = H·|p| e cai com o rio: r(idade) = r(τ(r₀) − idade).
+  // Um ponto da casca na direção n̂ nasce em r₀ = H·|p| e cai com o fluxo: r(idade) = r(τ(r₀) − idade).
   // O escoamento é estacionário, então o quadro se repete com período Δ — sem costura.
   const NF = 3, SAMP = 20, NSH = 4;                               // divisões por face; amostras por linha; cascas por τ(H)
   const FACE_LINES = [], NODES = [];
@@ -1006,7 +1006,7 @@ function riverPanel(id, Msun, mode) {                       // um slide por obje
     P.line(rr, rr.map(r => Math.sqrt(rs / r)), { color: COL.mu, width: 3, glow: 10 });
     P.line(rr, rr.map(r => Math.sqrt(1 - rs / r)), { color: COL.tau, width: 2.5, dash: [7, 6] });
     P.unclip();
-    P.text(P.L + 6, P.T + 8, T('velocidade do rio v/c = √(r_s/r)', 'river speed v/c = √(r_s/r)'), { px: true, color: COL.mu, size: 15 });
+    P.text(P.L + 6, P.T + 8, T('velocidade do fluxo v/c = √(r_s/r)', 'river speed v/c = √(r_s/r)'), { px: true, color: COL.mu, size: 15 });
     P.text(P.L + 6, P.T + 28, T('ritmo de um relógio parado √(1 − r_s/r)', 'rate of a clock at rest √(1 − r_s/r)'), { px: true, color: COL.tau, size: 15 });
     const vS = Math.sqrt(rs / rmin), tF = tau(H) / 299792.458 * 1e6;
     out.innerHTML = `<span>r<sub>s</sub> <b>${rs.toFixed(1).replace('.', DEC)} km</b></span>
