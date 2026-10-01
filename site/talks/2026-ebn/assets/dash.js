@@ -349,6 +349,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
     }
     return { pts, captured, rmin: 1 / umax, defl: ph - (Math.PI - 2 * Math.asin(Math.min(1, b / r0))) };
   }
+  let FAM = null;
   function draw() {
     const b = gB();
     const { ctx, w, h } = fitCanvas(cv);
@@ -364,8 +365,8 @@ function pmnsAbs2(s12, s13, s23, delta) {
     ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(cx, cy, S, 0, 7); ctx.fill();
     ctx.strokeStyle = 'rgba(255,184,107,.9)'; ctx.lineWidth = 1.5; ctx.stroke();
     // família de fundo
-    for (let bb = 0.5; bb <= 8; bb += 0.5) {
-      const t = trace(bb); ctx.strokeStyle = t.captured ? 'rgba(255,122,138,.18)' : 'rgba(158,140,255,.18)'; ctx.lineWidth = 1.2;
+    if (!FAM) { FAM = []; for (let bb = 0.5; bb <= 8; bb += 0.5) FAM.push(trace(bb)); }   // família de fundo: calculada uma vez
+    for (const t of FAM) { ctx.strokeStyle = t.captured ? 'rgba(255,122,138,.18)' : 'rgba(158,140,255,.18)'; ctx.lineWidth = 1.2;
       ctx.beginPath(); t.pts.forEach(([x, y], i) => i ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y))); ctx.stroke();
     }
     const t = trace(b);
@@ -377,6 +378,33 @@ function pmnsAbs2(s12, s13, s23, delta) {
       ? `<span>b < b_c = 3√3 M ≈ ${T('2,598', '2.598')} r_s → <b style="color:var(--warn)">${T('capturado', 'captured')}</b></span>`
       : `<span>${T('maior aproximação', 'closest approach')} <b>${t.rmin.toFixed(2).replace('.', DEC)} r_s</b></span><span>${T('desvio total', 'total deflection')} <b>${(t.defl / deg).toFixed(1).replace('.', DEC)}°</b></span><span>${T('voltas completas', 'full loops')} <b>${Math.floor((t.defl + Math.PI) / (2 * Math.PI))}</b></span><span>b_c <b>${T('2,598', '2.598')} r_s</b></span>`;
   }
+  // automático: b desce devagar de 8 r_s até b_c, cada vez mais devagar perto dele, cruza e é capturado;
+  // segura um instante e recomeça. Mexer no slider pausa o automático por 8 s.
+  const elB = document.getElementById('geo-b'), outB = document.querySelector('output[for="geo-b"]');
+  const BC = 1.5 * Math.sqrt(3), B0 = 8, SWEEP = 11, FALL = 1.6, HOLD = 2.4, CYC = SWEEP + FALL + HOLD;
+  let gt = 0, graf = 0, glast = 0, manualUntil = 0;
+  const reduceG = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function bAuto(x) {
+    if (x < SWEEP) { const u = x / SWEEP; return BC + 0.0015 + (B0 - BC - 0.0015) * Math.pow(1 - u, 3); }
+    x -= SWEEP; if (x < FALL) return BC + 0.0015 - (BC + 0.0015 - 2.35) * (x / FALL);
+    return 2.35;
+  }
+  elB.addEventListener('pointerdown', () => { manualUntil = performance.now() + 8000; });
+  elB.addEventListener('keydown', () => { manualUntil = performance.now() + 8000; });
+  function gloop() {
+    cancelAnimationFrame(graf); glast = 0;
+    const tick = now => {
+      if (!cv.closest('.slide').classList.contains('active')) { graf = 0; return; }
+      const dt = glast ? Math.min((now - glast) / 1000, 0.1) : 0; glast = now;
+      if (now > manualUntil) {
+        gt = (gt + dt) % CYC; const bv = bAuto(gt);
+        elB.value = bv; outB.textContent = bv.toFixed(3).replace('.', DEC) + ' r_s'; draw();
+      }
+      graf = requestAnimationFrame(tick);
+    };
+    graf = requestAnimationFrame(tick);
+  }
+  addEventListener('slidechange', () => { if (!reduceG && cv.closest('.slide').classList.contains('active')) { gt = 0; manualUntil = 0; gloop(); } });
   onSlide(cv, draw);
 })();
 
