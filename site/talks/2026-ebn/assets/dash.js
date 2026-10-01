@@ -1020,3 +1020,83 @@ function riverPanel(id, Msun, mode) {                       // um slide por obje
 }
 riverPanel('river-ns', 1.4, 'ns');
 riverPanel('river-bh', 6, 'bh');
+
+/* Animação: o periélio de Mercúrio. Órbita da RG em primeira ordem, r(φ) = p / (1 + e cos(kφ)),
+   com k = 1 − Δφ/2π e Δφ = 6πGM/(c²a(1−e²)) = 5,02×10⁻⁷ rad = 0,1035″ por órbita (42,98″/século).
+   Desenhada com a precessão EXAGERADA (×EXAG); os contadores mostram os valores reais.
+   O movimento obedece à lei das áreas: dφ/dt = h/r². */
+(() => {
+  const cv = document.getElementById('mercury'); if (!cv) return;
+  const A = 0.387098, E = 0.205630, PDAYS = 87.9691, ARC = 0.1035;   // UA; −; dias; ″ por órbita (RG)
+  const EXAG = 3e5, D = 5.0187e-7 * EXAG, K = 1 - D / (2 * Math.PI), P = A * (1 - E * E);
+  const ORBIT_S = 1.6;                                               // segundos de tela por órbita
+  const rOf = ph => P / (1 + E * Math.cos(K * ph));
+  let H = 0; { const n = 4000, L = 2 * Math.PI / K; for (let i = 0; i < n; i++) { const r = rOf((i + .5) * L / n); H += r * r * L / n; } H /= ORBIT_S; }
+  const out = document.getElementById('mercury-out');
+  let ph = 0, raf = 0, last = 0, trail = [], peri = [0];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function render() {
+    const { ctx: c, w, h } = fitCanvas(cv);
+    const cx = w / 2, cy = h / 2, S = Math.min(w, h) / 2 / (A * (1 + E) * 1.12);
+    const XY = (r, a) => [cx + r * Math.cos(a) * S, cy - r * Math.sin(a) * S];
+    // a elipse de Newton, fixa (tracejada)
+    c.setLineDash([6, 7]); c.strokeStyle = 'rgba(255,255,255,.28)'; c.lineWidth = 1.3; c.beginPath();
+    for (let i = 0; i <= 360; i++) { const a = i * Math.PI / 180, [x, y] = XY(P / (1 + E * Math.cos(a)), a); i ? c.lineTo(x, y) : c.moveTo(x, y); }
+    c.stroke(); c.setLineDash([]);
+    // o rastro da RG, cada volta mais apagada
+    const nOrb = ph * K / (2 * Math.PI);
+    for (let i = 1; i < trail.length; i++) {
+      const age = nOrb - trail[i][2], al = Math.max(0, 1 - age / 10);
+      if (al <= 0) continue;
+      const [x0, y0] = XY(trail[i - 1][0], trail[i - 1][1]), [x1, y1] = XY(trail[i][0], trail[i][1]);
+      c.strokeStyle = `rgba(158,140,255,${(0.15 + 0.75 * al * al).toFixed(3)})`; c.lineWidth = 1 + 1.6 * al;
+      c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke();
+    }
+    // periélios: marcas e a linha que gira
+    const rp = A * (1 - E);
+    peri.forEach((a, i) => { const [x, y] = XY(rp, a); c.fillStyle = i === peri.length - 1 ? COL.mu : 'rgba(86,225,208,.45)'; c.beginPath(); c.arc(x, y, i === peri.length - 1 ? 5 : 3, 0, 7); c.fill(); });
+    const pl = peri[peri.length - 1], [px, py] = XY(rp * 1.9, pl), [p0x, p0y] = XY(rp * 1.9, 0);
+    c.strokeStyle = 'rgba(255,255,255,.25)'; c.setLineDash([3, 6]); c.beginPath(); c.moveTo(cx, cy); c.lineTo(p0x, p0y); c.stroke(); c.setLineDash([]);
+    c.strokeStyle = COL.mu; c.lineWidth = 2; c.beginPath(); c.moveTo(cx, cy); c.lineTo(px, py); c.stroke();
+    if (pl > 0.01) { c.strokeStyle = 'rgba(86,225,208,.6)'; c.lineWidth = 1.5; c.beginPath(); c.arc(cx, cy, rp * 1.5 * S, -pl, 0); c.stroke(); }
+    // o Sol e Mercúrio
+    const g = c.createRadialGradient(cx, cy, 2, cx, cy, 26); g.addColorStop(0, '#fff'); g.addColorStop(.35, '#ffd08a'); g.addColorStop(1, 'rgba(255,184,107,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, 26, 0, 7); c.fill();
+    const r = rOf(ph), [mx, my] = XY(r, ph);
+    c.fillStyle = '#d9d4cc'; c.shadowColor = '#fff'; c.shadowBlur = 12; c.beginPath(); c.arc(mx, my, 6, 0, 7); c.fill(); c.shadowBlur = 0;
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
+    c.fillText(T('tracejado: a elipse de Newton, que fecha · violeta: a órbita da RG', 'dashed: Newton’s ellipse, which closes · violet: the GR orbit'), 10, 8);
+    c.textAlign = 'right'; c.fillStyle = COL.warn;
+    c.fillText(T('precessão exagerada 300 000×', 'precession exaggerated 300,000×'), w - 10, 8);
+    c.textBaseline = 'alphabetic';
+    const yrs = nOrb * PDAYS / 365.25;
+    out.innerHTML = `<span>${T('órbitas', 'orbits')} <b>${Math.floor(nOrb)}</b></span>
+      <span>${T('tempo real', 'real time')} <b>${yrs.toFixed(1).replace('.', DEC)} ${T('anos', 'years')}</b></span>
+      <span>${T('avanço real acumulado', 'real accumulated advance')} <b>${(nOrb * ARC).toFixed(2).replace('.', DEC)}″</b></span>
+      <span>${T('mostrado', 'shown')} <b>${(pl * 180 / Math.PI).toFixed(0)}°</b></span>`;
+  }
+  function step(dt) {
+    let left = dt;
+    while (left > 0) {                                                // passos pequenos: a lei das áreas perto do periélio
+      const r = rOf(ph), dph = Math.min(H / (r * r) * left, 0.02), used = dph * r * r / H;
+      const before = Math.floor(K * ph / (2 * Math.PI)); ph += dph; left -= used;
+      if (Math.floor(K * ph / (2 * Math.PI)) > before) peri.push(2 * Math.PI * Math.floor(K * ph / (2 * Math.PI)) * (1 / K - 1));
+      trail.push([rOf(ph), ph, K * ph / (2 * Math.PI)]);
+    }
+    const nOrb = ph * K / (2 * Math.PI);
+    while (trail.length && nOrb - trail[0][2] > 10) trail.shift();
+    if (peri.length > 60) peri.shift();
+    if (nOrb > 42) { ph = 0; trail = []; peri = [0]; }                 // recomeça depois de uma volta completa do periélio (42 × 8,6°)
+  }
+  function loop() {
+    cancelAnimationFrame(raf); last = 0;
+    const tick = now => {
+      if (!cv.closest('.slide').classList.contains('active')) { raf = 0; return; }
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      step(dt); render(); raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+  addEventListener('slidechange', () => { if (cv.closest('.slide').classList.contains('active')) { if (reduce) { for (let i = 0; i < 600; i++) step(1 / 60); render(); } else loop(); } });
+  onSlide(cv, render);
+})();
