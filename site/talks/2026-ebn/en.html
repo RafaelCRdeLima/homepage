@@ -156,26 +156,39 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Dashboard · the river model · Hamilton &amp; Lisle 2008</p><h2>Space <em>falls</em></h2></header>
+  <header><p class="eyebrow">The river model · Hamilton &amp; Lisle 2008</p><h2>Space falls · <em>neutron star</em></h2></header>
   <div class="body">
-    <div class="dash">
-      <div class="dash-head"><span class="tag part">interactive · Schwarzschild in Gullstrand–Painlevé</span>
-        <div style="display:flex; gap: 14px"><div class="seg" id="river-obj"><button data-v="ns" class="on">neutron star (12 km)</button><button data-v="bh">black hole</button></div>
-        <div class="seg"><button id="river-pause">❚❚ pause</button></div></div></div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">Schwarzschild in Gullstrand–Painlevé · 1.4 M☉ · R = 12 km</span><span class="ref">drag the lattice to rotate</span></div>
       <div class="plots river">
-        <div class="cv"><canvas id="river"></canvas></div>
+        <div class="cv"><canvas id="river-ns"></canvas></div>
         <div class="river-side">
-          <p>Each node is a <b>freely falling local frame</b>, released from rest far away. In Gullstrand–Painlevé coordinates space is <b>flat</b> and flows inward at the escape velocity, <i>v</i> = √(2<i>GM</i>/<i>r</i>): the lattice is carried by the river. Near the mass the nodes run faster — so the lines bend, cells stretch radially and squeeze sideways: the tide.</p>
-          <div class="cv"><canvas id="river-prof"></canvas></div>
+          <p>Each node is a <b>freely falling local frame</b>, released from rest far away. In Gullstrand–Painlevé coordinates space is <b>flat</b> and flows inward at the escape velocity, <i>v</i> = √(2<i>GM</i>/<i>r</i>): the lattice is carried by the river. Near the mass the nodes run faster — the lines bend, cells stretch radially and squeeze sideways: the tide. At the star’s surface the river already runs at <b>0.59 c</b>.</p>
+          <div class="cv"><canvas id="river-ns-prof"></canvas></div>
         </div>
       </div>
-      <div class="controls">
-        <div class="ctl"><label for="river-M">mass M <output for="river-M"></output></label><input type="range" id="river-M" min="0.5" max="10" step="0.1" value="1.4"></div>
-      </div>
-      <div class="readout" id="river-out"></div>
+      <div class="readout" id="river-ns-out"></div>
     </div>
   </div>
-  <aside class="notes">A way to read Schwarzschild without a rubber sheet: Hamilton and Lisle’s river model. In Gullstrand–Painlevé coordinates, space is flat and flows inward at the Newtonian escape velocity — and that result is exact in general relativity. Each node of the lattice is a freely falling frame; the animation time is their proper time. They never stop: they vanish on reaching the star and others enter at the edge. Near the mass they run faster, so the lattice deforms — stretched radially, squeezed sideways. At the surface of a 1.4 solar-mass neutron star the river runs at almost 0.6 c; switch to a black hole: at the horizon it runs at c, which is why nothing gets out. The dashed line below is the rate of a clock at rest — it drops to zero at the horizon.</aside>
+  <aside class="notes">Hamilton and Lisle’s river model. In Gullstrand–Painlevé coordinates, Schwarzschild is flat space flowing inward at the Newtonian escape velocity — exact in general relativity. Each node is a freely falling frame; animation time is their proper time. They never stop: they vanish on reaching the star and others enter at the edge. Near the mass they run faster, so the lattice deforms: stretched radially, squeezed sideways. At the surface of a 1.4 solar-mass neutron star, 0.59 c; the fall from 60 km takes 463 microseconds. Dragging rotates the lattice.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">The river model · Hamilton &amp; Lisle 2008</p><h2>Space falls · <em>black hole</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">Schwarzschild in Gullstrand–Painlevé · 6 M☉ · horizon at 17.7 km</span><span class="ref">drag the lattice to rotate</span></div>
+      <div class="plots river">
+        <div class="cv"><canvas id="river-bh"></canvas></div>
+        <div class="river-side">
+          <p>The same lattice, now with no surface to stop the fall. At the <b>horizon</b> the river runs at exactly <b>c</b>: a light signal aimed outward can only stand still there, and inside it is dragged inward. That is why nothing gets out. The dashed line is the rate of a clock held at rest — it drops to <b>zero</b> at the horizon, where staying at rest is no longer possible.</p>
+          <div class="cv"><canvas id="river-bh-prof"></canvas></div>
+        </div>
+      </div>
+      <div class="readout" id="river-bh-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Same lattice, a 6 solar-mass black hole. Now there is no surface: the frames cross the horizon. There the river runs at c — an outward photon stands still; inside, it is dragged in. That is why nothing gets out, with no “force” needed: space itself flows faster than light can paddle. The clock at rest goes to zero at the horizon.</aside>
 </section>
 
 <section class="slide content p2">

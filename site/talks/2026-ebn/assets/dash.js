@@ -880,18 +880,13 @@ function pmnsAbs2(s12, s13, s23, delta) {
    de r até r_min:  τ(r) = (2/3)(r^{3/2} − r_min^{3/2}) / √r_s  (unidades geométricas, km).
    A rede começa cúbica (a fatia de GP é plana); cada ponto cai na radial, some na superfície da
    estrela ou no horizonte e reaparece na borda — o ciclo tem período τ(ρ_max) e fecha sem emenda. */
-(() => {
-  const cv = document.getElementById('river'); if (!cv) return;
-  const cvP = document.getElementById('river-prof');
+function riverPanel(id, Msun, mode) {                       // um slide por objeto, massa fixa, sem botões
+  const cv = document.getElementById(id); if (!cv) return;
+  const cvP = document.getElementById(id + '-prof');
   const MSUN = 1.4766, RNS = 12, H = 60, NL = 9, SUB = 6;       // km; nós por lado; pontos por aresta
   const FALL_S = 5;                                              // segundos de tela para cair da borda (meio da face) até a massa
-  const gM = bindRange('river-M', v => v.toFixed(1).replace('.', DEC) + ' M☉', draw);
-  const gO = bindSeg('river-obj', () => { const el = document.getElementById('river-M'); if (gO() === 'ns' && +el.value > 2.5) { el.value = 1.4; } el.dispatchEvent(new Event('input')); });
-  const out = document.getElementById('river-out');
+  const out = document.getElementById(id + '-out');
   let paused = false, raf = 0, last = 0, t = 0, yaw = 0.62, pitch = 0.32, S = null;
-  document.getElementById('river-pause').addEventListener('click', e => {
-    paused = !paused; e.currentTarget.textContent = paused ? T('▶ continuar', '▶ resume') : T('❚❚ pausar', '❚❚ pause'); if (!paused) loop();
-  });
   // arrastar gira a rede
   let drag = null;
   cv.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY, yaw, pitch]; cv.setPointerCapture(e.pointerId); });
@@ -914,7 +909,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const prep = q => { const g = Math.hypot(...q); return { n: q.map(x => x / g), g }; };
   const FL = FACE_LINES.map(l => l.map(prep)), ND = NODES.map(prep);
   function setup() {
-    const M = gM() * MSUN, rs = 2 * M, bh = gO() === 'bh', rmin = bh ? rs : RNS;
+    const M = Msun * MSUN, rs = 2 * M, bh = mode === 'bh', rmin = bh ? rs : RNS;
     const tau = r => (2 / 3) * (Math.pow(Math.max(r, rmin), 1.5) - Math.pow(rmin, 1.5)) / Math.sqrt(rs);
     const rOf = x => Math.pow(1.5 * Math.sqrt(rs) * Math.max(x, 0) + Math.pow(rmin, 1.5), 2 / 3);
     const D = tau(H) / NSH, Tmax = tau(Math.sqrt(3) * H);
@@ -986,7 +981,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
       c.fillStyle = `rgba(${R},${G},${B},${(p.al * .95).toFixed(3)})`; c.beginPath(); c.arc(p.X, p.Y, 2, 0, 7); c.fill();
     });
     c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText(T('cada nó: um referencial em queda livre · arraste para girar', 'each node: a freely falling frame · drag to rotate'), 10, 8);
+    c.fillText(T('cada nó: um referencial em queda livre', 'each node: a freely falling frame'), 10, 8);
     c.textBaseline = 'alphabetic';
   }
   function loop() {
@@ -1022,4 +1017,6 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   addEventListener('slidechange', () => { if (!reduce && !paused && cv.closest('.slide').classList.contains('active')) loop(); });
   onSlide(cv, draw);
-})();
+}
+riverPanel('river-ns', 1.4, 'ns');
+riverPanel('river-bh', 6, 'bh');

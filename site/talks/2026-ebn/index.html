@@ -157,26 +157,39 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Dashboard · o modelo do rio · Hamilton &amp; Lisle 2008</p><h2>O espaço <em>cai</em></h2></header>
+  <header><p class="eyebrow">O modelo do rio · Hamilton &amp; Lisle 2008</p><h2>O espaço cai · <em>estrela de nêutrons</em></h2></header>
   <div class="body">
-    <div class="dash">
-      <div class="dash-head"><span class="tag part">interativo · Schwarzschild em Gullstrand–Painlevé</span>
-        <div style="display:flex; gap: 14px"><div class="seg" id="river-obj"><button data-v="ns" class="on">estrela de nêutrons (12 km)</button><button data-v="bh">buraco negro</button></div>
-        <div class="seg"><button id="river-pause">❚❚ pausar</button></div></div></div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">Schwarzschild em Gullstrand–Painlevé · 1,4 M☉ · R = 12 km</span><span class="ref">arraste a rede para girar</span></div>
       <div class="plots river">
-        <div class="cv"><canvas id="river"></canvas></div>
+        <div class="cv"><canvas id="river-ns"></canvas></div>
         <div class="river-side">
-          <p>Cada nó é um <b>referencial local em queda livre</b>, solto do repouso lá longe. Nas coordenadas de Gullstrand–Painlevé o espaço é <b>plano</b> e escoa para dentro com a velocidade de escape, <i>v</i> = √(2<i>GM</i>/<i>r</i>): a rede é carregada pelo rio. Perto da massa os nós correm mais — por isso as linhas se curvam, as células esticam na radial e apertam nas laterais: a maré.</p>
-          <div class="cv"><canvas id="river-prof"></canvas></div>
+          <p>Cada nó é um <b>referencial local em queda livre</b>, solto do repouso lá longe. Nas coordenadas de Gullstrand–Painlevé o espaço é <b>plano</b> e escoa para dentro com a velocidade de escape, <i>v</i> = √(2<i>GM</i>/<i>r</i>): a rede é carregada pelo rio. Perto da massa os nós correm mais — as linhas se curvam, as células esticam na radial e apertam nas laterais: a maré. Na superfície da estrela o rio já corre a <b>0,59 c</b>.</p>
+          <div class="cv"><canvas id="river-ns-prof"></canvas></div>
         </div>
       </div>
-      <div class="controls">
-        <div class="ctl"><label for="river-M">massa M <output for="river-M"></output></label><input type="range" id="river-M" min="0.5" max="10" step="0.1" value="1.4"></div>
-      </div>
-      <div class="readout" id="river-out"></div>
+      <div class="readout" id="river-ns-out"></div>
     </div>
   </div>
-  <aside class="notes">Uma forma de ler Schwarzschild sem folha de borracha: o modelo do rio, de Hamilton e Lisle. Em Gullstrand–Painlevé, o espaço é plano e escoa para dentro com a velocidade de escape de Newton — e esse resultado é exato em relatividade geral. Cada nó da rede é um referencial em queda livre; o tempo da animação é o tempo próprio deles. Eles nunca param: somem ao chegar na estrela e outros entram pela borda. Perto da massa correm mais, então a rede se deforma — esticada na direção radial e apertada nas laterais. Na superfície de uma estrela de nêutrons de 1,4 massa solar, o rio corre a quase 0,6 c; trocar para buraco negro: no horizonte ele corre a c, e por isso nada sai. A linha tracejada embaixo é o ritmo de um relógio parado — ele vai a zero no horizonte.</aside>
+  <aside class="notes">O modelo do rio, de Hamilton e Lisle. Em Gullstrand–Painlevé, Schwarzschild é espaço plano escoando para dentro com a velocidade de escape de Newton — exato em relatividade geral. Cada nó é um referencial em queda livre; o tempo da animação é o tempo próprio deles. Eles nunca param: somem ao chegar na estrela e outros entram pela borda. Perto da massa correm mais, então a rede se deforma: esticada na radial, apertada nas laterais. Na superfície de uma estrela de nêutrons de 1,4 massa solar, 0,59 c; a queda desde 60 km leva 463 microssegundos. Arrastar gira a rede.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">O modelo do rio · Hamilton &amp; Lisle 2008</p><h2>O espaço cai · <em>buraco negro</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">Schwarzschild em Gullstrand–Painlevé · 6 M☉ · horizonte em 17,7 km</span><span class="ref">arraste a rede para girar</span></div>
+      <div class="plots river">
+        <div class="cv"><canvas id="river-bh"></canvas></div>
+        <div class="river-side">
+          <p>A mesma rede, agora sem superfície para parar a queda. No <b>horizonte</b> o rio corre exatamente a <b>c</b>: um sinal de luz apontado para fora só consegue ficar parado ali, e por dentro dele é arrastado para dentro. Por isso nada sai. A linha tracejada é o ritmo de um relógio mantido parado — ele vai a <b>zero</b> no horizonte, onde ficar parado já é impossível.</p>
+          <div class="cv"><canvas id="river-bh-prof"></canvas></div>
+        </div>
+      </div>
+      <div class="readout" id="river-bh-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Mesma rede, buraco negro de 6 massas solares. Agora não há superfície: os referenciais atravessam o horizonte. Ali o rio corre a c — um fóton apontado para fora fica parado; dentro, é arrastado para dentro. Por isso nada sai, sem precisar de nenhuma “força”: é o próprio espaço que corre mais rápido que a luz pode remar. O relógio parado vai a zero no horizonte.</aside>
 </section>
 
 <section class="slide content p2">
