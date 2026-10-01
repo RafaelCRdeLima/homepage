@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011735">
+<link rel="stylesheet" href="assets/deck.css?v=202610011745">
 </head>
 <body>
 
@@ -372,16 +372,107 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Dashboard · compactness</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <header><p class="eyebrow">Compactness · 1/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
   <div class="body">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">automatic · click to choose</span><div class="seg" id="compact-sel"></div></div>
-      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale"></canvas></div><div class="cv"><canvas id="compact-well"></canvas></div></div>
-      <div class="readout" id="compact-out"></div>
+      <div class="dash-head"><span class="tag part">1/8 · Earth</span><div id="compact-sel-0" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-0"></canvas></div><div class="cv"><canvas id="compact-well-0"></canvas></div></div>
+      <div class="readout" id="compact-out-0"></div>
       <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
     </div>
   </div>
-  <aside class="notes">The panel steps through the objects by itself, one every 4.5 s (clicking a button pauses it for 10 s). From the Earth to the horizon there are ten orders of magnitude in r_s/R. The Flamm well on the right is to true scale: for the Earth and the Sun it is flat. For a neutron star, 24% redshift — and the proto-neutron star, where supernova neutrinos are born, is already in the full-GR regime.</aside>
+  <aside class="notes">We start at the Earth: r_s/R of 10⁻⁹. The Flamm well on the right, to true scale, is flat. A clock on the ground lags 60 μs per day relative to infinity.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compactness · 2/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">2/8 · Sun</span><div id="compact-sel-1" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-1"></canvas></div><div class="cv"><canvas id="compact-well-1"></canvas></div></div>
+      <div class="readout" id="compact-out-1"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">The Sun: 4×10⁻⁶. Grazing light bends by 1.75″ — the Sobral number. Still “Newton is enough”.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compactness · 3/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">3/8 · Sirius B</span><div id="compact-sel-2" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-2"></canvas></div><div class="cv"><canvas id="compact-well-2"></canvas></div></div>
+      <div class="readout" id="compact-out-2"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">Sirius B, a white dwarf: 5×10⁻⁴. Already measurable: the gravitational redshift of Sirius B has been measured. Post-Newtonian corrections.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compactness · 4/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">4/8 · proto-neutron star</span><div id="compact-sel-3" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-3"></canvas></div><div class="cv"><canvas id="compact-well-3"></canvas></div></div>
+      <div class="readout" id="compact-out-3"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">The proto-neutron star, at the ~30 km neutrinosphere: 0.14. 8% redshift, 18° deflection. This is where supernova neutrinos are born — already in full GR.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compactness · 5/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">5/8 · neutron star</span><div id="compact-sel-4" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-4"></canvas></div><div class="cv"><canvas id="compact-well-4"></canvas></div></div>
+      <div class="readout" id="compact-out-4"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">The formed neutron star: 0.35. 24% redshift, a clock on the surface lags 4.6 hours per day, grazing light bends by 61°.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compactness · 6/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">6/8 · ISCO</span><div id="compact-sel-5" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-5"></canvas></div><div class="cv"><canvas id="compact-well-5"></canvas></div></div>
+      <div class="readout" id="compact-out-5"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">The ISCO, the innermost stable circular orbit, at 3 r_s: where a collapsar’s accretion disk ends.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compactness · 7/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">7/8 · photon sphere</span><div id="compact-sel-6" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-6"></canvas></div><div class="cv"><canvas id="compact-well-6"></canvas></div></div>
+      <div class="readout" id="compact-out-6"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">The photon sphere, 1.5 r_s: light can orbit; a grazing ray is captured.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compactness · 8/8</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">8/8 · horizon</span><div id="compact-sel-7" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-7"></canvas></div><div class="cv"><canvas id="compact-well-7"></canvas></div></div>
+      <div class="readout" id="compact-out-7"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection from the exact orbit integral (weak field: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">The horizon: infinite redshift, a clock at rest no longer exists. Ten orders of magnitude from the Earth.</aside>
 </section>
 
 <section class="slide content p2">
@@ -1145,9 +1236,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011735"></script>
-<script src="assets/ghost-choque.js?v=202610011735"></script>
-<script src="assets/dash.js?v=202610011735"></script>
+<script src="assets/deck.js?v=202610011745"></script>
+<script src="assets/ghost-choque.js?v=202610011745"></script>
+<script src="assets/dash.js?v=202610011745"></script>
 <script>Deck.start();</script>
 </body>
 </html>

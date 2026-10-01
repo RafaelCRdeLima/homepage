@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011735">
+<link rel="stylesheet" href="assets/deck.css?v=202610011745">
 </head>
 <body>
 
@@ -373,16 +373,107 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Dashboard · compacidade</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <header><p class="eyebrow">Compacidade · 1/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
   <div class="body">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">automático · clique para escolher</span><div class="seg" id="compact-sel"></div></div>
-      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale"></canvas></div><div class="cv"><canvas id="compact-well"></canvas></div></div>
-      <div class="readout" id="compact-out"></div>
+      <div class="dash-head"><span class="tag part">1/8 · Terra</span><div id="compact-sel-0" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-0"></canvas></div><div class="cv"><canvas id="compact-well-0"></canvas></div></div>
+      <div class="readout" id="compact-out-0"></div>
       <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
     </div>
   </div>
-  <aside class="notes">O painel passa sozinho pelos objetos, um a cada 4,5 s (clicar num botão pausa por 10 s). Da Terra ao horizonte são dez ordens de grandeza em r_s/R. O poço de Flamm à direita está em escala real: para a Terra e o Sol ele é plano. Para uma estrela de nêutrons, 24% de redshift — e a proto-estrela de nêutrons, onde os neutrinos de supernova nascem, já está em regime de RG plena.</aside>
+  <aside class="notes">Começamos na Terra: r_s/R de 10⁻⁹. O poço de Flamm à direita, em escala real, é plano. Um relógio no chão atrasa 60 μs por dia em relação ao infinito.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compacidade · 2/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">2/8 · Sol</span><div id="compact-sel-1" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-1"></canvas></div><div class="cv"><canvas id="compact-well-1"></canvas></div></div>
+      <div class="readout" id="compact-out-1"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">O Sol: 4×10⁻⁶. A luz rasante desvia 1,75″ — o número de Sobral. Ainda “Newton basta”.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compacidade · 3/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">3/8 · Sirius B</span><div id="compact-sel-2" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-2"></canvas></div><div class="cv"><canvas id="compact-well-2"></canvas></div></div>
+      <div class="readout" id="compact-out-2"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">Sirius B, uma anã branca: 5×10⁻⁴. Já mensurável: o redshift gravitacional de Sirius B foi medido. Correções pós-newtonianas.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compacidade · 4/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">4/8 · proto-estrela de nêutrons</span><div id="compact-sel-3" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-3"></canvas></div><div class="cv"><canvas id="compact-well-3"></canvas></div></div>
+      <div class="readout" id="compact-out-3"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">A proto-estrela de nêutrons, na neutrinosfera de ~30 km: 0,14. Redshift de 8%, desvio de 18°. É aqui que nascem os neutrinos de supernova — já em RG plena.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compacidade · 5/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">5/8 · estrela de nêutrons</span><div id="compact-sel-4" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-4"></canvas></div><div class="cv"><canvas id="compact-well-4"></canvas></div></div>
+      <div class="readout" id="compact-out-4"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">A estrela de nêutrons formada: 0,35. Redshift de 24%, um relógio na superfície atrasa 4,6 horas por dia, a luz rasante desvia 61°.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compacidade · 6/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">6/8 · ISCO</span><div id="compact-sel-5" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-5"></canvas></div><div class="cv"><canvas id="compact-well-5"></canvas></div></div>
+      <div class="readout" id="compact-out-5"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">A ISCO, a última órbita circular estável, em 3 r_s: onde termina o disco de acreção de um colapsar.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compacidade · 7/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">7/8 · esfera de fótons</span><div id="compact-sel-6" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-6"></canvas></div><div class="cv"><canvas id="compact-well-6"></canvas></div></div>
+      <div class="readout" id="compact-out-6"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">A esfera de fótons, 1,5 r_s: a luz pode orbitar; um raio rasante é capturado.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Compacidade · 8/8</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">8/8 · horizonte</span><div id="compact-sel-7" class="seg seg-static"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale-7"></canvas></div><div class="cv"><canvas id="compact-well-7"></canvas></div></div>
+      <div class="readout" id="compact-out-7"></div>
+      <p class="ref">z = (1 − r<sub>s</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio calculado pela integral exata da órbita (fraco: 2r<sub>s</sub>/R).</p>
+    </div>
+  </div>
+  <aside class="notes">O horizonte: redshift infinito, o relógio parado não existe mais. Dez ordens de grandeza desde a Terra.</aside>
 </section>
 
 <section class="slide content p2">
@@ -1146,9 +1237,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011735"></script>
-<script src="assets/ghost-choque.js?v=202610011735"></script>
-<script src="assets/dash.js?v=202610011735"></script>
+<script src="assets/deck.js?v=202610011745"></script>
+<script src="assets/ghost-choque.js?v=202610011745"></script>
+<script src="assets/dash.js?v=202610011745"></script>
 <script>Deck.start();</script>
 </body>
 </html>

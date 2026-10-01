@@ -389,3 +389,7 @@ figure.paper img { background: #fff; padding: 14px; object-fit: contain; }
 .mx-p { font: 300 3.1em/1 var(--display); transform: scaleY(1.35); color: var(--text-2); }
 .mx-g { display: grid; grid-template-columns: auto auto; gap: 6px 22px; text-align: center; font-size: .82em; }
 .boxed { display: inline-block; border: 2px solid var(--warn); border-radius: 10px; padding: 4px 18px; }
+
+/* faixa de progresso só de leitura (slides de compacidade) */
+.seg-static span { font: 600 16px var(--ui); letter-spacing: .06em; color: var(--text-3); padding: 9px 16px; }
+.seg-static span.on { background: var(--part); color: #0a0b12; }

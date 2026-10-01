@@ -255,10 +255,10 @@ function pmnsAbs2(s12, s13, s23, delta) {
 
 /* ============================ PARTE II ============================ */
 
-/* Dashboard: compacidade. */
-(() => {
-  const cv = document.getElementById('compact-scale'); if (!cv) return;
-  const cv2 = document.getElementById('compact-well');
+/* Dashboard: compacidade — um slide por objeto (k = 0…7), sem botões. */
+function compactPanel(k) {
+  const cv = document.getElementById('compact-scale-' + k); if (!cv) return;
+  const cv2 = document.getElementById('compact-well-' + k);
   const OBJ = [
     { n: T('Terra', 'Earth'), s: T('Terra', 'Earth'), rsR: 8.87e-3 / 6.371e6, R: '6 371 km' },
     { n: T('Sol', 'Sun'), s: T('Sol', 'Sun'), rsR: 2953 / 6.957e8, R: '696 000 km' },
@@ -269,11 +269,10 @@ function pmnsAbs2(s12, s13, s23, delta) {
     { n: T('esfera de fótons', 'photon sphere'), s: T('esf. fótons', 'photon sph.'), rsR: 1 / 1.5, R: T('1,5 r_s', '1.5 r_s'), d: T('luz em órbita circular', 'light on a circular orbit') },
     { n: T('horizonte', 'horizon'), s: T('horizonte', 'horizon'), rsR: 1, R: 'r_s', d: T('buraco negro', 'black hole') },
   ];
-  let sel = 4;
-  const seg = document.getElementById('compact-sel');
-  seg.innerHTML = OBJ.map((o, i) => `<button data-v="${i}" class="${i === sel ? 'on' : ''}">${o.s}</button>`).join('');
-  bindSeg('compact-sel', () => { sel = +seg.querySelector('.on').dataset.v; draw(); });
-  const out = document.getElementById('compact-out');
+  const sel = k;
+  const seg = document.getElementById('compact-sel-' + k);
+  seg.innerHTML = OBJ.map((o, i) => `<span class="${i === sel ? 'on' : ''}">${o.s}</span>`).join('');
+  const out = document.getElementById('compact-out-' + k);
   const P = new Plot(cv, { x: [1e-10, 1.5], y: [0, 1], xlog: true, m: [26, 30, 60, 30], fs: 17, yticks: [], xticks: [1e-10, 1e-8, 1e-6, 1e-4, 1e-2, 1] });
   const deflect = (x) => {                     // desvio exato de um raio rasante à superfície r = R (rs = 1)
     const R = 1 / x; if (R <= 1.5) return Infinity;
@@ -325,24 +324,9 @@ function pmnsAbs2(s12, s13, s23, delta) {
       <span>${T('relógio perde', 'clock loses')} <b>${x >= 1 ? '—' : dur(dt)}</b> ${T('por dia', 'per day')}</span>
       <span>${T('desvio da luz rasante', 'grazing light deflection')} <b>${isFinite(df) ? (df / deg < 1 ? (df / deg * 3600).toPrecision(3).replace('.', DEC) + '″' : (df / deg).toFixed(0) + '°') : T('captura', 'capture')}</b></span>`;
   }
-  // automático: percorre os objetos, um a um, da Terra ao horizonte, e recomeça.
-  // Clicar num botão pausa o automático por 10 s.
-  const STEP_S = 4.5, slideC = cv.closest('.slide'), reduceC = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let ctimer = 0, cpause = 0;
-  seg.addEventListener('click', () => { cpause = performance.now() + 10000; });
-  const pick = i => { sel = i; seg.querySelectorAll('button').forEach((x, k) => x.classList.toggle('on', k === i)); draw(); };
-  function cstart() {
-    clearInterval(ctimer); if (reduceC) return;
-    pick(0);
-    ctimer = setInterval(() => {
-      if (!slideC.classList.contains('active')) { clearInterval(ctimer); return; }
-      if (performance.now() < cpause) return;
-      pick((sel + 1) % OBJ.length);
-    }, STEP_S * 1000);
-  }
-  addEventListener('slidechange', () => { if (slideC.classList.contains('active')) cstart(); else clearInterval(ctimer); });
   onSlide(cv, draw);
-})();
+}
+for (let k = 0; k < 8; k++) compactPanel(k);
 
 /* Dashboard: geodésicas nulas de Schwarzschild, u'' = −u + (3/2) r_s u². */
 (() => {
