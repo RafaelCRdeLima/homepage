@@ -157,25 +157,26 @@
 </section>
 
 <section class="slide content p2">
-  <header><p class="eyebrow">Dashboard · Baez &amp; Bunn 2005</p><h2>A equação de Einstein <em>numa bola de poeira</em></h2></header>
+  <header><p class="eyebrow">Dashboard · o modelo do rio · Hamilton &amp; Lisle 2008</p><h2>O espaço <em>cai</em></h2></header>
   <div class="body">
     <div class="dash">
-      <div class="dash-head"><span class="tag part">interativo · Schwarzschild interior + exterior</span>
-        <div class="seg" id="efe-pre"><button data-v="play">❚❚ pausar</button><button data-v="1.4,4,0" class="plain on">dentro</button><button data-v="1.4,20,0" class="plain">fora</button><button data-v="1.4,4,0.6" class="plain">matéria fluindo</button><button data-v="3.4,4,0" class="plain">perto de Buchdahl</button></div></div>
-      <div class="plots efe">
-        <div class="cv"><canvas id="efe-ball"></canvas></div>
-        <div class="cv"><canvas id="efe-eq"></canvas></div>
-        <div class="cv"><canvas id="efe-prof"></canvas></div>
+      <div class="dash-head"><span class="tag part">interativo · Schwarzschild em Gullstrand–Painlevé</span>
+        <div style="display:flex; gap: 14px"><div class="seg" id="river-obj"><button data-v="ns" class="on">estrela de nêutrons (12 km)</button><button data-v="bh">buraco negro</button></div>
+        <div class="seg"><button id="river-pause">❚❚ pausar</button></div></div></div>
+      <div class="plots river">
+        <div class="cv"><canvas id="river"></canvas></div>
+        <div class="river-side">
+          <p>Cada nó é um <b>referencial local em queda livre</b>, solto do repouso lá longe. Nas coordenadas de Gullstrand–Painlevé o espaço é <b>plano</b> e escoa para dentro com a velocidade de escape, <i>v</i> = √(2<i>GM</i>/<i>r</i>): a rede é carregada pelo rio. Perto da massa os nós correm mais — por isso as linhas se curvam, as células esticam na radial e apertam nas laterais: a maré.</p>
+          <div class="cv"><canvas id="river-prof"></canvas></div>
+        </div>
       </div>
       <div class="controls">
-        <div class="ctl"><label for="efe-M">massa da estrela (R = 12 km) <output for="efe-M"></output></label><input type="range" id="efe-M" min="0.2" max="3.5" step="0.01" value="1.4"></div>
-        <div class="ctl"><label for="efe-r">onde soltar a bola r <output for="efe-r"></output></label><input type="range" id="efe-r" min="0.3" max="36" step="0.1" value="4"></div>
-        <div class="ctl"><label for="efe-v">matéria passando pela bola v <output for="efe-v"></output></label><input type="range" id="efe-v" min="0" max="0.9" step="0.01" value="0"></div>
+        <div class="ctl"><label for="river-M">massa M <output for="river-M"></output></label><input type="range" id="river-M" min="0.5" max="10" step="0.1" value="1.4"></div>
       </div>
-      <div class="readout" id="efe-out"></div>
+      <div class="readout" id="river-out"></div>
     </div>
   </div>
-  <aside class="notes">Baez e Bunn mostraram que a equação de Einstein inteira cabe numa frase: solte uma bola de partículas em repouso; ela encolhe numa taxa igual a 4πG vezes a densidade de energia mais as três pressões. À direita, as quatro barras são a diagonal de T no ponto; embaixo, V̈/V calculado da métrica (desvio geodésico) e da matéria — iguais. Soltar dentro da estrela: a bola encolhe sem mudar de forma. Soltar fora: no instante em que é solta, o volume não acelera — V̈/V = 0 (com o tempo aparece uma variação pequena, de ordem t⁴) —, mas ela estica na radial e aperta nas transversais — maré, a parte de Weyl, que a matéria local não fixa. Perto de Buchdahl as barras de pressão passam a de ρ: a pressão pesa, e mais pressão faz encolher mais — por isso existe massa máxima. Com a matéria fluindo, a soma cresce: momento também gravita. O gráfico de baixo é o ritmo dos relógios: a queda vem da curvatura do tempo, não de uma folha de borracha.</aside>
+  <aside class="notes">Uma forma de ler Schwarzschild sem folha de borracha: o modelo do rio, de Hamilton e Lisle. Em Gullstrand–Painlevé, o espaço é plano e escoa para dentro com a velocidade de escape de Newton — e esse resultado é exato em relatividade geral. Cada nó da rede é um referencial em queda livre; o tempo da animação é o tempo próprio deles. Eles nunca param: somem ao chegar na estrela e outros entram pela borda. Perto da massa correm mais, então a rede se deforma — esticada na direção radial e apertada nas laterais. Na superfície de uma estrela de nêutrons de 1,4 massa solar, o rio corre a quase 0,6 c; trocar para buraco negro: no horizonte ele corre a c, e por isso nada sai. A linha tracejada embaixo é o ritmo de um relógio parado — ele vai a zero no horizonte.</aside>
 </section>
 
 <section class="slide content p2">

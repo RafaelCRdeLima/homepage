@@ -873,152 +873,153 @@ function pmnsAbs2(s12, s13, s23, delta) {
   onSlide(cvP, draw);
 })();
 
-/* Dashboard: a equação de Einstein como uma bola de poeira (Baez & Bunn, Am. J. Phys. 73, 644, 2005).
-   Uma bola de partículas-teste solta em repouso encolhe segundo  V̈/V = −4π(ρ + P_x + P_y + P_z)
-   (G = c = 1). Aqui cada direção segue o desvio geodésico ẍ_i = −K_i x_i, com K tirado do Riemann
-   CALCULADO DA MÉTRICA (diferenças finitas, componentes ortonormais de ds² = −e^{2Φ}dt² + e^{2Λ}dr² + r²dΩ²):
-     K_r = R_t̂r̂t̂r̂ = e^{−2Λ}(Φ'' + Φ'² − Φ'Λ'),
-     K_⊥ = γ²(R_t̂θ̂t̂θ̂ + v² R_r̂θ̂r̂θ̂) = γ²(e^{−2Λ}Φ'/r + v² e^{−2Λ}Λ'/r)   (observador com a matéria passando a v ao longo de r̂)
-   O traço dá o volume (Ricci: fixado pela matéria); a parte sem traço dá a forma (fora: maré de Weyl).
-   Estrela de densidade uniforme, Schwarzschild interior + exterior, R = 12 km; unidades geométricas em km. */
+/* Dashboard: o espaço cai — o modelo do rio (Hamilton & Lisle, Am. J. Phys. 76, 519, 2008).
+   Em coordenadas de Gullstrand–Painlevé, Schwarzschild é espaço PLANO fluindo para dentro com a
+   velocidade de escape v = √(r_s/r) c. Cada nó da rede é um referencial em queda livre solto do
+   repouso no infinito (“gota de chuva”); o tempo da animação é o tempo próprio dele. Tempo de queda
+   de r até r_min:  τ(r) = (2/3)(r^{3/2} − r_min^{3/2}) / √r_s  (unidades geométricas, km).
+   A rede começa cúbica (a fatia de GP é plana); cada ponto cai na radial, some na superfície da
+   estrela ou no horizonte e reaparece na borda — o ciclo tem período τ(ρ_max) e fecha sem emenda. */
 (() => {
-  const cvB = document.getElementById('efe-ball'); if (!cvB) return;
-  const cvQ = document.getElementById('efe-eq'), cvP = document.getElementById('efe-prof');
-  const MSUN = 1.4766, R = 12, C2 = 8.988e10;                  // km; c² em km²/s²
-  const TO_MEV = 8 * Math.PI / 3.327e-5;                        // densidade geométrica [km⁻²] → MeV/fm³
-  const COLR = COL.tau, COLT = COL.mu;                          // radial (âmbar), transversal (turquesa)
-  const gM = bindRange('efe-M', v => v.toFixed(2).replace('.', DEC) + ' M☉', draw);
-  const gr = bindRange('efe-r', v => v.toFixed(1).replace('.', DEC) + ' km', draw);
-  const gv = bindRange('efe-v', v => v.toFixed(2).replace('.', DEC) + ' c', draw);
-  const out = document.getElementById('efe-out');
-  document.getElementById('efe-pre').addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.v === 'play') { paused = !paused; b.textContent = paused ? T('▶ continuar', '▶ resume') : T('❚❚ pausar', '❚❚ pause'); if (!paused) loop(); return; }
-    e.currentTarget.querySelectorAll('button[data-v*=","]').forEach(x => x.classList.toggle('on', x === b));
-    const [M, r, v] = b.dataset.v.split(',').map(Number);
-    [['efe-M', M], ['efe-r', r], ['efe-v', v]].forEach(([id, x]) => { const el = document.getElementById(id); el.value = x; el.dispatchEvent(new Event('input')); });
+  const cv = document.getElementById('river'); if (!cv) return;
+  const cvP = document.getElementById('river-prof');
+  const MSUN = 1.4766, RNS = 12, H = 60, NL = 9, SUB = 6;       // km; nós por lado; pontos por aresta
+  const CYCLE_S = 9;                                             // segundos de tela por ciclo completo
+  const gM = bindRange('river-M', v => v.toFixed(1).replace('.', DEC) + ' M☉', draw);
+  const gO = bindSeg('river-obj', () => { const el = document.getElementById('river-M'); if (gO() === 'ns' && +el.value > 2.5) { el.value = 1.4; } el.dispatchEvent(new Event('input')); });
+  const out = document.getElementById('river-out');
+  let paused = false, raf = 0, last = 0, t = 0, yaw = 0.62, pitch = 0.32, S = null;
+  document.getElementById('river-pause').addEventListener('click', e => {
+    paused = !paused; e.currentTarget.textContent = paused ? T('▶ continuar', '▶ resume') : T('❚❚ pausar', '❚❚ pause'); if (!paused) loop();
   });
-  function model(M) {
-    const c0 = Math.sqrt(1 - 2 * M / R), rho = 3 * M / (4 * Math.PI * R ** 3);
-    const m = r => r < R ? M * r ** 3 / R ** 3 : M;
-    const Phi = r => r < R ? Math.log(1.5 * c0 - 0.5 * Math.sqrt(1 - 2 * M * r * r / R ** 3)) : 0.5 * Math.log(1 - 2 * M / r);
-    const Lam = r => -0.5 * Math.log(1 - 2 * m(r) / r);
-    const p = r => { if (r >= R) return 0; const s = Math.sqrt(1 - 2 * M * r * r / R ** 3); return rho * (s - c0) / (3 * c0 - s); };
-    return { M, rho, m, Phi, Lam, p, rhoAt: r => r < R ? rho : 0 };
+  // arrastar gira a rede
+  let drag = null;
+  cv.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY, yaw, pitch]; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener('pointermove', e => { if (!drag) return; yaw = drag[2] + (e.clientX - drag[0]) * 0.008; pitch = Math.max(-1.2, Math.min(1.2, drag[3] + (e.clientY - drag[1]) * 0.008)); if (paused) render(); });
+  cv.addEventListener('pointerup', () => { drag = null; });
+  // A rede: cascas cúbicas injetadas na borda (cubo de meia-aresta H) a cada Δ de tempo próprio.
+  // Um ponto da casca na direção n̂ nasce em r₀ = H·|p| e cai com o rio: r(idade) = r(τ(r₀) − idade).
+  // O escoamento é estacionário, então o quadro se repete com período Δ — sem costura.
+  const NF = 3, SAMP = 20, NSH = 4;                               // divisões por face; amostras por linha; cascas por τ(H)
+  const FACE_LINES = [], NODES = [];
+  for (let ax = 0; ax < 3; ax++) for (const sg of [-1, 1]) {
+    const P3 = (u, v) => { const q = [0, 0, 0]; q[ax] = sg; q[(ax + 1) % 3] = u; q[(ax + 2) % 3] = v; return q; };
+    for (let i = 0; i <= NF; i++) {
+      const c0 = -1 + 2 * i / NF, l1 = [], l2 = [];
+      for (let k = 0; k <= SAMP; k++) { const d = -1 + 2 * k / SAMP; l1.push(P3(c0, d)); l2.push(P3(d, c0)); }
+      FACE_LINES.push(l1, l2);
+      for (let j = 0; j <= NF; j++) NODES.push(P3(c0, -1 + 2 * j / NF));
+    }
   }
-  function tidal(md, r, v) {
-    const h = 1e-3 * r, d1 = f => (f(r + h) - f(r - h)) / (2 * h), d2 = f => (f(r + h) - 2 * f(r) + f(r - h)) / (h * h);
-    const P1 = d1(md.Phi), P2 = d2(md.Phi), L1 = d1(md.Lam), e = Math.exp(-2 * md.Lam(r)), g2 = 1 / (1 - v * v);
-    return { Kr: e * (P2 + P1 * P1 - P1 * L1), Kt: g2 * (e * P1 / r + v * v * e * L1 / r) };
+  const prep = q => { const g = Math.hypot(...q); return { n: q.map(x => x / g), g }; };
+  const FL = FACE_LINES.map(l => l.map(prep)), ND = NODES.map(prep);
+  function setup() {
+    const M = gM() * MSUN, rs = 2 * M, bh = gO() === 'bh', rmin = bh ? rs : RNS;
+    const tau = r => (2 / 3) * (Math.pow(Math.max(r, rmin), 1.5) - Math.pow(rmin, 1.5)) / Math.sqrt(rs);
+    const rOf = x => Math.pow(1.5 * Math.sqrt(rs) * Math.max(x, 0) + Math.pow(rmin, 1.5), 2 / 3);
+    const D = tau(H) / NSH, Tmax = tau(Math.sqrt(3) * H);
+    FL.forEach(l => l.forEach(q => { q.t0 = tau(H * q.g); }));
+    ND.forEach(q => { q.t0 = tau(H * q.g); });
+    S = { M, rs, bh, rmin, tau, rOf, D, Tmax, Tc: D };
   }
-  const f = (K, t) => K > 1e-12 ? Math.cos(Math.sqrt(K) * t) : K < -1e-12 ? Math.cosh(Math.sqrt(-K) * t) : 1;
-  // Fluxo contínuo: cada partícula nasce na fronteira (esfera unitária), segue o desvio geodésico
-  // durante uma vida e some; as idades são espalhadas, então a tela mostra o regime todo de uma vez.
-  const N = 900, LIFE_S = 4.5;                                   // partículas; segundos de relógio por vida
-  const dir = () => { const u = 2 * Math.random() - 1, ph = 2 * Math.PI * Math.random(), s = Math.sqrt(1 - u * u); return [s * Math.cos(ph), u, s * Math.sin(ph)]; };
-  const PTS = Array.from({ length: N }, (_, i) => ({ d: dir(), a: (i + Math.random()) / N }));
-  const smooth = (e0, e1, x) => { const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
-  let state = null, paused = false, raf = 0, last = 0;
-  function renderBall() {
-    if (!state) return;
-    const { Kr, Kt, tmax, inside } = state;
-    const { ctx: c, w, h } = fitCanvas(cvB);
-    const cx = w / 2, cy = h / 2 + 10, S = Math.min(w, h) * 0.3, ca = Math.cos(.45), sa = Math.sin(.45), cb = Math.cos(.28), sb = Math.sin(.28);
-    const proj = ([x, y, z]) => { const X = x * ca + z * sa, Z = -x * sa + z * ca, Y = y * cb - Z * sb, D = y * sb + Z * cb; return [cx + X * S, cy - Y * S, D]; };
-    c.setLineDash([4, 6]); c.strokeStyle = 'rgba(255,255,255,.22)'; c.lineWidth = 1;
-    c.beginPath(); c.arc(cx, cy, S, 0, 7); c.stroke(); c.setLineDash([]);
-    const axis = (d, col, lab) => { const [x0, y0] = proj(d.map(k => -1.45 * k)), [x1, y1] = proj(d.map(k => 1.45 * k)); c.strokeStyle = col; c.globalAlpha = .4; c.lineWidth = 1.2; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke(); c.globalAlpha = 1; c.fillStyle = col; c.font = `15px ${FONT}`; c.textAlign = 'center'; c.fillText(lab, x1 + 4, y1 - 8); };
-    axis([1, 0, 0], COLR, T('radial →  (para fora)', 'radial →  (outward)')); axis([0, 1, 0], COLT, T('transversal', 'transverse'));
-    const P = PTS.map(q => {
-      const t = q.a * tmax, fr = f(Kr, t), ft = f(Kt, t);
-      const [X, Y, D] = proj([q.d[0] * fr, q.d[1] * ft, q.d[2] * ft]);
-      return [X, Y, D, smooth(0, 0.08, q.a) * (1 - smooth(0.62, 1, q.a))];
-    }).sort((a, b) => a[2] - b[2]);
-    P.forEach(([x, y, d, al]) => {
-      const k = (d + 1.2) / 2.4;
-      c.fillStyle = `rgba(${Math.round(160 + 95 * k)},${Math.round(170 + 75 * k)},255,${(al * (.3 + .65 * k)).toFixed(3)})`;
-      c.beginPath(); c.arc(x, y, 0.7 + 0.9 * k, 0, 7); c.fill();
+  const col = v => {                                             // v/c: violeta → turquesa → branco
+    const a = [158, 140, 255], b = [86, 225, 208], c = [255, 255, 255];
+    const x = Math.min(1, v / 0.75), y = Math.max(0, (v - 0.75) / 0.25);
+    const m = x < 1 ? a.map((q, i) => q + (b[i] - q) * x) : b.map((q, i) => q + (c[i] - q) * y);
+    return m.map(Math.round);
+  };
+  const smooth = (e0, e1, x) => { const u = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return u * u * (3 - 2 * u); };
+  function render() {
+    if (!S) return;
+    const { ctx: c, w, h } = fitCanvas(cv);
+    const { rs, bh, rmin, rOf, D, Tmax } = S;
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const F = 3.4 * H, scale = Math.min(w, h) * 0.95 / (2.85 * H), cx0 = w / 2, cy0 = h / 2 + 10;
+    const proj = (x, y, z) => {
+      const X = x * cy + z * sy, Z1 = -x * sy + z * cy, Y = y * cp - Z1 * sp, Z = y * sp + Z1 * cp;
+      const k = F / (F - Z); return [cx0 + X * scale * k, cy0 - Y * scale * k, Z];
+    };
+    const at = (q, age) => {                                     // posição de um ponto de casca com essa idade
+      const left = q.t0 - age; if (left <= 0) return null;
+      const r = rOf(left), [X, Y, Z] = proj(q.n[0] * r, q.n[1] * r, q.n[2] * r);
+      return { X, Y, Z, r, al: smooth(0, 0.7 * D, age) * smooth(rmin * 1.02, rmin * 1.45, r) };
+    };
+    const [mx, my] = proj(0, 0, 0), mr = rmin * scale * F / F;
+    const drawMass = () => {
+      if (bh) {
+        const g = c.createRadialGradient(mx, my, mr * .9, mx, my, mr * 2.2); g.addColorStop(0, 'rgba(255,184,107,.45)'); g.addColorStop(1, 'rgba(255,184,107,0)');
+        c.fillStyle = g; c.beginPath(); c.arc(mx, my, mr * 2.2, 0, 7); c.fill();
+        c.fillStyle = '#000'; c.beginPath(); c.arc(mx, my, mr, 0, 7); c.fill();
+      } else {
+        const g = c.createRadialGradient(mx - mr * .3, my - mr * .3, mr * .1, mx, my, mr); g.addColorStop(0, '#ffffff'); g.addColorStop(.6, '#ffe2b8'); g.addColorStop(1, '#ffb86b');
+        c.shadowColor = '#ffb86b'; c.shadowBlur = 30; c.fillStyle = g; c.beginPath(); c.arc(mx, my, mr, 0, 7); c.fill(); c.shadowBlur = 0;
+      }
+    };
+    const stroke = (p, q, wmul, amul) => {
+      const al = Math.min(p.al, q.al) * amul; if (al < 0.01) return;
+      const [R, G, B] = col(Math.sqrt(rs / Math.min(p.r, q.r))), dz = (p.Z + q.Z) / (4 * H) + .5;
+      c.strokeStyle = `rgba(${R},${G},${B},${(al * (0.3 + 0.55 * dz)).toFixed(3)})`;
+      c.lineWidth = (0.7 + 0.9 * dz) * wmul; c.beginPath(); c.moveTo(p.X, p.Y); c.lineTo(q.X, q.Y); c.stroke();
+    };
+    // cascas vivas: m tal que a idade t − mΔ esteja em [0, Tmax]
+    const m1 = Math.floor(t / D), m0 = Math.floor((t - Tmax) / D);
+    const segs = [];
+    for (let m = m0; m <= m1; m++) {
+      const age = t - m * D;
+      FL.forEach(l => { let prev = null; l.forEach(q => { const p = at(q, age); if (prev && p) segs.push([prev, p, 1, 1]); prev = p; }); });
+    }
+    // raios de queda (linhas de corrente) ligando os nós de cascas vizinhas
+    ND.forEach(q => {
+      for (let m = m0; m < m1; m++) {
+        const p1 = at(q, t - m * D), p2 = at(q, t - (m + 1) * D);
+        if (p1 && p2) segs.push([p2, p1, 0.8, 0.7]);
+      }
+    });
+    c.lineCap = 'round';
+    segs.filter(s => s[0].Z + s[1].Z <= 0).forEach(s => stroke(...s));
+    drawMass();
+    segs.filter(s => s[0].Z + s[1].Z > 0).forEach(s => stroke(...s));
+    // os nós: referenciais locais
+    for (let m = m0; m <= m1; m++) ND.forEach(q => {
+      const p = at(q, t - m * D); if (!p || p.al < 0.05) return;
+      const [R, G, B] = col(Math.sqrt(rs / p.r));
+      c.fillStyle = `rgba(${R},${G},${B},${(p.al * .95).toFixed(3)})`; c.beginPath(); c.arc(p.X, p.Y, 2, 0, 7); c.fill();
     });
     c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText(T('cada partícula nasce na fronteira, solta em repouso', 'each particle is born on the boundary, released at rest'), 10, 8);
-    c.textAlign = 'right'; c.fillStyle = COL.text2; c.font = `16px ${FONT}`;
-    c.fillText(`${T('vida', 'lifetime')} ${(tmax * 1e6).toFixed(0)} μs`, w - 10, 8);
-    c.fillStyle = COL.text3; c.font = `14px ${FONT}`;
-    c.fillText(inside ? T('some ao chegar perto do centro', 'fades as it nears the centre') : T('some quando a bola estica 1,5×', 'fades once the ball stretches 1.5×'), w - 10, 30);
+    c.fillText(T('cada nó: um referencial em queda livre · arraste para girar', 'each node: a freely falling frame · drag to rotate'), 10, 8);
     c.textBaseline = 'alphabetic';
   }
   function loop() {
     cancelAnimationFrame(raf); last = 0;
+    if (!S) setup();
     const tick = now => {
-      if (paused || !cvB.closest('.slide').classList.contains('active')) { raf = 0; return; }
+      if (paused || !cv.closest('.slide').classList.contains('active')) { raf = 0; return; }
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
-      PTS.forEach(q => { q.a += dt / LIFE_S; if (q.a >= 1) { q.a -= 1; q.d = dir(); } });
-      renderBall(); raf = requestAnimationFrame(tick);
+      t += dt * S.Tc / CYCLE_S; render(); raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
   }
   function draw() {
-    const M = gM() * MSUN, v = gv(), md = model(M);
-    const r = gr(), rr = Math.abs(r - R) < 0.05 ? R + (r < R ? -0.05 : 0.05) : r;
-    const { Kr, Kt } = tidal(md, rr, v);                          // km⁻²
-    const rho = md.rhoAt(rr), p = md.p(rr), g2 = 1 / (1 - v * v);
-    const E = g2 * (rho + v * v * p), Px = g2 * (v * v * rho + p), Py = p, Pz = p;
-    const vGeo = -(Kr + 2 * Kt) * C2, vMat = -4 * Math.PI * (E + Px + Py + Pz) * C2;   // s⁻²
-    // vida de cada partícula: até a direção que comprime chegar perto do centro (8%) ou a que estica chegar a 1,5×
-    const kmax = Math.max(Math.abs(Kr), Math.abs(Kt), 1e-30) * C2;
-    const kp = Math.max(Kr, Kt, 0) * C2, kn = -Math.min(Kr, Kt, 0) * C2;
-    const tmax = Math.min(kp > 1e-6 * kmax ? Math.acos(0.08) / Math.sqrt(kp) : Infinity, kn > 1e-6 * kmax ? Math.acosh(1.5) / Math.sqrt(kn) : Infinity);   // s
-    state = { Kr: Kr * C2, Kt: Kt * C2, tmax, inside: rr < R };
-    renderBall();
-    /* ---- a equação: o que alimenta o volume e o que muda a forma ---- */
-    {
-      const { ctx: c, w, h } = fitCanvas(cvQ);
-      const items = [['ρ', '', E, COL.tau], ['P', T('x · radial', 'x · radial'), Px, COL.e], ['P', 'y', Py, COL.e], ['P', 'z', Pz, COL.e]];
-      const tot = E + Px + Py + Pz, big = Math.max(tot, 1e-30);
-      const L = 60, Rr = w - 150, top = 28, bh = 17, gap = 7;
-      c.font = `16px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'middle';
-      c.fillText(T('diagonal de T no ponto (MeV/fm³)', 'diagonal of T at the point (MeV/fm³)'), 0, 10);
-      let x = L;
-      items.forEach(([n, sub, val, col], i) => {
-        const y = top + i * (bh + gap), wv = (val / big) * (Rr - L);
-        c.fillStyle = col; c.globalAlpha = .85; c.fillRect(L, y, Math.max(wv, 0), bh); c.globalAlpha = 1;
-        c.fillStyle = 'rgba(255,255,255,.18)'; c.fillRect(x, top + 4 * (bh + gap), Math.max(wv, 0), bh);
-        x += Math.max(wv, 0);
-        c.fillStyle = COL.text; c.font = `italic 22px ${SERIF}`; c.textAlign = 'right'; c.fillText(n, L - (sub ? 22 : 12), y + bh / 2); if (sub) { c.font = `13px ${FONT}`; c.textAlign = 'left'; c.fillStyle = COL.text3; c.fillText(sub.split(' ')[0], L - 21, y + bh / 2 + 6); }
-        c.font = `16px ${FONT}`; c.textAlign = 'left'; c.fillStyle = COL.text2; c.fillText((val * TO_MEV).toFixed(0), L + Math.max(wv, 0) + 8, y + bh / 2);
-      });
-      const ys = top + 4 * (bh + gap);
-      c.fillStyle = COL.text; c.font = `600 17px ${FONT}`; c.textAlign = 'right'; c.fillText('Σ', L - 12, ys + bh / 2);
-      c.textAlign = 'left'; c.fillText((tot * TO_MEV).toFixed(0), L + (tot / big) * (Rr - L) + 8, ys + bh / 2);
-      // volume × forma
-      const tiny = 1e-6 * kmax, y2 = ys + bh + 26, sc = x => Math.abs(x) < tiny ? '0' : (x / 1e8).toFixed(2).replace('.', DEC) + '×10⁸';
-      c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.fillText(T('V̈/V (s⁻²) — volume', 'V̈/V (s⁻²) — volume'), 0, y2);
-      c.fillStyle = COL.text; c.font = `600 17px ${FONT}`;
-      c.fillText(`${T('da métrica', 'from the metric')}  ${sc(vGeo)}      ${T('da matéria', 'from matter')}  ${sc(vMat)}`, 0, y2 + 22);
-      const shape = (Kr - Kt) * C2;
-      c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.fillText(T('Kᵣ − K⊥ (s⁻²) — forma', 'Kᵣ − K⊥ (s⁻²) — shape'), 0, y2 + 50);
-      c.fillStyle = Math.abs(shape) < tiny ? COL.text2 : COL.warn; c.font = `600 17px ${FONT}`;
-      c.fillText(Math.abs(shape) < tiny ? T('0 — a bola não muda de forma', '0 — the ball keeps its shape') : sc(shape) + (rr >= R ? T('  — maré (Weyl)', '  — tide (Weyl)') : T('  — fluxo de matéria', '  — matter flux')), 0, y2 + 72);
-    }
-    /* ---- o perfil: densidade e o ritmo dos relógios ---- */
-    {
-      const P = new Plot(cvP, { x: [0, 36], y: [0, 1.05], m: [14, 16, 44, 16], fs: 15, yticks: [], xticks: [0, 6, 12, 18, 24, 30, 36] });
-      P.begin();
-      P.ctx.fillStyle = 'rgba(255,184,107,.13)'; P.ctx.fillRect(P.X(0), P.T, P.X(R) - P.X(0), P.B - P.T);
-      P.frame(T('r (km)', 'r (km)'), null).clip();
-      const rs = linspace(0.2, 36, 300);
-      P.line(rs, rs.map(x => Math.exp(md.Phi(x))), { color: COL.mu, width: 3, glow: 10 });
-      P.vline(r, { color: '#fff', dash: [4, 5], width: 1.5 });
-      P.unclip();
-      P.text(P.L + 8, P.T + 10, T('ritmo dos relógios e^Φ = √(−g_tt) — é a curvatura do tempo que faz cair', 'clock rate e^Φ = √(−g_tt) — the curvature of time is what makes things fall'), { px: true, color: COL.mu, size: 15 });
-      P.text(P.X(R / 2), P.B - 14, T('estrela · ρ uniforme', 'star · uniform ρ'), { color: COL.tau, size: 14, align: 'center', px: false });
-    }
-    const ratio = Math.abs(vMat) > 1e-6 * kmax ? (vGeo / vMat).toFixed(4).replace('.', DEC) : T('0 = 0', '0 = 0');
-    out.innerHTML = `<span>2M/R <b>${(2 * M / R).toFixed(2).replace('.', DEC)}</b></span>
-      <span>${T('métrica ÷ matéria', 'metric ÷ matter')} <b>${ratio}</b></span>
-      <span>${rr < R ? T('dentro: a matéria fixa o volume', 'inside: matter sets the volume') : T('fora: vácuo — V̈/V = 0 quando solta (volume só varia em ordem t⁴); a forma muda', 'outside: vacuum — V̈/V = 0 at release (volume only changes at order t⁴); the shape changes')}</span>`;
+    setup(); render();
+    const { M, rs, rmin, bh, tau } = S;
+    // perfil: velocidade do rio e ritmo de um relógio parado
+    const P = new Plot(cvP, { x: [0, H], y: [0, 1.05], m: [18, 16, 46, 50], fs: 15, yticks: [0, 0.5, 1], xticks: [0, 12, 24, 36, 48, 60] });
+    P.begin();
+    P.ctx.fillStyle = bh ? 'rgba(0,0,0,.6)' : 'rgba(255,184,107,.15)'; P.ctx.fillRect(P.X(0), P.T, P.X(rmin) - P.X(0), P.B - P.T);
+    P.frame(T('r (km)', 'r (km)'), null).clip();
+    const rr = linspace(rmin, H, 200);
+    P.line(rr, rr.map(r => Math.sqrt(rs / r)), { color: COL.mu, width: 3, glow: 10 });
+    P.line(rr, rr.map(r => Math.sqrt(1 - rs / r)), { color: COL.tau, width: 2.5, dash: [7, 6] });
+    P.unclip();
+    P.text(P.L + 6, P.T + 8, T('velocidade do rio v/c = √(r_s/r)', 'river speed v/c = √(r_s/r)'), { px: true, color: COL.mu, size: 15 });
+    P.text(P.L + 6, P.T + 28, T('ritmo de um relógio parado √(1 − r_s/r)', 'rate of a clock at rest √(1 − r_s/r)'), { px: true, color: COL.tau, size: 15 });
+    const vS = Math.sqrt(rs / rmin), tF = tau(H) / 299792.458 * 1e6;
+    out.innerHTML = `<span>r<sub>s</sub> <b>${rs.toFixed(1).replace('.', DEC)} km</b></span>
+      <span>${bh ? T('no horizonte', 'at the horizon') : T('na superfície', 'at the surface')} v <b>${vS.toFixed(2).replace('.', DEC)} c</b></span>
+      <span>${T('queda de 60 km', 'fall from 60 km')} <b>${tF.toFixed(0)} μs</b></span>
+      <span>${T('célula: radial', 'cell: radial')} <b>×${Math.sqrt(H / rmin).toFixed(1).replace('.', DEC)}</b> · ${T('lateral', 'lateral')} <b>×${(rmin / H).toFixed(2).replace('.', DEC)}</b></span>`;
   }
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  addEventListener('slidechange', () => { if (!reduce && cvB.closest('.slide').classList.contains('active')) loop(); });
-  onSlide(cvB, draw);
+  addEventListener('slidechange', () => { if (!reduce && !paused && cv.closest('.slide').classList.contains('active')) loop(); });
+  onSlide(cv, draw);
 })();
