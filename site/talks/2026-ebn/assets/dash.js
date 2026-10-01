@@ -670,7 +670,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
     PB.area(rs, sm, 0, { color: ROSE, alpha: .18 }).line(rs, sm, { color: ROSE, width: 2.5 }).vline(e.R, { color: COL.text2, dash: [], width: 1.5 });
     PB.unclip();
     // C: P_H(t) para a largura escolhida, e o limite súbito
-    PC.begin().frame(T('tempo após o ricochete (s)', 'time after bounce (s)'), T('probabilidade de cruzamento', 'crossing probability'));
+    PC.begin().frame(T('tempo após o rebote (s)', 'time after bounce (s)'), T('probabilidade de cruzamento', 'crossing probability'));
     const ts = logspace(T_MIN, T_MAX, 160), st = ts.map(estado);
     PC.clip().line(ts, st.map(s => crossProb(s, E, wLosc).subita), { color: COL.text3, width: 2, dash: [7, 7] })
       .line(ts, st.map(s => crossProb(s, E, wLosc).PH), { color: ROSE, width: 3.5, glow: 12 }).unclip();
@@ -1478,7 +1478,7 @@ riverPanel('river-bh', 6, 'bh');
     pth.cr.forEach(x => PR.dot(x.r, YRES, { color: x.front ? '#fff' : COL.warn, r: x.front ? 8 : 6, glow: 16 }));
     if (rNu) PR.vline(rNu, { color: '#fff', dash: [2, 4], width: 1 });
     PR.unclip();
-    PR.text(PR.R - 6, PR.T + 12, `t = ${t.toFixed(2).replace('.', DEC)} s ${T('após o ricochete', 'after bounce')}`, { px: true, color: COL.text, size: 17, align: 'right' });
+    PR.text(PR.R - 6, PR.T + 12, `t = ${t.toFixed(2).replace('.', DEC)} s ${T('após o rebote', 'after bounce')}`, { px: true, color: COL.text, size: 17, align: 'right' });
     /* ---- níveis ---- */
     const PL = new Plot(cvL, { x: [R_MIN, R_MAX], y: [-1.45, 1.75], xlog: true, m: [14, 20, 54, 92], fs: 15, yticks: [-1, 0, 1] });
     PL.begin().frame(T('raio (km)', 'radius (km)'), T('níveis (unid. de Δ)', 'levels (units of Δ)')); const g = PL.ctx;
