@@ -1076,10 +1076,12 @@ riverPanel('river-bh', 6, 'bh');
       <span>${T('mostrado', 'shown')} <b>${(pl * 180 / Math.PI).toFixed(0)}°</b></span>`;
   }
   function step(dt) {
-    let left = dt;
-    while (left > 0) {                                                // passos pequenos: a lei das áreas perto do periélio
-      const r = rOf(ph), dph = Math.min(H / (r * r) * left, 0.02), used = dph * r * r / H;
-      const before = Math.floor(K * ph / (2 * Math.PI)); ph += dph; left -= used;
+    // passos de tempo fixos (≤ 4 ms), ponto médio: a lei das áreas perto do periélio. Passo em TEMPO,
+    // não em ângulo — a versão anterior podia ficar com um resto subnormal que nunca zerava.
+    const n = Math.max(1, Math.ceil(dt / 0.004)), hs = dt / n;
+    for (let i = 0; i < n; i++) {
+      const r0 = rOf(ph), rm = rOf(ph + 0.5 * H / (r0 * r0) * hs), dph = H / (rm * rm) * hs;
+      const before = Math.floor(K * ph / (2 * Math.PI)); ph += dph;
       if (Math.floor(K * ph / (2 * Math.PI)) > before) peri.push(2 * Math.PI * Math.floor(K * ph / (2 * Math.PI)) * (1 / K - 1));
       trail.push([rOf(ph), ph, K * ph / (2 * Math.PI)]);
     }
