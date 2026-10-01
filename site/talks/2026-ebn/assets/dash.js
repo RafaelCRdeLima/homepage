@@ -625,7 +625,7 @@ for (let k = 0; k < 8; k++) compactPanel(k);
   const YR20 = 792.0, LOSC20 = 66.8;             // a 20 MeV (raio3d.py do GHOST)
   const A_PEE = 0.27389, B_PEE = 0.02236;        // P_ee = A P_H + B
   const R_MIN = 3e3, R_MAX = 1e6, T_MIN = 2, T_MAX = 10;
-  const ROSE = '#ff8fb1';
+  const ROSE = '#5aa9ff';
   const yrRes = E => YR20 * 20 / E, losc = E => LOSC20 * E / 20;
   const thetaM = (yr, yrr) => 0.5 * Math.atan2(S2, C2 - C2 * yr / yrr);
   function estado(t) {
@@ -682,7 +682,7 @@ for (let k = 0; k < 8; k++) compactPanel(k);
     for (let i = 0; i < NU; i++) { const r = U[i] * e.R; if (r >= R_MIN && r <= R_MAX) { rs.push(r); ys.push(10 ** y[i]); } }
     // A: Yeρ(r) com a condição de ressonância
     PA.begin(); const fw = TG2 * yrr;
-    PA.ctx.fillStyle = 'rgba(255,143,177,.10)'; PA.ctx.fillRect(PA.L, PA.Y(yrr + fw), PA.R - PA.L, PA.Y(yrr - fw) - PA.Y(yrr + fw));
+    PA.ctx.fillStyle = 'rgba(90,169,255,.12)'; PA.ctx.fillRect(PA.L, PA.Y(yrr + fw), PA.R - PA.L, PA.Y(yrr - fw) - PA.Y(yrr + fw));
     PA.frame(null, 'Yₑρ (g/cm³)').clip();
     PA.hline(yrr, { color: ROSE, dash: [8, 7], width: 2, label: T('ressonância H a ', 'H resonance at ') + E.toFixed(0) + ' MeV' });
     PA.line(rs, ys, { color: COL.mu, width: 3, glow: 10 }).vline(e.R, { color: COL.text2, dash: [], width: 1.5, label: T('frente de choque', 'shock front'), side: 'left' });

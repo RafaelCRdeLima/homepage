@@ -22,7 +22,7 @@
   --nu-mu: #56e1d0;
   --nu-tau: #ffb86b;
   --warn: #ff7a8a;
-  --ghost: #ff8fb1;               /* Parte IV: resultados do GHOST */
+  --ghost: #5aa9ff;               /* Parte III: resultados do GHOST (azul) */
 
   --part: var(--nu-e);            /* cor da parte atual; cada seção redefine */
   --W: 1920px;
@@ -190,10 +190,9 @@ table.tbl tr.hl td { color: var(--text); background: color-mix(in srgb, var(--pa
 }
 .foot .parts { display: flex; gap: 10px; align-items: center; }
 .foot .parts span { width: 36px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.12); }
-.slide.p1 .foot .parts span:nth-child(1),
-.slide.p2 .foot .parts span:nth-child(2),
-.slide.p3 .foot .parts span:nth-child(3),
-.slide.p4 .foot .parts span:nth-child(4) { background: var(--part); box-shadow: 0 0 10px var(--part); }
+.slide.p2 .foot .parts span:nth-child(1),
+.slide.p3 .foot .parts span:nth-child(2),
+.slide.p4 .foot .parts span:nth-child(3) { background: var(--part); box-shadow: 0 0 10px var(--part); }
 
 /* ---------- capa de parte ---------- */
 .partcover { display: grid; align-items: center; padding: 0 150px; }

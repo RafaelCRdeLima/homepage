@@ -26,7 +26,7 @@ const Deck = (() => {
     const f = document.createElement('div');
     f.className = 'foot';
     f.innerHTML = `<span>${T('Neutrinos em espaço-tempo curvo · II EBN', 'Neutrinos in curved spacetime · II EBN')}</span>
-      <span class="parts"><span></span><span></span><span></span><span></span></span>
+      <span class="parts"><span></span><span></span><span></span></span>
       <span>${String(k + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span>`;
     s.appendChild(f);
   });
