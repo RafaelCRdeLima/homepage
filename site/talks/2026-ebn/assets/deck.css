@@ -393,3 +393,12 @@ figure.paper img { background: #fff; padding: 14px; object-fit: contain; }
 /* faixa de progresso só de leitura (slides de compacidade) */
 .seg-static span { font: 600 16px var(--ui); letter-spacing: .06em; color: var(--text-3); padding: 9px 16px; }
 .seg-static span.on { background: var(--part); color: #0a0b12; }
+
+/* slide de vídeo em tela cheia */
+.videoslide video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.videoslide .vveil { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7,8,14,.92) 0%, rgba(7,8,14,.35) 30%, rgba(7,8,14,0) 55%), linear-gradient(180deg, rgba(7,8,14,.7) 0%, rgba(7,8,14,0) 22%); pointer-events: none; }
+.videoslide .vhead { position: absolute; left: 130px; top: 84px; }
+.videoslide .vfoot { position: absolute; left: 130px; right: 130px; bottom: 90px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 50px; align-items: end; }
+.videoslide .vfoot p { font-size: 25px; margin: 0; color: var(--text); }
+.videoslide .vsteps { display: flex; gap: 10px; flex-wrap: wrap; }
+.videoslide .vsteps span { font: 16px var(--ui); color: var(--text-2); padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(7,8,14,.55); }

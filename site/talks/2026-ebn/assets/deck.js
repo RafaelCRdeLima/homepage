@@ -380,3 +380,10 @@ function bindSeg(id, cb) {
   addEventListener('stagefit', () => { resize(); run(); });
   addEventListener('slidechange', run);
 })();
+
+/* vídeos de slide: tocam do começo quando o slide entra, param quando sai */
+addEventListener('slidechange', e => {
+  document.querySelectorAll('.slide video[data-autoplay]').forEach(v => {
+    if (v.closest('.slide') === e.detail.slide) { try { v.currentTime = 0; v.play(); } catch (_) {} } else v.pause();
+  });
+});

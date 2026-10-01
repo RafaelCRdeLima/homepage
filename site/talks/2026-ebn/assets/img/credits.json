@@ -215,5 +215,12 @@
   "page": "https://commons.wikimedia.org/wiki/File:CERN_Geneva%2C_Neutrino_detections_chamber_at_protoDUNE_experiment%2C_seen_from_inside%2C_Dec_2023_%28Mark_Benecke%29.jpg",
   "license": "CC BY-SA 4.0",
   "artist": "Markbenecke"
+ },
+ "supernova-nasa": {
+  "file": "assets/video/supernova-nasa.mp4",
+  "title": "SVS 20413",
+  "page": "https://svs.gsfc.nasa.gov/20413/",
+  "license": "Public domain",
+  "artist": "NASA's Goddard Space Flight Center Conceptual Image Lab (Jonathan North)"
  }
 }
