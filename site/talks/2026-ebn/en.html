@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011816">
+<link rel="stylesheet" href="assets/deck.css?v=202610012035">
 </head>
 <body>
 
@@ -943,6 +943,36 @@
 </section>
 
 <section class="slide content p4">
+  <header><p class="eyebrow">What the quote means</p><h2>Steepening the front: <em>restoring the step</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1.05fr; gap: 40px">
+    <div class="stack" style="gap: 16px">
+      <blockquote style="font-size: 27px">“the shock front is <b>steepened artificially</b> to reintroduce the physical requirement of a <b>density discontinuity</b> which is lost in hydrodynamic simulations”<footer>Barger, Huber &amp; Marfatia, 2005</footer></blockquote>
+      <svg viewBox="0 0 760 330" class="fig" style="width:100%; height:330px" role="img" aria-label="Physical step versus numerical ramp">
+  <g stroke="rgba(255,255,255,.08)"><line x1="60" y1="30" x2="60" y2="260"/><line x1="140" y1="30" x2="140" y2="260"/><line x1="220" y1="30" x2="220" y2="260"/><line x1="300" y1="30" x2="300" y2="260"/><line x1="380" y1="30" x2="380" y2="260"/><line x1="460" y1="30" x2="460" y2="260"/><line x1="540" y1="30" x2="540" y2="260"/><line x1="620" y1="30" x2="620" y2="260"/><line x1="700" y1="30" x2="700" y2="260"/></g>
+  <text x="60" y="290" font-family="Inter Tight, sans-serif" font-size="15" fill="#737b90">grid cells (~hundreds of km each)</text>
+  <line x1="40" y1="160" x2="740" y2="160" stroke="#ff8fb1" stroke-dasharray="8 7" stroke-width="2"/>
+  <text x="736" y="152" text-anchor="end" font-family="Inter Tight, sans-serif" font-size="15" fill="#ff8fb1">H resonance</text>
+  <path d="M40 70 H380 L540 240 H740" fill="none" stroke="#ffb86b" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M40 70 H460 V240 H740" fill="none" stroke="#56e1d0" stroke-width="4" stroke-linejoin="round" stroke-dasharray="2 0"/>
+  <text x="50" y="58" font-family="Inter Tight, sans-serif" font-size="16" fill="#eef0f6">density</text>
+  <text x="560" y="210" font-family="Inter Tight, sans-serif" font-size="16" fill="#ffb86b">simulation: ramp of ~2 cells</text>
+  <text x="472" y="110" font-family="Inter Tight, sans-serif" font-size="16" fill="#56e1d0">nature: step (cm)</text>
+  <line x1="380" y1="312" x2="540" y2="312" stroke="#ffb86b" stroke-width="2"/><text x="460" y="326" text-anchor="middle" font-family="Inter Tight, sans-serif" font-size="14" fill="#ffb86b">3.5–4.7 L_osc</text>
+  <line x1="600" y1="312" x2="640" y2="312" stroke="#eef0f6" stroke-width="3"/><text x="650" y="317" font-family="Inter Tight, sans-serif" font-size="14" fill="#eef0f6">1 L_osc</text>
+</svg>
+    </div>
+    <div class="cols c2" style="gap: 16px; align-content: start">
+      <div class="card" style="padding: 20px 22px"><h4>1 · In nature: a step</h4><p class="small" style="margin:0">Density jumps over centimetres. For a neutrino oscillating over tens of km, that is a <b>perfect discontinuity</b>.</p></div>
+      <div class="card" style="padding: 20px 22px"><h4>2 · In the simulation: a ramp</h4><p class="small" style="margin:0"><i>Shock capturing</i>: numerical viscosity spreads the shock over ~1.6–1.7 cells. Position and strength right; <b>width set by the grid</b>, not by physics.</p></div>
+      <div class="card" style="padding: 20px 22px"><h4>3 · Hydro doesn’t care; the neutrino does</h4><p class="small" style="margin:0">Conservation across the shock does not depend on the width. MSW depends only on it: γ ∝ width / L<sub>osc</sub>. Ramp: γ ≈ 5, <b>P<sub>H</sub> ≈ 0</b>. Step: γ ≈ 0.01, <b>P<sub>H</sub> up to ~0.85</b>.</p></div>
+      <div class="card glow" style="padding: 20px 22px"><h4>4 · The fix: steepen by hand</h4><p class="small" style="margin:0">Locate the front and replace the ramp with a step, keeping the densities on both sides. “Artificial” restores a <b>physical</b> property the grid destroyed.</p></div>
+      <p class="small c-g" style="grid-column: 1 / -1; margin: 6px 0 0"><b>The simulation gets where the shock is right — but not how abrupt it is. And the neutrino only cares about that.</b></p>
+    </div>
+  </div>
+  <aside class="notes">Explaining the quote. In nature the front is a step centimetres wide. The simulation, to stay numerically stable, spreads the shock over one or two cells — shock capturing — and the width becomes the grid’s, 3.5 to 4.7 L_osc in the Garching models. For hydrodynamics that is irrelevant; for MSW it is everything, because adiabaticity measures the width in L_osc. With the ramp, γ ≈ 5 and the result is adiabatic; with the step, γ ≈ 0.01 and the neutrino jumps. Tomàs (2004) and Barger (2005) steepened the front by hand; automated pipelines stopped doing it. The next slide gives the criterion for when steepening matters.</aside>
+</section>
+
+<section class="slide content p4">
   <header><p class="eyebrow">The ruler behind the criterion</p><h2>Adiabaticity, and <em>the length that measures everything</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1fr 1.1fr; gap: 40px">
     <figure class="paper"><img src="assets/img/ghost/fig_landau_zener.svg" alt="Landau-Zener hopping probability against adiabaticity" style="max-height: 520px"><figcaption>P<sub>H</sub> against the adiabaticity parameter: <b>GHOST</b> (circles) on top of the exact exponential profile and of the Landau–Zener formula. Below, the relative deviation from each.</figcaption></figure>
@@ -1250,9 +1280,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011816"></script>
-<script src="assets/ghost-choque.js?v=202610011816"></script>
-<script src="assets/dash.js?v=202610011816"></script>
+<script src="assets/deck.js?v=202610012035"></script>
+<script src="assets/ghost-choque.js?v=202610012035"></script>
+<script src="assets/dash.js?v=202610012035"></script>
 <script>Deck.start();</script>
 </body>
 </html>
