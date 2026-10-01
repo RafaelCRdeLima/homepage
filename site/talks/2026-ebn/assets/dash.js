@@ -1149,12 +1149,12 @@ riverPanel('river-bh', 6, 'bh');
       if (Math.abs(L) > 1) { c.strokeStyle = COL.warn; c.fillStyle = COL.warn; c.lineWidth = 2.5; c.beginPath(); c.moveTo(xm + 58, ya - L / 2); c.lineTo(xm + 58, ya + L / 2); c.stroke();
         const s = Math.sign(L); c.beginPath(); c.moveTo(xm + 58, ya + L / 2 + 6 * s); c.lineTo(xm + 53, ya + L / 2 - 2 * s); c.lineTo(xm + 63, ya + L / 2 - 2 * s); c.fill(); }
       // pacotes γ: cor exagerada, azulando ao cair, avermelhando ao subir
-      const NP = 5, span = bot - top - 40;
+      const NP = 4, span = bot - top - 40;
       for (let k = 0; k < NP; k++) {
         const u = ((t * 0.35 + k / NP) % 1), yc = down ? top + 20 + u * span : bot - 20 - u * span;
-        const nm = down ? 540 - 90 * u : 540 + 90 * u, lam = (down ? 12 - 5 * u : 12 + 5 * u);
+        const nm = down ? 540 - 110 * u : 540 + 110 * u, lam = 19 * (nm / 540) ** 2;   // exagerado: período desenhado ∝ λ²
         c.strokeStyle = css(nm, Math.min(1, 4 * u, 4 * (1 - u))); c.lineWidth = 2.5; c.beginPath();
-        for (let j = -26; j <= 26; j++) { const y = yc + j, x = xm + 9 * Math.sin(2 * Math.PI * j / lam) * Math.exp(-(j * j) / 300); j === -26 ? c.moveTo(x, y) : c.lineTo(x, y); }
+        for (let j = -34; j <= 34; j++) { const y = yc + j, x = xm + 10 * Math.sin(2 * Math.PI * j / lam) * Math.exp(-(j * j) / 520); j === -34 ? c.moveTo(x, y) : c.lineTo(x, y); }
         c.stroke();
       }
       c.fillStyle = COL.warn; c.font = `13px ${FONT}`; c.textAlign = 'center';
@@ -1190,9 +1190,9 @@ riverPanel('river-bh', 6, 'bh');
       for (let x = sx + sr; x < xe; x += 2) { c.strokeStyle = css(lamAt(rAt(x)), .35); c.lineWidth = 3; c.beginPath(); c.moveTo(x, sy); c.lineTo(x + 2.5, sy); c.stroke(); }
       // pacotes que saem
       for (let k = 0; k < 3; k++) {
-        const u = (t * 0.18 + k / 3) % 1, xc = sx + sr + 30 + u * (xe - sx - sr - 60), lam = lamAt(rAt(xc)), wl = 10 * lam / L0;
+        const u = (t * 0.18 + k / 3) % 1, xc = sx + sr + 40 + u * (xe - sx - sr - 80), lam = lamAt(rAt(xc)), wl = 15 * lam / L0;   // real: ∝ λ
         c.strokeStyle = css(lam, Math.min(1, 5 * u, 5 * (1 - u))); c.lineWidth = 2.5; c.beginPath();
-        for (let j = -34; j <= 34; j++) { const x = xc + j, y = sy + 12 * Math.sin(2 * Math.PI * j / wl) * Math.exp(-(j * j) / 500); j === -34 ? c.moveTo(x, y) : c.lineTo(x, y); }
+        for (let j = -44; j <= 44; j++) { const x = xc + j, y = sy + 13 * Math.sin(2 * Math.PI * j / wl) * Math.exp(-(j * j) / 800); j === -44 ? c.moveTo(x, y) : c.lineTo(x, y); }
         c.stroke();
       }
       const g = c.createRadialGradient(sx - sr * .3, sy - sr * .3, sr * .1, sx, sy, sr); g.addColorStop(0, '#fff'); g.addColorStop(.6, '#ffe2b8'); g.addColorStop(1, '#ffb86b');
