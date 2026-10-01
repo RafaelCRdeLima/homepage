@@ -884,7 +884,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
   const cv = document.getElementById('river'); if (!cv) return;
   const cvP = document.getElementById('river-prof');
   const MSUN = 1.4766, RNS = 12, H = 60, NL = 9, SUB = 6;       // km; nós por lado; pontos por aresta
-  const CYCLE_S = 9;                                             // segundos de tela por ciclo completo
+  const FALL_S = 5;                                              // segundos de tela para cair da borda (meio da face) até a massa
   const gM = bindRange('river-M', v => v.toFixed(1).replace('.', DEC) + ' M☉', draw);
   const gO = bindSeg('river-obj', () => { const el = document.getElementById('river-M'); if (gO() === 'ns' && +el.value > 2.5) { el.value = 1.4; } el.dispatchEvent(new Event('input')); });
   const out = document.getElementById('river-out');
@@ -995,7 +995,7 @@ function pmnsAbs2(s12, s13, s23, delta) {
     const tick = now => {
       if (paused || !cv.closest('.slide').classList.contains('active')) { raf = 0; return; }
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
-      t += dt * S.Tc / CYCLE_S; render(); raf = requestAnimationFrame(tick);
+      t += dt * S.D * NSH / FALL_S; render(); raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
   }
