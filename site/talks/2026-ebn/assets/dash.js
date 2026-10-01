@@ -1241,7 +1241,7 @@ riverPanel('river-bh', 6, 'bh');
 /* Animação: a ressonância MSW como cruzamento evitado de dois níveis.
    H = ½ [[V − Δcos2θ, Δ sin2θ], [Δ sin2θ, −(V − Δcos2θ)]],  Δ = Δm²/2E,  V = √2 G_F n_e.
    Meio fixo (centro do Sol, ρYₑ = 100 g/cm³ → V = 7,63×10⁻¹² eV); Δm²₂₁ e θ₁₂ (NuFIT 6.0).
-   A energia varre até a diagonal zerar (E_res = Δm² cos2θ / 2V = 1,89 MeV), para ali, e segue.
+   A energia varre até a diagonal zerar (E_res = Δm² cos2θ / 2V = 1,88 MeV), para ali, e segue.
    θ_m = ½ atan2(Δ sin2θ, Δ cos2θ − V): fração de νₑ no autoestado pesado = sin²θ_m. */
 (() => {
   const cv = document.getElementById('msw-anim'); if (!cv) return;
@@ -1343,4 +1343,186 @@ riverPanel('river-bh', 6, 'bh');
   }
   addEventListener('slidechange', () => { if (cv.closest('.slide').classList.contains('active')) { if (reduce) { t = PH[0] + PH[1] / 2; render(); } else { t = 0; loop(); } } });
   onSlide(cv, render);
+})();
+
+/* ===================== adiabaticidade (slides depois do MSW) ===================== */
+
+/* Figura: por que a ressonância é o lugar crítico. Perfil exponencial V(x) = V₀ e^{−x},
+   θ ilustrativo (15°). Autovalores ±½Δ_m, diabáticos ±½(V − Δcos2θ), e |dθ_m/dx|.
+   Δ_m = √((V − Δcos2θ)² + (Δ sin2θ)²); o gap mínimo Δ sin2θ fica em V = Δcos2θ. */
+(() => {
+  const cv = document.getElementById('adi-levels'); if (!cv) return;
+  const TH = 15 * deg, C2 = Math.cos(2 * TH), S2 = Math.sin(2 * TH), XR = 4;          // ressonância em x = 4
+  const V = x => C2 * Math.exp(XR - x);                                               // unidades de Δ
+  const dm = x => Math.sqrt((V(x) - C2) ** 2 + S2 * S2);
+  const thm = x => 0.5 * Math.atan2(S2, C2 - V(x));
+  const dth = x => Math.abs(thm(x + 1e-3) - thm(x - 1e-3)) / 2e-3;
+  onSlide(cv, () => {
+    const P = new Plot(cv, { x: [0, 9], y: [-1.6, 1.6], m: [26, 70, 70, 70], fs: 16, xticks: [], yticks: [-1, 0, 1] });
+    P.begin().frame(T('posição x  (densidade caindo →)', 'position x  (density falling →)'), T('energia (unidades de Δ)', 'energy (units of Δ)'));
+    const xs = linspace(0, 9, 500), c = P.ctx;
+    // |dθm/dx| como área ao fundo, no eixo da direita
+    const dmax = dth(XR);
+    c.save(); c.globalAlpha = .18; c.fillStyle = COL.warn; c.beginPath(); c.moveTo(P.X(0), P.B);
+    xs.forEach(x => c.lineTo(P.X(x), P.B - dth(x) / dmax * (P.B - P.T) * .9)); c.lineTo(P.X(9), P.B); c.fill(); c.restore();
+    P.clip();
+    P.line(xs, xs.map(x => 0.5 * (V(x) - C2)), { color: COL.text3, width: 1.6, dash: [6, 6] });
+    P.line(xs, xs.map(x => -0.5 * (V(x) - C2)), { color: COL.text3, width: 1.6, dash: [6, 6] });
+    P.line(xs, xs.map(x => 0.5 * dm(x)), { color: COL.e, width: 4, glow: 12 });
+    P.line(xs, xs.map(x => -0.5 * dm(x)), { color: COL.mu, width: 4, glow: 12 });
+    P.vline(XR, { color: COL.warn, dash: [4, 5], label: T('ressonância: V = Δcos2θ', 'resonance: V = Δcos2θ'), y: P.T + 4 });
+    // o gap
+    c.strokeStyle = '#fff'; c.lineWidth = 2; c.beginPath(); c.moveTo(P.X(XR) + 14, P.Y(0.5 * S2)); c.lineTo(P.X(XR) + 14, P.Y(-0.5 * S2)); c.stroke();
+    P.unclip();
+    P.text(XR + 0.25, 0, T('gap mínimo Δ sin2θ', 'minimum gap Δ sin2θ'), { color: '#fff', size: 18 });
+    P.text(0.3, 1.38, T('ν₂ᵐ (ramo superior)', 'ν₂ᵐ (upper branch)'), { color: COL.e, size: 18 });
+    P.text(0.3, -1.38, T('ν₁ᵐ (ramo inferior)', 'ν₁ᵐ (lower branch)'), { color: COL.mu, size: 18 });
+    P.text(6.6, 0.95, T('tracejado: estados de sabor', 'dashed: flavour states'), { color: COL.text3, size: 15 });
+    P.text(6.6, 0.78, T('(se cruzariam)', '(would cross)'), { color: COL.text3, size: 15 });
+    P.text(P.R + 8, P.B - (P.B - P.T) * .9, '|dθₘ/dx|', { px: true, color: COL.warn, size: 16 });
+    P.text(P.L + 6, P.B - 14, T('θ = 15°, ilustrativo', 'θ = 15°, illustrative'), { px: true, color: COL.text3, size: 14 });
+  });
+})();
+
+/* Figura: Landau–Zener. P_jump = e^{−πγ/2}, com três casos calculados. */
+(() => {
+  const cv = document.getElementById('adi-lz'); if (!cv) return;
+  onSlide(cv, () => {
+    const P = new Plot(cv, { x: [1e-3, 1e4], y: [0, 1.05], xlog: true, m: [26, 24, 70, 80], fs: 16, yticks: [0, 0.5, 1], xticks: [1e-3, 1e-2, 0.1, 1, 10, 100, 1e3, 1e4] });
+    P.begin();
+    const c = P.ctx;
+    c.fillStyle = 'rgba(255,122,138,.08)'; c.fillRect(P.X(1e-3), P.T, P.X(1) - P.X(1e-3), P.B - P.T);
+    c.fillStyle = 'rgba(86,225,208,.08)'; c.fillRect(P.X(1), P.T, P.X(1e4) - P.X(1), P.B - P.T);
+    P.frame(T('parâmetro de adiabaticidade γ_res', 'adiabaticity parameter γ_res'), 'P_jump');
+    const gs = logspace(1e-3, 1e4, 300);
+    P.clip().line(gs, gs.map(g => Math.exp(-Math.PI * g / 2)), { color: COL.text, width: 3.5, glow: 10 }).unclip();
+    P.text(1.4e-3, 0.42, T('não adiabático: pula', 'non-adiabatic: jumps'), { color: COL.warn, size: 17 });
+    P.text(8, 0.62, T('adiabático: segue o ramo', 'adiabatic: follows the branch'), { color: COL.mu, size: 17 });
+    [[0.0122, 0.981, 1.3e-3, 0.84, T('frente real · γ ≈ 0,01', 'real front · γ ≈ 0.01'), COL.warn, 'left'],
+     [4.95, 4.2e-4, 7, 0.13, T('frente como a simulação grava · γ ≈ 5', 'front as the simulation stores it · γ ≈ 5'), COL.tau, 'left'],
+     [2780, 0, 2500, 0.30, T('Sol, ⁸B a 10 MeV · γ ≈ 3×10³', 'Sun, ⁸B at 10 MeV · γ ≈ 3×10³'), COL.mu, 'right']].forEach(([g, p, lx, ly, lab, col, al]) => {
+      P.dot(g, p, { color: col, r: 8, glow: 18 }); P.text(lx, ly, lab, { color: col, size: 16, align: al });
+    });
+  });
+})();
+
+/* Animação final: a frente de choque cruzando a ressonância H numa supernova (M15-7b, 20 MeV).
+   Perfis de ghost-choque.js (os mesmos da Parte IV); a frente com largura FÍSICA.
+   Para cada instante, um neutrino sai voando; no diagrama de níveis ele segue o ramo superior.
+   Em cada cruzamento da ressonância, a fração que pula é:
+     cruzamento suave: Landau–Zener, P = e^{−πγ/2}, γ = 2π tan2θ₁₃ · H_ρ / L_osc^res, H_ρ = |d ln Yₑρ/dr|⁻¹
+     cruzamento na frente: limite súbito, P = sin²(θₘ,fora − θₘ,dentro) · e^{−πγ/2}, γ com H = w/ln(compressão).
+   Probabilidades combinadas de forma incoerente; P_ee (NO) = 0,274 P_H + 0,022. */
+(() => {
+  const cvR = document.getElementById('adi-sn-rho'); if (!cvR || !window.CHOQUE) return;
+  const cvL = document.getElementById('adi-sn-lev'), out = document.getElementById('adi-sn-out');
+  const D = window.CHOQUE, EP = D.epocas, U = D.u, NU = U.length;
+  const T13 = 8.6 * deg, S2 = Math.sin(2 * T13), C2 = Math.cos(2 * T13), TG2 = Math.tan(2 * T13);
+  const E = 20, YRES = 792.0, LOSC = 66.8, WPHYS = 0.01;                              // MeV; g/cm³; km; L_osc
+  const R_MIN = 3e3, R_MAX = 1e6;
+  const TIMES = [2.2, 2.7, 3.0, 3.25, 3.5, 3.8, 4.2, 5.0, 6.5];
+  const FLY = 3.2, MOVE = 0.8, CYC = FLY + MOVE;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let clock = 0, raf = 0, last = 0;
+  function interpU(a, u) {
+    if (u <= U[0]) return a[0]; if (u >= U[NU - 1]) return a[NU - 1];
+    let lo = 0, hi = NU - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (U[m] > u) hi = m; else lo = m; }
+    const f = (Math.log(u) - Math.log(U[lo])) / (Math.log(U[hi]) - Math.log(U[lo])); return a[lo] + f * (a[hi] - a[lo]);
+  }
+  function estado(t) {
+    const s = Math.log(t / EP[0].t) / Math.log(EP[1].t / EP[0].t);
+    const mix = k => U.map((_, i) => EP[0][k][i] + s * (EP[1][k][i] - EP[0][k][i]));
+    return { R: EP[0].R_choque * Math.pow(t / EP[0].t, D.expoente_R), dentro: mix('dentro'), fora: mix('fora'), compressao: EP[0].compressao + s * (EP[1].compressao - EP[0].compressao) };
+  }
+  const thetaM = q => 0.5 * Math.atan2(S2, C2 - C2 * q);                             // q = Yₑρ / Yₑρ_res
+  function path(t) {                                                                  // perfil fino em log r, com a frente com largura física
+    const e = estado(t), wu = WPHYS * LOSC / e.R, N = 900, rs = [], qs = [];
+    for (let i = 0; i < N; i++) {
+      const r = R_MIN * Math.pow(R_MAX / R_MIN, i / (N - 1)), u = r / e.R, s = 0.5 * (1 - Math.tanh((u - 1) / (Math.max(wu, 1e-6) / 2)));
+      rs.push(r); qs.push(Math.pow(10, interpU(e.dentro, u) * s + interpU(e.fora, u) * (1 - s)) / YRES);
+    }
+    // cruzamentos da ressonância (q = 1) e a fração que pula em cada um
+    const qIn = Math.pow(10, interpU(e.dentro, 1)) / YRES, qOut = Math.pow(10, interpU(e.fora, 1)) / YRES;
+    const front = qIn > 1 && qOut < 1, cr = [];
+    for (let i = 1; i < N; i++) if ((qs[i - 1] - 1) * (qs[i] - 1) < 0) {
+      const f = Math.log(qs[i - 1]) / (Math.log(qs[i - 1]) - Math.log(qs[i])), r = rs[i - 1] * Math.pow(rs[i] / rs[i - 1], f);
+      let P;
+      if (front && Math.abs(r / e.R - 1) < 0.02) {
+        const sub = Math.sin(thetaM(qOut) - thetaM(qIn)) ** 2, H = WPHYS * LOSC / Math.log(Math.max(e.compressao, 1.01));
+        P = sub * Math.exp(-Math.PI * (2 * Math.PI * TG2 * H / LOSC) / 2);
+      } else {
+        const j = Math.max(2, Math.min(N - 3, i)), dl = Math.abs(Math.log(qs[j + 2]) - Math.log(qs[j - 2])) / Math.abs(rs[j + 2] - rs[j - 2]);
+        const H = 1 / Math.max(dl, 1e-12); P = Math.exp(-Math.PI * (2 * Math.PI * TG2 * H / LOSC) / 2);
+      }
+      cr.push({ r, P, front: front && Math.abs(r / e.R - 1) < 0.02 });
+    }
+    return { e, rs, qs, cr, front };
+  }
+  const lev = q => 0.5 * Math.sqrt(C2 * C2 * (q - 1) ** 2 + S2 * S2);                 // ½Δ_m em unidades de Δ
+  const flav = (q, upper) => { const s = Math.sin(thetaM(q)) ** 2; return upper ? s : 1 - s; }; // fração νₑ
+  const mixc = f => { const a = [86, 225, 208], b = [158, 140, 255]; return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(',')})`; };
+  let cache = {};
+  const getPath = t => cache[t] || (cache[t] = path(t));
+  function render() {
+    const k = Math.floor(clock / CYC) % TIMES.length, tc = clock % CYC;
+    const t = tc < FLY ? TIMES[k] : TIMES[k] + (TIMES[(k + 1) % TIMES.length] - TIMES[k]) * (tc - FLY) / MOVE * (k === TIMES.length - 1 ? 0 : 1);
+    const pth = tc < FLY ? getPath(TIMES[k]) : path(t), fly = tc < FLY ? tc / FLY : -1;
+    const lr = Math.log(R_MAX / R_MIN), rNu = fly >= 0 ? R_MIN * Math.exp(lr * Math.min(1, fly * 1.05)) : null;
+    /* ---- perfil ---- */
+    const PR = new Plot(cvR, { x: [R_MIN, R_MAX], y: [0.1, 1e5], xlog: true, ylog: true, m: [26, 20, 30, 92], fs: 15, xfmt: () => '' });
+    PR.begin(); const c = PR.ctx;
+    PR.frame(null, 'Yₑρ (g/cm³)').clip();
+    PR.hline(YRES, { color: COL.warn, dash: [8, 7], width: 2, label: T('ressonância H a 20 MeV', 'H resonance at 20 MeV'), align: 'left' });
+    PR.line(pth.rs, pth.qs.map(q => q * YRES), { color: COL.tau, width: 3, glow: 10 });
+    PR.vline(pth.e.R, { color: COL.text2, dash: [], width: 1.5, label: T('frente de choque', 'shock front'), side: 'left' });
+    pth.cr.forEach(x => PR.dot(x.r, YRES, { color: x.front ? '#fff' : COL.warn, r: x.front ? 8 : 6, glow: 16 }));
+    if (rNu) PR.vline(rNu, { color: '#fff', dash: [2, 4], width: 1 });
+    PR.unclip();
+    PR.text(PR.R - 6, PR.T + 12, `t = ${t.toFixed(2).replace('.', DEC)} s ${T('após o ricochete', 'after bounce')}`, { px: true, color: COL.text, size: 17, align: 'right' });
+    /* ---- níveis ---- */
+    const PL = new Plot(cvL, { x: [R_MIN, R_MAX], y: [-1.45, 1.75], xlog: true, m: [14, 20, 54, 92], fs: 15, yticks: [-1, 0, 1] });
+    PL.begin().frame(T('raio (km)', 'radius (km)'), T('níveis (unid. de Δ)', 'levels (units of Δ)')); const g = PL.ctx;
+    PL.clip();
+    for (let i = 1; i < pth.rs.length; i++) {                                         // ramos coloridos pelo conteúdo de νₑ
+      const q0 = pth.qs[i - 1], q1 = pth.qs[i];
+      [[1, lev], [-1, lev]].forEach(([sg]) => {
+        const y0 = Math.max(-1.35, Math.min(1.35, sg * lev(q0))), y1 = Math.max(-1.35, Math.min(1.35, sg * lev(q1)));
+        g.strokeStyle = mixc(flav(q1, sg > 0)); g.lineWidth = 3.5; g.beginPath(); g.moveTo(PL.X(pth.rs[i - 1]), PL.Y(y0)); g.lineTo(PL.X(pth.rs[i]), PL.Y(y1)); g.stroke();
+      });
+    }
+    pth.cr.forEach(x => PL.vline(x.r, { color: x.front ? '#fff' : COL.warn, dash: [3, 5], width: 1.2 }));
+    PL.unclip();
+    // o neutrino: probabilidades acumuladas pelos cruzamentos já atravessados
+    let pu = 1, pl = 0;
+    if (rNu) {
+      pth.cr.filter(x => x.r <= rNu).forEach(x => { const nu = (1 - x.P) * pu + x.P * pl, nl = x.P * pu + (1 - x.P) * pl; pu = nu; pl = nl; });
+      const i = Math.min(pth.rs.length - 1, Math.max(0, Math.round(Math.log(rNu / R_MIN) / lr * (pth.rs.length - 1)))), q = pth.qs[i];
+      const yu = Math.min(1.35, lev(q)), yl = -yu;
+      if (pu > 0.01) PL.dot(rNu, yu, { color: '#fff', r: 5 + 6 * Math.sqrt(pu), glow: 22 });
+      if (pl > 0.01) PL.dot(rNu, yl, { color: '#fff', r: 5 + 6 * Math.sqrt(pl), glow: 22 });
+      g.font = `600 15px ${FONT}`; g.fillStyle = COL.text; g.textAlign = 'left';
+      if (pu > 0.01) g.fillText(`${Math.round(100 * pu)}%`, PL.X(rNu) + 14, PL.Y(yu) - 10);
+      if (pl > 0.01) g.fillText(`${Math.round(100 * pl)}%`, PL.X(rNu) + 14, PL.Y(yl) + 22);
+    }
+    g.font = `15px ${FONT}`; g.fillStyle = COL.text3; g.textAlign = 'left';
+    g.fillText(T('cor: violeta = νₑ, turquesa = ν_x · o neutrino nasce como νₑ no ramo superior', 'colour: violet = νₑ, turquoise = ν_x · the neutrino is born as νₑ on the upper branch'), PL.L + 6, PL.T + 14);
+    // leituras
+    const PH = pth.cr.reduce((acc, x) => acc * (1 - x.P) + (1 - acc) * x.P, 0);
+    const done = fly >= 0 && fly > 0.97;
+    const f3 = v => v < 1e-6 ? '≈ 0' : v < 1e-3 ? v.toExponential(1).replace('.', DEC) : v.toFixed(3).replace('.', DEC);
+    out.innerHTML = `<span>${T('cruzamentos', 'crossings')} <b>${pth.cr.length}</b></span>
+      <span>${pth.front ? T('<b style="color:var(--warn)">a frente está na ressonância → salto</b>', '<b style="color:var(--warn)">the front sits on the resonance → jump</b>') : T('frente fora da ressonância → adiabático', 'front away from the resonance → adiabatic')}</span>
+      <span>P<sub>H</sub> <b>${f3(PH)}</b></span><span>P<sub>ee</sub> (NO) <b>${(0.274 * PH + 0.022).toFixed(3).replace('.', DEC)}</b></span>`;
+  }
+  function loop() {
+    cancelAnimationFrame(raf); last = 0;
+    const tick = now => {
+      if (!cvR.closest('.slide').classList.contains('active')) { raf = 0; return; }
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      clock += dt; render(); raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+  addEventListener('slidechange', () => { if (cvR.closest('.slide').classList.contains('active')) { clock = 0; if (reduce) { clock = 3 * CYC + 0.9 * FLY; render(); } else loop(); } });
+  onSlide(cvR, render);
 })();

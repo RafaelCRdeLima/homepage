@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011547">
+<link rel="stylesheet" href="assets/deck.css?v=202610011625">
 </head>
 <body>
 
@@ -104,6 +104,72 @@
     </div>
   </div>
   <aside class="notes">The MSW effect seen as a two-level problem. Matter enters only on the diagonal, as V = √2 G_F n_e; vacuum mixing sits off the diagonal, Δ sin 2θ, with Δ = Δm²/2E. In the animation the medium is fixed — the solar core — and the neutrino energy rises. The diagonal, in pink, shrinks; when it vanishes, V = Δ cos 2θ, the Hamiltonian is purely off-diagonal and the eigenstates become half νe, half νμ: maximal mixing, resonance, at 1.9 MeV. Above that, matter dominates and the heavy eigenstate becomes pure νe. It is not “matter enhances oscillation”: it is an avoided crossing, and a neutrino crossing it slowly changes flavour adiabatically. In a supernova, the profile n_e(r) sweeps this resonance — which is where the shock front of Part IV comes in.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticity · 1</p><h2>In the basis that <em>follows the matter</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <div class="stack" style="gap: 18px">
+      <p class="small" style="margin:0">Change from the flavour basis to the instantaneous matter basis:</p>
+      <div class="eq sm" style="font-size: 36px"><span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>e</sub></span><span>ν<sub>x</sub></span></span><span class="mx-p">)</span></span> = <i>U</i>(θ<sub>m</sub>(<i>x</i>)) <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span></div>
+      <p class="small" style="margin:0">Since <i>U</i> depends on <i>x</i>, the Schrödinger equation picks up a term:</p>
+      <div class="eq sm" style="font-size: 33px"><i>i</i> <span class="frac"><span><i>d</i></span><span><i>dx</i></span></span> <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span> = [ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>−Δ<sub>m</sub>/2</span><span>0</span><span>0</span><span>+Δ<sub>m</sub>/2</span></span><span class="mx-p">)</span></span> − <i>i U</i><sup>†</sup><span class="frac"><span><i>dU</i></span><span><i>dx</i></span></span> ] <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span></div>
+      <div class="eq sm" style="font-size: 33px">−<i>i U</i><sup>†</sup><span class="frac"><span><i>dU</i></span><span><i>dx</i></span></span> ~ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>0</span><span><i>i</i> dθ<sub>m</sub>/d<i>x</i></span><span>−<i>i</i> dθ<sub>m</sub>/d<i>x</i></span><span>0</span></span><span class="mx-p">)</span></span></div>
+    </div>
+    <div class="stack" style="gap: 24px; align-self: center">
+      <p class="big" style="margin:0">The density gradient reappears as an <b>off-diagonal</b> term in the basis of instantaneous eigenstates.</p>
+      <p style="margin:0">A head-to-head competition:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 40px; display:inline-block">Δ<sub>m</sub> &nbsp;versus&nbsp; |dθ<sub>m</sub>/d<i>x</i>|</span></div>
+      <p style="margin:0">Adiabatic condition:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 40px; display:inline-block; border-color: var(--nu-mu)">|dθ<sub>m</sub>/d<i>x</i>| ≪ Δ<sub>m</sub></span></div>
+      <p class="small muted" style="margin:0">More fundamental than “the density varies slowly”: what matters is how fast the basis rotates compared with the gap.</p>
+    </div>
+  </div>
+  <aside class="notes">We move to the basis that follows the matter: the instantaneous eigenstates ν₁ᵐ and ν₂ᵐ. Because the rotation U depends on position, an extra term −iU†dU/dx appears, off-diagonal and equal to dθm/dx. The diagonal gives the gap Δm; off it, how fast the basis turns. If the basis turns slowly compared with the gap, the neutrino stays in its eigenstate: adiabatic.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticity · 2</p><h2>Why the resonance is <em>the critical place</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.4fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr)"><div class="cv"><canvas id="adi-levels"></canvas></div></div>
+    <div class="stack" style="gap: 20px; align-self: center">
+      <p style="margin:0">At resonance, <i>V</i> = Δ cos 2θ and θ<sub>m</sub> = π/4. The level separation is smallest:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 38px; display:inline-block">Δ<sub>m</sub><sup>res</sup> = Δ sin 2θ</span></div>
+      <p style="margin:0">An <b>avoided crossing</b>. Far from it the levels are well apart; near it they come as close as they can — and that is where the basis turns fastest (pink area).</p>
+      <p style="margin:0">That is where the ν₁ᵐ ↔ ν₂ᵐ transition is easiest. So adiabaticity is evaluated <b>at the resonance</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">The two eigenvalues versus position. Dashed: flavour states, which would cross. Solid: matter eigenstates, which avoid each other; the minimum gap is Δ sin 2θ, exactly at resonance. The pink area is dθm/dx: the basis turns fastest exactly where the gap is smallest. Both effects add up — that is why the resonance is the deciding point.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticity · 3</p><h2>The parameter γ and <em>Landau–Zener</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .9fr 1.1fr; gap: 40px">
+    <div class="stack" style="gap: 18px">
+      <div class="eq sm" style="font-size: 32px">γ<sub>res</sub> = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span> <span class="frac"><span>sin² 2θ</span><span>cos 2θ</span></span> |<span class="frac"><span><i>d</i> ln <i>n</i><sub>e</sub></span><span><i>dx</i></span></span>|<sup>−1</sup><sub>res</sub></div>
+      <p class="small" style="margin:0">γ ≫ 1 → adiabatic · γ ≲ 1 → non-adiabatic. For a nearly linear profile at the resonance:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 38px; display:inline-block"><i>P</i><sub>jump</sub> ≃ e<sup>−πγ<sub>res</sub>/2</sup></span></div>
+      <div class="cols c2" style="gap: 14px">
+        <div class="card" style="padding: 18px 20px; --part: var(--nu-mu)"><h4>slowly</h4><p class="small" style="margin:0">upper branch → upper branch</p></div>
+        <div class="card" style="padding: 18px 20px; --part: var(--warn)"><h4>abruptly</h4><p class="small" style="margin:0">upper branch → lower branch</p></div>
+      </div>
+      <blockquote style="font-size: 27px">The resonance determines where the eigenstates mix maximally; adiabaticity determines whether the neutrino follows those eigenstates as they change.</blockquote>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr)"><div class="cv"><canvas id="adi-lz"></canvas></div></div>
+  </div>
+  <aside class="notes">Doing the algebra at resonance gives γ, the ratio of the gap to the rate at which the basis turns. Landau–Zener gives the probability to jump branches, e^{−πγ/2}. Three computed numbers: in the Sun, for ⁸B at 10 MeV, γ ≈ 3000 — fully adiabatic. In a supernova, at the H resonance at 20 MeV: with the shock front as the simulation stores it, wide, γ ≈ 5 and there is almost no jump; with the real front, centimetres wide, γ ≈ 0.01 and the jump is almost certain. This sets up the relativistic question: with respect to which parameter do we measure dθm/dx, and which energy enters Δ? That is where tetrads, local energy and proper length come in.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticity · 4 · supernova M15-7b</p><h2>The shock front <em>crosses the resonance</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: minmax(0,1.1fr) minmax(0,1fr) auto">
+      <div class="cv"><canvas id="adi-sn-rho"></canvas></div>
+      <div class="cv"><canvas id="adi-sn-lev"></canvas></div>
+      <div class="readout" id="adi-sn-out"></div>
+    </div>
+  </div>
+  <aside class="notes">The same phenomenon in a real supernova: model M15-7b from the Garching archive, at 20 MeV. Top, the density profile with the H resonance and the shock front. Bottom, the two levels along the radius, coloured by νe content. At each instant a neutrino leaves as νe on the upper branch. Before ~2.7 s the front has not reached the resonance: the profile is smooth, γ is huge and the neutrino follows the branch — 100% on top. Between ~3 and 4 s the front sits on the resonance: the step is abrupt and a good part jumps to the lower branch. Then the front moves on and everything is adiabatic again. P_H and P_ee below change accordingly. It is Part IV in one picture.</aside>
 </section>
 
 <section class="slide partcover p2">
@@ -1079,9 +1145,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011547"></script>
-<script src="assets/ghost-choque.js?v=202610011547"></script>
-<script src="assets/dash.js?v=202610011547"></script>
+<script src="assets/deck.js?v=202610011625"></script>
+<script src="assets/ghost-choque.js?v=202610011625"></script>
+<script src="assets/dash.js?v=202610011625"></script>
 <script>Deck.start();</script>
 </body>
 </html>

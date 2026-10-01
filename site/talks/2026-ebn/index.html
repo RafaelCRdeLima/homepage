@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011547">
+<link rel="stylesheet" href="assets/deck.css?v=202610011625">
 </head>
 <body>
 
@@ -105,6 +105,72 @@
     </div>
   </div>
   <aside class="notes">O efeito MSW visto como problema de dois níveis. A matéria entra só na diagonal, como V = √2 G_F n_e; a mistura de vácuo fica fora da diagonal, Δ sin 2θ, com Δ = Δm²/2E. Na animação o meio está fixo — o centro do Sol — e a energia do neutrino sobe. A diagonal, em rosa, encolhe; quando ela zera, V = Δ cos 2θ, o hamiltoniano fica só fora da diagonal e os autoestados viram metade νe, metade νμ: mistura máxima, ressonância, em 1,9 MeV. Acima disso a matéria domina e o autoestado pesado vira νe puro. Não é “a matéria aumenta a oscilação”: é um cruzamento evitado, e o neutrino que o atravessa devagar troca de sabor adiabaticamente. Numa supernova, é o perfil n_e(r) que varre essa ressonância — e é aí que entra a frente de choque da Parte IV.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticidade · 1</p><h2>Na base que <em>acompanha a matéria</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <div class="stack" style="gap: 18px">
+      <p class="small" style="margin:0">Passe da base de sabor para a base instantânea de matéria:</p>
+      <div class="eq sm" style="font-size: 36px"><span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>e</sub></span><span>ν<sub>x</sub></span></span><span class="mx-p">)</span></span> = <i>U</i>(θ<sub>m</sub>(<i>x</i>)) <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span></div>
+      <p class="small" style="margin:0">Como <i>U</i> depende de <i>x</i>, a equação de Schrödinger ganha um termo:</p>
+      <div class="eq sm" style="font-size: 33px"><i>i</i> <span class="frac"><span><i>d</i></span><span><i>dx</i></span></span> <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span> = [ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>−Δ<sub>m</sub>/2</span><span>0</span><span>0</span><span>+Δ<sub>m</sub>/2</span></span><span class="mx-p">)</span></span> − <i>i U</i><sup>†</sup><span class="frac"><span><i>dU</i></span><span><i>dx</i></span></span> ] <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span></div>
+      <div class="eq sm" style="font-size: 33px">−<i>i U</i><sup>†</sup><span class="frac"><span><i>dU</i></span><span><i>dx</i></span></span> ~ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>0</span><span><i>i</i> dθ<sub>m</sub>/d<i>x</i></span><span>−<i>i</i> dθ<sub>m</sub>/d<i>x</i></span><span>0</span></span><span class="mx-p">)</span></span></div>
+    </div>
+    <div class="stack" style="gap: 24px; align-self: center">
+      <p class="big" style="margin:0">O gradiente da densidade reaparece como um termo <b>fora da diagonal</b> na base dos autoestados instantâneos.</p>
+      <p style="margin:0">Uma competição direta:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 40px; display:inline-block">Δ<sub>m</sub> &nbsp;contra&nbsp; |dθ<sub>m</sub>/d<i>x</i>|</span></div>
+      <p style="margin:0">Condição adiabática:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 40px; display:inline-block; border-color: var(--nu-mu)">|dθ<sub>m</sub>/d<i>x</i>| ≪ Δ<sub>m</sub></span></div>
+      <p class="small muted" style="margin:0">Mais fundamental que “a densidade varia devagar”: o que importa é o ritmo da rotação da base comparado ao gap.</p>
+    </div>
+  </div>
+  <aside class="notes">Passamos para a base que acompanha a matéria: os autoestados instantâneos ν₁ᵐ e ν₂ᵐ. Como a rotação U depende da posição, aparece um termo extra, −iU†dU/dx, que fora da diagonal é dθm/dx. A diagonal dá o gap Δm; fora dela, o quão rápido a base gira. Se a base gira devagar comparada ao gap, o neutrino fica no seu autoestado: adiabático.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticidade · 2</p><h2>Por que a ressonância é <em>o lugar crítico</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.4fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr)"><div class="cv"><canvas id="adi-levels"></canvas></div></div>
+    <div class="stack" style="gap: 20px; align-self: center">
+      <p style="margin:0">Na ressonância, <i>V</i> = Δ cos 2θ e θ<sub>m</sub> = π/4. A separação entre os níveis é mínima:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 38px; display:inline-block">Δ<sub>m</sub><sup>res</sup> = Δ sin 2θ</span></div>
+      <p style="margin:0">Um <b>cruzamento evitado</b>. Longe dela os níveis estão bem separados; perto, ficam o mais próximos possível — e é ali que a base gira mais rápido (área rosa).</p>
+      <p style="margin:0">É onde fica mais fácil a transição ν₁ᵐ ↔ ν₂ᵐ. Por isso a adiabaticidade se avalia <b>na ressonância</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">Os dois autovalores em função da posição. Tracejado: os estados de sabor, que se cruzariam. Cheio: os autoestados de matéria, que se evitam; o gap mínimo é Δ sin 2θ, exatamente na ressonância. A área rosa é dθm/dx: a base gira mais rápido justamente onde o gap é menor. Os dois efeitos se somam — por isso a ressonância é o ponto que decide.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticidade · 3</p><h2>O parâmetro γ e <em>Landau–Zener</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .9fr 1.1fr; gap: 40px">
+    <div class="stack" style="gap: 18px">
+      <div class="eq sm" style="font-size: 32px">γ<sub>res</sub> = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span> <span class="frac"><span>sin² 2θ</span><span>cos 2θ</span></span> |<span class="frac"><span><i>d</i> ln <i>n</i><sub>e</sub></span><span><i>dx</i></span></span>|<sup>−1</sup><sub>res</sub></div>
+      <p class="small" style="margin:0">γ ≫ 1 → adiabático · γ ≲ 1 → não adiabático. Para um perfil quase linear na ressonância:</p>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 38px; display:inline-block"><i>P</i><sub>jump</sub> ≃ e<sup>−πγ<sub>res</sub>/2</sup></span></div>
+      <div class="cols c2" style="gap: 14px">
+        <div class="card" style="padding: 18px 20px; --part: var(--nu-mu)"><h4>devagar</h4><p class="small" style="margin:0">ramo superior → ramo superior</p></div>
+        <div class="card" style="padding: 18px 20px; --part: var(--warn)"><h4>abruptamente</h4><p class="small" style="margin:0">ramo superior → ramo inferior</p></div>
+      </div>
+      <blockquote style="font-size: 27px">A ressonância determina onde os autoestados se misturam maximamente; a adiabaticidade determina se o neutrino acompanha esses autoestados enquanto eles mudam.</blockquote>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr)"><div class="cv"><canvas id="adi-lz"></canvas></div></div>
+  </div>
+  <aside class="notes">Fazendo a álgebra na ressonância sai o parâmetro γ, a razão entre o gap e o ritmo de rotação da base. Landau–Zener dá a probabilidade de pular de ramo, e^{−πγ/2}. Três números calculados: no Sol, para ⁸B a 10 MeV, γ ≈ 3000 — totalmente adiabático. Numa supernova, na ressonância H a 20 MeV: com a frente de choque como a simulação a guarda, larga, γ ≈ 5 e quase não se pula; com a frente real, de centímetros, γ ≈ 0,01 e o salto é quase certo. Isso prepara a pergunta relativística: em relação a que parâmetro medimos dθm/dx, e qual energia entra em Δ? Aí entram tetradas, energia local e comprimento próprio.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Adiabaticidade · 4 · supernova M15-7b</p><h2>A frente de choque <em>atravessa a ressonância</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: minmax(0,1.1fr) minmax(0,1fr) auto">
+      <div class="cv"><canvas id="adi-sn-rho"></canvas></div>
+      <div class="cv"><canvas id="adi-sn-lev"></canvas></div>
+      <div class="readout" id="adi-sn-out"></div>
+    </div>
+  </div>
+  <aside class="notes">O mesmo fenômeno numa supernova de verdade: o modelo M15-7b do arquivo de Garching, a 20 MeV. Em cima, o perfil de densidade com a ressonância H e a frente de choque. Embaixo, os dois níveis ao longo do raio, coloridos pelo conteúdo de νe. A cada instante sai um neutrino como νe no ramo superior. Antes de ~2,7 s a frente ainda não chegou à ressonância: o perfil é suave, γ é enorme e o neutrino segue o ramo — 100% em cima. Entre ~3 e 4 s a frente está sobre a ressonância: o degrau é abrupto e boa parte pula para o ramo inferior. Depois a frente passa e tudo volta a ser adiabático. P_H e P_ee embaixo mudam com isso. É a Parte IV em uma imagem.</aside>
 </section>
 
 <section class="slide partcover p2">
@@ -1080,9 +1146,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011547"></script>
-<script src="assets/ghost-choque.js?v=202610011547"></script>
-<script src="assets/dash.js?v=202610011547"></script>
+<script src="assets/deck.js?v=202610011625"></script>
+<script src="assets/ghost-choque.js?v=202610011625"></script>
+<script src="assets/dash.js?v=202610011625"></script>
 <script>Deck.start();</script>
 </body>
 </html>
