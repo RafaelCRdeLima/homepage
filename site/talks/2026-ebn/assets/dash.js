@@ -1586,3 +1586,39 @@ riverPanel('river-bh', 6, 'bh');
   addEventListener('slidechange', () => { if (cvR.closest('.slide').classList.contains('active')) { clock = 0; if (reduce) { clock = 3 * CYC + 0.9 * FLY; render(); } else loop(); } });
   onSlide(cvR, render);
 })();
+
+/* Slide da geodésica que nasce na fonte: passeio automático pelos três casos das notas.
+   1) estrela, R = 6 r_s: α de 0 (radial, curvas iguais) a 85°;
+   2) estrela, α = 85°: R desce de 10 a 1,7 r_s (raio quase preso na esfera de fótons);
+   3) disco em torno do buraco negro, R = 3 r_s: α de 60° a 175° — passa de escapar a ser capturado.
+   Os sliders acompanham; mexer em qualquer controle pausa o passeio por 8 s. */
+(() => {
+  const cv = document.getElementById('emit'); if (!cv) return;
+  const slide = cv.closest('.slide'), reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const elR = document.getElementById('emit-R'), elA = document.getElementById('emit-a'), seg = document.getElementById('emit-src');
+  const PH = [6, 6, 7, 2], CYC = PH.reduce((a, b) => a + b, 0);
+  let t = 0, raf = 0, last = 0, pauseUntil = 0, mode = null, auto = false;
+  const set = (el, v) => { el.value = v; el.dispatchEvent(new Event('input')); };
+  const src = m => { if (mode !== m) { mode = m; auto = true; seg.querySelector(`[data-v="${m}"]`).click(); auto = false; } };
+  const ease = x => x * x * (3 - 2 * x);
+  slide.querySelectorAll('input, .seg').forEach(el => el.addEventListener('pointerdown', () => { if (!auto) pauseUntil = performance.now() + 8000; }));
+  function apply(x) {
+    if (x < PH[0]) { src('star'); set(elR, 6); set(elA, 85 * ease(x / PH[0])); return; }
+    x -= PH[0];
+    if (x < PH[1]) { src('star'); set(elA, 85); set(elR, 10 - 8.3 * ease(x / PH[1])); return; }
+    x -= PH[1];
+    if (x < PH[2]) { src('disk'); set(elR, 3); set(elA, 60 + 115 * ease(x / PH[2])); return; }
+    src('disk'); set(elR, 3); set(elA, 175);
+  }
+  function loop() {
+    cancelAnimationFrame(raf); last = 0;
+    const tick = now => {
+      if (!slide.classList.contains('active')) { raf = 0; return; }
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      if (now > pauseUntil) { t = (t + dt) % CYC; apply(t); }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+  addEventListener('slidechange', () => { if (!reduce && slide.classList.contains('active')) { t = 0; mode = null; pauseUntil = 0; loop(); } });
+})();

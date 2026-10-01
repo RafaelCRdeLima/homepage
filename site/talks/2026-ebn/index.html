@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610011745">
+<link rel="stylesheet" href="assets/deck.css?v=202610011751">
 </head>
 <body>
 
@@ -519,7 +519,7 @@
   <header><p class="eyebrow">Dashboard · uma geodésica que nasce na fonte</p><h2>Redshift, desvio e fase <em>desde a emissão</em></h2></header>
   <div class="body">
     <div class="dash">
-      <div class="dash-head"><span class="tag part">interativo · integral exata de Fornengo et al. ao longo da órbita</span>
+      <div class="dash-head"><span class="tag part">automático · integral exata de Fornengo et al. ao longo da órbita</span>
         <div class="seg" id="emit-src"><button data-v="star" class="on">superfície de proto-estrela</button><button data-v="disk">disco em torno de buraco negro</button></div></div>
       <div class="plots two"><div class="cv"><canvas id="emit"></canvas></div><div class="cv"><canvas id="emit-p"></canvas></div></div>
       <div class="controls">
@@ -530,7 +530,7 @@
       <div class="readout" id="emit-out"></div>
     </div>
   </div>
-  <aside class="notes">Esquerda: a trajetória, colorida pela probabilidade de conversão (violeta νₑ, turquesa ν_x); tracejado é a reta sem gravidade. Direita: P contra r. Com α = 0 (radial) as curvas coincidem — a gravidade se esconde em E∞. Aumentar α e baixar R mostra a diferença. λ é livre: no vácuo, com Δm²₃₁ e 10 MeV, λ ~ 10⁴ km ~ 2 500 r_s; escalas de r_s aparecem nos regimes de matéria e coletivos. Aqui o foco é a geometria. No modo disco, ângulos maiores que 90° mandam o neutrino para dentro: abaixo de b_c ele é capturado.</aside>
+  <aside class="notes">O painel percorre sozinho três casos: estrela com α de 0 a 85°, depois R descendo até perto da esfera de fótons, depois o disco com α crescente até a captura (mexer num controle pausa por 8 s). Esquerda: a trajetória, colorida pela probabilidade de conversão (violeta νₑ, turquesa ν_x); tracejado é a reta sem gravidade. Direita: P contra r. Com α = 0 (radial) as curvas coincidem — a gravidade se esconde em E∞. Aumentar α e baixar R mostra a diferença. λ é livre: no vácuo, com Δm²₃₁ e 10 MeV, λ ~ 10⁴ km ~ 2 500 r_s; escalas de r_s aparecem nos regimes de matéria e coletivos. Aqui o foco é a geometria. No modo disco, ângulos maiores que 90° mandam o neutrino para dentro: abaixo de b_c ele é capturado.</aside>
 </section>
 
 <section class="slide partcover p3">
@@ -1237,9 +1237,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610011745"></script>
-<script src="assets/ghost-choque.js?v=202610011745"></script>
-<script src="assets/dash.js?v=202610011745"></script>
+<script src="assets/deck.js?v=202610011751"></script>
+<script src="assets/ghost-choque.js?v=202610011751"></script>
+<script src="assets/dash.js?v=202610011751"></script>
 <script>Deck.start();</script>
 </body>
 </html>
