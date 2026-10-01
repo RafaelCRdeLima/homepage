@@ -1102,3 +1102,129 @@ riverPanel('river-bh', 6, 'bh');
   addEventListener('slidechange', () => { if (cv.closest('.slide').classList.contains('active')) { if (reduce) { for (let i = 0; i < 600; i++) step(1 / 60); render(); } else loop(); } });
   onSlide(cv, render);
 })();
+
+/* Animação: Pound–Rebka (1959–60) e a mesma lei numa estrela de nêutrons.
+   Torre de 22,5 m, γ de 14,4 keV do ⁵⁷Fe: Δν/ν = gh/c² = 2,46×10⁻¹⁵. O absorvedor, movido a
+   v = gh/c = 0,736 μm/s, devolve por Doppler o que a gravidade deu (descendo) ou tirou (subindo).
+   A linha (fonte ⊗ absorvedor) tem FWHM ≈ 194 μm/s, ~260× o desvio: o gráfico mostra só o fundo
+   da linha, com o eixo vertical ampliado — o mínimo sai deslocado de ±0,74 μm/s.
+   Estrela de nêutrons 1,4 M☉, 12 km: λ(r) = λ₀ √(1 − r_s/r) / √(1 − r_s/R); no infinito 500 → 618 nm. */
+(() => {
+  const cvT = document.getElementById('pr-tower'); if (!cvT) return;
+  const cvN = document.getElementById('pr-ns'), out = document.getElementById('pr-out');
+  const V0 = 0.736, GAM = 96.95, PHASE_S = 12, SWEEP_S = 6, VMAX = 3;      // μm/s; s
+  const RS = 2 * 1.4 * 1.47662, RNS = 12, L0 = 500;                          // km; nm
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let t = 0, raf = 0, last = 0;
+  function rgb(nm) {                                                          // comprimento de onda visível → cor
+    let r = 0, g = 0, b = 0;
+    if (nm < 440) { r = -(nm - 440) / 60; b = 1; } else if (nm < 490) { g = (nm - 440) / 50; b = 1; }
+    else if (nm < 510) { g = 1; b = -(nm - 510) / 20; } else if (nm < 580) { r = (nm - 510) / 70; g = 1; }
+    else if (nm < 645) { r = 1; g = -(nm - 645) / 65; } else { r = 1; }
+    const f = nm < 420 ? .3 + .7 * (nm - 380) / 40 : nm > 700 ? .3 + .7 * (780 - nm) / 80 : 1;
+    return [r, g, b].map(x => Math.round(255 * Math.pow(Math.max(0, x) * f, 0.8)));
+  }
+  const css = (nm, a = 1) => { const [r, g, b] = rgb(nm); return `rgba(${r},${g},${b},${a})`; };
+  function render() {
+    const down = Math.floor(t / PHASE_S) % 2 === 0;                           // fonte em cima: os γ descem
+    const v0 = down ? V0 : -V0;
+    const v = VMAX * Math.sin(2 * Math.PI * t / SWEEP_S);                     // velocidade do absorvedor (+ = afastando da fonte)
+    /* ---- a torre e a linha ---- */
+    {
+      const { ctx: c, w, h } = fitCanvas(cvT);
+      const x0 = w * 0.07, x1 = w * 0.31, top = 54, bot = h - 46, xm = (x0 + x1) / 2;
+      c.strokeStyle = 'rgba(255,255,255,.25)'; c.lineWidth = 2;
+      c.beginPath(); c.moveTo(x0, top - 10); c.lineTo(x0, bot + 10); c.moveTo(x1, top - 10); c.lineTo(x1, bot + 10); c.stroke();
+      c.lineWidth = 1; for (let k = 1; k < 6; k++) { const y = top + (bot - top) * k / 6; c.beginPath(); c.moveTo(x0, y); c.lineTo(x1, y); c.stroke(); }
+      c.fillStyle = COL.text3; c.font = `15px ${FONT}`; c.textAlign = 'center';
+      c.save(); c.translate(x0 - 16, (top + bot) / 2); c.rotate(-Math.PI / 2); c.fillText('22,5 m', 0, 0); c.restore();
+      const ySrc = down ? top : bot, yAbs = down ? bot : top;
+      // fonte e absorvedor
+      c.fillStyle = 'rgba(255,184,107,.9)'; c.fillRect(xm - 44, ySrc - 13, 88, 26);
+      c.fillStyle = '#0a0b12'; c.font = `600 13px ${FONT}`; c.fillText(T('fonte ⁵⁷Co', 'source ⁵⁷Co'), xm, ySrc + 5);
+      c.fillStyle = 'rgba(158,140,255,.9)'; c.fillRect(xm - 44, yAbs - 13, 88, 26);
+      c.fillStyle = '#0a0b12'; c.fillText(T('abs. ⁵⁷Fe', 'abs. ⁵⁷Fe'), xm, yAbs + 5);
+      // seta da velocidade do absorvedor (comprimento ∝ v; + = afastando-se da fonte)
+      const dirAway = down ? 1 : -1, L = 22 * v / VMAX * dirAway, ya = yAbs;
+      if (Math.abs(L) > 1) { c.strokeStyle = COL.warn; c.fillStyle = COL.warn; c.lineWidth = 2.5; c.beginPath(); c.moveTo(xm + 58, ya - L / 2); c.lineTo(xm + 58, ya + L / 2); c.stroke();
+        const s = Math.sign(L); c.beginPath(); c.moveTo(xm + 58, ya + L / 2 + 6 * s); c.lineTo(xm + 53, ya + L / 2 - 2 * s); c.lineTo(xm + 63, ya + L / 2 - 2 * s); c.fill(); }
+      // pacotes γ: cor exagerada, azulando ao cair, avermelhando ao subir
+      const NP = 5, span = bot - top - 40;
+      for (let k = 0; k < NP; k++) {
+        const u = ((t * 0.35 + k / NP) % 1), yc = down ? top + 20 + u * span : bot - 20 - u * span;
+        const nm = down ? 540 - 90 * u : 540 + 90 * u, lam = (down ? 12 - 5 * u : 12 + 5 * u);
+        c.strokeStyle = css(nm, Math.min(1, 4 * u, 4 * (1 - u))); c.lineWidth = 2.5; c.beginPath();
+        for (let j = -26; j <= 26; j++) { const y = yc + j, x = xm + 9 * Math.sin(2 * Math.PI * j / lam) * Math.exp(-(j * j) / 300); j === -26 ? c.moveTo(x, y) : c.lineTo(x, y); }
+        c.stroke();
+      }
+      c.fillStyle = COL.warn; c.font = `13px ${FONT}`; c.textAlign = 'center';
+      c.fillText(T('cores exageradas ~4×10¹³×', 'colours exaggerated ~4×10¹³×'), xm, h - 16);
+      c.fillStyle = COL.text2; c.font = `15px ${FONT}`;
+      c.fillText(down ? T('descendo: ganha energia', 'falling: gains energy') : T('subindo: perde energia', 'rising: loses energy'), xm, 24);
+      // o fundo da linha de absorção contra a velocidade
+      const P = new Plot(cvT, { x: [-VMAX, VMAX], y: [0, 5], m: [40, 18, 64, x1 + 80 - 0], fs: 15, yticks: [0, 1, 2, 3, 4, 5], xticks: [-3, -2, -1, 0, 1, 2, 3] });
+      P.L = x1 + 110; P.R = w - 18; P.T = 44; P.B = h - 64; P.ctx = c; P.w = w; P.h = h;
+      P.frame(T('velocidade do absorvedor (μm/s, + afastando da fonte)', 'absorber velocity (μm/s, + moving away from the source)'), null);
+      c.save(); c.translate(P.L - 44, (P.T + P.B) / 2); c.rotate(-Math.PI / 2); c.fillStyle = COL.text2; c.font = `16px ${FONT}`; c.textAlign = 'center';
+      c.fillText(T('contagem − mínimo (×10⁻⁴)', 'counts − minimum (×10⁻⁴)'), 0, 0); c.restore();
+      const vs = linspace(-VMAX, VMAX, 240), curve = vv0 => vs.map(x => 0.3 * (1 - 1 / (1 + ((x - vv0) / GAM) ** 2)) * 1e4);
+      P.clip();
+      P.line(vs, curve(-v0), { color: COL.text3, width: 1.5, dash: [5, 6], alpha: .6 });
+      P.line(vs, curve(v0), { color: COL.e, width: 3, glow: 10 });
+      P.vline(0, { color: COL.text3, label: T('sem gravidade', 'no gravity'), y: P.T + 6 });
+      P.vline(v0, { color: COL.mu, dash: [3, 4], label: `v = gh/c = ${(v0 >= 0 ? '+' : '−') + V0.toFixed(2).replace('.', DEC)} μm/s`, y: P.T + 26, side: v0 > 0 ? 'right' : 'left' });
+      P.unclip();
+      const yv = 0.3 * (1 - 1 / (1 + ((v - v0) / GAM) ** 2)) * 1e4;
+      P.dot(v, yv, { color: Math.abs(v - v0) < 0.15 ? '#fff' : COL.e, r: 7, glow: 18 });
+      c.fillStyle = COL.text3; c.font = `13px ${FONT}`; c.textAlign = 'right';
+      c.fillText(T('fundo da linha · FWHM real 194 μm/s · eixo vertical ampliado', 'bottom of the line · real FWHM 194 μm/s · vertical axis magnified'), P.R, P.T - 12);
+      var vNow = v, v0Now = v0, downNow = down;
+    }
+    /* ---- a estrela de nêutrons: a mesma lei, sem exagero ---- */
+    {
+      const { ctx: c, w, h } = fitCanvas(cvN);
+      const sx = w * 0.16, sy = h * 0.42, sr = Math.min(w, h) * 0.13, xe = w - 24;
+      const rAt = x => RNS * Math.pow(40, (x - (sx + sr)) / (xe - (sx + sr)));   // raio físico ao longo do caminho (log)
+      const lamAt = r => L0 * Math.sqrt(1 - RS / r) / Math.sqrt(1 - RS / RNS);
+      // o caminho contínuo, colorido pelo comprimento de onda local
+      for (let x = sx + sr; x < xe; x += 2) { c.strokeStyle = css(lamAt(rAt(x)), .35); c.lineWidth = 3; c.beginPath(); c.moveTo(x, sy); c.lineTo(x + 2.5, sy); c.stroke(); }
+      // pacotes que saem
+      for (let k = 0; k < 3; k++) {
+        const u = (t * 0.18 + k / 3) % 1, xc = sx + sr + 30 + u * (xe - sx - sr - 60), lam = lamAt(rAt(xc)), wl = 10 * lam / L0;
+        c.strokeStyle = css(lam, Math.min(1, 5 * u, 5 * (1 - u))); c.lineWidth = 2.5; c.beginPath();
+        for (let j = -34; j <= 34; j++) { const x = xc + j, y = sy + 12 * Math.sin(2 * Math.PI * j / wl) * Math.exp(-(j * j) / 500); j === -34 ? c.moveTo(x, y) : c.lineTo(x, y); }
+        c.stroke();
+      }
+      const g = c.createRadialGradient(sx - sr * .3, sy - sr * .3, sr * .1, sx, sy, sr); g.addColorStop(0, '#fff'); g.addColorStop(.6, '#ffe2b8'); g.addColorStop(1, '#ffb86b');
+      c.shadowColor = '#ffb86b'; c.shadowBlur = 24; c.fillStyle = g; c.beginPath(); c.arc(sx, sy, sr, 0, 7); c.fill(); c.shadowBlur = 0;
+      c.font = `15px ${FONT}`; c.textAlign = 'center'; c.fillStyle = COL.text2;
+      c.fillText(T('estrela de nêutrons · 1,4 M☉ · 12 km', 'neutron star · 1.4 M☉ · 12 km'), sx + 40, sy + sr + 28);
+      c.fillStyle = css(L0); c.fillText(T('sai com 500 nm', 'leaves at 500 nm'), sx + sr + 60, sy - 34);
+      c.fillStyle = css(lamAt(1e9)); c.textAlign = 'right'; c.fillText(T('chega com 618 nm', 'arrives at 618 nm'), xe, sy - 34);
+      // espectro com as duas marcas
+      const bx0 = 24, bx1 = w - 24, by = h - 54, nmX = nm => bx0 + (nm - 400) / 300 * (bx1 - bx0);
+      for (let x = bx0; x < bx1; x++) { c.fillStyle = css(400 + 300 * (x - bx0) / (bx1 - bx0)); c.fillRect(x, by, 1.5, 14); }
+      [[L0, T('emitido', 'emitted')], [lamAt(1e9), T('observado', 'observed')]].forEach(([nm, lab]) => {
+        const x = nmX(nm); c.strokeStyle = '#fff'; c.lineWidth = 2; c.beginPath(); c.moveTo(x, by - 6); c.lineTo(x, by + 20); c.stroke();
+        c.fillStyle = COL.text; c.textAlign = 'center'; c.font = `14px ${FONT}`; c.fillText(`${lab} ${Math.round(nm)} nm`, x, by + 38);
+      });
+      c.fillStyle = COL.mu; c.font = `15px ${FONT}`; c.textAlign = 'left';
+      c.fillText(T('sem exagero: cores reais', 'no exaggeration: real colours'), 10, 22);
+    }
+    out.innerHTML = `<span>${T('torre', 'tower')} Δν/ν = gh/c² <b>2,46×10⁻¹⁵</b></span>
+      <span>${T('ressonância em', 'resonance at')} <b>${(v0Now >= 0 ? '+' : '−')}0,74 μm/s</b> ${T('≈ 2,7 mm por hora', '≈ 2.7 mm per hour')}</span>
+      <span>${T('absorvedor agora', 'absorber now')} <b>${vNow.toFixed(2).replace('.', DEC)} μm/s</b></span>
+      <span>${T('estrela', 'star')} 1 + z = (1 − r<sub>s</sub>/R)<sup>−½</sup> <b>${(1 / Math.sqrt(1 - RS / RNS)).toFixed(3).replace('.', DEC)}</b></span>`.replace(/2,46|2,7 mm/g, m => DEC === '.' ? m.replace(',', '.') : m);
+  }
+  function loop() {
+    cancelAnimationFrame(raf); last = 0;
+    const tick = now => {
+      if (!cvT.closest('.slide').classList.contains('active')) { raf = 0; return; }
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      t += dt; render(); raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+  addEventListener('slidechange', () => { if (cvT.closest('.slide').classList.contains('active')) { if (reduce) { t = 1.3; render(); } else loop(); } });
+  onSlide(cvT, render);
+})();
