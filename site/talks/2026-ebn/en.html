@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610020713">
+<link rel="stylesheet" href="assets/deck.css?v=202610020719">
 </head>
 <body>
 
@@ -900,7 +900,7 @@
     <div class="stack" style="gap: 24px">
       <div class="eq sm" style="font-size: 31px"><i>H</i>(<i>r</i>) = <span class="frac"><span>1</span><span>2<i>E</i></span></span> <i>U</i> diag(0, Δ<i>m</i>²₂₁, Δ<i>m</i>²₃₁) <i>U</i><sup>†</sup> + diag(√2 <i>G</i><sub>F</sub> <i>Y</i><sub>e</sub>ρ(<i>r</i>)/<i>m</i><sub>u</sub>, 0, 0)<span class="note">three flavours, with CP phase, along each ray</span></div>
       <div class="eq sm">|ψ(<i>r</i>+Δ<i>r</i>)⟩ = e<sup>−<i>iH</i>Δ<i>r</i></sup> |ψ(<i>r</i>)⟩ ≈ Σ<sub><i>k</i></sub> <i>c</i><sub><i>k</i></sub> <i>T</i><sub><i>k</i></sub>(<i>H̃</i>) |ψ⟩<span class="note">Chebyshev expansion · rigorous spectral bounds · bisected slices</span></div>
-      <p class="small">C core (a fork of DAEDALUS, quantum walks on graphs). The complex Hamiltonian runs in a real 2n×2n embedding; exposed as a SNEWPY <i>FlavorTransformation</i>, the rest of the pipeline is unchanged.</p>
+      <p class="small">C core (a fork of DAEDALUS, the quantum-walks-on-graphs code by Prof. Edgard Amorim and me). The complex Hamiltonian runs in a real 2n×2n embedding; exposed as a SNEWPY <i>FlavorTransformation</i>, the rest of the pipeline is unchanged.</p>
     </div>
     <div class="stack" style="gap: 20px">
       <table class="tbl">
@@ -913,7 +913,7 @@
       <div class="card glow" style="--part: var(--nu-mu)"><h4>From Part II to here</h4><p class="small">Along a radial path, the gravitational terms in the phase <b>cancel</b> (Fornengo et al.). What decides the flavour leaving the star is the <b>density structure</b> the neutrino crosses.</p></div>
     </div>
   </div>
-  <aside class="notes">GHOST is a fork of my quantum-walk code, DAEDALUS. An n-flavour neutrino is an n-level system; I propagate it with Chebyshev. Validation: 10⁻¹⁴ against a public code using a different method. And the bridge with Part II: radially, gravity cancels in the phase; what remains of flavour physics inside the star is matter.</aside>
+  <aside class="notes">GHOST is a fork of DAEDALUS, the quantum-walk code I developed with Prof. Edgard Amorim. An n-flavour neutrino is an n-level system; I propagate it with Chebyshev. Validation: 10⁻¹⁴ against a public code using a different method. And the bridge with Part II: radially, gravity cancels in the phase; what remains of flavour physics inside the star is matter.</aside>
 </section>
 
 <section class="slide content p4">
@@ -935,7 +935,7 @@
     </div>
     <div class="cols c2" style="gap: 14px; align-content: start"><div class="card" style="padding: 18px 22px"><h4>1 · Guaranteed precision</h4><p class="small" style="margin:0">The coefficients fall super-exponentially once the order passes ~λΔx (λ: spectral radius). With rigorous spectral bounds, GHOST knows how many terms reach machine precision — hence the <b>2.2×10⁻¹⁴</b> against NuOscProbExact.</p></div><div class="card" style="padding: 18px 22px"><h4>2 · Large steps</h4><p class="small" style="margin:0">Each constant-density slice is propagated <b>in one go</b>, even across many L<sub>osc</sub>. A Runge–Kutta would need steps shorter than L<sub>osc</sub> and would accumulate error and loss of unitarity over thousands of km.</p></div><div class="card" style="padding: 18px 22px"><h4>3 · No diagonalization</h4><p class="small" style="margin:0">Only matrix × vector products. The norm is conserved to round-off.</p></div><div class="card" style="padding: 18px 22px"><h4>4 · Any Hermitian <i>H</i></h4><p class="small" style="margin:0">The same code does 2 or 3 flavours, CP phase, steriles and, via quantum trajectories, decoherence. Mass and matter enter as “self-loops” on the diagonal; the complex <i>H</i>, through a real 2<i>n</i>×2<i>n</i> embedding.</p></div></div>
   </div>
-  <aside class="notes">Why Chebyshev. An n-flavour neutrino is an n-level system, and the task is to apply e^(−iHΔx) to the state, slice by slice of the profile. The Chebyshev expansion writes that exponential as a polynomial in H, with Bessel-function coefficients: they plummet once the order passes λΔx, as in the plot, and with rigorous spectral bounds machine precision can be guaranteed. That lets each slice be propagated in one go, without diagonalizing, conserving the norm. The honest historical reason: the core already existed and was validated in DAEDALUS, my quantum-walk code; for 3 flavours, diagonalizing a 3×3 per slice would also work. Short answer if asked: machine precision with controlled error and slice-sized steps.</aside>
+  <aside class="notes">Why Chebyshev. An n-flavour neutrino is an n-level system, and the task is to apply e^(−iHΔx) to the state, slice by slice of the profile. The Chebyshev expansion writes that exponential as a polynomial in H, with Bessel-function coefficients: they plummet once the order passes λΔx, as in the plot, and with rigorous spectral bounds machine precision can be guaranteed. That lets each slice be propagated in one go, without diagonalizing, conserving the norm. The honest historical reason: the core already existed and was validated in DAEDALUS, the quantum-walk code by Prof. Edgard Amorim and me; for 3 flavours, diagonalizing a 3×3 per slice would also work. Short answer if asked: machine precision with controlled error and slice-sized steps.</aside>
 </section>
 
 <section class="slide content p4">
@@ -1367,9 +1367,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610020713"></script>
-<script src="assets/ghost-choque.js?v=202610020713"></script>
-<script src="assets/dash.js?v=202610020713"></script>
+<script src="assets/deck.js?v=202610020719"></script>
+<script src="assets/ghost-choque.js?v=202610020719"></script>
+<script src="assets/dash.js?v=202610020719"></script>
 <script>Deck.start();</script>
 </body>
 </html>

@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610020713">
+<link rel="stylesheet" href="assets/deck.css?v=202610020719">
 </head>
 <body>
 
@@ -901,7 +901,7 @@
     <div class="stack" style="gap: 24px">
       <div class="eq sm" style="font-size: 31px"><i>H</i>(<i>r</i>) = <span class="frac"><span>1</span><span>2<i>E</i></span></span> <i>U</i> diag(0, Δ<i>m</i>²₂₁, Δ<i>m</i>²₃₁) <i>U</i><sup>†</sup> + diag(√2 <i>G</i><sub>F</sub> <i>Y</i><sub>e</sub>ρ(<i>r</i>)/<i>m</i><sub>u</sub>, 0, 0)<span class="note">três sabores, com fase CP, ao longo de cada raio</span></div>
       <div class="eq sm">|ψ(<i>r</i>+Δ<i>r</i>)⟩ = e<sup>−<i>iH</i>Δ<i>r</i></sup> |ψ(<i>r</i>)⟩ ≈ Σ<sub><i>k</i></sub> <i>c</i><sub><i>k</i></sub> <i>T</i><sub><i>k</i></sub>(<i>H̃</i>) |ψ⟩<span class="note">expansão de Chebyshev · limites espectrais rigorosos · fatias bissectadas</span></div>
-      <p class="small">Núcleo em C (fork do DAEDALUS, caminhadas quânticas em grafos). O hamiltoniano complexo roda num mergulho real 2n×2n; exposto como uma <i>FlavorTransformation</i> do SNEWPY, o resto da cadeia não muda.</p>
+      <p class="small">Núcleo em C (fork do DAEDALUS, código de caminhadas quânticas em grafos meu e do Prof. Edgard Amorim). O hamiltoniano complexo roda num mergulho real 2n×2n; exposto como uma <i>FlavorTransformation</i> do SNEWPY, o resto da cadeia não muda.</p>
     </div>
     <div class="stack" style="gap: 20px">
       <table class="tbl">
@@ -914,7 +914,7 @@
       <div class="card glow" style="--part: var(--nu-mu)"><h4>Da Parte II para cá</h4><p class="small">Na trajetória radial, os termos gravitacionais da fase <b>se cancelam</b> (Fornengo et al.). O que decide o sabor que sai da estrela é a <b>estrutura de densidade</b> que o neutrino atravessa.</p></div>
     </div>
   </div>
-  <aside class="notes">GHOST é um fork do meu código de caminhadas quânticas, o DAEDALUS. Um neutrino de n sabores é um sistema de n níveis; propago com Chebyshev. A validação: 10⁻¹⁴ contra um código público com método diferente. E a ponte com a Parte II: radialmente, a gravidade se cancela na fase; o que sobra de física de sabor dentro da estrela é a matéria.</aside>
+  <aside class="notes">GHOST é um fork do DAEDALUS, o código de caminhadas quânticas que desenvolvi com o Prof. Edgard Amorim. Um neutrino de n sabores é um sistema de n níveis; propago com Chebyshev. A validação: 10⁻¹⁴ contra um código público com método diferente. E a ponte com a Parte II: radialmente, a gravidade se cancela na fase; o que sobra de física de sabor dentro da estrela é a matéria.</aside>
 </section>
 
 <section class="slide content p4">
@@ -936,7 +936,7 @@
     </div>
     <div class="cols c2" style="gap: 14px; align-content: start"><div class="card" style="padding: 18px 22px"><h4>1 · Precisão garantida</h4><p class="small" style="margin:0">Os coeficientes caem super-exponencialmente quando a ordem passa de ~λΔx (λ: raio espectral). Com limites espectrais rigorosos, o GHOST sabe quantos termos usar para chegar à precisão de máquina — daí os <b>2,2×10⁻¹⁴</b> contra o NuOscProbExact.</p></div><div class="card" style="padding: 18px 22px"><h4>2 · Passos grandes</h4><p class="small" style="margin:0">Cada fatia de densidade constante é propagada <b>de uma vez</b>, mesmo cobrindo muitos L<sub>osc</sub>. Um Runge–Kutta pediria passos menores que L<sub>osc</sub> e acumularia erro e perda de unitariedade em milhares de km.</p></div><div class="card" style="padding: 18px 22px"><h4>3 · Sem diagonalizar</h4><p class="small" style="margin:0">Só produtos matriz × vetor. A norma se conserva no nível do arredondamento.</p></div><div class="card" style="padding: 18px 22px"><h4>4 · Qualquer <i>H</i> hermitiano</h4><p class="small" style="margin:0">O mesmo código faz 2 ou 3 sabores, fase CP, estéreis e, por trajetórias quânticas, decoerência. Massa e matéria entram como “auto-laços” na diagonal; o <i>H</i> complexo, por um mergulho real 2<i>n</i>×2<i>n</i>.</p></div></div>
   </div>
-  <aside class="notes">Por que Chebyshev. Um neutrino de n sabores é um sistema de n níveis, e o problema é aplicar e^(−iHΔx) ao estado, fatia por fatia do perfil. A expansão de Chebyshev escreve essa exponencial como polinômio em H, com coeficientes que são funções de Bessel: eles despencam quando a ordem passa de λΔx, como no gráfico, e com limites espectrais rigorosos dá para garantir a precisão de máquina. Isso permite propagar cada fatia de uma vez, sem diagonalizar, conservando a norma. O motivo histórico, honesto: o núcleo já existia e estava validado no DAEDALUS, meu código de caminhadas quânticas; para 3 sabores, diagonalizar 3×3 por fatia também funcionaria. Resposta curta se perguntarem: precisão de máquina com erro controlado e passos do tamanho da fatia.</aside>
+  <aside class="notes">Por que Chebyshev. Um neutrino de n sabores é um sistema de n níveis, e o problema é aplicar e^(−iHΔx) ao estado, fatia por fatia do perfil. A expansão de Chebyshev escreve essa exponencial como polinômio em H, com coeficientes que são funções de Bessel: eles despencam quando a ordem passa de λΔx, como no gráfico, e com limites espectrais rigorosos dá para garantir a precisão de máquina. Isso permite propagar cada fatia de uma vez, sem diagonalizar, conservando a norma. O motivo histórico, honesto: o núcleo já existia e estava validado no DAEDALUS, o código de caminhadas quânticas meu e do Prof. Edgard Amorim; para 3 sabores, diagonalizar 3×3 por fatia também funcionaria. Resposta curta se perguntarem: precisão de máquina com erro controlado e passos do tamanho da fatia.</aside>
 </section>
 
 <section class="slide content p4">
@@ -1368,9 +1368,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610020713"></script>
-<script src="assets/ghost-choque.js?v=202610020713"></script>
-<script src="assets/dash.js?v=202610020713"></script>
+<script src="assets/deck.js?v=202610020719"></script>
+<script src="assets/ghost-choque.js?v=202610020719"></script>
+<script src="assets/dash.js?v=202610020719"></script>
 <script>Deck.start();</script>
 </body>
 </html>
