@@ -22,7 +22,8 @@
   --nu-mu: #56e1d0;
   --nu-tau: #ffb86b;
   --warn: #ff7a8a;
-  --ghost: #5aa9ff;               /* Parte III: resultados do GHOST (azul) */
+  --ghost: #ffb86b;               /* Parte III: GHOST — âmbar (ν_τ), a terceira cor do título */
+  --premissa: #c3c8d6;           /* premissas: neutro, fora das três partes */
 
   --part: var(--nu-e);            /* cor da parte atual; cada seção redefine */
   --W: 1920px;
@@ -48,10 +49,10 @@ a { color: inherit; }
 .slide.active { opacity: 1; visibility: visible; transition: opacity .4s ease; z-index: 2; }
 .notes { display: none; }
 
-.slide.p1 { --part: var(--nu-e); }
-.slide.p2 { --part: var(--nu-tau); }
-.slide.p3 { --part: var(--nu-mu); }
-.slide.p4 { --part: var(--ghost); }
+.slide.p1 { --part: var(--premissa); }          /* premissas */
+.slide.p2 { --part: var(--nu-e); }              /* Parte I  · espaço-tempo curvo · violeta (νₑ) */
+.slide.p3 { --part: var(--nu-mu); }             /* Parte II · neutrinos em ET curvo · turquesa (ν_μ) */
+.slide.p4 { --part: var(--ghost); }             /* Parte III · GHOST · âmbar (ν_τ) */
 
 /* ---------- slide de conteúdo ---------- */
 .content {
