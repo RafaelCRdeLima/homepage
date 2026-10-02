@@ -37,6 +37,25 @@ const Deck = (() => {
     dispatchEvent(new CustomEvent('stagefit', { detail: scale }));
   }
 
+  function toggleFS() {
+    const d = document, el = d.documentElement;
+    if (d.fullscreenElement || d.webkitFullscreenElement) (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+    else {
+      const p = (el.requestFullscreen || el.webkitRequestFullscreen).call(el, { navigationUI: 'hide' });
+      if (p && p.catch) p.catch(() => {});
+    }
+  }
+  const fsBtn = document.createElement('button');
+  fsBtn.className = 'fsbtn'; fsBtn.type = 'button'; fsBtn.textContent = '⛶';
+  fsBtn.title = T('Tela cheia (F)', 'Full screen (F)');
+  fsBtn.addEventListener('click', e => { e.stopPropagation(); toggleFS(); fsBtn.blur(); });
+  document.body.appendChild(fsBtn);
+  // duplo clique fora de controles também alterna
+  addEventListener('dblclick', e => {
+    if (document.body.classList.contains('overview') || e.target.closest('input, button, select, a, canvas, .dash')) return;
+    toggleFS();
+  });
+
   function show(i, push = true) {
     index = Math.max(0, Math.min(slides.length - 1, i));
     slides.forEach((el, k) => el.classList.toggle('active', k === index));
@@ -69,7 +88,8 @@ const Deck = (() => {
     else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(k)) { e.preventDefault(); show(index - 1); }
     else if (k === 'Home') show(0);
     else if (k === 'End') show(slides.length - 1);
-    else if (k.toLowerCase() === 'f') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+    // F5 / Shift+F5: botão “iniciar apresentação” dos passadores (no Windows recarregaria a página)
+    else if (k.toLowerCase() === 'f' || k === 'F5') { e.preventDefault(); toggleFS(); }
     else if (k.toLowerCase() === 'n') document.body.classList.toggle('show-notes');
     else if (k.toLowerCase() === 'o') overview(!document.body.classList.contains('overview'));
     else if (k === '?') help.classList.toggle('open');

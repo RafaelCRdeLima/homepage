@@ -347,6 +347,9 @@ body.show-notes #notes-panel { display: block; }
 body:hover .langsw, .langsw:focus-within { opacity: .9; }
 .langsw a { color: var(--text-3); text-decoration: none; padding: 5px 9px; border-radius: 6px; }
 .langsw a:hover { color: var(--text); }
+.fsbtn { position: fixed; top: 12px; right: 104px; z-index: 30; background: none; border: 0; color: var(--text-3); font: 18px var(--ui); padding: 3px 8px; border-radius: 6px; cursor: pointer; opacity: 0; transition: opacity .3s; }
+body:hover .fsbtn, .fsbtn:focus-visible { opacity: .9; }
+.fsbtn:hover { color: var(--text); background: rgba(255,255,255,.09); }
 .langsw a.on { color: var(--text); background: rgba(255,255,255,.09); }
 
 /* visão geral: grade de miniaturas */
@@ -354,7 +357,7 @@ body.overview { overflow: auto; }
 body.overview #stage { position: static; transform: none; width: auto; height: auto; display: grid; grid-template-columns: repeat(auto-fill, 384px); gap: 18px; padding: 24px; justify-content: center; }
 body.overview .slide { position: relative; opacity: 1; visibility: visible; width: 1920px; height: 1080px; transform: scale(.2); transform-origin: 0 0; margin: 0 -1536px -864px 0; cursor: pointer; border-radius: 30px; outline: 6px solid transparent; }
 body.overview .slide.active { outline-color: var(--nu-mu); }
-body.overview .progress, body.overview .counter { display: none; }
+body.overview .progress, body.overview .counter, body.overview .fsbtn { display: none; }
 
 /* ---------- impressão: um slide por página ---------- */
 @page { size: 1920px 1080px; margin: 0; }
@@ -362,7 +365,7 @@ body.overview .progress, body.overview .counter { display: none; }
   html, body { overflow: visible; height: auto; }
   #stage { position: static; transform: none; }
   .slide { position: relative; width: var(--W); height: var(--H); opacity: 1; visibility: visible; break-after: page; }
-  .progress, .counter, .langsw, #notes-panel, #help { display: none !important; }
+  .progress, .counter, .langsw, .fsbtn, #notes-panel, #help { display: none !important; }
   .rise { animation: none !important; }
 }
 
