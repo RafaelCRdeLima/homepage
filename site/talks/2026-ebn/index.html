@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610012117">
+<link rel="stylesheet" href="assets/deck.css?v=202610012158">
 </head>
 <body>
 
@@ -117,16 +117,22 @@
       <div class="eq sm" style="font-size: 33px"><i>i</i> <span class="frac"><span><i>d</i></span><span><i>dx</i></span></span> <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span> = [ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>−Δ<sub>m</sub>/2</span><span>0</span><span>0</span><span>+Δ<sub>m</sub>/2</span></span><span class="mx-p">)</span></span> − <i>i U</i><sup>†</sup><span class="frac"><span><i>dU</i></span><span><i>dx</i></span></span> ] <span class="mx"><span class="mx-p">(</span><span class="mx-g" style="grid-template-columns: auto"><span>ν<sub>1</sub><sup>m</sup></span><span>ν<sub>2</sub><sup>m</sup></span></span><span class="mx-p">)</span></span></div>
       <div class="eq sm" style="font-size: 33px">−<i>i U</i><sup>†</sup><span class="frac"><span><i>dU</i></span><span><i>dx</i></span></span> ~ <span class="mx"><span class="mx-p">(</span><span class="mx-g"><span>0</span><span><i>i</i> dθ<sub>m</sub>/d<i>x</i></span><span>−<i>i</i> dθ<sub>m</sub>/d<i>x</i></span><span>0</span></span><span class="mx-p">)</span></span></div>
     </div>
-    <div class="stack" style="gap: 24px; align-self: center">
-      <p class="big" style="margin:0">O gradiente da densidade reaparece como um termo <b>fora da diagonal</b> na base dos autoestados instantâneos.</p>
+    <div class="stack" style="gap: 12px; align-self: start">
+      <div class="card" style="padding: 14px 18px; border-color: rgba(255,255,255,.18)">
+        <p class="small" style="margin:0 0 6px"><b>Ponte com o slide anterior:</b> <i>U</i>(θ<sub>m</sub>) diagonaliza o <i>H</i> de lá:</p>
+        <p class="ui" style="margin:0 0 6px; font-size: 22px; color: var(--text); text-align:center">Δ<sub>m</sub> cos 2θ<sub>m</sub> = Δ cos 2θ − <i>V</i> &nbsp;·&nbsp; Δ<sub>m</sub> sin 2θ<sub>m</sub> = Δ sin 2θ</p>
+        <p class="small muted" style="margin:0">O slide anterior dá o hamiltoniano num ponto; diagonalizá-lo define θ<sub>m</sub> e Δ<sub>m</sub>; aqui perguntamos o que acontece quando θ<sub>m</sub> muda ao longo do caminho.</p>
+      </div>
+      
+      <p style="margin:0">O gradiente da densidade reaparece como um termo <b>fora da diagonal</b> na base dos autoestados instantâneos.</p>
       <p style="margin:0">Uma competição direta:</p>
-      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 40px; display:inline-block">Δ<sub>m</sub> &nbsp;contra&nbsp; |dθ<sub>m</sub>/d<i>x</i>|</span></div>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 32px; display:inline-block">Δ<sub>m</sub> &nbsp;contra&nbsp; |dθ<sub>m</sub>/d<i>x</i>|</span></div>
       <p style="margin:0">Condição adiabática:</p>
-      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 40px; display:inline-block; border-color: var(--nu-mu)">|dθ<sub>m</sub>/d<i>x</i>| ≪ Δ<sub>m</sub></span></div>
+      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 32px; display:inline-block; border-color: var(--nu-mu)">|dθ<sub>m</sub>/d<i>x</i>| ≪ Δ<sub>m</sub></span></div>
       <p class="small muted" style="margin:0">Mais fundamental que “a densidade varia devagar”: o que importa é o ritmo da rotação da base comparado ao gap.</p>
     </div>
   </div>
-  <aside class="notes">Passamos para a base que acompanha a matéria: os autoestados instantâneos ν₁ᵐ e ν₂ᵐ. Como a rotação U depende da posição, aparece um termo extra, −iU†dU/dx, que fora da diagonal é dθm/dx. A diagonal dá o gap Δm; fora dela, o quão rápido a base gira. Se a base gira devagar comparada ao gap, o neutrino fica no seu autoestado: adiabático.</aside>
+  <aside class="notes">Em uma frase: o slide anterior dá o hamiltoniano num ponto; diagonalizá-lo define θm e Δm (Δm cos 2θm = Δ cos 2θ − V, Δm sin 2θm = Δ sin 2θ); este slide pergunta o que acontece quando θm muda ao longo do caminho. Passamos para a base que acompanha a matéria: os autoestados instantâneos ν₁ᵐ e ν₂ᵐ. Como a rotação U depende da posição, aparece um termo extra, −iU†dU/dx, que fora da diagonal é dθm/dx. A diagonal dá o gap Δm; fora dela, o quão rápido a base gira. Se a base gira devagar comparada ao gap, o neutrino fica no seu autoestado: adiabático.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1338,9 +1344,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610012117"></script>
-<script src="assets/ghost-choque.js?v=202610012117"></script>
-<script src="assets/dash.js?v=202610012117"></script>
+<script src="assets/deck.js?v=202610012158"></script>
+<script src="assets/ghost-choque.js?v=202610012158"></script>
+<script src="assets/dash.js?v=202610012158"></script>
 <script>Deck.start();</script>
 </body>
 </html>
