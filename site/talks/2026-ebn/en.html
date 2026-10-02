@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610012158">
+<link rel="stylesheet" href="assets/deck.css?v=202610012206">
 </head>
 <body>
 
@@ -149,21 +149,23 @@
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">Adiabaticity · 3</p><h2>The parameter γ and <em>Landau–Zener</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .9fr 1.1fr; gap: 40px">
-    <div class="stack" style="gap: 18px">
-      <div class="eq sm" style="font-size: 32px">γ<sub>res</sub> = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span> <span class="frac"><span>sin² 2θ</span><span>cos 2θ</span></span> |<span class="frac"><span><i>d</i> ln <i>n</i><sub>e</sub></span><span><i>dx</i></span></span>|<sup>−1</sup><sub>res</sub></div>
-      <p class="small" style="margin:0">γ ≫ 1 → adiabatic · γ ≲ 1 → non-adiabatic. For a nearly linear profile at the resonance:</p>
-      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 38px; display:inline-block"><i>P</i><sub>jump</sub> ≃ e<sup>−πγ<sub>res</sub>/2</sup></span></div>
-      <div class="cols c2" style="gap: 14px">
-        <div class="card" style="padding: 18px 20px; --part: var(--nu-mu)"><h4>slowly</h4><p class="small" style="margin:0">upper branch → upper branch</p></div>
-        <div class="card" style="padding: 18px 20px; --part: var(--warn)"><h4>abruptly</h4><p class="small" style="margin:0">upper branch → lower branch</p></div>
-      </div>
-      <blockquote style="font-size: 27px">The resonance determines where the eigenstates mix maximally; adiabaticity determines whether the neutrino follows those eigenstates as they change.</blockquote>
+  <header><p class="eyebrow">Adiabaticity · 3</p><h2>The adiabaticity parameter γ and <em>Landau–Zener</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1fr; gap: 36px">
+    <div class="stack" style="gap: 12px">
+      <div class="eq sm" style="font-size: 30px; padding: 14px 18px">γ<sub>res</sub> = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span> <span class="frac"><span>sin² 2θ</span><span>cos 2θ</span></span> |<span class="frac"><span><i>d</i> ln <i>n</i><sub>e</sub></span><span><i>dx</i></span></span>|<sup>−1</sup><sub>res</sub><span class="note">adiabaticity parameter = gap ÷ rotation of the basis, at resonance</span></div>
+      <div class="eq sm" style="font-size: 30px; padding: 12px 18px"><i>P</i><sub>jump</sub> ≃ e<sup>−πγ<sub>res</sub>/2</sup><span class="note">probability of jumping branch (Landau–Zener, nearly linear profile)</span></div>
+      <table class="tbl" style="font-size: 19px">
+        <tr><th>if…</th><th style="text-align:right; text-transform:none; font-size:20px">γ</th><th style="text-align:right; text-transform:none; font-size:18px">P<sub>jump</sub></th><th>why</th></tr>
+        <tr><td>larger energy <i>E</i></td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td class="n" style="color:var(--warn); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td style="font-size:17px">Δ = Δ<i>m</i>²/2<i>E</i> drops: smaller gap</td></tr><tr><td>larger Δ<i>m</i>²</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td class="n" style="color:var(--nu-mu); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td style="font-size:17px">larger gap</td></tr><tr><td>larger mixing θ (up to 45°)</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td class="n" style="color:var(--nu-mu); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td style="font-size:17px">larger minimum gap Δ sin 2θ</td></tr><tr><td>density varies slowly</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td class="n" style="color:var(--nu-mu); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td style="font-size:17px">scale |<i>d</i> ln <i>n</i><sub>e</sub>/<i>dx</i>|⁻¹ large: the basis turns slowly</td></tr><tr><td>shock front (step)</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">→ 0</td><td class="n" style="color:var(--warn); font-size:30px; font-family: var(--display); font-weight:400">max.</td><td style="font-size:17px">scale → 0: sudden jump</td></tr>
+      </table>
+      <p class="small" style="margin:0"><b style="color:var(--nu-mu)">γ ≫ 1</b> → adiabatic: follows the branch · <b style="color:var(--warn)">γ ≲ 1</b> → jumps branch</p>
     </div>
-    <div class="dash" style="grid-template-rows: minmax(0,1fr)"><div class="cv"><canvas id="adi-lz"></canvas></div></div>
+    <div class="stack" style="gap: 14px">
+      <div class="dash" style="grid-template-rows: minmax(0,1fr); height: 560px"><div class="cv"><canvas id="adi-lz"></canvas></div></div>
+      <blockquote style="font-size: 24px">The resonance determines where the eigenstates mix maximally; adiabaticity determines whether the neutrino follows those eigenstates as they change.</blockquote>
+    </div>
   </div>
-  <aside class="notes">Doing the algebra at resonance gives γ, the ratio of the gap to the rate at which the basis turns. Landau–Zener gives the probability to jump branches, e^{−πγ/2}. Three computed numbers: in the Sun, for ⁸B at 10 MeV, γ ≈ 3000 — fully adiabatic. In a supernova, at the H resonance at 20 MeV: with the shock front as the simulation stores it, wide, γ ≈ 5 and there is almost no jump; with the real front, centimetres wide, γ ≈ 0.01 and the jump is almost certain. This sets up the relativistic question: with respect to which parameter do we measure dθm/dx, and which energy enters Δ? That is where tetrads, local energy and proper length come in.</aside>
+  <aside class="notes">Doing the algebra at resonance gives γ, the ratio of the gap to the rate at which the basis turns. Landau–Zener gives the probability to jump branches, e^{−πγ/2}. Three computed numbers: in the Sun, for ⁸B at 10 MeV, γ ≈ 3000 — fully adiabatic. In a supernova, at the H resonance at 20 MeV: with the shock front as the simulation stores it, wide, γ ≈ 5 and there is almost no jump; with the real front, centimetres wide, γ ≈ 0.01 and the jump is almost certain. This sets up the relativistic question: with respect to which parameter do we measure dθm/dx, and which energy enters Δ? That is where tetrads, local energy and proper length come in. How to read it: γ is the gap divided by the rotation of the basis. Higher energy shrinks the gap, γ drops and the jump becomes more likely; larger Δm² or mixing widen the gap and protect adiabaticity; slowly varying density gives large γ; a shock front, with almost zero scale, gives γ → 0 and the maximal jump.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1343,9 +1345,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610012158"></script>
-<script src="assets/ghost-choque.js?v=202610012158"></script>
-<script src="assets/dash.js?v=202610012158"></script>
+<script src="assets/deck.js?v=202610012206"></script>
+<script src="assets/ghost-choque.js?v=202610012206"></script>
+<script src="assets/dash.js?v=202610012206"></script>
 <script>Deck.start();</script>
 </body>
 </html>

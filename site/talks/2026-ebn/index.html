@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610012158">
+<link rel="stylesheet" href="assets/deck.css?v=202610012206">
 </head>
 <body>
 
@@ -150,21 +150,23 @@
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">Adiabaticidade · 3</p><h2>O parâmetro γ e <em>Landau–Zener</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .9fr 1.1fr; gap: 40px">
-    <div class="stack" style="gap: 18px">
-      <div class="eq sm" style="font-size: 32px">γ<sub>res</sub> = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span> <span class="frac"><span>sin² 2θ</span><span>cos 2θ</span></span> |<span class="frac"><span><i>d</i> ln <i>n</i><sub>e</sub></span><span><i>dx</i></span></span>|<sup>−1</sup><sub>res</sub></div>
-      <p class="small" style="margin:0">γ ≫ 1 → adiabático · γ ≲ 1 → não adiabático. Para um perfil quase linear na ressonância:</p>
-      <div style="text-align:center"><span class="eq sm boxed" style="font-size: 38px; display:inline-block"><i>P</i><sub>jump</sub> ≃ e<sup>−πγ<sub>res</sub>/2</sup></span></div>
-      <div class="cols c2" style="gap: 14px">
-        <div class="card" style="padding: 18px 20px; --part: var(--nu-mu)"><h4>devagar</h4><p class="small" style="margin:0">ramo superior → ramo superior</p></div>
-        <div class="card" style="padding: 18px 20px; --part: var(--warn)"><h4>abruptamente</h4><p class="small" style="margin:0">ramo superior → ramo inferior</p></div>
-      </div>
-      <blockquote style="font-size: 27px">A ressonância determina onde os autoestados se misturam maximamente; a adiabaticidade determina se o neutrino acompanha esses autoestados enquanto eles mudam.</blockquote>
+  <header><p class="eyebrow">Adiabaticidade · 3</p><h2>O parâmetro de adiabaticidade γ e <em>Landau–Zener</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1fr; gap: 36px">
+    <div class="stack" style="gap: 12px">
+      <div class="eq sm" style="font-size: 30px; padding: 14px 18px">γ<sub>res</sub> = <span class="frac"><span>Δ<i>m</i>²</span><span>2<i>E</i></span></span> <span class="frac"><span>sin² 2θ</span><span>cos 2θ</span></span> |<span class="frac"><span><i>d</i> ln <i>n</i><sub>e</sub></span><span><i>dx</i></span></span>|<sup>−1</sup><sub>res</sub><span class="note">parâmetro de adiabaticidade = gap ÷ giro da base, na ressonância</span></div>
+      <div class="eq sm" style="font-size: 30px; padding: 12px 18px"><i>P</i><sub>jump</sub> ≃ e<sup>−πγ<sub>res</sub>/2</sup><span class="note">probabilidade de pular de ramo (Landau–Zener, perfil quase linear)</span></div>
+      <table class="tbl" style="font-size: 19px">
+        <tr><th>se…</th><th style="text-align:right; text-transform:none; font-size:20px">γ</th><th style="text-align:right; text-transform:none; font-size:18px">P<sub>jump</sub></th><th>por quê</th></tr>
+        <tr><td>energia <i>E</i> maior</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td class="n" style="color:var(--warn); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td style="font-size:17px">Δ = Δ<i>m</i>²/2<i>E</i> cai: gap menor</td></tr><tr><td>Δ<i>m</i>² maior</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td class="n" style="color:var(--nu-mu); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td style="font-size:17px">gap maior</td></tr><tr><td>mistura θ maior (até 45°)</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td class="n" style="color:var(--nu-mu); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td style="font-size:17px">gap mínimo Δ sin 2θ maior</td></tr><tr><td>densidade varia devagar</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">↑</td><td class="n" style="color:var(--nu-mu); font-size:30px; font-family: var(--display); font-weight:400">↓</td><td style="font-size:17px">escala |<i>d</i> ln <i>n</i><sub>e</sub>/<i>dx</i>|⁻¹ grande: a base gira devagar</td></tr><tr><td>frente de choque (degrau)</td><td class="n" style="color:var(--text); font-size:30px; font-family: var(--display); font-weight:400">→ 0</td><td class="n" style="color:var(--warn); font-size:30px; font-family: var(--display); font-weight:400">máx.</td><td style="font-size:17px">escala → 0: salto súbito</td></tr>
+      </table>
+      <p class="small" style="margin:0"><b style="color:var(--nu-mu)">γ ≫ 1</b> → adiabático: segue o ramo · <b style="color:var(--warn)">γ ≲ 1</b> → pula de ramo</p>
     </div>
-    <div class="dash" style="grid-template-rows: minmax(0,1fr)"><div class="cv"><canvas id="adi-lz"></canvas></div></div>
+    <div class="stack" style="gap: 14px">
+      <div class="dash" style="grid-template-rows: minmax(0,1fr); height: 560px"><div class="cv"><canvas id="adi-lz"></canvas></div></div>
+      <blockquote style="font-size: 24px">A ressonância determina onde os autoestados se misturam maximamente; a adiabaticidade determina se o neutrino acompanha esses autoestados enquanto eles mudam.</blockquote>
+    </div>
   </div>
-  <aside class="notes">Fazendo a álgebra na ressonância sai o parâmetro γ, a razão entre o gap e o ritmo de rotação da base. Landau–Zener dá a probabilidade de pular de ramo, e^{−πγ/2}. Três números calculados: no Sol, para ⁸B a 10 MeV, γ ≈ 3000 — totalmente adiabático. Numa supernova, na ressonância H a 20 MeV: com a frente de choque como a simulação a guarda, larga, γ ≈ 5 e quase não se pula; com a frente real, de centímetros, γ ≈ 0,01 e o salto é quase certo. Isso prepara a pergunta relativística: em relação a que parâmetro medimos dθm/dx, e qual energia entra em Δ? Aí entram tetradas, energia local e comprimento próprio.</aside>
+  <aside class="notes">Fazendo a álgebra na ressonância sai o parâmetro γ, a razão entre o gap e o ritmo de rotação da base. Landau–Zener dá a probabilidade de pular de ramo, e^{−πγ/2}. Três números calculados: no Sol, para ⁸B a 10 MeV, γ ≈ 3000 — totalmente adiabático. Numa supernova, na ressonância H a 20 MeV: com a frente de choque como a simulação a guarda, larga, γ ≈ 5 e quase não se pula; com a frente real, de centímetros, γ ≈ 0,01 e o salto é quase certo. Isso prepara a pergunta relativística: em relação a que parâmetro medimos dθm/dx, e qual energia entra em Δ? Aí entram tetradas, energia local e comprimento próprio. Como ler: γ é gap dividido pelo giro da base. Energia maior encolhe o gap, γ cai e o salto fica mais provável; Δm² ou mistura maiores aumentam o gap e protegem a adiabaticidade; densidade variando devagar dá γ grande; uma frente de choque, com escala quase zero, dá γ → 0 e o salto máximo.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1344,9 +1346,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610012158"></script>
-<script src="assets/ghost-choque.js?v=202610012158"></script>
-<script src="assets/dash.js?v=202610012158"></script>
+<script src="assets/deck.js?v=202610012206"></script>
+<script src="assets/ghost-choque.js?v=202610012206"></script>
+<script src="assets/dash.js?v=202610012206"></script>
 <script>Deck.start();</script>
 </body>
 </html>
