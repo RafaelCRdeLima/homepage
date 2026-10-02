@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610012206">
+<link rel="stylesheet" href="assets/deck.css?v=202610020713">
 </head>
 <body>
 
@@ -917,6 +917,28 @@
 </section>
 
 <section class="slide content p4">
+  <header><p class="eyebrow">The method</p><h2>Why <em>Chebyshev</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <div class="eq sm" style="font-size: 30px; padding: 14px 18px">|ψ(<i>x</i>+Δ<i>x</i>)⟩ = e<sup>−<i>iH</i>Δ<i>x</i></sup> |ψ(<i>x</i>)⟩<span class="note">the task: apply the exponential, slice by slice of the profile</span></div>
+      <div class="eq sm" style="font-size: 30px; padding: 14px 18px">e<sup>−<i>iH</i>Δ<i>x</i></sup> ≈ Σ<sub><i>k</i></sub> <i>c</i><sub><i>k</i></sub> <i>T</i><sub><i>k</i></sub>(<i>H̃</i>), &nbsp; <i>c</i><sub><i>k</i></sub> ∝ (−<i>i</i>)<sup><i>k</i></sup> <i>J</i><sub><i>k</i></sub>(λΔ<i>x</i>)<span class="note">Chebyshev polynomials in H; coefficients = Bessel functions</span></div>
+      <div class="dash" style="padding: 14px 18px; height: auto; display: block"><svg viewBox="0 0 620 310" style="width:100%; height:300px" role="img" aria-label="Chebyshev coefficients">
+  <g font-family="Inter Tight, sans-serif"><line x1="70" x2="600" y1="20.0" y2="20.0" stroke="rgba(255,255,255,.07)"/><text x="62" y="25.0" text-anchor="end" fill="#737b90" font-size="14">10<tspan baseline-shift="super" font-size="10">−0</tspan></text><line x1="70" x2="600" y1="74.1" y2="74.1" stroke="rgba(255,255,255,.07)"/><text x="62" y="79.1" text-anchor="end" fill="#737b90" font-size="14">10<tspan baseline-shift="super" font-size="10">−4</tspan></text><line x1="70" x2="600" y1="128.2" y2="128.2" stroke="rgba(255,255,255,.07)"/><text x="62" y="133.2" text-anchor="end" fill="#737b90" font-size="14">10<tspan baseline-shift="super" font-size="10">−8</tspan></text><line x1="70" x2="600" y1="182.4" y2="182.4" stroke="rgba(255,255,255,.07)"/><text x="62" y="187.4" text-anchor="end" fill="#737b90" font-size="14">10<tspan baseline-shift="super" font-size="10">−12</tspan></text><line x1="70" x2="600" y1="236.5" y2="236.5" stroke="rgba(255,255,255,.07)"/><text x="62" y="241.5" text-anchor="end" fill="#737b90" font-size="14">10<tspan baseline-shift="super" font-size="10">−16</tspan></text><text x="70.0" y="270" text-anchor="middle" fill="#737b90" font-size="14">0</text><text x="145.7" y="270" text-anchor="middle" fill="#737b90" font-size="14">10</text><text x="221.4" y="270" text-anchor="middle" fill="#737b90" font-size="14">20</text><text x="297.1" y="270" text-anchor="middle" fill="#737b90" font-size="14">30</text><text x="372.9" y="270" text-anchor="middle" fill="#737b90" font-size="14">40</text><text x="448.6" y="270" text-anchor="middle" fill="#737b90" font-size="14">50</text><text x="524.3" y="270" text-anchor="middle" fill="#737b90" font-size="14">60</text><text x="600.0" y="270" text-anchor="middle" fill="#737b90" font-size="14">70</text>
+  <line x1="297.1" x2="297.1" y1="20" y2="250" stroke="#56e1d0" stroke-dasharray="5 5"/>
+  <text x="303.1" y="36" fill="#56e1d0" font-size="15">k ≈ λΔx = 30</text>
+  <line x1="70" x2="600" y1="236.5" y2="236.5" stroke="#ff7a8a" stroke-dasharray="3 5"/>
+  <text x="80" y="230.5" text-anchor="start" fill="#ff7a8a" font-size="14">machine precision</text>
+  <polyline points="70.0,34.4 77.6,32.5 85.1,35.0 92.7,32.0 100.3,37.3 107.9,31.4 115.4,51.3 123.0,31.3 130.6,36.3 138.1,32.9 145.7,32.0 153.3,41.7 160.9,31.2 168.4,33.9 176.0,35.9 183.6,30.9 191.1,34.2 198.7,36.4 206.3,30.8 213.9,32.0 221.4,51.3 229.0,32.3 236.6,30.2 244.1,31.7 251.7,40.2 259.3,34.5 266.9,30.3 274.4,29.0 282.0,29.0 289.6,29.9 297.1,31.4 304.7,33.4 312.3,35.8 319.9,38.7 327.4,41.8 335.0,45.3 342.6,49.0 350.1,53.1 357.7,57.3 365.3,61.8 372.9,66.6 380.4,71.5 388.0,76.6 395.6,82.0 403.1,87.5 410.7,93.2 418.3,99.0 425.9,105.0 433.4,111.2 441.0,117.5 448.6,124.0 456.1,130.6 463.7,137.4 471.3,144.3 478.9,151.3 486.4,158.4 494.0,165.7 501.6,173.1 509.1,180.6 516.7,188.2 524.3,196.0 531.9,203.9 539.4,211.8 547.0,219.9 554.6,228.1 562.1,236.4 569.7,244.7 577.3,250.0 584.9,250.0 592.4,250.0 600.0,250.0" fill="none" stroke="#ffb86b" stroke-width="2.5"/><circle cx="70.0" cy="34.4" r="3" fill="#ffb86b"/><circle cx="85.1" cy="35.0" r="3" fill="#ffb86b"/><circle cx="100.3" cy="37.3" r="3" fill="#ffb86b"/><circle cx="115.4" cy="51.3" r="3" fill="#ffb86b"/><circle cx="130.6" cy="36.3" r="3" fill="#ffb86b"/><circle cx="145.7" cy="32.0" r="3" fill="#ffb86b"/><circle cx="160.9" cy="31.2" r="3" fill="#ffb86b"/><circle cx="176.0" cy="35.9" r="3" fill="#ffb86b"/><circle cx="191.1" cy="34.2" r="3" fill="#ffb86b"/><circle cx="206.3" cy="30.8" r="3" fill="#ffb86b"/><circle cx="221.4" cy="51.3" r="3" fill="#ffb86b"/><circle cx="236.6" cy="30.2" r="3" fill="#ffb86b"/><circle cx="251.7" cy="40.2" r="3" fill="#ffb86b"/><circle cx="266.9" cy="30.3" r="3" fill="#ffb86b"/><circle cx="282.0" cy="29.0" r="3" fill="#ffb86b"/><circle cx="297.1" cy="31.4" r="3" fill="#ffb86b"/><circle cx="312.3" cy="35.8" r="3" fill="#ffb86b"/><circle cx="327.4" cy="41.8" r="3" fill="#ffb86b"/><circle cx="342.6" cy="49.0" r="3" fill="#ffb86b"/><circle cx="357.7" cy="57.3" r="3" fill="#ffb86b"/><circle cx="372.9" cy="66.6" r="3" fill="#ffb86b"/><circle cx="388.0" cy="76.6" r="3" fill="#ffb86b"/><circle cx="403.1" cy="87.5" r="3" fill="#ffb86b"/><circle cx="418.3" cy="99.0" r="3" fill="#ffb86b"/><circle cx="433.4" cy="111.2" r="3" fill="#ffb86b"/><circle cx="448.6" cy="124.0" r="3" fill="#ffb86b"/><circle cx="463.7" cy="137.4" r="3" fill="#ffb86b"/><circle cx="478.9" cy="151.3" r="3" fill="#ffb86b"/><circle cx="494.0" cy="165.7" r="3" fill="#ffb86b"/><circle cx="509.1" cy="180.6" r="3" fill="#ffb86b"/><circle cx="524.3" cy="196.0" r="3" fill="#ffb86b"/><circle cx="539.4" cy="211.8" r="3" fill="#ffb86b"/><circle cx="554.6" cy="228.1" r="3" fill="#ffb86b"/><circle cx="569.7" cy="244.7" r="3" fill="#ffb86b"/><circle cx="584.9" cy="250.0" r="3" fill="#ffb86b"/><circle cx="600.0" cy="250.0" r="3" fill="#ffb86b"/>
+  <text x="335.0" y="308" text-anchor="middle" fill="#b3b9c9" font-size="15">order k</text>
+  <text x="18" y="135.0" transform="rotate(-90 18 135.0)" text-anchor="middle" fill="#b3b9c9" font-size="15">|c<tspan baseline-shift="sub" font-size="11">k</tspan>| = |J<tspan baseline-shift="sub" font-size="11">k</tspan>(λΔx)|</text></g>
+</svg></div>
+    </div>
+    <div class="cols c2" style="gap: 14px; align-content: start"><div class="card" style="padding: 18px 22px"><h4>1 · Guaranteed precision</h4><p class="small" style="margin:0">The coefficients fall super-exponentially once the order passes ~λΔx (λ: spectral radius). With rigorous spectral bounds, GHOST knows how many terms reach machine precision — hence the <b>2.2×10⁻¹⁴</b> against NuOscProbExact.</p></div><div class="card" style="padding: 18px 22px"><h4>2 · Large steps</h4><p class="small" style="margin:0">Each constant-density slice is propagated <b>in one go</b>, even across many L<sub>osc</sub>. A Runge–Kutta would need steps shorter than L<sub>osc</sub> and would accumulate error and loss of unitarity over thousands of km.</p></div><div class="card" style="padding: 18px 22px"><h4>3 · No diagonalization</h4><p class="small" style="margin:0">Only matrix × vector products. The norm is conserved to round-off.</p></div><div class="card" style="padding: 18px 22px"><h4>4 · Any Hermitian <i>H</i></h4><p class="small" style="margin:0">The same code does 2 or 3 flavours, CP phase, steriles and, via quantum trajectories, decoherence. Mass and matter enter as “self-loops” on the diagonal; the complex <i>H</i>, through a real 2<i>n</i>×2<i>n</i> embedding.</p></div></div>
+  </div>
+  <aside class="notes">Why Chebyshev. An n-flavour neutrino is an n-level system, and the task is to apply e^(−iHΔx) to the state, slice by slice of the profile. The Chebyshev expansion writes that exponential as a polynomial in H, with Bessel-function coefficients: they plummet once the order passes λΔx, as in the plot, and with rigorous spectral bounds machine precision can be guaranteed. That lets each slice be propagated in one go, without diagonalizing, conserving the norm. The honest historical reason: the core already existed and was validated in DAEDALUS, my quantum-walk code; for 3 flavours, diagonalizing a 3×3 per slice would also work. Short answer if asked: machine precision with controlled error and slice-sized steps.</aside>
+</section>
+
+<section class="slide content p4">
   <header><p class="eyebrow">The data · Garching Core-Collapse Supernova Archive</p><h2>Six <em>blue</em> supergiants, exploded in 3D</h2></header>
   <div class="body cols" style="grid-template-columns: 1.05fr 1fr; gap: 44px">
     <div class="stack" style="gap: 18px">
@@ -1345,9 +1367,9 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610012206"></script>
-<script src="assets/ghost-choque.js?v=202610012206"></script>
-<script src="assets/dash.js?v=202610012206"></script>
+<script src="assets/deck.js?v=202610020713"></script>
+<script src="assets/ghost-choque.js?v=202610020713"></script>
+<script src="assets/dash.js?v=202610020713"></script>
 <script>Deck.start();</script>
 </body>
 </html>
