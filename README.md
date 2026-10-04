@@ -15,7 +15,7 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
-Oito páginas de HTML puro, mais os slides das palestras em `site/talks/`. Não há build, não há dependência e não há
+Nove páginas de HTML puro, mais os slides das palestras em `site/talks/`. Não há build, não há dependência e não há
 `node_modules`.
 
 ```text
@@ -26,7 +26,8 @@ site/producao.html   03 · publicações com DOI
 site/material.html   04 · disciplinas e material didático
 site/laboratorio.html 05 · luz em torno de um buraco negro
 site/estrela.html     06 · estrela de nêutrons girando, com hot spot
-site/talks.html       07 · seminários e palestras
+site/fusao.html       07 · fusão de duas estrelas de nêutrons (GW170817)
+site/talks.html       08 · seminários e palestras
 site/talks/2026-ebn/  slides da II Escola Brasileira de Neutrinos (cópia de RafaelCRdeLima/Seminario2026)
 site/styles.css      a apresentação inteira
 site/rafael-atlas.*  o retrato do cartão, em WebP (78 KB) e JPEG (121 KB)
@@ -39,10 +40,10 @@ Para ver localmente:
 python3 -m http.server -d site 8000
 ```
 
-**A navegação é byte-a-byte idêntica nas oito páginas.** Quem acende o item
+**A navegação é byte-a-byte idêntica nas nove páginas.** Quem acende o item
 da página atual é o JS, comparando `location.pathname` com o `href` de cada
 link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
-navegação, troque o bloco `<nav class="nav">` nos cinco arquivos e confira com:
+navegação, troque o bloco `<nav class="nav">` em todos os arquivos e confira com:
 
 ```bash
 grep -c 'class="nav"' site/*.html      # 1 em cada
@@ -238,6 +239,65 @@ atravessando o cáustico, para a primária e para a secundária — dispersão d
 Presets: *Recomeçar* dá 1,4 M☉ e 12 km (`R = 5,80M`, realista, sem segunda
 imagem); *estrela compacta* dá 2,1 M☉ e 10,2 km (`R = 3,29M`, com segunda
 imagem em ~19% da volta).
+
+## O laboratório da fusão de estrelas de nêutrons
+
+`/fusao.html` mostra o chirp de GW170817: duas estrelas espiralam, a malha do
+espaço-tempo responde, e a onda sobe de frequência até a espiral acabar. É a
+única das três peças em que os corpos têm **tamanho**, e é isso que ela ensina.
+
+A frequência vem da fórmula de Peters, e a fase da onda é o dobro da orbital:
+
+```
+f(τ)    = (1/π) (5/256τ)^{3/8} (G𝓜c/c³)^{−5/8}
+Φorb(τ) = (τ / 5G𝓜c/c³)^{5/8}
+```
+
+A separação sai de Kepler, `ωorb² = GM/r³` com `f = ωorb/π` — newtoniana, e a
+página diz isso. As massas individuais vêm de `𝓜c` e de `q = m₂/m₁` por
+`m₁ = 𝓜c (1+q)^{1/5} / q^{3/5}`. A deformabilidade de cada estrela é
+`Λ = ⅔ k₂ (Rc²/Gm)⁵` com `k₂ = 0,09` fixo, e a combinação que entra na fase é
+
+```
+Λ̃ = (16/13) [(m₁+12m₂) m₁⁴ Λ₁ + (m₂+12m₁) m₂⁴ Λ₂] / M⁵     (Flanagan & Hinderer 2008)
+```
+
+No modo *se fossem buracos negros* o remanescente tem `0,95M`, spin 0,69, e
+vibra no modo quase-normal `l = m = 2` pelos ajustes de Berti, Cardoso & Will
+(2006).
+
+Conferências, com o preset *GW170817* (`𝓜c = 1,188 M☉`, `q = 0,87`, `R = 11,5 km`):
+as massas saem `m₁ = 1,464` e `m₂ = 1,273 M☉`, contra 1,46 e 1,27 publicados;
+`Λ̃ = 361`, dentro do intervalo medido `300 (+420 −230)`; e varrendo o raio,
+`Λ̃` cruza 720 perto de `R ≈ 13,2 km`, coerente com o limite `R₁,₄ ≲ 13,5 km`
+que se tira de GW170817. A ISCO fica em `f = 1,61 kHz` e o modo quase-normal
+em `6,92 kHz`.
+
+Quatro coisas que exigiram cuidado:
+
+1. **O contato não vem "muito antes" da ISCO.** A primeira versão das notas
+   dizia isso, e estava errada. Para `M = 2,74 M☉` a ISCO fica em
+   `6GM/c² = 24,3 km` e o contato com `R = 11,5 km` em `2R = 23 km`: a órbita
+   fica instável **primeiro**. As duas distâncias trocam de ordem em
+   `R = 3GM/c² = 12,1 km`, e o slider de raio atravessa essa fronteira de
+   propósito. A página diz qual das duas vem antes e para a onda ali.
+2. **O tempo.** De 30 Hz até o fim há milhares de órbitas; a animação começa
+   em `r = 70 km`, umas 23 órbitas antes, e estica a espiral num ritmo único
+   — então a aceleração que se vê é a do chirp de verdade. O ringdown, que
+   dura décimos de milissegundo, ganha eixo próprio: os últimos 16% da faixa
+   da onda, o mesmo corte que a animação faz.
+3. **A ondulação da malha virava chiado.** Perto do fim a onda oscila a
+   ~10 Hz de parede; com a onda cruzando meia malha em 70 quadros, o
+   comprimento de onda na tela ficava igual ao espaçamento da grade, e o
+   padrão quadrupolar sumia em aliasing. Com 36 quadros (`ATRASO`) ele fica
+   em duas células.
+4. **O til de Λ̃.** O til combinante U+0303 não se assenta sobre o Λ em todas
+   as fontes: na Literata ele cai no caractere seguinte, e a vírgula depois
+   de Λ̃ virava "Λ;". O til é desenhado pela classe `.lt` em CSS, com a
+   posição escolhida testando cinco variantes nas duas fontes do site.
+
+O pós-fusão de estrelas de nêutrons **não** está modelado — em GW170817 ele
+não foi detectado — e a faixa da onda diz isso em vez de inventar um sinal.
 
 ## Talks
 

@@ -873,6 +873,39 @@ main {
 .ns-regime.alerta { border-left-color: #ff9c6e; background: rgba(255, 156, 110, 0.09); color: #ffcdb5; }
 .ns-regime.alerta b { color: #fff; }
 
+/* fusão de estrelas de nêutrons: malha em cima, faixa da onda embaixo */
+.gw-telas { display: grid; gap: 1rem; }
+.gw-malha { aspect-ratio: 16 / 10; }
+.gw-onda { aspect-ratio: 4 / 1; }
+.gw-onda .lab-readout { left: 0.8rem; bottom: 0.35rem; font-size: 0.7rem; }
+@media (max-width: 46rem) {
+  .gw-malha { aspect-ratio: 1 / 1; }
+  .gw-onda { aspect-ratio: 5 / 2; }
+}
+
+/* Λ̃ com o til desenhado por CSS: o til combinante U+0303 não se assenta
+   sobre Λ em todas as fontes (na Literata ele cai no caractere seguinte). */
+.lt { position: relative; display: inline-block; line-height: 1; }
+.lt::before {
+  content: "\02DC";
+  position: absolute; left: 0; right: 0; top: -0.3em;
+  text-align: center; line-height: 1;
+}
+
+.gw-regime {
+  margin: 1.15rem 0 0;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border-left: 2px solid var(--line-2);
+  background: var(--surface);
+  font-family: var(--ui); font-size: 0.8rem; line-height: 1.55;
+  color: var(--text-2);
+}
+.gw-regime b { color: var(--text); font-weight: 600; }
+.gw-regime.exotico { border-left-color: var(--acc-2); background: rgba(86, 225, 208, 0.08); }
+.gw-regime.alerta { border-left-color: #ff9c6e; background: rgba(255, 156, 110, 0.09); color: #ffcdb5; }
+.gw-regime.alerta b { color: #fff; }
+
 /* ── rodapé ─────────────────────────────────────────────────── */
 
 footer { margin-top: clamp(2rem, 6vw, 4rem); }

@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0b12">
+<title>Laboratório · Fusão de duas estrelas de nêutrons</title>
+<meta name="description" content="Demonstrador interativo: o chirp de GW170817. Duas estrelas de nêutrons espiralam, deformam o espaço-tempo e se tocam — e onde elas se tocam depende do raio, isto é, da equação de estado.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Laboratório · Fusão de duas estrelas de nêutrons">
+<meta property="og:description" content="Demonstrador interativo: o chirp de GW170817. Duas estrelas de nêutrons espiralam, deformam o espaço-tempo e se tocam — e onde elas se tocam depende do raio, isto é, da equação de estado.">
+<meta property="og:image" content="https://rafael-lima.pages.dev/rafael-atlas.jpg?v=3">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
+
+<div class="panel panel-slim">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M11.6 5.6A11.4 11.4 0 1 1 5.9 21.6"/>
+          <circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brandname">R. C. R. de Lima</span>
+    </a>
+    <nav class="nav" aria-label="Seções / Sections">
+      <a href="/pesquisa.html"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="/codes.html">Codes</a>
+      <a href="/producao.html"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="/material.html"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+      <a href="/laboratorio.html"><span lang="pt">Laboratório</span><span lang="en">Lab</span></a>
+      <a href="/talks.html">Talks</a>
+    </nav>
+    <div class="topbar-end">
+      <div class="langswitch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <span class="langsep" aria-hidden="true">/</span>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn" href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+    </div>
+  </header>
+
+  <header class="pagehead">
+    <p class="pagenum">07</p>
+    <h1><span lang="pt">Fusão de duas<br>estrelas de nêutrons</span><span lang="en">Merger of two<br>neutron stars</span></h1>
+    <p class="pagelede" lang="pt">O chirp de GW170817. Duas estrelas espiralam, o espaço-tempo responde, e a frequência da onda sobe até elas se tocarem. Onde isso acontece não é um detalhe: depende do raio das estrelas, isto é, da equação de estado da matéria nuclear.</p>
+    <p class="pagelede" lang="en">The chirp of GW170817. Two stars spiral in, spacetime responds, and the wave frequency climbs until they touch. Where that happens is no detail: it depends on the stellar radius, that is, on the equation of state of nuclear matter.</p>
+  </header>
+</div>
+
+<main id="conteudo">
+  <p class="lab-switch">
+    <span lang="pt">Laboratórios:</span><span lang="en">Labs:</span>
+    <a href="/laboratorio.html"><span lang="pt">Luz em torno de um buraco negro</span><span lang="en">Light around a black hole</span></a>
+    <a href="/estrela.html"><span lang="pt">Estrela de nêutrons girando</span><span lang="en">Spinning neutron star</span></a>
+    <b aria-current="page"><span lang="pt">Fusão de duas estrelas de nêutrons</span><span lang="en">Merger of two neutron stars</span></b>
+  </p>
+
+  <div class="lab gw">
+    <div class="gw-telas">
+      <div class="lab-stage gw-malha">
+        <canvas id="malha"></canvas>
+        <div class="lab-readout" id="readout"></div>
+        <div class="lab-hint" id="hint">
+          <span lang="pt">a malha é o espaço-tempo, vista de cima</span>
+          <span lang="en">the mesh is spacetime, seen from above</span>
+        </div>
+      </div>
+      <div class="lab-stage gw-onda">
+        <canvas id="onda"></canvas>
+        <div class="lab-readout" id="legenda"></div>
+      </div>
+    </div>
+
+    <div class="lab-controls">
+      <div class="lab-ctl">
+        <span><span lang="pt">Massa de chirp</span><span lang="en">Chirp mass</span><i id="lblMc"></i></span>
+        <input id="mc" type="range" min="0.9" max="2.0" step="0.001" value="1.188" aria-label="Massa de chirp / Chirp mass">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Raio de cada estrela</span><span lang="en">Radius of each star</span><i id="lblR"></i></span>
+        <input id="rr" type="range" min="9" max="14" step="0.1" value="11.5" aria-label="Raio / Radius">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Razão de massas</span><span lang="en">Mass ratio</span><i id="lblQ"></i></span>
+        <input id="qq" type="range" min="0.5" max="1" step="0.01" value="0.87" aria-label="Razão de massas / Mass ratio">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Duração da espiral</span><span lang="en">Inspiral duration</span><i id="lblD"></i></span>
+        <input id="dd" type="range" min="6" max="40" step="1" value="16" aria-label="Duração / Duration">
+      </div>
+      <div class="lab-toggles">
+        <label class="lab-check"><input type="checkbox" id="bh">
+          <span lang="pt">se fossem buracos negros</span><span lang="en">if they were black holes</span></label>
+        <label class="lab-check"><input type="checkbox" id="mostraMalha" checked>
+          <span lang="pt">malha do espaço-tempo</span><span lang="en">spacetime mesh</span></label>
+        <button id="parar"><span lang="pt">Pausar</span><span lang="en">Pause</span></button>
+        <button id="gw170817">GW170817</button>
+        <button id="reset"><span lang="pt">Recomeçar</span><span lang="en">Reset</span></button>
+      </div>
+    </div>
+
+    <p class="gw-regime" id="regime"></p>
+  </div>
+
+  <div class="lab-notas">
+    <h2><span lang="pt">O que está sendo calculado</span><span lang="en">What is being computed</span></h2>
+
+    <p lang="pt">Na espiral, a frequência da onda depende de uma única combinação das duas massas, a <b>massa de chirp</b> 𝓜<sub>c</sub> = (m<sub>1</sub>m<sub>2</sub>)<sup>3/5</sup> / (m<sub>1</sub>+m<sub>2</sub>)<sup>1/5</sup>. Faltando um tempo τ para o encontro,</p>
+    <p lang="en">During the inspiral the wave frequency depends on a single combination of the two masses, the <b>chirp mass</b> 𝓜<sub>c</sub> = (m<sub>1</sub>m<sub>2</sub>)<sup>3/5</sup> / (m<sub>1</sub>+m<sub>2</sub>)<sup>1/5</sup>. With a time τ left before contact,</p>
+
+    <p class="eq">f<sub>GW</sub> = (1/π) (5 / 256τ)<sup>3/8</sup> (G𝓜<sub>c</sub>/c³)<sup>−5/8</sup></p>
+
+    <p lang="pt">e a separação encolhe como r ∝ τ<sup>1/4</sup>. A onda carrega energia para fora, a órbita responde apertando, e por isso a frequência sobe sozinha: é o <i>chirp</i>. A amplitude acompanha, h ∝ f<sub>GW</sub><sup>2/3</sup>, e a onda chega ao detector no dobro da frequência orbital, f<sub>GW</sub> = 2f<sub>orb</sub>, porque uma massa em órbita repete a mesma configuração duas vezes por volta.</p>
+    <p lang="en">and the separation shrinks as r ∝ τ<sup>1/4</sup>. The wave carries energy away, the orbit tightens in response, and the frequency therefore climbs on its own: that is the <i>chirp</i>. The amplitude follows, h ∝ f<sub>GW</sub><sup>2/3</sup>, and the wave arrives at twice the orbital frequency, f<sub>GW</sub> = 2f<sub>orb</sub>, because an orbiting mass repeats the same configuration twice per turn.</p>
+
+    <p class="destaque" lang="pt">Aqui está a diferença que importa. Dois buracos negros são pontos: a espiral segue até a última órbita estável, em r = 6GM/c², e termina num <i>ringdown</i>. <b>Estrelas de nêutrons têm tamanho.</b> Elas se tocam quando a separação chega a R<sub>1</sub>+R<sub>2</sub> — e para GW170817 essas duas distâncias são da mesma ordem, uns 23 e 24 km. Acima de R = 3GM/c², perto de 12 km, as superfícies se encontram antes de a órbita ficar instável; abaixo, a instabilidade chega primeiro e o contato vem logo depois, já no mergulho. Arraste o raio através dessa fronteira e veja a onda terminar mais cedo: é por isso que uma onda gravitacional mede equação de estado.</p>
+    <p class="destaque" lang="en">Here is the difference that matters. Two black holes are points: the inspiral runs on to the innermost stable orbit, at r = 6GM/c², and ends in a <i>ringdown</i>. <b>Neutron stars have size.</b> They touch when the separation reaches R<sub>1</sub>+R<sub>2</sub> — and for GW170817 those two distances are comparable, about 23 and 24 km. Above R = 3GM/c², near 12 km, the surfaces meet before the orbit goes unstable; below it, the instability comes first and contact follows straight after, during the plunge. Drag the radius across that boundary and watch the wave end earlier: this is why a gravitational wave measures an equation of state.</p>
+
+    <p lang="pt">O detector não mediu o fim da espiral — ele cai em quilohertz, onde o ruído é alto. O que GW170817 mediu foi a <b>maré</b>. Cada estrela é esticada pela companheira, e quanto ela cede é a deformabilidade Λ = ⅔ k<sub>2</sub> (Rc²/Gm)<sup>5</sup>. Na fase da onda entra uma combinação das duas, <span class="lt">Λ</span>, que aqui é calculada com k<sub>2</sub> = 0,09 fixo. A dependência em R<sup>5</sup> é o que torna a medida sensível: um quilômetro a mais no raio quase dobra <span class="lt">Λ</span>. GW170817 deu <span class="lt">Λ</span> ≈ 300, com limite superior perto de 700 — e o painel avisa quando o raio escolhido passa disso.</p>
+    <p lang="en">The detector did not measure the end of the inspiral — it falls at kilohertz frequencies, where the noise is high. What GW170817 measured was the <b>tide</b>. Each star is stretched by its companion, and how much it yields is the deformability Λ = ⅔ k<sub>2</sub> (Rc²/Gm)<sup>5</sup>. A combination of the two, <span class="lt">Λ</span>, enters the wave phase, computed here with k<sub>2</sub> = 0.09 held fixed. The R<sup>5</sup> dependence is what makes the measurement sensitive: one extra kilometre of radius nearly doubles <span class="lt">Λ</span>. GW170817 gave <span class="lt">Λ</span> ≈ 300, with an upper limit near 700 — and the panel warns when the chosen radius goes beyond it.</p>
+
+    <p class="footnote" lang="pt">A separação vem da terceira lei de Kepler, r = (GM/ω<sub>orb</sub>²)<sup>1/3</sup>, que é newtoniana: perto do contato ela subestima o encurtamento real. A malha é um desenho da deformação, não uma solução das equações de Einstein. E o pós-fusão não está aqui — em GW170817 ele não foi detectado.</p>
+    <p class="footnote" lang="en">The separation comes from Kepler's third law, r = (GM/ω<sub>orb</sub>²)<sup>1/3</sup>, which is Newtonian: close to contact it underestimates the real tightening. The mesh is a drawing of the deformation, not a solution of Einstein's equations. And the post-merger is not here — in GW170817 it was not detected.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="foot-block">
+      <p class="footlabel"><span lang="pt">Vamos conversar</span><span lang="en">Let's talk</span></p>
+      <p class="footmail"><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></p>
+    </div>
+
+    <a class="footbtn" href="mailto:rafael.lima@udesc.br" aria-label="Enviar e-mail / Send an email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/>
+      </svg>
+    </a>
+
+    <div class="foot-block foot-right">
+      <p class="footlabel"><span lang="pt">Onde me encontrar</span><span lang="en">Find me</span></p>
+      <p class="footlinks">
+        <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+        <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
+        <a href="https://github.com/RafaelCRdeLima">GitHub</a>
+      </p>
+    </div>
+  </div>
+  <p class="footnote">Universidade do Estado de Santa Catarina · CCT · Joinville, SC</p>
+</footer>
+<script>
+(function () {
+  var KEY = 'rcrl-lang';
+  var buttons = document.querySelectorAll('[data-set-lang]');
+
+  function apply(lang) {
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    try { localStorage.setItem(KEY, lang); } catch (e) { /* modo privado */ }
+  }
+
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) { /* modo privado */ }
+
+  apply(stored === 'pt' || stored === 'en'
+    ? stored
+    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.setLang); });
+  });
+
+  // A navegação é idêntica nas cinco páginas; quem acende o item da página
+  // atual é isto, não uma classe escrita à mão em cada arquivo.
+  var aqui = location.pathname.replace(/index\.html$/, '') || '/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    var alvo = new URL(a.getAttribute('href'), location.origin).pathname;
+    if (alvo === aqui) a.setAttribute('aria-current', 'page');
+  });
+})();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  const KM = 1.476625;          // GM☉/c², em km
+  const TS = 4.925491e-6;       // GM☉/c³, em s
+  const CKM = 299792.458;       // c, em km/s
+  const K2 = 0.09;              // número de Love, fixo — ver as notas
+  const R0 = 70;                // separação em que a animação começa, km
+  const LAMBDA_GW170817 = 720;  // limite superior de Λ̃ a 90% (LVC 2019)
+  const TAU = Math.PI * 2;
+  const PARTE = 0.84;           // fração da faixa da onda dada à espiral
+  const FUSAO = 2.4, PAUSA = 1.6; // segundos de parede depois da espiral
+  // Quadros para a onda cruzar meia malha. Perto do fim a onda oscila a
+  // ~10 Hz de parede; com 36 quadros o comprimento de onda na tela fica em
+  // duas células da malha, sem virar chiado.
+  const ATRASO = 36;
+  const COR1 = "#9e8cff", COR2 = "#56e1d0";
+
+  const state = { Mc: 1.188, q: 0.87, Rkm: 11.5, dur: 16, bh: false, malha: true, rodando: true };
+
+  const $ = id => document.getElementById(id);
+  const cv = $("malha"), ctx = cv.getContext("2d");
+  const oc = $("onda"), octx = oc.getContext("2d");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const lang = () => document.documentElement.dataset.lang === "en" ? "en" : "pt";
+  const num = (x, d) => {
+    const s = x.toFixed(d);
+    return '<span lang="pt">' + s.replace(".", ",") + '</span><span lang="en">' + s + "</span>";
+  };
+  const bi = (pt, en) => '<span lang="pt">' + pt + '</span><span lang="en">' + en + "</span>";
+
+  // ── a espiral ────────────────────────────────────────────────────────
+  //   f(τ)    = (1/π) (5/256τ)^{3/8} (G𝓜c/c³)^{-5/8}     [Peters 1964]
+  //   Φorb(τ) = (τ / 5G𝓜c/c³)^{5/8}, e a fase da onda é o dobro.
+  //   A separação vem de Kepler: ωorb² = GM/r³, com f = ωorb/π.
+  // As massas individuais saem de 𝓜c e da razão q = m₂/m₁:
+  //   m₁ = 𝓜c (1+q)^{1/5} / q^{3/5}.
+  let S = null;
+  function calcula() {
+    const { Mc, q, Rkm } = state;
+    const m1 = Mc * Math.pow(1 + q, 0.2) / Math.pow(q, 0.6), m2 = q * m1, M = m1 + m2;
+    const Mcs = Mc * TS, GM = M * KM * CKM * CKM;
+    const fDeR = r => Math.sqrt(GM / (r * r * r)) / Math.PI;
+    const rDeF = f => Math.cbrt(GM / Math.pow(Math.PI * f, 2));
+    const tauDeF = f => (5 / 256) * Math.pow(Mcs, -5 / 3) * Math.pow(Math.PI * f, -8 / 3);
+    const fDeTau = t => Math.pow(5 / (256 * t), 3 / 8) * Math.pow(Mcs, -5 / 8) / Math.PI;
+    const fase = t => Math.pow(t / (5 * Mcs), 5 / 8);
+
+    const rIsco = 6 * KM * M, rCont = 2 * Rkm;
+    const f0 = fDeR(R0), tau0 = tauDeF(f0);
+    const fIsco = fDeR(rIsco), tauIsco = tauDeF(fIsco);
+    const fCont = fDeR(rCont), tauCont = tauDeF(fCont);
+    // A espiral das estrelas termina no que vier primeiro: as superfícies se
+    // tocarem, ou a órbita deixar de ser estável. Os dois raios são da mesma
+    // ordem para massas canônicas, e trocam de ordem em R = 3GM/c².
+    const contatoPrimeiro = rCont >= rIsco;
+    const tauFimNS = contatoPrimeiro ? tauCont : tauIsco;
+
+    // Remanescente de buraco negro: massa ~0,95M, spin ~0,69, e o modo
+    // quase-normal l = m = 2 pelos ajustes de Berti, Cardoso & Will (2006).
+    const Mf = 0.95 * M, af = 0.69;
+    const fQnm = (1 - 0.63 * Math.pow(1 - af, 0.3)) / (TAU * Mf * TS);
+    const tauRing = (0.7 + 1.4187 * Math.pow(1 - af, -0.499)) / (Math.PI * fQnm);
+
+    // Deformabilidade de maré de cada estrela e a combinação que entra na
+    // fase da onda (Flanagan & Hinderer 2008):
+    //   Λ̃ = (16/13) [(m₁+12m₂) m₁⁴ Λ₁ + (m₂+12m₁) m₂⁴ Λ₂] / M⁵
+    const lam = m => (2 / 3) * K2 * Math.pow(Rkm / (KM * m), 5);
+    const L1 = lam(m1), L2 = lam(m2);
+    const Lt = (16 / 13) * ((m1 + 12 * m2) * Math.pow(m1, 4) * L1
+             + (m2 + 12 * m1) * Math.pow(m2, 4) * L2) / Math.pow(M, 5);
+
+    S = { m1, m2, M, Mcs, rIsco, rCont, f0, tau0, fIsco, tauIsco, fCont, tauCont,
+          contatoPrimeiro, tauFimNS, Mf, fQnm, tauRing, L1, L2, Lt,
+          fDeTau, rDeF, fase, fase0: fase(tau0), Tesp: tau0 - tauIsco,
+          Rstar: 3 * KM * M };
+    fazOnda();
+  }
+
+  // ── forma de onda pré-calculada: h ∝ f^{2/3} cos Φ, valendo 1 na ISCO ─
+  let onda = null;
+  function fazOnda() {
+    const N = 2600, NR = 360, hn = Math.pow(S.fIsco, 2 / 3);
+    const esp = new Float32Array(N), ring = new Float32Array(NR);
+    for (let k = 0; k < N; k++) {
+      const tau = S.tau0 - k / (N - 1) * S.Tesp;
+      esp[k] = Math.pow(S.fDeTau(tau), 2 / 3) / hn * Math.cos(2 * (S.fase0 - S.fase(tau)));
+    }
+    const ph = 2 * (S.fase0 - S.fase(S.tauIsco)), Tr = 6 * S.tauRing;
+    for (let k = 0; k < NR; k++) {
+      const t = k / (NR - 1) * Tr;
+      ring[k] = Math.exp(-t / S.tauRing) * Math.cos(ph + TAU * S.fQnm * t);
+    }
+    onda = { esp, ring, N, NR, Tr };
+  }
+
+  // ── relógio ──────────────────────────────────────────────────────────
+  // A espiral real dura algumas dezenas de milissegundos. Ela é esticada num
+  // ritmo único até durar state.dur segundos, então a aceleração que se vê é a
+  // do chirp de verdade. O ringdown, que dura décimos de milissegundo, ganha
+  // um eixo próprio — o mesmo corte que a faixa da onda faz embaixo.
+  let w = 0;
+  const tFimEsp = () => state.bh ? S.Tesp : S.tau0 - S.tauFimNS;
+  function etapa() {
+    const wEsp = state.dur * tFimEsp() / S.Tesp;
+    if (w < wEsp) return { k: "esp", t: w / state.dur * S.Tesp };
+    if (w < wEsp + FUSAO) return { k: "fus", u: (w - wEsp) / FUSAO, t: tFimEsp() };
+    if (w < wEsp + FUSAO + PAUSA) return { k: "fim", t: tFimEsp() };
+    reinicia(); return { k: "esp", t: 0 };
+  }
+
+  // histórico da onda, para a malha responder com atraso
+  const HMAX = 4 * ATRASO;
+  const hp = new Float32Array(HMAX), hx = new Float32Array(HMAX);
+  let hcab = 0;
+  function reinicia() { w = 0; hp.fill(0); hx.fill(0); }
+
+  // estado instantâneo do binário
+  function binario(et) {
+    const tauFim = S.tau0 - tFimEsp();
+    const fFim = S.fDeTau(tauFim);
+    const angFim = S.fase0 - S.fase(tauFim);
+    if (et.k === "esp") {
+      const tau = S.tau0 - et.t, f = S.fDeTau(tau);
+      return { r: S.rDeF(f), ang: S.fase0 - S.fase(tau), f, tauRest: tau - tauFim,
+               A: Math.pow(f / S.fIsco, 2 / 3) };
+    }
+    // depois da espiral o giro continua, desacelerando
+    const omega = Math.PI * fFim * S.Tesp / state.dur;
+    const u = et.k === "fus" ? et.u : 1;
+    const ang = angFim + omega * FUSAO * (1 - Math.exp(-3 * u)) / 3;
+    let A = 0, ph = 2 * ang;
+    if (state.bh && et.k === "fus") {
+      const t = u * onda.Tr;
+      A = Math.exp(-t / S.tauRing); ph = 2 * angFim + TAU * S.fQnm * t;
+    } else if (et.k === "fus") {
+      A = Math.pow(fFim / S.fIsco, 2 / 3) * Math.exp(-8 * u);
+    }
+    return { r: S.rDeF(fFim), ang, f: fFim, tauRest: 0, A, ph, u, fim: true };
+  }
+
+  // ── a malha ──────────────────────────────────────────────────────────
+  // Um desenho, não uma solução de Einstein: cada nó é puxado para as massas,
+  // e a onda que sai do binário estica e encolhe a malha na polarização +/×,
+  // chegando aos nós de fora com atraso.
+  function desloca(px, py, cx, cy, half, massas, raioOrb) {
+    let dx = 0, dy = 0;
+    const s = half * 0.16;
+    for (const m of massas) {
+      const ex = px - m.x, ey = py - m.y, d = Math.hypot(ex, ey) || 1e-6;
+      const mu = Math.min(0.8 * d, 0.5 * m.m * s * s * d / (d * d + s * s));
+      dx -= ex / d * mu; dy -= ey / d * mu;
+    }
+    const x = px - cx, y = py - cy, rho = Math.hypot(x, y);
+    const k = Math.min(HMAX - 1, Math.floor(rho / half * ATRASO));
+    const i = (hcab - k + HMAX) % HMAX;
+    const a = Math.max(0, Math.min(1, (rho - raioOrb * 0.9) / (raioOrb * 1.4)));
+    const liso = a * a * (3 - 2 * a);
+    dx += 0.065 * liso * (hp[i] * x + hx[i] * y);
+    dy += 0.065 * liso * (hx[i] * x - hp[i] * y);
+    return [px + dx, py + dy];
+  }
+
+  function corpoNS(x, y, ang, a, b, cor) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, a * 2.6);
+    g.addColorStop(0, cor + "40"); g.addColorStop(1, cor + "00");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, 0, a * 2.6, b * 2.6, 0, 0, TAU); ctx.fill();
+    const g2 = ctx.createRadialGradient(-a * 0.3, -b * 0.3, 0, 0, 0, a);
+    g2.addColorStop(0, "#ffffff"); g2.addColorStop(0.4, cor); g2.addColorStop(1, cor + "cc");
+    ctx.fillStyle = g2; ctx.beginPath(); ctx.ellipse(0, 0, a, b, 0, 0, TAU); ctx.fill();
+    ctx.restore();
+  }
+  function corpoBH(x, y, rr, cor) {
+    ctx.fillStyle = "#000"; ctx.beginPath(); ctx.arc(x, y, rr, 0, TAU); ctx.fill();
+    ctx.strokeStyle = cor; ctx.lineWidth = Math.max(2, rr * 0.22);
+    ctx.beginPath(); ctx.arc(x, y, rr, 0, TAU); ctx.stroke();
+  }
+
+  let W = 0, H = 0, OW = 0, OH = 0;
+  function drawMalha(et, b) {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = "#06070d"; ctx.fillRect(0, 0, W, H);
+    const cx = W / 2, cy = H / 2, half = Math.min(W, H) / 2, esc = half * 0.86 / R0;
+
+    // posições: cada corpo a r·m_outro/M do centro de massa
+    const fus = b.fim ? b.u : 0;
+    const junta = state.bh ? 1 : Math.min(1, fus / 0.22);   // estrelas deslizam juntas
+    const rSep = b.r * (b.fim && !state.bh ? 1 - junta : (b.fim ? 0 : 1));
+    const c = Math.cos(b.ang), s = Math.sin(b.ang);
+    const d1 = rSep * S.m2 / S.M * esc, d2 = rSep * S.m1 / S.M * esc;
+    const x1 = cx + d1 * c, y1 = cy + d1 * s, x2 = cx - d2 * c, y2 = cy - d2 * s;
+    const unido = b.fim && (state.bh || junta >= 1);
+    const massas = unido ? [{ x: cx, y: cy, m: S.M }]
+                         : [{ x: x1, y: y1, m: S.m1 }, { x: x2, y: y2, m: S.m2 }];
+
+    if (state.malha) {
+      const g = half / 11, passo = 6, raioOrb = b.r * 0.5 * esc;
+      ctx.strokeStyle = "rgba(86, 225, 208, 0.30)"; ctx.lineWidth = 1;
+      for (let x0 = cx % g; x0 <= W; x0 += g) {
+        ctx.beginPath();
+        for (let y0 = 0; y0 <= H + passo; y0 += passo) {
+          const p = desloca(x0, y0, cx, cy, half, massas, raioOrb);
+          y0 ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+        }
+        ctx.stroke();
+      }
+      for (let y0 = cy % g; y0 <= H; y0 += g) {
+        ctx.beginPath();
+        for (let x0 = 0; x0 <= W + passo; x0 += passo) {
+          const p = desloca(x0, y0, cx, cy, half, massas, raioOrb);
+          x0 ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+        }
+        ctx.stroke();
+      }
+    }
+
+    if (state.bh) {
+      if (unido) {
+        corpoBH(cx, cy, Math.max(7, 2 * KM * S.Mf * esc), COR1);
+      } else {
+        corpoBH(x1, y1, Math.max(5, 2 * KM * S.m1 * esc), COR1);
+        corpoBH(x2, y2, Math.max(5, 2 * KM * S.m2 * esc), COR2);
+      }
+    } else if (unido) {
+      // remanescente: um corpo alongado que gira e se arredonda
+      const u = (fus - 0.22) / 0.78;
+      const al = 1 + 0.75 * Math.exp(-2.5 * u);
+      const R = state.Rkm * 1.3 * esc;
+      corpoNS(cx, cy, b.ang, R * Math.sqrt(al), R / Math.sqrt(al), "#c7bcff");
+    } else {
+      // maré: cada estrela alonga ao longo da linha dos centros como (R/r)³
+      const R = state.Rkm * esc, q3 = Math.pow(state.Rkm / Math.max(b.r, state.Rkm), 3);
+      const e1 = Math.min(0.6, 2.2 * S.m2 / S.m1 * q3), e2 = Math.min(0.6, 2.2 * S.m1 / S.m2 * q3);
+      corpoNS(x1, y1, b.ang, R * (1 + e1), R / Math.sqrt(1 + e1), COR1);
+      corpoNS(x2, y2, b.ang, R * (1 + e2), R / Math.sqrt(1 + e2), COR2);
+    }
+
+    // leituras
+    const fTxt = b.f >= 1000 ? num(b.f / 1000, 2) + " kHz" : num(b.f, 0) + " Hz";
+    let linha2;
+    if (!b.fim) linha2 = "τ = " + num(b.tauRest * 1000, 1) + " ms · r = " + num(b.r, 1) + " km";
+    else linha2 = state.bh ? bi("ringdown", "ringdown")
+                           : (S.contatoPrimeiro ? bi("contato", "contact") : bi("ISCO, depois contato", "ISCO, then contact"));
+    $("readout").innerHTML = "f<sub>GW</sub> = " + fTxt + "<br>" + linha2;
+  }
+
+  // ── a faixa da onda ──────────────────────────────────────────────────
+  function drawOnda(et) {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    octx.fillStyle = "#06070d"; octx.fillRect(0, 0, OW, OH);
+    const ml = 14, mr = 16, mt = 22, mb = 20;
+    const w = OW - ml - mr, h = OH - mt - mb, y0 = mt + h / 2, A = h * 0.46;
+    const xEsp = k => ml + w * PARTE * k / (onda.N - 1);
+    const xRing = k => ml + w * (PARTE + (1 - PARTE) * k / (onda.NR - 1));
+    const kFimNS = Math.round((S.tau0 - S.tauFimNS) / S.Tesp * (onda.N - 1));
+    const kFim = state.bh ? onda.N - 1 : kFimNS;
+    const en = lang() === "en";
+
+    octx.strokeStyle = "#1c2230"; octx.lineWidth = 1;
+    octx.beginPath(); octx.moveTo(ml, y0); octx.lineTo(ml + w, y0); octx.stroke();
+    octx.beginPath(); octx.moveTo(ml + w * PARTE, mt - 6); octx.lineTo(ml + w * PARTE, mt + h + 4); octx.stroke();
+
+    // onde está o agora
+    let kAgora, ringAgora = -1;
+    if (et.k === "esp") kAgora = Math.min(kFim, Math.round(et.t / S.Tesp * (onda.N - 1)));
+    else { kAgora = kFim; if (state.bh) ringAgora = et.k === "fus" ? Math.round(et.u * (onda.NR - 1)) : onda.NR - 1; }
+
+    function traco(cor, ate, ringAte, larg) {
+      octx.strokeStyle = cor; octx.lineWidth = larg; octx.beginPath();
+      for (let k = 0; k <= ate; k++) {
+        const x = xEsp(k), y = y0 - A * onda.esp[k];
+        k ? octx.lineTo(x, y) : octx.moveTo(x, y);
+      }
+      for (let k = 0; k <= ringAte; k++) octx.lineTo(xRing(k), y0 - A * onda.ring[k]);
+      octx.stroke();
+    }
+    traco("#2a3142", kFim, state.bh ? onda.NR - 1 : -1, 1);
+    traco(COR2, kAgora, ringAgora, 1.5);
+    const xa = ringAgora >= 0 ? xRing(ringAgora) : xEsp(kAgora);
+    const ya = y0 - A * (ringAgora >= 0 ? onda.ring[ringAgora] : onda.esp[kAgora]);
+    octx.fillStyle = COR2; octx.beginPath(); octx.arc(xa, ya, 3.5, 0, TAU); octx.fill();
+
+    // marcas: onde a espiral termina em cada hipótese
+    octx.font = "500 11px 'Inter Tight', system-ui, sans-serif";
+    octx.textAlign = "center"; octx.fillStyle = "#6e7689";
+    octx.fillText(en ? "inspiral" : "espiral", ml + w * PARTE * 0.5, mt - 8);
+    const marca = (k, txt, cor, tracejado) => {
+      const x = xEsp(k);
+      octx.save(); octx.strokeStyle = cor; octx.lineWidth = 1;
+      if (tracejado) octx.setLineDash([3, 3]);
+      octx.beginPath(); octx.moveTo(x, mt); octx.lineTo(x, mt + h); octx.stroke(); octx.restore();
+      octx.fillStyle = cor; octx.textAlign = "right"; octx.fillText(txt, x - 4, mt + 11);
+    };
+    const kCont = Math.round((S.tau0 - S.tauCont) / S.Tesp * (onda.N - 1));
+    if (S.contatoPrimeiro) {
+      marca(kCont, en ? "contact" : "contato", state.bh ? "#6e7689" : "#ff9c6e", state.bh);
+    }
+    octx.textAlign = "center"; octx.fillStyle = "#6e7689";
+    if (state.bh) octx.fillText("ringdown", ml + w * (PARTE + (1 - PARTE) / 2), mt - 8);
+    else octx.fillText(en ? "post-merger" : "pós-fusão", ml + w * (PARTE + (1 - PARTE) / 2), mt - 8),
+         octx.fillText(en ? "not modelled" : "não modelado", ml + w * (PARTE + (1 - PARTE) / 2), y0 + 4);
+    octx.fillText("ISCO", ml + w * PARTE, mt + h + 14);
+    octx.textAlign = "left";
+  }
+
+  // ── o quadro de regime ───────────────────────────────────────────────
+  function regime() {
+    const el = $("regime"), fk = f => num(f / 1000, 2) + " kHz";
+    const Rs = num(S.Rstar, 1) + " km", Rk = num(state.Rkm, 1) + " km";
+    let cls = "gw-regime", pt, en;
+    if (state.bh) {
+      pt = "Buracos negros de mesma massa: nada se toca. A espiral vai até a ISCO, em " + fk(S.fIsco)
+         + ", e o remanescente vibra no modo quase-normal, em " + fk(S.fQnm) + ", amortecido em "
+         + num(S.tauRing * 1000, 2) + " ms.";
+      en = "Black holes of the same mass: nothing touches. The inspiral runs to the ISCO, at " + fk(S.fIsco)
+         + ", and the remnant rings in its quasi-normal mode, at " + fk(S.fQnm) + ", damped in "
+         + num(S.tauRing * 1000, 2) + " ms.";
+    } else if (S.contatoPrimeiro) {
+      cls += " exotico";
+      pt = "Com R = " + Rk + " as superfícies se tocam em " + fk(S.fCont) + ", <b>antes</b> da ISCO ("
+         + fk(S.fIsco) + "): a espiral termina pelo tamanho das estrelas. A fronteira é R = 3GM/c² = " + Rs + ".";
+      en = "With R = " + Rk + " the surfaces touch at " + fk(S.fCont) + ", <b>before</b> the ISCO ("
+         + fk(S.fIsco) + "): the inspiral ends because of the stars' size. The boundary is R = 3GM/c² = " + Rs + ".";
+    } else {
+      pt = "Com R = " + Rk + " a órbita fica instável em " + fk(S.fIsco) + ", antes de as superfícies se tocarem ("
+         + fk(S.fCont) + "): a espiral termina pela gravidade, e o contato vem logo depois. Acima de " + Rs + " isso se inverte.";
+      en = "With R = " + Rk + " the orbit goes unstable at " + fk(S.fIsco) + ", before the surfaces touch ("
+         + fk(S.fCont) + "): the inspiral ends by gravity, with contact straight after. Above " + Rs + " this reverses.";
+    }
+    if (!state.bh) {
+      const ok = S.Lt <= LAMBDA_GW170817;
+      if (!ok) cls = "gw-regime alerta";
+      pt += " Maré: Λ<sub>1</sub> = " + num(S.L1, 0) + ", Λ<sub>2</sub> = " + num(S.L2, 0) + ", <b><span class='lt'>Λ</span> = " + num(S.Lt, 0) + "</b>"
+          + (ok ? " — dentro do que GW170817 permite." : " — acima do limite de GW170817, perto de 700: esse raio está desfavorecido.");
+      en += " Tide: Λ<sub>1</sub> = " + num(S.L1, 0) + ", Λ<sub>2</sub> = " + num(S.L2, 0) + ", <b><span class='lt'>Λ</span> = " + num(S.Lt, 0) + "</b>"
+          + (ok ? " — within what GW170817 allows." : " — above the GW170817 limit, near 700: this radius is disfavoured.");
+    }
+    el.className = cls;
+    el.innerHTML = '<span lang="pt">' + pt + '</span><span lang="en">' + en + "</span>";
+    $("legenda").innerHTML = "h(t) ∝ f<sub>GW</sub><sup>2/3</sup> cos Φ(t)";
+  }
+
+  // ── laço ─────────────────────────────────────────────────────────────
+  let ultimo = 0, decorrido = 0;
+  function quadro(t) {
+    const dt = ultimo ? Math.min(0.06, (t - ultimo) / 1000) : 0.016; ultimo = t;
+    if (state.rodando) { w += dt; decorrido += dt; }
+    if (decorrido > 6) $("hint").style.opacity = 0;
+    const et = etapa(), b = binario(et);
+    if (state.rodando) {
+      const ph = b.ph !== undefined ? b.ph : 2 * b.ang;
+      hcab = (hcab + 1) % HMAX; hp[hcab] = b.A * Math.cos(ph); hx[hcab] = b.A * Math.sin(ph);
+    }
+    drawMalha(et, b); drawOnda(et);
+    requestAnimationFrame(quadro);
+  }
+
+  // ── controles ────────────────────────────────────────────────────────
+  const rotulos = () => {
+    $("lblMc").textContent = state.Mc.toFixed(3) + " M☉";
+    $("lblR").textContent = state.Rkm.toFixed(1) + " km";
+    $("lblQ").textContent = state.q.toFixed(2);
+    $("lblD").textContent = state.dur + " s";
+  };
+  function refaz() { calcula(); rotulos(); regime(); reinicia(); }
+
+  $("mc").addEventListener("input", e => { state.Mc = +e.target.value; refaz(); });
+  $("rr").addEventListener("input", e => { state.Rkm = +e.target.value; refaz(); });
+  $("qq").addEventListener("input", e => { state.q = +e.target.value; refaz(); });
+  $("dd").addEventListener("input", e => { state.dur = +e.target.value; rotulos(); });
+  $("bh").addEventListener("change", e => { state.bh = e.target.checked; refaz(); });
+  $("mostraMalha").addEventListener("change", e => { state.malha = e.target.checked; });
+  $("reset").addEventListener("click", () => { reinicia(); state.rodando = true; botaoPausa(); });
+  $("gw170817").addEventListener("click", () => {
+    state.Mc = 1.188; state.q = 0.87; state.Rkm = 11.5; state.bh = false;
+    $("mc").value = 1.188; $("qq").value = 0.87; $("rr").value = 11.5; $("bh").checked = false;
+    refaz(); state.rodando = true; botaoPausa();
+  });
+  function botaoPausa() {
+    $("parar").innerHTML = state.rodando ? bi("Pausar", "Pause") : bi("Continuar", "Resume");
+  }
+  $("parar").addEventListener("click", () => { state.rodando = !state.rodando; botaoPausa(); });
+
+  // ── layout ───────────────────────────────────────────────────────────
+  function medir(canvas) {
+    const r = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(Math.max(1, r.width) * dpr);
+    canvas.height = Math.round(Math.max(1, r.height) * dpr);
+    return [Math.max(1, r.width), Math.max(1, r.height)];
+  }
+  function resize() { [W, H] = medir(cv); [OW, OH] = medir(oc); }
+  new ResizeObserver(resize).observe(cv);
+  new ResizeObserver(resize).observe(oc);
+  resize(); refaz();
+  if (reduced) { state.rodando = false; w = state.dur * 0.7; botaoPausa(); }
+  requestAnimationFrame(quadro);
+})();
+</script>
+</body>
+</html>
