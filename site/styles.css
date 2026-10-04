@@ -309,6 +309,10 @@ a:hover { color: var(--acc-2); }
 .p7 { right: 0%;  top: 28%; animation-delay: -2.9s; }
 .p5 { right: 1%;  top: 53%; animation-delay: -3.3s; }
 .p6 { right: 6%;  top: 77%; animation-delay: -5.2s; }
+/* A nona fica no eixo, entre Farol e Buraco negro, para não quebrar o
+   espelho. Centrada por margem e não por translateX: o transform é da
+   animação de flutuar. */
+.p9 { left: 0; right: 0; margin-inline: auto; width: max-content; top: 5%; animation-delay: -4.6s; }
 
 @keyframes flutua {
   0%, 100% { transform: translateY(0); }
@@ -970,6 +974,7 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
   .p7 { right: 0; top: 26%; }
   .p5 { right: 0; top: 52%; }
   .p6 { right: 1%; top: 78%; }
+  .p9 { top: 2%; }
 }
 
 /* ── telas estreitas ────────────────────────────────────────── */
