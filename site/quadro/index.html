@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#23272d">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Quadro">
+<title>Quadro</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icone-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icone-180.png">
+<style>
+  :root {
+    --trilho: 84px;
+    --tinta: #c9ced6;
+    --tinta-2: #8a919b;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%; overflow: hidden;
+    background: #1c1f24;
+    overscroll-behavior: none;
+    /* O quadro é uma superfície de escrita: nada de rolar, ampliar,
+       selecionar texto ou abrir o menu de toque longo do iOS. */
+    touch-action: none;
+    -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .app {
+    position: fixed; inset: 0; display: flex;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* ── o trilho: as ferramentas, à esquerda ─────────────────────── */
+  .trilho {
+    width: var(--trilho); flex: 0 0 auto;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 14px 0 12px; overflow-y: auto; overflow-x: hidden;
+    background: linear-gradient(90deg, #2f333a, #25282e);
+    border-right: 1px solid #3c4149;
+  }
+  .trilho button {
+    touch-action: manipulation;
+    border: 0; background: none; color: var(--tinta); cursor: pointer;
+    font: inherit; padding: 0;
+  }
+
+  /* cada cor é um bastão de giz; o escolhido sai para fora do trilho */
+  .gizes { display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding-left: 4px; }
+  .giz { width: 76px; height: 42px; position: relative; }
+  .giz::before {
+    content: ""; position: absolute; left: 0; top: 11px;
+    width: 58px; height: 20px;
+    border-radius: 5px 10px 10px 5px;
+    background: var(--c);
+    background-image:
+      linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,0) 45%, rgba(0,0,0,.16)),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.035) 0 2px, rgba(255,255,255,.04) 2px 5px);
+    box-shadow: 0 2px 3px rgba(0,0,0,.45);
+    transform: translateX(-6px);
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .giz[aria-checked="true"]::before {
+    transform: translateX(14px);
+    box-shadow: 0 0 0 2px rgba(255,255,255,.6), 0 3px 10px rgba(0,0,0,.55);
+  }
+  .giz:focus-visible { outline: 2px solid #9e8cff; outline-offset: -2px; border-radius: 8px; }
+
+  .espessuras { display: flex; gap: 2px; margin: 6px 0 2px; }
+  .esp { width: 26px; height: 34px; display: grid; place-items: center; border-radius: 8px; }
+  .esp i { display: block; border-radius: 50%; background: var(--tinta-2); }
+  .esp[aria-checked="true"] i { background: #f2efe6; }
+  .esp:nth-child(1) i { width: 5px; height: 5px; }
+  .esp:nth-child(2) i { width: 9px; height: 9px; }
+  .esp:nth-child(3) i { width: 14px; height: 14px; }
+
+  .par { display: flex; gap: 4px; }
+  .ferr {
+    width: 38px; height: 40px; display: grid; place-items: center;
+    border-radius: 10px;
+  }
+  .ferr svg { width: 22px; height: 22px; }
+  .ferr:active { background: rgba(255,255,255,.08); }
+  .ferr[aria-pressed="true"] { background: rgba(158,140,255,.22); color: #fff; }
+  .ferr:disabled { color: #4d535c; cursor: default; }
+  .ferr.alerta { background: rgba(255,120,100,.25); color: #ffd2c9; }
+  .larga { width: 80px; }
+
+  .sep { width: 46px; height: 1px; background: #3c4149; margin: 6px 0; flex: 0 0 auto; }
+  .pag { font-size: 12px; color: var(--tinta-2); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+  /* ── o quadro, com a moldura de alumínio ──────────────────────── */
+  .moldura {
+    position: relative; flex: 1 1 auto;
+    margin: 10px 10px 10px 8px; padding: 7px;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #c2c8ce, #8b9198 38%, #aab0b7 70%, #7f858c);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.28), 0 12px 30px rgba(0,0,0,.45);
+  }
+  .moldura canvas {
+    position: absolute; left: 7px; top: 7px;
+    width: calc(100% - 14px); height: calc(100% - 14px);
+    border-radius: 2px;
+  }
+  #giz { touch-action: none; cursor: crosshair; }
+  #anel {
+    position: absolute; pointer-events: none; display: none;
+    border: 1.5px solid rgba(255,255,255,.65); border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.25);
+    transform: translate(-50%, -50%);
+  }
+  #aviso {
+    position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+    padding: 9px 14px; border-radius: 10px;
+    background: rgba(20,22,27,.92); color: #e8ebef; font-size: 13px;
+    opacity: 0; transition: opacity .25s; pointer-events: none;
+  }
+  #aviso.ver { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="trilho" aria-label="Ferramentas do quadro">
+    <div class="gizes" role="radiogroup" aria-label="Cor do giz">
+      <button class="giz" role="radio" data-cor="0" style="--c:#f2efe6" aria-label="Giz branco (1)"></button>
+      <button class="giz" role="radio" data-cor="1" style="--c:#f4e48a" aria-label="Giz amarelo (2)"></button>
+      <button class="giz" role="radio" data-cor="2" style="--c:#f2a48e" aria-label="Giz salmão (3)"></button>
+      <button class="giz" role="radio" data-cor="3" style="--c:#93d3f2" aria-label="Giz azul (4)"></button>
+      <button class="giz" role="radio" data-cor="4" style="--c:#cbb6f6" aria-label="Giz lilás (5)"></button>
+    </div>
+
+    <div class="espessuras" role="radiogroup" aria-label="Espessura do giz">
+      <button class="esp" role="radio" data-esp="0" aria-label="Giz fino"><i></i></button>
+      <button class="esp" role="radio" data-esp="1" aria-label="Giz médio"><i></i></button>
+      <button class="esp" role="radio" data-esp="2" aria-label="Giz grosso"><i></i></button>
+    </div>
+
+    <div class="par">
+      <button class="ferr" id="apagador" aria-pressed="false" aria-label="Apagador (E)" title="Apagador (E)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="12.5" width="17" height="5.5" rx="1.2"/><path d="M5.2 12.5 6.8 7h10.4l1.6 5.5"/><path d="M6.5 15.3h11" opacity=".45"/></svg>
+      </button>
+      <button class="ferr" id="desfazer" aria-label="Desfazer (Ctrl+Z)" title="Desfazer (Ctrl+Z)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 13.5 4 9l4.5-4.5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+      </button>
+    </div>
+
+    <div class="sep"></div>
+
+    <span class="pag" id="pag">1 / 1</span>
+    <div class="par">
+      <button class="ferr" id="ant" aria-label="Quadro anterior (←)" title="Quadro anterior (←)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 6-6 6 6 6"/></svg>
+      </button>
+      <button class="ferr" id="prox" aria-label="Próximo quadro (→)" title="Próximo quadro (→)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 6 6 6-6 6"/></svg>
+      </button>
+    </div>
+    <button class="ferr larga" id="novo" aria-label="Quadro novo (N)" title="Quadro novo (N)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="14" rx="1.5"/><path d="M12 9v6M9 12h6"/></svg>
+    </button>
+
+    <div class="sep"></div>
+
+    <div class="par">
+      <button class="ferr" id="limpar" aria-label="Limpar este quadro" title="Limpar este quadro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9.5 7V4.5h5V7"/><path d="M6.5 7l1 12.5h9l1-12.5"/></svg>
+      </button>
+      <button class="ferr" id="salvar" aria-label="Salvar imagem do quadro" title="Salvar imagem do quadro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M5 19.5h14"/></svg>
+      </button>
+    </div>
+    <button class="ferr larga" id="cheia" aria-label="Tela cheia (F)" title="Tela cheia (F)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+  </nav>
+
+  <main class="moldura">
+    <canvas id="fundo"></canvas>
+    <canvas id="giz"></canvas>
+    <div id="anel"></div>
+  </main>
+</div>
+<div id="aviso" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const CORES = ["#f2efe6", "#f4e48a", "#f2a48e", "#93d3f2", "#cbb6f6"];
+  const ESPESSURAS = [3, 5, 9];   // largura de base do giz, px CSS
+  const APAGADOR = 46;            // largura do apagador, px CSS
+  const GRADE = 44;               // lado do quadriculado, px CSS
+  const JANELA = 40;              // traços mantidos fora do cache de base
+  const CHAVE = "quadro-giz-v1";
+
+  const $ = id => document.getElementById(id);
+  const fundo = $("fundo"), fctx = fundo.getContext("2d");
+  const giz = $("giz"), ctx = giz.getContext("2d");
+  const base = document.createElement("canvas"), bctx = base.getContext("2d");
+
+  // ── sorteio com semente ───────────────────────────────────────────
+  // Cada traço guarda uma semente. O grão do giz sai dela, então
+  // desfazer, trocar de quadro ou girar o tablet redesenha o traço
+  // exatamente igual, e não com outro grão.
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  // ── estado ───────────────────────────────────────────────────────
+  const st = {
+    cor: 0, esp: 1, apagando: false,
+    quadros: [novoQuadro()], atual: 0,
+    caneta: false   // depois que a caneta aparece, o dedo deixa de riscar
+  };
+  function novoQuadro() { return { tracos: [], refazer: [], limpos: null }; }
+  const quadro = () => st.quadros[st.atual];
+
+  let dpr = 1, W = 0, H = 0, rect = giz.getBoundingClientRect();
+  let baseN = 0;   // quantos traços do quadro atual estão no cache de base
+
+  // ── o carimbo de giz ──────────────────────────────────────────────
+  // Um disco granulado no tamanho exato em pixels do aparelho: o grão
+  // precisa estar na escala do pixel, senão a ampliação o borra num
+  // disco liso. O miolo é denso e a borda falha, como o giz que só
+  // pega nos picos da superfície do quadro.
+  const carimbos = new Map();
+  function rgb(hex) { const n = parseInt(hex.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+  function carimbo(cor, D, k) {
+    const chave = cor + ":" + D;
+    let lista = carimbos.get(chave);
+    if (!lista) {
+      lista = [];
+      const [r, g, b] = rgb(CORES[cor]);
+      const rnd = mulberry32(D * 7919 + cor * 104729);
+      for (let v = 0; v < 8; v++) {
+        const c = document.createElement("canvas"); c.width = c.height = D;
+        const x = c.getContext("2d"), img = x.createImageData(D, D), d = img.data;
+        const R = D / 2;
+        for (let j = 0; j < D; j++) for (let i = 0; i < D; i++) {
+          const q = Math.hypot(i + 0.5 - R, j + 0.5 - R) / R;
+          if (q >= 1) continue;
+          if (rnd() > 0.78 * (1 - q * q * q * q)) continue;
+          const o = (j * D + i) * 4;
+          d[o] = r; d[o + 1] = g; d[o + 2] = b; d[o + 3] = (0.45 + 0.55 * rnd()) * 255;
+        }
+        x.putImageData(img, 0, 0);
+        lista.push(c);
+      }
+      carimbos.set(chave, lista);
+    }
+    return lista[k];
+  }
+
+  const largura = (w, p) => w * (0.55 + 0.9 * p);        // p = 0,5 dá a largura de base
+  const larguraApag = (w, p) => w * (0.75 + 0.5 * p);
+
+  // ── desenhar um traço: o mesmo código para o vivo e para o refeito ─
+  function estadoDe(traco) { return { rnd: mulberry32(traco.s), resto: 0 }; }
+
+  function segmentoGiz(c, traco, est, x0, y0, p0, x1, y1, p1) {
+    const dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy);
+    let t = est.resto;
+    while (t <= L) {
+      const u = L > 0 ? t / L : 0;
+      const w = largura(traco.w, p0 + (p1 - p0) * u);
+      const D = Math.max(2, Math.round(w * dpr));
+      const jx = (est.rnd() - 0.5) * 0.24 * w, jy = (est.rnd() - 0.5) * 0.24 * w;
+      const k = (est.rnd() * 8) | 0;
+      c.globalAlpha = 0.5 + 0.4 * est.rnd();
+      const cx = (x0 + dx * u + jx) * dpr, cy = (y0 + dy * u + jy) * dpr;
+      c.drawImage(carimbo(traco.c, D, k), Math.round(cx - D / 2), Math.round(cy - D / 2));
+      t += Math.max(0.6, 0.22 * w);
+    }
+    est.resto = t - L;
+    c.globalAlpha = 1;
+  }
+
+  function segmentoApag(c, traco, x0, y0, p0, x1, y1, p1) {
+    c.save();
+    c.globalCompositeOperation = "destination-out";
+    c.fillStyle = c.strokeStyle = "#000";
+    const w = larguraApag(traco.w, (p0 + p1) / 2) * dpr;
+    if (x0 === x1 && y0 === y1) {
+      c.beginPath(); c.arc(x0 * dpr, y0 * dpr, w / 2, 0, Math.PI * 2); c.fill();
+    } else {
+      c.lineCap = c.lineJoin = "round"; c.lineWidth = w;
+      c.beginPath(); c.moveTo(x0 * dpr, y0 * dpr); c.lineTo(x1 * dpr, y1 * dpr); c.stroke();
+    }
+    c.restore();
+  }
+
+  function desenharTraco(c, traco) {
+    const P = traco.p;
+    if (traco.t === "e") {
+      segmentoApag(c, traco, P[0], P[1], P[2], P[0], P[1], P[2]);
+      for (let i = 3; i < P.length; i += 3) segmentoApag(c, traco, P[i - 3], P[i - 2], P[i - 1], P[i], P[i + 1], P[i + 2]);
+    } else {
+      const est = estadoDe(traco);
+      segmentoGiz(c, traco, est, P[0], P[1], P[2], P[0], P[1], P[2]);
+      for (let i = 3; i < P.length; i += 3) segmentoGiz(c, traco, est, P[i - 3], P[i - 2], P[i - 1], P[i], P[i + 1], P[i + 2]);
+    }
+  }
+
+  // ── o fundo: verde, quadriculado, grão e um resto de giz antigo ────
+  function desenharFundo() {
+    const g = fctx;
+    g.fillStyle = "#3a8862"; g.fillRect(0, 0, W, H);
+    const v = g.createRadialGradient(W * 0.45, H * 0.4, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.78);
+    v.addColorStop(0, "rgba(255,255,255,0.05)"); v.addColorStop(1, "rgba(0,0,0,0.20)");
+    g.fillStyle = v; g.fillRect(0, 0, W, H);
+    // poeira de giz de aulas passadas, quase invisível
+    const rnd = mulberry32(20261003);
+    for (let i = 0; i < 14; i++) {
+      const x = rnd() * W, y = rnd() * H, r = (0.08 + 0.2 * rnd()) * Math.max(W, H);
+      const n = g.createRadialGradient(x, y, 0, x, y, r);
+      n.addColorStop(0, "rgba(232,244,236,0.035)"); n.addColorStop(1, "rgba(232,244,236,0)");
+      g.fillStyle = n; g.fillRect(0, 0, W, H);
+    }
+    // quadriculado ancorado no canto: a escrita não sai da grade ao girar
+    const passo = GRADE * dpr;
+    g.strokeStyle = "rgba(196,240,214,0.11)"; g.lineWidth = Math.max(1, Math.round(dpr * 0.9));
+    g.beginPath();
+    for (let x = passo; x < W; x += passo) { const X = Math.round(x) + 0.5; g.moveTo(X, 0); g.lineTo(X, H); }
+    for (let y = passo; y < H; y += passo) { const Y = Math.round(y) + 0.5; g.moveTo(0, Y); g.lineTo(W, Y); }
+    g.stroke();
+    // grão da superfície
+    const t = document.createElement("canvas"); t.width = t.height = 128;
+    const tc = t.getContext("2d"), img = tc.createImageData(128, 128), d = img.data;
+    const r2 = mulberry32(7);
+    for (let i = 0; i < d.length; i += 4) {
+      const claro = r2() < 0.5;
+      d[i] = d[i + 1] = d[i + 2] = claro ? 255 : 0;
+      d[i + 3] = r2() * (claro ? 10 : 16);
+    }
+    tc.putImageData(img, 0, 0);
+    g.fillStyle = g.createPattern(t, "repeat"); g.fillRect(0, 0, W, H);
+  }
+
+  // ── cache de base: desfazer não redesenha a aula inteira ─────────
+  // Os traços antigos ficam pré-desenhados num canvas fora da tela; só
+  // os últimos (até 2×JANELA) são refeitos a cada desfazer.
+  function reconstruirBase() {
+    bctx.clearRect(0, 0, W, H);
+    const tr = quadro().tracos;
+    for (let i = 0; i < baseN; i++) desenharTraco(bctx, tr[i]);
+  }
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(base, 0, 0);
+    const tr = quadro().tracos;
+    for (let i = baseN; i < tr.length; i++) desenharTraco(ctx, tr[i]);
+  }
+  function abrirQuadro() {
+    baseN = Math.max(0, quadro().tracos.length - JANELA);
+    reconstruirBase(); render(); atualizarTrilho();
+  }
+  function dobrar() {
+    const tr = quadro().tracos;
+    if (tr.length - baseN > 2 * JANELA) {
+      for (let i = baseN; i < baseN + JANELA; i++) desenharTraco(bctx, tr[i]);
+      baseN += JANELA;
+    }
+  }
+
+  // ── entrada: caneta, dedo e mouse ─────────────────────────────────
+  let ativo = null;
+  const r1 = v => Math.round(v * 10) / 10;
+  function pressao(e) {
+    if (e.pointerType !== "pen") return 0.5;
+    return Math.round(Math.min(1, Math.max(0.1, e.pressure || 0.5)) * 100) / 100;
+  }
+  function ponto(e) { return [r1(e.clientX - rect.left), r1(e.clientY - rect.top), pressao(e)]; }
+
+  giz.addEventListener("pointerdown", e => {
+    if (e.pointerType === "pen") st.caneta = true;
+    // Rejeição de palma: com a caneta em uso, o toque não risca.
+    if (e.pointerType === "touch" && st.caneta) return;
+    if (ativo) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    rect = giz.getBoundingClientRect();
+    // a ponta-borracha de canetas como a da Surface e a S Pen apaga
+    const apaga = st.apagando || (e.buttons & 32) === 32;
+    const p = ponto(e);
+    const traco = apaga
+      ? { t: "e", w: APAGADOR, s: 0, p: p.slice() }
+      : { t: "c", c: st.cor, w: ESPESSURAS[st.esp], s: (Math.random() * 4294967296) >>> 0, p: p.slice() };
+    ativo = { id: e.pointerId, traco, est: estadoDe(traco) };
+    try { giz.setPointerCapture(e.pointerId); } catch (_) { /* ponteiro já solto */ }
+    if (apaga) segmentoApag(ctx, traco, p[0], p[1], p[2], p[0], p[1], p[2]);
+    else segmentoGiz(ctx, traco, ativo.est, p[0], p[1], p[2], p[0], p[1], p[2]);
+    anel(e, apaga);
+    e.preventDefault();
+  });
+
+  giz.addEventListener("pointermove", e => {
+    if (!ativo || e.pointerId !== ativo.id) { anel(e, st.apagando); return; }
+    const lista = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    const P = ativo.traco.p;
+    for (const ev of (lista.length ? lista : [e])) {
+      const p = ponto(ev), n = P.length;
+      if (p[0] === P[n - 3] && p[1] === P[n - 2]) continue;
+      P.push(p[0], p[1], p[2]);
+      if (ativo.traco.t === "e") segmentoApag(ctx, ativo.traco, P[n - 3], P[n - 2], P[n - 1], p[0], p[1], p[2]);
+      else segmentoGiz(ctx, ativo.traco, ativo.est, P[n - 3], P[n - 2], P[n - 1], p[0], p[1], p[2]);
+    }
+    anel(e, ativo.traco.t === "e");
+  });
+
+  function terminar(e) {
+    if (!ativo || e.pointerId !== ativo.id) return;
+    const q = quadro();
+    q.tracos.push(ativo.traco);
+    q.refazer = []; q.limpos = null;
+    ativo = null;
+    dobrar(); atualizarTrilho(); guardar();
+    if (!st.apagando) $("anel").style.display = "none";
+  }
+  giz.addEventListener("pointerup", terminar);
+  giz.addEventListener("pointercancel", terminar);
+  giz.addEventListener("pointerleave", e => { if (!ativo) $("anel").style.display = "none"; });
+  giz.addEventListener("contextmenu", e => e.preventDefault());
+
+  // o anel mostra o tamanho do apagador
+  function anel(e, mostrar) {
+    const a = $("anel");
+    if (!mostrar || e.pointerType === "touch") { a.style.display = "none"; return; }
+    const w = larguraApag(APAGADOR, pressao(e));
+    a.style.display = "block";
+    a.style.width = a.style.height = w + "px";
+    a.style.left = (e.clientX - rect.left + 7) + "px";
+    a.style.top = (e.clientY - rect.top + 7) + "px";
+  }
+
+  // ── ações ────────────────────────────────────────────────────────
+  function escolherCor(i) { st.cor = i; st.apagando = false; atualizarTrilho(); guardar(); }
+  function escolherEsp(i) { st.esp = i; st.apagando = false; atualizarTrilho(); guardar(); }
+
+  function desfazer() {
+    const q = quadro();
+    if (!q.tracos.length && q.limpos) {          // desfaz o "limpar"
+      q.tracos = q.limpos; q.limpos = null; abrirQuadro(); guardar(); return;
+    }
+    if (!q.tracos.length) return;
+    q.refazer.push(q.tracos.pop());
+    if (q.tracos.length < baseN) { baseN = Math.max(0, q.tracos.length - JANELA); reconstruirBase(); }
+    render(); atualizarTrilho(); guardar();
+  }
+  function refazer() {
+    const q = quadro();
+    if (!q.refazer.length) return;
+    const t = q.refazer.pop(); q.tracos.push(t);
+    desenharTraco(ctx, t); dobrar(); atualizarTrilho(); guardar();
+  }
+
+  // Limpar pede um segundo toque: apagar a aula sem querer, no meio da
+  // explicação, é o pior acidente possível aqui. E mesmo assim desfaz.
+  let confirmaLimpar = 0;
+  function limpar() {
+    const b = $("limpar"), agora = Date.now();
+    if (agora - confirmaLimpar > 2500) {
+      confirmaLimpar = agora; b.classList.add("alerta");
+      avisar("Toque de novo para limpar este quadro");
+      setTimeout(() => { if (Date.now() - confirmaLimpar >= 2500) b.classList.remove("alerta"); }, 2600);
+      return;
+    }
+    confirmaLimpar = 0; b.classList.remove("alerta");
+    const q = quadro();
+    if (!q.tracos.length) return;
+    q.limpos = q.tracos; q.tracos = []; q.refazer = [];
+    baseN = 0; bctx.clearRect(0, 0, W, H); render(); atualizarTrilho(); guardar();
+    avisar("Quadro limpo — desfazer traz de volta");
+  }
+
+  function irPara(i) {
+    if (i < 0 || i >= st.quadros.length || i === st.atual) return;
+    st.atual = i; abrirQuadro(); guardar();
+  }
+  function novo() {
+    st.quadros.splice(st.atual + 1, 0, novoQuadro());
+    st.atual += 1; abrirQuadro(); guardar();
+  }
+
+  function salvarImagem() {
+    const c = document.createElement("canvas"); c.width = W; c.height = H;
+    const x = c.getContext("2d"); x.drawImage(fundo, 0, 0); x.drawImage(giz, 0, 0);
+    const d = new Date(), z = n => String(n).padStart(2, "0");
+    const nome = `quadro-${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}-${st.atual + 1}.png`;
+    c.toBlob(b => {
+      if (!b) { avisar("Não consegui gerar a imagem"); return; }
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(b); a.download = nome;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }, "image/png");
+  }
+
+  const raiz = document.documentElement;
+  const pedeTela = raiz.requestFullscreen || raiz.webkitRequestFullscreen;
+  function telaCheia() {
+    const dentro = document.fullscreenElement || document.webkitFullscreenElement;
+    if (dentro) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else if (pedeTela) pedeTela.call(raiz);
+  }
+  if (!pedeTela) $("cheia").style.display = "none";
+
+  let tAviso = 0;
+  function avisar(txt) {
+    const a = $("aviso"); a.textContent = txt; a.classList.add("ver");
+    clearTimeout(tAviso); tAviso = setTimeout(() => a.classList.remove("ver"), 2400);
+  }
+
+  function atualizarTrilho() {
+    document.querySelectorAll(".giz").forEach(b =>
+      b.setAttribute("aria-checked", String(!st.apagando && +b.dataset.cor === st.cor)));
+    document.querySelectorAll(".esp").forEach(b =>
+      b.setAttribute("aria-checked", String(+b.dataset.esp === st.esp)));
+    $("apagador").setAttribute("aria-pressed", String(st.apagando));
+    const q = quadro();
+    $("desfazer").disabled = !q.tracos.length && !q.limpos;
+    $("ant").disabled = st.atual === 0;
+    $("prox").disabled = st.atual === st.quadros.length - 1;
+    $("pag").textContent = (st.atual + 1) + " / " + st.quadros.length;
+  }
+
+  // ── guardar no aparelho ───────────────────────────────────────────
+  // Recarregar a página no meio da aula não pode perder o quadro.
+  let tGuarda = 0;
+  function guardar() { clearTimeout(tGuarda); tGuarda = setTimeout(guardarJa, 400); }
+  function guardarJa() {
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify({
+        v: 1, atual: st.atual, cor: st.cor, esp: st.esp,
+        quadros: st.quadros.map(q => ({ tracos: q.tracos }))
+      }));
+    } catch (e) {
+      avisar("Sem espaço para guardar o quadro neste aparelho — salve as imagens");
+    }
+  }
+  function recuperar() {
+    try {
+      const d = JSON.parse(localStorage.getItem(CHAVE) || "null");
+      if (!d || d.v !== 1 || !Array.isArray(d.quadros) || !d.quadros.length) return;
+      st.quadros = d.quadros.map(q => ({ tracos: Array.isArray(q.tracos) ? q.tracos : [], refazer: [], limpos: null }));
+      st.atual = Math.min(Math.max(0, d.atual | 0), st.quadros.length - 1);
+      st.cor = Math.min(4, Math.max(0, d.cor | 0));
+      st.esp = Math.min(2, Math.max(0, d.esp | 0));
+    } catch (e) { /* armazenamento indisponível: começa vazio */ }
+  }
+  addEventListener("pagehide", guardarJa);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) guardarJa(); });
+
+  // ── controles ────────────────────────────────────────────────────
+  document.querySelectorAll(".giz").forEach(b => b.addEventListener("click", () => escolherCor(+b.dataset.cor)));
+  document.querySelectorAll(".esp").forEach(b => b.addEventListener("click", () => escolherEsp(+b.dataset.esp)));
+  $("apagador").addEventListener("click", () => { st.apagando = !st.apagando; atualizarTrilho(); });
+  $("desfazer").addEventListener("click", desfazer);
+  $("ant").addEventListener("click", () => irPara(st.atual - 1));
+  $("prox").addEventListener("click", () => irPara(st.atual + 1));
+  $("novo").addEventListener("click", novo);
+  $("limpar").addEventListener("click", limpar);
+  $("salvar").addEventListener("click", salvarImagem);
+  $("cheia").addEventListener("click", telaCheia);
+
+  addEventListener("keydown", e => {
+    const mod = e.ctrlKey || e.metaKey;
+    if (mod && e.key.toLowerCase() === "z") { e.preventDefault(); e.shiftKey ? refazer() : desfazer(); return; }
+    if (mod && e.key.toLowerCase() === "y") { e.preventDefault(); refazer(); return; }
+    if (mod || e.altKey) return;
+    if (e.key >= "1" && e.key <= "5") escolherCor(+e.key - 1);
+    else if (e.key === "e" || e.key === "E") { st.apagando = !st.apagando; atualizarTrilho(); }
+    else if (e.key === "n" || e.key === "N") novo();
+    else if (e.key === "ArrowLeft") irPara(st.atual - 1);
+    else if (e.key === "ArrowRight") irPara(st.atual + 1);
+    else if (e.key === "f" || e.key === "F") telaCheia();
+  });
+
+  // ── tamanho ──────────────────────────────────────────────────────
+  // Os traços são guardados em px CSS a partir do canto do quadro: girar
+  // o tablet não deforma a escrita, só mostra mais ou menos do quadro.
+  function redimensionar() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    rect = giz.getBoundingClientRect();
+    W = Math.max(1, Math.round(rect.width * dpr));
+    H = Math.max(1, Math.round(rect.height * dpr));
+    for (const c of [fundo, giz, base]) { c.width = W; c.height = H; }
+    carimbos.clear();
+    desenharFundo();
+    abrirQuadro();
+  }
+  let tRed = 0;
+  addEventListener("resize", () => { clearTimeout(tRed); tRed = setTimeout(redimensionar, 120); });
+
+  recuperar();
+  redimensionar();
+})();
+</script>
+</body>
+</html>

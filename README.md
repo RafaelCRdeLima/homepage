@@ -29,6 +29,8 @@ site/estrela.html     06 · estrela de nêutrons girando, com hot spot
 site/fusao.html       07 · fusão de duas estrelas de nêutrons (GW170817)
 site/talks.html       08 · seminários e palestras
 site/talks/2026-ebn/  slides da II Escola Brasileira de Neutrinos (cópia de RafaelCRdeLima/Seminario2026)
+site/farol/          FAROL: os pulsares do catálogo ATNF girando no período medido (autônomo)
+site/quadro/         quadro de giz para dar aula no tablet (autônomo, fora dos buscadores)
 site/styles.css      a apresentação inteira
 site/rafael-atlas.*  o retrato do cartão, em WebP (78 KB) e JPEG (121 KB)
 site/favicon.svg     ícone
@@ -298,6 +300,46 @@ Quatro coisas que exigiram cuidado:
 
 O pós-fusão de estrelas de nêutrons **não** está modelado — em GW170817 ele
 não foi detectado — e a faixa da onda diz isso em vez de inventar um sinal.
+
+## O quadro de giz
+
+`/quadro/` é para dar aula num tablet: um quadro verde quadriculado, com moldura
+de alumínio, e um trilho à esquerda com cinco cores de giz (branco, amarelo,
+salmão, azul e lilás), três espessuras, apagador, desfazer, vários quadros,
+limpar, salvar imagem e tela cheia. Como o Farol, é autônomo: não tem a
+navegação do site nem usa o `styles.css`, e leva `noindex` para ficar fora dos
+buscadores. Nada aponta para ele; é só abrir o endereço no tablet.
+
+Para usar como aplicativo, *Adicionar à Tela de Início* no Safari do iPad (ou
+*Instalar app* no Chrome do Android). O `manifest.webmanifest` abre em tela cheia,
+sem a barra do navegador. Atalhos de teclado, para quem usa teclado: `1`–`5`
+cores, `E` apagador, `N` quadro novo, `←` `→` troca de quadro, `F` tela cheia,
+`Ctrl+Z` desfaz e `Ctrl+Shift+Z` refaz.
+
+Decisões que importam:
+
+1. **O grão está na escala do pixel.** O traço é feito por carimbos granulados —
+   miolo denso, borda que falha — gerados no tamanho exato em pixels do
+   aparelho. Gerar o carimbo grande e reduzir borra o grão num disco liso.
+2. **Rejeição de palma.** Assim que a caneta aparece (Apple Pencil, S Pen), o
+   toque do dedo deixa de riscar; sem caneta, o dedo desenha. A pressão da
+   caneta muda a espessura, e a ponta-borracha de canetas que têm uma apaga.
+3. **Cada traço guarda uma semente.** O grão sai de um sorteio com semente, então
+   desfazer, trocar de quadro, girar o tablet e recarregar a página redesenham
+   o traço idêntico. Testado pixel a pixel: o mesmo traço refeito depois de
+   recarregar tem os mesmos 1292 pixels.
+4. **Desfazer não redesenha a aula inteira.** Os traços antigos ficam
+   pré-desenhados num canvas fora da tela; só os últimos (até 80) são refeitos.
+5. **Limpar pede dois toques** — apagar o quadro sem querer, no meio da
+   explicação, é o pior acidente possível aqui — e mesmo assim desfazer traz de
+   volta.
+6. **Nada se perde ao recarregar.** Os quadros ficam no `localStorage` do próprio
+   aparelho, salvos a cada traço. Não sobem para lugar nenhum. Se o espaço
+   acabar, o quadro avisa — salve as imagens.
+
+Os traços são guardados em px a partir do canto do quadro, e o quadriculado é
+ancorado no mesmo canto: girar o tablet mostra mais ou menos quadro sem
+deformar a escrita nem tirá-la da grade.
 
 ## Talks
 
