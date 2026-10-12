@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0b12">
+<title>Visitas · Rafael C. R. de Lima</title>
+<meta name="description" content="Quantas pessoas abriram este site, e de que lugar do mundo.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<!-- Pública, mas não é página para buscador: só se chega pelo globo da capa. -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
+
+<div class="panel panel-slim">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M11.6 5.6A11.4 11.4 0 1 1 5.9 21.6"/>
+          <circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brandname">R. C. R. de Lima</span>
+    </a>
+    <nav class="nav" aria-label="Seções / Sections">
+      <a href="/pesquisa.html"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="/codes.html">Codes</a>
+      <a href="/producao.html"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="/material.html"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+      <a href="/laboratorio.html"><span lang="pt">Laboratório</span><span lang="en">Lab</span></a>
+      <a href="/talks.html">Talks</a>
+    </nav>
+    <div class="topbar-end">
+      <div class="langswitch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <span class="langsep" aria-hidden="true">/</span>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn" href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+    </div>
+  </header>
+
+  <header class="pagehead">
+    <p class="pagenum"><span lang="pt">Visitas</span><span lang="en">Visits</span></p>
+    <h1><span lang="pt">Quem passou por aqui</span><span lang="en">Who came by</span></h1>
+    <p class="pagelede" lang="pt">Quantas pessoas abriram este site, e de que lugar do mundo. <span data-desde-pt></span></p>
+    <p class="pagelede" lang="en">How many people opened this site, and from where in the world. <span data-desde-en></span></p>
+  </header>
+</div>
+
+<main id="conteudo" class="visitas" aria-busy="true">
+  <p class="vis-status" data-status role="status">
+    <span lang="pt">Lendo o contador…</span><span lang="en">Reading the counter…</span>
+  </p>
+
+  <section class="vis-kpis" aria-label="Totais / Totals">
+    <div class="kpi">
+      <p class="kpi-rotulo"><span lang="pt">Pessoas</span><span lang="en">People</span></p>
+      <p class="kpi-valor" data-kpi="pessoas">—</p>
+      <p class="kpi-nota"><span lang="pt">navegadores diferentes</span><span lang="en">distinct browsers</span></p>
+    </div>
+    <div class="kpi">
+      <p class="kpi-rotulo"><span lang="pt">Páginas vistas</span><span lang="en">Page views</span></p>
+      <p class="kpi-valor" data-kpi="vistas">—</p>
+      <p class="kpi-nota"><span lang="pt">desde o começo</span><span lang="en">since the start</span></p>
+    </div>
+    <div class="kpi">
+      <p class="kpi-rotulo"><span lang="pt">Países</span><span lang="en">Countries</span></p>
+      <p class="kpi-valor" data-kpi="paises">—</p>
+      <p class="kpi-nota"><span lang="pt">e <b data-kpi="cidades">—</b> cidades</span><span lang="en">and <b data-kpi="cidades">—</b> cities</span></p>
+    </div>
+    <div class="kpi">
+      <p class="kpi-rotulo"><span lang="pt">Hoje</span><span lang="en">Today</span></p>
+      <p class="kpi-valor" data-kpi="hoje">—</p>
+      <p class="kpi-nota"><span lang="pt">pessoas, na hora de Brasília</span><span lang="en">people, Brasília time</span></p>
+    </div>
+  </section>
+
+  <section class="vis-bloco" aria-labelledby="t-onde">
+    <h2 id="t-onde"><span lang="pt">De onde vieram</span><span lang="en">Where they came from</span></h2>
+    <p class="vis-sub">
+      <span lang="pt">Cada ponto é uma cidade; a área do ponto cresce com o número de pessoas.</span>
+      <span lang="en">Each dot is a city; its area grows with the number of people.</span>
+    </p>
+
+    <!--
+      O mapa é `mundo.svg`, gerado por `tools/mundo.py` na projeção Equal
+      Earth. Os pontos são desenhados aqui por cima, com a mesma conta e as
+      mesmas constantes (PROJ, no script abaixo).
+    -->
+    <figure class="vis-mapa" data-mapa>
+      <svg viewBox="0 0 1000 451.1" role="img" aria-label="Mapa-múndi com as cidades dos visitantes / World map with the visitors' cities">
+        <image href="/mundo.svg" x="0" y="0" width="1000" height="451.1"/>
+        <g data-pontos></g>
+      </svg>
+      <div class="vis-dica" data-dica hidden></div>
+    </figure>
+
+    <div class="vis-duplo">
+      <div>
+        <h3><span lang="pt">Países</span><span lang="en">Countries</span></h3>
+        <ol class="ranking" data-lista="paises"></ol>
+      </div>
+      <div>
+        <h3><span lang="pt">Cidades</span><span lang="en">Cities</span></h3>
+        <ol class="ranking" data-lista="cidades"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="vis-bloco" aria-labelledby="t-dias">
+    <h2 id="t-dias"><span lang="pt">Últimos 30 dias</span><span lang="en">Last 30 days</span></h2>
+    <p class="vis-sub">
+      <span lang="pt">Pessoas por dia. Passe o mouse, ou use as setas, para ver cada dia.</span>
+      <span lang="en">People per day. Hover, or use the arrow keys, to see each day.</span>
+    </p>
+
+    <figure class="vis-colunas" data-colunas>
+      <svg tabindex="0" role="img" aria-label="Pessoas por dia nos últimos 30 dias / People per day over the last 30 days"></svg>
+      <div class="vis-dica" data-dica hidden></div>
+    </figure>
+
+    <details class="vis-tabela">
+      <summary><span lang="pt">Ver em tabela</span><span lang="en">Show as a table</span></summary>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"><span lang="pt">Dia</span><span lang="en">Day</span></th>
+            <th scope="col"><span lang="pt">Pessoas</span><span lang="en">People</span></th>
+            <th scope="col"><span lang="pt">Pela primeira vez</span><span lang="en">First time</span></th>
+            <th scope="col"><span lang="pt">Páginas vistas</span><span lang="en">Page views</span></th>
+          </tr>
+        </thead>
+        <tbody data-tabela-dias></tbody>
+      </table>
+    </details>
+  </section>
+
+  <section class="vis-bloco" aria-labelledby="t-paginas">
+    <h2 id="t-paginas"><span lang="pt">Páginas mais vistas</span><span lang="en">Most viewed pages</span></h2>
+    <ol class="ranking" data-lista="paginas"></ol>
+  </section>
+
+  <div class="note">
+    <p lang="pt"><strong>Como se conta.</strong> Cada navegador vira uma pessoa na primeira vez que abre o site. Ele guarda só a data da última visita — sem cookie e sem identificador —, e quem usa dois aparelhos, ou limpa o navegador, conta mais de uma vez. O lugar vem da Cloudflare, que o deduz do endereço IP, no nível da cidade; em rede móvel e em VPN ele às vezes erra de cidade. O IP não é guardado, nem o horário da visita: o banco só tem totais por dia, por página e por cidade. Robôs de busca não entram na conta.</p>
+    <p lang="en"><strong>How it is counted.</strong> Each browser becomes one person the first time it opens the site. It only stores the date of its last visit — no cookie and no identifier —, so someone with two devices, or who clears the browser, counts more than once. The place comes from Cloudflare, which infers it from the IP address at city level; on mobile networks and VPNs it sometimes gets the city wrong. Neither the IP nor the time of the visit is stored: the database only holds totals per day, per page and per city. Search-engine robots are left out.</p>
+    <label class="vis-opcao">
+      <input type="checkbox" data-nao-contar>
+      <span lang="pt">Não contar as visitas deste navegador</span><span lang="en">Don't count visits from this browser</span>
+    </label>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="foot-block">
+      <p class="footlabel"><span lang="pt">Vamos conversar</span><span lang="en">Let's talk</span></p>
+      <p class="footmail"><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></p>
+    </div>
+
+    <a class="footbtn" href="mailto:rafael.lima@udesc.br" aria-label="Enviar e-mail / Send an email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/>
+      </svg>
+    </a>
+
+    <div class="foot-block foot-right">
+      <p class="footlabel"><span lang="pt">Onde me encontrar</span><span lang="en">Find me</span></p>
+      <p class="footlinks">
+        <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+        <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
+        <a href="https://github.com/RafaelCRdeLima">GitHub</a>
+      </p>
+    </div>
+  </div>
+  <p class="footnote">Universidade do Estado de Santa Catarina · CCT · Joinville, SC</p>
+</footer>
+
+<script>
+(function () {
+  var KEY = 'rcrl-lang';
+  var buttons = document.querySelectorAll('[data-set-lang]');
+
+  function apply(lang) {
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    try { localStorage.setItem(KEY, lang); } catch (e) { /* modo privado */ }
+  }
+
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) { /* modo privado */ }
+
+  apply(stored === 'pt' || stored === 'en'
+    ? stored
+    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.setLang); });
+  });
+
+  // A navegação é idêntica nas cinco páginas; quem acende o item da página
+  // atual é isto, não uma classe escrita à mão em cada arquivo.
+  var aqui = location.pathname.replace(/index\.html$/, '') || '/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    var alvo = new URL(a.getAttribute('href'), location.origin).pathname;
+    if (alvo === aqui) a.setAttribute('aria-current', 'page');
+  });
+})();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  // Esta página não conta a si mesma: olhar o contador não é visitar o site.
+  // A caixa de "não contar" só liga e desliga a chave que /visita.js consulta.
+  const caixa = document.querySelector('[data-nao-contar]');
+  try { caixa.checked = localStorage.getItem('rcrl-nao-contar') === '1'; } catch (e) { caixa.disabled = true; }
+  caixa.addEventListener('change', () => {
+    try {
+      if (caixa.checked) localStorage.setItem('rcrl-nao-contar', '1');
+      else localStorage.removeItem('rcrl-nao-contar');
+    } catch (e) { /* armazenamento bloqueado */ }
+  });
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const LOCAL = { pt: 'pt-BR', en: 'en' };
+
+  // As mesmas constantes que `tools/mundo.py` imprime ao gerar `mundo.svg`.
+  const PROJ = { margem: 6, escala: 182.514789, xMax: 2.70663, yMax: 1.317363, largura: 1000, sul: -60 };
+
+  function equalEarth(lon, lat) {
+    const A1 = 1.340264, A2 = -0.081106, A3 = 0.000893, A4 = 0.003796, M = Math.sqrt(3) / 2;
+    const l = lon * Math.PI / 180;
+    const th = Math.asin(M * Math.sin(Math.max(lat, PROJ.sul) * Math.PI / 180));
+    const t2 = th * th, t6 = t2 * t2 * t2;
+    const x = l * Math.cos(th) / (M * (A1 + 3 * A2 * t2 + t6 * (7 * A3 + 9 * A4 * t2)));
+    const y = th * (A1 + A2 * t2 + t6 * (A3 + A4 * t2));
+    return [PROJ.margem + (x + PROJ.xMax) * PROJ.escala, PROJ.margem + (PROJ.yMax - y) * PROJ.escala];
+  }
+
+  // ── texto nos dois idiomas ─────────────────────────────────────
+  // Todo texto gerado aqui sai em par, como no HTML: o CSS esconde o
+  // idioma inativo, e trocar de idioma não pede redesenho.
+
+  // Dentro de um <text> de SVG o par vira <tspan>: <span> ali não desenha.
+  function bi(pt, en, svg) {
+    const f = document.createDocumentFragment();
+    for (const [lang, texto] of [['pt', pt], ['en', en]]) {
+      const s = svg ? document.createElementNS(NS, 'tspan') : document.createElement('span');
+      s.setAttribute('lang', lang);
+      s.textContent = texto;
+      f.append(s);
+    }
+    return f;
+  }
+
+  const numero = (n, lang) => n.toLocaleString(LOCAL[lang]);
+  const biNum = (n, svg) => bi(numero(n, 'pt'), numero(n, 'en'), svg);
+  const plural = (n, um, varios) => (n === 1 ? um : varios);
+  const pessoasTxt = (n) => bi(
+    `${numero(n, 'pt')} ${plural(n, 'pessoa', 'pessoas')}`,
+    `${numero(n, 'en')} ${plural(n, 'person', 'people')}`,
+  );
+
+  const nomesPais = {};
+  for (const lang of ['pt', 'en']) {
+    try { nomesPais[lang] = new Intl.DisplayNames([LOCAL[lang]], { type: 'region' }); } catch (e) { /* navegador antigo */ }
+  }
+  function pais(codigo, lang) {
+    if (codigo === 'XX') return lang === 'pt' ? 'Lugar desconhecido' : 'Unknown place';
+    if (codigo === 'T1') return lang === 'pt' ? 'Rede Tor' : 'Tor network';
+    try { return nomesPais[lang] ? nomesPais[lang].of(codigo) : codigo; } catch (e) { return codigo; }
+  }
+
+  function data(dia, lang, longa) {
+    const d = new Date(`${dia}T12:00:00Z`);
+    return d.toLocaleDateString(LOCAL[lang], longa
+      ? { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' }
+      : { timeZone: 'UTC', day: 'numeric', month: 'short' });
+  }
+
+  function somaDias(dia, n) {
+    const d = new Date(`${dia}T12:00:00Z`);
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+  }
+
+  // Chaves sem `.html`: é assim que o Cloudflare Pages serve as páginas, e
+  // assim que o contador as guarda (ver `functions/api/visitas.js`).
+  const PAGINAS = {
+    '/': ['Capa', 'Home'],
+    '/pesquisa': ['Pesquisa', 'Research'],
+    '/codes': ['Codes', 'Codes'],
+    '/producao': ['Produção', 'Publications'],
+    '/material': ['Material didático', 'Teaching'],
+    '/laboratorio': ['Buraco negro', 'Black hole'],
+    '/estrela': ['Estrela de nêutrons', 'Neutron star'],
+    '/fusao': ['Fusão de estrelas', 'Star merger'],
+    '/talks': ['Talks', 'Talks'],
+    '/farol/': ['Farol', 'Farol'],
+  };
+
+  function el(tag, atributos, filhos) {
+    const e = tag.startsWith('svg:') ? document.createElementNS(NS, tag.slice(4)) : document.createElement(tag);
+    for (const [k, v] of Object.entries(atributos || {})) e.setAttribute(k, v);
+    for (const f of [].concat(filhos || [])) e.append(f);
+    return e;
+  }
+
+  // ── a dica (tooltip) ───────────────────────────────────────────
+  // Uma por figura, posicionada junto ao ponteiro e presa dentro da figura.
+  // Valor primeiro, rótulo depois: quem passa o mouse já sabe o que é,
+  // e quer o número.
+
+  function dica(figura) {
+    const caixa = figura.querySelector('[data-dica]');
+    return {
+      mostra(x, y, valor, rotulo) {
+        caixa.replaceChildren(el('strong', {}, valor), el('span', { class: 'vis-dica-rotulo' }, rotulo));
+        caixa.hidden = false;
+        const w = figura.clientWidth, cw = caixa.offsetWidth, ch = caixa.offsetHeight;
+        const left = Math.min(Math.max(x - cw / 2, 0), w - cw);
+        const top = y - ch - 12 < 0 ? y + 16 : y - ch - 12;
+        caixa.style.transform = `translate(${left}px, ${top}px)`;
+      },
+      esconde() { caixa.hidden = true; },
+    };
+  }
+
+  // ── listas com barra ───────────────────────────────────────────
+
+  const LIMITE_LISTA = 12;
+
+  function ranking(lista, itens, vazio) {
+    lista.replaceChildren();
+    if (itens.length === 0) {
+      lista.append(el('li', { class: 'ranking-vazio' }, vazio));
+      return;
+    }
+    const max = itens[0].valor;
+    itens.forEach((item, i) => {
+      const nome = el('span', { class: 'ranking-nome' }, item.nome);
+      if (item.sub) nome.append(el('span', { class: 'ranking-sub' }, item.sub));
+      const barra = el('span', { class: 'ranking-barra', 'aria-hidden': 'true' });
+      barra.style.setProperty('--frac', String(item.valor / max));
+      const li = el('li', {}, [nome, el('span', { class: 'ranking-valor' }, biNum(item.valor)), barra]);
+      if (i >= LIMITE_LISTA) li.hidden = true;
+      lista.append(li);
+    });
+    if (itens.length > LIMITE_LISTA) {
+      const resto = itens.length - LIMITE_LISTA;
+      const botao = el('button', { type: 'button', class: 'ranking-mais' },
+        bi(`Mostrar mais ${numero(resto, 'pt')}`, `Show ${numero(resto, 'en')} more`));
+      botao.addEventListener('click', () => {
+        lista.querySelectorAll('li[hidden]').forEach((li) => { li.hidden = false; });
+        botao.parentElement.remove();
+      });
+      lista.append(el('li', { class: 'ranking-rodape' }, botao));
+    }
+  }
+
+  // ── o mapa ─────────────────────────────────────────────────────
+
+  function mapa(lugares) {
+    const figura = document.querySelector('[data-mapa]');
+    const svg = figura.querySelector('svg');
+    const grupo = svg.querySelector('[data-pontos]');
+    const d = dica(figura);
+
+    const pontos = lugares
+      .filter((l) => l.cidade && l.lat !== null && l.lon !== null)
+      .map((l) => ({ ...l, xy: equalEarth(l.lon, l.lat) }))
+      // Os grandes primeiro, para os pequenos ficarem por cima, visíveis.
+      .sort((a, b) => b.pessoas - a.pessoas);
+    const max = Math.max(25, ...pontos.map((p) => p.pessoas));
+    // Raio em pixels de tela. Até 25 pessoas a escala é fixa; dali em
+    // diante, relativa ao maior ponto.
+    const raio = (p) => 4 + 14 * Math.sqrt(p.pessoas / max);
+    let escala = 1; // unidades do viewBox por pixel de tela
+    let ativo = null;
+
+    function desenha() {
+      // O raio é convertido para o viewBox a cada redimensionamento: o ponto
+      // de uma pessoa tem o mesmo tamanho no celular e no monitor.
+      escala = PROJ.largura / svg.getBoundingClientRect().width;
+      grupo.replaceChildren();
+      for (const p of pontos) {
+        p.marca = el('svg:circle', {
+          cx: p.xy[0], cy: p.xy[1], r: raio(p) * escala,
+          class: 'vis-ponto' + (p === ativo ? ' ativo' : ''), 'stroke-width': 1.5 * escala,
+        });
+        grupo.append(p.marca);
+      }
+    }
+
+    function solta() {
+      if (ativo) ativo.marca.classList.remove('ativo');
+      ativo = null;
+      d.esconde();
+    }
+
+    // Quem responde ao mouse é o ponto de CENTRO mais próximo, não o círculo
+    // que estiver por cima. No Sul do Brasil os pontos se sobrepõem, e com um
+    // alvo por círculo o de Porto Alegre engolia o centro do de Joinville.
+    // Vale até 12 px fora do centro, para ninguém precisar acertar 8 px.
+    svg.addEventListener('pointermove', (ev) => {
+      const caixa = svg.getBoundingClientRect();
+      const mx = (ev.clientX - caixa.left) * escala;
+      const my = (ev.clientY - caixa.top) * escala;
+      let perto = null, menor = Infinity;
+      for (const p of pontos) {
+        const dist = Math.hypot(p.xy[0] - mx, p.xy[1] - my) / escala;
+        if (dist <= Math.max(raio(p), 12) && dist < menor) { perto = p; menor = dist; }
+      }
+      if (perto !== ativo) {
+        if (ativo) ativo.marca.classList.remove('ativo');
+        if (perto) perto.marca.classList.add('ativo');
+        ativo = perto;
+      }
+      if (!perto) { d.esconde(); return; }
+      const fig = figura.getBoundingClientRect();
+      d.mostra(ev.clientX - fig.left, ev.clientY - fig.top, pessoasTxt(perto.pessoas),
+        bi([perto.cidade, perto.regiao, pais(perto.pais, 'pt')].filter(Boolean).join(', '),
+           [perto.cidade, perto.regiao, pais(perto.pais, 'en')].filter(Boolean).join(', ')));
+    });
+    svg.addEventListener('pointerleave', solta);
+
+    desenha();
+    new ResizeObserver(desenha).observe(svg);
+  }
+
+  // ── as colunas dos últimos 30 dias ─────────────────────────────
+
+  function colunas(serie) {
+    const figura = document.querySelector('[data-colunas]');
+    const svg = figura.querySelector('svg');
+    const d = dica(figura);
+    let ativo = -1;
+
+    const maior = Math.max(...serie.map((s) => s.visitantes));
+    // Passo "redondo" para no máximo três linhas de grade.
+    const passo = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000]
+      .find((p) => p * 3 >= maior) || Math.ceil(maior / 3);
+    const topo = Math.max(passo, Math.ceil(maior / passo) * passo);
+
+    const ALTURA = 190, CIMA = 18, BAIXO = 26, ESQ = 34;
+    let geo = null;
+
+    function desenha() {
+      const W = svg.getBoundingClientRect().width;
+      const plotW = W - ESQ;
+      const plotH = ALTURA - CIMA - BAIXO;
+      const fatia = plotW / serie.length;
+      const largura = Math.min(24, fatia - 2);
+      const y = (v) => CIMA + plotH * (1 - v / topo);
+      geo = { fatia, W };
+
+      svg.setAttribute('viewBox', `0 0 ${W} ${ALTURA}`);
+      svg.setAttribute('height', ALTURA);
+      svg.replaceChildren();
+
+      for (let v = 0; v <= topo; v += passo) {
+        svg.append(el('svg:line', { x1: ESQ, x2: W, y1: y(v), y2: y(v), class: 'vis-grade' }));
+        const rotulo = el('svg:text', { x: ESQ - 8, y: y(v) + 4, class: 'vis-eixo', 'text-anchor': 'end' });
+        rotulo.append(biNum(v, true));
+        svg.append(rotulo);
+      }
+
+      serie.forEach((s, i) => {
+        if (s.visitantes === 0) return;
+        const x = ESQ + i * fatia + (fatia - largura) / 2;
+        const h = Math.max(plotH * s.visitantes / topo, 2);
+        const r = Math.min(4, largura / 2, h);
+        const base = y(0), alto = base - h;
+        // Ponta arredondada, base reta: a coluna nasce da linha de base.
+        const caminho = `M${x},${base}V${alto + r}Q${x},${alto} ${x + r},${alto}` +
+          `H${x + largura - r}Q${x + largura},${alto} ${x + largura},${alto + r}V${base}Z`;
+        svg.append(el('svg:path', { d: caminho, class: 'vis-coluna' + (i === ativo ? ' ativo' : ''), 'data-i': i }));
+      });
+
+      // Um rótulo só: o do dia de mais gente. O resto fica no eixo,
+      // na dica e na tabela.
+      if (maior > 0) {
+        const i = serie.map((s) => s.visitantes).lastIndexOf(maior);
+        const t = el('svg:text', { x: ESQ + (i + 0.5) * fatia, y: y(maior) - 6, class: 'vis-rotulo', 'text-anchor': 'middle' });
+        t.append(biNum(maior, true));
+        svg.append(t);
+      }
+
+      const marcas = [0, Math.floor(serie.length / 2), serie.length - 1];
+      for (const i of marcas) {
+        const ancora = i === 0 ? 'start' : i === serie.length - 1 ? 'end' : 'middle';
+        const x = i === 0 ? ESQ : i === serie.length - 1 ? W : ESQ + (i + 0.5) * fatia;
+        const t = el('svg:text', { x, y: ALTURA - 6, class: 'vis-eixo', 'text-anchor': ancora });
+        t.append(i === serie.length - 1 ? bi('hoje', 'today', true) : bi(data(serie[i].dia, 'pt'), data(serie[i].dia, 'en'), true));
+        svg.append(t);
+      }
+    }
+
+    function seleciona(i, x, yTela) {
+      ativo = i;
+      svg.querySelectorAll('.vis-coluna').forEach((c) => c.classList.toggle('ativo', Number(c.dataset.i) === i));
+      if (i < 0) { d.esconde(); return; }
+      const s = serie[i];
+      const cx = x !== undefined ? x : ESQ + (i + 0.5) * geo.fatia;
+      const cy = yTela !== undefined ? yTela : CIMA + 10;
+      d.mostra(cx, cy, pessoasTxt(s.visitantes), bi(
+        `${data(s.dia, 'pt', true)} · ${numero(s.pessoas, 'pt')} pela primeira vez · ${numero(s.vistas, 'pt')} ${plural(s.vistas, 'página vista', 'páginas vistas')}`,
+        `${data(s.dia, 'en', true)} · ${numero(s.pessoas, 'en')} for the first time · ${numero(s.vistas, 'en')} ${plural(s.vistas, 'page view', 'page views')}`,
+      ));
+    }
+
+    // A fatia inteira do dia é o alvo, da base ao topo: ninguém precisa
+    // acertar uma coluna de 9 px no celular.
+    svg.addEventListener('pointermove', (ev) => {
+      const caixa = svg.getBoundingClientRect();
+      const x = ev.clientX - caixa.left;
+      const i = Math.floor((x - ESQ) / geo.fatia);
+      if (i < 0 || i >= serie.length) { seleciona(-1); return; }
+      seleciona(i, x, ev.clientY - caixa.top);
+    });
+    svg.addEventListener('pointerleave', () => seleciona(-1));
+    svg.addEventListener('focus', () => seleciona(ativo < 0 ? serie.length - 1 : ativo));
+    svg.addEventListener('blur', () => seleciona(-1));
+    svg.addEventListener('keydown', (ev) => {
+      const passos = { ArrowLeft: -1, ArrowRight: 1, Home: -Infinity, End: Infinity };
+      if (ev.key === 'Escape') { seleciona(-1); return; }
+      if (!(ev.key in passos)) return;
+      ev.preventDefault();
+      const i = Math.min(serie.length - 1, Math.max(0, (ativo < 0 ? serie.length - 1 : ativo) + passos[ev.key]));
+      seleciona(i);
+    });
+
+    desenha();
+    new ResizeObserver(desenha).observe(svg);
+
+    const corpo = document.querySelector('[data-tabela-dias]');
+    for (const s of serie.slice().reverse()) {
+      corpo.append(el('tr', {}, [
+        el('th', { scope: 'row' }, bi(data(s.dia, 'pt', true), data(s.dia, 'en', true))),
+        el('td', {}, biNum(s.visitantes)),
+        el('td', {}, biNum(s.pessoas)),
+        el('td', {}, biNum(s.vistas)),
+      ]));
+    }
+  }
+
+  // ── juntando tudo ──────────────────────────────────────────────
+
+  function preenche(dados) {
+    const desdePt = document.querySelector('[data-desde-pt]');
+    const desdeEn = document.querySelector('[data-desde-en]');
+    if (dados.desde) {
+      desdePt.textContent = `A contagem começou em ${data(dados.desde, 'pt', true)}.`;
+      desdeEn.textContent = `Counting started on ${data(dados.desde, 'en', true)}.`;
+    } else {
+      desdePt.textContent = 'O contador acabou de ser ligado.';
+      desdeEn.textContent = 'The counter has just been switched on.';
+    }
+
+    // Países: a soma das cidades. Cada pessoa está em um lugar só (o da
+    // primeira visita), então a soma por país bate com o total.
+    const porPais = new Map();
+    for (const l of dados.lugares) porPais.set(l.pais, (porPais.get(l.pais) || 0) + l.pessoas);
+    const paises = [...porPais].filter(([c]) => c !== 'XX' && c !== 'T1');
+    const cidades = dados.lugares.filter((l) => l.cidade);
+
+    const hoje = dados.dias.find((s) => s.dia === dados.hoje);
+    const kpis = {
+      pessoas: dados.pessoas,
+      vistas: dados.vistas,
+      paises: paises.length,
+      cidades: cidades.length,
+      hoje: hoje ? hoje.visitantes : 0,
+    };
+    for (const alvo of document.querySelectorAll('[data-kpi]')) {
+      alvo.replaceChildren(biNum(kpis[alvo.dataset.kpi]));
+    }
+
+    const ninguem = bi('Ninguém ainda.', 'Nobody yet.');
+
+    ranking(document.querySelector('[data-lista="paises"]'),
+      [...porPais].sort((a, b) => b[1] - a[1]).map(([c, n]) => ({ nome: bi(pais(c, 'pt'), pais(c, 'en')), valor: n })),
+      ninguem.cloneNode(true));
+
+    ranking(document.querySelector('[data-lista="cidades"]'),
+      cidades.map((l) => ({
+        nome: l.cidade,
+        sub: bi([l.regiao, pais(l.pais, 'pt')].filter(Boolean).join(', '), [l.regiao, pais(l.pais, 'en')].filter(Boolean).join(', ')),
+        valor: l.pessoas,
+      })),
+      ninguem.cloneNode(true));
+
+    ranking(document.querySelector('[data-lista="paginas"]'),
+      dados.paginas.map((p) => {
+        const nome = PAGINAS[p.pagina];
+        const link = el('a', { href: p.pagina }, nome ? bi(nome[0], nome[1]) : p.pagina);
+        return { nome: link, valor: p.vistas };
+      }),
+      ninguem.cloneNode(true));
+
+    mapa(dados.lugares);
+
+    // Os 30 dias completos, com zero onde ninguém veio: dia sem linha no
+    // banco é dia sem visita, não dia que falta.
+    const porDia = new Map(dados.dias.map((s) => [s.dia, s]));
+    const serie = [];
+    for (let i = 29; i >= 0; i--) {
+      const dia = somaDias(dados.hoje, -i);
+      serie.push(porDia.get(dia) || { dia, vistas: 0, visitantes: 0, pessoas: 0 });
+    }
+    colunas(serie);
+  }
+
+  const status = document.querySelector('[data-status]');
+  const main = document.querySelector('main');
+
+  fetch('/api/visitas', { headers: { accept: 'application/json' } })
+    .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+    .then((dados) => {
+      preenche(dados);
+      status.hidden = true;
+    })
+    .catch(() => {
+      status.replaceChildren(bi('Não deu para ler o contador agora. Tente de novo em instantes.',
+                                'Could not read the counter right now. Try again in a moment.'));
+      status.classList.add('erro');
+    })
+    .finally(() => main.removeAttribute('aria-busy'));
+})();
+</script>
+
+</body>
+</html>

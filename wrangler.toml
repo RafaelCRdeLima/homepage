@@ -1,0 +1,20 @@
+# Configuração do projeto no Cloudflare Pages.
+#
+# Com este arquivo presente, ele é a fonte de verdade: os vínculos (bindings)
+# deixam de ser editáveis no painel. É o que se quer — o banco do contador de
+# visitas fica declarado aqui, versionado, e não num campo do painel que
+# ninguém lembra de ter preenchido.
+#
+# O `wrangler pages deploy site` da Action lê este arquivo sozinho, e publica
+# junto as funções de `functions/` (hoje só `/api/visitas`).
+
+name = "rafael-lima"
+pages_build_output_dir = "site"
+compatibility_date = "2026-10-01"
+
+# O contador de visitas. Criado com `wrangler d1 create homepage-visitas`;
+# o esquema está em `functions/schema.sql`.
+[[d1_databases]]
+binding = "VISITAS"
+database_name = "homepage-visitas"
+database_id = "2468693d-4861-46ab-a159-9d1e87fedd93"

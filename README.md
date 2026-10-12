@@ -15,7 +15,8 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
-Nove páginas de HTML puro, mais os slides das palestras em `site/talks/`. Não há build, não há dependência e não há
+Dez páginas de HTML puro, mais os slides das palestras em `site/talks/` e uma função
+na Cloudflare para o contador de visitas. Não há build, não há dependência e não há
 `node_modules`.
 
 ```text
@@ -28,12 +29,19 @@ site/laboratorio.html 05 · luz em torno de um buraco negro
 site/estrela.html     06 · estrela de nêutrons girando, com hot spot
 site/fusao.html       07 · fusão de duas estrelas de nêutrons (GW170817)
 site/talks.html       08 · seminários e palestras
+site/visitas.html     quantas pessoas vieram, e de onde (fora da navegação; o globo da capa leva até ela)
+site/visita.js        conta a visita — uma linha no <head> de cada página pública
+site/mundo.svg        o mapa-múndi da página de visitas, gerado por tools/mundo.py
 site/talks/2026-ebn/  slides da II Escola Brasileira de Neutrinos (cópia de RafaelCRdeLima/Seminario2026)
 site/farol/          FAROL: os pulsares do catálogo ATNF girando no período medido (autônomo)
 site/quadro/         quadro de giz para dar aula no tablet (autônomo, fora dos buscadores)
 site/styles.css      a apresentação inteira
 site/rafael-atlas.*  o retrato do cartão, em WebP (78 KB) e JPEG (121 KB)
 site/favicon.svg     ícone
+functions/api/visitas.js  o contador: soma visitas (POST) e devolve os totais (GET)
+functions/schema.sql      as três tabelas do contador no D1
+tools/mundo.py            gera site/mundo.svg a partir do Natural Earth
+wrangler.toml             projeto do Cloudflare Pages e o vínculo com o banco
 ```
 
 Para ver localmente:
@@ -42,7 +50,7 @@ Para ver localmente:
 python3 -m http.server -d site 8000
 ```
 
-**A navegação é byte-a-byte idêntica nas nove páginas.** Quem acende o item
+**A navegação é byte-a-byte idêntica nas dez páginas.** Quem acende o item
 da página atual é o JS, comparando `location.pathname` com o `href` de cada
 link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
 navegação, troque o bloco `<nav class="nav">` em todos os arquivos e confira com:
@@ -131,22 +139,26 @@ com a página em inglês, é porque o par ficou incompleto.
 
 ## Publicação
 
-`push` na `main` → a Action envia `site/` para o Cloudflare Pages.
+`push` na `main` → a Action envia `site/` para o Cloudflare Pages, e junto as
+funções de `functions/` (hoje só o contador de visitas). Os segredos
+`CLOUDFLARE_API_TOKEN` e `CLOUDFLARE_ACCOUNT_ID` são os mesmos do ALETRA, do
+TESSERA e do ODEROM. O primeiro deploy foi feito à mão, daqui, com
+`wrangler pages deploy site --project-name=rafael-lima`.
 
-**Falta um passo para isso funcionar:** os segredos `CLOUDFLARE_API_TOKEN` e
-`CLOUDFLARE_ACCOUNT_ID` ainda não existem neste repositório. São os mesmos
-valores já usados no ALETRA, no TESSERA e no ODEROM — o GitHub não deixa ler o
-valor de um segredo depois de gravado, então eles têm de vir do painel da
-Cloudflare:
+O `wrangler.toml` na raiz é a fonte de verdade do projeto: com ele presente, os
+vínculos (o banco do contador) **não se editam mais no painel** da Cloudflare.
+Mudou o banco, mude ali.
+
+Para ver localmente **com** o contador funcionando — o `http.server` do Python
+serve as páginas, mas não roda a função, e a página de visitas avisa que não
+conseguiu ler:
 
 ```bash
-gh secret set CLOUDFLARE_API_TOKEN  --repo RafaelCRdeLima/homepage
-gh secret set CLOUDFLARE_ACCOUNT_ID --repo RafaelCRdeLima/homepage
+npx wrangler d1 execute homepage-visitas --local --file functions/schema.sql   # uma vez
+npx wrangler pages dev                                                          # http://localhost:8788
 ```
 
-Enquanto os segredos não existirem, a Action falha e o site fica no ar com a
-última versão publicada — o primeiro deploy foi feito à mão, daqui, com
-`wrangler pages deploy site --project-name=rafael-lima`.
+O banco local fica em `.wrangler/state/`, separado do de produção e fora do git.
 
 ## Manutenção
 
@@ -347,3 +359,74 @@ Cada palestra vive no próprio repositório e é copiada para `site/talks/<ano>-
 de 2026 é `~/Codes/Talk Neutrinos em Epaçotempo curvo` (RafaelCRdeLima/Seminario2026); o README de lá
 tem o `rsync` que atualiza a cópia daqui. Os slides não usam a navegação do site: são um deck de tela
 cheia, com CSS e JS próprios.
+
+## As visitas
+
+`/visitas.html` mostra quantas pessoas abriram o site e de onde: os totais, um
+mapa-múndi com um ponto por cidade, a lista de países e de cidades, as pessoas
+por dia nos últimos 30 dias e as páginas mais vistas. É pública, mas fica fora
+da navegação e dos buscadores (`noindex`); quem leva até ela é um globo
+pequeno, meio apagado, no canto inferior direito da capa.
+
+**Como se conta.** Cada página pública carrega `/visita.js`, que manda ao
+servidor três coisas: o caminho da página, se é a primeira vez deste navegador
+e se é a primeira vez dele hoje. Para saber isso o navegador guarda só a data
+da última visita (`rcrl-visita` no `localStorage`) — sem cookie e sem
+identificador. O lugar não vem do navegador: a função lê `request.cf`, que a
+Cloudflare preenche na borda a partir do IP, no nível da cidade. O IP em si
+nunca chega ao banco.
+
+**O banco** é um D1, `homepage-visitas`, e só guarda totais — três tabelas,
+por dia, por página e por cidade (`functions/schema.sql`). Não há uma linha
+por visita, e não é só por privacidade: a página de visitas é pública e lê o
+banco a cada abertura. Com uma linha por visita a leitura varreria a tabela
+inteira toda vez, e em um ano estouraria a cota gratuita de leituras.
+
+Cada pessoa é contada uma vez, no lugar da primeira visita; por isso a soma
+dos países bate com o total de pessoas. Quem usa dois aparelhos, ou limpa o
+navegador, conta mais de uma vez — a página diz isso.
+
+Para ver os números sem a página:
+
+```bash
+npx wrangler d1 execute homepage-visitas --remote \
+  --command "SELECT * FROM lugares ORDER BY pessoas DESC"
+```
+
+Quatro coisas que já custaram tempo, para não voltarem:
+
+1. **O Cloudflare Pages tira o `.html` das URLs.** `/pesquisa.html` é
+   redirecionado para `/pesquisa`, e é isso que `location.pathname` devolve.
+   A primeira versão do contador só aceitava caminhos com `.html` e, em
+   produção, teria contado apenas a capa e o Farol. A função aceita as duas
+   grafias e guarda a sem `.html`.
+2. **Robôs.** Os que não rodam JavaScript nunca chegam a contar. Os que rodam
+   são barrados pelo nome no `User-Agent` — inclusive o Chrome sem janela,
+   que se anuncia `HeadlessChrome`. Ao testar com ele, troque o `User-Agent`,
+   ou a visita é descartada (de propósito).
+3. **O dono do site não precisa se contar.** A página de visitas não conta a
+   si mesma, e tem uma caixa *Não contar as visitas deste navegador*, que
+   grava `rcrl-nao-contar`; o `visita.js` respeita.
+4. **No mapa, quem responde ao mouse é o ponto de centro mais próximo**, não
+   o círculo que estiver por cima. Com um alvo por círculo, o de Porto Alegre
+   cobria o centro do de Joinville.
+
+Ficam de fora o quadro de giz (é ferramenta de aula, e só contaria o próprio
+professor) e os slides de `site/talks/2026-ebn/`, que são cópia de outro
+repositório e perderiam a linha no próximo `rsync`.
+
+**O mapa** (`site/mundo.svg`, 31 KB) é o Natural Earth 1:110m (domínio
+público), via o pacote `world-atlas` (ISC), na projeção Equal Earth — áreas
+verdadeiras, para a Europa não parecer maior do que é —, cortado em 60° S.
+Para gerar de novo:
+
+```bash
+curl -sSfLO https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json
+python3 -I tools/mundo.py land-110m.json > site/mundo.svg
+```
+
+O script imprime as constantes da projeção; os pontos das cidades são
+desenhados pela página com a mesma conta, então as constantes em `PROJ`, no
+script de `visitas.html`, têm de ser as mesmas. Fiji e a ponta de Chukotka
+cruzam o antimeridiano, e o script os corta em ±180°: sem isso, cada um vira um
+risco atravessando o mapa inteiro.
