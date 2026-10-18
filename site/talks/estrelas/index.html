@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080e">
+<title>Do nascimento à morte das estrelas · Rafael C. R. de Lima</title>
+<meta name="description" content="Palestra: como as estrelas nascem em nuvens frias, vivem do equilíbrio entre gravidade e fusão, e morrem como anãs brancas, estrelas de nêutrons ou buracos negros — com animações e dashboards no navegador.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<meta property="og:type" content="website">
+<link rel="alternate" hreflang="en" href="en.html">
+<meta property="og:title" content="Do nascimento à morte das estrelas">
+<meta property="og:description" content="Palestra · Rafael C. R. de Lima (UDESC/CCT) · de nuvens frias a anãs brancas, estrelas de nêutrons e buracos negros">
+
+<script>
+/* mesma preferência de idioma da página pessoal (chave rcrl-lang); sem preferência, segue o navegador */
+(function () {
+  var l = null; try { l = localStorage.getItem('rcrl-lang'); } catch (e) {}
+  if (!l) l = (navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en';
+  if (l === 'en') location.replace('en.html' + location.hash);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/deck.css?v=202610181736">
+</head>
+<body>
+
+<main id="stage" aria-live="polite">
+
+<!-- ================================================================
+     CAPA
+     ================================================================ -->
+<section class="slide cover" data-title="Capa">
+  <canvas id="nascer" aria-hidden="true"></canvas>
+  <div class="veil"></div>
+  <div class="grain"></div>
+  <header class="top rise d1">
+    <div class="school"><span class="stages" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>Departamento de Física · <b>UDESC</b></span></div>
+    <div class="date">Palestra · <b>2026</b></div>
+  </header>
+  <div class="main">
+    <p class="kicker rise d1">Palestra</p>
+    <h1 class="rise d2">Do nascimento<br>à <em>morte das estrelas</em></h1>
+    <p class="lede rise d3">De uma nuvem fria de hidrogênio a uma anã branca, uma estrela de nêutrons ou um buraco negro — e a física que decide <i>qual</i> será o fim.</p>
+  </div>
+  <footer class="bottom rise d5">
+    <div class="author">
+      <p class="name">Rafael C. R. de Lima</p>
+      <p class="aff">Departamento de Física<span>·</span>UDESC/CCT<span>·</span>Joinville</p>
+    </div>
+    <div class="right">
+      <div class="phase"><span class="eqn"><i>M</i><sub>J</sub> · <i>M</i><sub>Ch</sub> · <i>M</i><sub>TOV</sub></span><small>três massas decidem o destino</small></div>
+      <div class="links"><a href="https://rafael-lima.pages.dev/talks.html">rafael-lima.pages.dev/talks</a></div>
+    </div>
+  </footer>
+  <aside class="notes">Boa noite. Esta é a história de uma estrela do começo ao fim: uma nuvem fria que colapsa, bilhões de anos de equilíbrio e, quando o combustível acaba, três destinos possíveis — anã branca, estrela de nêutrons ou buraco negro. Ao fundo, uma nuvem em rotação caindo sobre uma protoestrela: o gás espirala, esquenta e acende, e o excesso sai em jatos pelos polos. É ilustração, não simulação. Os três símbolos no canto são as três massas que vão aparecer ao longo da palestra: a de Jeans, a de Chandrasekhar e a de Tolman–Oppenheimer–Volkoff.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Roteiro</p><h2>Cinco partes, <em>uma vida</em></h2></header>
+  <div class="body cols c5" style="align-items: center">
+    <div class="card" style="--part: var(--neb)">
+      <p class="stat roman">I</p>
+      <h3>O nascimento</h3>
+      <p class="small">Nuvens moleculares, o critério de Jeans e por que uma nuvem que encolhe acaba acendendo.</p>
+    </div>
+    <div class="card" style="--part: var(--sol)">
+      <p class="stat roman">II</p>
+      <h3>A vida</h3>
+      <p class="small">Fusão contra gravidade, massa e tempo de vida, o diagrama H–R e o que acontece quando o hidrogênio acaba.</p>
+    </div>
+    <div class="card" style="--part: var(--ana)">
+      <p class="stat roman">III</p>
+      <h3>Estrelas degeneradas</h3>
+      <p class="small">Heisenberg e Pauli seguram o que a fusão não segura mais — até o limite de Chandrasekhar.</p>
+    </div>
+    <div class="card" style="--part: var(--psr)">
+      <p class="stat roman">IV</p>
+      <h3>Estrelas de nêutrons</h3>
+      <p class="small">Pulsares, magnetares, a densidade nuclear e a luz que faz curva — com resultados da minha pesquisa.</p>
+    </div>
+    <div class="card glow" style="--part: var(--bn)">
+      <p class="stat roman">V</p>
+      <h3>Buracos negros</h3>
+      <p class="small">De Laplace a Schwarzschild, o horizonte, o tempo que congela e as estrelas em volta de Sgr A*.</p>
+    </div>
+  </div>
+  <aside class="notes">O roteiro segue a vida de uma estrela. Cada parte tem uma cor, que aparece no rodapé: rosa para o nascimento (o hidrogênio das nebulosas), âmbar para a vida (o Sol), azul para as anãs brancas, turquesa para os pulsares e violeta para os buracos negros. A Parte IV tem um trecho de pesquisa, sobre magnetares que podem ser movidos a rotação.</aside>
+</section>
+
+<!-- ================================================================
+     PARTE I · O NASCIMENTO
+     ================================================================ -->
+<section class="slide partcover p1">
+  <div class="bg" style="background-image: url('assets/img/cosmic-cliffs.jpg'); background-position: 60% 40%"></div>
+  <div class="inner">
+    <p class="num rise d1">I</p>
+    <p class="label rise d2">Parte um</p>
+    <h2 class="rise d2">O <em>nascimento</em></h2>
+    <p class="sub lede rise d3">Uma estrela nasce quando a gravidade de uma nuvem fria vence a agitação térmica do próprio gás.</p>
+    <div class="topics rise d4"><span>nebulosas</span><span>Jeans · 1902</span><span>colapso e fragmentação</span><span>corpo negro</span><span>protoestrelas</span></div>
+  </div>
+  <span class="credit" data-credit="cosmic-cliffs" data-label>“Penhascos Cósmicos”, Nebulosa de Carina · NASA, ESA, CSA, STScI · domínio público</span>
+  <aside class="notes">Parte um. Ao fundo, os “Penhascos Cósmicos” da Nebulosa de Carina, pelo telescópio James Webb: a borda de uma nuvem de gás sendo esculpida pela radiação de estrelas jovens que estão acima da imagem. Lá dentro há dezenas de estrelas em formação.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Nuvens moleculares</p><h2>Onde nasce <em>uma estrela?</em></h2></header>
+  <div class="body cols r">
+    <figure class="fill"><img src="assets/img/orion.jpg" alt="Nebulosa de Órion"><span class="credit" data-credit="orion">NASA, ESA, M. Robberto · domínio público</span></figure>
+    <div class="stack" style="gap: 24px">
+      <p class="big">Em nebulosas: nuvens frias de gás e poeira.</p>
+      <ul class="list">
+        <li><b>Nuvens moleculares</b>: o hidrogênio está em moléculas, H₂.</li>
+        <li><b>Densas o bastante para haver química</b>: H₂, monóxido de carbono (CO), formaldeído (H₂CO), água, álcool…</li>
+        <li><b>Frias</b>: de 10 a 20 K, perto de −260 °C.</li>
+      </ul>
+      <div class="cols c3" style="gap: 18px">
+        <div class="card"><p class="stat" style="font-size: 64px">10–20 <small>K</small></p><p class="stat-label">temperatura</p></div>
+        <div class="card"><p class="stat" style="font-size: 64px">10²–10⁶</p><p class="stat-label">moléculas por cm³</p></div>
+        <div class="card"><p class="stat" style="font-size: 64px">10⁶ <small>M☉</small></p><p class="stat-label">até isso, numa nuvem gigante</p></div>
+      </div>
+      <p class="small muted">Mesmo a parte mais densa é um vácuo melhor que o de laboratório: o ar que respiramos tem 2,5×10¹⁹ moléculas por cm³.</p>
+    </div>
+  </div>
+  <aside class="notes">Estrelas nascem dentro de nuvens moleculares: gás tão frio, 10 a 20 kelvin, que o hidrogênio está na forma de molécula. São densas o bastante para ter química — monóxido de carbono, formaldeído, água, até álcool — mas ainda são um vácuo melhor que qualquer laboratório. A Nebulosa de Órion, a 1 350 anos-luz, é o berçário de estrelas massivas mais próximo de nós; dá para ver a olho nu, na espada de Órion.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Nebulosa da Águia · M16 · 7 000 anos-luz</p><h2>Os <em>Pilares da Criação</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.55fr .75fr; gap: 44px">
+    <div class="duo">
+      <figure><img src="assets/img/pillars-hubble2014.jpg" alt="Pilares da Criação, Hubble, luz visível" style="object-position: 30% 50%"><span class="lbl">Hubble · luz visível</span><span class="credit" data-credit="pillars-hubble2014">NASA, ESA, Hubble Heritage Team · domínio público</span></figure>
+      <figure><img src="assets/img/pillars-webb.jpg" alt="Pilares da Criação, Webb, infravermelho" style="object-position: 50% 40%"><span class="lbl">Webb · infravermelho</span><span class="credit" data-credit="pillars-webb">NASA, ESA, CSA, STScI · domínio público</span></figure>
+    </div>
+    <div class="stack" style="gap: 24px; align-self: center">
+      <p class="big" style="margin: 0">Há estrelas nascendo nos pilares: as <b>protoestrelas</b>.</p>
+      <p style="margin: 0">Na luz visível a poeira as esconde. No infravermelho ela fica transparente, e elas aparecem como pontos avermelhados nas pontas dos pilares.</p>
+      <p class="small muted" style="margin: 0">O pilar da esquerda tem uns 4 anos-luz de altura. Hubble: 1995, refeita em 2014. Webb: 2022.</p>
+    </div>
+  </div>
+  <aside class="notes">A foto mais famosa do Hubble, de 1995, refeita em 2014, e ao lado a mesma região pelo James Webb, em 2022. Na luz visível, a poeira é opaca: vemos só a superfície dos pilares, iluminada pelas estrelas jovens que estão fora da imagem. No infravermelho a poeira fica transparente e aparecem as protoestrelas, ainda envoltas no gás, nas pontas dos pilares. O pilar da esquerda tem uns quatro anos-luz de altura.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Sir James Jeans · 1902</p><h2>Quando a gravidade <em>vence o calor?</em></h2></header>
+  <div class="body cols c2" style="gap: 56px">
+    <div class="stack" style="gap: 26px">
+      <div class="card glow"><h4>A ideia</h4>
+        <p>Uma região de raio <i>R</i> e massa <i>M</i> colapsa se as moléculas, agitadas pela temperatura <i>T</i> da nuvem, <b>não têm velocidade suficiente para escapar</b> dela.</p>
+        <p>Aí a gravidade vence a pressão causada pela energia térmica, e qualquer perturbação faz a região cair sobre si mesma.</p></div>
+      <p class="small muted">É a mesma conta da velocidade de escape que vai reaparecer na Parte V — lá, com a luz no lugar das moléculas.</p>
+    </div>
+    <div class="stack" style="gap: 16px">
+      <p class="small" style="margin: 0">Energia cinética média de uma molécula de massa <i>m</i>, e a energia potencial gravitacional dela na borda da região:</p>
+      <div class="cols c2" style="gap: 16px">
+        <div class="eq sm"><i>K</i><sub>méd</sub> = <span class="frac"><span>3</span><span>2</span></span> <i>k</i><sub>B</sub><i>T</i></div>
+        <div class="eq sm"><i>U</i><sub>G</sub> = <span class="frac"><span><i>GMm</i></span><span><i>R</i></span></span></div>
+      </div>
+      <p class="small" style="margin: 0">O limiar do colapso é quando as duas se igualam:</p>
+      <div class="eq sm"><span class="frac"><span>3</span><span>2</span></span> <i>k</i><sub>B</sub><i>T</i> = <span class="frac"><span><i>GMm</i></span><span><i>R</i></span></span>, &nbsp; <i>M</i> = <span class="frac"><span>4π</span><span>3</span></span> ρ<i>R</i>³</div>
+      <p class="small" style="margin: 0">Resolvendo para <i>R</i>:</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 46px"><i>R</i> = <span class="frac"><span>9 <i>k</i><sub>B</sub><i>T</i></span><span>8π<i>G</i>ρ<i>m</i></span></span><sup>1/2</sup></span></div>
+    </div>
+  </div>
+  <aside class="notes">A pergunta de Jeans: quando a gravidade de um pedaço de nuvem vence a agitação térmica? A estimativa é de velocidade de escape. Cada molécula tem energia cinética três meios kT; se isso for menor que a energia potencial GMm/R, ela não escapa e o pedaço colapsa. Igualando e usando M = 4π/3 ρR³ sai um raio crítico. Quanto mais fria e mais densa a nuvem, menor o raio — e menor a massa — que já colapsa sozinho.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Comprimento e massa de Jeans</p><h2>Quanto mais densa, <em>menor o pedaço</em> que colapsa</h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.18fr; gap: 44px">
+    <div class="stack" style="gap: 18px">
+      <p class="small" style="margin: 0">Numa análise mais cuidadosa, com perturbações de pressão, Jeans encontrou:</p>
+      <div class="eq sm">λ<sub>J</sub> = <span class="frac"><span>π <i>k</i><sub>B</sub><i>T</i></span><span><i>G</i>ρ<i>m</i></span></span><sup>1/2</sup><span class="note">comprimento de Jeans</span></div>
+      <div class="eq sm"><i>M</i><sub>J</sub> = <span class="frac"><span>4π</span><span>3</span></span> λ<sub>J</sub><sup>3</sup> ρ = <span class="frac"><span>4π<sup>5/2</sup></span><span>3</span></span> <span class="frac"><span><i>k</i><sub>B</sub><i>T</i></span><span><i>Gm</i></span></span><sup>3/2</sup> ρ<sup>−1/2</sup><span class="note">massa de Jeans</span></div>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 40px"><i>M</i><sub>J</sub> ∝ <i>T</i><sup>3/2</sup> ρ<sup>−1/2</sup></span></div>
+      <p class="small" style="margin: 0">À medida que a nuvem colapsa e fica mais densa, a massa que consegue colapsar sozinha <b>diminui</b>: a nuvem se quebra em pedaços — e cada pedaço vira uma estrela. É por isso que estrelas nascem em grupos.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">massa de Jeans · gás de H₂</span><span class="ref">arraste os controles</span></div>
+      <div class="cv"><canvas id="jeans"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="jeans-T">temperatura <output for="jeans-T"></output></label><input type="range" id="jeans-T" min="0.7" max="2" step="0.01" value="1"></div>
+        <div class="ctl"><label for="jeans-n">densidade <output for="jeans-n"></output></label><input type="range" id="jeans-n" min="1" max="8" step="0.02" value="3"></div>
+      </div>
+      <div class="readout" id="jeans-out"></div>
+    </div>
+  </div>
+  <aside class="notes">A conta completa de Jeans troca o 9/8π por π e dá o comprimento de Jeans; a massa de Jeans é a massa de uma esfera desse tamanho. O ponto central: M_J cresce com a temperatura e diminui com a densidade, como ρ^(−1/2). No gráfico, cada curva é uma temperatura. Uma nuvem típica, 10 K e mil moléculas por cm³, tem massa de Jeans de umas cem massas solares; num núcleo denso, com um milhão por cm³, cai para poucas massas solares. Embaixo, o tempo de queda livre: um a dez milhões de anos na nuvem, menos nos núcleos densos.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Colapso e fragmentação</p><h2>Da nuvem às <em>protoestrelas</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .8fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">ilustração · gravidade entre 900 pedaços de gás</span><div class="seg" id="colapso-btn"><button type="button" data-v="again" class="on">recomeçar</button></div></div>
+      <div class="cv"><canvas id="colapso"></canvas></div>
+      <div class="readout" id="colapso-out"></div>
+    </div>
+    <div class="stack" style="gap: 22px; align-self: center">
+      <p style="margin: 0">A nuvem cai sobre si mesma. As regiões mais densas colapsam mais depressa — o tempo de queda livre vai com ρ<sup>−1/2</sup> — e o colapso <b>fragmenta</b> a nuvem em vários núcleos.</p>
+      <p style="margin: 0">Cada fragmento gira cada vez mais rápido ao encolher, como a patinadora que fecha os braços: forma um <b>disco</b>, e no centro dele uma <b>protoestrela</b>.</p>
+      <p class="ref" style="margin: 0">Ilustração, não simulação: partículas com gravidade amolecida e um pouco de agitação térmica, num plano. O gás real tem pressão, turbulência, campo magnético e radiação — simulações completas em Krumholz, Klein &amp; McKee, <i>ApJ</i> 656, 959 (2007).</p>
+    </div>
+  </div>
+  <aside class="notes">Isto é uma ilustração do que as simulações mostram. Novecentos pedaços de gás com gravidade entre si e um pouco de movimento aleatório. Os grumos que se formam primeiro são os mais densos; quando um grumo fica compacto o bastante, vira uma protoestrela — o ponto brilhante — e passa a engolir o gás em volta. Note que não sai uma estrela: saem várias. As simulações de verdade, como as de Krumholz, Klein e McKee, incluem radiação e mostram o mesmo: fragmentação, discos e sistemas múltiplos.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">A diferença é a temperatura</p><h2>Qual a diferença entre uma nuvem <em>e uma estrela?</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 52px">
+    <div class="cols c3" style="gap: 28px; height: 100%; min-height: 0">
+      <figure class="fill"><img src="assets/img/orion.jpg" alt="Nuvem molecular em Órion" style="object-position: 30% 60%"><span class="credit" data-credit="orion">NASA, ESA, M. Robberto · domínio público</span><figcaption><b style="color: var(--text)">Nuvem</b> · 10 K · brilha em rádio e infravermelho</figcaption></figure>
+      <figure class="fill"><img src="assets/img/hl-tau.jpg" alt="Disco em torno de HL Tauri"><span class="credit" data-credit="hl-tau">ALMA · CC BY 4.0</span><figcaption><b style="color: var(--text)">Protoestrela com disco</b> · HL Tauri · ~1 milhão de anos</figcaption></figure>
+      <figure class="fill"><img src="assets/img/sun.jpg" alt="O Sol"><span class="credit" data-credit="sun">NASA/SDO · domínio público</span><figcaption><b style="color: var(--text)">Estrela</b> · o Sol · 5 772 K na superfície, 15 milhões K no centro</figcaption></figure>
+    </div>
+    <div class="chain"><span>contração</span><i>→</i><span>aumento de temperatura</span><i>→</i><span>corpo negro</span><i>→</i><span>luz visível</span><i>→</i><span class="on">nasce uma estrela!</span></div>
+  </div>
+  <aside class="notes">Uma nuvem, uma protoestrela e uma estrela são o mesmo gás em temperaturas diferentes. Ao contrair, a nuvem converte energia gravitacional em calor; metade sai em radiação, metade esquenta o gás — é o teorema do virial. O gás quente brilha como corpo negro. Quando a superfície passa de uns 3 000 K, o brilho entra no visível. No meio, o disco de HL Tauri pelo ALMA: os anéis escuros são provavelmente planetas se formando. E quando o centro passa de 10 milhões de kelvin, o hidrogênio começa a fundir: nasce uma estrela.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Radiação de corpo negro · Planck 1900</p><h2>Uma estrela é um corpo negro… <em>ou quase</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .78fr 1.22fr; gap: 44px">
+    <div class="stack" style="gap: 18px">
+      <div class="eq sm"><i>B</i><sub>ν</sub>(ν, <i>T</i>) = <span class="frac"><span>2<i>h</i>ν³</span><span><i>c</i>²</span></span> <span class="frac"><span>1</span><span><i>e</i><sup><i>h</i>ν/<i>k</i><sub>B</sub><i>T</i></sup> − 1</span></span><span class="note">lei de Planck</span></div>
+      <div class="cols c2" style="gap: 16px">
+        <div class="eq sm" style="font-size: 34px">λ<sub>máx</sub> = <span class="frac"><span>2,898 mm·K</span><span><i>T</i></span></span><span class="note">Wien</span></div>
+        <div class="eq sm" style="font-size: 34px"><i>L</i> = 4π<i>R</i>²σ<i>T</i>⁴<span class="note">Stefan–Boltzmann</span></div>
+      </div>
+      <p class="small" style="margin: 0">Mais quente, o pico vai para o azul e o brilho cresce muito: dobrar <i>T</i> multiplica a luminosidade por 16.</p>
+      <p class="small" style="margin: 0">As classes espectrais <b>O B A F G K M</b> são uma escala de temperatura: de mais de 30 000 K (azuis) a menos de 3 700 K (vermelhas). O Sol é uma G2.</p>
+      <p class="small muted" style="margin: 0">“Ou quase”: o espectro real tem linhas de absorção dos elementos da atmosfera, e é por elas que sabemos do que as estrelas são feitas.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">espectro de corpo negro · cor da estrela</span><span class="ref">arraste a temperatura</span></div>
+      <div class="cv"><canvas id="planck"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="planck-T">temperatura da superfície <output for="planck-T"></output></label><input type="range" id="planck-T" min="3.3" max="4.6" step="0.002" value="3.7612"></div>
+      </div>
+      <div class="readout" id="planck-out"></div>
+    </div>
+  </div>
+  <aside class="notes">O espectro de uma estrela é, em primeira aproximação, o de um corpo negro na temperatura da superfície. A curva cheia é a lei de Planck por comprimento de onda; a faixa colorida é o visível. O círculo no canto é a cor que o olho veria, calculada integrando a curva com as funções de cor do olho. Note que não há estrela verde: quando o pico está no verde, o espectro cobre todo o visível e a estrela parece branca. Rigel, Sírius, o Sol, Betelgeuse: azul, branca, branco-amarelada, laranja-avermelhada.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Hayashi · Henyey · 1961</p><h2>Da protoestrela à <em>sequência principal</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="preseq"></canvas></div>
+      <div class="readout" id="preseq-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px; align-self: center">
+      <ul class="list">
+        <li>A protoestrela começa como uma concentração <b>invisível</b> de gás no fundo da nuvem.</li>
+        <li>Contrai e esquenta, escondida num <b>casulo de poeira</b>: só aparece no infravermelho.</li>
+        <li>Sopra o casulo e fica <b>visível</b>, ainda encolhendo: primeiro quase na vertical do diagrama (trilha de Hayashi), depois para a esquerda (trilha de Henyey).</li>
+        <li>Quando o centro chega a ~10 milhões K, o hidrogênio começa a fundir: a estrela entra na <b>sequência principal</b> e para de encolher.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Trilhas esquemáticas, com pontos-chave aproximados dos modelos de Iben (1965). Quanto maior a massa, mais rápido: ~50 milhões de anos para 1 M☉, ~1 milhão para 5 M☉.</p>
+    </div>
+  </div>
+  <aside class="notes">O diagrama de Hertzsprung–Russell: luminosidade contra temperatura, com a temperatura crescendo para a esquerda. A protoestrela começa fria e grande, no canto da direita; enquanto está no casulo de poeira, só a vemos no infravermelho. Ela desce quase na vertical — está encolhendo a temperatura quase constante, toda convectiva: a trilha de Hayashi. Depois vira para a esquerda, esquentando com luminosidade quase constante: a trilha de Henyey. Quando o hidrogênio acende no centro, ela para na sequência principal. Uma estrela como o Sol leva uns 50 milhões de anos nisso; uma de cinco massas solares, um milhão.</aside>
+</section>
+
+<!-- ================================================================
+     PARTE II · A VIDA
+     ================================================================ -->
+<section class="slide partcover p2">
+  <div class="bg" style="background-image: url('assets/img/sun.jpg'); background-position: 75% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">II</p>
+    <p class="label rise d2">Parte dois</p>
+    <h2 class="rise d2">A <em>vida</em></h2>
+    <p class="sub lede rise d3">Bilhões de anos de equilíbrio entre a gravidade, que esmaga, e a fusão nuclear, que empurra para fora.</p>
+    <div class="topics rise d4"><span>fusão do hidrogênio</span><span>equilíbrio hidrostático</span><span>massa e tempo de vida</span><span>diagrama H–R</span><span>gigantes vermelhas</span></div>
+  </div>
+  <span class="credit" data-credit="sun" data-label>O Sol (SDO) · NASA/SDO · domínio público</span>
+  <aside class="notes">Parte dois: a vida de uma estrela, que é quase toda passada num equilíbrio. Ao fundo, o Sol em ultravioleta extremo, pelo Solar Dynamics Observatory.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Como é a vida de uma estrela?</p><h2>Brilho, estabilidade… <em>e paz?</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.15fr .85fr; gap: 50px; align-items: center">
+    <div class="words">
+      <p class="rise d1">Brilho.</p>
+      <p class="rise d2">Estabilidade.</p>
+      <p class="rise d3"><span class="x">Paz.</span></p>
+      <p class="say sm rise d5" style="margin-top: 40px; color: var(--text-2)">Paz, não. No centro de cada estrela, sem parar, acontece a reação de uma <em>bomba de hidrogênio</em>.</p>
+    </div>
+    <figure><img src="assets/img/sun.jpg" alt="O Sol" style="border-radius: 50%; aspect-ratio: 1; object-fit: cover; box-shadow: 0 0 120px rgba(255,184,107,.35)"></figure>
+  </div>
+  <aside class="notes">Como é a vida de uma estrela? Vista daqui: brilho, estabilidade — o Sol brilha quase igual há quatro bilhões e meio de anos. Paz? Não. O que mantém esse brilho estável é uma explosão nuclear contínua, contida pela própria gravidade da estrela.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Cadeia próton–próton</p><h2 style="font-size: 66px">O coração de uma estrela é <em>(literalmente)</em> uma bomba de hidrogênio</h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.18fr; gap: 44px">
+    <figure class="fill"><img src="assets/img/ivy-mike.jpg" alt="Teste nuclear Ivy Mike, 1952"><span class="credit" data-credit="ivy-mike">NNSA / Nevada Site Office · domínio público</span><figcaption><b style="color: var(--text)">Ivy Mike</b>, a primeira bomba de hidrogênio (1952): 10,4 megatons</figcaption></figure>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm" style="font-size: 32px; text-align: left; line-height: 1.42; padding: 18px 28px">
+        ¹H + ¹H → ²H + e⁺ + ν<sub>e</sub><br>²H + ¹H → ³He + γ<br>³He + ³He → ⁴He + 2 ¹H
+        <span class="note">no total: 4 ¹H → ⁴He + 2 e⁺ + 2 ν<sub>e</sub> + 26,7 MeV</span></div>
+      <div class="cols c2" style="gap: 20px">
+        <div class="card"><h4>As reações nucleares mantêm</h4><ul class="list" style="gap: 8px"><li class="small">a temperatura — o brilho de corpo negro</li><li class="small">a pressão que impede o colapso gravitacional</li></ul></div>
+        <div class="card"><h4>A gravidade mantém</h4><ul class="list" style="gap: 8px"><li class="small">a estrela coesa — a bomba não se desfaz</li><li class="small">a radiação presa: um fóton leva ~100 mil anos para sair do Sol</li></ul></div>
+      </div>
+      <div class="cols c3" style="gap: 16px">
+        <div class="card"><p class="stat" style="font-size: 54px">610 <small>mi t/s</small></p><p class="stat-label">de hidrogênio viram hélio</p></div>
+        <div class="card"><p class="stat" style="font-size: 54px">4,3 <small>mi t/s</small></p><p class="stat-label">de massa viram luz (<i>E</i> = <i>mc</i>²)</p></div>
+        <div class="card"><p class="stat" style="font-size: 54px">9×10⁹</p><p class="stat-label">Ivy Mikes por segundo</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">A fusão no Sol é a cadeia próton–próton: quatro prótons viram um núcleo de hélio, dois pósitrons, dois neutrinos e 26,7 MeV. A diferença para uma bomba é que a gravidade contém a explosão. Os números: a luminosidade do Sol, 3,8×10²⁶ watts, dividida por c² dá 4,3 milhões de toneladas de massa virando energia por segundo; como só 0,7% da massa vira energia, são 610 milhões de toneladas de hidrogênio por segundo. Em bombas: Ivy Mike liberou 4×10¹⁶ joules; o Sol libera nove bilhões dessas por segundo. E cada reação solta neutrinos: 65 bilhões por centímetro quadrado por segundo atravessam vocês agora.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Equilíbrio hidrostático</p><h2>Um equilíbrio <em>violento</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr .85fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="equilibrio"></canvas></div>
+      <div class="readout" id="equilibrio-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm"><span class="frac"><span><i>dP</i></span><span><i>dr</i></span></span> = − <span class="frac"><span><i>G m</i>(<i>r</i>) ρ(<i>r</i>)</span><span><i>r</i>²</span></span><span class="note">em cada camada: pressão contra peso</span></div>
+      <p style="margin: 0">Em cada camada, o peso de tudo que está acima é sustentado pela diferença de pressão. Se a estrela encolhe, o centro esquenta, a fusão acelera e a pressão empurra de volta; se ela incha, esfria e a fusão desacelera. <b>Um termostato.</b></p>
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>centro do Sol</th><th style="text-align: right">valor</th></tr>
+        <tr><td>temperatura</td><td class="n">15,7 milhões K</td></tr>
+        <tr><td>densidade</td><td class="n">150 g/cm³</td></tr>
+        <tr><td>pressão</td><td class="n">2,5×10¹⁶ Pa</td></tr>
+      </table>
+      <p class="small muted" style="margin: 0">Sem a pressão, o Sol colapsaria em ~30 minutos — o tempo de queda livre na sua densidade média.</p>
+    </div>
+  </div>
+  <aside class="notes">Equilíbrio hidrostático: em cada camada da estrela, a gravidade puxa para dentro — as setas violeta — e a diferença de pressão empurra para fora — as setas âmbar. Na animação a estrela é perturbada: comprimida, a pressão vence e ela volta; expandida, a gravidade vence e ela volta. Ela oscila em torno do equilíbrio, e a fusão funciona como termostato. A pressão no centro do Sol é de 250 bilhões de atmosferas. E o equilíbrio é violento no sentido literal: se a pressão desligasse, o Sol cairia sobre si mesmo em meia hora.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Massa, luminosidade e tempo de vida</p><h2>Mais massa, <em>vida mais curta</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr .85fr; gap: 44px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">sequência principal</span><span class="ref">arraste a massa</span></div>
+      <div class="cv"><canvas id="vida"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="vida-M">massa da estrela <output for="vida-M"></output></label><input type="range" id="vida-M" min="-1" max="1.78" step="0.005" value="0"></div>
+      </div>
+      <div class="readout" id="vida-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm"><i>L</i> ∝ <i>M</i><sup>3,5</sup><span class="note">relação massa–luminosidade (2 a 55 M☉)</span></div>
+      <div class="eq sm"><i>t</i> ≈ 10<sup>10</sup> anos · <span class="frac"><span><i>M</i>/M☉</span><span><i>L</i>/L☉</span></span> ∝ <i>M</i><sup>−2,5</sup><span class="note">combustível ÷ ritmo de queima</span></div>
+      <p style="margin: 0">Uma estrela de 10 M☉ tem dez vezes mais combustível, mas brilha milhares de vezes mais: vive <b>~30 milhões de anos</b>. O Sol, ~10 bilhões. Uma anã vermelha de 0,2 M☉, trilhões — mais que a idade do Universo.</p>
+      <p class="small muted" style="margin: 0">Toda estrela de baixa massa que já nasceu ainda está viva.</p>
+    </div>
+  </div>
+  <aside class="notes">A massa decide tudo. A luminosidade cresce como uma potência alta da massa — perto de M elevado a 3,5 — porque uma estrela mais pesada precisa de mais pressão no centro, logo mais temperatura, logo fusão muito mais rápida. O combustível cresce só como M. O tempo de vida, combustível dividido pelo ritmo de queima, cai como M elevado a −2,5. A curva âmbar é a luminosidade, a turquesa o tempo de vida. Estrelas massivas vivem dezenas de milhões de anos; anãs vermelhas, trilhões — nenhuma anã vermelha morreu ainda.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Hertzsprung · 1911 · Russell · 1913</p><h2>O diagrama <em>H–R</em></h2></header>
+  <div class="body cols l">
+    <figure class="fill contain"><img src="assets/img/hr-eso.jpg" alt="Diagrama de Hertzsprung–Russell" style="object-fit: contain; background: #000"><span class="credit" data-credit="hr-eso">ESO · CC BY 4.0</span></figure>
+    <div class="stack" style="gap: 22px">
+      <p style="margin: 0">Temperatura (ou cor) no eixo horizontal, crescendo para a <b>esquerda</b>; luminosidade no vertical.</p>
+      <ul class="list">
+        <li><b>Sequência principal</b>: a diagonal, onde as estrelas passam 90% da vida queimando hidrogênio no centro.</li>
+        <li><b>Gigantes e supergigantes</b>: frias e enormes, no alto à direita.</li>
+        <li><b>Anãs brancas</b>: quentes e pequenas, embaixo à esquerda.</li>
+      </ul>
+      <p class="big" style="margin: 0">Quando a estrela esgota o hidrogênio do centro, sobra pouca energia para sustentar o peso das camadas de cima — <b>90% da estrela</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">O diagrama H–R é o mapa das estrelas. Cada ponto é uma estrela, com a temperatura no eixo horizontal — invertido, quente à esquerda — e a luminosidade no vertical. A maioria está na diagonal, a sequência principal. Estrelas não andam pela sequência principal: cada uma fica num ponto, definido pela massa, enquanto queima hidrogênio no centro. O que acontece quando esse hidrogênio acaba é o assunto do próximo slide.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Quando o hidrogênio do centro acaba</p><h2>Três coisas <em>ao mesmo tempo</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.4fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">evolução no diagrama H–R · esquemática</span><div class="seg" id="hr-m"><button type="button" data-v="1" class="on">1 M☉ · o Sol</button><button type="button" data-v="15">15 M☉</button></div></div>
+      <div class="plots" style="grid-template-columns: 1.5fr 1fr"><div class="cv"><canvas id="hr-evol"></canvas></div><div class="cv"><canvas id="hr-core"></canvas></div></div>
+      <div class="readout" id="hr-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="card"><h4>1 · A gravidade começa a vencer</h4><p class="small">O núcleo de hélio contrai, e a contração volta a queimar hidrogênio numa <b>casca</b> em volta dele.</p></div>
+      <div class="card"><h4>2 · O núcleo esquenta</h4><p class="small">Até acender outra reação: ⁴He → ¹²C (triplo-alfa, a 100 milhões K); nas estrelas massivas, ¹²C → ¹⁶O → … → ⁵⁶Fe, em cascas como as de uma cebola.</p></div>
+      <div class="card"><h4>3 · As camadas de fora incham</h4><p class="small">A energia empurra o envelope: a estrela cresce e esfria — <b>gigante vermelha</b>. Acima de ~8 M☉, <b>supergigante vermelha</b>.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Quando o hidrogênio do centro acaba, três coisas acontecem juntas. O núcleo, agora de hélio, perde a fonte de pressão e contrai; a contração esquenta a região em volta e o hidrogênio passa a queimar numa casca. O núcleo esquenta até 100 milhões de kelvin e acende a fusão do hélio em carbono. E a energia a mais empurra o envelope, que incha e esfria: a estrela vira gigante vermelha — o Sol vai engolir Mercúrio e Vênus. Com 15 massas solares a história é mais rápida e vai mais longe: carbono, oxigênio, neônio, silício, até o ferro, em cascas. O ferro é o fim da linha: fundir ferro consome energia em vez de liberar.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">E quando o fogo acaba?</p><h2>Dois caminhos, <em>três destinos</em></h2></header>
+  <div class="body">
+    <div class="life">
+      <div class="life-src"><div class="node"><div class="pic"><img src="assets/img/orion.jpg" alt="Nuvem molecular" style="object-position: 30% 60%"></div><b>Nuvem molecular</b><small>10 K · milhões de M☉</small></div></div>
+      <div class="life-rows">
+        <div class="life-row">
+          <span class="tag part">M ≲ 8 M☉</span>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #ffd58a; --d: 74px"></span></div><b>Estrela como o Sol</b><small>bilhões de anos</small></div>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #ff7a4a; --d: 140px"></span></div><b>Gigante vermelha</b><small>~100 R☉</small></div>
+          <div class="node"><div class="pic"><img src="assets/img/planetary-nebula.jpg" alt="Nebulosa planetária"></div><b>Nebulosa planetária</b><small>o envelope vai embora</small></div>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #bfe0ff; --d: 26px"></span></div><b>Anã branca</b><small>do tamanho da Terra</small></div>
+        </div>
+        <div class="life-row" style="--part: var(--psr)">
+          <span class="tag part">M ≳ 8 M☉</span>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #9cc2ff; --d: 100px"></span></div><b>Estrela massiva</b><small>milhões de anos</small></div>
+          <div class="node"><div class="pic"><img src="assets/img/betelgeuse.jpg" alt="Betelgeuse"></div><b>Supergigante vermelha</b><small>~1 000 R☉ · Betelgeuse</small></div>
+          <div class="node"><div class="pic"><img src="assets/img/cas-a.jpg" alt="Remanescente de supernova"></div><b>Supernova</b><small>colapso do núcleo</small></div>
+          <div class="node"><div class="pic split"><img src="assets/img/crab.jpg" alt="Nebulosa do Caranguejo"><img src="assets/img/m87.jpg" alt="M87*"></div><b>Estrela de nêutrons ou buraco negro</b><small>acima de ~20–25 M☉: buraco negro</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Os dois caminhos. Estrelas de até umas oito massas solares viram gigantes vermelhas, sopram o envelope numa nebulosa planetária e deixam o núcleo exposto: uma anã branca, do tamanho da Terra. Acima de oito, viram supergigantes — Betelgeuse é uma — e terminam numa supernova de colapso de núcleo; o que sobra é uma estrela de nêutrons ou, para as mais massivas, um buraco negro. Os limites de massa são aproximados e dependem da composição e da perda de massa. As imagens de remanescentes são reais: a nebulosa planetária, Cassiopeia A, o Caranguejo e a sombra de M87*.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">O colapso gravitacional</p><h2>Quando o combustível <em>acaba</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto 1fr; gap: 34px; align-content: start">
+    <div class="cols" style="grid-template-columns: 1.35fr .9fr; gap: 50px; align-items: center">
+      <p class="say">Sem reações nucleares, acaba a pressão que elas mantinham: a gravidade vence e a matéria da estrela entra em <em>queda livre</em>.</p>
+      <div class="card glow"><h4>Quanto tempo leva?</h4>
+        <div class="eq sm" style="font-size: 36px"><i>t</i><sub>ff</sub> = <span class="frac"><span>3π</span><span>32 <i>G</i> ρ</span></span><sup>1/2</sup></div>
+        <p class="small" style="margin: 14px 0 0">Para a densidade média do Sol, ~30 minutos. Para o núcleo de ferro de uma estrela massiva, ~0,1 s.</p></div>
+    </div>
+    <p class="say sm rise d4" style="margin: 0">Para certas estrelas ainda existe uma salvação: a <span class="grad">pressão de degenerescência</span>.</p>
+  </div>
+  <aside class="notes">Quando o combustível acaba de vez, não há mais quem segure. A matéria cai em queda livre, e a escala de tempo é o tempo de queda livre: meia hora para algo com a densidade média do Sol, um décimo de segundo para o núcleo de ferro de uma estrela massiva. Mas para certas estrelas ainda há uma salvação, que não vem do calor e sim da mecânica quântica. É a Parte III.</aside>
+</section>
+
+<!-- ================================================================
+     PARTE III · ESTRELAS DEGENERADAS
+     ================================================================ -->
+<section class="slide partcover p3">
+  <div class="bg" style="background-image: url('assets/img/planetary-nebula.jpg'); background-position: 70% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">III</p>
+    <p class="label rise d2">Parte três</p>
+    <h2 class="rise d2">Estrelas<br><em>degeneradas</em></h2>
+    <p class="sub lede rise d3">Quando a fusão para, quem segura a estrela não é mais o calor: é a mecânica quântica.</p>
+    <div class="topics rise d4"><span>anãs brancas</span><span>Heisenberg · Pauli</span><span>pressão de degenerescência</span><span>limite de Chandrasekhar</span><span>o colapso do núcleo</span></div>
+  </div>
+  <span class="credit" data-credit="planetary-nebula" data-label>Nebulosa do Anel (M57) · ESA/Webb, NASA, CSA, M. Barlow et al. · CC BY 4.0</span>
+  <aside class="notes">Parte três. Ao fundo, uma nebulosa planetária: o envelope que uma estrela como o Sol sopra no fim da vida. No centro dela fica o núcleo exposto, uma anã branca. O que segura essa anã branca é o assunto desta parte.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Estrelas degeneradas</p><h2>Do tamanho da Terra, ou <em>de uma cidade</em></h2></header>
+  <div class="body cols c2" style="gap: 40px">
+    <div class="card" style="display: grid; grid-template-rows: auto auto 1fr; gap: 18px">
+      <h4>Anãs brancas</h4>
+      <svg class="diag" viewBox="0 0 640 250" aria-label="Anã branca e Terra em escala">
+        <defs>
+          <radialGradient id="g-terra" cx=".38" cy=".35" r=".75"><stop offset="0" stop-color="#9fd3ff"/><stop offset=".5" stop-color="#2f7fbf"/><stop offset="1" stop-color="#0e2c4c"/></radialGradient>
+          <radialGradient id="g-ana" cx=".4" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#d8ecff"/><stop offset="1" stop-color="#6fa8e8"/></radialGradient>
+          <filter id="f-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
+        </defs>
+        <circle cx="185" cy="120" r="91" fill="#9ec9ff" opacity=".35" filter="url(#f-glow)"/>
+        <circle cx="185" cy="120" r="88" fill="url(#g-ana)"/>
+        <circle cx="455" cy="120" r="100" fill="url(#g-terra)"/>
+        <text x="185" y="240" text-anchor="middle" font-size="19">Sírius B · R ≈ 5 600 km</text>
+        <text x="455" y="240" text-anchor="middle" font-size="19">Terra · R = 6 371 km</text>
+      </svg>
+      <div class="stack" style="gap: 10px">
+        <p class="ui" style="margin: 0; font-size: 26px; color: var(--text)"><i>R</i> ≈ R⊕ &nbsp;·&nbsp; <i>M</i> ≈ M☉ &nbsp;·&nbsp; ρ ≈ 10⁶ g/cm³</p>
+        <p class="small" style="margin: 0">Uma colher de chá pesa ~5 toneladas. Sustentada por <b>elétrons degenerados</b>.</p>
+      </div>
+    </div>
+    <div class="card" style="display: grid; grid-template-rows: auto auto 1fr; gap: 18px; --part: var(--psr)">
+      <h4>Estrelas de nêutrons</h4>
+      <figure style="height: 250px"><img src="assets/img/ns-manhattan.jpg" alt="Estrela de nêutrons sobre Manhattan, em escala" style="height: 250px; object-fit: cover; object-position: 50% 45%"><span class="credit" data-credit="ns-manhattan">NASA's Goddard Space Flight Center · domínio público</span></figure>
+      <div class="stack" style="gap: 10px">
+        <p class="ui" style="margin: 0; font-size: 26px; color: var(--text)"><i>R</i> ≈ 12 km &nbsp;·&nbsp; <i>M</i> ≈ 1,4–2 M☉ &nbsp;·&nbsp; ρ ≈ 10¹⁴–10¹⁵ g/cm³</p>
+        <p class="small" style="margin: 0">Uma colher de chá pesa ~500 milhões de toneladas. Sustentada por <b>nêutrons degenerados</b> e pela força nuclear.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Os dois cadáveres compactos, em escala. Uma anã branca tem a massa do Sol no tamanho da Terra: Sírius B, a companheira de Sírius, é um pouco menor que a Terra e tem uma massa solar. Uma colher de chá do material dela pesa umas cinco toneladas. Uma estrela de nêutrons tem uma massa solar e meia num raio de doze quilômetros — cabe numa cidade. A colher de chá pesa meio bilhão de toneladas. A pergunta é: o que segura isso, se não há mais fusão?</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Mecânica quântica · 1925 – 1927</p><h2>Heisenberg e Pauli <em>ao resgate</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .62fr .62fr 1.25fr; gap: 40px">
+    <figure class="portrait"><img src="assets/img/heisenberg.jpg" alt="Werner Heisenberg"><span class="credit" data-credit="heisenberg">Bundesarchiv, Bild 183-R57262 · CC BY-SA 3.0 de</span><figcaption><b>Werner Heisenberg</b>1901 – 1976</figcaption></figure>
+    <figure class="portrait"><img src="assets/img/pauli.jpg" alt="Wolfgang Pauli"><figcaption><b>Wolfgang Pauli</b>1900 – 1958</figcaption></figure>
+    <div class="stack" style="gap: 24px">
+      <div class="card"><h4>Princípio da incerteza · 1927</h4>
+        <div class="eq sm" style="font-size: 46px">Δ<i>p</i> Δ<i>x</i> ≥ <span class="frac"><span>ħ</span><span>2</span></span></div>
+        <p class="small" style="margin: 14px 0 0">Confinar uma partícula numa região pequena obriga o momento dela a ser grande.</p></div>
+      <div class="card"><h4>Princípio de exclusão · 1925</h4>
+        <p class="small" style="margin: 0">Dois férmions idênticos — elétrons, prótons, nêutrons — <b>não ocupam o mesmo estado quântico</b>.</p></div>
+      <p class="big" style="margin: 0">Juntos: espremer férmions custa energia, <b>mesmo a temperatura zero</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">Quem salva a estrela são dois princípios da mecânica quântica. Heisenberg: quanto mais confinada uma partícula, maior a incerteza no momento — e portanto o momento típico. Pauli: dois férmions idênticos não podem ocupar o mesmo estado. Juntos, eles dizem que comprimir um gás de elétrons ou de nêutrons obriga as partículas a ter momentos cada vez maiores, mesmo sem nenhuma temperatura. Isso é uma pressão — a pressão de degenerescência.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Princípio de exclusão de Pauli</p><h2>Por que férmions <em>empurram de volta</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 44px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">elétrons numa caixa · dois por nível</span><span class="ref">aperte a caixa</span></div>
+      <div class="cv"><canvas id="pauli"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="pauli-L">largura da caixa Δ<i>x</i> <output for="pauli-L"></output></label><input type="range" id="pauli-L" min="0.55" max="1" step="0.005" value="1"></div>
+      </div>
+      <div class="readout" id="pauli-out"></div>
+    </div>
+    <div class="stack" style="gap: 22px; align-self: center">
+      <p style="margin: 0">Cada nível de energia comporta <b>dois</b> elétrons: um com spin para cima, outro para baixo. Os seguintes são obrigados a subir.</p>
+      <p style="margin: 0">Numa caixa de largura Δ<i>x</i>, os níveis ficam separados por Δ<i>p</i> ≈ ħ/Δ<i>x</i>. Com <i>N</i> elétrons, o último tem momento <i>N</i>/2 · Δ<i>p</i>: se <i>N</i><sub>e</sub> = 6, o momento máximo é <b>3Δ<i>p</i></b>.</p>
+      <p style="margin: 0">Apertar a caixa afasta os níveis: os elétrons ganham momento sem precisar de calor. Essa é a <b>pressão de degenerescência</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">A animação enche uma caixa de elétrons. Cada nível aceita dois, de spins opostos; o terceiro elétron já tem de ir para o nível de cima, e assim por diante. Com seis elétrons, o mais energético tem momento três vezes Δp. Agora apertem a caixa: Δp cresce como 1/Δx, todos os níveis sobem, e a energia total cresce mesmo a temperatura zero. É essa energia que resiste à compressão. Nas anãs brancas quem faz isso são os elétrons; nas estrelas de nêutrons, os nêutrons.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Chandrasekhar · 1930 · Nobel de 1983</p><h2>A massa máxima <em>das anãs brancas</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .58fr 1.42fr; gap: 40px">
+    <div class="stack" style="gap: 20px">
+      <figure class="portrait sm"><img src="assets/img/chandrasekhar.jpg" alt="Subrahmanyan Chandrasekhar"><span class="credit" data-credit="chandrasekhar">AIP Emilio Segrè Visual Archives · atribuição (AIP)</span><figcaption><b>S. Chandrasekhar</b>1910 – 1995</figcaption></figure>
+      <div class="eq sm" style="font-size: 30px; padding: 16px 14px"><i>M</i><sub>Ch</sub> = 3,10 <span class="frac"><span>(ħ<i>c</i>/<i>G</i>)<sup>3/2</sup></span><span>(μ<sub>e</sub> <i>m</i><sub>H</sub>)²</span></span> ≈ 1,44 M☉<span class="note">μ<sub>e</sub> = 2 · carbono e oxigênio</span></div>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">relação massa–raio das anãs brancas</span><span class="ref">a anã branca recebe massa de uma companheira</span></div>
+      <div class="cv"><canvas id="chandra"></canvas></div>
+      <div class="readout" id="chandra-out"></div>
+      <p class="ref" style="margin: 0">Curva: aproximação de Nauenberg (1972) para um gás de elétrons de relatividade arbitrária. Pontos: Sírius B, Procyon B e 40 Eridani B. Quanto mais massa, <b>menor</b> a anã branca — e em <i>M</i><sub>Ch</sub> o raio vai a zero.</p>
+    </div>
+  </div>
+  <aside class="notes">Chandrasekhar fez a conta no navio, a caminho de Cambridge, com 19 anos. Se os elétrons ficam relativísticos, a pressão de degenerescência passa a crescer mais devagar com a densidade e, acima de uma massa, ela não consegue mais segurar: 1,44 massas solares para carbono e oxigênio. Na animação, uma anã branca recebe massa de uma companheira. Ela fica menor — anãs brancas mais pesadas são menores — e o raio vai a zero no limite. Os três pontos são anãs brancas medidas. Passou de M_Ch, colapso.</aside>
+</section>
+
+<section class="slide content p3 videoslide" style="padding:0; display:block">
+  <video data-autoplay muted playsinline loop preload="auto" poster="assets/video/supernova-nasa.jpg" src="assets/video/supernova-nasa.mp4"></video>
+  <div class="vveil"></div>
+  <div class="vhead"><p class="eyebrow"><i>M</i> &gt; <i>M</i><sub>Ch</sub></p><h2>Colapso! <em>Próxima parada: estrelas de nêutrons</em></h2></div>
+  <div class="vfoot">
+    <p>No fim de uma estrela massiva, o núcleo de ferro passa de 1,4 M☉ e os elétrons não seguram mais. Em menos de um segundo ele cai de ~3 000 km para ~30 km, os elétrons são capturados pelos prótons e viram nêutrons — e o resto da estrela é lançado numa supernova. No centro fica uma estrela de nêutrons.</p>
+    <div class="stack" style="gap: 14px">
+      <div class="vsteps"><span>colapso do núcleo</span><span>supernova</span><span>remanescente</span><span>pulsar + nebulosa</span></div>
+      <p class="ref" style="margin:0">Animação artística · NASA’s Goddard Space Flight Center Conceptual Image Lab (animação: Jonathan North) · SVS 20413 · domínio público. Uma anã branca que passa do limite acretando matéria também explode — supernova do tipo Ia — mas não deixa resto.</p>
+    </div>
+  </div>
+  <aside class="notes">Quando o núcleo de ferro de uma estrela massiva passa do limite de Chandrasekhar, os elétrons não seguram e ele colapsa em queda livre, em décimos de segundo. Os elétrons são empurrados para dentro dos prótons — p + e → n + ν — e o núcleo vira uma bola de nêutrons; 99% da energia sai em neutrinos. O resto da estrela é lançado para fora: supernova. A animação da NASA mostra o que se vê de fora: o clarão, o remanescente se expandindo e, no centro, o pulsar com sua nebulosa. Um detalhe: uma anã branca isolada que ultrapassa o limite recebendo massa não vira estrela de nêutrons — ela detona inteira, numa supernova do tipo Ia.</aside>
+</section>
+
+<!-- ================================================================
+     PARTE IV · ESTRELAS DE NÊUTRONS
+     ================================================================ -->
+<section class="slide partcover p4">
+  <div class="bg" style="background-image: url('assets/img/crab.jpg'); background-position: 60% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">IV</p>
+    <p class="label rise d2">Parte quatro</p>
+    <h2 class="rise d2">Estrelas<br>de <em>nêutrons</em></h2>
+    <p class="sub lede rise d3">Mais de uma massa solar numa esfera de 12 km, girando até centenas de vezes por segundo, com os campos magnéticos mais fortes do Universo.</p>
+    <div class="topics rise d4"><span>pulsares · 1967</span><span>magnetares</span><span>a luz que faz curva</span><span>densidade nuclear</span><span>SGR J1745−2900</span></div>
+  </div>
+  <span class="credit" data-credit="crab" data-label>Nebulosa do Caranguejo · NASA, ESA, J. Hester and A. Loll · domínio público</span>
+  <aside class="notes">Parte quatro: estrelas de nêutrons. Ao fundo, a Nebulosa do Caranguejo, o resto da supernova de 1054, com um pulsar no centro.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Supernova de 1054 · 6 500 anos-luz</p><h2>A Nebulosa <em>do Caranguejo</em></h2></header>
+  <div class="body cols r">
+    <figure class="fill"><img src="assets/img/crab.jpg" alt="Nebulosa do Caranguejo"><span class="credit">NASA, ESA, J. Hester &amp; A. Loll · domínio público</span></figure>
+    <div class="stack" style="gap: 22px">
+      <div class="card"><p class="stat" style="font-size: 72px">1054</p><p class="stat-label">registrada por astrônomos chineses: visível de dia por 23 dias</p></div>
+      <div class="card"><p class="stat" style="font-size: 72px">33 <small>ms</small></p><p class="stat-label">período do pulsar no centro: 30 voltas por segundo</p></div>
+      <div class="card glow"><p class="stat" style="font-size: 72px">4×10³⁸ <small>erg/s</small></p><p class="stat-label">perdidos pela rotação, que se desacelera — é isso que ilumina a nebulosa inteira</p></div>
+    </div>
+  </div>
+  <aside class="notes">Em 1054 astrônomos chineses registraram uma “estrela convidada” que se via de dia por três semanas. No lugar está a Nebulosa do Caranguejo, ainda se expandindo a 1 500 km/s, e no centro dela uma estrela de nêutrons que gira 30 vezes por segundo. A rotação está desacelerando, e a energia perdida — 4×10³⁸ erg por segundo, cem mil sóis — é o que faz a nebulosa brilhar. Isso só fecha a conta se o objeto tiver o momento de inércia de uma estrela de nêutrons.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Cambridge · 28 de novembro de 1967</p><h2>O primeiro pulsar: <em>“LGM-1”</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .9fr 1.35fr; gap: 34px">
+    <div class="stack" style="gap: 18px; align-content: start">
+      <div class="cols c2" style="gap: 18px; height: auto">
+        <figure class="portrait xs"><img src="assets/img/jocelyn-bell.jpg" alt="Jocelyn Bell Burnell"><span class="credit" data-credit="jocelyn-bell">Roger W Haworth · CC BY-SA 2.0</span><figcaption><b>Jocelyn Bell</b>em 1967, doutoranda</figcaption></figure>
+        <figure class="portrait xs"><img src="assets/img/hewish.jpg" alt="Antony Hewish"><span class="credit" data-credit="hewish">W. T. Sullivan III / NRAO/AUI · CC BY 4.0</span><figcaption><b>Antony Hewish</b>orientador · Nobel de 1974</figcaption></figure>
+      </div>
+      <figure><img src="assets/img/bell-chart.jpg" alt="Registro em papel do primeiro pulsar, 1967" style="height: 250px; object-fit: cover; object-position: 50% 45%"><span class="credit" data-credit="bell-chart">Bill Thompson · CC BY-SA 4.0</span><figcaption>O registro original, de agosto de 1967: a “sujeira” marcada a lápis como CP 1919.</figcaption></figure>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto auto">
+      <div class="cv"><canvas id="lgm"></canvas></div>
+      <div class="readout" id="lgm-out"></div>
+      <p class="small" style="margin: 0">Bell notou um “ruído” que voltava no registro em papel do radiotelescópio: pulsos a cada <b>1,337 s</b>, regulares como um relógio. Apelido: <b>LGM-1</b>, de <i>Little Green Men</i> — homenzinhos verdes. Era uma estrela de nêutrons girando.</p>
+    </div>
+  </div>
+  <aside class="notes">Jocelyn Bell, doutoranda de Antony Hewish em Cambridge, analisava quilômetros de registro em papel de um radiotelescópio que ela mesma ajudou a construir. Em agosto de 1967 notou um pedacinho de “sujeira” que voltava sempre na mesma hora sideral. Em 28 de novembro conseguiu resolver os pulsos: um a cada 1,337 segundo, com precisão de relógio. Brincaram que era um sinal de homenzinhos verdes, LGM-1. Hoje se chama PSR B1919+21. O Nobel de 1974 foi para Hewish e Ryle, e não para ela; em 2018 ela ganhou o Breakthrough Prize e doou os três milhões de dólares para bolsas de estudantes sub-representados na física.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Teoria do pulsar</p><h2>O que se mede, <em>e o que se deduz</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">catálogo ATNF · <span id="ppdot-n">2 855</span> pulsares com Ṗ medido</span><span class="ref">passe o mouse sobre os pontos</span></div>
+      <div class="cv"><canvas id="ppdot"></canvas></div>
+      <div class="readout" id="ppdot-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px">
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>observável</th><th>expressão</th></tr>
+        <tr><td>período</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>P</i></td></tr>
+        <tr><td>idade característica</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>t</i><sub>c</sub> = <i>P</i>/2<i>Ṗ</i></td></tr>
+        <tr><td>campo magnético</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>B</i> = (3<i>Ic</i>³<i>PṖ</i>/8π²<i>R</i>⁶)<sup>1/2</sup></td></tr>
+        <tr><td>energia de rotação perdida</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>Ė</i><sub>rot</sub> = −4π²<i>IṖ</i>/<i>P</i>³</td></tr>
+      </table>
+      <div class="card"><h4>Estrela de nêutrons canônica</h4>
+        <p class="small" style="margin: 0 0 8px"><i>M</i> = 1,4 M☉ · <i>R</i> = 10 km · <i>I</i> = 10⁴⁵ g cm²</p>
+        <p class="ui" style="margin: 0; font-size: 24px; color: var(--text)"><i>B</i> = 3,2×10¹⁹ (<i>PṖ</i>)<sup>1/2</sup> G</p>
+        <p class="ui" style="margin: 6px 0 0; font-size: 24px; color: var(--text)">|<i>Ė</i><sub>rot</sub>| = 3,9×10⁴⁶ <i>Ṗ</i>/<i>P</i>³ erg/s</p></div>
+      <p class="small muted" style="margin: 0">Só se mede <i>P</i> e <i>Ṗ</i>. O resto vem de supor um dipolo magnético girando — as retas do diagrama.</p>
+    </div>
+  </div>
+  <aside class="notes">De um pulsar se mede o período e quanto ele aumenta por segundo, Ṗ. Supondo um dipolo magnético girando no vácuo, isso dá a idade característica, o campo magnético e a energia de rotação perdida. No diagrama P–Ṗ, cada ponto é um pulsar do catálogo ATNF. As retas tracejadas são campo constante; as pontilhadas, idade constante. A nuvem principal são os pulsares comuns; embaixo à esquerda, os de milissegundo, reciclados por acreção; e em cima à direita, em rosa, os magnetares: lentos, mas desacelerando muito rápido, com campos de 10¹⁴ a 10¹⁵ gauss.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">SGRs e AXPs</p><h2>Os <em>magnetares</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1fr; gap: 50px">
+    <div class="stack" style="gap: 22px">
+      <table class="tbl">
+        <tr><th></th><th>pulsares comuns</th><th>SGRs / AXPs</th></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>P</i></td><td class="n">10⁻³ – 10 s</td><td class="n">2 – 12 s</td></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>Ṗ</i></td><td class="n">~10⁻¹⁵ s/s</td><td class="n">10⁻¹³ – 10⁻¹⁰ s/s</td></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>L</i><sub>X</sub></td><td class="n">~10³⁰–10³³ erg/s</td><td class="n">10³² – 10³⁶ erg/s</td></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>t</i><sub>c</sub></td><td class="n">&gt; 10⁶ anos</td><td class="n">~10³ – 10⁴ anos</td></tr>
+      </table>
+      <p class="small" style="margin: 0"><b>SGR</b>: <i>Soft Gamma Repeaters</i>. <b>AXP</b>: <i>Anomalous X-ray Pulsars</i>. Duas classes que se revelaram uma só: no catálogo ATNF, <b>25</b> magnetares têm período medido.</p>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <ul class="list">
+        <li><b>Lentos</b>: <i>P</i> ≈ 2–12 s, para uma estrela de nêutrons canônica (1,4 M☉, 10 km, 10⁴⁵ g cm²).</li>
+        <li><b>Brilham demais</b> em raios X: <i>L</i><sub>X</sub> &gt; <i>Ė</i><sub>rot</sub>. A rotação não paga a conta.</li>
+        <li>Quem paga, no modelo padrão: <b>campos magnéticos gigantes</b>, <i>B</i> &gt; 10¹⁴ G — acima do campo crítico quântico, 4,4×10¹³ G.</li>
+      </ul>
+      <div class="card glow"><h4>27 de dezembro de 2004 · SGR 1806−20</h4>
+        <p class="small" style="margin: 0">Um flare gigante liberou ~10⁴⁶ erg em 0,2 s — mais do que o Sol emite em 100 mil anos. No pico, ~7×10⁴⁶ erg/s: <b>uns 20 trilhões de sóis</b>. Perturbou a ionosfera da Terra, a ~28 mil anos-luz.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Os magnetares foram descobertos como duas coisas diferentes: fontes que repetiam surtos de raios gama moles, os SGRs, e pulsares de raios X com brilho anômalo, os AXPs. São a mesma classe. Giram devagar, mas brilham em raios X mais do que toda a energia de rotação que perdem — então a rotação não pode ser a fonte. O modelo padrão diz que a fonte é o decaimento de campos magnéticos de 10¹⁴ a 10¹⁵ gauss. Em 2004, SGR 1806−20 soltou um flare gigante que, por dois décimos de segundo, brilhou como uns 20 trilhões de sóis (Hurley et al. e Palmer et al., Nature 2005, com a distância revista para 8,7 kpc). Correção em relação à versão de 2018 desta palestra: lá estava escrito que o Sol gera 10¹³ erg na vida inteira e um SGR 10³⁰ erg/s; os valores corretos são ~10⁵¹ erg e ~10³²–10³⁵ erg/s em repouso, com os flares gigantes chegando a ~10⁴⁷ erg/s. A ordem de grandeza da comparação continua impressionante.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Atividades transientes</p><h2>Um magnetar, <em>girando</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="magnetar"></canvas></div>
+      <div class="readout" id="magnetar-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>evento</th><th style="text-align: right">energia</th></tr>
+        <tr><td>surtos curtos (~0,1 s)</td><td class="n">10³⁹ – 10⁴¹ erg</td></tr>
+        <tr><td><i>outbursts</i> (meses)</td><td class="n">10⁴¹ – 10⁴³ erg</td></tr>
+        <tr class="hl"><td>flares gigantes</td><td class="n">10⁴⁴ – 10⁴⁶ erg</td></tr>
+      </table>
+      <p style="margin: 0">As linhas de campo, ancoradas na crosta, se torcem com o tempo. Quando a crosta não aguenta a tensão, ela racha — um <b>estrelamoto</b> — e a energia magnética sai de uma vez.</p>
+      <p class="small muted" style="margin: 0">Flares gigantes na Galáxia e nas Nuvens de Magalhães: 1979, 1998 e 2004.</p>
+    </div>
+  </div>
+  <aside class="notes">Um magnetar girando, no ritmo real de SGR J1745−2900: uma volta a cada 3,76 segundos. As linhas são as de um dipolo inclinado em relação ao eixo de rotação. De tempos em tempos a animação mostra um surto: a crosta racha, as linhas se reconectam e sai um pulso de raios X e gama. Os surtos curtos são frequentes; os outbursts aumentam o brilho por meses; os flares gigantes são raros — três em 45 anos.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Uma mancha quente na superfície</p><h2>A luz faz curva: <em>85% da superfície à vista</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">estrela de nêutrons de 1,4 M☉ e 10 km · <i>R</i>/<i>R</i><sub>s</sub> = 2,4</span><div class="seg" id="spot-gr"><button type="button" data-v="0">sem gravidade</button><button type="button" data-v="1" class="on">Relatividade Geral</button></div></div>
+      <div class="plots" style="grid-template-columns: .9fr 1.25fr"><div class="cv"><canvas id="spot-globe"></canvas></div><div class="cv"><canvas id="spot-curve"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="spot-i">eixo da mancha ↔ rotação, <i>i</i> <output for="spot-i"></output></label><input type="range" id="spot-i" min="0" max="90" step="1" value="60"></div>
+        <div class="ctl"><label for="spot-j">linha de visada ↔ rotação, <i>j</i> <output for="spot-j"></output></label><input type="range" id="spot-j" min="0" max="90" step="1" value="75"></div>
+        <div class="ctl"><label for="spot-th">raio angular da mancha <output for="spot-th"></output></label><input type="range" id="spot-th" min="5" max="45" step="1" value="20"></div>
+      </div>
+      <div class="readout" id="spot-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Uma mancha quente na superfície de uma estrela de nêutrons, girando. Primeiro sem gravidade: quando a mancha passa para trás da estrela, some, e a curva de luz vai a zero. Agora voltem e observem o efeito relativístico: a luz que sai quase tangente faz curva e chega até nós. Para uma estrela de 1,4 massa solar e 10 km, vemos 85% da superfície ao mesmo tempo — a mancha quase nunca some. A curva de luz fica mais achatada e a fração pulsada cai. É a maior densidade do Universo, e ela deixa a marca na forma do pulso.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">A maior densidade do Universo</p><h2>Forjado no núcleo de <em>uma estrela de nêutrons</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .95fr 1.15fr; gap: 46px">
+    <div class="stack" style="gap: 24px">
+      <blockquote style="font-size: 34px">“Thor, filho de Odin, meu herdeiro, meu primogênito. Desde muito cedo lhe foi confiado o poderoso martelo Mjölnir, forjado no coração de uma estrela moribunda.”<footer>Odin, em <i>Thor</i> (Marvel Studios, 2011)</footer></blockquote>
+      <p style="margin: 0">E se fosse forjado no núcleo de uma <b>estrela de nêutrons</b>, ρ = 10¹⁴ g/cm³? Cabeça de 17,5 × 26 × 18 cm:</p>
+      <div class="eq sm" style="font-size: 32px"><i>M</i> = ρ<i>V</i> = 10¹⁴ <span class="frac"><span>g</span><span>cm³</span></span> × 8 190 cm³ = 8,19×10¹⁷ g</div>
+      <div class="eq sm" style="font-size: 32px"><i>N</i><sub>elefantes</sub> = <span class="frac"><span>8,19×10¹⁷ g</span><span>2,7×10⁶ g</span></span> ≈ <b>300 bilhões</b></div>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="mjolnir"></canvas></div>
+      <div class="readout" id="mjolnir-out"></div>
+    </div>
+  </div>
+  <aside class="notes">No filme, Odin diz que o martelo foi forjado no coração de uma estrela moribunda. Vamos levar a sério: se a cabeça do martelo, uns 18 por 26 por 17,5 centímetros, fosse de matéria de estrela de nêutrons, teria 8×10¹⁷ gramas — 800 bilhões de toneladas. Um elefante tem umas 2,7 toneladas: seriam 300 bilhões de elefantes, uns 40 para cada pessoa na Terra. Ninguém levantaria. E, fora da estrela, sem a gravidade dela para segurar, essa matéria explodiria.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Pesquisa · equações de estado modernas</p><h2>Massa e raio <em>com física nuclear de verdade</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .8fr; gap: 40px">
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/eos-mr.png" alt="Relação massa–raio para as equações de estado NL3, TM1 e GM1"><figcaption>Relação massa–raio para as equações de estado <b>NL3</b>, <b>TM1</b> e <b>GM1</b>, com neutralidade de carga local (esquerda) e global (direita).</figcaption></figure>
+    <div class="stack" style="gap: 20px; align-self: center">
+      <p style="margin: 0">Uma estrela de nêutrons não é uma bola de nêutrons livres: a pressão vem da <b>força nuclear</b>, descrita por modelos relativísticos de campo médio.</p>
+      <ul class="list">
+        <li>Cada equação de estado dá uma curva <i>M</i>(<i>R</i>) — e uma massa máxima, entre ~2 e 2,8 M☉.</li>
+        <li>Com essas curvas, <i>M</i>, <i>R</i> e o momento de inércia <i>I</i> deixam de ser os valores canônicos e passam a ser calculados.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Figuras desta seção: R. C. R. de Lima e colaboradores. Coelho, Cáceres, de Lima, Malheiro, Rueda &amp; Ruffini, <i>A&amp;A</i> 599, A87 (2017).</p>
+    </div>
+  </div>
+  <aside class="notes">Daqui em diante, um trecho de pesquisa. Os valores canônicos — 1,4 massa solar, 10 km — são uma simplificação. Com equações de estado nucleares realistas, NL3, TM1 e GM1, a relação massa–raio vem do equilíbrio hidrostático relativístico, a equação de Tolman–Oppenheimer–Volkoff. Cada modelo tem sua massa máxima. À esquerda, neutralidade de carga local; à direita, global, que muda bastante as estrelas de baixa massa.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Pesquisa · quem paga o brilho?</p><h2>Magnetares <em>movidos a rotação?</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr 1fr; gap: 40px">
+    <figure class="paper"><img src="assets/img/pesquisa/efficiency.png" alt="Razão entre a luminosidade em raios X e a energia de rotação perdida, contra a massa"><figcaption><i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> contra a massa, para os SGRs e AXPs conhecidos, com a equação de estado GM1 (neutralidade local e global).</figcaption></figure>
+    <div class="stack" style="gap: 18px">
+      <p style="margin: 0">Com <i>I</i>(<i>M</i>) e <i>R</i>(<i>M</i>) realistas, <i>Ė</i><sub>rot</sub> muda. Se <i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> &lt; 1, a rotação basta: <b>não é preciso campo gigante</b>.</p>
+      <div class="card"><h4>Conclusão: 9 (+3?) movidos a rotação</h4>
+        <p class="small" style="margin: 0 0 10px"><b><i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> &lt; 1</b>: Swift J1834.9−0846, PSR J1846−0258, 1E 1547.0−5408, <b class="c-psr">SGR J1745−2900</b>, XTE J1810−197, PSR J1622−4950, SGR 1627−41, SGR 0501+4516, CXOU J171405.7−381031.</p>
+        <p class="small" style="margin: 0"><b><i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> ~ 1</b>: SGR 1900+14, SGR 0418+5729, Swift J1822.3−1606.</p></div>
+    </div>
+  </div>
+  <aside class="notes">A pergunta da pesquisa: com estrelas de nêutrons realistas, a energia de rotação perdida dá conta do brilho em raios X de alguns magnetares? Cada símbolo é um SGR ou AXP, e cada curva varre a massa. Abaixo da linha horizontal, a rotação basta. Nove objetos ficam abaixo para massas razoáveis, e três ficam perto da linha. SGR J1745−2900, em destaque, é o próximo assunto.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Descoberto em 25/04/2013 · a 0,1 pc de Sgr A*</p><h2>SGR J1745−2900, <em>o magnetar do centro galáctico</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .8fr; gap: 44px">
+    <div class="stack" style="gap: 22px">
+      <table class="tbl">
+        <tr><th>início</th><th style="text-align: right">fração pulsada</th><th style="text-align: right">k<i>T</i><sub>BB</sub> (keV)</th><th style="text-align: right"><i>R</i><sub>BB</sub> (km)</th><th style="text-align: right"><i>L</i> (10³⁵ erg/s)</th></tr>
+        <tr><td>12/05/2013</td><td class="n">~0,38</td><td class="n">0,88 ± 0,01</td><td class="n">2,52 ± 0,09</td><td class="n">4,9 ± 0,5</td></tr>
+        <tr class="hl"><td>8 a 14/10/2016</td><td class="n">~0,55</td><td class="n">0,64 ± 0,03</td><td class="n">0,78 ± 0,11</td><td class="n">0,13 ± 0,02</td></tr>
+      </table>
+      <p class="ref" style="margin: 0">Chandra, 0,3–8 keV. Coti Zelati et al., <i>MNRAS</i> 471, 1819 (2017): três anos e meio do decaimento do <i>outburst</i>.</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 38px; border-color: var(--part)">PF = <span class="frac"><span><i>F</i><sub>máx</sub> − <i>F</i><sub>mín</sub></span><span><i>F</i><sub>máx</sub> + <i>F</i><sub>mín</sub></span></span></span></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="card"><p class="stat" style="font-size: 64px">3,76 <small>s</small></p><p class="stat-label">período</p></div>
+      <div class="card"><p class="stat" style="font-size: 64px">~5×10³⁵ <small>erg/s</small></p><p class="stat-label">no surto de descoberta (Swift)</p></div>
+      <p class="small" style="margin: 0">A mancha quente <b>encolheu</b> (de 2,5 para 0,8 km) e <b>esfriou</b>, e a fração pulsada <b>subiu</b>. Dá para explicar isso com uma estrela de nêutrons de verdade?</p>
+      <p class="ref" style="margin: 0">Versão publicada desta análise: de Lima, Coelho, Pereira, Rodrigues &amp; Rueda, <i>ApJ</i> 889, 165 (2020).</p>
+    </div>
+  </div>
+  <aside class="notes">SGR J1745−2900 foi descoberto em abril de 2013 pelo satélite Swift, num surto de raios X, a apenas 2,4 segundos de arco de Sgr A* — um décimo de parsec do buraco negro do centro da Galáxia. O Chandra acompanhou o decaimento do surto por anos. A análise completa das curvas de luz, com duas ou três manchas e o desvio da luz, saiu em 2020 no ApJ. O ajuste de corpo negro mostra uma mancha quente que encolhe e esfria, enquanto a fração pulsada — a amplitude relativa do pulso — sobe de 0,38 para 0,55. A fração pulsada depende da geometria e da gravidade da estrela: é aí que o modelo de fluxo pulsado entra.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">SGR J1745−2900</p><h2>Duas <em>verificações</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <figure class="paper"><img src="assets/img/pesquisa/sgr1745-efficiency.png" alt="Eficiência de SGR J1745-2900 contra a massa"><figcaption><b>1ª · eficiência.</b> <i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> &lt; 1 para <i>M</i> &gt; 1,0 M☉, nas três equações de estado: <b>movido a rotação</b>.</figcaption></figure>
+    <figure class="paper"><img src="assets/img/pesquisa/sgr1745-bfield.png" alt="Campo magnético de SGR J1745-2900 contra a massa"><figcaption><b>2ª · campo magnético</b> na superfície, em unidades de <i>B</i><sub>c</sub> = 4,41×10¹³ G: cálculo clássico (cheio) e com Relatividade Geral (tracejado).</figcaption></figure>
+  </div>
+  <aside class="notes">Duas verificações para SGR J1745−2900. A eficiência fica abaixo de um para massas acima de uma massa solar, nas três equações de estado: a rotação dá conta do brilho. E o campo magnético: com a relatividade geral, o campo inferido na superfície cai e fica perto do campo crítico, não 10 ou 100 vezes acima. Ou seja, o objeto pode ser uma estrela de nêutrons comum, de campo alto, movida a rotação.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Turolla &amp; Nobili 2013 · Beloborodov 2002</p><h2>Modelo de fluxo <em>pulsado</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <div class="stack" style="gap: 18px">
+      <svg class="diag" viewBox="0 0 600 330" aria-label="Geometria: eixo de rotação, eixo da mancha e linha de visada">
+        <defs><radialGradient id="g-ns2" cx=".38" cy=".35" r=".75"><stop offset="0" stop-color="#cfd6e6"/><stop offset="1" stop-color="#3a4256"/></radialGradient>
+          <marker id="m-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#eef0f6"/></marker></defs>
+        <circle cx="300" cy="190" r="92" fill="url(#g-ns2)"/>
+        <ellipse cx="300" cy="190" rx="92" ry="25" fill="none" stroke="rgba(255,255,255,.25)" stroke-dasharray="5 6"/>
+        <g transform="rotate(-40 300 190)"><ellipse cx="300" cy="104" rx="36" ry="11" fill="#ffb86b" opacity=".9"/></g>
+        <line x1="300" y1="190" x2="300" y2="30" stroke="#eef0f6" stroke-width="2.5" marker-end="url(#m-ar)"/>
+        <line x1="300" y1="190" x2="196" y2="66" stroke="#ffb86b" stroke-width="2.5" marker-end="url(#m-ar)"/>
+        <line x1="300" y1="190" x2="450" y2="70" stroke="#56e1d0" stroke-width="2.5" marker-end="url(#m-ar)"/>
+        <path d="M300 128 A62 62 0 0 0 260 142" fill="none" stroke="#ffb86b" stroke-width="2"/>
+        <path d="M300 112 A78 78 0 0 1 361 142" fill="none" stroke="#56e1d0" stroke-width="2"/>
+        <text x="310" y="34" class="serif" font-size="30">r̂</text>
+        <text x="172" y="60" class="serif" font-size="30">ĉ</text>
+        <text x="456" y="66" class="serif" font-size="30">l̂</text>
+        <text x="262" y="124" class="serif" font-size="26" style="fill: #ffb86b">i</text>
+        <text x="334" y="108" class="serif" font-size="26" style="fill: #56e1d0">j</text>
+        <text x="300" y="316" text-anchor="middle" font-size="17">r̂ eixo de rotação · ĉ eixo da calota que emite · l̂ linha de visada</text>
+      </svg>
+      <p class="ui" style="margin: 0; text-align: center; font-size: 26px; color: var(--text)"><i>i</i> = arccos(r̂·ĉ) &nbsp;·&nbsp; <i>j</i> = arccos(r̂·l̂)</p>
+      <ul class="list" style="gap: 10px">
+        <li class="small">Manchas circulares de tamanho arbitrário, em qualquer lugar da superfície (Turolla &amp; Nobili 2013).</li>
+        <li class="small"><i>M</i> e <i>R</i> vêm das equações de estado (GM1, TM1, NL3).</li>
+        <li class="small">Exterior de Schwarzschild: a rotação é lenta (<i>P</i> ≈ 2–10 s) e seus efeitos na métrica são desprezados.</li>
+      </ul>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <svg class="diag" viewBox="0 0 600 300" aria-label="Fóton emitido da superfície e encurvado em direção ao observador">
+        <line x1="40" y1="30" x2="560" y2="30" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+        <text x="300" y="22" text-anchor="middle" font-size="17">observador</text>
+        <circle cx="200" cy="225" r="62" fill="url(#g-ns2)"/>
+        <line x1="200" y1="225" x2="200" y2="40" stroke="rgba(255,255,255,.3)" stroke-dasharray="5 6"/>
+        <line x1="200" y1="225" x2="254" y2="194" stroke="rgba(255,255,255,.55)"/>
+        <line x1="254" y1="194" x2="330" y2="150" stroke="rgba(255,255,255,.3)" stroke-dasharray="4 5"/>
+        <path d="M254 194 C 300 160, 340 110, 352 40" stroke="#ffb86b" stroke-width="3" fill="none"/>
+        <path d="M200 195 A30 30 0 0 1 226 210" fill="none" stroke="#eef0f6" stroke-width="1.5"/>
+        <text x="212" y="190" class="serif" font-size="24">θ</text>
+        <path d="M282 178 A32 32 0 0 0 274 166" fill="none" stroke="#ffb86b" stroke-width="1.5"/>
+        <text x="288" y="168" class="serif" font-size="24" style="fill: #ffb86b">α</text>
+        <text x="365" y="90" font-size="17" style="fill: #ffb86b">caminho do fóton</text>
+      </svg>
+      <div class="eq sm" style="font-size: 32px">1 − cos α = (1 − cos θ) <span style="white-space: nowrap">(1 − <i>R</i><sub>s</sub>/<i>R</i>)</span><span class="note">aproximação de Beloborodov (2002)</span></div>
+      <div class="eq sm" style="font-size: 28px"><i>F</i><sub>ν</sub> = (1 − <i>R</i><sub>s</sub>/<i>R</i>)² <i>B</i><sub>ν</sub>(<i>T</i>) <i>A</i><sub>ef</sub>, &nbsp; <i>A</i><sub>ef</sub> = <i>R</i>² [ <span class="frac"><span><i>R</i><sub>s</sub></span><span><i>R</i></span></span> <i>I</i><sub>s</sub> + (1 − <span class="frac"><span><i>R</i><sub>s</sub></span><span><i>R</i></span></span>) <i>I</i><sub>p</sub> ]<span class="note">fluxo de uma mancha de corpo negro · área efetiva</span></div>
+    </div>
+  </div>
+  <aside class="notes">O modelo. A geometria tem três eixos: rotação, o eixo da calota quente e a linha de visada; i e j são os ângulos deles com o eixo de rotação. À direita, a aproximação de Beloborodov: um fóton que sai da superfície num ângulo α com a normal chega ao observador como se tivesse saído de um ângulo θ maior — a curvatura da luz. Com isso o fluxo de uma mancha de corpo negro se escreve com uma área efetiva, que tem uma parte do termo usual e outra proporcional a Rs/R. É a conta que o dashboard da mancha quente faz.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Pesquisa · o código</p><h2>O que o código <em>calcula</em></h2></header>
+  <div class="body cols c2" style="gap: 44px">
+    <div class="stack" style="gap: 20px">
+      <div class="card"><h4>Saída principal</h4><ul class="list" style="gap: 8px"><li class="small">mapa de frações pulsadas no plano (<i>i</i>, <i>j</i>);</li><li class="small">curva de luz: fluxo normalizado pela fase de rotação.</li></ul></div>
+      <div class="card"><h4>Cálculos periféricos</h4><ul class="list" style="gap: 8px"><li class="small">abertura angular da calota polar (cilindro de luz);</li><li class="small">ângulo de Beloborodov e área visível da estrela;</li><li class="small">fração pulsada máxima possível.</li></ul></div>
+      <div class="card"><h4>Validade</h4><p class="small" style="margin: 0">Erro &lt; 3% para <i>R</i> &gt; 3<i>R</i><sub>s</sub> (aqui, <i>R</i>/<i>R</i><sub>s</sub> = 3,38), com <i>R</i><sub>s</sub> = 2<i>GM</i>/<i>c</i>².</p></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <table class="tbl" style="font-size: 20px">
+        <tr><th>variável</th><th>definição</th><th>origem</th></tr>
+        <tr><td><i>M</i>, <i>R</i></td><td>massa e raio</td><td>equação de estado</td></tr>
+        <tr><td><i>N</i><sub>s</sub>, θ<sub>c</sub>, <i>T</i></td><td>número, semiabertura e temperatura das manchas</td><td>ajuste de corpo negro</td></tr>
+        <tr><td>θ<sub>d</sub></td><td>distância angular entre as manchas</td><td>fração pulsada</td></tr>
+        <tr><td><i>i</i>, <i>j</i></td><td>ângulos de visada</td><td>PF e perfil do pulso</td></tr>
+      </table>
+      <div class="card"><h4>Classes de Beloborodov (2002)</h4>
+        <p class="small" style="margin: 0"><b>I</b> · a mancha antípoda nunca aparece, e a primária é vista o tempo todo. <b>II</b> · a primária sempre, e a antípoda por algum tempo. <b>III</b> · a primária some por uma fração do período. <b>IV</b> · as duas são vistas o tempo todo.</p></div>
+    </div>
+  </div>
+  <aside class="notes">O código calcula, para cada par de ângulos i e j, a curva de luz e a fração pulsada, e monta o mapa. Os ingredientes vêm de lugares diferentes: massa e raio da equação de estado; tamanho e temperatura das manchas do ajuste espectral; a separação entre as manchas e os ângulos de visada, da fração pulsada e da forma do pulso. A aproximação de Beloborodov tem erro abaixo de 3% para estrelas maiores que três raios de Schwarzschild, e aqui R/Rs = 3,38.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">SGR J1745−2900 · 2016</p><h2>Fração pulsada <em>e perfil de luz</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <figure class="paper"><img src="assets/img/pesquisa/pf-map-2016.png" alt="Mapa de fração pulsada no plano i, j"><figcaption><b>Mapa de PF</b> no plano (<i>i</i>, <i>j</i>). A curva preta grossa é PF = 0,55, o valor observado em 2016.</figcaption></figure>
+    <figure class="paper"><img src="assets/img/pesquisa/pulse-2016.png" alt="Perfil de luz modelado contra o observado em 2016"><figcaption><b>Perfil do pulso</b>: o modelo (vermelho) com <i>M</i> = 1,7 M☉, θ<sub>d</sub> = 140°, <i>i</i> = <i>j</i> = 75°, contra o fluxo observado pelo Chandra em 8–14/10/2016.</figcaption></figure>
+  </div>
+  <aside class="notes">O resultado para 2016. No mapa, cada curva de nível é uma fração pulsada; a preta grossa é 0,55, o observado, e fica numa faixa estreita do plano i–j. Escolhendo um ponto dela — i = j = 75 graus, duas manchas separadas por 140 graus numa estrela de 1,7 massa solar — o perfil do pulso modelado acompanha a forma do observado: dois picos de alturas diferentes por período. Uma estrela de nêutrons movida a rotação, com a gravidade entortando a luz, explica o pulso.</aside>
+</section>
+
+<!-- ================================================================
+     PARTE V · BURACOS NEGROS
+     ================================================================ -->
+<section class="slide partcover p5">
+  <div class="bg" style="background-image: url('assets/img/galactic-center.jpg'); background-position: 60% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">V</p>
+    <p class="label rise d2">Parte cinco</p>
+    <h2 class="rise d2">Buracos<br><em>negros</em></h2>
+    <p class="sub lede rise d3">Quando nem os nêutrons seguram, a estrela cai para dentro do próprio horizonte — e some do Universo visível.</p>
+    <div class="topics rise d4"><span>massa máxima</span><span>Laplace · 1796</span><span>Schwarzschild · 1916</span><span>o horizonte</span><span>Sgr A*</span></div>
+  </div>
+  <span class="credit" data-credit="galactic-center" data-label>O centro da Via Láctea · ESO · CC BY 4.0</span>
+  <aside class="notes">Parte cinco. Ao fundo, o centro da nossa Galáxia no infravermelho, pelo VLT do ESO. No meio dessa multidão de estrelas há um buraco negro de quatro milhões de massas solares — vamos voltar a ele no fim.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Tolman · Oppenheimer · Volkoff · 1939</p><h2><i>M</i><sub>máx</sub> ≈ 2 M☉ — <em>e se passar?</em></h2></header>
+  <div class="body cols r">
+    <figure class="fill"><img src="assets/img/cygnus-x1.jpg" alt="Ilustração de um buraco negro roubando gás de uma estrela companheira"><span class="credit" data-credit="cygnus-x1">NASA/CXC/M. Weiss · domínio público</span></figure>
+    <div class="stack" style="gap: 24px">
+      <p style="margin: 0">Estrelas de nêutrons também têm massa máxima. Acima de ~2–2,3 M☉, nem a pressão dos nêutrons nem a força nuclear seguram a estrela.</p>
+      <div class="cols c2" style="gap: 18px">
+        <div class="card"><p class="stat" style="font-size: 64px">2,08 <small>M☉</small></p><p class="stat-label">PSR J0740+6620, a mais pesada medida com precisão</p></div>
+        <div class="card"><p class="stat" style="font-size: 64px">~21 <small>M☉</small></p><p class="stat-label">Cygnus X-1, o primeiro buraco negro aceito (1972)</p></div>
+      </div>
+      <p class="say sm" style="margin: 0">Mas e se a estrela de nêutrons receber mais massa — <em>acretando</em> gás de uma companheira — e passar de <i>M</i><sub>máx</sub>?</p>
+    </div>
+  </div>
+  <aside class="notes">Assim como as anãs brancas têm o limite de Chandrasekhar, as estrelas de nêutrons têm um limite, calculado pela primeira vez por Oppenheimer e Volkoff em 1939. O valor exato depende da física nuclear, que não conhecemos bem, mas as observações dizem que fica acima de dois: o pulsar mais pesado medido com precisão tem 2,08 massas solares. Na ilustração, um sistema como Cygnus X-1: um objeto compacto arrancando gás de uma estrela companheira. Se uma estrela de nêutrons acretar até passar do limite…</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">O colapso final</p><h2>Nada pode <em>deter o colapso</em></h2></header>
+  <div class="body" style="display: grid; align-content: center; gap: 46px; max-width: 1450px">
+    <p class="say rise d1" style="margin: 0">Nenhuma força conhecida segura a estrela.</p>
+    <p class="say rise d3" style="margin: 0; color: var(--text-2)">E se existir alguma física que ainda não conhecemos, forte o bastante para frear o colapso?</p>
+    <p class="say rise d5" style="margin: 0">Não adianta: quando o <em>horizonte de eventos</em> se forma, já é tarde. Lá dentro, todo futuro aponta para o centro.</p>
+  </div>
+  <aside class="notes">Nenhuma força conhecida segura. E a pergunta natural: e se houver alguma física nova, mais forte? O argumento da relatividade geral é que não importa: assim que a estrela fica menor que o próprio raio de Schwarzschild, forma-se um horizonte, e dentro dele parar é tão impossível quanto parar o tempo. Vamos ver por quê ao longo desta parte. Mas antes, a história.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">1783 – 2019</p><h2>Uma breve história <em>dos buracos negros</em></h2></header>
+  <div class="body" style="display: grid; align-content: center">
+    <div class="timeline">
+      <div><p class="yr">1783</p><p><b>Michell</b>: “estrelas escuras”, de onde a luz não escapa</p></div>
+      <div><p class="yr">1796</p><p><b>Laplace</b> chega à mesma ideia</p></div>
+      <div><p class="yr">1916</p><p><b>Schwarzschild</b>: a primeira solução exata da RG</p></div>
+      <div><p class="yr">1935</p><p><b>Eddington</b>: “deveria haver uma lei da Natureza…”</p></div>
+      <div><p class="yr">1939</p><p><b>Oppenheimer &amp; Snyder</b>: o colapso, calculado</p></div>
+      <div><p class="yr">1963</p><p><b>Kerr</b>: buracos negros que giram</p></div>
+      <div><p class="yr">1967</p><p><b>Wheeler</b> populariza o nome “buraco negro”</p></div>
+      <div><p class="yr">2019</p><p><b>EHT</b>: a primeira imagem, de M87*</p></div>
+    </div>
+  </div>
+  <aside class="notes">A ideia é mais velha que a relatividade. John Michell, em 1783, e Laplace, em 1796, perceberam que, pela mecânica de Newton, um objeto compacto o bastante teria velocidade de escape maior que a da luz. A versão relativística começa com Schwarzschild, em 1916. Eddington resistiu à ideia; Oppenheimer e Snyder calcularam o colapso em 1939; Kerr achou a solução com rotação em 1963. O nome “buraco negro” foi popularizado por Wheeler a partir de 1967 — na versão de 2018 desta palestra eu tinha posto 1950, o que está errado. E em 2019 veio a primeira imagem.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">1796 · Pierre-Simon Laplace</p><h2>Uma estrela <em>escura</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .55fr .85fr 1.15fr; gap: 36px">
+    <figure class="portrait"><img src="assets/img/laplace.jpg" alt="Pierre-Simon Laplace"><span class="credit" data-credit="laplace">Jean-Baptiste Paulin Guérin · domínio público</span><figcaption><b>Pierre-Simon Laplace</b>1749 – 1827</figcaption></figure>
+    <div class="stack" style="gap: 18px">
+      <p style="margin: 0">Pela física de Newton, a luz não escaparia de um objeto suficientemente massivo e compacto.</p>
+      <div class="eq sm" style="font-size: 32px"><span class="frac"><span><i>mv</i>²</span><span>2</span></span> − <span class="frac"><span><i>GMm</i></span><span><i>R</i></span></span> = 0 &nbsp;⇒&nbsp; <i>v</i><sub>esc</sub> = <span class="frac"><span>2<i>GM</i></span><span><i>R</i></span></span><sup>1/2</sup><span class="note">energia inicial = energia final</span></div>
+      <p class="small" style="margin: 0">Na Terra, <i>v</i><sub>esc</sub> = 11,18 km/s. Para qual <i>r</i> a velocidade de escape seria a da luz?</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 42px; border-color: var(--part)"><i>r</i> = <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²</span></span></span></div>
+      <p class="small" style="margin: 0">Terra: <b>8,9 mm</b>. Sol: <b>2,95 km</b>.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">aperte a Terra</span><span class="ref">massa fixa</span></div>
+      <div class="cv"><canvas id="escape"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="escape-R">raio da Terra <output for="escape-R"></output></label><input type="range" id="escape-R" min="0" max="1" step="0.001" value="0"></div>
+      </div>
+      <div class="readout" id="escape-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Laplace, em 1796, com física de Newton: a velocidade de escape cresce quando o mesmo objeto fica menor. Igualando a energia cinética à energia potencial sai v_esc = raiz de 2GM/R, 11,18 km/s na Terra. Para que ela seja a velocidade da luz, o raio tem de ser 2GM/c²: a Terra inteira espremida numa bolinha de 9 milímetros, o Sol em 3 km. Por acaso, é exatamente o raio que a relatividade geral vai dar para o horizonte — mas por razões diferentes: em Newton a luz subiria e cairia de volta, como uma bola; na RG ela nem sai.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Dezembro de 1915 · front russo</p><h2>Um mês depois de <em>Einstein</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .55fr .55fr 1.2fr; gap: 36px">
+    <figure class="portrait"><img src="assets/img/schwarzschild.jpg" alt="Karl Schwarzschild"><figcaption><b>Karl Schwarzschild</b>1873 – 1916</figcaption></figure>
+    <figure class="portrait"><img src="assets/img/einstein.jpg" alt="Albert Einstein"><span class="credit">F. Schmutzer · domínio público</span><figcaption><b>Albert Einstein</b>1921</figcaption></figure>
+    <div class="stack" style="gap: 26px; align-self: center">
+      <p style="margin: 0">Praticamente um mês depois de Einstein apresentar a Relatividade Geral (25/11/1915), Schwarzschild — servindo como artilheiro no front russo — encontrou uma <b>solução analítica exata</b> das equações.</p>
+      <blockquote style="font-size: 36px">“Li o seu artigo com o maior interesse. Eu não esperava que se pudesse formular a solução exata do problema de forma tão simples. Gostei muito do seu tratamento matemático do assunto.”<footer>Einstein a Schwarzschild, 9 de janeiro de 1916</footer></blockquote>
+      <p class="small muted" style="margin: 0">Schwarzschild morreu em maio de 1916, de uma doença contraída no front.</p>
+    </div>
+  </div>
+  <aside class="notes">Einstein apresentou as equações de campo em 25 de novembro de 1915. Schwarzschild, astrônomo, aos 42 anos, estava no front russo como tenente de artilharia; leu o artigo e em dezembro mandou a solução exata para o exterior de uma estrela esférica. Einstein respondeu encantado — ele próprio só tinha usado aproximações. Schwarzschild morreu cinco meses depois, de pênfigo, uma doença de pele que pegou no front.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Esférico, sem carga, sem rotação</p><h2>A primeira solução exata <em>já era um buraco negro</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <div class="stack" style="gap: 24px; align-self: center">
+      <div class="card glow"><h4>O que nenhum deles sabia</h4><p style="margin: 0">A solução era <b>completa</b>: além do exterior de uma estrela, descrevia um buraco negro esférico, neutro e sem rotação — o <b>buraco negro de Schwarzschild</b>.</p></div>
+      <div class="card"><h4>Até então</h4><p class="small" style="margin: 0">Einstein só tinha procurado soluções aproximadas — o formalismo pós-newtoniano — e com elas explicado o <b>desvio da luz pelo Sol</b> e a <b>precessão de Mercúrio</b>.</p></div>
+      <p class="small muted" style="margin: 0">Foram precisos uns 50 anos para a comunidade aceitar que aquilo existia de verdade.</p>
+    </div>
+    <figure class="fill"><img src="assets/img/m87.jpg" alt="A sombra de M87*" style="object-fit: contain; background: #000"><span class="credit" data-credit="m87">EHT Collaboration · CC BY 4.0</span><figcaption>A sombra de M87*, Event Horizon Telescope, 2019 — 103 anos depois.</figcaption></figure>
+  </div>
+  <aside class="notes">O que nenhum dos dois sabia: a solução de Schwarzschild não descreve só o lado de fora de uma estrela. Se a estrela for menor que o raio de Schwarzschild, não há estrela nenhuma — há um buraco negro. A primeira solução exata da relatividade geral já era um buraco negro. Einstein trabalhava com aproximações, que bastavam para Mercúrio e para o desvio da luz. Levou meio século para a ideia ser levada a sério — e mais meio para a foto.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Royal Astronomical Society · 11 de janeiro de 1935</p><h2>Eddington contra <em>Chandrasekhar</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .55fr 1.4fr .55fr; gap: 40px">
+    <figure class="portrait"><img src="assets/img/eddington.jpg" alt="Arthur Eddington"><span class="credit" data-credit="eddington">Bain News Service · domínio público</span><figcaption><b>Arthur Eddington</b>1882 – 1944</figcaption></figure>
+    <div class="stack" style="gap: 34px; align-self: center">
+      <p style="margin: 0">Um dos primeiros a entender a Relatividade Geral, Eddington percebeu na hora: se Chandrasekhar estivesse certo sobre o limite de massa, a formação de buracos negros seria <b>inevitável</b> para estrelas massivas.</p>
+      <blockquote style="font-size: 38px">“Acho que deveria haver uma lei da Natureza para impedir que uma estrela se comporte desse jeito absurdo!”<footer>Arthur Eddington, Royal Astronomical Society, 11/01/1935</footer></blockquote>
+      <div class="card" style="--part: var(--ana)"><p style="margin: 0">Chandrasekhar lamentaria depois que se passaram <b>quase trinta anos</b> até o significado do seu resultado ser reconhecido.</p><p class="ref" style="margin: 10px 0 0">K. C. Wali, <i>Chandra: a biography of S. Chandrasekhar</i> (1991).</p></div>
+    </div>
+    <figure class="portrait"><img src="assets/img/chandrasekhar.jpg" alt="Subrahmanyan Chandrasekhar"><figcaption><b>Chandrasekhar</b>24 anos em 1935</figcaption></figure>
+  </div>
+  <aside class="notes">Em 1935, Chandrasekhar, com 24 anos, apresentou o limite de massa na Royal Astronomical Society. Logo depois falou Eddington, a maior autoridade da astrofísica da época, e ridicularizou o resultado: deveria haver uma lei da Natureza para impedir uma estrela de se comportar de modo tão absurdo. Ele tinha entendido perfeitamente a consequência — o colapso sem fim — e não a aceitava. Chandrasekhar lamentaria depois que levou quase trinta anos para o resultado ser levado a sério. Ganhou o Nobel em 1983. (Na versão de 2018 havia uma citação literal dele; como não consegui conferir a fonte exata, ficou a paráfrase, com a biografia de Wali como referência. A frase de Eddington está na ata da reunião, The Observatory 58, 38, 1935.)</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">1939 · 1963 · 1967</p><h2>O colapso, a rotação <em>e o nome</em></h2></header>
+  <div class="body cols c3" style="gap: 44px">
+    <figure class="portrait sm"><img src="assets/img/oppenheimer.jpg" alt="J. Robert Oppenheimer"><span class="credit" data-credit="oppenheimer">U.S. Department of Energy · domínio público</span><figcaption><b>1939 · Oppenheimer</b>Com Snyder, o primeiro cálculo rigoroso de uma estrela colapsando até formar um buraco negro. Com Volkoff, a massa máxima das estrelas de nêutrons.</figcaption></figure>
+    <figure class="portrait sm"><img src="assets/img/kerr.jpg" alt="Roy Kerr"><span class="credit" data-credit="kerr">Bengt Nyman · CC BY-SA 4.0</span><figcaption><b>1963 · Roy Kerr</b>Outra solução exata das equações de Einstein: um buraco negro girando. É o que a natureza deve produzir.</figcaption></figure>
+    <figure class="portrait sm"><img src="assets/img/wheeler.jpg" alt="John Archibald Wheeler"><span class="credit" data-credit="wheeler">Emielke · CC BY-SA 3.0</span><figcaption><b>1967 · John A. Wheeler</b>Populariza o termo “buraco negro” — para desgosto dos franceses, para quem <i>trou noir</i> soava indecente.</figcaption></figure>
+  </div>
+  <aside class="notes">Três passos. Oppenheimer e seu aluno Hartland Snyder, em 1939, calcularam o colapso de uma nuvem de poeira até o fim, e viram que, para quem está longe, a estrela parece congelar no horizonte. No mesmo ano, com Volkoff, Oppenheimer calculou a massa máxima de uma estrela de nêutrons. Em 1963 Roy Kerr, neozelandês, encontrou a solução para um buraco negro em rotação. E em 1967 Wheeler começou a usar “black hole”, que pegou — o termo já tinha aparecido na imprensa em 1964. Em francês “trou noir” tinha conotação obscena, e houve resistência por um tempo.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">A métrica de Schwarzschild</p><h2>Três cortes <em>de uma mesma fórmula</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto 1fr; gap: 40px">
+    <div class="eq" style="font-size: 50px">Δ<i>s</i>² = <span class="hl-t">−(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)(<i>c</i>Δ<i>t</i>)²</span> + <span class="hl-r">(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)<sup>−1</sup>(Δ<i>r</i>)²</span> + <span class="hl-a"><i>r</i>²[(Δθ)² + sin²θ (Δφ)²]</span><span class="note"><i>M</i> = massa do objeto central</span></div>
+    <div class="cols c3" style="gap: 28px">
+      <div class="card" style="--part: var(--sol)"><h4>Δ<i>t</i> = Δθ = Δφ = 0</h4><p class="ui" style="margin: 0 0 10px; font-size: 28px; color: var(--text)">Δ<i>r</i><sub>p</sub> = (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>)<sup>−1/2</sup> Δ<i>r</i></p><p class="small" style="margin: 0">Distâncias radiais medidas por uma régua: maiores que Δ<i>r</i>.</p></div>
+      <div class="card" style="--part: var(--bn)"><h4>Δ<i>r</i> = Δθ = Δφ = 0</h4><p class="ui" style="margin: 0 0 10px; font-size: 28px; color: var(--text)">Δτ = (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>)<sup>1/2</sup> Δ<i>t</i></p><p class="small" style="margin: 0">O tempo de um relógio parado: anda mais devagar que o de longe.</p></div>
+      <div class="card" style="--part: var(--psr)"><h4>Δ<i>t</i> = Δ<i>r</i> = 0</h4><p class="ui" style="margin: 0 0 10px; font-size: 28px; color: var(--text)">Δ<i>S</i> = <i>r</i> [(Δθ)² + sin²θ (Δφ)²]<sup>1/2</sup></p><p class="small" style="margin: 0">A parte angular é a de sempre: a distância entre dois pontos na superfície da Terra (θ = 90° − latitude).</p></div>
+    </div>
+  </div>
+  <aside class="notes">A métrica de Schwarzschild diz como medir intervalos perto de uma massa. Ela tem três pedaços, e cada corte isola um. Parado no tempo e no ângulo, sobra a parte radial: a distância que uma régua mede, maior que a diferença de coordenadas. Parado no espaço, sobra a parte temporal: o tempo que um relógio parado marca, menor que o tempo de longe. E fixando t e r, sobra a geometria de uma esfera comum — a mesma fórmula que dá a distância entre duas cidades na Terra. Por isso r tem um significado simples: a circunferência dividida por 2π.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Distância própria</p><h2>A régua <em>no poço</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .85fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="plots" style="grid-template-columns: 1.35fr 1fr"><div class="cv"><canvas id="regua"></canvas></div><div class="cv"><canvas id="regua-plot"></canvas></div></div>
+      <div class="readout" id="regua-out"></div>
+    </div>
+    <div class="stack" style="gap: 14px">
+      <ul class="list" style="gap: 14px">
+        <li class="small"><i>r</i> é a coordenada de um observador no infinito: a circunferência dividida por 2π.</li>
+        <li class="small">Δ<i>r</i><sub>p</sub> é a distância que um observador local mede com a régua.</li>
+        <li class="small">As distâncias são <b>maiores</b> do que seriam num espaço plano: entre as esferas de circunferências 2π<i>r</i>₁ e 2π<i>r</i>₂ há mais que <i>r</i>₂ − <i>r</i>₁.</li>
+        <li class="small">O fator (1 − <i>r</i><sub>s</sub>/<i>r</i>)<sup>−1/2</sup> diverge em <i>r</i><sub>s</sub>, mas a distância até o horizonte é <b>finita</b>: de 3<i>r</i><sub>s</sub> até <i>r</i><sub>s</sub> são 3,6 <i>r</i><sub>s</sub>, não 2.</li>
+      </ul>
+      <p class="ref" style="margin: 0">À esquerda, o paraboloide de Flamm: a fatia equatorial (<i>t</i> constante) desenhada como superfície, com a mesma geometria.</p>
+    </div>
+  </div>
+  <aside class="notes">O que significa a distância radial ser maior? O paraboloide de Flamm é a fatia do espaço desenhada como uma superfície com a mesma geometria. A régua, de tamanho fixo, desce pelo funil: perto do horizonte ela cobre cada vez menos Δr, porque a superfície fica mais inclinada. No gráfico, o fator que converte Δr em distância própria. Uma correção em relação à versão de 2018: eu dizia que a distância radial se torna infinita perto do horizonte. O fator diverge, mas a integral converge: a distância até o horizonte é finita. De três raios de Schwarzschild até o horizonte são 3,6 r_s.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">O horizonte de eventos</p><h2>O raio de <em>Schwarzschild</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center">
+    <div class="stack" style="gap: 24px">
+      <div class="eq" style="font-size: 96px"><i>R</i><sub>S</sub> = <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²</span></span><span class="note">2,95 km por massa solar</span></div>
+      <p style="margin: 0">Onde o fator (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>) da métrica se anula. Não há nada ali — nenhuma superfície, nenhuma parede: é uma fronteira <b>causal</b>. O que entra não sai.</p>
+    </div>
+    <table class="tbl">
+      <tr><th>objeto</th><th style="text-align: right">massa</th><th style="text-align: right"><i>R</i><sub>S</sub></th></tr>
+      <tr><td>Terra</td><td class="n">6×10²⁴ kg</td><td class="n">8,9 mm</td></tr>
+      <tr><td>Sol</td><td class="n">1 M☉</td><td class="n">2,95 km</td></tr>
+      <tr><td>estrela de nêutrons (raio 12 km)</td><td class="n">1,4 M☉</td><td class="n">4,1 km</td></tr>
+      <tr><td>Cygnus X-1</td><td class="n">21 M☉</td><td class="n">62 km</td></tr>
+      <tr class="hl"><td>Sgr A*</td><td class="n">4,3×10⁶ M☉</td><td class="n">12,7 milhões km · 18 R☉</td></tr>
+      <tr><td>M87*</td><td class="n">6,5×10⁹ M☉</td><td class="n">1,9×10¹⁰ km · 128 UA</td></tr>
+    </table>
+  </div>
+  <aside class="notes">O raio de Schwarzschild é proporcional à massa: 2,95 km para cada massa solar. A Terra teria de caber em 9 mm; uma estrela de nêutrons tem raio só três vezes maior que o seu raio de Schwarzschild — por isso a gravidade lá é tão relativística. O buraco negro do centro da Galáxia tem um horizonte de 18 raios solares; o de M87, maior que a órbita de Plutão. E o horizonte não é um lugar especial para quem cai: não há parede, só uma fronteira de causalidade.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Tempo próprio</p><h2>O tempo <em>no poço</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">dois relógios iguais · um longe, um no poço</span><span class="ref">desça o relógio</span></div>
+      <div class="cv"><canvas id="relogios"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="relogios-r">posição do relógio, <i>r</i>/<i>R</i><sub>S</sub> <output for="relogios-r"></output></label><input type="range" id="relogios-r" min="0" max="1" step="0.001" value="0.35"></div>
+      </div>
+      <div class="readout" id="relogios-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm" style="font-size: 38px">Δτ = <span style="white-space: nowrap">(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)<sup>1/2</sup></span> Δ<i>t</i></div>
+      <ul class="list" style="gap: 14px">
+        <li class="small">O relógio fundo no poço anda mais devagar, visto de longe — e não é ilusão: ao voltar, ele marca menos tempo.</li>
+        <li class="small">GPS: +45 μs/dia pela altitude, −7 μs/dia pela velocidade dos satélites. Sem a correção, erro de ~10 km por dia.</li>
+        <li class="small">Na superfície de uma estrela de nêutrons: Δτ/Δ<i>t</i> ≈ 0,8 — perdem-se ~12 minutos por hora.</li>
+        <li class="small">No horizonte, Δτ/Δ<i>t</i> → 0.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">Dois relógios idênticos: um longe da massa, outro parado a uma distância r. O de baixo anda mais devagar, pelo fator raiz de 1 − r_s/r. Isso é medido todo dia: os relógios dos satélites de GPS adiantam 45 microssegundos por dia por estarem mais alto, e atrasam 7 por causa da velocidade. Na superfície de uma estrela de nêutrons, o relógio anda a 80% do ritmo de longe. E à medida que o relógio desce até o horizonte, o ritmo dele vai a zero.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">O que acontece no horizonte?</p><h2>Visto de longe, <em>o tempo congela</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">uma sonda cai e pisca a cada segundo do seu relógio</span><span class="ref">queda radial, Schwarzschild</span></div>
+      <div class="cv"><canvas id="congela"></canvas></div>
+      <div class="readout" id="congela-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <p style="margin: 0">Um observador no infinito veria o tempo <b>congelar</b> em <i>R</i><sub>S</sub>. Isso significa que a luz para?</p>
+      <p style="margin: 0"><b>Não!</b> Significa que ela fica <b>aprisionada</b>. Para fótons Δ<i>s</i>² = 0; se Δτ → 0, os termos espaciais também se anulam (Δ<i>r</i> = Δθ = Δφ = 0): o fóton não sai daquela região.</p>
+      <div class="card"><h4>Fótons: nossos relógios naturais</h4><p class="small" style="margin: 0 0 10px">Uma onda de frequência <i>f</i> é um relógio que bate 1/Δ<i>t</i> vezes por segundo:</p><div class="eq sm" style="font-size: 32px"><i>f</i><sub>∞</sub> = (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>)<sup>1/2</sup> <i>f</i><sub>local</sub></div></div>
+      <p class="small muted" style="margin: 0">Quem cai não percebe nada de especial ao cruzar o horizonte.</p>
+    </div>
+  </div>
+  <aside class="notes">Uma sonda cai radialmente e pisca uma luz a cada segundo do relógio dela. Lá longe, recebemos as piscadas cada vez mais espaçadas e cada vez mais vermelhas: a luz perde energia ao sair do poço e o relógio dela anda devagar, visto daqui. A imagem da sonda vai congelando e apagando perto do horizonte — nunca a vemos cruzar. Mas ela cruza, em tempo finito no relógio dela, e não sente nada de especial. A luz que ela emite já dentro do horizonte nunca chega. Fótons são relógios naturais: o redshift gravitacional é a mesma dilatação do tempo do slide anterior.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Além do horizonte</p><h2>Todo futuro <em>aponta para o centro</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="cones"></canvas></div>
+      <div class="readout" id="cones-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <p class="big" style="margin: 0">A matéria deve se mover <b>dentro</b> dos cones de luz.</p>
+      <ul class="list" style="gap: 14px">
+        <li class="small">Longe, o cone é o de sempre: dá para ir para fora ou para dentro.</li>
+        <li class="small">Perto do horizonte, ele tomba para dentro, mas ainda deixa uma saída.</li>
+        <li class="small">No horizonte, a borda de fora fica vertical: a luz “para fora” fica parada.</li>
+        <li class="small">Dentro, os dois lados do cone apontam para <i>r</i> menor: <b>caminhar em direção ao futuro significa caminhar para o centro</b>.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Coordenadas de Eddington–Finkelstein: <i>t̃</i> = <i>t</i> + <i>r</i><sub>s</sub> ln|<i>r</i>/<i>r</i><sub>s</sub> − 1|; a luz que cai segue retas a 45°.</p>
+    </div>
+  </div>
+  <aside class="notes">Em cada ponto do espaço-tempo, o cone de luz marca os futuros possíveis: nada anda mais rápido que a luz. Em coordenadas que não se estragam no horizonte, as de Eddington–Finkelstein, os cones vão tombando para dentro à medida que nos aproximamos. No horizonte a borda de fora fica vertical: um raio de luz apontado para fora fica parado em r = r_s. Dentro, o cone inteiro aponta para dentro. Lá, r faz o papel do tempo: ir para o centro é tão inevitável quanto ir para amanhã. O que acontece num buraco negro fica no buraco negro.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">O centro da Via Láctea · 27 000 anos-luz</p><h2>Sagittarius A*: <em>estrelas em volta do nada</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">órbitas medidas das estrelas S · posição no céu</span><span class="ref">1 ano ≈ 0,6 s</span></div>
+      <div class="cv"><canvas id="sstars"></canvas></div>
+      <div class="readout" id="sstars-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="cols c2" style="gap: 16px">
+        <div class="card" style="padding: 22px 26px"><p class="stat" style="font-size: 50px">4,3×10⁶ <small>M☉</small></p><p class="stat-label">massa no centro</p></div>
+        <div class="card" style="padding: 22px 26px"><p class="stat" style="font-size: 50px">16 <small>anos</small></p><p class="stat-label">período de S2</p></div>
+      </div>
+      <p class="small" style="margin: 0">S2 passa a ~120 UA do centro a ~7 700 km/s, 2,6% de <i>c</i>. Em 2018 e 2020 o VLT mediu nela o desvio para o vermelho gravitacional e a precessão de Schwarzschild.</p>
+      <div class="cols c2" style="gap: 16px">
+        <figure class="portrait xs"><img src="assets/img/genzel.jpg" alt="Reinhard Genzel"><span class="credit" data-credit="genzel">ESO/Mahdi Zamani · CC BY-SA 4.0</span><figcaption><b>Reinhard Genzel</b>VLT · desde 1992</figcaption></figure>
+        <figure class="portrait xs"><img src="assets/img/ghez.jpg" alt="Andrea Ghez"><span class="credit" data-credit="ghez">BorderlineRebel · CC BY-SA 4.0</span><figcaption><b>Andrea Ghez</b>Keck · desde 1995</figcaption></figure>
+      </div>
+      <p class="ref" style="margin: 0">Nobel de 2020, com Roger Penrose.</p>
+    </div>
+  </div>
+  <aside class="notes">Esta é a prova mais limpa de que buracos negros existem. Desde 1992, a equipe de Genzel no VLT, e desde 1995 a de Ghez no Keck, seguem as estrelas mais próximas do centro da Galáxia. Elas descrevem elipses keplerianas em torno de um ponto onde não se vê nada. A estrela S2 dá uma volta a cada 16 anos e passa a 120 unidades astronômicas do centro, a quase 8 mil km/s. Das órbitas sai a massa: 4,3 milhões de massas solares, num volume menor que a órbita de S2 — só cabe um buraco negro. Na versão de 2018 eu usava 4,1 milhões; o valor atual é do GRAVITY, de 2022. A animação usa os elementos orbitais publicados, e o tempo corre a uns dois anos por segundo.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Event Horizon Telescope · 2019 e 2022</p><h2>As <em>sombras</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 26px">
+    <div class="duo">
+      <figure><img src="assets/img/m87.jpg" alt="M87*" style="object-fit: contain; background: #000"><span class="lbl">M87* · 2019 · 6,5 bilhões de M☉ · 55 milhões de anos-luz</span><span class="credit" data-credit="m87">EHT Collaboration · CC BY 4.0</span></figure>
+      <figure><img src="assets/img/sgra.jpg" alt="Sgr A*" style="object-fit: contain; background: #000"><span class="lbl">Sgr A* · 2022 · 4,3 milhões de M☉ · 27 mil anos-luz</span><span class="credit" data-credit="sgra">EHT Collaboration · CC BY 4.0</span></figure>
+    </div>
+    <p style="margin: 0">O anel tem ~5 <i>R</i><sub>S</sub> de diâmetro: é a esfera de fótons, a 1,5 <i>R</i><sub>S</sub>, vista através da lente do próprio buraco negro — diâmetro da sombra = 2√27 <i>GM</i>/<i>c</i>² ≈ 5,2 <i>R</i><sub>S</sub>.</p>
+  </div>
+  <aside class="notes">Em 2019 o Event Horizon Telescope, uma rede de radiotelescópios do tamanho da Terra, mostrou a sombra de M87*; em 2022, a de Sgr A*. Os dois têm massas que diferem por um fator de 1 500 e aparecem quase do mesmo tamanho no céu, porque M87 está 2 000 vezes mais longe. O tamanho do anel é o previsto pela métrica de Schwarzschild: a sombra tem cinco raios de Schwarzschild de diâmetro. Esses slides não existiam na versão de 2018 — as imagens são posteriores.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Geodésicas de Schwarzschild</p><h2>Como a luz <em>se curva</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="geo-s"></canvas></div>
+      <div class="readout" id="geo-s-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="eq sm" style="font-size: 36px"><i>u</i>″ + <i>u</i> = <span class="frac"><span>3</span><span>2</span></span> <i>R</i><sub>S</sub> <i>u</i>²<span class="note"><i>u</i> = 1/<i>r</i> · equação da órbita da luz</span></div>
+      <ul class="list" style="gap: 14px">
+        <li class="small"><i>b</i> &gt; 3√3 <i>GM</i>/<i>c</i>² ≈ 2,6 <i>R</i><sub>S</sub>: a luz é desviada e escapa.</li>
+        <li class="small"><i>b</i> = 2,6 <i>R</i><sub>S</sub>: órbita instável na <b>esfera de fótons</b>, <i>r</i> = 1,5 <i>R</i><sub>S</sub>.</li>
+        <li class="small"><i>b</i> &lt; 2,6 <i>R</i><sub>S</sub>: capturada.</li>
+      </ul>
+      <p class="small muted" style="margin: 0">O termo à direita é a correção da Relatividade Geral. Sem ele, a luz andaria em linha reta.</p>
+    </div>
+  </div>
+  <aside class="notes">Um feixe de raios de luz paralelos vindo da esquerda, cada um com um parâmetro de impacto b, integrados exatamente pela equação da órbita. Os que passam longe são pouco desviados. Perto de b = 2,6 R_S eles dão voltas em torno do buraco antes de sair — é a esfera de fótons. Abaixo disso, caem. É essa fronteira que produz a sombra das imagens do EHT.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Geodésicas de Kerr · 1963</p><h2>O buraco negro que <em>gira</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">raios de luz no plano equatorial</span><span class="ref">arraste a rotação</span></div>
+      <div class="cv"><canvas id="geo-k"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="geo-k-a">rotação, <i>a</i>/<i>M</i> <output for="geo-k-a"></output></label><input type="range" id="geo-k-a" min="0" max="0.998" step="0.002" value="0.9"></div>
+      </div>
+      <div class="readout" id="geo-k-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <ul class="list" style="gap: 14px">
+        <li class="small">A rotação <b>arrasta</b> o espaço-tempo em volta (efeito Lense–Thirring).</li>
+        <li class="small">A luz que viaja no sentido da rotação chega mais perto antes de ser capturada: a órbita de fótons vai de 1,5 <i>R</i><sub>S</sub> até 0,5 <i>R</i><sub>S</sub> quando <i>a</i> → <i>M</i>.</li>
+        <li class="small">Contra a rotação, a órbita se afasta, até 2 <i>R</i><sub>S</sub>.</li>
+        <li class="small">A captura fica assimétrica: a sombra se desloca e achata de um lado.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Geodésicas nulas de Kerr em Boyer–Lindquist, integradas no tempo de Mino.</p>
+    </div>
+  </div>
+  <aside class="notes">A solução de Kerr, de 1963, é a de um buraco negro girando — e todo buraco negro real deve girar. O mesmo feixe de luz agora é arrastado pela rotação. Os raios que passam do lado que gira a favor chegam mais perto antes de serem capturados; os que passam contra são capturados de mais longe. A fronteira de captura fica assimétrica, e a sombra também. Com a rotação máxima, a órbita de fótons a favor encosta no horizonte.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow"><i>r</i> = 0</p><h2>A <em>singularidade</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto 1fr; gap: 40px">
+    <div class="eq" style="font-size: 46px">Δ<i>s</i>² = −(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)(<i>c</i>Δ<i>t</i>)² + (1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)<sup>−1</sup>(Δ<i>r</i>)² + <i>r</i>²[(Δθ)² + sin²θ (Δφ)²] &nbsp; <span class="boxed" style="font-size: .8em"><i>r</i> = 0 → <span class="c-warn">singularidade</span></span></div>
+    <div class="cols c2" style="gap: 44px">
+      <div class="card"><h4><i>r</i> = <i>R</i><sub>S</sub> não é singular</h4><p style="margin: 0">Ali a métrica parece explodir, mas é só uma escolha ruim de coordenadas — como a longitude no polo Norte. Quem cai atravessa o horizonte sem notar, e a curvatura lá é finita.</p></div>
+      <div class="card glow"><h4><i>r</i> = 0 é</h4><p style="margin: 0">A curvatura diverge — o invariante de Kretschmann vai como 48<i>G</i>²<i>M</i>²/<i>c</i>⁴<i>r</i>⁶ — e as forças de maré esticam qualquer coisa. A Relatividade Geral <b>prevê o próprio limite</b>: ali deve entrar uma teoria quântica da gravidade, que ainda não temos.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Para fechar a física: a métrica tem dois lugares em que algo diverge. No horizonte, r = R_S, a divergência é das coordenadas, não do espaço-tempo; em outras coordenadas, como as de Eddington–Finkelstein dos cones, tudo é suave ali. Em r = 0 é de verdade: a curvatura vai a infinito. É o ponto onde a relatividade geral para de valer, e onde a mecânica quântica e a gravidade teriam de se encontrar.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Recapitulando</p><h2>Três massas <em>decidem o fim</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: 1fr auto; gap: 40px">
+    <div class="cols c3" style="gap: 30px">
+      <div class="card" style="--part: var(--neb)"><p class="stat"><i>M</i><sub>J</sub></p><h3>Jeans</h3><p class="small">Acima dela, uma nuvem fria colapsa, se fragmenta e acende estrelas. Diminui à medida que a nuvem fica densa.</p></div>
+      <div class="card" style="--part: var(--ana)"><p class="stat">1,44 <small>M☉</small></p><h3>Chandrasekhar</h3><p class="small">Acima dela, os elétrons degenerados não seguram: não existe anã branca, e o núcleo de ferro colapsa.</p></div>
+      <div class="card glow" style="--part: var(--bn)"><p class="stat">~2,2 <small>M☉</small></p><h3>Tolman–Oppenheimer–Volkoff</h3><p class="small">Acima dela, nem os nêutrons seguram: forma-se um horizonte, e a estrela vira buraco negro.</p></div>
+    </div>
+    <p class="say sm" style="margin: 0">A vida inteira de uma estrela é a gravidade de um lado e, do outro, o calor, a fusão e — no fim — <span class="grad">a mecânica quântica</span>.</p>
+  </div>
+  <aside class="notes">Resumindo a palestra em três números. A massa de Jeans decide quando uma nuvem vira estrelas. Durante a vida, a gravidade é segurada pela fusão. No fim, se a massa do que sobra está abaixo de 1,44 massa solar, a pressão dos elétrons segura: anã branca. Entre isso e uns 2,2, a dos nêutrons e a força nuclear seguram: estrela de nêutrons. Acima, nada segura: buraco negro. Obrigado.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Créditos das imagens</p><h2>Fotos e figuras <em>de uso livre</em></h2></header>
+  <div class="body credits" style="columns: 3; column-gap: 46px">
+    <!--CREDITS-->
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg"><b>Albert Einstein</b></a> — Ferdinand Schmutzer / Adam Cuerden · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Karl_Schwarzschild.png"><b>Karl Schwarzschild</b></a> — autor desconhecido · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg"><b>M87* (EHT)</b></a> — Event Horizon Telescope Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Sag_A%2A.jpg"><b>Sgr A* (EHT)</b></a> — EHT Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Crab_Nebula.jpg"><b>Nebulosa do Caranguejo</b></a> — NASA, ESA, J. Hester and A. Loll (Arizona State University) · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg"><b>O Sol (SDO)</b></a> — NASA/SDO (AIA) · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Hertzsprung-Russell_Diagram_-_ESO.png"><b>Diagrama de Hertzsprung–Russell</b></a> — ESO · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Wolfgang_Pauli.jpg"><b>Wolfgang Pauli</b></a> — autor desconhecido · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://svs.gsfc.nasa.gov/20413/"><b>Animação da supernova (vídeo)</b></a> — NASA&#x27;s Goddard Space Flight Center Conceptual Image Lab (Jonathan North) · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pillars_of_Creation_(NIRCam_Image).jpg"><b>Pilares da Criação, Webb 2022</b></a> — NASA, ESA, CSA, STScI; image processing: Joseph DePasquale, Anton M. Koekemoer, Alyssa… · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg"><b>Pilares da Criação, Hubble 2014</b></a> — NASA, ESA, Hubble Heritage Team (STScI/AURA) · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:NASA%E2%80%99s_Webb_Reveals_Cosmic_Cliffs,_Glittering_Landscape_of_Star_Birth.jpg"><b>“Penhascos Cósmicos”, Nebulosa de Carina</b></a> — NASA, ESA, CSA, STScI · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg"><b>Nebulosa de Órion</b></a> — NASA, ESA, M. Robberto (Space Telescope Science Institute/ESA) and the Hubble Space… · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:HL_Tau_protoplanetary_disk.jpg"><b>Disco de HL Tauri</b></a> — ALMA (ESO/NAOJ/NRAO) · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:IvyMike2.jpg"><b>Ivy Mike, 1952</b></a> — National Nuclear Security Administration / Nevada Site Office · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:SPHERE%E2%80%99s_view_of_Betelgeuse_in_January_2019_(eso2003b).jpg"><b>Betelgeuse</b></a> — ESO/M. Montargès et al. · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Webb_captures_detailed_beauty_of_Ring_Nebula_(NIRCam_image)_(weic2320b).jpg"><b>Nebulosa do Anel (M57)</b></a> — ESA/Webb, NASA, CSA, M. Barlow, N. Cox, R. Wesson · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Werner_Heisenberg_Portrait.jpg"><b>Werner Heisenberg</b></a> — Bundesarchiv, Bild 183-R57262 / autor desconhecido · CC BY-SA 3.0 de</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Subrahmanyan_Chandrasekhar.jpg"><b>Subrahmanyan Chandrasekhar</b></a> — AIP Emilio Segrè Visual Archives, Gift of Kameshwar Wali · atribuição (AIP)</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Susan_Jocelyn_Bell_(Burnell),_1967.jpg"><b>Jocelyn Bell, 1967</b></a> — Roger W Haworth · CC BY-SA 2.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Anthony_J._Hewish.jpg"><b>Antony Hewish</b></a> — Woodruff T. Sullivan III / NRAO/AUI Archives (NRAO/AUI/NSF) · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pierre-Simon,_marquis_de_Laplace_(1745-1827)_-_Gu%C3%A9rin.jpg"><b>Pierre-Simon Laplace</b></a> — Jean-Baptiste Paulin Guérin · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Prof._Arthur_S._Eddington_LCCN2014718210.jpg"><b>Arthur Eddington</b></a> — Bain News Service (Library of Congress) · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Oppenheimer_(cropped).jpg"><b>J. Robert Oppenheimer</b></a> — autor desconhecido (U.S. Department of Energy) · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:John_Archibald_Wheeler_1985.jpg"><b>John A. Wheeler</b></a> — Emielke · CC BY-SA 3.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Roy_Kerr_2016_01.jpg"><b>Roy Kerr</b></a> — Bengt Nyman · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Illustration_of_Cygnus_X-1_(2011-cygx1-more-1).tiff"><b>Cygnus X-1 (ilustração)</b></a> — NASA/CXC/M. Weiss · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_centre_of_the_Milky_Way.jpg"><b>O centro da Via Láctea</b></a> — ESO · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Andrea_Ghez_(cropped_3x4).jpg"><b>Andrea Ghez</b></a> — BorderlineRebel · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Reinhard_Genzel_2018.jpg"><b>Reinhard Genzel</b></a> — ESO/Mahdi Zamani · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif"><b>Estrela de nêutrons sobre Manhattan</b></a> — NASA&#x27;s Goddard Space Flight Center · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Chart_Showing_Radio_Signal_of_First_Identified_Pulsar,_crop_%26_rotate.jpg"><b>Registro de CP 1919, 1967</b></a> — Bill Thompson (Billthom) · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:A_%E2%80%9CGreen_Monster%E2%80%9D_Lurks_in_Star%E2%80%99s_Debris_(a-green-monster-lurks-in-stars-debris).jpg"><b>Cassiopeia A</b></a> — X-ray: NASA/CXC/SAO; Optical: NASA/ESA/STScI; IR: NASA/ESA/CSA/STScI/Milisavljevic et… · domínio público</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Figuras da pesquisa (Parte IV)</b> — R. C. R. de Lima e colaboradores; Coelho et al., A&amp;A 599, A87 (2017); de Lima et al., ApJ 889, 165 (2020)</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Diagrama P–Ṗ</b> — catálogo de pulsares ATNF 2.8.1 (Manchester et al., AJ 129, 1993, 2005)</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Órbitas em torno de Sgr A*</b> — Gillessen et al., ApJ 837, 30 (2017); GRAVITY Collaboration, A&amp;A 657, L12 (2022)</p>
+    <!--/CREDITS-->
+  </div>
+  <aside class="notes">Todas as imagens vêm do Wikimedia Commons, em domínio público ou licenças livres. As figuras da pesquisa são minhas e de colaboradores.</aside>
+</section>
+
+<section class="slide cover end">
+  <div class="grain"></div>
+  <div class="main" style="top: 300px">
+    <p class="kicker rise d1">Obrigado</p>
+    <h1 class="rise d2"><em>Perguntas?</em></h1>
+    <p class="lede rise d3">Slides, animações e dashboards abertos em <i style="white-space: nowrap">rafael-lima.pages.dev/talks</i></p>
+  </div>
+  <footer class="bottom rise d4">
+    <div class="author"><p class="name">Rafael C. R. de Lima</p><p class="aff">rafael.lima@udesc.br<span>·</span>rafael-lima.pages.dev</p></div>
+  </footer>
+  <aside class="notes">Obrigado.</aside>
+</section>
+
+</main>
+
+<nav class="langsw" aria-label="Idioma / Language"><a href="index.html" data-set-lang="pt" class="on">PT</a><a href="en.html" data-set-lang="en">EN</a></nav>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="counter" id="counter"></div>
+<div id="notes-panel"><h4>Notas</h4><div id="notes-body"></div></div>
+<div id="help" role="dialog" aria-label="Atalhos">
+  <div class="box">
+    <h3>Atalhos</h3>
+    <dl>
+      <dt>→ / espaço</dt><dd>próximo</dd>
+      <dt>←</dt><dd>anterior</dd>
+      <dt>Home / End</dt><dd>primeiro / último</dd>
+      <dt>F / F5</dt><dd>tela cheia (também duplo clique ou ⛶ no canto)</dd>
+      <dt>O</dt><dd>visão geral</dd>
+      <dt>N</dt><dd>notas do apresentador</dd>
+      <dt>Esc</dt><dd>solta o controle e volta a navegar</dd>
+      <dt>?</dt><dd>esta ajuda</dd>
+      <dt>PT / EN</dt><dd>canto superior direito</dd>
+    </dl>
+  </div>
+</div>
+
+<script src="assets/deck.js?v=202610181736"></script>
+<script src="assets/ppdot.js?v=202610181736"></script>
+<script src="assets/dash.js?v=202610181736"></script>
+<script src="assets/dash-pulsares.js?v=202610181736"></script>
+<script src="assets/dash-buracos.js?v=202610181736"></script>
+<script>Deck.start();</script>
+</body>
+</html>

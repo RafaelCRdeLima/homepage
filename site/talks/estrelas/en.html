@@ -1,0 +1,1296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080e">
+<title>From the birth to the death of stars · Rafael C. R. de Lima</title>
+<meta name="description" content="Talk: how stars are born in cold clouds, live on the balance between gravity and fusion, and die as white dwarfs, neutron stars or black holes — with animations and dashboards in the browser.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<meta property="og:type" content="website">
+<meta property="og:title" content="From the birth to the death of stars">
+<meta property="og:description" content="Talk · Rafael C. R. de Lima (UDESC/CCT) · from cold clouds to white dwarfs, neutron stars and black holes">
+<link rel="alternate" hreflang="pt-BR" href="index.html">
+
+<script>
+/* same language preference as the personal site (key rcrl-lang) */
+(function () {
+  var l = null; try { l = localStorage.getItem('rcrl-lang'); } catch (e) {}
+  if (l === 'pt') location.replace('index.html' + location.hash);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/deck.css?v=202610181736">
+</head>
+<body>
+
+<main id="stage" aria-live="polite">
+
+<!-- ================================================================
+     COVER
+     ================================================================ -->
+<section class="slide cover" data-title="Cover">
+  <canvas id="nascer" aria-hidden="true"></canvas>
+  <div class="veil"></div>
+  <div class="grain"></div>
+  <header class="top rise d1">
+    <div class="school"><span class="stages" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>Department of Physics · <b>UDESC</b></span></div>
+    <div class="date">Talk · <b>2026</b></div>
+  </header>
+  <div class="main">
+    <p class="kicker rise d1">Talk</p>
+    <h1 class="rise d2">From the birth<br>to the <em>death of stars</em></h1>
+    <p class="lede rise d3">From a cold cloud of hydrogen to a white dwarf, a neutron star or a black hole — and the physics that decides <i>which</i> end it will be.</p>
+  </div>
+  <footer class="bottom rise d5">
+    <div class="author">
+      <p class="name">Rafael C. R. de Lima</p>
+      <p class="aff">Department of Physics<span>·</span>UDESC/CCT<span>·</span>Joinville, Brazil</p>
+    </div>
+    <div class="right">
+      <div class="phase"><span class="eqn"><i>M</i><sub>J</sub> · <i>M</i><sub>Ch</sub> · <i>M</i><sub>TOV</sub></span><small>three masses decide the fate</small></div>
+      <div class="links"><a href="https://rafael-lima.pages.dev/talks.html">rafael-lima.pages.dev/talks</a></div>
+    </div>
+  </footer>
+  <aside class="notes">Good evening. This is the story of a star from beginning to end: a cold cloud that collapses, billions of years of balance and, when the fuel runs out, three possible fates — white dwarf, neutron star or black hole. In the background, a rotating cloud falling onto a protostar: the gas spirals in, heats up and ignites, and the excess escapes in jets from the poles. It is an illustration, not a simulation. The three symbols in the corner are the three masses that will come up throughout the talk: the Jeans mass, the Chandrasekhar mass and the Tolman–Oppenheimer–Volkoff mass.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Outline</p><h2>Five parts, <em>one life</em></h2></header>
+  <div class="body cols c5" style="align-items: center">
+    <div class="card" style="--part: var(--neb)">
+      <p class="stat roman">I</p>
+      <h3>The birth</h3>
+      <p class="small">Molecular clouds, the Jeans criterion and why a shrinking cloud ends up lighting up.</p>
+    </div>
+    <div class="card" style="--part: var(--sol)">
+      <p class="stat roman">II</p>
+      <h3>The life</h3>
+      <p class="small">Fusion against gravity, mass and lifetime, the H–R diagram and what happens when the hydrogen runs out.</p>
+    </div>
+    <div class="card" style="--part: var(--ana)">
+      <p class="stat roman">III</p>
+      <h3>Degenerate stars</h3>
+      <p class="small">Heisenberg and Pauli hold up what fusion no longer can — up to the Chandrasekhar limit.</p>
+    </div>
+    <div class="card" style="--part: var(--psr)">
+      <p class="stat roman">IV</p>
+      <h3>Neutron stars</h3>
+      <p class="small">Pulsars, magnetars, nuclear density and light that bends — with results from my own research.</p>
+    </div>
+    <div class="card glow" style="--part: var(--bn)">
+      <p class="stat roman">V</p>
+      <h3>Black holes</h3>
+      <p class="small">From Laplace to Schwarzschild, the horizon, time that freezes and the stars around Sgr A*.</p>
+    </div>
+  </div>
+  <aside class="notes">The outline follows the life of a star. Each part has a colour, which shows up in the footer: pink for the birth (the hydrogen of nebulae), amber for the life (the Sun), blue for white dwarfs, turquoise for pulsars and violet for black holes. Part IV includes a stretch of my own research, on magnetars that may be powered by rotation.</aside>
+</section>
+
+<!-- ================================================================
+     PART I · THE BIRTH
+     ================================================================ -->
+<section class="slide partcover p1">
+  <div class="bg" style="background-image: url('assets/img/cosmic-cliffs.jpg'); background-position: 60% 40%"></div>
+  <div class="inner">
+    <p class="num rise d1">I</p>
+    <p class="label rise d2">Part one</p>
+    <h2 class="rise d2">The <em>birth</em></h2>
+    <p class="sub lede rise d3">A star is born when the gravity of a cold cloud overcomes the thermal motion of its own gas.</p>
+    <div class="topics rise d4"><span>nebulae</span><span>Jeans · 1902</span><span>collapse and fragmentation</span><span>black body</span><span>protostars</span></div>
+  </div>
+  <span class="credit" data-credit="cosmic-cliffs" data-label>“Cosmic Cliffs”, Carina Nebula · NASA, ESA, CSA, STScI · public domain</span>
+  <aside class="notes">Part one. In the background, the “Cosmic Cliffs” of the Carina Nebula, seen by the James Webb Space Telescope: the edge of a gas cloud being sculpted by the radiation of young stars just above the frame. Inside it, dozens of stars are forming.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Molecular clouds</p><h2>Where is <em>a star born?</em></h2></header>
+  <div class="body cols r">
+    <figure class="fill"><img src="assets/img/orion.jpg" alt="Orion Nebula"><span class="credit" data-credit="orion">NASA, ESA, M. Robberto · public domain</span></figure>
+    <div class="stack" style="gap: 24px">
+      <p class="big">In nebulae: cold clouds of gas and dust.</p>
+      <ul class="list">
+        <li><b>Molecular clouds</b>: the hydrogen is in molecules, H₂.</li>
+        <li><b>Dense enough for chemistry</b>: H₂, carbon monoxide (CO), formaldehyde (H₂CO), water, alcohol…</li>
+        <li><b>Cold</b>: 10 to 20 K, around −260 °C.</li>
+      </ul>
+      <div class="cols c3" style="gap: 18px">
+        <div class="card"><p class="stat" style="font-size: 64px">10–20 <small>K</small></p><p class="stat-label">temperature</p></div>
+        <div class="card"><p class="stat" style="font-size: 64px">10²–10⁶</p><p class="stat-label">molecules per cm³</p></div>
+        <div class="card"><p class="stat" style="font-size: 64px">10⁶ <small>M☉</small></p><p class="stat-label">up to this, in a giant cloud</p></div>
+      </div>
+      <p class="small muted">Even the densest part is a better vacuum than any laboratory’s: the air we breathe has 2.5×10¹⁹ molecules per cm³.</p>
+    </div>
+  </div>
+  <aside class="notes">Stars are born inside molecular clouds: gas so cold, 10 to 20 kelvin, that the hydrogen is in molecular form. They are dense enough for chemistry — carbon monoxide, formaldehyde, water, even alcohol — but still a better vacuum than any laboratory. The Orion Nebula, 1,350 light-years away, is the nearest nursery of massive stars; you can see it with the naked eye, in Orion’s sword.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Eagle Nebula · M16 · 7,000 light-years</p><h2>The <em>Pillars of Creation</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.55fr .75fr; gap: 44px">
+    <div class="duo">
+      <figure><img src="assets/img/pillars-hubble2014.jpg" alt="Pillars of Creation, Hubble, visible light" style="object-position: 30% 50%"><span class="lbl">Hubble · visible light</span><span class="credit" data-credit="pillars-hubble2014">NASA, ESA, Hubble Heritage Team · public domain</span></figure>
+      <figure><img src="assets/img/pillars-webb.jpg" alt="Pillars of Creation, Webb, infrared" style="object-position: 50% 40%"><span class="lbl">Webb · infrared</span><span class="credit" data-credit="pillars-webb">NASA, ESA, CSA, STScI · public domain</span></figure>
+    </div>
+    <div class="stack" style="gap: 24px; align-self: center">
+      <p class="big" style="margin: 0">Stars are being born in the pillars: the <b>protostars</b>.</p>
+      <p style="margin: 0">In visible light the dust hides them. In the infrared it becomes transparent, and they show up as reddish dots at the tips of the pillars.</p>
+      <p class="small muted" style="margin: 0">The left-hand pillar is about 4 light-years tall. Hubble: 1995, retaken in 2014. Webb: 2022.</p>
+    </div>
+  </div>
+  <aside class="notes">Hubble’s most famous photo, from 1995, retaken in 2014, and next to it the same region seen by James Webb in 2022. In visible light the dust is opaque: we only see the surface of the pillars, lit by young stars outside the frame. In the infrared the dust becomes transparent and the protostars appear, still wrapped in gas, at the tips of the pillars. The left-hand pillar is about four light-years tall.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Sir James Jeans · 1902</p><h2>When does gravity <em>beat heat?</em></h2></header>
+  <div class="body cols c2" style="gap: 56px">
+    <div class="stack" style="gap: 26px">
+      <div class="card glow"><h4>The idea</h4>
+        <p>A region of radius <i>R</i> and mass <i>M</i> collapses if its molecules, stirred by the cloud’s temperature <i>T</i>, <b>are not fast enough to escape</b> from it.</p>
+        <p>Then gravity beats the pressure that comes from thermal energy, and any disturbance makes the region fall in on itself.</p></div>
+      <p class="small muted">It is the same escape-velocity sum that will come back in Part V — there, with light in place of the molecules.</p>
+    </div>
+    <div class="stack" style="gap: 16px">
+      <p class="small" style="margin: 0">Mean kinetic energy of a molecule of mass <i>m</i>, and its gravitational potential energy at the edge of the region:</p>
+      <div class="cols c2" style="gap: 16px">
+        <div class="eq sm"><i>K</i><sub>avg</sub> = <span class="frac"><span>3</span><span>2</span></span> <i>k</i><sub>B</sub><i>T</i></div>
+        <div class="eq sm"><i>U</i><sub>G</sub> = <span class="frac"><span><i>GMm</i></span><span><i>R</i></span></span></div>
+      </div>
+      <p class="small" style="margin: 0">The threshold for collapse is where the two are equal:</p>
+      <div class="eq sm"><span class="frac"><span>3</span><span>2</span></span> <i>k</i><sub>B</sub><i>T</i> = <span class="frac"><span><i>GMm</i></span><span><i>R</i></span></span>, &nbsp; <i>M</i> = <span class="frac"><span>4π</span><span>3</span></span> ρ<i>R</i>³</div>
+      <p class="small" style="margin: 0">Solving for <i>R</i>:</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 46px"><i>R</i> = <span class="frac"><span>9 <i>k</i><sub>B</sub><i>T</i></span><span>8π<i>G</i>ρ<i>m</i></span></span><sup>1/2</sup></span></div>
+    </div>
+  </div>
+  <aside class="notes">Jeans’s question: when does the gravity of a piece of cloud beat the thermal motion? The estimate is an escape-velocity one. Each molecule has kinetic energy three halves kT; if that is less than the potential energy GMm/R, it cannot escape and the piece collapses. Setting the two equal and using M = 4π/3 ρR³ gives a critical radius. The colder and denser the cloud, the smaller the radius — and the smaller the mass — that collapses on its own.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Jeans length and Jeans mass</p><h2>The denser the cloud, <em>the smaller the piece</em> that collapses</h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.18fr; gap: 44px">
+    <div class="stack" style="gap: 18px">
+      <p class="small" style="margin: 0">In a more careful analysis, with pressure perturbations, Jeans found:</p>
+      <div class="eq sm">λ<sub>J</sub> = <span class="frac"><span>π <i>k</i><sub>B</sub><i>T</i></span><span><i>G</i>ρ<i>m</i></span></span><sup>1/2</sup><span class="note">Jeans length</span></div>
+      <div class="eq sm"><i>M</i><sub>J</sub> = <span class="frac"><span>4π</span><span>3</span></span> λ<sub>J</sub><sup>3</sup> ρ = <span class="frac"><span>4π<sup>5/2</sup></span><span>3</span></span> <span class="frac"><span><i>k</i><sub>B</sub><i>T</i></span><span><i>Gm</i></span></span><sup>3/2</sup> ρ<sup>−1/2</sup><span class="note">Jeans mass</span></div>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 40px"><i>M</i><sub>J</sub> ∝ <i>T</i><sup>3/2</sup> ρ<sup>−1/2</sup></span></div>
+      <p class="small" style="margin: 0">As the cloud collapses and gets denser, the mass that can collapse on its own <b>decreases</b>: the cloud breaks up into pieces — and each piece becomes a star. That is why stars are born in groups.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">Jeans mass · H₂ gas</span><span class="ref">drag the controls</span></div>
+      <div class="cv"><canvas id="jeans"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="jeans-T">temperature <output for="jeans-T"></output></label><input type="range" id="jeans-T" min="0.7" max="2" step="0.01" value="1"></div>
+        <div class="ctl"><label for="jeans-n">density <output for="jeans-n"></output></label><input type="range" id="jeans-n" min="1" max="8" step="0.02" value="3"></div>
+      </div>
+      <div class="readout" id="jeans-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Jeans’s full calculation swaps the 9/8π for π and gives the Jeans length; the Jeans mass is the mass of a sphere of that size. The key point: M_J grows with temperature and falls with density, as ρ^(−1/2). In the plot, each curve is one temperature. A typical cloud, at 10 K and a thousand molecules per cm³, has a Jeans mass of about a hundred solar masses; in a dense core, with a million per cm³, it drops to a few solar masses. Below, the free-fall time: one to ten million years in the cloud, less in the dense cores.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Collapse and fragmentation</p><h2>From the cloud to <em>protostars</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .8fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">illustration · gravity between 900 lumps of gas</span><div class="seg" id="colapso-btn"><button type="button" data-v="again" class="on">restart</button></div></div>
+      <div class="cv"><canvas id="colapso"></canvas></div>
+      <div class="readout" id="colapso-out"></div>
+    </div>
+    <div class="stack" style="gap: 22px; align-self: center">
+      <p style="margin: 0">The cloud falls in on itself. The densest regions collapse fastest — the free-fall time goes as ρ<sup>−1/2</sup> — and the collapse <b>fragments</b> the cloud into several cores.</p>
+      <p style="margin: 0">Each fragment spins faster and faster as it shrinks, like a skater pulling in her arms: it forms a <b>disc</b>, with a <b>protostar</b> at its centre.</p>
+      <p class="ref" style="margin: 0">Illustration, not simulation: particles with softened gravity and a little thermal motion, in a plane. Real gas has pressure, turbulence, magnetic fields and radiation — full simulations in Krumholz, Klein &amp; McKee, <i>ApJ</i> 656, 959 (2007).</p>
+    </div>
+  </div>
+  <aside class="notes">This is an illustration of what the simulations show. Nine hundred lumps of gas pulling on one another, with a little random motion. The clumps that form first are the densest; when a clump gets compact enough it becomes a protostar — the bright dot — and starts swallowing the gas around it. Notice that you don’t get one star: you get several. Real simulations, like those of Krumholz, Klein and McKee, include radiation and show the same thing: fragmentation, discs and multiple systems.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The difference is temperature</p><h2>What is the difference between a cloud <em>and a star?</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 52px">
+    <div class="cols c3" style="gap: 28px; height: 100%; min-height: 0">
+      <figure class="fill"><img src="assets/img/orion.jpg" alt="Molecular cloud in Orion" style="object-position: 30% 60%"><span class="credit" data-credit="orion">NASA, ESA, M. Robberto · public domain</span><figcaption><b style="color: var(--text)">Cloud</b> · 10 K · shines in radio and infrared</figcaption></figure>
+      <figure class="fill"><img src="assets/img/hl-tau.jpg" alt="Disc around HL Tauri"><span class="credit" data-credit="hl-tau">ALMA · CC BY 4.0</span><figcaption><b style="color: var(--text)">Protostar with a disc</b> · HL Tauri · ~1 million years</figcaption></figure>
+      <figure class="fill"><img src="assets/img/sun.jpg" alt="The Sun"><span class="credit" data-credit="sun">NASA/SDO · public domain</span><figcaption><b style="color: var(--text)">Star</b> · the Sun · 5,772 K at the surface, 15 million K at the centre</figcaption></figure>
+    </div>
+    <div class="chain"><span>contraction</span><i>→</i><span>rising temperature</span><i>→</i><span>black body</span><i>→</i><span>visible light</span><i>→</i><span class="on">a star is born!</span></div>
+  </div>
+  <aside class="notes">A cloud, a protostar and a star are the same gas at different temperatures. As it contracts, the cloud turns gravitational energy into heat; half leaves as radiation, half heats the gas — that is the virial theorem. Hot gas glows as a black body. Once the surface passes about 3,000 K, the glow reaches the visible. In the middle, the HL Tauri disc seen by ALMA: the dark rings are probably planets forming. And when the centre passes 10 million kelvin, hydrogen starts to fuse: a star is born.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Black-body radiation · Planck 1900</p><h2>A star is a black body… <em>almost</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .78fr 1.22fr; gap: 44px">
+    <div class="stack" style="gap: 18px">
+      <div class="eq sm"><i>B</i><sub>ν</sub>(ν, <i>T</i>) = <span class="frac"><span>2<i>h</i>ν³</span><span><i>c</i>²</span></span> <span class="frac"><span>1</span><span><i>e</i><sup><i>h</i>ν/<i>k</i><sub>B</sub><i>T</i></sup> − 1</span></span><span class="note">Planck’s law</span></div>
+      <div class="cols c2" style="gap: 16px">
+        <div class="eq sm" style="font-size: 34px">λ<sub>max</sub> = <span class="frac"><span>2.898 mm·K</span><span><i>T</i></span></span><span class="note">Wien</span></div>
+        <div class="eq sm" style="font-size: 34px"><i>L</i> = 4π<i>R</i>²σ<i>T</i>⁴<span class="note">Stefan–Boltzmann</span></div>
+      </div>
+      <p class="small" style="margin: 0">The hotter the star, the bluer the peak and the far greater the brightness: doubling <i>T</i> multiplies the luminosity by 16.</p>
+      <p class="small" style="margin: 0">The spectral classes <b>O B A F G K M</b> are a temperature scale: from over 30,000 K (blue) to under 3,700 K (red). The Sun is a G2.</p>
+      <p class="small muted" style="margin: 0">“Almost”: the real spectrum has absorption lines from the elements in the atmosphere, and that is how we know what stars are made of.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">black-body spectrum · colour of the star</span><span class="ref">drag the temperature</span></div>
+      <div class="cv"><canvas id="planck"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="planck-T">surface temperature <output for="planck-T"></output></label><input type="range" id="planck-T" min="3.3" max="4.6" step="0.002" value="3.7612"></div>
+      </div>
+      <div class="readout" id="planck-out"></div>
+    </div>
+  </div>
+  <aside class="notes">To a first approximation, the spectrum of a star is that of a black body at the surface temperature. The solid curve is Planck’s law per unit wavelength; the coloured band is the visible range. The circle in the corner is the colour the eye would see, computed by integrating the curve against the eye’s colour-matching functions. Notice there are no green stars: when the peak is in the green, the spectrum covers the whole visible range and the star looks white. Rigel, Sirius, the Sun, Betelgeuse: blue, white, yellowish white, reddish orange.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Hayashi · Henyey · 1961</p><h2>From protostar to <em>main sequence</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="preseq"></canvas></div>
+      <div class="readout" id="preseq-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px; align-self: center">
+      <ul class="list">
+        <li>The protostar starts as an <b>invisible</b> concentration of gas deep inside the cloud.</li>
+        <li>It contracts and heats up, hidden in a <b>cocoon of dust</b>: it only shows up in the infrared.</li>
+        <li>It blows the cocoon away and becomes <b>visible</b>, still shrinking: first almost straight down the diagram (the Hayashi track), then to the left (the Henyey track).</li>
+        <li>When the centre reaches ~10 million K, hydrogen starts to fuse: the star joins the <b>main sequence</b> and stops shrinking.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Schematic tracks, with key points roughly following Iben’s models (1965). The more massive the star, the faster: ~50 million years for 1 M☉, ~1 million for 5 M☉.</p>
+    </div>
+  </div>
+  <aside class="notes">The Hertzsprung–Russell diagram: luminosity against temperature, with temperature increasing to the left. The protostar starts cool and large, on the right; while it is inside its dust cocoon we only see it in the infrared. It moves down almost vertically — it is shrinking at nearly constant temperature, fully convective: the Hayashi track. Then it turns left, heating up at nearly constant luminosity: the Henyey track. When hydrogen ignites at the centre, it settles on the main sequence. A star like the Sun takes about 50 million years over this; one of five solar masses, a million.</aside>
+</section>
+
+<!-- ================================================================
+     PART II · THE LIFE
+     ================================================================ -->
+<section class="slide partcover p2">
+  <div class="bg" style="background-image: url('assets/img/sun.jpg'); background-position: 75% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">II</p>
+    <p class="label rise d2">Part two</p>
+    <h2 class="rise d2">The <em>life</em></h2>
+    <p class="sub lede rise d3">Billions of years of balance between gravity, which crushes, and nuclear fusion, which pushes outwards.</p>
+    <div class="topics rise d4"><span>hydrogen fusion</span><span>hydrostatic equilibrium</span><span>mass and lifetime</span><span>H–R diagram</span><span>red giants</span></div>
+  </div>
+  <span class="credit" data-credit="sun" data-label>The Sun (SDO) · NASA/SDO · public domain</span>
+  <aside class="notes">Part two: the life of a star, which is spent almost entirely in balance. In the background, the Sun in extreme ultraviolet, from the Solar Dynamics Observatory.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">What is a star’s life like?</p><h2>Brightness, stability… <em>and peace?</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.15fr .85fr; gap: 50px; align-items: center">
+    <div class="words">
+      <p class="rise d1">Brightness.</p>
+      <p class="rise d2">Stability.</p>
+      <p class="rise d3"><span class="x">Peace.</span></p>
+      <p class="say sm rise d5" style="margin-top: 40px; color: var(--text-2)">Not peace. At the centre of every star, non-stop, the reaction of a <em>hydrogen bomb</em> is going on.</p>
+    </div>
+    <figure><img src="assets/img/sun.jpg" alt="The Sun" style="border-radius: 50%; aspect-ratio: 1; object-fit: cover; box-shadow: 0 0 120px rgba(255,184,107,.35)"></figure>
+  </div>
+  <aside class="notes">What is a star’s life like? Seen from here: brightness, stability — the Sun has shone almost unchanged for four and a half billion years. Peace? No. What keeps that brightness steady is a continuous nuclear explosion, held in by the star’s own gravity.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Proton–proton chain</p><h2 style="font-size: 66px">The heart of a star is <em>(literally)</em> a hydrogen bomb</h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.18fr; gap: 44px">
+    <figure class="fill"><img src="assets/img/ivy-mike.jpg" alt="Ivy Mike nuclear test, 1952"><span class="credit" data-credit="ivy-mike">NNSA / Nevada Site Office · public domain</span><figcaption><b style="color: var(--text)">Ivy Mike</b>, the first hydrogen bomb (1952): 10.4 megatons</figcaption></figure>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm" style="font-size: 32px; text-align: left; line-height: 1.42; padding: 18px 28px">
+        ¹H + ¹H → ²H + e⁺ + ν<sub>e</sub><br>²H + ¹H → ³He + γ<br>³He + ³He → ⁴He + 2 ¹H
+        <span class="note">in total: 4 ¹H → ⁴He + 2 e⁺ + 2 ν<sub>e</sub> + 26.7 MeV</span></div>
+      <div class="cols c2" style="gap: 20px">
+        <div class="card"><h4>Nuclear reactions keep up</h4><ul class="list" style="gap: 8px"><li class="small">the temperature — the black-body glow</li><li class="small">the pressure that prevents gravitational collapse</li></ul></div>
+        <div class="card"><h4>Gravity keeps</h4><ul class="list" style="gap: 8px"><li class="small">the star together — the bomb does not fly apart</li><li class="small">radiation trapped: a photon takes ~100,000 years to get out</li></ul></div>
+      </div>
+      <div class="cols c3" style="gap: 16px">
+        <div class="card"><p class="stat" style="font-size: 54px">610 <small>million t/s</small></p><p class="stat-label">of hydrogen turn into helium</p></div>
+        <div class="card"><p class="stat" style="font-size: 54px">4.3 <small>million t/s</small></p><p class="stat-label">of mass turn into light (<i>E</i> = <i>mc</i>²)</p></div>
+        <div class="card"><p class="stat" style="font-size: 54px">9×10⁹</p><p class="stat-label">Ivy Mikes per second</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Fusion in the Sun runs on the proton–proton chain: four protons become a helium nucleus, two positrons, two neutrinos and 26.7 MeV. The difference from a bomb is that gravity holds the explosion in. The numbers: the Sun’s luminosity, 3.8×10²⁶ watts, divided by c² gives 4.3 million tonnes of mass turning into energy every second; since only 0.7% of the mass becomes energy, that is 610 million tonnes of hydrogen per second. In bombs: Ivy Mike released 4×10¹⁶ joules; the Sun releases nine billion of those every second. And every reaction gives off neutrinos: 65 billion per square centimetre per second are passing through you right now.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Hydrostatic equilibrium</p><h2>A <em>violent</em> balance</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr .85fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="equilibrio"></canvas></div>
+      <div class="readout" id="equilibrio-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm"><span class="frac"><span><i>dP</i></span><span><i>dr</i></span></span> = − <span class="frac"><span><i>G m</i>(<i>r</i>) ρ(<i>r</i>)</span><span><i>r</i>²</span></span><span class="note">in every layer: pressure against weight</span></div>
+      <p style="margin: 0">In every layer, the weight of everything above is held up by the difference in pressure. If the star shrinks, the centre heats up, fusion speeds up and the pressure pushes back; if it swells, it cools and fusion slows down. <b>A thermostat.</b></p>
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>centre of the Sun</th><th style="text-align: right">value</th></tr>
+        <tr><td>temperature</td><td class="n">15.7 million K</td></tr>
+        <tr><td>density</td><td class="n">150 g/cm³</td></tr>
+        <tr><td>pressure</td><td class="n">2.5×10¹⁶ Pa</td></tr>
+      </table>
+      <p class="small muted" style="margin: 0">Without pressure, the Sun would collapse in ~30 minutes — the free-fall time at its mean density.</p>
+    </div>
+  </div>
+  <aside class="notes">Hydrostatic equilibrium: in every layer of the star, gravity pulls inwards — the violet arrows — and the pressure difference pushes outwards — the amber arrows. In the animation the star gets disturbed: compressed, pressure wins and it bounces back; expanded, gravity wins and it comes back. It oscillates around equilibrium, and fusion works as a thermostat. The pressure at the centre of the Sun is 250 billion atmospheres. And the balance is violent in the literal sense: if the pressure switched off, the Sun would fall in on itself in half an hour.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Mass, luminosity and lifetime</p><h2>More mass, <em>shorter life</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr .85fr; gap: 44px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">main sequence</span><span class="ref">drag the mass</span></div>
+      <div class="cv"><canvas id="vida"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="vida-M">mass of the star <output for="vida-M"></output></label><input type="range" id="vida-M" min="-1" max="1.78" step="0.005" value="0"></div>
+      </div>
+      <div class="readout" id="vida-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm"><i>L</i> ∝ <i>M</i><sup>3.5</sup><span class="note">mass–luminosity relation (2 to 55 M☉)</span></div>
+      <div class="eq sm"><i>t</i> ≈ 10<sup>10</sup> years · <span class="frac"><span><i>M</i>/M☉</span><span><i>L</i>/L☉</span></span> ∝ <i>M</i><sup>−2.5</sup><span class="note">fuel ÷ burning rate</span></div>
+      <p style="margin: 0">A 10 M☉ star has ten times more fuel, but shines thousands of times brighter: it lives <b>~30 million years</b>. The Sun, ~10 billion. A red dwarf of 0.2 M☉, trillions — longer than the age of the Universe.</p>
+      <p class="small muted" style="margin: 0">Every low-mass star ever born is still alive.</p>
+    </div>
+  </div>
+  <aside class="notes">Mass decides everything. Luminosity grows as a high power of mass — close to M to the 3.5 — because a heavier star needs more pressure at the centre, hence a higher temperature, hence much faster fusion. The fuel only grows as M. The lifetime, fuel divided by burning rate, falls as M to the −2.5. The amber curve is the luminosity, the turquoise one the lifetime. Massive stars live tens of millions of years; red dwarfs, trillions — no red dwarf has died yet.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Hertzsprung · 1911 · Russell · 1913</p><h2>The <em>H–R</em> diagram</h2></header>
+  <div class="body cols l">
+    <figure class="fill contain"><img src="assets/img/hr-eso.jpg" alt="Hertzsprung–Russell diagram" style="object-fit: contain; background: #000"><span class="credit" data-credit="hr-eso">ESO · CC BY 4.0</span></figure>
+    <div class="stack" style="gap: 22px">
+      <p style="margin: 0">Temperature (or colour) on the horizontal axis, increasing to the <b>left</b>; luminosity on the vertical axis.</p>
+      <ul class="list">
+        <li><b>Main sequence</b>: the diagonal, where stars spend 90% of their lives burning hydrogen in the core.</li>
+        <li><b>Giants and supergiants</b>: cool and huge, top right.</li>
+        <li><b>White dwarfs</b>: hot and small, bottom left.</li>
+      </ul>
+      <p class="big" style="margin: 0">When the star runs out of hydrogen in its core, little energy is left to support the weight of the layers above — <b>90% of the star</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">The H–R diagram is the map of the stars. Each dot is a star, with temperature on the horizontal axis — reversed, hot on the left — and luminosity on the vertical. Most of them lie on the diagonal, the main sequence. Stars do not travel along the main sequence: each one sits at a point set by its mass while it burns hydrogen in the core. What happens when that hydrogen runs out is the subject of the next slide.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">When the core runs out of hydrogen</p><h2>Three things <em>at once</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.4fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">evolution on the H–R diagram · schematic</span><div class="seg" id="hr-m"><button type="button" data-v="1" class="on">1 M☉ · the Sun</button><button type="button" data-v="15">15 M☉</button></div></div>
+      <div class="plots" style="grid-template-columns: 1.5fr 1fr"><div class="cv"><canvas id="hr-evol"></canvas></div><div class="cv"><canvas id="hr-core"></canvas></div></div>
+      <div class="readout" id="hr-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="card"><h4>1 · Gravity starts to win</h4><p class="small">The helium core contracts, and the contraction relights hydrogen burning in a <b>shell</b> around it.</p></div>
+      <div class="card"><h4>2 · The core heats up</h4><p class="small">Until another reaction ignites: ⁴He → ¹²C (triple-alpha, at 100 million K); in massive stars, ¹²C → ¹⁶O → … → ⁵⁶Fe, in shells like those of an onion.</p></div>
+      <div class="card"><h4>3 · The outer layers swell</h4><p class="small">The energy pushes the envelope out: the star grows and cools — a <b>red giant</b>. Above ~8 M☉, a <b>red supergiant</b>.</p></div>
+    </div>
+  </div>
+  <aside class="notes">When the core runs out of hydrogen, three things happen together. The core, now helium, loses its source of pressure and contracts; the contraction heats the region around it and hydrogen starts burning in a shell. The core heats up to 100 million kelvin and ignites the fusion of helium into carbon. And the extra energy pushes on the envelope, which swells and cools: the star becomes a red giant — the Sun will swallow Mercury and Venus. With 15 solar masses the story is faster and goes further: carbon, oxygen, neon, silicon, all the way to iron, in shells. Iron is the end of the line: fusing iron uses up energy instead of releasing it.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">And when the fire goes out?</p><h2>Two paths, <em>three fates</em></h2></header>
+  <div class="body">
+    <div class="life">
+      <div class="life-src"><div class="node"><div class="pic"><img src="assets/img/orion.jpg" alt="Molecular cloud" style="object-position: 30% 60%"></div><b>Molecular cloud</b><small>10 K · millions of M☉</small></div></div>
+      <div class="life-rows">
+        <div class="life-row">
+          <span class="tag part">M ≲ 8 M☉</span>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #ffd58a; --d: 74px"></span></div><b>Sun-like star</b><small>billions of years</small></div>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #ff7a4a; --d: 140px"></span></div><b>Red giant</b><small>~100 R☉</small></div>
+          <div class="node"><div class="pic"><img src="assets/img/planetary-nebula.jpg" alt="Planetary nebula"></div><b>Planetary nebula</b><small>the envelope drifts away</small></div>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #bfe0ff; --d: 26px"></span></div><b>White dwarf</b><small>the size of the Earth</small></div>
+        </div>
+        <div class="life-row" style="--part: var(--psr)">
+          <span class="tag part">M ≳ 8 M☉</span>
+          <div class="node"><div class="pic"><span class="orb" style="--o: #9cc2ff; --d: 100px"></span></div><b>Massive star</b><small>millions of years</small></div>
+          <div class="node"><div class="pic"><img src="assets/img/betelgeuse.jpg" alt="Betelgeuse"></div><b>Red supergiant</b><small>~1,000 R☉ · Betelgeuse</small></div>
+          <div class="node"><div class="pic"><img src="assets/img/cas-a.jpg" alt="Supernova remnant"></div><b>Supernova</b><small>core collapse</small></div>
+          <div class="node"><div class="pic split"><img src="assets/img/crab.jpg" alt="Crab Nebula"><img src="assets/img/m87.jpg" alt="M87*"></div><b>Neutron star or black hole</b><small>above ~20–25 M☉: black hole</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">The two paths. Stars of up to about eight solar masses become red giants, blow off their envelope as a planetary nebula and leave the core exposed: a white dwarf, the size of the Earth. Above eight, they become supergiants — Betelgeuse is one — and end in a core-collapse supernova; what is left is a neutron star or, for the most massive ones, a black hole. The mass limits are approximate and depend on composition and mass loss. The images of the remnants are real: the planetary nebula, Cassiopeia A, the Crab and the shadow of M87*.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Gravitational collapse</p><h2>When the fuel <em>runs out</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto 1fr; gap: 34px; align-content: start">
+    <div class="cols" style="grid-template-columns: 1.35fr .9fr; gap: 50px; align-items: center">
+      <p class="say">Without nuclear reactions, the pressure they kept up is gone: gravity wins and the star’s matter goes into <em>free fall</em>.</p>
+      <div class="card glow"><h4>How long does it take?</h4>
+        <div class="eq sm" style="font-size: 36px"><i>t</i><sub>ff</sub> = <span class="frac"><span>3π</span><span>32 <i>G</i> ρ</span></span><sup>1/2</sup></div>
+        <p class="small" style="margin: 14px 0 0">At the Sun’s mean density, ~30 minutes. For the iron core of a massive star, ~0.1 s.</p></div>
+    </div>
+    <p class="say sm rise d4" style="margin: 0">For some stars there is still a way out: <span class="grad">degeneracy pressure</span>.</p>
+  </div>
+  <aside class="notes">When the fuel finally runs out, there is nothing left to hold things up. The matter falls freely, and the timescale is the free-fall time: half an hour for something at the Sun’s mean density, a tenth of a second for the iron core of a massive star. But for some stars there is still a rescue, and it comes not from heat but from quantum mechanics. That is Part III.</aside>
+</section>
+
+<!-- ================================================================
+     PART III · DEGENERATE STARS
+     ================================================================ -->
+<section class="slide partcover p3">
+  <div class="bg" style="background-image: url('assets/img/planetary-nebula.jpg'); background-position: 70% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">III</p>
+    <p class="label rise d2">Part three</p>
+    <h2 class="rise d2">Degenerate<br><em>stars</em></h2>
+    <p class="sub lede rise d3">When fusion stops, what holds the star up is no longer heat: it is quantum mechanics.</p>
+    <div class="topics rise d4"><span>white dwarfs</span><span>Heisenberg · Pauli</span><span>degeneracy pressure</span><span>Chandrasekhar limit</span><span>core collapse</span></div>
+  </div>
+  <span class="credit" data-credit="planetary-nebula" data-label>Ring Nebula (M57) · ESA/Webb, NASA, CSA, M. Barlow et al. · CC BY 4.0</span>
+  <aside class="notes">Part three. In the background, a planetary nebula: the envelope a star like the Sun blows off at the end of its life. At its centre sits the exposed core, a white dwarf. What holds that white dwarf up is the subject of this part.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Degenerate stars</p><h2>The size of the Earth, or <em>of a city</em></h2></header>
+  <div class="body cols c2" style="gap: 40px">
+    <div class="card" style="display: grid; grid-template-rows: auto auto 1fr; gap: 18px">
+      <h4>White dwarfs</h4>
+      <svg class="diag" viewBox="0 0 640 250" aria-label="White dwarf and Earth to scale">
+        <defs>
+          <radialGradient id="g-terra" cx=".38" cy=".35" r=".75"><stop offset="0" stop-color="#9fd3ff"/><stop offset=".5" stop-color="#2f7fbf"/><stop offset="1" stop-color="#0e2c4c"/></radialGradient>
+          <radialGradient id="g-ana" cx=".4" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#d8ecff"/><stop offset="1" stop-color="#6fa8e8"/></radialGradient>
+          <filter id="f-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
+        </defs>
+        <circle cx="185" cy="120" r="91" fill="#9ec9ff" opacity=".35" filter="url(#f-glow)"/>
+        <circle cx="185" cy="120" r="88" fill="url(#g-ana)"/>
+        <circle cx="455" cy="120" r="100" fill="url(#g-terra)"/>
+        <text x="185" y="240" text-anchor="middle" font-size="19">Sirius B · R ≈ 5,600 km</text>
+        <text x="455" y="240" text-anchor="middle" font-size="19">Earth · R = 6,371 km</text>
+      </svg>
+      <div class="stack" style="gap: 10px">
+        <p class="ui" style="margin: 0; font-size: 26px; color: var(--text)"><i>R</i> ≈ R⊕ &nbsp;·&nbsp; <i>M</i> ≈ M☉ &nbsp;·&nbsp; ρ ≈ 10⁶ g/cm³</p>
+        <p class="small" style="margin: 0">A teaspoonful weighs ~5 tonnes. Held up by <b>degenerate electrons</b>.</p>
+      </div>
+    </div>
+    <div class="card" style="display: grid; grid-template-rows: auto auto 1fr; gap: 18px; --part: var(--psr)">
+      <h4>Neutron stars</h4>
+      <figure style="height: 250px"><img src="assets/img/ns-manhattan.jpg" alt="Neutron star over Manhattan, to scale" style="height: 250px; object-fit: cover; object-position: 50% 45%"><span class="credit" data-credit="ns-manhattan">NASA's Goddard Space Flight Center · public domain</span></figure>
+      <div class="stack" style="gap: 10px">
+        <p class="ui" style="margin: 0; font-size: 26px; color: var(--text)"><i>R</i> ≈ 12 km &nbsp;·&nbsp; <i>M</i> ≈ 1.4–2 M☉ &nbsp;·&nbsp; ρ ≈ 10¹⁴–10¹⁵ g/cm³</p>
+        <p class="small" style="margin: 0">A teaspoonful weighs ~500 million tonnes. Held up by <b>degenerate neutrons</b> and the nuclear force.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">The two compact corpses, to scale. A white dwarf has the mass of the Sun in the size of the Earth: Sirius B, the companion of Sirius, is a little smaller than the Earth and has one solar mass. A teaspoonful of its material weighs about five tonnes. A neutron star packs one and a half solar masses into a radius of twelve kilometres — it would fit inside a city. The teaspoonful weighs half a billion tonnes. The question is: what holds this up, if there is no more fusion?</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Quantum mechanics · 1925 – 1927</p><h2>Heisenberg and Pauli <em>to the rescue</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .62fr .62fr 1.25fr; gap: 40px">
+    <figure class="portrait"><img src="assets/img/heisenberg.jpg" alt="Werner Heisenberg"><span class="credit" data-credit="heisenberg">Bundesarchiv, Bild 183-R57262 · CC BY-SA 3.0 de</span><figcaption><b>Werner Heisenberg</b>1901 – 1976</figcaption></figure>
+    <figure class="portrait"><img src="assets/img/pauli.jpg" alt="Wolfgang Pauli"><figcaption><b>Wolfgang Pauli</b>1900 – 1958</figcaption></figure>
+    <div class="stack" style="gap: 24px">
+      <div class="card"><h4>Uncertainty principle · 1927</h4>
+        <div class="eq sm" style="font-size: 46px">Δ<i>p</i> Δ<i>x</i> ≥ <span class="frac"><span>ħ</span><span>2</span></span></div>
+        <p class="small" style="margin: 14px 0 0">Confining a particle to a small region forces its momentum to be large.</p></div>
+      <div class="card"><h4>Exclusion principle · 1925</h4>
+        <p class="small" style="margin: 0">Two identical fermions — electrons, protons, neutrons — <b>cannot occupy the same quantum state</b>.</p></div>
+      <p class="big" style="margin: 0">Together: squeezing fermions costs energy, <b>even at zero temperature</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">The star is saved by two principles of quantum mechanics. Heisenberg: the more confined a particle is, the larger the uncertainty in its momentum — and so its typical momentum. Pauli: two identical fermions cannot occupy the same state. Together, they say that compressing a gas of electrons or neutrons forces the particles to have ever larger momenta, even with no temperature at all. That is a pressure — degeneracy pressure.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Pauli exclusion principle</p><h2>Why fermions <em>push back</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 44px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">electrons in a box · two per level</span><span class="ref">squeeze the box</span></div>
+      <div class="cv"><canvas id="pauli"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="pauli-L">box width Δ<i>x</i> <output for="pauli-L"></output></label><input type="range" id="pauli-L" min="0.55" max="1" step="0.005" value="1"></div>
+      </div>
+      <div class="readout" id="pauli-out"></div>
+    </div>
+    <div class="stack" style="gap: 22px; align-self: center">
+      <p style="margin: 0">Each energy level holds <b>two</b> electrons: one with spin up, the other spin down. The next ones are forced to go higher.</p>
+      <p style="margin: 0">In a box of width Δ<i>x</i>, the levels are spaced by Δ<i>p</i> ≈ ħ/Δ<i>x</i>. With <i>N</i> electrons, the last one has momentum <i>N</i>/2 · Δ<i>p</i>: if <i>N</i><sub>e</sub> = 6, the maximum momentum is <b>3Δ<i>p</i></b>.</p>
+      <p style="margin: 0">Squeezing the box pushes the levels apart: the electrons gain momentum with no need for heat. That is <b>degeneracy pressure</b>.</p>
+    </div>
+  </div>
+  <aside class="notes">The animation fills a box with electrons. Each level takes two, with opposite spins; the third electron already has to go to the level above, and so on. With six electrons, the most energetic one has a momentum of three times Δp. Now squeeze the box: Δp grows as 1/Δx, all the levels go up, and the total energy grows even at zero temperature. That energy is what resists compression. In white dwarfs it is the electrons that do this; in neutron stars, the neutrons.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Chandrasekhar · 1930 · Nobel Prize 1983</p><h2>The maximum mass <em>of white dwarfs</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .58fr 1.42fr; gap: 40px">
+    <div class="stack" style="gap: 20px">
+      <figure class="portrait sm"><img src="assets/img/chandrasekhar.jpg" alt="Subrahmanyan Chandrasekhar"><span class="credit" data-credit="chandrasekhar">AIP Emilio Segrè Visual Archives · attribution (AIP)</span><figcaption><b>S. Chandrasekhar</b>1910 – 1995</figcaption></figure>
+      <div class="eq sm" style="font-size: 30px; padding: 16px 14px"><i>M</i><sub>Ch</sub> = 3.10 <span class="frac"><span>(ħ<i>c</i>/<i>G</i>)<sup>3/2</sup></span><span>(μ<sub>e</sub> <i>m</i><sub>H</sub>)²</span></span> ≈ 1.44 M☉<span class="note">μ<sub>e</sub> = 2 · carbon and oxygen</span></div>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">mass–radius relation of white dwarfs</span><span class="ref">the white dwarf gains mass from a companion</span></div>
+      <div class="cv"><canvas id="chandra"></canvas></div>
+      <div class="readout" id="chandra-out"></div>
+      <p class="ref" style="margin: 0">Curve: Nauenberg’s approximation (1972) for an electron gas at any degree of relativity. Points: Sirius B, Procyon B and 40 Eridani B. The more mass, the <b>smaller</b> the white dwarf — and at <i>M</i><sub>Ch</sub> the radius goes to zero.</p>
+    </div>
+  </div>
+  <aside class="notes">Chandrasekhar did the calculation on the ship to Cambridge, at 19. If the electrons become relativistic, degeneracy pressure grows more slowly with density and, above a certain mass, it can no longer hold: 1.44 solar masses for carbon and oxygen. In the animation, a white dwarf gains mass from a companion. It gets smaller — heavier white dwarfs are smaller — and the radius goes to zero at the limit. The three points are measured white dwarfs. Go past M_Ch, and it collapses.</aside>
+</section>
+
+<section class="slide content p3 videoslide" style="padding:0; display:block">
+  <video data-autoplay muted playsinline loop preload="auto" poster="assets/video/supernova-nasa.jpg" src="assets/video/supernova-nasa.mp4"></video>
+  <div class="vveil"></div>
+  <div class="vhead"><p class="eyebrow"><i>M</i> &gt; <i>M</i><sub>Ch</sub></p><h2>Collapse! <em>Next stop: neutron stars</em></h2></div>
+  <div class="vfoot">
+    <p>At the end of a massive star’s life, the iron core passes 1.4 M☉ and the electrons can no longer hold it up. In less than a second it falls from ~3,000 km to ~30 km, the electrons are captured by the protons, turning them into neutrons — and the rest of the star is blown off in a supernova. A neutron star is left at the centre.</p>
+    <div class="stack" style="gap: 14px">
+      <div class="vsteps"><span>core collapse</span><span>supernova</span><span>remnant</span><span>pulsar + nebula</span></div>
+      <p class="ref" style="margin:0">Artist’s animation · NASA’s Goddard Space Flight Center Conceptual Image Lab (animation: Jonathan North) · SVS 20413 · public domain. A white dwarf that crosses the limit by accreting matter also explodes — a type Ia supernova — but leaves nothing behind.</p>
+    </div>
+  </div>
+  <aside class="notes">When the iron core of a massive star passes the Chandrasekhar limit, the electrons cannot hold it and it collapses in free fall, in tenths of a second. The electrons are pushed into the protons — p + e → n + ν — and the core becomes a ball of neutrons; 99% of the energy leaves as neutrinos. The rest of the star is thrown outwards: a supernova. The NASA animation shows what you would see from outside: the flash, the expanding remnant and, at the centre, the pulsar with its nebula. One detail: a lone white dwarf that crosses the limit by gaining mass does not become a neutron star — it detonates completely, in a type Ia supernova.</aside>
+</section>
+
+<!-- ================================================================
+     PART IV · NEUTRON STARS
+     ================================================================ -->
+<section class="slide partcover p4">
+  <div class="bg" style="background-image: url('assets/img/crab.jpg'); background-position: 60% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">IV</p>
+    <p class="label rise d2">Part four</p>
+    <h2 class="rise d2">Neutron<br><em>stars</em></h2>
+    <p class="sub lede rise d3">More than a solar mass in a 12 km sphere, spinning up to hundreds of times a second, with the strongest magnetic fields in the Universe.</p>
+    <div class="topics rise d4"><span>pulsars · 1967</span><span>magnetars</span><span>light that bends</span><span>nuclear density</span><span>SGR J1745−2900</span></div>
+  </div>
+  <span class="credit" data-credit="crab" data-label>Crab Nebula · NASA, ESA, J. Hester and A. Loll · public domain</span>
+  <aside class="notes">Part four: neutron stars. In the background, the Crab Nebula, the remnant of the supernova of 1054, with a pulsar at its centre.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Supernova of 1054 · 6,500 light-years</p><h2>The <em>Crab Nebula</em></h2></header>
+  <div class="body cols r">
+    <figure class="fill"><img src="assets/img/crab.jpg" alt="Crab Nebula"><span class="credit">NASA, ESA, J. Hester &amp; A. Loll · public domain</span></figure>
+    <div class="stack" style="gap: 22px">
+      <div class="card"><p class="stat" style="font-size: 72px">1054</p><p class="stat-label">recorded by Chinese astronomers: visible in daylight for 23 days</p></div>
+      <div class="card"><p class="stat" style="font-size: 72px">33 <small>ms</small></p><p class="stat-label">period of the pulsar at the centre: 30 turns a second</p></div>
+      <div class="card glow"><p class="stat" style="font-size: 72px">4×10³⁸ <small>erg/s</small></p><p class="stat-label">lost by the rotation as it slows down — this is what lights up the whole nebula</p></div>
+    </div>
+  </div>
+  <aside class="notes">In 1054 Chinese astronomers recorded a “guest star” that could be seen in daylight for three weeks. In its place is the Crab Nebula, still expanding at 1,500 km/s, and at its centre a neutron star spinning 30 times a second. The rotation is slowing down, and the energy lost — 4×10³⁸ erg per second, a hundred thousand suns — is what makes the nebula shine. The sums only work out if the object has the moment of inertia of a neutron star.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Cambridge · 28 November 1967</p><h2>The first pulsar: <em>“LGM-1”</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .9fr 1.35fr; gap: 34px">
+    <div class="stack" style="gap: 18px; align-content: start">
+      <div class="cols c2" style="gap: 18px; height: auto">
+        <figure class="portrait xs"><img src="assets/img/jocelyn-bell.jpg" alt="Jocelyn Bell Burnell"><span class="credit" data-credit="jocelyn-bell">Roger W Haworth · CC BY-SA 2.0</span><figcaption><b>Jocelyn Bell</b>in 1967, PhD student</figcaption></figure>
+        <figure class="portrait xs"><img src="assets/img/hewish.jpg" alt="Antony Hewish"><span class="credit" data-credit="hewish">W. T. Sullivan III / NRAO/AUI · CC BY 4.0</span><figcaption><b>Antony Hewish</b>supervisor · Nobel Prize 1974</figcaption></figure>
+      </div>
+      <figure><img src="assets/img/bell-chart.jpg" alt="Paper chart of the first pulsar, 1967" style="height: 250px; object-fit: cover; object-position: 50% 45%"><span class="credit" data-credit="bell-chart">Bill Thompson · CC BY-SA 4.0</span><figcaption>The original chart, August 1967: the “scruff” pencilled in as CP 1919.</figcaption></figure>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto auto">
+      <div class="cv"><canvas id="lgm"></canvas></div>
+      <div class="readout" id="lgm-out"></div>
+      <p class="small" style="margin: 0">Bell noticed a bit of “scruff” that kept coming back on the radio telescope’s paper chart: pulses every <b>1.337 s</b>, as regular as clockwork. Nickname: <b>LGM-1</b>, for <i>Little Green Men</i>. It was a spinning neutron star.</p>
+    </div>
+  </div>
+  <aside class="notes">Jocelyn Bell, Antony Hewish’s PhD student in Cambridge, was going through kilometres of paper chart from a radio telescope she had helped to build herself. In August 1967 she noticed a little bit of “scruff” that always came back at the same sidereal time. On 28 November she managed to resolve the pulses: one every 1.337 seconds, with clockwork precision. They joked that it was a signal from little green men, LGM-1. Today it is called PSR B1919+21. The 1974 Nobel Prize went to Hewish and Ryle, and not to her; in 2018 she won the Breakthrough Prize and donated the three million dollars to fund scholarships for students under-represented in physics.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Pulsar theory</p><h2>What is measured, <em>and what is inferred</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">ATNF catalogue · <span id="ppdot-n">2,855</span> pulsars with measured Ṗ</span><span class="ref">hover over the points</span></div>
+      <div class="cv"><canvas id="ppdot"></canvas></div>
+      <div class="readout" id="ppdot-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px">
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>observable</th><th>expression</th></tr>
+        <tr><td>period</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>P</i></td></tr>
+        <tr><td>characteristic age</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>t</i><sub>c</sub> = <i>P</i>/2<i>Ṗ</i></td></tr>
+        <tr><td>magnetic field</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>B</i> = (3<i>Ic</i>³<i>PṖ</i>/8π²<i>R</i>⁶)<sup>1/2</sup></td></tr>
+        <tr><td>rotational energy lost</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>Ė</i><sub>rot</sub> = −4π²<i>IṖ</i>/<i>P</i>³</td></tr>
+      </table>
+      <div class="card"><h4>Canonical neutron star</h4>
+        <p class="small" style="margin: 0 0 8px"><i>M</i> = 1.4 M☉ · <i>R</i> = 10 km · <i>I</i> = 10⁴⁵ g cm²</p>
+        <p class="ui" style="margin: 0; font-size: 24px; color: var(--text)"><i>B</i> = 3.2×10¹⁹ (<i>PṖ</i>)<sup>1/2</sup> G</p>
+        <p class="ui" style="margin: 6px 0 0; font-size: 24px; color: var(--text)">|<i>Ė</i><sub>rot</sub>| = 3.9×10⁴⁶ <i>Ṗ</i>/<i>P</i>³ erg/s</p></div>
+      <p class="small muted" style="margin: 0">Only <i>P</i> and <i>Ṗ</i> are measured. The rest comes from assuming a spinning magnetic dipole — the straight lines in the diagram.</p>
+    </div>
+  </div>
+  <aside class="notes">What we measure from a pulsar is its period and how much it grows each second, Ṗ. Assuming a magnetic dipole spinning in vacuum, that gives the characteristic age, the magnetic field and the rotational energy lost. In the P–Ṗ diagram, each dot is a pulsar from the ATNF catalogue. The dashed lines are constant field; the dotted ones, constant age. The main cloud is the ordinary pulsars; bottom left, the millisecond pulsars, recycled by accretion; and top right, in pink, the magnetars: slow, but spinning down very fast, with fields of 10¹⁴ to 10¹⁵ gauss.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">SGRs and AXPs</p><h2>The <em>magnetars</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1fr; gap: 50px">
+    <div class="stack" style="gap: 22px">
+      <table class="tbl">
+        <tr><th></th><th>ordinary pulsars</th><th>SGRs / AXPs</th></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>P</i></td><td class="n">10⁻³ – 10 s</td><td class="n">2 – 12 s</td></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>Ṗ</i></td><td class="n">~10⁻¹⁵ s/s</td><td class="n">10⁻¹³ – 10⁻¹⁰ s/s</td></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>L</i><sub>X</sub></td><td class="n">~10³⁰–10³³ erg/s</td><td class="n">10³² – 10³⁶ erg/s</td></tr>
+        <tr><td style="font-family: var(--display); font-size: 30px"><i>t</i><sub>c</sub></td><td class="n">&gt; 10⁶ years</td><td class="n">~10³ – 10⁴ years</td></tr>
+      </table>
+      <p class="small" style="margin: 0"><b>SGR</b>: <i>Soft Gamma Repeaters</i>. <b>AXP</b>: <i>Anomalous X-ray Pulsars</i>. Two classes that turned out to be one: in the ATNF catalogue, <b>25</b> magnetars have a measured period.</p>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <ul class="list">
+        <li><b>Slow</b>: <i>P</i> ≈ 2–12 s, for a canonical neutron star (1.4 M☉, 10 km, 10⁴⁵ g cm²).</li>
+        <li><b>Too bright</b> in X-rays: <i>L</i><sub>X</sub> &gt; <i>Ė</i><sub>rot</sub>. Rotation cannot pay the bill.</li>
+        <li>Who pays, in the standard model: <b>giant magnetic fields</b>, <i>B</i> &gt; 10¹⁴ G — above the quantum critical field, 4.4×10¹³ G.</li>
+      </ul>
+      <div class="card glow"><h4>27 December 2004 · SGR 1806−20</h4>
+        <p class="small" style="margin: 0">A giant flare released ~10⁴⁶ erg in 0.2 s — more than the Sun emits in 100,000 years. At its peak, ~7×10⁴⁶ erg/s: <b>some 20 trillion suns</b>. It disturbed the Earth’s ionosphere from ~28,000 light-years away.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Magnetars were discovered as two different things: sources that repeatedly gave off bursts of soft gamma rays, the SGRs, and X-ray pulsars with anomalous brightness, the AXPs. They are the same class. They spin slowly, yet shine in X-rays more than all the rotational energy they lose — so rotation cannot be the source. The standard model says the source is the decay of magnetic fields of 10¹⁴ to 10¹⁵ gauss. In 2004, SGR 1806−20 let off a giant flare that, for two tenths of a second, shone like some 20 trillion suns (Hurley et al. and Palmer et al., Nature 2005, with the distance revised to 8.7 kpc). A correction to the 2018 version of this talk: it said there that the Sun produces 10¹³ erg over its whole life and an SGR 10³⁰ erg/s; the right values are ~10⁵¹ erg and ~10³²–10³⁵ erg/s in quiescence, with giant flares reaching ~10⁴⁷ erg/s. The order-of-magnitude comparison is still impressive.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Transient activity</p><h2>A magnetar, <em>spinning</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="magnetar"></canvas></div>
+      <div class="readout" id="magnetar-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>event</th><th style="text-align: right">energy</th></tr>
+        <tr><td>short bursts (~0.1 s)</td><td class="n">10³⁹ – 10⁴¹ erg</td></tr>
+        <tr><td><i>outbursts</i> (months)</td><td class="n">10⁴¹ – 10⁴³ erg</td></tr>
+        <tr class="hl"><td>giant flares</td><td class="n">10⁴⁴ – 10⁴⁶ erg</td></tr>
+      </table>
+      <p style="margin: 0">The field lines, anchored in the crust, get twisted over time. When the crust can no longer take the stress, it cracks — a <b>starquake</b> — and the magnetic energy comes out all at once.</p>
+      <p class="small muted" style="margin: 0">Giant flares in the Galaxy and the Magellanic Clouds: 1979, 1998 and 2004.</p>
+    </div>
+  </div>
+  <aside class="notes">A magnetar spinning, at the real rate of SGR J1745−2900: one turn every 3.76 seconds. The lines are those of a dipole tilted with respect to the rotation axis. Every so often the animation shows a burst: the crust cracks, the lines reconnect and a pulse of X-rays and gamma rays comes out. Short bursts are frequent; outbursts raise the brightness for months; giant flares are rare — three in 45 years.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">A hot spot on the surface</p><h2>Light bends: <em>85% of the surface in view</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">1.4 M☉, 10 km neutron star · <i>R</i>/<i>R</i><sub>s</sub> = 2.4</span><div class="seg" id="spot-gr"><button type="button" data-v="0">no gravity</button><button type="button" data-v="1" class="on">General Relativity</button></div></div>
+      <div class="plots" style="grid-template-columns: .9fr 1.25fr"><div class="cv"><canvas id="spot-globe"></canvas></div><div class="cv"><canvas id="spot-curve"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="spot-i">spot axis ↔ rotation, <i>i</i> <output for="spot-i"></output></label><input type="range" id="spot-i" min="0" max="90" step="1" value="60"></div>
+        <div class="ctl"><label for="spot-j">line of sight ↔ rotation, <i>j</i> <output for="spot-j"></output></label><input type="range" id="spot-j" min="0" max="90" step="1" value="75"></div>
+        <div class="ctl"><label for="spot-th">angular radius of the spot <output for="spot-th"></output></label><input type="range" id="spot-th" min="5" max="45" step="1" value="20"></div>
+      </div>
+      <div class="readout" id="spot-out"></div>
+    </div>
+  </div>
+  <aside class="notes">A hot spot on the surface of a spinning neutron star. First without gravity: when the spot goes round the back of the star, it disappears, and the light curve drops to zero. Now switch back and watch the relativistic effect: light leaving almost tangentially bends round and reaches us. For a star of 1.4 solar masses and 10 km, we see 85% of the surface at once — the spot hardly ever disappears. The light curve gets flatter and the pulsed fraction drops. It is the highest density in the Universe, and it leaves its mark on the shape of the pulse.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">The highest density in the Universe</p><h2>Forged in the core of <em>a neutron star</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .95fr 1.15fr; gap: 46px">
+    <div class="stack" style="gap: 24px">
+      <blockquote style="font-size: 34px">“Thor Odinson, my heir, my firstborn. So long entrusted with the mighty hammer Mjölnir, forged in the heart of a dying star.”<footer>Odin, in <i>Thor</i> (Marvel Studios, 2011)</footer></blockquote>
+      <p style="margin: 0">And what if it were forged in the core of a <b>neutron star</b>, at ρ = 10¹⁴ g/cm³? A head of 17.5 × 26 × 18 cm:</p>
+      <div class="eq sm" style="font-size: 32px"><i>M</i> = ρ<i>V</i> = 10¹⁴ <span class="frac"><span>g</span><span>cm³</span></span> × 8,190 cm³ = 8.19×10¹⁷ g</div>
+      <div class="eq sm" style="font-size: 32px"><i>N</i><sub>elephants</sub> = <span class="frac"><span>8.19×10¹⁷ g</span><span>2.7×10⁶ g</span></span> ≈ <b>300 billion</b></div>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="mjolnir"></canvas></div>
+      <div class="readout" id="mjolnir-out"></div>
+    </div>
+  </div>
+  <aside class="notes">In the film, Odin says the hammer was forged in the heart of a dying star. Let’s take that seriously: if the head of the hammer, about 18 by 26 by 17.5 centimetres, were made of neutron-star matter, it would have 8×10¹⁷ grams — 800 billion tonnes. An elephant weighs about 2.7 tonnes: that makes 300 billion elephants, about 40 for every person on Earth. Nobody could lift it. And outside the star, without the star’s gravity to hold it together, that matter would explode.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Research · modern equations of state</p><h2>Mass and radius <em>with real nuclear physics</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .8fr; gap: 40px">
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/eos-mr.png" alt="Mass–radius relation for the NL3, TM1 and GM1 equations of state"><figcaption>Mass–radius relation for the <b>NL3</b>, <b>TM1</b> and <b>GM1</b> equations of state, with local (left) and global (right) charge neutrality.</figcaption></figure>
+    <div class="stack" style="gap: 20px; align-self: center">
+      <p style="margin: 0">A neutron star is not a ball of free neutrons: the pressure comes from the <b>nuclear force</b>, described by relativistic mean-field models.</p>
+      <ul class="list">
+        <li>Each equation of state gives a curve <i>M</i>(<i>R</i>) — and a maximum mass, between ~2 and 2.8 M☉.</li>
+        <li>With these curves, <i>M</i>, <i>R</i> and the moment of inertia <i>I</i> are no longer canonical values: they are computed.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Figures in this section: R. C. R. de Lima and collaborators. Coelho, Cáceres, de Lima, Malheiro, Rueda &amp; Ruffini, <i>A&amp;A</i> 599, A87 (2017).</p>
+    </div>
+  </div>
+  <aside class="notes">From here on, a stretch of research. The canonical values — 1.4 solar masses, 10 km — are a simplification. With realistic nuclear equations of state, NL3, TM1 and GM1, the mass–radius relation comes from relativistic hydrostatic equilibrium, the Tolman–Oppenheimer–Volkoff equation. Each model has its own maximum mass. On the left, local charge neutrality; on the right, global, which changes the low-mass stars quite a lot.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Research · who pays for the glow?</p><h2>Magnetars <em>powered by rotation?</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr 1fr; gap: 40px">
+    <figure class="paper"><img src="assets/img/pesquisa/efficiency.png" alt="Ratio of X-ray luminosity to rotational energy loss, against mass"><figcaption><i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> against mass, for the known SGRs and AXPs, with the GM1 equation of state (local and global neutrality).</figcaption></figure>
+    <div class="stack" style="gap: 18px">
+      <p style="margin: 0">With realistic <i>I</i>(<i>M</i>) and <i>R</i>(<i>M</i>), <i>Ė</i><sub>rot</sub> changes. If <i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> &lt; 1, rotation is enough: <b>no giant field is needed</b>.</p>
+      <div class="card"><h4>Conclusion: 9 (+3?) rotation-powered</h4>
+        <p class="small" style="margin: 0 0 10px"><b><i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> &lt; 1</b>: Swift J1834.9−0846, PSR J1846−0258, 1E 1547.0−5408, <b class="c-psr">SGR J1745−2900</b>, XTE J1810−197, PSR J1622−4950, SGR 1627−41, SGR 0501+4516, CXOU J171405.7−381031.</p>
+        <p class="small" style="margin: 0"><b><i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> ~ 1</b>: SGR 1900+14, SGR 0418+5729, Swift J1822.3−1606.</p></div>
+    </div>
+  </div>
+  <aside class="notes">The research question: with realistic neutron stars, can the rotational energy lost account for the X-ray brightness of some magnetars? Each symbol is an SGR or AXP, and each curve sweeps through the mass. Below the horizontal line, rotation is enough. Nine objects fall below it for reasonable masses, and three sit close to the line. SGR J1745−2900, highlighted, is the next topic.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Discovered on 25 April 2013 · 0.1 pc from Sgr A*</p><h2>SGR J1745−2900, <em>the Galactic Centre magnetar</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .8fr; gap: 44px">
+    <div class="stack" style="gap: 22px">
+      <table class="tbl">
+        <tr><th>start</th><th style="text-align: right">pulsed fraction</th><th style="text-align: right">k<i>T</i><sub>BB</sub> (keV)</th><th style="text-align: right"><i>R</i><sub>BB</sub> (km)</th><th style="text-align: right"><i>L</i> (10³⁵ erg/s)</th></tr>
+        <tr><td>12 May 2013</td><td class="n">~0.38</td><td class="n">0.88 ± 0.01</td><td class="n">2.52 ± 0.09</td><td class="n">4.9 ± 0.5</td></tr>
+        <tr class="hl"><td>8–14 Oct 2016</td><td class="n">~0.55</td><td class="n">0.64 ± 0.03</td><td class="n">0.78 ± 0.11</td><td class="n">0.13 ± 0.02</td></tr>
+      </table>
+      <p class="ref" style="margin: 0">Chandra, 0.3–8 keV. Coti Zelati et al., <i>MNRAS</i> 471, 1819 (2017): three and a half years of the outburst’s decay.</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 38px; border-color: var(--part)">PF = <span class="frac"><span><i>F</i><sub>max</sub> − <i>F</i><sub>min</sub></span><span><i>F</i><sub>max</sub> + <i>F</i><sub>min</sub></span></span></span></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="card"><p class="stat" style="font-size: 64px">3.76 <small>s</small></p><p class="stat-label">period</p></div>
+      <div class="card"><p class="stat" style="font-size: 64px">~5×10³⁵ <small>erg/s</small></p><p class="stat-label">in the discovery outburst (Swift)</p></div>
+      <p class="small" style="margin: 0">The hot spot <b>shrank</b> (from 2.5 to 0.8 km) and <b>cooled</b>, and the pulsed fraction <b>rose</b>. Can a real neutron star explain this?</p>
+      <p class="ref" style="margin: 0">Published version of this analysis: de Lima, Coelho, Pereira, Rodrigues &amp; Rueda, <i>ApJ</i> 889, 165 (2020).</p>
+    </div>
+  </div>
+  <aside class="notes">SGR J1745−2900 was discovered in April 2013 by the Swift satellite, in an X-ray outburst, just 2.4 arcseconds from Sgr A* — a tenth of a parsec from the black hole at the centre of the Galaxy. Chandra followed the outburst as it faded, for years. The full analysis of the light curves, with two or three spots and light bending, came out in 2020 in ApJ. The black-body fit shows a hot spot that shrinks and cools, while the pulsed fraction — the relative amplitude of the pulse — rises from 0.38 to 0.55. The pulsed fraction depends on the geometry and the gravity of the star: that is where the pulsed-flux model comes in.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">SGR J1745−2900</p><h2>Two <em>checks</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <figure class="paper"><img src="assets/img/pesquisa/sgr1745-efficiency.png" alt="Efficiency of SGR J1745-2900 against mass"><figcaption><b>1st · efficiency.</b> <i>L</i><sub>X</sub>/<i>Ė</i><sub>rot</sub> &lt; 1 for <i>M</i> &gt; 1.0 M☉, in all three equations of state: <b>rotation-powered</b>.</figcaption></figure>
+    <figure class="paper"><img src="assets/img/pesquisa/sgr1745-bfield.png" alt="Magnetic field of SGR J1745-2900 against mass"><figcaption><b>2nd · magnetic field</b> at the surface, in units of <i>B</i><sub>c</sub> = 4.41×10¹³ G: classical calculation (solid) and with General Relativity (dashed).</figcaption></figure>
+  </div>
+  <aside class="notes">Two checks for SGR J1745−2900. The efficiency stays below one for masses above one solar mass, in all three equations of state: rotation accounts for the brightness. And the magnetic field: with general relativity, the field inferred at the surface drops and ends up close to the critical field, not 10 or 100 times above it. In other words, the object can be an ordinary high-field neutron star, powered by rotation.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Turolla &amp; Nobili 2013 · Beloborodov 2002</p><h2>The pulsed-flux <em>model</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <div class="stack" style="gap: 18px">
+      <svg class="diag" viewBox="0 0 600 330" aria-label="Geometry: rotation axis, spot axis and line of sight">
+        <defs><radialGradient id="g-ns2" cx=".38" cy=".35" r=".75"><stop offset="0" stop-color="#cfd6e6"/><stop offset="1" stop-color="#3a4256"/></radialGradient>
+          <marker id="m-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#eef0f6"/></marker></defs>
+        <circle cx="300" cy="190" r="92" fill="url(#g-ns2)"/>
+        <ellipse cx="300" cy="190" rx="92" ry="25" fill="none" stroke="rgba(255,255,255,.25)" stroke-dasharray="5 6"/>
+        <g transform="rotate(-40 300 190)"><ellipse cx="300" cy="104" rx="36" ry="11" fill="#ffb86b" opacity=".9"/></g>
+        <line x1="300" y1="190" x2="300" y2="30" stroke="#eef0f6" stroke-width="2.5" marker-end="url(#m-ar)"/>
+        <line x1="300" y1="190" x2="196" y2="66" stroke="#ffb86b" stroke-width="2.5" marker-end="url(#m-ar)"/>
+        <line x1="300" y1="190" x2="450" y2="70" stroke="#56e1d0" stroke-width="2.5" marker-end="url(#m-ar)"/>
+        <path d="M300 128 A62 62 0 0 0 260 142" fill="none" stroke="#ffb86b" stroke-width="2"/>
+        <path d="M300 112 A78 78 0 0 1 361 142" fill="none" stroke="#56e1d0" stroke-width="2"/>
+        <text x="310" y="34" class="serif" font-size="30">r̂</text>
+        <text x="172" y="60" class="serif" font-size="30">ĉ</text>
+        <text x="456" y="66" class="serif" font-size="30">l̂</text>
+        <text x="262" y="124" class="serif" font-size="26" style="fill: #ffb86b">i</text>
+        <text x="334" y="108" class="serif" font-size="26" style="fill: #56e1d0">j</text>
+        <text x="300" y="316" text-anchor="middle" font-size="17">r̂ rotation axis · ĉ axis of the emitting cap · l̂ line of sight</text>
+      </svg>
+      <p class="ui" style="margin: 0; text-align: center; font-size: 26px; color: var(--text)"><i>i</i> = arccos(r̂·ĉ) &nbsp;·&nbsp; <i>j</i> = arccos(r̂·l̂)</p>
+      <ul class="list" style="gap: 10px">
+        <li class="small">Circular spots of any size, anywhere on the surface (Turolla &amp; Nobili 2013).</li>
+        <li class="small"><i>M</i> and <i>R</i> come from the equations of state (GM1, TM1, NL3).</li>
+        <li class="small">Schwarzschild exterior: the rotation is slow (<i>P</i> ≈ 2–10 s) and its effects on the metric are neglected.</li>
+      </ul>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <svg class="diag" viewBox="0 0 600 300" aria-label="Photon emitted from the surface and bent towards the observer">
+        <line x1="40" y1="30" x2="560" y2="30" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+        <text x="300" y="22" text-anchor="middle" font-size="17">observer</text>
+        <circle cx="200" cy="225" r="62" fill="url(#g-ns2)"/>
+        <line x1="200" y1="225" x2="200" y2="40" stroke="rgba(255,255,255,.3)" stroke-dasharray="5 6"/>
+        <line x1="200" y1="225" x2="254" y2="194" stroke="rgba(255,255,255,.55)"/>
+        <line x1="254" y1="194" x2="330" y2="150" stroke="rgba(255,255,255,.3)" stroke-dasharray="4 5"/>
+        <path d="M254 194 C 300 160, 340 110, 352 40" stroke="#ffb86b" stroke-width="3" fill="none"/>
+        <path d="M200 195 A30 30 0 0 1 226 210" fill="none" stroke="#eef0f6" stroke-width="1.5"/>
+        <text x="212" y="190" class="serif" font-size="24">θ</text>
+        <path d="M282 178 A32 32 0 0 0 274 166" fill="none" stroke="#ffb86b" stroke-width="1.5"/>
+        <text x="288" y="168" class="serif" font-size="24" style="fill: #ffb86b">α</text>
+        <text x="365" y="90" font-size="17" style="fill: #ffb86b">photon path</text>
+      </svg>
+      <div class="eq sm" style="font-size: 32px">1 − cos α = (1 − cos θ) <span style="white-space: nowrap">(1 − <i>R</i><sub>s</sub>/<i>R</i>)</span><span class="note">Beloborodov’s approximation (2002)</span></div>
+      <div class="eq sm" style="font-size: 28px"><i>F</i><sub>ν</sub> = (1 − <i>R</i><sub>s</sub>/<i>R</i>)² <i>B</i><sub>ν</sub>(<i>T</i>) <i>A</i><sub>eff</sub>, &nbsp; <i>A</i><sub>eff</sub> = <i>R</i>² [ <span class="frac"><span><i>R</i><sub>s</sub></span><span><i>R</i></span></span> <i>I</i><sub>s</sub> + (1 − <span class="frac"><span><i>R</i><sub>s</sub></span><span><i>R</i></span></span>) <i>I</i><sub>p</sub> ]<span class="note">flux from a black-body spot · effective area</span></div>
+    </div>
+  </div>
+  <aside class="notes">The model. The geometry has three axes: the rotation axis, the axis of the hot cap and the line of sight; i and j are their angles to the rotation axis. On the right, Beloborodov’s approximation: a photon that leaves the surface at an angle α to the normal reaches the observer as if it had left from a larger angle θ — light bending. With this, the flux from a black-body spot can be written in terms of an effective area, which has one part from the usual term and another proportional to Rs/R. This is the calculation the hot-spot dashboard does.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">Research · the code</p><h2>What the code <em>computes</em></h2></header>
+  <div class="body cols c2" style="gap: 44px">
+    <div class="stack" style="gap: 20px">
+      <div class="card"><h4>Main output</h4><ul class="list" style="gap: 8px"><li class="small">map of pulsed fractions in the (<i>i</i>, <i>j</i>) plane;</li><li class="small">light curve: normalised flux against rotational phase.</li></ul></div>
+      <div class="card"><h4>Side calculations</h4><ul class="list" style="gap: 8px"><li class="small">angular opening of the polar cap (light cylinder);</li><li class="small">Beloborodov angle and visible area of the star;</li><li class="small">maximum possible pulsed fraction.</li></ul></div>
+      <div class="card"><h4>Validity</h4><p class="small" style="margin: 0">Error &lt; 3% for <i>R</i> &gt; 3<i>R</i><sub>s</sub> (here, <i>R</i>/<i>R</i><sub>s</sub> = 3.38), with <i>R</i><sub>s</sub> = 2<i>GM</i>/<i>c</i>².</p></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <table class="tbl" style="font-size: 20px">
+        <tr><th>variable</th><th>definition</th><th>source</th></tr>
+        <tr><td><i>M</i>, <i>R</i></td><td>mass and radius</td><td>equation of state</td></tr>
+        <tr><td><i>N</i><sub>s</sub>, θ<sub>c</sub>, <i>T</i></td><td>number, half-opening and temperature of the spots</td><td>black-body fit</td></tr>
+        <tr><td>θ<sub>d</sub></td><td>angular distance between the spots</td><td>pulsed fraction</td></tr>
+        <tr><td><i>i</i>, <i>j</i></td><td>viewing angles</td><td>PF and pulse profile</td></tr>
+      </table>
+      <div class="card"><h4>Beloborodov classes (2002)</h4>
+        <p class="small" style="margin: 0"><b>I</b> · the antipodal spot never appears, and the primary is seen all the time. <b>II</b> · the primary always, and the antipodal for part of the time. <b>III</b> · the primary disappears for a fraction of the period. <b>IV</b> · both are seen all the time.</p></div>
+    </div>
+  </div>
+  <aside class="notes">For each pair of angles i and j, the code computes the light curve and the pulsed fraction, and builds the map. The ingredients come from different places: mass and radius from the equation of state; the size and temperature of the spots from the spectral fit; the separation between the spots and the viewing angles from the pulsed fraction and the shape of the pulse. Beloborodov’s approximation has an error below 3% for stars larger than three Schwarzschild radii, and here R/Rs = 3.38.</aside>
+</section>
+
+<section class="slide content p4">
+  <header><p class="eyebrow">SGR J1745−2900 · 2016</p><h2>Pulsed fraction <em>and light profile</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <figure class="paper"><img src="assets/img/pesquisa/pf-map-2016.png" alt="Map of the pulsed fraction in the i, j plane"><figcaption><b>PF map</b> in the (<i>i</i>, <i>j</i>) plane. The thick black curve is PF = 0.55, the value observed in 2016.</figcaption></figure>
+    <figure class="paper"><img src="assets/img/pesquisa/pulse-2016.png" alt="Modelled light profile against the one observed in 2016"><figcaption><b>Pulse profile</b>: the model (red) with <i>M</i> = 1.7 M☉, θ<sub>d</sub> = 140°, <i>i</i> = <i>j</i> = 75°, against the flux observed by Chandra on 8–14 October 2016.</figcaption></figure>
+  </div>
+  <aside class="notes">The result for 2016. On the map, each contour is one pulsed fraction; the thick black one is 0.55, the observed value, and it lies in a narrow band of the i–j plane. Picking a point on it — i = j = 75 degrees, two spots 140 degrees apart on a star of 1.7 solar masses — the modelled pulse profile follows the shape of the observed one: two peaks of different heights per period. A rotation-powered neutron star, with gravity bending the light, explains the pulse.</aside>
+</section>
+
+<!-- ================================================================
+     PART V · BLACK HOLES
+     ================================================================ -->
+<section class="slide partcover p5">
+  <div class="bg" style="background-image: url('assets/img/galactic-center.jpg'); background-position: 60% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">V</p>
+    <p class="label rise d2">Part five</p>
+    <h2 class="rise d2">Black<br><em>holes</em></h2>
+    <p class="sub lede rise d3">When not even the neutrons can hold, the star falls inside its own horizon — and vanishes from the visible Universe.</p>
+    <div class="topics rise d4"><span>maximum mass</span><span>Laplace · 1796</span><span>Schwarzschild · 1916</span><span>the horizon</span><span>Sgr A*</span></div>
+  </div>
+  <span class="credit" data-credit="galactic-center" data-label>The centre of the Milky Way · ESO · CC BY 4.0</span>
+  <aside class="notes">Part five. In the background, the centre of our Galaxy in the infrared, from ESO’s VLT. In the middle of this crowd of stars there is a black hole of four million solar masses — we will come back to it at the end.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Tolman · Oppenheimer · Volkoff · 1939</p><h2><i>M</i><sub>max</sub> ≈ 2 M☉ — <em>and beyond?</em></h2></header>
+  <div class="body cols r">
+    <figure class="fill"><img src="assets/img/cygnus-x1.jpg" alt="Illustration of a black hole stealing gas from a companion star"><span class="credit" data-credit="cygnus-x1">NASA/CXC/M. Weiss · public domain</span></figure>
+    <div class="stack" style="gap: 24px">
+      <p style="margin: 0">Neutron stars also have a maximum mass. Above ~2–2.3 M☉, neither neutron pressure nor the nuclear force can hold the star up.</p>
+      <div class="cols c2" style="gap: 18px">
+        <div class="card"><p class="stat" style="font-size: 64px">2.08 <small>M☉</small></p><p class="stat-label">PSR J0740+6620, the heaviest measured precisely</p></div>
+        <div class="card"><p class="stat" style="font-size: 64px">~21 <small>M☉</small></p><p class="stat-label">Cygnus X-1, the first accepted black hole (1972)</p></div>
+      </div>
+      <p class="say sm" style="margin: 0">But what if the neutron star gains more mass — <em>accreting</em> gas from a companion — and goes over <i>M</i><sub>max</sub>?</p>
+    </div>
+  </div>
+  <aside class="notes">Just as white dwarfs have the Chandrasekhar limit, neutron stars have a limit, first calculated by Oppenheimer and Volkoff in 1939. The exact value depends on nuclear physics, which we do not know well, but observations say it is above two: the heaviest pulsar measured precisely has 2.08 solar masses. In the illustration, a system like Cygnus X-1: a compact object tearing gas off a companion star. If a neutron star accretes until it goes over the limit…</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">The final collapse</p><h2>Nothing can <em>stop the collapse</em></h2></header>
+  <div class="body" style="display: grid; align-content: center; gap: 46px; max-width: 1450px">
+    <p class="say rise d1" style="margin: 0">No known force can hold the star up.</p>
+    <p class="say rise d3" style="margin: 0; color: var(--text-2)">And what if there is some physics we don’t know yet, strong enough to halt the collapse?</p>
+    <p class="say rise d5" style="margin: 0">It makes no difference: once the <em>event horizon</em> forms, it is too late. Inside, every future points to the centre.</p>
+  </div>
+  <aside class="notes">No known force can hold it. And the natural question: what if there is some new, stronger physics? The general-relativity argument is that it does not matter: as soon as the star is smaller than its own Schwarzschild radius, a horizon forms, and inside it stopping is as impossible as stopping time. We will see why over the course of this part. But first, the history.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">1783 – 2019</p><h2>A brief history <em>of black holes</em></h2></header>
+  <div class="body" style="display: grid; align-content: center">
+    <div class="timeline">
+      <div><p class="yr">1783</p><p><b>Michell</b>: “dark stars”, from which light cannot escape</p></div>
+      <div><p class="yr">1796</p><p><b>Laplace</b> arrives at the same idea</p></div>
+      <div><p class="yr">1916</p><p><b>Schwarzschild</b>: the first exact solution of GR</p></div>
+      <div><p class="yr">1935</p><p><b>Eddington</b>: “there should be a law of Nature…”</p></div>
+      <div><p class="yr">1939</p><p><b>Oppenheimer &amp; Snyder</b>: the collapse, calculated</p></div>
+      <div><p class="yr">1963</p><p><b>Kerr</b>: black holes that spin</p></div>
+      <div><p class="yr">1967</p><p><b>Wheeler</b> popularises the name “black hole”</p></div>
+      <div><p class="yr">2019</p><p><b>EHT</b>: the first image, of M87*</p></div>
+    </div>
+  </div>
+  <aside class="notes">The idea is older than relativity. John Michell, in 1783, and Laplace, in 1796, realised that, by Newton’s mechanics, a compact enough object would have an escape velocity greater than the speed of light. The relativistic version starts with Schwarzschild, in 1916. Eddington resisted the idea; Oppenheimer and Snyder calculated the collapse in 1939; Kerr found the rotating solution in 1963. The name “black hole” was popularised by Wheeler from 1967 onwards — in the 2018 version of this talk I had put 1950, which is wrong. And in 2019 came the first image.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">1796 · Pierre-Simon Laplace</p><h2>A <em>dark</em> star</h2></header>
+  <div class="body cols" style="grid-template-columns: .55fr .85fr 1.15fr; gap: 36px">
+    <figure class="portrait"><img src="assets/img/laplace.jpg" alt="Pierre-Simon Laplace"><span class="credit" data-credit="laplace">Jean-Baptiste Paulin Guérin · public domain</span><figcaption><b>Pierre-Simon Laplace</b>1749 – 1827</figcaption></figure>
+    <div class="stack" style="gap: 18px">
+      <p style="margin: 0">By Newton’s physics, light could not escape from a sufficiently massive and compact object.</p>
+      <div class="eq sm" style="font-size: 32px"><span class="frac"><span><i>mv</i>²</span><span>2</span></span> − <span class="frac"><span><i>GMm</i></span><span><i>R</i></span></span> = 0 &nbsp;⇒&nbsp; <i>v</i><sub>esc</sub> = <span class="frac"><span>2<i>GM</i></span><span><i>R</i></span></span><sup>1/2</sup><span class="note">initial energy = final energy</span></div>
+      <p class="small" style="margin: 0">On Earth, <i>v</i><sub>esc</sub> = 11.18 km/s. At what <i>r</i> would the escape velocity equal the speed of light?</p>
+      <div style="text-align: center"><span class="eq sm boxed" style="display: inline-block; font-size: 42px; border-color: var(--part)"><i>r</i> = <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²</span></span></span></div>
+      <p class="small" style="margin: 0">Earth: <b>8.9 mm</b>. Sun: <b>2.95 km</b>.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">squeeze the Earth</span><span class="ref">fixed mass</span></div>
+      <div class="cv"><canvas id="escape"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="escape-R">radius of the Earth <output for="escape-R"></output></label><input type="range" id="escape-R" min="0" max="1" step="0.001" value="0"></div>
+      </div>
+      <div class="readout" id="escape-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Laplace, in 1796, with Newton’s physics: the escape velocity grows when the same object gets smaller. Setting the kinetic energy equal to the potential energy gives v_esc = the square root of 2GM/R, 11.18 km/s on Earth. For that to be the speed of light, the radius has to be 2GM/c²: the whole Earth squeezed into a 9-millimetre marble, the Sun into 3 km. By coincidence, it is exactly the radius general relativity will give for the horizon — but for different reasons: in Newton, light would rise and fall back, like a ball; in GR it does not even get out.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">December 1915 · the Russian front</p><h2>A month after <em>Einstein</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .55fr .55fr 1.2fr; gap: 36px">
+    <figure class="portrait"><img src="assets/img/schwarzschild.jpg" alt="Karl Schwarzschild"><figcaption><b>Karl Schwarzschild</b>1873 – 1916</figcaption></figure>
+    <figure class="portrait"><img src="assets/img/einstein.jpg" alt="Albert Einstein"><span class="credit">F. Schmutzer · public domain</span><figcaption><b>Albert Einstein</b>1921</figcaption></figure>
+    <div class="stack" style="gap: 26px; align-self: center">
+      <p style="margin: 0">Barely a month after Einstein presented General Relativity (25 November 1915), Schwarzschild — serving in the artillery on the Russian front — found an <b>exact analytical solution</b> of the equations.</p>
+      <blockquote style="font-size: 36px">“I have read your paper with the utmost interest. I had not expected that one could formulate the exact solution of the problem in such a simple way. I liked very much your mathematical treatment of the subject.”<footer>Einstein to Schwarzschild, 9 January 1916</footer></blockquote>
+      <p class="small muted" style="margin: 0">Schwarzschild died in May 1916, of an illness he contracted at the front.</p>
+    </div>
+  </div>
+  <aside class="notes">Einstein presented the field equations on 25 November 1915. Schwarzschild, an astronomer aged 42, was on the Russian front as an artillery lieutenant; he read the paper and in December sent off the exact solution for the exterior of a spherical star. Einstein replied delighted — he himself had only used approximations. Schwarzschild died five months later, of pemphigus, a skin disease he caught at the front.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Spherical, uncharged, non-rotating</p><h2>The first exact solution <em>was already a black hole</em></h2></header>
+  <div class="body cols c2" style="gap: 50px">
+    <div class="stack" style="gap: 24px; align-self: center">
+      <div class="card glow"><h4>What neither of them knew</h4><p style="margin: 0">The solution was <b>complete</b>: besides the exterior of a star, it described a spherical, neutral, non-rotating black hole — the <b>Schwarzschild black hole</b>.</p></div>
+      <div class="card"><h4>Until then</h4><p class="small" style="margin: 0">Einstein had only looked for approximate solutions — the post-Newtonian formalism — and used them to explain the <b>bending of light by the Sun</b> and the <b>precession of Mercury</b>.</p></div>
+      <p class="small muted" style="margin: 0">It took some 50 years for the community to accept that such a thing really existed.</p>
+    </div>
+    <figure class="fill"><img src="assets/img/m87.jpg" alt="The shadow of M87*" style="object-fit: contain; background: #000"><span class="credit" data-credit="m87">EHT Collaboration · CC BY 4.0</span><figcaption>The shadow of M87*, Event Horizon Telescope, 2019 — 103 years later.</figcaption></figure>
+  </div>
+  <aside class="notes">What neither of them knew: Schwarzschild’s solution does not only describe the outside of a star. If the star is smaller than the Schwarzschild radius, there is no star at all — there is a black hole. The first exact solution of general relativity was already a black hole. Einstein worked with approximations, which were enough for Mercury and for light bending. It took half a century for the idea to be taken seriously — and another half for the photo.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Royal Astronomical Society · 11 January 1935</p><h2>Eddington versus <em>Chandrasekhar</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .55fr 1.4fr .55fr; gap: 40px">
+    <figure class="portrait"><img src="assets/img/eddington.jpg" alt="Arthur Eddington"><span class="credit" data-credit="eddington">Bain News Service · public domain</span><figcaption><b>Arthur Eddington</b>1882 – 1944</figcaption></figure>
+    <div class="stack" style="gap: 34px; align-self: center">
+      <p style="margin: 0">One of the first to understand General Relativity, Eddington saw it at once: if Chandrasekhar was right about the mass limit, massive stars would <b>inevitably</b> form black holes.</p>
+      <blockquote style="font-size: 38px">“I think there should be a law of Nature to prevent a star from behaving in this absurd way!”<footer>Arthur Eddington, Royal Astronomical Society, 11 January 1935</footer></blockquote>
+      <div class="card" style="--part: var(--ana)"><p style="margin: 0">Chandrasekhar would later regret that it took <b>almost thirty years</b> for the significance of his result to be recognised.</p><p class="ref" style="margin: 10px 0 0">K. C. Wali, <i>Chandra: a biography of S. Chandrasekhar</i> (1991).</p></div>
+    </div>
+    <figure class="portrait"><img src="assets/img/chandrasekhar.jpg" alt="Subrahmanyan Chandrasekhar"><figcaption><b>Chandrasekhar</b>aged 24 in 1935</figcaption></figure>
+  </div>
+  <aside class="notes">In 1935, Chandrasekhar, aged 24, presented the mass limit at the Royal Astronomical Society. Eddington, the greatest authority in astrophysics at the time, spoke straight after him and ridiculed the result: there should be a law of Nature to stop a star from behaving in such an absurd way. He had understood the consequence perfectly — endless collapse — and refused to accept it. Chandrasekhar later lamented that it took almost thirty years for the result to be taken seriously. He won the Nobel Prize in 1983. (The 2018 version had a verbatim quote from him; since I could not check the exact source, a paraphrase remains, with Wali’s biography as the reference. Eddington’s sentence is in the report of the meeting, The Observatory 58, 38, 1935.)</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">1939 · 1963 · 1967</p><h2>The collapse, the spin <em>and the name</em></h2></header>
+  <div class="body cols c3" style="gap: 44px">
+    <figure class="portrait sm"><img src="assets/img/oppenheimer.jpg" alt="J. Robert Oppenheimer"><span class="credit" data-credit="oppenheimer">U.S. Department of Energy · public domain</span><figcaption><b>1939 · Oppenheimer</b>With Snyder, the first rigorous calculation of a star collapsing all the way to a black hole. With Volkoff, the maximum mass of neutron stars.</figcaption></figure>
+    <figure class="portrait sm"><img src="assets/img/kerr.jpg" alt="Roy Kerr"><span class="credit" data-credit="kerr">Bengt Nyman · CC BY-SA 4.0</span><figcaption><b>1963 · Roy Kerr</b>Another exact solution of Einstein’s equations: a spinning black hole. It is what nature should produce.</figcaption></figure>
+    <figure class="portrait sm"><img src="assets/img/wheeler.jpg" alt="John Archibald Wheeler"><span class="credit" data-credit="wheeler">Emielke · CC BY-SA 3.0</span><figcaption><b>1967 · John A. Wheeler</b>Popularises the term “black hole” — to the dismay of the French, for whom <i>trou noir</i> sounded indecent.</figcaption></figure>
+  </div>
+  <aside class="notes">Three steps. Oppenheimer and his student Hartland Snyder, in 1939, calculated the collapse of a cloud of dust all the way to the end, and saw that, for someone far away, the star seems to freeze at the horizon. The same year, with Volkoff, Oppenheimer calculated the maximum mass of a neutron star. In 1963 Roy Kerr, a New Zealander, found the solution for a rotating black hole. And in 1967 Wheeler began to use “black hole”, and it stuck — the term had already appeared in the press in 1964. In French, “trou noir” had an obscene connotation, and there was resistance for a while.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">The Schwarzschild metric</p><h2>Three slices <em>of the same formula</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto 1fr; gap: 40px">
+    <div class="eq" style="font-size: 50px">Δ<i>s</i>² = <span class="hl-t">−(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)(<i>c</i>Δ<i>t</i>)²</span> + <span class="hl-r">(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)<sup>−1</sup>(Δ<i>r</i>)²</span> + <span class="hl-a"><i>r</i>²[(Δθ)² + sin²θ (Δφ)²]</span><span class="note"><i>M</i> = mass of the central object</span></div>
+    <div class="cols c3" style="gap: 28px">
+      <div class="card" style="--part: var(--sol)"><h4>Δ<i>t</i> = Δθ = Δφ = 0</h4><p class="ui" style="margin: 0 0 10px; font-size: 28px; color: var(--text)">Δ<i>r</i><sub>p</sub> = (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>)<sup>−1/2</sup> Δ<i>r</i></p><p class="small" style="margin: 0">Radial distances measured with a ruler: larger than Δ<i>r</i>.</p></div>
+      <div class="card" style="--part: var(--bn)"><h4>Δ<i>r</i> = Δθ = Δφ = 0</h4><p class="ui" style="margin: 0 0 10px; font-size: 28px; color: var(--text)">Δτ = (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>)<sup>1/2</sup> Δ<i>t</i></p><p class="small" style="margin: 0">The time on a clock at rest: it runs slower than one far away.</p></div>
+      <div class="card" style="--part: var(--psr)"><h4>Δ<i>t</i> = Δ<i>r</i> = 0</h4><p class="ui" style="margin: 0 0 10px; font-size: 28px; color: var(--text)">Δ<i>S</i> = <i>r</i> [(Δθ)² + sin²θ (Δφ)²]<sup>1/2</sup></p><p class="small" style="margin: 0">The angular part is the familiar one: the distance between two points on the Earth’s surface (θ = 90° − latitude).</p></div>
+    </div>
+  </div>
+  <aside class="notes">The Schwarzschild metric tells us how to measure intervals near a mass. It has three pieces, and each slice isolates one of them. Holding time and angle fixed, the radial part is left: the distance a ruler measures, larger than the coordinate difference. Holding position fixed, the time part is left: the time a clock at rest shows, less than the time far away. And fixing t and r, what is left is the geometry of an ordinary sphere — the same formula that gives the distance between two cities on Earth. That is why r has a simple meaning: the circumference divided by 2π.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Proper distance</p><h2>The ruler <em>in the well</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .85fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="plots" style="grid-template-columns: 1.35fr 1fr"><div class="cv"><canvas id="regua"></canvas></div><div class="cv"><canvas id="regua-plot"></canvas></div></div>
+      <div class="readout" id="regua-out"></div>
+    </div>
+    <div class="stack" style="gap: 14px">
+      <ul class="list" style="gap: 14px">
+        <li class="small"><i>r</i> is the coordinate of an observer at infinity: the circumference divided by 2π.</li>
+        <li class="small">Δ<i>r</i><sub>p</sub> is the distance a local observer measures with a ruler.</li>
+        <li class="small">Distances are <b>larger</b> than they would be in flat space: between the spheres of circumference 2π<i>r</i>₁ and 2π<i>r</i>₂ there is more than <i>r</i>₂ − <i>r</i>₁.</li>
+        <li class="small">The factor (1 − <i>r</i><sub>s</sub>/<i>r</i>)<sup>−1/2</sup> diverges at <i>r</i><sub>s</sub>, but the distance to the horizon is <b>finite</b>: from 3<i>r</i><sub>s</sub> down to <i>r</i><sub>s</sub> it is 3.6 <i>r</i><sub>s</sub>, not 2.</li>
+      </ul>
+      <p class="ref" style="margin: 0">On the left, Flamm’s paraboloid: the equatorial slice (constant <i>t</i>) drawn as a surface with the same geometry.</p>
+    </div>
+  </div>
+  <aside class="notes">What does it mean for radial distance to be larger? Flamm’s paraboloid is the slice of space drawn as a surface with the same geometry. The ruler, of fixed length, slides down the funnel: near the horizon it covers less and less Δr, because the surface gets steeper. In the plot, the factor that converts Δr into proper distance. A correction to the 2018 version: I used to say the radial distance becomes infinite near the horizon. The factor diverges, but the integral converges: the distance to the horizon is finite. From three Schwarzschild radii down to the horizon it is 3.6 r_s.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">The event horizon</p><h2>The <em>Schwarzschild</em> radius</h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center">
+    <div class="stack" style="gap: 24px">
+      <div class="eq" style="font-size: 96px"><i>R</i><sub>S</sub> = <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²</span></span><span class="note">2.95 km per solar mass</span></div>
+      <p style="margin: 0">Where the factor (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>) in the metric vanishes. There is nothing there — no surface, no wall: it is a <b>causal</b> boundary. What goes in does not come out.</p>
+    </div>
+    <table class="tbl">
+      <tr><th>object</th><th style="text-align: right">mass</th><th style="text-align: right"><i>R</i><sub>S</sub></th></tr>
+      <tr><td>Earth</td><td class="n">6×10²⁴ kg</td><td class="n">8.9 mm</td></tr>
+      <tr><td>Sun</td><td class="n">1 M☉</td><td class="n">2.95 km</td></tr>
+      <tr><td>neutron star (radius 12 km)</td><td class="n">1.4 M☉</td><td class="n">4.1 km</td></tr>
+      <tr><td>Cygnus X-1</td><td class="n">21 M☉</td><td class="n">62 km</td></tr>
+      <tr class="hl"><td>Sgr A*</td><td class="n">4.3×10⁶ M☉</td><td class="n">12.7 million km · 18 R☉</td></tr>
+      <tr><td>M87*</td><td class="n">6.5×10⁹ M☉</td><td class="n">1.9×10¹⁰ km · 128 AU</td></tr>
+    </table>
+  </div>
+  <aside class="notes">The Schwarzschild radius is proportional to mass: 2.95 km for every solar mass. The Earth would have to fit into 9 mm; a neutron star’s radius is only three times its Schwarzschild radius — that is why gravity there is so relativistic. The black hole at the centre of the Galaxy has a horizon of 18 solar radii; the one in M87, larger than Pluto’s orbit. And the horizon is not a special place for someone falling in: there is no wall, just a boundary of causality.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Proper time</p><h2>Time <em>in the well</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">two identical clocks · one far away, one in the well</span><span class="ref">lower the clock</span></div>
+      <div class="cv"><canvas id="relogios"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="relogios-r">clock position, <i>r</i>/<i>R</i><sub>S</sub> <output for="relogios-r"></output></label><input type="range" id="relogios-r" min="0" max="1" step="0.001" value="0.35"></div>
+      </div>
+      <div class="readout" id="relogios-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm" style="font-size: 38px">Δτ = <span style="white-space: nowrap">(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)<sup>1/2</sup></span> Δ<i>t</i></div>
+      <ul class="list" style="gap: 14px">
+        <li class="small">The clock deep in the well runs slower, as seen from far away — and it is no illusion: when it comes back up, it shows less time.</li>
+        <li class="small">GPS: +45 μs/day from altitude, −7 μs/day from the satellites’ speed. Without the correction, an error of ~10 km a day.</li>
+        <li class="small">At the surface of a neutron star: Δτ/Δ<i>t</i> ≈ 0.8 — some 12 minutes lost every hour.</li>
+        <li class="small">At the horizon, Δτ/Δ<i>t</i> → 0.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">Two identical clocks: one far from the mass, the other at rest at a distance r. The lower one runs slower, by the factor square root of 1 − r_s/r. This is measured every day: the clocks on GPS satellites run 45 microseconds a day fast because they are higher up, and 7 slow because of their speed. At the surface of a neutron star, a clock runs at 80% of the rate far away. And as the clock goes down to the horizon, its rate goes to zero.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">What happens at the horizon?</p><h2>Seen from afar, <em>time freezes</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">a probe falls in and blinks every second of its own clock</span><span class="ref">radial fall, Schwarzschild</span></div>
+      <div class="cv"><canvas id="congela"></canvas></div>
+      <div class="readout" id="congela-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <p style="margin: 0">An observer at infinity would see time <b>freeze</b> at <i>R</i><sub>S</sub>. Does that mean light stops?</p>
+      <p style="margin: 0"><b>No!</b> It means it is <b>trapped</b>. For photons Δ<i>s</i>² = 0; if Δτ → 0, the spatial terms vanish too (Δ<i>r</i> = Δθ = Δφ = 0): the photon does not leave that region.</p>
+      <div class="card"><h4>Photons: our natural clocks</h4><p class="small" style="margin: 0 0 10px">A wave of frequency <i>f</i> is a clock that ticks 1/Δ<i>t</i> times per second:</p><div class="eq sm" style="font-size: 32px"><i>f</i><sub>∞</sub> = (1 − 2<i>GM</i>/<i>c</i>²<i>r</i>)<sup>1/2</sup> <i>f</i><sub>local</sub></div></div>
+      <p class="small muted" style="margin: 0">Whoever falls in notices nothing special when crossing the horizon.</p>
+    </div>
+  </div>
+  <aside class="notes">A probe falls in radially and flashes a light every second of its own clock. Far away, we receive the flashes ever further apart and ever redder: the light loses energy climbing out of the well and the probe’s clock runs slow, as seen from here. The image of the probe freezes and fades near the horizon — we never see it cross. But it does cross, in a finite time on its own clock, and feels nothing special. Light it emits once inside the horizon never arrives. Photons are natural clocks: gravitational redshift is the same time dilation as on the previous slide.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Beyond the horizon</p><h2>Every future <em>points to the centre</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="cones"></canvas></div>
+      <div class="readout" id="cones-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <p class="big" style="margin: 0">Matter must move <b>inside</b> the light cones.</p>
+      <ul class="list" style="gap: 14px">
+        <li class="small">Far away, the cone is the familiar one: you can go outwards or inwards.</li>
+        <li class="small">Near the horizon, it tips inwards, but still leaves a way out.</li>
+        <li class="small">At the horizon, the outer edge becomes vertical: “outgoing” light stands still.</li>
+        <li class="small">Inside, both sides of the cone point to smaller <i>r</i>: <b>moving towards the future means moving towards the centre</b>.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Eddington–Finkelstein coordinates: <i>t̃</i> = <i>t</i> + <i>r</i><sub>s</sub> ln|<i>r</i>/<i>r</i><sub>s</sub> − 1|; infalling light follows straight lines at 45°.</p>
+    </div>
+  </div>
+  <aside class="notes">At every point in spacetime, the light cone marks out the possible futures: nothing travels faster than light. In coordinates that do not break down at the horizon, the Eddington–Finkelstein ones, the cones tip further inwards as we get closer. At the horizon the outer edge becomes vertical: a light ray pointed outwards stays put at r = r_s. Inside, the whole cone points inwards. There, r plays the role of time: going to the centre is as unavoidable as going to tomorrow. What happens in a black hole stays in a black hole.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">The centre of the Milky Way · 27,000 light-years</p><h2>Sagittarius A*: <em>stars orbiting nothing</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">measured orbits of the S stars · position on the sky</span><span class="ref">1 year ≈ 0.6 s</span></div>
+      <div class="cv"><canvas id="sstars"></canvas></div>
+      <div class="readout" id="sstars-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="cols c2" style="gap: 16px">
+        <div class="card" style="padding: 22px 26px"><p class="stat" style="font-size: 50px">4.3×10⁶ <small>M☉</small></p><p class="stat-label">mass at the centre</p></div>
+        <div class="card" style="padding: 22px 26px"><p class="stat" style="font-size: 50px">16 <small>years</small></p><p class="stat-label">period of S2</p></div>
+      </div>
+      <p class="small" style="margin: 0">S2 passes ~120 AU from the centre at ~7,700 km/s, 2.6% of <i>c</i>. In 2018 and 2020 the VLT measured its gravitational redshift and its Schwarzschild precession.</p>
+      <div class="cols c2" style="gap: 16px">
+        <figure class="portrait xs"><img src="assets/img/genzel.jpg" alt="Reinhard Genzel"><span class="credit" data-credit="genzel">ESO/Mahdi Zamani · CC BY-SA 4.0</span><figcaption><b>Reinhard Genzel</b>VLT · since 1992</figcaption></figure>
+        <figure class="portrait xs"><img src="assets/img/ghez.jpg" alt="Andrea Ghez"><span class="credit" data-credit="ghez">BorderlineRebel · CC BY-SA 4.0</span><figcaption><b>Andrea Ghez</b>Keck · since 1995</figcaption></figure>
+      </div>
+      <p class="ref" style="margin: 0">Nobel Prize 2020, with Roger Penrose. Orbits: Gillessen et al., <i>ApJ</i> 837, 30 (2017).</p>
+    </div>
+  </div>
+  <aside class="notes">This is the cleanest proof that black holes exist. Since 1992, Genzel’s team at the VLT, and since 1995 Ghez’s at Keck, have been tracking the stars closest to the centre of the Galaxy. They trace out Keplerian ellipses around a point where nothing can be seen. The star S2 goes round once every 16 years and passes 120 astronomical units from the centre, at almost 8,000 km/s. The orbits give the mass: 4.3 million solar masses, in a volume smaller than S2’s orbit — only a black hole fits. In the 2018 version I used 4.1 million; the current value is from GRAVITY, in 2022. The animation uses the published orbital elements, and time runs at about two years per second.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Event Horizon Telescope · 2019 and 2022</p><h2>The <em>shadows</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 26px">
+    <div class="duo">
+      <figure><img src="assets/img/m87.jpg" alt="M87*" style="object-fit: contain; background: #000"><span class="lbl">M87* · 2019 · 6.5 billion M☉ · 55 million light-years</span><span class="credit" data-credit="m87">EHT Collaboration · CC BY 4.0</span></figure>
+      <figure><img src="assets/img/sgra.jpg" alt="Sgr A*" style="object-fit: contain; background: #000"><span class="lbl">Sgr A* · 2022 · 4.3 million M☉ · 27,000 light-years</span><span class="credit" data-credit="sgra">EHT Collaboration · CC BY 4.0</span></figure>
+    </div>
+    <p style="margin: 0">The ring is ~5 <i>R</i><sub>S</sub> across: it is the photon sphere, at 1.5 <i>R</i><sub>S</sub>, seen through the lens of the black hole itself — shadow diameter = 2√27 <i>GM</i>/<i>c</i>² ≈ 5.2 <i>R</i><sub>S</sub>.</p>
+  </div>
+  <aside class="notes">In 2019 the Event Horizon Telescope, an Earth-sized network of radio telescopes, showed the shadow of M87*; in 2022, that of Sgr A*. Their masses differ by a factor of 1,500, yet they look almost the same size on the sky, because M87 is 2,000 times farther away. The size of the ring is the one predicted by the Schwarzschild metric: the shadow is five Schwarzschild radii across. These slides did not exist in the 2018 version — the images came later.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Schwarzschild geodesics</p><h2>How light <em>bends</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="geo-s"></canvas></div>
+      <div class="readout" id="geo-s-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="eq sm" style="font-size: 36px"><i>u</i>″ + <i>u</i> = <span class="frac"><span>3</span><span>2</span></span> <i>R</i><sub>S</sub> <i>u</i>²<span class="note"><i>u</i> = 1/<i>r</i> · orbit equation for light</span></div>
+      <ul class="list" style="gap: 14px">
+        <li class="small"><i>b</i> &gt; 3√3 <i>GM</i>/<i>c</i>² ≈ 2.6 <i>R</i><sub>S</sub>: the light is deflected and escapes.</li>
+        <li class="small"><i>b</i> = 2.6 <i>R</i><sub>S</sub>: unstable orbit on the <b>photon sphere</b>, <i>r</i> = 1.5 <i>R</i><sub>S</sub>.</li>
+        <li class="small"><i>b</i> &lt; 2.6 <i>R</i><sub>S</sub>: captured.</li>
+      </ul>
+      <p class="small muted" style="margin: 0">The term on the right is the General Relativity correction. Without it, light would travel in a straight line.</p>
+    </div>
+  </div>
+  <aside class="notes">A beam of parallel light rays coming in from the left, each with an impact parameter b, integrated exactly with the orbit equation. Those passing far away are barely deflected. Close to b = 2.6 R_S they loop around the hole before leaving — that is the photon sphere. Below that, they fall in. It is this boundary that produces the shadow in the EHT images.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow">Kerr geodesics · 1963</p><h2>The black hole that <em>spins</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">light rays in the equatorial plane</span><span class="ref">drag the spin</span></div>
+      <div class="cv"><canvas id="geo-k"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="geo-k-a">spin, <i>a</i>/<i>M</i> <output for="geo-k-a"></output></label><input type="range" id="geo-k-a" min="0" max="0.998" step="0.002" value="0.9"></div>
+      </div>
+      <div class="readout" id="geo-k-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <ul class="list" style="gap: 14px">
+        <li class="small">The rotation <b>drags</b> the spacetime around it (the Lense–Thirring effect).</li>
+        <li class="small">Light travelling with the rotation gets closer before being captured: the photon orbit goes from 1.5 <i>R</i><sub>S</sub> down to 0.5 <i>R</i><sub>S</sub> as <i>a</i> → <i>M</i>.</li>
+        <li class="small">Against the rotation, the orbit moves out, up to 2 <i>R</i><sub>S</sub>.</li>
+        <li class="small">Capture becomes asymmetric: the shadow shifts and flattens on one side.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Kerr null geodesics in Boyer–Lindquist coordinates, integrated in Mino time.</p>
+    </div>
+  </div>
+  <aside class="notes">Kerr’s solution, from 1963, describes a spinning black hole — and every real black hole should spin. The same beam of light is now dragged along by the rotation. Rays passing on the side that turns with them get closer before being captured; those passing against it are captured from farther out. The capture boundary becomes asymmetric, and so does the shadow. At maximum spin, the prograde photon orbit touches the horizon.</aside>
+</section>
+
+<section class="slide content p5">
+  <header><p class="eyebrow"><i>r</i> = 0</p><h2>The <em>singularity</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto 1fr; gap: 40px">
+    <div class="eq" style="font-size: 46px">Δ<i>s</i>² = −(1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)(<i>c</i>Δ<i>t</i>)² + (1 − <span class="frac"><span>2<i>GM</i></span><span><i>c</i>²<i>r</i></span></span>)<sup>−1</sup>(Δ<i>r</i>)² + <i>r</i>²[(Δθ)² + sin²θ (Δφ)²] &nbsp; <span class="boxed" style="font-size: .8em"><i>r</i> = 0 → <span class="c-warn">singularity</span></span></div>
+    <div class="cols c2" style="gap: 44px">
+      <div class="card"><h4><i>r</i> = <i>R</i><sub>S</sub> is not singular</h4><p style="margin: 0">The metric seems to blow up there, but that is just a bad choice of coordinates — like longitude at the North Pole. Whoever falls in crosses the horizon without noticing, and the curvature there is finite.</p></div>
+      <div class="card glow"><h4><i>r</i> = 0 is</h4><p style="margin: 0">The curvature diverges — the Kretschmann invariant goes as 48<i>G</i>²<i>M</i>²/<i>c</i>⁴<i>r</i>⁶ — and tidal forces stretch anything apart. General Relativity <b>predicts its own limit</b>: a quantum theory of gravity has to take over there, and we do not have one yet.</p></div>
+    </div>
+  </div>
+  <aside class="notes">To close the physics: there are two places where something in the metric diverges. At the horizon, r = R_S, the divergence is in the coordinates, not in spacetime; in other coordinates, like the Eddington–Finkelstein ones of the cones, everything is smooth there. At r = 0 it is real: the curvature goes to infinity. That is the point where general relativity stops working, and where quantum mechanics and gravity would have to meet.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Recap</p><h2>Three masses <em>decide the end</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: 1fr auto; gap: 40px">
+    <div class="cols c3" style="gap: 30px">
+      <div class="card" style="--part: var(--neb)"><p class="stat"><i>M</i><sub>J</sub></p><h3>Jeans</h3><p class="small">Above it, a cold cloud collapses, fragments and lights up stars. It shrinks as the cloud gets denser.</p></div>
+      <div class="card" style="--part: var(--ana)"><p class="stat">1.44 <small>M☉</small></p><h3>Chandrasekhar</h3><p class="small">Above it, degenerate electrons cannot hold: there is no white dwarf, and the iron core collapses.</p></div>
+      <div class="card glow" style="--part: var(--bn)"><p class="stat">~2.2 <small>M☉</small></p><h3>Tolman–Oppenheimer–Volkoff</h3><p class="small">Above it, not even neutrons can hold: a horizon forms, and the star becomes a black hole.</p></div>
+    </div>
+    <p class="say sm" style="margin: 0">The whole life of a star is gravity on one side and, on the other, heat, fusion and — in the end — <span class="grad">quantum mechanics</span>.</p>
+  </div>
+  <aside class="notes">The talk in three numbers. The Jeans mass decides when a cloud turns into stars. During its life, a star holds off gravity with fusion. At the end, if the mass of what is left is below 1.44 solar masses, electron pressure holds: a white dwarf. Between that and about 2.2, neutron pressure and the nuclear force hold: a neutron star. Above that, nothing holds: a black hole. Thank you.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Image credits</p><h2>Freely licensed <em>photos and figures</em></h2></header>
+  <div class="body credits" style="columns: 3; column-gap: 46px">
+    <!--CREDITS-->
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg"><b>Albert Einstein</b></a> — Ferdinand Schmutzer / Adam Cuerden · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Karl_Schwarzschild.png"><b>Karl Schwarzschild</b></a> — unknown author · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg"><b>M87* (EHT)</b></a> — Event Horizon Telescope Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Sag_A%2A.jpg"><b>Sgr A* (EHT)</b></a> — EHT Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Crab_Nebula.jpg"><b>Crab Nebula</b></a> — NASA, ESA, J. Hester and A. Loll (Arizona State University) · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg"><b>The Sun (SDO)</b></a> — NASA/SDO (AIA) · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Hertzsprung-Russell_Diagram_-_ESO.png"><b>Hertzsprung–Russell diagram</b></a> — ESO · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Wolfgang_Pauli.jpg"><b>Wolfgang Pauli</b></a> — unknown author · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://svs.gsfc.nasa.gov/20413/"><b>Supernova animation (video)</b></a> — NASA&#x27;s Goddard Space Flight Center Conceptual Image Lab (Jonathan North) · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pillars_of_Creation_(NIRCam_Image).jpg"><b>Pillars of Creation, Webb 2022</b></a> — NASA, ESA, CSA, STScI; image processing: Joseph DePasquale, Anton M. Koekemoer, Alyssa… · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg"><b>Pillars of Creation, Hubble 2014</b></a> — NASA, ESA, Hubble Heritage Team (STScI/AURA) · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:NASA%E2%80%99s_Webb_Reveals_Cosmic_Cliffs,_Glittering_Landscape_of_Star_Birth.jpg"><b>“Cosmic Cliffs”, Carina Nebula</b></a> — NASA, ESA, CSA, STScI · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg"><b>Orion Nebula</b></a> — NASA, ESA, M. Robberto (Space Telescope Science Institute/ESA) and the Hubble Space… · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:HL_Tau_protoplanetary_disk.jpg"><b>HL Tauri disc</b></a> — ALMA (ESO/NAOJ/NRAO) · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:IvyMike2.jpg"><b>Ivy Mike, 1952</b></a> — National Nuclear Security Administration / Nevada Site Office · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:SPHERE%E2%80%99s_view_of_Betelgeuse_in_January_2019_(eso2003b).jpg"><b>Betelgeuse</b></a> — ESO/M. Montargès et al. · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Webb_captures_detailed_beauty_of_Ring_Nebula_(NIRCam_image)_(weic2320b).jpg"><b>Ring Nebula (M57)</b></a> — ESA/Webb, NASA, CSA, M. Barlow, N. Cox, R. Wesson · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Werner_Heisenberg_Portrait.jpg"><b>Werner Heisenberg</b></a> — Bundesarchiv, Bild 183-R57262 / unknown author · CC BY-SA 3.0 de</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Subrahmanyan_Chandrasekhar.jpg"><b>Subrahmanyan Chandrasekhar</b></a> — AIP Emilio Segrè Visual Archives, Gift of Kameshwar Wali · attribution (AIP)</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Susan_Jocelyn_Bell_(Burnell),_1967.jpg"><b>Jocelyn Bell, 1967</b></a> — Roger W Haworth · CC BY-SA 2.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Anthony_J._Hewish.jpg"><b>Antony Hewish</b></a> — Woodruff T. Sullivan III / NRAO/AUI Archives (NRAO/AUI/NSF) · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pierre-Simon,_marquis_de_Laplace_(1745-1827)_-_Gu%C3%A9rin.jpg"><b>Pierre-Simon Laplace</b></a> — Jean-Baptiste Paulin Guérin · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Prof._Arthur_S._Eddington_LCCN2014718210.jpg"><b>Arthur Eddington</b></a> — Bain News Service (Library of Congress) · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Oppenheimer_(cropped).jpg"><b>J. Robert Oppenheimer</b></a> — unknown author (U.S. Department of Energy) · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:John_Archibald_Wheeler_1985.jpg"><b>John A. Wheeler</b></a> — Emielke · CC BY-SA 3.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Roy_Kerr_2016_01.jpg"><b>Roy Kerr</b></a> — Bengt Nyman · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Illustration_of_Cygnus_X-1_(2011-cygx1-more-1).tiff"><b>Cygnus X-1 (illustration)</b></a> — NASA/CXC/M. Weiss · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:The_centre_of_the_Milky_Way.jpg"><b>The centre of the Milky Way</b></a> — ESO · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Andrea_Ghez_(cropped_3x4).jpg"><b>Andrea Ghez</b></a> — BorderlineRebel · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Reinhard_Genzel_2018.jpg"><b>Reinhard Genzel</b></a> — ESO/Mahdi Zamani · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif"><b>Neutron star over Manhattan</b></a> — NASA&#x27;s Goddard Space Flight Center · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Chart_Showing_Radio_Signal_of_First_Identified_Pulsar,_crop_%26_rotate.jpg"><b>Chart record of CP 1919, 1967</b></a> — Bill Thompson (Billthom) · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:A_%E2%80%9CGreen_Monster%E2%80%9D_Lurks_in_Star%E2%80%99s_Debris_(a-green-monster-lurks-in-stars-debris).jpg"><b>Cassiopeia A</b></a> — X-ray: NASA/CXC/SAO; Optical: NASA/ESA/STScI; IR: NASA/ESA/CSA/STScI/Milisavljevic et… · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Research figures (Part IV)</b> — R. C. R. de Lima and collaborators; Coelho et al., A&amp;A 599, A87 (2017); de Lima et al., ApJ 889, 165 (2020)</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>P–Ṗ diagram</b> — ATNF pulsar catalogue 2.8.1 (Manchester et al., AJ 129, 1993, 2005)</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Orbits around Sgr A*</b> — Gillessen et al., ApJ 837, 30 (2017); GRAVITY Collaboration, A&amp;A 657, L12 (2022)</p>
+    <!--/CREDITS-->
+  </div>
+  <aside class="notes">All the images come from Wikimedia Commons, in the public domain or under free licences. The research figures are by me and my collaborators.</aside>
+</section>
+
+<section class="slide cover end">
+  <div class="grain"></div>
+  <div class="main" style="top: 300px">
+    <p class="kicker rise d1">Thank you</p>
+    <h1 class="rise d2"><em>Questions?</em></h1>
+    <p class="lede rise d3">Slides, animations and dashboards available at <i style="white-space: nowrap">rafael-lima.pages.dev/talks</i></p>
+  </div>
+  <footer class="bottom rise d4">
+    <div class="author"><p class="name">Rafael C. R. de Lima</p><p class="aff">rafael.lima@udesc.br<span>·</span>rafael-lima.pages.dev</p></div>
+  </footer>
+  <aside class="notes">Thank you.</aside>
+</section>
+
+</main>
+
+<nav class="langsw" aria-label="Idioma / Language"><a href="index.html" data-set-lang="pt">PT</a><a href="en.html" data-set-lang="en" class="on">EN</a></nav>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="counter" id="counter"></div>
+<div id="notes-panel"><h4>Notes</h4><div id="notes-body"></div></div>
+<div id="help" role="dialog" aria-label="Shortcuts">
+  <div class="box">
+    <h3>Shortcuts</h3>
+    <dl>
+      <dt>→ / space</dt><dd>next</dd>
+      <dt>←</dt><dd>previous</dd>
+      <dt>Home / End</dt><dd>first / last</dd>
+      <dt>F / F5</dt><dd>full screen (also double-click or ⛶ in the corner)</dd>
+      <dt>O</dt><dd>overview</dd>
+      <dt>N</dt><dd>speaker notes</dd>
+      <dt>Esc</dt><dd>release a control and go back to navigating</dd>
+      <dt>?</dt><dd>this help</dd>
+      <dt>PT / EN</dt><dd>top-right corner</dd>
+    </dl>
+  </div>
+</div>
+
+<script src="assets/deck.js?v=202610181736"></script>
+<script src="assets/ppdot.js?v=202610181736"></script>
+<script src="assets/dash.js?v=202610181736"></script>
+<script src="assets/dash-pulsares.js?v=202610181736"></script>
+<script src="assets/dash-buracos.js?v=202610181736"></script>
+<script>Deck.start();</script>
+</body>
+</html>

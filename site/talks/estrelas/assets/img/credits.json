@@ -1,0 +1,245 @@
+{
+ "einstein": {
+  "file": "assets/img/einstein.jpg",
+  "title": "Einstein 1921 by F Schmutzer - restoration.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
+  "license": "Public domain",
+  "artist": "Ferdinand Schmutzer / Adam Cuerden"
+ },
+ "schwarzschild": {
+  "file": "assets/img/schwarzschild.jpg",
+  "title": "Karl Schwarzschild.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Karl_Schwarzschild.png",
+  "license": "Public domain",
+  "artist": "autor desconhecido"
+ },
+ "m87": {
+  "file": "assets/img/m87.jpg",
+  "title": "Black hole - Messier 87 crop max res.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Event Horizon Telescope Collaboration",
+  "short": "EHT Collaboration"
+ },
+ "sgra": {
+  "file": "assets/img/sgra.jpg",
+  "title": "Sag A*.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Sag_A%2A.jpg",
+  "license": "CC BY 4.0",
+  "artist": "EHT Collaboration"
+ },
+ "crab": {
+  "file": "assets/img/crab.jpg",
+  "title": "Crab Nebula.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Crab_Nebula.jpg",
+  "license": "Public domain",
+  "artist": "NASA, ESA, J. Hester and A. Loll (Arizona State University)"
+ },
+ "sun": {
+  "file": "assets/img/sun.jpg",
+  "title": "The Sun by the Atmospheric Imaging Assembly of NASA's Solar Dynamics Observatory - 20100819.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+  "license": "Public domain",
+  "artist": "NASA/SDO (AIA)"
+ },
+ "hr-eso": {
+  "file": "assets/img/hr-eso.jpg",
+  "title": "Hertzsprung-Russell Diagram - ESO.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Hertzsprung-Russell_Diagram_-_ESO.png",
+  "license": "CC BY 4.0",
+  "artist": "ESO"
+ },
+ "pauli": {
+  "file": "assets/img/pauli.jpg",
+  "title": "Wolfgang Pauli.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Wolfgang_Pauli.jpg",
+  "license": "CC BY 4.0",
+  "artist": "autor desconhecido"
+ },
+ "supernova-nasa": {
+  "file": "assets/video/supernova-nasa.mp4",
+  "title": "SVS 20413",
+  "page": "https://svs.gsfc.nasa.gov/20413/",
+  "license": "Public domain",
+  "artist": "NASA's Goddard Space Flight Center Conceptual Image Lab (Jonathan North)"
+ },
+ "pillars-webb": {
+  "file": "assets/img/pillars-webb.jpg",
+  "title": "Pillars of Creation (NIRCam Image).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Pillars_of_Creation_(NIRCam_Image).jpg",
+  "license": "Public domain",
+  "artist": "NASA, ESA, CSA, STScI; image processing: Joseph DePasquale, Anton M. Koekemoer, Alyssa Pagan (STScI)",
+  "short": "NASA, ESA, CSA, STScI"
+ },
+ "pillars-hubble2014": {
+  "file": "assets/img/pillars-hubble2014.jpg",
+  "title": "Pillars of creation 2014 HST WFC3-UVIS full-res denoised.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg",
+  "license": "Public domain",
+  "artist": "NASA, ESA, Hubble Heritage Team (STScI/AURA)"
+ },
+ "cosmic-cliffs": {
+  "file": "assets/img/cosmic-cliffs.jpg",
+  "title": "NASA’s Webb Reveals Cosmic Cliffs, Glittering Landscape of Star Birth.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:NASA%E2%80%99s_Webb_Reveals_Cosmic_Cliffs,_Glittering_Landscape_of_Star_Birth.jpg",
+  "license": "Public domain",
+  "artist": "NASA, ESA, CSA, STScI"
+ },
+ "orion": {
+  "file": "assets/img/orion.jpg",
+  "title": "Orion Nebula - Hubble 2006 mosaic 18000.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg",
+  "license": "Public domain",
+  "artist": "NASA, ESA, M. Robberto (Space Telescope Science Institute/ESA) and the Hubble Space Telescope Orion Treasury Project Team",
+  "short": "NASA, ESA, M. Robberto"
+ },
+ "hl-tau": {
+  "file": "assets/img/hl-tau.jpg",
+  "title": "HL Tau protoplanetary disk.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:HL_Tau_protoplanetary_disk.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ALMA (ESO/NAOJ/NRAO)"
+ },
+ "ivy-mike": {
+  "file": "assets/img/ivy-mike.jpg",
+  "title": "IvyMike2.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:IvyMike2.jpg",
+  "license": "Public domain",
+  "artist": "National Nuclear Security Administration / Nevada Site Office",
+  "short": "NNSA / Nevada Site Office"
+ },
+ "betelgeuse": {
+  "file": "assets/img/betelgeuse.jpg",
+  "title": "SPHERE’s view of Betelgeuse in January 2019 (eso2003b).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:SPHERE%E2%80%99s_view_of_Betelgeuse_in_January_2019_(eso2003b).jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESO/M. Montargès et al."
+ },
+ "planetary-nebula": {
+  "file": "assets/img/planetary-nebula.jpg",
+  "title": "Webb captures detailed beauty of Ring Nebula (NIRCam image) (weic2320b).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Webb_captures_detailed_beauty_of_Ring_Nebula_(NIRCam_image)_(weic2320b).jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESA/Webb, NASA, CSA, M. Barlow, N. Cox, R. Wesson",
+  "short": "ESA/Webb, NASA, CSA, M. Barlow et al."
+ },
+ "heisenberg": {
+  "file": "assets/img/heisenberg.jpg",
+  "title": "Werner Heisenberg Portrait.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Werner_Heisenberg_Portrait.jpg",
+  "license": "CC BY-SA 3.0 de",
+  "artist": "Bundesarchiv, Bild 183-R57262 / autor desconhecido",
+  "short": "Bundesarchiv, Bild 183-R57262"
+ },
+ "chandrasekhar": {
+  "file": "assets/img/chandrasekhar.jpg",
+  "title": "Subrahmanyan Chandrasekhar.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Subrahmanyan_Chandrasekhar.jpg",
+  "license": "Attribution only (AIP)",
+  "artist": "AIP Emilio Segrè Visual Archives, Gift of Kameshwar Wali",
+  "short": "AIP Emilio Segrè Visual Archives"
+ },
+ "jocelyn-bell": {
+  "file": "assets/img/jocelyn-bell.jpg",
+  "title": "Susan Jocelyn Bell (Burnell), 1967.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Susan_Jocelyn_Bell_(Burnell),_1967.jpg",
+  "license": "CC BY-SA 2.0",
+  "artist": "Roger W Haworth"
+ },
+ "hewish": {
+  "file": "assets/img/hewish.jpg",
+  "title": "Anthony J. Hewish.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Anthony_J._Hewish.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Woodruff T. Sullivan III / NRAO/AUI Archives (NRAO/AUI/NSF)",
+  "note": "recortada",
+  "short": "W. T. Sullivan III / NRAO/AUI"
+ },
+ "laplace": {
+  "file": "assets/img/laplace.jpg",
+  "title": "Pierre-Simon, marquis de Laplace (1745-1827) - Guérin.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Pierre-Simon,_marquis_de_Laplace_(1745-1827)_-_Gu%C3%A9rin.jpg",
+  "license": "Public domain",
+  "artist": "Jean-Baptiste Paulin Guérin"
+ },
+ "eddington": {
+  "file": "assets/img/eddington.jpg",
+  "title": "Prof. Arthur S. Eddington LCCN2014718210.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Prof._Arthur_S._Eddington_LCCN2014718210.jpg",
+  "license": "Public domain",
+  "artist": "Bain News Service (Library of Congress)",
+  "note": "recortada (sem moldura/legenda)"
+ },
+ "oppenheimer": {
+  "file": "assets/img/oppenheimer.jpg",
+  "title": "Oppenheimer (cropped).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Oppenheimer_(cropped).jpg",
+  "license": "Public domain",
+  "artist": "autor desconhecido (U.S. Department of Energy)",
+  "short": "U.S. Department of Energy"
+ },
+ "wheeler": {
+  "file": "assets/img/wheeler.jpg",
+  "title": "John Archibald Wheeler 1985.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:John_Archibald_Wheeler_1985.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Emielke"
+ },
+ "kerr": {
+  "file": "assets/img/kerr.jpg",
+  "title": "Roy Kerr 2016 01.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Roy_Kerr_2016_01.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Bengt Nyman"
+ },
+ "cygnus-x1": {
+  "file": "assets/img/cygnus-x1.jpg",
+  "title": "Illustration of Cygnus X-1 (2011-cygx1-more-1).tiff",
+  "page": "https://commons.wikimedia.org/wiki/File:Illustration_of_Cygnus_X-1_(2011-cygx1-more-1).tiff",
+  "license": "Public domain",
+  "artist": "NASA/CXC/M. Weiss"
+ },
+ "galactic-center": {
+  "file": "assets/img/galactic-center.jpg",
+  "title": "The centre of the Milky Way.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_centre_of_the_Milky_Way.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESO"
+ },
+ "ghez": {
+  "file": "assets/img/ghez.jpg",
+  "title": "Andrea Ghez (cropped 3x4).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Andrea_Ghez_(cropped_3x4).jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "BorderlineRebel"
+ },
+ "genzel": {
+  "file": "assets/img/genzel.jpg",
+  "title": "Reinhard Genzel 2018.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Reinhard_Genzel_2018.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "ESO/Mahdi Zamani"
+ },
+ "ns-manhattan": {
+  "file": "assets/img/ns-manhattan.jpg",
+  "title": "Manhattan NS.tif",
+  "page": "https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif",
+  "license": "Public domain",
+  "artist": "NASA's Goddard Space Flight Center"
+ },
+ "bell-chart": {
+  "file": "assets/img/bell-chart.jpg",
+  "title": "Chart Showing Radio Signal of First Identified Pulsar, crop & rotate.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Chart_Showing_Radio_Signal_of_First_Identified_Pulsar,_crop_%26_rotate.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Bill Thompson (Billthom)"
+ },
+ "cas-a": {
+  "file": "assets/img/cas-a.jpg",
+  "title": "A “Green Monster” Lurks in Star’s Debris (a-green-monster-lurks-in-stars-debris).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:A_%E2%80%9CGreen_Monster%E2%80%9D_Lurks_in_Star%E2%80%99s_Debris_(a-green-monster-lurks-in-stars-debris).jpg",
+  "license": "Public domain",
+  "artist": "X-ray: NASA/CXC/SAO; Optical: NASA/ESA/STScI; IR: NASA/ESA/CSA/STScI/Milisavljevic et al., NASA/JPL/Caltech; Image processing: NASA/CXC/SAO/J. Schmidt, K. Arcand",
+  "short": "NASA/CXC/SAO, NASA/ESA/CSA/STScI"
+ }
+}
