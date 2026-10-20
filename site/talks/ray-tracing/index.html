@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610201200">
+<link rel="stylesheet" href="assets/deck.css?v=202610201500">
 </head>
 <body>
 
@@ -266,7 +266,7 @@
       <p class="small" style="margin: 0">Sem gravidade, ψ = α e o limbo está em 90°. Com gravidade, o limbo vai além: <b>vemos atrás da estrela</b>. A aproximação é ótima até <i>R</i> ≈ 3 <i>R</i><sub>S</sub> e falha justamente onde aparece a imagem secundária.</p>
     </div>
     <div class="dash">
-      <div class="dash-head"><span class="tag part">ψ(α): exato, Beloborodov e espaço plano</span><span class="ref">arraste a compacidade</span></div>
+      <div class="dash-head"><span class="tag part"><span class="nocase">ψ(α)</span>: exato, Beloborodov e espaço plano</span><span class="ref">arraste a compacidade</span></div>
       <div class="plots" style="grid-template-columns: 1.45fr 1fr"><div class="cv"><canvas id="psi"></canvas></div><div class="cv"><canvas id="psi-err"></canvas></div></div>
       <div class="controls" style="grid-template-columns: 1fr">
         <div class="ctl"><label for="psi-R">raio da estrela, <i>R</i>/<i>R</i><sub>S</sub> <output for="psi-R"></output></label><input type="range" id="psi-R" min="1.52" max="6" step="0.005" value="2.42"></div>
@@ -731,7 +731,7 @@
   <header><p class="eyebrow">Ottoni, Coelho, de Lima, Pereira &amp; Rueda · EPJC 84, 1337 (2024)</p><h2>A mesma estrela, <em>outra gravidade</em></h2></header>
   <div class="body">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">M = 2,1 M☉ · uma mancha de 10° · ι = θ = 90° · estrela estática · integral exata</span><div class="seg" id="stt-model"><button type="button" data-v="gr">RG</button><button type="button" data-v="s1" class="on">ETE 1 · A<sub>s</sub> = 0,95</button><button type="button" data-v="s2">ETE 2 · A<sub>s</sub> = 1,05</button></div></div>
+      <div class="dash-head"><span class="tag part">M = 2,1 M☉ · uma mancha de 10° · <span class="nocase">ι = θ = 90°</span> · estrela estática · integral exata</span><div class="seg" id="stt-model"><button type="button" data-v="gr">RG</button><button type="button" data-v="s1" class="on">ETE 1 · A<sub>s</sub> = 0,95</button><button type="button" data-v="s2">ETE 2 · A<sub>s</sub> = 1,05</button></div></div>
       <div class="plots" style="grid-template-columns: .85fr 1.35fr"><div class="cv"><canvas id="stt-img"></canvas></div><div class="cv"><canvas id="stt-lc"></canvas></div></div>
       <div class="controls">
         <div class="ctl"><label for="stt-C">compacidade, <i>GM</i>/<i>Rc</i>² <output for="stt-C"></output></label><input type="range" id="stt-C" min="0.26" max="0.30" step="0.0005" value="0.284"></div>
@@ -818,8 +818,8 @@
   <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
     <div class="stack" style="gap: 14px">
       <p class="small" style="margin: 0">A equação de estado da matéria (SLy) <b>não muda</b>. Muda o quanto ela <b>gravita</b>: a estrela passa a sentir uma densidade e uma pressão efetivas.</p>
-      <div class="eq sm" style="font-size: 26px; padding: 14px 16px; text-align: left; line-height: 1.7">ρ<sub>ef</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + ρ<sub>𝒰</sub><br><i>p</i><sub>ef</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>p</i><sub>𝒰</sub><span class="note">termo local (λ) · setor de Weyl (𝒰)</span></div>
-      <div class="eq sm" style="font-size: 25px; padding: 14px 16px; text-align: left; line-height: 1.8"><span class="frac"><span><i>dm</i></span><span><i>dr</i></span></span> = 4π<i>r</i>² ρ<sub>ef</sub><br><span class="frac"><span><i>dp</i></span><span><i>dr</i></span></span> = −(ρ + <i>p</i>) <span class="frac"><span><i>m</i> + 4π<i>r</i>³<i>p</i><sub>ef</sub></span><span><i>r</i>(<i>r</i> − 2<i>m</i>)</span></span><span class="note">a matéria se conserva: o fator (ρ + p) é o de sempre</span></div>
+      <div class="eq sm" style="font-size: 26px; padding: 14px 16px; text-align: left; line-height: 1.7">ρ<sub>ef</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + ρ<sub>𝒰</sub><br><i>p</i><sub>ef</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>p</i><sub>𝒰</sub><span class="note">termo local (<span class="nocase">λ</span>) · setor de Weyl (𝒰)</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 16px; text-align: left; line-height: 1.8"><span class="frac"><span><i>dm</i></span><span><i>dr</i></span></span> = 4π<i>r</i>² ρ<sub>ef</sub><br><span class="frac"><span><i>dp</i></span><span><i>dr</i></span></span> = −(ρ + <i>p</i>) <span class="frac"><span><i>m</i> + 4π<i>r</i>³<i>p</i><sub>ef</sub></span><span><i>r</i>(<i>r</i> − 2<i>m</i>)</span></span><span class="note">a matéria se conserva: o fator <span class="nocase">(ρ + <i>p</i>)</span> é o de sempre</span></div>
       <p class="small" style="margin: 0">O termo local <b>aumenta a atração</b> e encolhe a estrela — mas só quando ρ se aproxima de λ. No centro de uma estrela de nêutrons ρ ≈ 2×10⁻³ km⁻²; com λ ~ 10⁴ km⁻², ρ/λ ~ 10⁻⁷.</p>
     </div>
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
@@ -854,7 +854,7 @@
       </table>
     </div>
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
-      <div class="dash-head"><span class="tag part">curvas M–R com λ = 10⁴ km⁻² · SLy</span><span class="ref">tracejado: RG</span></div>
+      <div class="dash-head"><span class="tag part">curvas M–R com <span class="nocase">λ = 10⁴ km⁻²</span> · SLy</span><span class="ref">tracejado: RG</span></div>
       <div class="plots two"><div class="cv"><canvas id="weyl-a"></canvas></div><div class="cv"><canvas id="weyl-w"></canvas></div></div>
       <div class="readout" id="weyl-out"></div>
     </div>
@@ -889,18 +889,177 @@
 </section>
 
 <section class="slide content p3">
-  <header><p class="eyebrow">PRD 110, 103014 (2024) · PRD 112, 083010 (2025)</p><h2>O que entra em <em>M, R e I</em></h2></header>
-  <div class="body cols c2" style="gap: 44px">
+  <header><p class="eyebrow">Itoh 1970 · Bodmer 1971 · Witten 1984 · a hipótese da matéria estranha</p><h2>E se o ferro <em>não for</em> o fundo do poço?</h2></header>
+  <div class="body cols" style="grid-template-columns: .85fr 1.2fr; gap: 40px">
     <div class="stack" style="gap: 14px">
-      <figure class="paper"><img src="assets/img/pesquisa/stratrot-1.png" style="max-height: 400px" alt="Variação do momento de inércia contra a posição do salto de rotação"><figcaption>Δ<i>I</i>/<i>I</i> contra a posição <i>R</i>*/<i>R</i> de um salto na velocidade angular.</figcaption></figure>
-      <p class="small" style="margin: 0"><b>Rotação estratificada</b> (Pereira, Ottoni, Coelho, Rueda &amp; de Lima): se o interior gira diferente da crosta, o momento de inércia muda — pouco se o salto for profundo (&lt; 40% do raio), quase tanto quanto Δω se for perto da superfície. Isso mexe no orçamento de energia de rotação dos pulsares e enfraquece as relações universais I-Love-Q.</p>
+      <p class="small" style="margin: 0">Em densidades extremas os nêutrons podem se desfazer em quarks. A hipótese de Bodmer e Witten vai além: a matéria de quarks <b>u, d e s</b> seria o <b>estado fundamental</b> da matéria — com energia por bárion menor que a do ⁵⁶Fe, 930 MeV.</p>
+      <svg viewBox="0 0 540 214" style="width: 84%; height: auto; display: block; margin: 0 auto" role="img" aria-label="Mares de Fermi com dois e com três sabores de quarks">
+        <text x="80" y="18" font-size="16" text-anchor="middle" style="fill: #b3b9c9">só u e d</text>
+        <text x="390" y="18" font-size="16" text-anchor="middle" style="fill: #b3b9c9">u, d e s · mesmo número de quarks</text>
+        <g stroke-width="3" stroke-linecap="round">
+          <g stroke="#ff8fab"><path d="M30 172h50M30 157h50M30 142h50M30 127h50M30 112h50M30 97h50M30 82h50M30 67h50M30 52h50"/></g>
+          <g stroke="#7cc4ff"><path d="M100 172h50M100 157h50M100 142h50M100 127h50M100 112h50M100 97h50M100 82h50M100 67h50M100 52h50"/></g>
+          <g stroke="#ff8fab"><path d="M300 172h50M300 157h50M300 142h50M300 127h50M300 112h50M300 97h50M300 82h50"/></g>
+          <g stroke="#7cc4ff"><path d="M370 172h50M370 157h50M370 142h50M370 127h50M370 112h50M370 97h50M370 82h50"/></g>
+          <g stroke="#ffb86b"><path d="M440 127h50M440 112h50M440 97h50M440 82h50"/></g>
+        </g>
+        <path d="M22 44h146M292 74h206" stroke="#eef0f6" stroke-width="1.5" stroke-dasharray="6 5" fill="none"/>
+        <text x="172" y="48" font-size="16" style="fill: #eef0f6">μ</text>
+        <text x="502" y="78" font-size="16" style="fill: #eef0f6">μ</text>
+        <path d="M440 172h50" stroke="#ffb86b" stroke-width="1.2" stroke-dasharray="3 4"/>
+        <path d="M498 172v-42" stroke="#ffb86b" stroke-width="1.2"/>
+        <text x="504" y="156" font-size="14" style="fill: #ffb86b">m<tspan font-size="11" dy="4">s</tspan></text>
+        <text x="55" y="200" font-size="18" text-anchor="middle" style="fill: #ff8fab">u</text>
+        <text x="125" y="200" font-size="18" text-anchor="middle" style="fill: #7cc4ff">d</text>
+        <text x="325" y="200" font-size="18" text-anchor="middle" style="fill: #ff8fab">u</text>
+        <text x="395" y="200" font-size="18" text-anchor="middle" style="fill: #7cc4ff">d</text>
+        <text x="465" y="200" font-size="18" text-anchor="middle" style="fill: #ffb86b">s</text>
+        <path d="M200 112h70" stroke="#b3b9c9" stroke-width="1.6" fill="none" marker-end="url(#qs-ar)"/>
+        <text x="235" y="102" font-size="14" text-anchor="middle" style="fill: #b3b9c9">d → s</text>
+        <defs><marker id="qs-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3b9c9"/></marker></defs>
+      </svg>
+      <p class="ref" style="margin: -6px 0 0">Pauli: cada sabor tem o seu mar de Fermi. Um terceiro sabor abre níveis novos, e o topo (μ) desce — mesmo pagando a massa do s.</p>
+      <ul class="list" style="gap: 10px">
+        <li class="small">Os núcleos não decaem porque precisariam de ~<i>A</i> conversões fracas d → s <b>simultâneas</b>.</li>
+        <li class="small">E a matéria só de u e d precisa ser <b>instável</b> — senão o próprio ferro já teria virado quarks.</li>
+        <li class="small">Se valer, “estrelas de nêutrons” podem ser <b>estrelas de quarks</b>, presas pela interação forte.</li>
+      </ul>
     </div>
-    <div class="stack" style="gap: 14px">
-      <figure class="paper"><img src="assets/img/pesquisa/quarkstar-1.png" style="max-height: 400px" alt="Faixa massa-raio permitida para estrelas de quarks"><figcaption>A faixa M–R permitida para estrelas de quarks, com XMMU J173203.3−344518.</figcaption></figure>
-      <p class="small" style="margin: 0"><b>Estrelas de quarks</b> (Zastrow, Pereira, de Lima &amp; Horvath): uma equação de estado inspirada na QCD, varrida contra massas máximas, raios e deformabilidade de maré. As interações fortes precisam se afastar ≥ 20% dos quarks livres; uma estrela de 1,4 M☉ teria 10,0–12,3 km.</p>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">a janela de estabilidade · energia por bárion a <span class="nocase">p = 0</span></span></div>
+      <div class="cv"><canvas id="qs-win"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(2, 1fr)">
+        <div class="ctl"><label for="qw-a4">a<sub>4</sub> (interação) <output for="qw-a4"></output></label><input type="range" id="qw-a4" min="0.05" max="1" step="0.01" value="0.64"></div>
+        <div class="ctl"><label for="qw-a2">a<sub>2</sub> (10³ MeV²) <output for="qw-a2"></output></label><input type="range" id="qw-a2" min="-265" max="87" step="1" value="15"></div>
+      </div>
+      <div class="readout" id="qs-win-out"></div>
     </div>
   </div>
-  <aside class="notes">Dois trabalhos de estrutura, que alimentam o ray tracing com M, R e I. Rotação estratificada, de 2024: se o núcleo gira com velocidade diferente da crosta — por superfluidez ou transições de fase —, o momento de inércia muda, e com ele a energia de rotação disponível, o raio inferido e as relações universais. E estrelas de quarks, de 2025: uma equação de estado inspirada na QCD, varrida contra os vínculos observacionais. Os dois mostram que o M e o R que o ray tracing mede não vêm de graça: dependem de física nuclear e de suposições sobre a rotação.</aside>
+  <aside class="notes">A hipótese da matéria estranha, de Itoh, Bodmer e Witten. Num núcleo, os quarks estão presos em prótons e nêutrons. Mas, se a matéria fosse comprimida até os nucleons se desfazerem, os quarks livres u e d poderiam converter parte de si em quarks s pela interação fraca. Por quê? Pauli: cada sabor tem o seu mar de Fermi. Com três sabores, o mesmo número de quarks se acomoda em níveis mais baixos, e a energia cai — mesmo pagando a massa do s. A hipótese é que essa matéria de três sabores tenha energia por bárion menor que a do ferro: seria o estado fundamental da matéria. Os núcleos não decaem porque precisariam de dezenas de conversões fracas ao mesmo tempo. E a matéria só de u e d tem que ser instável, senão o ferro já teria virado quarks. O painel mostra isso com o modelo do nosso artigo: a curva âmbar é a energia por bárion da matéria uds, a lilás a da ud. A faixa turquesa é a janela em que a uds fica abaixo do ferro e a ud acima: ali existem estrelas de quarks. À esquerda, o ferro decairia; à direita, a matéria estranha só aparece sob pressão, dentro de estrelas híbridas.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Alford, Braby, Paris &amp; Reddy 2005 · uma equação de estado informada pela QCD</p><h2>A QCD densa em <em>três números</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <div class="eq sm" style="font-size: 27px; padding: 14px 16px">ω = −<span class="frac"><span>3<i>a</i><sub>4</sub></span><span>4π²</span></span> μ⁴ + <span class="frac"><span>3<i>a</i><sub>2</sub></span><span>4π²</span></span> μ² + <i>B</i><span class="note">potencial termodinâmico · <span class="nocase"><i>p</i> = −ω</span> · <span class="nocase">μ</span>: potencial químico dos quarks</span></div>
+      <table class="tbl" style="font-size: 18px">
+        <tr class="hl"><td style="white-space: nowrap"><i>a</i><sub>4</sub> = 1 − <i>c</i></td><td>a <b>interação forte</b>. <i>a</i><sub>4</sub> = 1 são quarks livres; a QCD perturbativa sugere <i>c</i> ≳ 0,3</td></tr>
+        <tr><td style="white-space: nowrap"><i>a</i><sub>2</sub> = <i>m</i><sub>s</sub>² − 4Δ²</td><td>a massa do quark s contra o <b>gap</b> Δ da supercondutividade de cor (fase CFL) — pode ser negativo</td></tr>
+        <tr><td style="white-space: nowrap"><i>B</i></td><td>a <b>constante de sacola</b>: o custo de abrir o vácuo da QCD</td></tr>
+      </table>
+      <p class="small" style="margin: 0">Na superfície <i>p</i> = 0, mas a densidade não: ρ<sub>s</sub> ≈ 4<i>B</i> ~ 10¹⁴–10¹⁵ g/cm³. A estrela é <b>autoligada</b>: em massas pequenas, <i>M</i> ∝ <i>R</i>³, ao contrário da estrela de nêutrons.</p>
+      <p class="ref" style="margin: 0">TOV + a equação de maré com o salto da superfície (Δ<i>y</i> = −4π<i>R</i>³ρ<sub>s</sub>/<i>M</i>), resolvidas aqui. O exemplo do artigo dá 2,19 M☉, 11,97 km e Λ = 852 — o painel reproduz.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">TOV + maré · quarks <span class="nocase">u, d, s</span></span><div class="seg" id="qs-pre"><button type="button" data-v="free">quarks livres</button><button type="button" data-v="paper" class="on">exemplo do artigo</button><button type="button" data-v="gap">gap grande</button></div></div>
+      <div class="cv"><canvas id="qs-mr"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="ctl"><label for="qs-a4">a<sub>4</sub> <output for="qs-a4"></output></label><input type="range" id="qs-a4" min="0.05" max="1" step="0.01" value="0.64"></div>
+        <div class="ctl"><label for="qs-a2">a<sub>2</sub> (10³ MeV²) <output for="qs-a2"></output></label><input type="range" id="qs-a2" min="-265" max="87" step="0.01" value="14.61"></div>
+        <div class="ctl"><label for="qs-b">B<sup>1/4</sup> (MeV) <output for="qs-b"></output></label><input type="range" id="qs-b" min="70" max="230" step="0.01" value="130.76"></div>
+      </div>
+      <div class="readout" id="qs-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Para fazer estrelas é preciso uma equação de estado. A de Alford e colaboradores parte da QCD em densidade muito alta e acrescenta correções: um potencial com três parâmetros. a4 mede a interação forte: vale 1 para quarks livres e algo como 0,7 se a QCD perturbativa estiver certa. a2 junta a massa do quark estranho e o gap da supercondutividade de cor — na fase CFL, em que quarks de cores e sabores diferentes formam pares, a2 é m_s² menos quatro vezes o gap ao quadrado, e pode ficar negativo se o gap for grande. B é a constante de sacola, o custo de abrir uma bolha de vácuo perturbativo. O painel resolve a TOV e a equação de maré para essa matéria. Repare na forma da curva: começa na origem. Uma estrela de quarks pequena é uma gota de matéria estranha, presa pela interação forte, e o raio cresce como a raiz cúbica da massa — o oposto da estrela de nêutrons, tracejada. “Quarks livres” não chega a 2,13 massas solares; o exemplo do artigo passa em tudo; e o “gap grande”, com a2 negativo, também — e passa pelo objeto compacto de HESS J1731, o ponto rosa.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Zastrow, Pereira, de Lima &amp; Horvath · PRD 112, 083010 (2025) · o método</p><h2>Milhares de estrelas <em>sorteadas</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0">Cada ponto (<i>a</i><sub>2</sub>, <i>a</i><sub>4</sub>, <i>B</i>) dentro da janela de estabilidade é uma <b>família inteira</b> de estrelas: TOV para <i>M</i> e <i>R</i>, a equação de maré para Λ. O artigo sorteou <b>263 287</b> pontos por hipercubo latino; aqui o navegador sorteia os seus, ao vivo.</p>
+      <table class="tbl" style="font-size: 18px">
+        <tr><th></th><th>faixa aceita</th><th>de onde vem</th></tr>
+        <tr class="hl"><td><i>M</i><sub>máx</sub></td><td class="n" style="white-space: nowrap">2,13 – 2,33 M☉</td><td>pulsares em binárias (Romani et al. 2022) · GW170817 + GRB 170817A (Rezzolla et al. 2018)</td></tr>
+        <tr><td><i>R</i><sub>1,4</sub></td><td class="n" style="white-space: nowrap">10,00 – 13,25 km</td><td>raios do NICER — <b>ray tracing</b> — e de ondas gravitacionais (compilação de Pang et al. 2023)</td></tr>
+        <tr><td>Λ<sub>1,4</sub></td><td class="n" style="white-space: nowrap">&lt; 970</td><td>deformabilidade de maré de GW170817</td></tr>
+      </table>
+      <p class="small" style="margin: 0"><b class="c-sol">Âmbar</b>: as famílias que passam nos três testes. As linhas tracejadas mostram até onde vão os aceitos — e convergem para os limites do artigo.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">amostragem quase aleatória · ao vivo</span><div style="display: flex; gap: 12px"><div class="seg" id="qs-y"><button type="button" data-v="M" class="on">M<sub>máx</sub></button><button type="button" data-v="R">R<sub>1,4</sub></button><button type="button" data-v="L">Λ<sub>1,4</sub></button></div><div class="seg" id="qs-x"><button type="button" data-v="a4" class="on">a<sub>4</sub></button><button type="button" data-v="a2">a<sub>2</sub></button><button type="button" data-v="b4">B<sup>1/4</sup></button></div></div></div>
+      <div class="cv"><canvas id="qs-scan"></canvas></div>
+      <div class="readout" id="qs-scan-out"></div>
+    </div>
+  </div>
+  <aside class="notes">O método do artigo, do João Zastrow, da UDESC. O espaço de parâmetros tem três dimensões; cada ponto dentro da janela de estabilidade define uma equação de estado e, com ela, uma família inteira de estrelas — massa máxima, raio de 1,4 massa solar e deformabilidade de maré. Sorteamos 263 mil pontos por hipercubo latino, que cobre o espaço por igual sem o custo de um MCMC; o preço é não ter intervalos de credibilidade, só os limites. Os vínculos são conservadores: massa máxima entre 2,13 e 2,33, raio entre 10 e 13,25 km — e esses raios vêm do NICER, isto é, de ray tracing —, e Λ menor que 970, de GW170817. O painel refaz o método aqui: sorteia pontos, resolve as estrelas e pinta de âmbar as que passam. Troque os eixos: a massa máxima contra a4 mostra o corte de cima, em torno de 0,8; contra B, a forma do modelo de sacola, M_máx ∝ B^−1/2. Com alguns milhares de pontos os limites já se aproximam dos do artigo.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Zastrow, Pereira, de Lima &amp; Horvath · PRD 112, 083010 (2025) · resultados</p><h2>Quarks que <em>interagem</em>, superfície densa</h2></header>
+  <div class="body cols" style="grid-template-columns: .95fr .95fr 1fr; gap: 28px">
+    <div class="stack" style="gap: 14px">
+      <table class="tbl" style="font-size: 18px">
+        <tr><th>vínculos combinados</th><th style="text-align: right">faixa</th></tr>
+        <tr class="hl"><td><i>a</i><sub>4</sub></td><td class="n">0,18 – 0,81</td></tr>
+        <tr class="hl"><td><i>a</i><sub>2</sub> (10³ MeV²)</td><td class="n">−202 – 42</td></tr>
+        <tr class="hl"><td><i>B</i><sup>1/4</sup> (MeV)</td><td class="n">114 – 185</td></tr>
+        <tr><td><i>R</i><sub>1,4</sub> (km)</td><td class="n">10,00 – 12,26</td></tr>
+        <tr><td>Λ<sub>1,4</sub></td><td class="n">270 – 970</td></tr>
+        <tr><td>ρ<sub>superfície</sub> (10¹⁵ g/cm³)</td><td class="n">0,29 – 0,60</td></tr>
+        <tr><td><i>c</i><sub>s</sub>/<i>c</i></td><td class="n">0,51 – 0,85</td></tr>
+      </table>
+      <p class="ref" style="margin: 0">A velocidade do som passa de <i>c</i>/√3 ≈ 0,58 — o limite conforme da QCD em densidade infinita — quando <i>a</i><sub>2</sub> &lt; 0.</p>
+    </div>
+    <figure class="paper" style="align-self: start"><img src="assets/img/pesquisa/quarkstar-1.png" alt="Curvas massa-raio permitidas para estrelas de quarks, com XMMU J173203.3−344518" style="max-height: 520px; object-fit: contain"><figcaption>Todas as curvas M–R que passam nos vínculos, com XMMU J173203.3−344518 (laranja).</figcaption></figure>
+    <ul class="list" style="gap: 12px; align-self: start">
+      <li class="small"><b><i>a</i><sub>4</sub> ≲ 0,81</b>: a matéria se afasta pelo menos <b>20%</b> dos quarks livres. As interações fortes não podem ser desprezadas, em nenhuma massa.</li>
+      <li class="small"><b>Δ ≲ 230 MeV</b> (com <i>m</i><sub>s</sub> = 100 MeV), do limite inferior de <i>a</i><sub>2</sub> — de acordo com o limite independente de ≲ 216 MeV (Kurkela et al. 2024).</li>
+      <li class="small"><b>A superfície salta do vácuo para 1,1–2,2 ρ<sub>sat</sub></b>: um número que entra na maré, nos modos de oscilação e nas montanhas da estrela.</li>
+      <li class="small"><b><i>R</i><sub>1,4</sub> = 10,0–12,3 km</b>, como uma estrela de nêutrons: o raio sozinho não distingue as duas; a maré pode.</li>
+      <li class="small"><b>XMMU J1732−344</b> (0,77 M☉, 10,4 km, em HESS J1731−347) cai nas curvas sem esforço — uma candidata a estrela de quarks, se o modelo de atmosfera do raio estiver certo.</li>
+    </ul>
+  </div>
+  <aside class="notes">Os resultados. Combinando os três vínculos, a4 fica abaixo de 0,81: a matéria de quarks numa estrela se afasta em pelo menos 20% do gás livre, e isso vale para qualquer massa. O limite inferior de a2, menos 202 mil MeV², com um quark estranho de 100 MeV, dá um gap de cor de no máximo 230 MeV — e um grupo independente, com outro método, achou 216. A constante de sacola fica numa faixa estreita, o que fixa a densidade da superfície entre 1,1 e 2,2 vezes a de saturação nuclear: esse salto é condição de contorno para maré, modos quase normais e elipticidade. O raio de uma estrela de quarks de 1,4 massa solar fica entre 10 e 12,3 km — igual ao de uma estrela de nêutrons; quem pode distinguir é a deformabilidade. E o objeto compacto de HESS J1731, com 0,77 massa solar e 10,4 km — leve demais para sair de uma supernova comum — cai naturalmente nessas curvas. Mas cuidado: esse raio vem de ajuste espectral, e depende do modelo de atmosfera e da distribuição de temperatura — os mesmos problemas que discutimos nas manchas quentes.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Pereira, Ottoni, Coelho, Rueda &amp; de Lima · PRD 110, 103014 (2024)</p><h2>Quando o núcleo e a crosta <em>não giram juntos</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0">Quase todo cálculo trata o pulsar como um <b>corpo rígido</b>. Mas o interior pode ser superfluido, ter uma transição de fase — um caroço de quarks — ou ganhar camadas acretadas que giram diferente, como na tacoclina do Sol.</p>
+      <div class="eq sm" style="font-size: 24px; padding: 14px 16px"><span class="frac"><span>1</span><span><i>r</i>⁴</span></span><span class="frac"><span><i>d</i></span><span><i>dr</i></span></span>(<i>r</i>⁴<i>j</i> ω̄′) + <span class="frac"><span>4<i>j</i>′</span><span><i>r</i></span></span> ω̄ = 0<span class="note">arrasto de referenciais na rotação lenta · Hartle 1967 · <span class="nocase">ω̄ = Ω − ω</span></span></div>
+      <div class="eq sm" style="font-size: 24px; padding: 14px 16px">[ω̄]<sub><i>R</i>★</sub> = [Ω], &nbsp; [ω̄′]<sub><i>R</i>★</sub> = 0 &nbsp; · &nbsp; <i>I</i> = <span class="frac"><span><i>J</i></span><span>Ω⁺</span></span><span class="note">o salto em R★, deduzido no artigo · Ω⁺: a rotação da superfície, a que a cronometragem mede</span></div>
+      <p class="small" style="margin: 0">O <i>J</i> vem da derivada de ω̄ na superfície, e por isso <b>sente o salto</b>: a mesma estrela, com o mesmo Ω⁺, tem outro momento de inércia.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">Hartle + SLy · rotação em duas camadas</span><span class="ref">traço longo: 1,0 M☉ · pontilhada: 2,0 M☉</span></div>
+      <div class="cv"><canvas id="strat-cv"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="ctl"><label for="strat-m">massa <output for="strat-m"></output></label><input type="range" id="strat-m" min="1" max="2" step="0.05" value="1.4"></div>
+        <div class="ctl"><label for="strat-c">salto 𝒞 = [Ω]/ω̄⁻ <output for="strat-c"></output></label><input type="range" id="strat-c" min="-25" max="25" step="1" value="20"></div>
+        <div class="ctl"><label for="strat-x">R★ / R <output for="strat-x"></output></label><input type="range" id="strat-x" min="0.05" max="0.98" step="0.01" value="0.85"></div>
+      </div>
+      <div class="readout" id="strat-out"></div>
+    </div>
+  </div>
+  <aside class="notes">O outro trabalho é sobre rotação. Quase todo modelo de pulsar supõe que a estrela gira como um corpo rígido. Mas o interior pode ser superfluido e acoplado fracamente à crosta; pode haver uma transição de fase, com um caroço de quarks que, por conservação de momento angular, gira diferente; ou camadas acretadas de fora. O Sol tem isso: a tacoclina separa um interior que gira rígido de um envelope que gira diferente. Na relatividade geral, a rotação lenta é descrita pela equação de Hartle para o arrasto de referenciais. O que o artigo faz é deduzir as condições de salto quando Ω pula num raio R estrela: ω-barra salta junto, a derivada não. Como o momento angular J vem da derivada na superfície, ele sente o salto, e o momento de inércia, definido com a rotação observada da superfície, muda. O painel resolve isso aqui com a SLy. Arraste R estrela: se o salto for fundo, abaixo de uns 40% do raio, quase nada muda. Perto da superfície, a mudança em I chega à própria mudança em Ω. A estrela à esquerda gira com as duas velocidades de verdade, sem exagero.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Pereira, Ottoni, Coelho, Rueda &amp; de Lima · PRD 110, 103014 (2024) · resultados</p><h2>Rotação rígida é uma <em>hipótese</em> — e tem custo</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.05fr .95fr; gap: 40px">
+    <ul class="list" style="gap: 12px; align-self: start">
+      <li class="small"><b>Perto da superfície, Δ<i>I</i>/<i>I</i> → ΔΩ/Ω⁺</b>; abaixo de ~40% do raio, o efeito some. Cresce depressa para <i>R</i>★ ≳ 0,6 <i>R</i>, e mais nas estrelas leves.</li>
+      <li class="small"><b>Estrelas híbridas</b>: o salto fica na transição para o caroço de quarks, e só passa de 5% com 𝒞 ~ 20% e <i>R</i>★ ≳ 0,8 <i>R</i> (figura).</li>
+      <li class="small"><b>No raio</b>: com a massa conhecida, Δ<i>R</i>/<i>R</i> = ½ Δ<i>I</i>/<i>I</i>. Dez por cento em <i>I</i> são 5% em <i>R</i> — o tamanho das barras do NICER, que vêm de <b>ray tracing</b>.</li>
+      <li class="small"><b>Medida direta de <i>I</i></b>: o pulsar duplo J0737−3039A deve dar <i>I</i> com 11% até 2030 (hoje, <i>I</i><sub>45</sub> = 1,15–1,48). Saltos de 10–20% em Ω não se distinguem da rotação rígida.</li>
+      <li class="small"><b>Energia</b>: com <i>I</i> 10–20% maior, cinco pulsares de raios gama do Fermi com <i>L</i><sub>γ</sub> &gt; <i>Ė</i> voltam a caber na energia de rotação.</li>
+      <li class="small"><b>I-Love-Q</b>: o quadrupolo depende de outra função além de <i>J</i> — as relações universais enfraquecem. E nos <b>CCOs</b>, camadas acretadas podem girar diferente por até ~10 mil anos.</li>
+    </ul>
+    <div class="stack" style="gap: 12px">
+      <figure class="paper"><img src="assets/img/pesquisa/stratrot-2.png" alt="Variação do momento de inércia de estrelas híbridas contra a massa" style="max-height: 400px; object-fit: contain"><figcaption>Estrelas híbridas (η = 0,39 e 0,77): Δ<i>I</i>/<i>I</i> com o salto na transição de fase, contra a massa.</figcaption></figure>
+      <table class="tbl" style="font-size: 17px">
+        <tr><th>pulsar (Fermi)</th><th style="text-align: right"><span class="nocase"><i>L</i><sub>γ</sub>/<i>Ė</i>, <i>I</i><sub>0</sub></span></th><th style="text-align: right">+10%</th><th style="text-align: right">+20%</th></tr>
+        <tr><td>J1057−5851</td><td class="n">1,19</td><td class="n">&gt; 1</td><td class="n">0,99</td></tr>
+        <tr class="hl"><td>J1522−5735</td><td class="n">1,09</td><td class="n">0,99</td><td class="n">0,91</td></tr>
+        <tr><td>J1650−4601</td><td class="n">1,11</td><td class="n">&gt; 1</td><td class="n">0,92</td></tr>
+      </table>
+    </div>
+  </div>
+  <aside class="notes">O que isso muda. Perto da superfície, a variação relativa do momento de inércia tende à variação relativa da rotação, e abaixo de uns 40% do raio ela some. Nas estrelas híbridas da figura, o salto fica na transição para o caroço de quarks, que é funda: só passa de 5% com saltos de 20% na rotação. Agora a ligação com o resto do seminário: se a massa for conhecida e o raio inferido pelo momento de inércia, um erro de 10% em I vira 5% no raio — o tamanho das barras do NICER, que vêm de ray tracing. O pulsar duplo deve dar o momento de inércia com 11% até 2030, e isso não separa uma estrela rígida de uma com saltos de 10 a 20%. No orçamento de energia, um I 10 a 20% maior faz alguns pulsares de raios gama, que pareciam emitir mais do que a rotação permite, voltarem a caber nela — a tabela mostra três, para 1,45 massa solar; para 2,04 há mais dois. E as relações universais I-Love-Q, que supõem rotação rígida, enfraquecem.</aside>
 </section>
 
 <section class="slide content p0">
@@ -911,6 +1070,7 @@
       <li>O ray tracing de trás para a frente — com a integral exata quando a compacidade pede — liga a métrica ao que um telescópio mede.</li>
       <li>Aplicado a dados do Chandra, do XMM-Newton e do NuSTAR, deu massa, raio, campo e a geometria das manchas de magnetares e de uma estrela acretante.</li>
       <li>Como a curva de luz depende só da métrica exterior, ela também <b>testa a gravidade</b>: teorias escalar-tensoriais e braneworld.</li>
+      <li>E o interior conta: <b>estrelas de quarks</b> e <b>rotação estratificada</b> mudam o <i>M</i>, o <i>R</i> e o <i>I</i> que o ray tracing mede.</li>
     </ul>
     <div class="stack" style="gap: 20px">
       <div class="card glow" style="--part: var(--res)"><h4>Próximos passos</h4>
@@ -992,12 +1152,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610201200"></script>
-<script src="assets/ppdot.js?v=202610201200"></script>
-<script src="assets/dash.js?v=202610201200"></script>
-<script src="assets/dash-reuso.js?v=202610201200"></script>
-<script src="assets/dash-ns.js?v=202610201200"></script>
-<script src="assets/dash-res.js?v=202610201200"></script>
+<script src="assets/deck.js?v=202610201500"></script>
+<script src="assets/ppdot.js?v=202610201500"></script>
+<script src="assets/dash.js?v=202610201500"></script>
+<script src="assets/dash-reuso.js?v=202610201500"></script>
+<script src="assets/dash-ns.js?v=202610201500"></script>
+<script src="assets/dash-res.js?v=202610201500"></script>
 <script>Deck.start();</script>
 </body>
 </html>

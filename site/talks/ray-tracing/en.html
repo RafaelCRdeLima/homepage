@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610201200">
+<link rel="stylesheet" href="assets/deck.css?v=202610201500">
 </head>
 <body>
 
@@ -265,7 +265,7 @@
       <p class="small" style="margin: 0">Without gravity, ψ = α and the limb is at 90°. With gravity, the limb moves further round: <b>we see behind the star</b>. The approximation is excellent down to <i>R</i> ≈ 3 <i>R</i><sub>S</sub> and fails precisely where the secondary image appears.</p>
     </div>
     <div class="dash">
-      <div class="dash-head"><span class="tag part">ψ(α): exact, Beloborodov and flat space</span><span class="ref">drag the compactness</span></div>
+      <div class="dash-head"><span class="tag part"><span class="nocase">ψ(α)</span>: exact, Beloborodov and flat space</span><span class="ref">drag the compactness</span></div>
       <div class="plots" style="grid-template-columns: 1.45fr 1fr"><div class="cv"><canvas id="psi"></canvas></div><div class="cv"><canvas id="psi-err"></canvas></div></div>
       <div class="controls" style="grid-template-columns: 1fr">
         <div class="ctl"><label for="psi-R">stellar radius, <i>R</i>/<i>R</i><sub>S</sub> <output for="psi-R"></output></label><input type="range" id="psi-R" min="1.52" max="6" step="0.005" value="2.42"></div>
@@ -730,7 +730,7 @@
   <header><p class="eyebrow">Ottoni, Coelho, de Lima, Pereira &amp; Rueda · EPJC 84, 1337 (2024)</p><h2>The same star, <em>different gravity</em></h2></header>
   <div class="body">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">M = 2.1 M☉ · one 10° spot · ι = θ = 90° · static star · exact integral</span><div class="seg" id="stt-model"><button type="button" data-v="gr">GR</button><button type="button" data-v="s1" class="on">STT 1 · A<sub>s</sub> = 0.95</button><button type="button" data-v="s2">STT 2 · A<sub>s</sub> = 1.05</button></div></div>
+      <div class="dash-head"><span class="tag part">M = 2.1 M☉ · one 10° spot · <span class="nocase">ι = θ = 90°</span> · static star · exact integral</span><div class="seg" id="stt-model"><button type="button" data-v="gr">GR</button><button type="button" data-v="s1" class="on">STT 1 · A<sub>s</sub> = 0.95</button><button type="button" data-v="s2">STT 2 · A<sub>s</sub> = 1.05</button></div></div>
       <div class="plots" style="grid-template-columns: .85fr 1.35fr"><div class="cv"><canvas id="stt-img"></canvas></div><div class="cv"><canvas id="stt-lc"></canvas></div></div>
       <div class="controls">
         <div class="ctl"><label for="stt-C">compactness, <i>GM</i>/<i>Rc</i>² <output for="stt-C"></output></label><input type="range" id="stt-C" min="0.26" max="0.30" step="0.0005" value="0.284"></div>
@@ -812,8 +812,8 @@
   <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
     <div class="stack" style="gap: 14px">
       <p class="small" style="margin: 0">The equation of state of the matter (SLy) <b>does not change</b>. What changes is how much it <b>gravitates</b>: the star now feels an effective density and pressure.</p>
-      <div class="eq sm" style="font-size: 26px; padding: 14px 16px; text-align: left; line-height: 1.7">ρ<sub>eff</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + ρ<sub>𝒰</sub><br><i>p</i><sub>eff</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>p</i><sub>𝒰</sub><span class="note">local term (λ) · Weyl sector (𝒰)</span></div>
-      <div class="eq sm" style="font-size: 25px; padding: 14px 16px; text-align: left; line-height: 1.8"><span class="frac"><span><i>dm</i></span><span><i>dr</i></span></span> = 4π<i>r</i>² ρ<sub>eff</sub><br><span class="frac"><span><i>dp</i></span><span><i>dr</i></span></span> = −(ρ + <i>p</i>) <span class="frac"><span><i>m</i> + 4π<i>r</i>³<i>p</i><sub>eff</sub></span><span><i>r</i>(<i>r</i> − 2<i>m</i>)</span></span><span class="note">matter is conserved: the (ρ + p) factor is the usual one</span></div>
+      <div class="eq sm" style="font-size: 26px; padding: 14px 16px; text-align: left; line-height: 1.7">ρ<sub>eff</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + ρ<sub>𝒰</sub><br><i>p</i><sub>eff</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>p</i><sub>𝒰</sub><span class="note">local term (<span class="nocase">λ</span>) · Weyl sector (𝒰)</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 16px; text-align: left; line-height: 1.8"><span class="frac"><span><i>dm</i></span><span><i>dr</i></span></span> = 4π<i>r</i>² ρ<sub>eff</sub><br><span class="frac"><span><i>dp</i></span><span><i>dr</i></span></span> = −(ρ + <i>p</i>) <span class="frac"><span><i>m</i> + 4π<i>r</i>³<i>p</i><sub>eff</sub></span><span><i>r</i>(<i>r</i> − 2<i>m</i>)</span></span><span class="note">matter is conserved: the <span class="nocase">(ρ + <i>p</i>)</span> factor is the usual one</span></div>
       <p class="small" style="margin: 0">The local term <b>strengthens attraction</b> and shrinks the star — but only when ρ approaches λ. At the centre of a neutron star ρ ≈ 2×10⁻³ km⁻²; with λ ~ 10⁴ km⁻², ρ/λ ~ 10⁻⁷.</p>
     </div>
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
@@ -848,7 +848,7 @@
       </table>
     </div>
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
-      <div class="dash-head"><span class="tag part">M–R curves with λ = 10⁴ km⁻² · SLy</span><span class="ref">dashed: GR</span></div>
+      <div class="dash-head"><span class="tag part">M–R curves with <span class="nocase">λ = 10⁴ km⁻²</span> · SLy</span><span class="ref">dashed: GR</span></div>
       <div class="plots two"><div class="cv"><canvas id="weyl-a"></canvas></div><div class="cv"><canvas id="weyl-w"></canvas></div></div>
       <div class="readout" id="weyl-out"></div>
     </div>
@@ -883,18 +883,177 @@
 </section>
 
 <section class="slide content p3">
-  <header><p class="eyebrow">PRD 110, 103014 (2024) · PRD 112, 083010 (2025)</p><h2>What goes into <em>M, R and I</em></h2></header>
-  <div class="body cols c2" style="gap: 44px">
+  <header><p class="eyebrow">Itoh 1970 · Bodmer 1971 · Witten 1984 · the strange matter hypothesis</p><h2>What if iron is <em>not</em> the bottom of the well?</h2></header>
+  <div class="body cols" style="grid-template-columns: .85fr 1.2fr; gap: 40px">
     <div class="stack" style="gap: 14px">
-      <figure class="paper"><img src="assets/img/pesquisa/stratrot-1.png" style="max-height: 400px" alt="Change in the moment of inertia against the position of the rotation jump"><figcaption>Δ<i>I</i>/<i>I</i> against the position <i>R</i>*/<i>R</i> of a jump in angular velocity.</figcaption></figure>
-      <p class="small" style="margin: 0"><b>Stratified rotation</b> (Pereira, Ottoni, Coelho, Rueda &amp; de Lima): if the interior rotates differently from the crust, the moment of inertia changes — little if the jump is deep (&lt; 40% of the radius), almost as much as Δω if it is near the surface. This affects the rotational energy budget of pulsars and weakens the universal I-Love-Q relations.</p>
+      <p class="small" style="margin: 0">At extreme densities neutrons may dissolve into quarks. The Bodmer–Witten hypothesis goes further: matter made of <b>u, d and s</b> quarks would be the <b>ground state</b> of matter — with an energy per baryon below that of ⁵⁶Fe, 930 MeV.</p>
+      <svg viewBox="0 0 540 214" style="width: 84%; height: auto; display: block; margin: 0 auto" role="img" aria-label="Fermi seas with two and with three quark flavors">
+        <text x="80" y="18" font-size="16" text-anchor="middle" style="fill: #b3b9c9">u and d only</text>
+        <text x="390" y="18" font-size="16" text-anchor="middle" style="fill: #b3b9c9">u, d and s · same number of quarks</text>
+        <g stroke-width="3" stroke-linecap="round">
+          <g stroke="#ff8fab"><path d="M30 172h50M30 157h50M30 142h50M30 127h50M30 112h50M30 97h50M30 82h50M30 67h50M30 52h50"/></g>
+          <g stroke="#7cc4ff"><path d="M100 172h50M100 157h50M100 142h50M100 127h50M100 112h50M100 97h50M100 82h50M100 67h50M100 52h50"/></g>
+          <g stroke="#ff8fab"><path d="M300 172h50M300 157h50M300 142h50M300 127h50M300 112h50M300 97h50M300 82h50"/></g>
+          <g stroke="#7cc4ff"><path d="M370 172h50M370 157h50M370 142h50M370 127h50M370 112h50M370 97h50M370 82h50"/></g>
+          <g stroke="#ffb86b"><path d="M440 127h50M440 112h50M440 97h50M440 82h50"/></g>
+        </g>
+        <path d="M22 44h146M292 74h206" stroke="#eef0f6" stroke-width="1.5" stroke-dasharray="6 5" fill="none"/>
+        <text x="172" y="48" font-size="16" style="fill: #eef0f6">μ</text>
+        <text x="502" y="78" font-size="16" style="fill: #eef0f6">μ</text>
+        <path d="M440 172h50" stroke="#ffb86b" stroke-width="1.2" stroke-dasharray="3 4"/>
+        <path d="M498 172v-42" stroke="#ffb86b" stroke-width="1.2"/>
+        <text x="504" y="156" font-size="14" style="fill: #ffb86b">m<tspan font-size="11" dy="4">s</tspan></text>
+        <text x="55" y="200" font-size="18" text-anchor="middle" style="fill: #ff8fab">u</text>
+        <text x="125" y="200" font-size="18" text-anchor="middle" style="fill: #7cc4ff">d</text>
+        <text x="325" y="200" font-size="18" text-anchor="middle" style="fill: #ff8fab">u</text>
+        <text x="395" y="200" font-size="18" text-anchor="middle" style="fill: #7cc4ff">d</text>
+        <text x="465" y="200" font-size="18" text-anchor="middle" style="fill: #ffb86b">s</text>
+        <path d="M200 112h70" stroke="#b3b9c9" stroke-width="1.6" fill="none" marker-end="url(#qs-ar)"/>
+        <text x="235" y="102" font-size="14" text-anchor="middle" style="fill: #b3b9c9">d → s</text>
+        <defs><marker id="qs-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3b9c9"/></marker></defs>
+      </svg>
+      <p class="ref" style="margin: -6px 0 0">Pauli: each flavor has its own Fermi sea. A third flavor opens new levels and the top (μ) drops — even after paying for the s mass.</p>
+      <ul class="list" style="gap: 10px">
+        <li class="small">Nuclei don't decay because that would take ~<i>A</i> <b>simultaneous</b> weak d → s conversions.</li>
+        <li class="small">And u–d matter alone must be <b>unstable</b> — otherwise iron itself would have turned into quarks.</li>
+        <li class="small">If it holds, “neutron stars” may be <b>quark stars</b>, bound by the strong force.</li>
+      </ul>
     </div>
-    <div class="stack" style="gap: 14px">
-      <figure class="paper"><img src="assets/img/pesquisa/quarkstar-1.png" style="max-height: 400px" alt="Allowed mass-radius band for quark stars"><figcaption>The allowed M–R band for quark stars, with XMMU J173203.3−344518.</figcaption></figure>
-      <p class="small" style="margin: 0"><b>Quark stars</b> (Zastrow, Pereira, de Lima &amp; Horvath): a QCD-inspired equation of state, scanned against maximum masses, radii and tidal deformability. The strong interactions must deviate by ≥ 20% from free quarks; a 1.4 M☉ star would be 10.0–12.3 km in radius.</p>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">the stability window · energy per baryon at <span class="nocase">p = 0</span></span></div>
+      <div class="cv"><canvas id="qs-win"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(2, 1fr)">
+        <div class="ctl"><label for="qw-a4">a<sub>4</sub> (interaction) <output for="qw-a4"></output></label><input type="range" id="qw-a4" min="0.05" max="1" step="0.01" value="0.64"></div>
+        <div class="ctl"><label for="qw-a2">a<sub>2</sub> (10³ MeV²) <output for="qw-a2"></output></label><input type="range" id="qw-a2" min="-265" max="87" step="1" value="15"></div>
+      </div>
+      <div class="readout" id="qs-win-out"></div>
     </div>
   </div>
-  <aside class="notes">Two papers on structure, which feed ray tracing with M, R and I. Stratified rotation, from 2024: if the core rotates at a different rate from the crust — because of superfluidity or phase transitions — the moment of inertia changes, and with it the available rotational energy, the inferred radius and the universal relations. And quark stars, from 2025: a QCD-inspired equation of state, scanned against the observational constraints. Both show that the M and R that ray tracing measures do not come for free: they depend on nuclear physics and on assumptions about rotation.</aside>
+  <aside class="notes">The strange matter hypothesis of Itoh, Bodmer and Witten. In a nucleus, quarks are locked inside protons and neutrons. But if matter were squeezed until the nucleons dissolved, free u and d quarks could turn some of themselves into s quarks through the weak interaction. Why? Pauli: each flavor has its own Fermi sea. With three flavors, the same number of quarks fits into lower levels and the energy drops — even after paying for the s mass. The hypothesis is that this three-flavor matter has a lower energy per baryon than iron: it would be the ground state of matter. Nuclei do not decay because that would take dozens of simultaneous weak conversions. And u–d matter alone must be unstable, or iron would already have turned into quarks. The panel shows this with the model of our paper: the amber curve is the energy per baryon of uds matter, the lilac one that of ud matter. The turquoise band is the window where uds lies below iron and ud above it: there, quark stars exist. To the left, iron would decay; to the right, strange matter only appears under pressure, inside hybrid stars.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Alford, Braby, Paris &amp; Reddy 2005 · a QCD-informed equation of state</p><h2>Dense QCD in <em>three numbers</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <div class="eq sm" style="font-size: 27px; padding: 14px 16px">ω = −<span class="frac"><span>3<i>a</i><sub>4</sub></span><span>4π²</span></span> μ⁴ + <span class="frac"><span>3<i>a</i><sub>2</sub></span><span>4π²</span></span> μ² + <i>B</i><span class="note">thermodynamic potential · <span class="nocase"><i>p</i> = −ω</span> · <span class="nocase">μ</span>: quark chemical potential</span></div>
+      <table class="tbl" style="font-size: 18px">
+        <tr class="hl"><td style="white-space: nowrap"><i>a</i><sub>4</sub> = 1 − <i>c</i></td><td>the <b>strong interaction</b>. <i>a</i><sub>4</sub> = 1 means free quarks; perturbative QCD suggests <i>c</i> ≳ 0.3</td></tr>
+        <tr><td style="white-space: nowrap"><i>a</i><sub>2</sub> = <i>m</i><sub>s</sub>² − 4Δ²</td><td>the s-quark mass against the <b>gap</b> Δ of color superconductivity (CFL phase) — it can be negative</td></tr>
+        <tr><td style="white-space: nowrap"><i>B</i></td><td>the <b>bag constant</b>: the cost of opening the QCD vacuum</td></tr>
+      </table>
+      <p class="small" style="margin: 0">At the surface <i>p</i> = 0, but the density is not: ρ<sub>s</sub> ≈ 4<i>B</i> ~ 10¹⁴–10¹⁵ g/cm³. The star is <b>self-bound</b>: at small masses <i>M</i> ∝ <i>R</i>³, unlike a neutron star.</p>
+      <p class="ref" style="margin: 0">TOV + the tidal equation with the surface jump (Δ<i>y</i> = −4π<i>R</i>³ρ<sub>s</sub>/<i>M</i>), solved here. The paper's example gives 2.19 M☉, 11.97 km and Λ = 852 — the panel reproduces it.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">TOV + tides · <span class="nocase">u, d, s</span> quarks</span><div class="seg" id="qs-pre"><button type="button" data-v="free">free quarks</button><button type="button" data-v="paper" class="on">paper's example</button><button type="button" data-v="gap">large gap</button></div></div>
+      <div class="cv"><canvas id="qs-mr"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="ctl"><label for="qs-a4">a<sub>4</sub> <output for="qs-a4"></output></label><input type="range" id="qs-a4" min="0.05" max="1" step="0.01" value="0.64"></div>
+        <div class="ctl"><label for="qs-a2">a<sub>2</sub> (10³ MeV²) <output for="qs-a2"></output></label><input type="range" id="qs-a2" min="-265" max="87" step="0.01" value="14.61"></div>
+        <div class="ctl"><label for="qs-b">B<sup>1/4</sup> (MeV) <output for="qs-b"></output></label><input type="range" id="qs-b" min="70" max="230" step="0.01" value="130.76"></div>
+      </div>
+      <div class="readout" id="qs-out"></div>
+    </div>
+  </div>
+  <aside class="notes">To build stars we need an equation of state. The one by Alford and collaborators starts from QCD at very high density and adds corrections: a potential with three parameters. a4 measures the strong interaction: it is 1 for free quarks and about 0.7 if perturbative QCD is right. a2 combines the strange quark mass and the color-superconducting gap — in the CFL phase, where quarks of different colors and flavors pair up, a2 is m_s² minus four times the gap squared, and it can go negative if the gap is large. B is the bag constant, the cost of opening a bubble of perturbative vacuum. The panel solves the TOV and tidal equations for this matter. Look at the shape of the curve: it starts at the origin. A small quark star is a droplet of strange matter held by the strong force, and its radius grows as the cube root of the mass — the opposite of a neutron star, dashed. “Free quarks” does not reach 2.13 solar masses; the paper's example passes every test; and the “large gap” case, with negative a2, passes too — and goes through the compact object in HESS J1731, the pink point.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Zastrow, Pereira, de Lima &amp; Horvath · PRD 112, 083010 (2025) · the method</p><h2>Thousands of stars, <em>drawn at random</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0">Each point (<i>a</i><sub>2</sub>, <i>a</i><sub>4</sub>, <i>B</i>) inside the stability window is a <b>whole family</b> of stars: TOV for <i>M</i> and <i>R</i>, the tidal equation for Λ. The paper drew <b>263,287</b> points by Latin hypercube sampling; here the browser draws its own, live.</p>
+      <table class="tbl" style="font-size: 18px">
+        <tr><th></th><th>accepted range</th><th>where it comes from</th></tr>
+        <tr class="hl"><td><i>M</i><sub>max</sub></td><td class="n" style="white-space: nowrap">2.13 – 2.33 M☉</td><td>pulsars in binaries (Romani et al. 2022) · GW170817 + GRB 170817A (Rezzolla et al. 2018)</td></tr>
+        <tr><td><i>R</i><sub>1.4</sub></td><td class="n" style="white-space: nowrap">10.00 – 13.25 km</td><td>NICER radii — <b>ray tracing</b> — and gravitational waves (compilation by Pang et al. 2023)</td></tr>
+        <tr><td>Λ<sub>1.4</sub></td><td class="n" style="white-space: nowrap">&lt; 970</td><td>tidal deformability from GW170817</td></tr>
+      </table>
+      <p class="small" style="margin: 0"><b class="c-sol">Amber</b>: the families that pass all three tests. The dashed lines show how far the accepted ones reach — and they converge to the paper's limits.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">quasi-random sampling · live</span><div style="display: flex; gap: 12px"><div class="seg" id="qs-y"><button type="button" data-v="M" class="on">M<sub>max</sub></button><button type="button" data-v="R">R<sub>1.4</sub></button><button type="button" data-v="L">Λ<sub>1.4</sub></button></div><div class="seg" id="qs-x"><button type="button" data-v="a4" class="on">a<sub>4</sub></button><button type="button" data-v="a2">a<sub>2</sub></button><button type="button" data-v="b4">B<sup>1/4</sup></button></div></div></div>
+      <div class="cv"><canvas id="qs-scan"></canvas></div>
+      <div class="readout" id="qs-scan-out"></div>
+    </div>
+  </div>
+  <aside class="notes">The method of the paper by João Zastrow, at UDESC. The parameter space has three dimensions; each point inside the stability window defines an equation of state and, with it, a whole family of stars — maximum mass, radius at 1.4 solar masses and tidal deformability. We drew 263 thousand points by Latin hypercube sampling, which covers the space evenly without the cost of an MCMC; the price is that there are no credible intervals, only limits. The constraints are conservative: maximum mass between 2.13 and 2.33, radius between 10 and 13.25 km — and those radii come from NICER, that is, from ray tracing — and Λ below 970, from GW170817. The panel redoes the method here: it draws points, solves the stars and paints in amber the ones that pass. Switch the axes: maximum mass against a4 shows the upper cut near 0.8; against B, the bag-model shape, M_max ∝ B^−1/2. With a few thousand points the limits already approach those of the paper.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Zastrow, Pereira, de Lima &amp; Horvath · PRD 112, 083010 (2025) · results</p><h2><em>Interacting</em> quarks, a dense surface</h2></header>
+  <div class="body cols" style="grid-template-columns: .95fr .95fr 1fr; gap: 28px">
+    <div class="stack" style="gap: 14px">
+      <table class="tbl" style="font-size: 18px">
+        <tr><th>combined constraints</th><th style="text-align: right">range</th></tr>
+        <tr class="hl"><td><i>a</i><sub>4</sub></td><td class="n">0.18 – 0.81</td></tr>
+        <tr class="hl"><td><i>a</i><sub>2</sub> (10³ MeV²)</td><td class="n">−202 – 42</td></tr>
+        <tr class="hl"><td><i>B</i><sup>1/4</sup> (MeV)</td><td class="n">114 – 185</td></tr>
+        <tr><td><i>R</i><sub>1.4</sub> (km)</td><td class="n">10.00 – 12.26</td></tr>
+        <tr><td>Λ<sub>1.4</sub></td><td class="n">270 – 970</td></tr>
+        <tr><td>ρ<sub>surface</sub> (10¹⁵ g/cm³)</td><td class="n">0.29 – 0.60</td></tr>
+        <tr><td><i>c</i><sub>s</sub>/<i>c</i></td><td class="n">0.51 – 0.85</td></tr>
+      </table>
+      <p class="ref" style="margin: 0">The sound speed exceeds <i>c</i>/√3 ≈ 0.58 — the conformal limit of QCD at infinite density — when <i>a</i><sub>2</sub> &lt; 0.</p>
+    </div>
+    <figure class="paper" style="align-self: start"><img src="assets/img/pesquisa/quarkstar-1.png" alt="Allowed mass-radius curves for quark stars, with XMMU J173203.3−344518" style="max-height: 520px; object-fit: contain"><figcaption>All M–R curves that pass the constraints, with XMMU J173203.3−344518 (orange).</figcaption></figure>
+    <ul class="list" style="gap: 12px; align-self: start">
+      <li class="small"><b><i>a</i><sub>4</sub> ≲ 0.81</b>: the matter departs by at least <b>20%</b> from free quarks. Strong interactions cannot be neglected, at any mass.</li>
+      <li class="small"><b>Δ ≲ 230 MeV</b> (with <i>m</i><sub>s</sub> = 100 MeV), from the lower limit on <i>a</i><sub>2</sub> — in line with the independent bound of ≲ 216 MeV (Kurkela et al. 2024).</li>
+      <li class="small"><b>The surface jumps from vacuum to 1.1–2.2 ρ<sub>sat</sub></b>: a number that enters the tides, the oscillation modes and the star's mountains.</li>
+      <li class="small"><b><i>R</i><sub>1.4</sub> = 10.0–12.3 km</b>, like a neutron star: the radius alone cannot tell them apart; the tides can.</li>
+      <li class="small"><b>XMMU J1732−344</b> (0.77 M☉, 10.4 km, in HESS J1731−347) falls on the curves effortlessly — a quark-star candidate, if the atmosphere model behind its radius is right.</li>
+    </ul>
+  </div>
+  <aside class="notes">The results. Combining the three constraints, a4 stays below 0.81: quark matter in a star departs by at least 20% from a free gas, at any mass. The lower limit on a2, minus 202 thousand MeV², with a 100 MeV strange quark, gives a color gap of at most 230 MeV — and an independent group, with another method, found 216. The bag constant lands in a narrow range, which fixes the surface density between 1.1 and 2.2 times nuclear saturation: that jump is a boundary condition for tides, quasi-normal modes and ellipticity. The radius of a 1.4 solar-mass quark star lies between 10 and 12.3 km — the same as a neutron star; what can tell them apart is the deformability. And the compact object in HESS J1731, with 0.77 solar masses and 10.4 km — too light to come out of an ordinary supernova — falls naturally on these curves. But careful: that radius comes from spectral fitting, and depends on the atmosphere model and the temperature map — the same issues we discussed for hot spots.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Pereira, Ottoni, Coelho, Rueda &amp; de Lima · PRD 110, 103014 (2024)</p><h2>When core and crust <em>do not spin together</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0">Almost every calculation treats a pulsar as a <b>rigid body</b>. But the interior may be superfluid, have a phase transition — a quark core — or gain accreted layers that spin differently, like the Sun's tachocline.</p>
+      <div class="eq sm" style="font-size: 24px; padding: 14px 16px"><span class="frac"><span>1</span><span><i>r</i>⁴</span></span><span class="frac"><span><i>d</i></span><span><i>dr</i></span></span>(<i>r</i>⁴<i>j</i> ω̄′) + <span class="frac"><span>4<i>j</i>′</span><span><i>r</i></span></span> ω̄ = 0<span class="note">frame dragging in slow rotation · Hartle 1967 · <span class="nocase">ω̄ = Ω − ω</span></span></div>
+      <div class="eq sm" style="font-size: 24px; padding: 14px 16px">[ω̄]<sub><i>R</i>★</sub> = [Ω], &nbsp; [ω̄′]<sub><i>R</i>★</sub> = 0 &nbsp; · &nbsp; <i>I</i> = <span class="frac"><span><i>J</i></span><span>Ω⁺</span></span><span class="note">the jump at R★, derived in the paper · Ω⁺: the surface spin, the one timing measures</span></div>
+      <p class="small" style="margin: 0"><i>J</i> comes from the derivative of ω̄ at the surface, so it <b>feels the jump</b>: the same star, with the same Ω⁺, has a different moment of inertia.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">Hartle + SLy · two-layer rotation</span><span class="ref">long dash: 1.0 M☉ · dotted: 2.0 M☉</span></div>
+      <div class="cv"><canvas id="strat-cv"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="ctl"><label for="strat-m">mass <output for="strat-m"></output></label><input type="range" id="strat-m" min="1" max="2" step="0.05" value="1.4"></div>
+        <div class="ctl"><label for="strat-c">jump 𝒞 = [Ω]/ω̄⁻ <output for="strat-c"></output></label><input type="range" id="strat-c" min="-25" max="25" step="1" value="20"></div>
+        <div class="ctl"><label for="strat-x">R★ / R <output for="strat-x"></output></label><input type="range" id="strat-x" min="0.05" max="0.98" step="0.01" value="0.85"></div>
+      </div>
+      <div class="readout" id="strat-out"></div>
+    </div>
+  </div>
+  <aside class="notes">The other paper is about rotation. Almost every pulsar model assumes the star spins as a rigid body. But the interior may be superfluid and weakly coupled to the crust; there may be a phase transition, with a quark core that, by angular momentum conservation, spins differently; or accreted layers from outside. The Sun has this: the tachocline separates an interior spinning rigidly from an envelope spinning differently. In general relativity, slow rotation is described by Hartle's equation for frame dragging. What the paper does is derive the jump conditions when Ω jumps at a radius R-star: omega-bar jumps with it, its derivative does not. Since the angular momentum J comes from the derivative at the surface, it feels the jump, and the moment of inertia, defined with the observed surface spin, changes. The panel solves this here with SLy. Drag R-star: if the jump is deep, below about 40% of the radius, almost nothing changes. Near the surface, the change in I reaches the change in Ω itself. The star on the left spins with both real rates, no exaggeration.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Pereira, Ottoni, Coelho, Rueda &amp; de Lima · PRD 110, 103014 (2024) · results</p><h2>Rigid rotation is an <em>assumption</em> — and it has a cost</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.05fr .95fr; gap: 40px">
+    <ul class="list" style="gap: 12px; align-self: start">
+      <li class="small"><b>Near the surface, Δ<i>I</i>/<i>I</i> → ΔΩ/Ω⁺</b>; below ~40% of the radius the effect vanishes. It grows fast for <i>R</i>★ ≳ 0.6 <i>R</i>, and more in light stars.</li>
+      <li class="small"><b>Hybrid stars</b>: the jump sits at the transition to the quark core, and only exceeds 5% with 𝒞 ~ 20% and <i>R</i>★ ≳ 0.8 <i>R</i> (figure).</li>
+      <li class="small"><b>In the radius</b>: with a known mass, Δ<i>R</i>/<i>R</i> = ½ Δ<i>I</i>/<i>I</i>. Ten percent in <i>I</i> is 5% in <i>R</i> — the size of the NICER error bars, which come from <b>ray tracing</b>.</li>
+      <li class="small"><b>Direct measurement of <i>I</i></b>: the double pulsar J0737−3039A should give <i>I</i> to 11% by 2030 (today, <i>I</i><sub>45</sub> = 1.15–1.48). Jumps of 10–20% in Ω cannot be told from rigid rotation.</li>
+      <li class="small"><b>Energy</b>: with <i>I</i> 10–20% larger, five Fermi gamma-ray pulsars with <i>L</i><sub>γ</sub> &gt; <i>Ė</i> fit back within the rotational energy.</li>
+      <li class="small"><b>I-Love-Q</b>: the quadrupole depends on another function besides <i>J</i> — the universal relations weaken. And in <b>CCOs</b>, accreted layers may spin differently for up to ~10 thousand years.</li>
+    </ul>
+    <div class="stack" style="gap: 12px">
+      <figure class="paper"><img src="assets/img/pesquisa/stratrot-2.png" alt="Change in the moment of inertia of hybrid stars against mass" style="max-height: 400px; object-fit: contain"><figcaption>Hybrid stars (η = 0.39 and 0.77): Δ<i>I</i>/<i>I</i> with the jump at the phase transition, against mass.</figcaption></figure>
+      <table class="tbl" style="font-size: 17px">
+        <tr><th>pulsar (Fermi)</th><th style="text-align: right"><span class="nocase"><i>L</i><sub>γ</sub>/<i>Ė</i>, <i>I</i><sub>0</sub></span></th><th style="text-align: right">+10%</th><th style="text-align: right">+20%</th></tr>
+        <tr><td>J1057−5851</td><td class="n">1.19</td><td class="n">&gt; 1</td><td class="n">0.99</td></tr>
+        <tr class="hl"><td>J1522−5735</td><td class="n">1.09</td><td class="n">0.99</td><td class="n">0.91</td></tr>
+        <tr><td>J1650−4601</td><td class="n">1.11</td><td class="n">&gt; 1</td><td class="n">0.92</td></tr>
+      </table>
+    </div>
+  </div>
+  <aside class="notes">What this changes. Near the surface, the relative change in the moment of inertia tends to the relative change in rotation, and below about 40% of the radius it vanishes. In the hybrid stars of the figure, the jump sits at the transition to the quark core, which is deep: it only exceeds 5% with 20% jumps in rotation. Now the link with the rest of this talk: if the mass is known and the radius is inferred from the moment of inertia, a 10% error in I becomes 5% in the radius — the size of the NICER error bars, which come from ray tracing. The double pulsar should give the moment of inertia to 11% by 2030, and that will not separate a rigid star from one with 10 to 20% jumps. In the energy budget, an I larger by 10 to 20% lets some gamma-ray pulsars, which seemed to emit more than rotation allows, fit back within it — the table shows three, for 1.45 solar masses; for 2.04 there are two more. And the universal I-Love-Q relations, which assume rigid rotation, weaken.</aside>
 </section>
 
 <section class="slide content p0">
@@ -905,6 +1064,7 @@
       <li>Backward ray tracing — with the exact integral when the compactness calls for it — links the metric to what a telescope measures.</li>
       <li>Applied to Chandra, XMM-Newton and NuSTAR data, it gave the mass, radius, field and spot geometry of magnetars and of an accreting star.</li>
       <li>Since the light curve depends only on the exterior metric, it also <b>tests gravity</b>: scalar-tensor theories and braneworld.</li>
+      <li>And the interior matters: <b>quark stars</b> and <b>stratified rotation</b> change the <i>M</i>, <i>R</i> and <i>I</i> that ray tracing measures.</li>
     </ul>
     <div class="stack" style="gap: 20px">
       <div class="card glow" style="--part: var(--res)"><h4>Next steps</h4>
@@ -986,12 +1146,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610201200"></script>
-<script src="assets/ppdot.js?v=202610201200"></script>
-<script src="assets/dash.js?v=202610201200"></script>
-<script src="assets/dash-reuso.js?v=202610201200"></script>
-<script src="assets/dash-ns.js?v=202610201200"></script>
-<script src="assets/dash-res.js?v=202610201200"></script>
+<script src="assets/deck.js?v=202610201500"></script>
+<script src="assets/ppdot.js?v=202610201500"></script>
+<script src="assets/dash.js?v=202610201500"></script>
+<script src="assets/dash-reuso.js?v=202610201500"></script>
+<script src="assets/dash-ns.js?v=202610201500"></script>
+<script src="assets/dash-res.js?v=202610201500"></script>
 <script>Deck.start();</script>
 </body>
 </html>

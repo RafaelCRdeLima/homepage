@@ -221,7 +221,7 @@ const BRANE = (() => {
     const out = { R, M, mmax: M.length > 5 ? mmax : null, r14, ecl: ec * il };
     if (cache.size > 200) cache.clear(); cache.set(key, out); return out;
   }
-  return { seq };
+  return { seq, epsOf, PSURF, MSUN, FG, C2 };
 })();
 
 /* Painel: as equações TOV modificadas com controles (λ, α_𝒰, w_𝒰) e quatro pontos de partida. */
@@ -312,4 +312,370 @@ const BRANE = (() => {
   const slide = cvA.closest('.slide');
   addEventListener('slidechange', () => { if ((slide.classList.contains('active') || document.body.classList.contains('overview')) && ready < jobs.length && !raf) raf = requestAnimationFrame(step); });
   onSlide(cvA, () => { if (ready < jobs.length && (typeof FF === 'number' && FF > 0 || reduceMotion || document.body.classList.contains('overview'))) { while (ready < jobs.length) jobs[ready++](); } draw(); });
+})();
+
+/* =====================================================================
+   Estrelas de quarks (Zastrow, Pereira, de Lima & Horvath, PRD 112, 083010, 2025): a equação de
+   estado de Alford et al. (2005) a partir do potencial
+     ω = −(3a₄/4π²) μ⁴ + (3a₂/4π²) μ² + B,   p = −ω,
+   que dá ρ(p) = 3p + 4B + (3a₂²/4π²a₄)[1 + sgn(a₂)√(1 + 16π²a₄(p + B)/3a₂²)], eq. (16).
+   a₄ = 1 é o gás de quarks livres; a₂ = m_s² − 4Δ² na fase CFL; B é a constante de sacola efetiva.
+   TOV em km com G = c = 1 e, junto, a equação de y (Hinderer 2008; Postnikov et al. 2010) para a
+   deformabilidade de maré, com o salto da superfície Δy = −4πR³ρ_s/M (eq. 11). Conferido contra o
+   exemplo do artigo (a₂ = 14,61×10³ MeV², a₄ = 0,64, B^¼ = 130,76 MeV): M_máx ≈ 2,19 M☉,
+   R₁,₄ ≈ 11,97 km e Λ₁,₄ ≈ 852 (Figs. 2 e 3).
+   ===================================================================== */
+/* sinal de menos tipográfico nos números dos painéis abaixo */
+const minus = v => String(v).replace(/^-/, '−');
+
+const QS = (() => {
+  const HC = 197.3269804, MSUN = 1.476625, C2 = 8.987551787e20;
+  const MEV4 = 1.602176634e33 / HC ** 3 * 6.67430e-8 / C2 ** 2 * 1e10;   // MeV⁴ → km⁻²
+  const GCC = 1.602176634e33 / HC ** 3 / C2;                                 // MeV⁴ → g/cm³
+  const G0 = 930, K3 = (1 + 2 ** (1 / 3)) ** 3;                              // E/A do ⁵⁶Fe (MeV)
+  /* a janela de estabilidade (Apêndice): estrela de quarks se B̃_lim < B < B_lim (MeV⁴) */
+  const blim = (a2, a4) => G0 * G0 / (108 * Math.PI ** 2) * (G0 * G0 * a4 - 9 * a2);
+  const btil = (a2, a4) => G0 * G0 / (54 * Math.PI ** 2) * (4 * G0 * G0 * a4 / K3 - 3 * a2);
+  /* energia por bárion a pressão zero: 3μ₀ (uds) e 3μ̃₀ (ud), da raiz de p(μ) = 0 */
+  const root = (c4, c2, B) => Math.sqrt((c2 + Math.sqrt(c2 * c2 + 4 * c4 * B)) / (2 * c4));
+  const eaUDS = (a2, a4, B) => 3 * root(3 * a4 / (4 * Math.PI ** 2), 3 * a2 / (4 * Math.PI ** 2), B);
+  const eaUD = (a2, a4, B) => 3 * root(6 * a4 / (Math.PI ** 2 * K3), a2 / (2 * Math.PI ** 2), B);
+
+  function eos(a2, a4, B) {
+    const Bk = B * MEV4, Q = 3 * a2 * a2 / (16 * Math.PI ** 2 * a4) * MEV4, s = Math.sign(a2);
+    const rho = Q > 0 ? p => 3 * p + 4 * Bk + 4 * Q * (1 + s * Math.sqrt(1 + (p + Bk) / Q)) : p => 3 * p + 4 * Bk;
+    const drdp = Q > 0 ? p => 3 + 2 * s / Math.sqrt(1 + (p + Bk) / Q) : () => 3;
+    return { Bk, rho, drdp };
+  }
+  /* uma estrela: [R (km), M (M☉), Λ]. A superfície tem densidade finita: o último passo é
+     encurtado até p ≈ 0 em vez de seguir p até a crosta. */
+  function star(pc, E) {
+    const f = (r, m, p, y) => {
+      const q = p > 0 ? p : 0, e = E.rho(q), el = 1 / (1 - 2 * m / r), nup = 2 * (m + 4 * Math.PI * r ** 3 * q) / (r * (r - 2 * m));
+      const Qy = 4 * Math.PI * el * (5 * e + 9 * q + (e + q) * E.drdp(q)) - 6 * el / (r * r) - nup * nup;
+      return [4 * Math.PI * r * r * e, -(e + q) * nup / 2, -(y * y + y * el * (1 + 4 * Math.PI * r * r * (q - e)) + r * r * Qy) / r];
+    };
+    let r = 1e-3, m = 4 / 3 * Math.PI * r ** 3 * E.rho(pc), p = pc, y = 2;
+    for (let n = 0; n < 4000; n++) {
+      const k1 = f(r, m, p, y);
+      let h = Math.min(0.05, 0.5 * r);
+      const last = p + h * k1[1] < 0;
+      if (last) h = -p / k1[1];
+      const k2 = f(r + h / 2, m + h / 2 * k1[0], p + h / 2 * k1[1], y + h / 2 * k1[2]);
+      const k3 = f(r + h / 2, m + h / 2 * k2[0], p + h / 2 * k2[1], y + h / 2 * k2[2]);
+      const k4 = f(r + h, m + h * k3[0], p + h * k3[1], y + h * k3[2]);
+      m += h / 6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]); p += h / 6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]);
+      y += h / 6 * (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2]); r += h;
+      if (p < 1e-10 * pc) break;
+    }
+    const C = m / r, ys = y - 4 * Math.PI * r ** 3 * E.rho(0) / m;
+    const k2 = 1.6 * C ** 5 * (1 - 2 * C) ** 2 * (2 + 2 * C * (ys - 1) - ys) / (2 * C * (6 - 3 * ys + 3 * C * (5 * ys - 8))
+      + 4 * C ** 3 * (13 - 11 * ys + C * (3 * ys - 2) + 2 * C * C * (1 + ys)) + 3 * (1 - 2 * C) ** 2 * (2 - ys + 2 * C * (ys - 1)) * Math.log(1 - 2 * C));
+    return [r, m / MSUN, 2 / 3 * k2 / C ** 5];
+  }
+  /* o ramo estável até M_máx, com R₁,₄, Λ₁,₄ e a densidade da superfície */
+  const cache = new Map();
+  function seq(a2, a4, b4, dl = 0.04) {
+    const key = [a2, a4, b4, dl].map(x => x.toFixed(4)).join('|'); if (cache.has(key)) return cache.get(key);
+    const E = eos(a2, a4, b4 ** 4), R = [], M = [], L = [];
+    let mmax = 0;
+    for (let l = -2.4; l <= 2; l += dl) {
+      const s = star(E.Bk * 10 ** l, E);
+      if (s[1] < mmax) break;
+      mmax = s[1]; R.push(s[0]); M.push(s[1]); L.push(s[2]);
+    }
+    let r14 = null, l14 = null;
+    for (let k = 1; k < M.length; k++) if (M[k - 1] < 1.4 && M[k] >= 1.4) {
+      const u = (1.4 - M[k - 1]) / (M[k] - M[k - 1]);
+      r14 = R[k - 1] + u * (R[k] - R[k - 1]); l14 = Math.exp(Math.log(L[k - 1]) + u * (Math.log(L[k]) - Math.log(L[k - 1])));
+    }
+    const out = { R, M, mmax, r14, l14, rhos: E.rho(0) / MEV4 * GCC };
+    if (cache.size > 300) cache.clear(); cache.set(key, out); return out;
+  }
+  return { seq, blim, btil, eaUDS, eaUD, G0 };
+})();
+
+/* =====================================================================
+   Rotação estratificada (Pereira, Ottoni, Coelho, Rueda & de Lima, PRD 110, 103014, 2024).
+   Hartle (1967), primeira ordem: ω̄ = Ω − ω obedece (r⁴ j ω̄′)′ + 4r³ j′ ω̄ = 0, com
+   j = e^{−(λ+ν)/2} e j′ = −4πr e^λ (ρ + p) j. No raio R★ a velocidade angular salta:
+   [ω̄] = [Ω] = 𝒞 ω̄⁻(R★) e [ω̄′] = 0 (eqs. 13–14). Fora, J = R⁴ω̄′(R)/6 e Ω⁺ = ω̄(R) + 2J/R³;
+   I = J/Ω⁺. A equação é linear: a solução de fora é U₁ + [Ω]U₂, com U₁ a continuação da de dentro
+   e U₂ a que parte de (1, 0) em R★ — uma integração por R★. SLy de BRANE. Conferido contra a
+   Fig. 2 do artigo (SLy4): 𝒞 = 20%, 1,4 M☉, R★ → R dá ΔI/I ≈ 15%; 𝒞 = −20% dá ≈ −21%.
+   ===================================================================== */
+const STRAT = (() => {
+  const { epsOf, PSURF, MSUN, FG, C2 } = BRANE;
+  /* o perfil da estrela: r, e^λ, ρ + p, j (com ν(0) = 0: a constante some na equação) */
+  function profile(pc) {
+    const f = (r, m, p) => { const q = p > 0 ? p : 0, e = epsOf(q), d = r * (r - 2 * m), num = m + 4 * Math.PI * r ** 3 * q;
+      return [4 * Math.PI * r * r * e, -(e + q) * num / d, 2 * num / d]; };
+    let r = 1e-3, m = 4 / 3 * Math.PI * r ** 3 * epsOf(pc), p = pc, nu = 0;
+    const S = { r: [], el: [], w: [], j: [] };
+    const rec = () => { const el = 1 / (1 - 2 * m / r); S.r.push(r); S.el.push(el); S.w.push(epsOf(p > 0 ? p : 0) + Math.max(p, 0)); S.j.push(Math.exp(-0.5 * (Math.log(el) + nu))); };
+    rec();
+    while (p > PSURF) {
+      const h = Math.min(0.02, 0.5 * r, 0.05 * p / Math.abs(f(r, m, p)[1]));
+      const k1 = f(r, m, p), k2 = f(r + h / 2, m + h / 2 * k1[0], p + h / 2 * k1[1]), k3 = f(r + h / 2, m + h / 2 * k2[0], p + h / 2 * k2[1]), k4 = f(r + h, m + h * k3[0], p + h * k3[1]);
+      m += h / 6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]); p += h / 6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]);
+      nu += h / 6 * (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2]); r += h; rec();
+    }
+    S.R = r; S.M = m / MSUN; return S;
+  }
+  /* ω̄ e φ = r⁴ j ω̄′ de i0 até a superfície, pelo método de Heun nos pontos do perfil */
+  function hartle(S, i0, w0, f0) {
+    const g = (i, w, f) => [f / (S.r[i] ** 4 * S.j[i]), 16 * Math.PI * S.r[i] ** 4 * S.el[i] * S.w[i] * S.j[i] * w];
+    let w = w0, f = f0;
+    for (let i = i0; i < S.r.length - 1; i++) {
+      const h = S.r[i + 1] - S.r[i], a = g(i, w, f), b = g(i + 1, w + h * a[0], f + h * a[1]);
+      w += h / 2 * (a[0] + b[0]); f += h / 2 * (a[1] + b[1]);
+      if (i0 === 0) { S.u[i + 1] = w; S.phi[i + 1] = f; }
+    }
+    const n = S.r.length - 1, R = S.r[n], J = f / (S.j[n] * 6), Om = w + 2 * J / R ** 3;   // J = R⁴ω̄′(R)/6
+    return [J, Om];
+  }
+  /* a estrela de massa M (M☉) na SLy, pela bisseção em log p_c */
+  const cache = new Map();
+  function forMass(M) {
+    const key = M.toFixed(3); if (cache.has(key)) return cache.get(key);
+    let a = 34.0, b = 35.8;
+    for (let k = 0; k < 40; k++) { const c = (a + b) / 2; (profile(10 ** c / C2 * FG).M < M ? a = c : b = c); }
+    const S = profile(10 ** ((a + b) / 2) / C2 * FG);
+    S.u = [1]; S.phi = [16 * Math.PI / 5 * S.r[0] ** 5 * S.el[0] * S.w[0] * S.j[0]];
+    const [J1, O1] = hartle(S, 0, 1, S.phi[0]);
+    S.J1 = J1; S.O1 = O1; S.Irig = J1 / O1;
+    S.U2 = S.r.map((_, i) => i < S.r.length - 1 ? hartle(S, i, 1, 0) : [0, 1]);   // [J₂, Ω₂] para cada R★
+    if (cache.size > 40) cache.clear(); cache.set(key, S); return S;
+  }
+  /* ΔI/I_rig e [Ω]/Ω⁺ para um salto 𝒞 no ponto i do perfil */
+  function dI(S, i, C) {
+    const D = C * S.u[i], [J2, O2] = S.U2[i], J = S.J1 + D * J2, Om = S.O1 + D * O2;
+    return [(S.Irig - J / Om) / S.Irig, D / Om];
+  }
+  return { forMass, dI };
+})();
+
+/* Painel: a janela de estabilidade. Energia por bárion a pressão zero da matéria uds (3μ₀) e só
+   ud (3μ̃₀) contra B^¼, com a linha do ⁵⁶Fe: há estrelas de quarks onde a uds fica abaixo de
+   930 MeV e a ud acima — entre B̃_lim e B_lim do Apêndice do artigo. */
+(() => {
+  const cv = document.getElementById('qs-win'); if (!cv) return;
+  const out = document.getElementById('qs-win-out');
+  let pend = 0;
+  const later = () => { if (!pend) pend = requestAnimationFrame(() => { pend = 0; draw(); }); };
+  const getA4 = bindRange('qw-a4', v => fmt(v, 2), later), getA2 = bindRange('qw-a2', v => minus(fmt(v, 0)), later);   // a₂ em 10³ MeV²
+  const P = new Plot(cv, { x: [60, 220], y: [800, 1100], m: [22, 24, 62, 80], fs: 16, xticks: [60, 100, 140, 180, 220], yticks: [800, 850, 900, 950, 1000, 1050, 1100] });
+  const BS = linspace(60, 220, 161);
+  function draw() {
+    const a4 = getA4(), a2 = getA2() * 1e3;
+    const lo = Math.max(QS.btil(a2, a4), 0) ** 0.25, hi = Math.max(QS.blim(a2, a4), 0) ** 0.25, ok = hi > lo;
+    P.begin().frame('B¹ᐟ⁴ (MeV)', T('energia por bárion (MeV)', 'energy per baryon (MeV)'));
+    const c = P.ctx;
+    P.clip();
+    if (ok) { c.fillStyle = 'rgba(86,225,208,.12)'; c.fillRect(P.X(lo), P.T, P.X(hi) - P.X(lo), P.B - P.T); }
+    P.hline(QS.G0, { color: COL.text2, dash: [7, 6], label: T('⁵⁶Fe: 930 MeV por núcleon', '⁵⁶Fe: 930 MeV per nucleon'), align: 'left' });
+    P.line(BS, BS.map(b => QS.eaUD(a2, a4, b ** 4)), { color: COL.bn, width: 3, glow: 8 });
+    P.line(BS, BS.map(b => QS.eaUDS(a2, a4, b ** 4)), { color: COL.sol, width: 3.4, glow: 10 });
+    P.unclip();
+    // os nomes ao lado das curvas: a ud à esquerda dela em 1040 MeV, a uds à direita em 1000 MeV
+    const bd = BS.find(b => QS.eaUD(a2, a4, b ** 4) >= 1040), bs = BS.find(b => QS.eaUDS(a2, a4, b ** 4) >= 1000);
+    if (bd) P.text(bd - 3, 1040, T('só u, d', 'u, d only'), { color: COL.bn, align: 'right', size: 15 });
+    if (bs) P.text(bs + 3, 1000, 'u, d, s', { color: COL.sol, size: 15 });
+    if (ok) {
+      const mid = clamp((lo + hi) / 2, 75, 205);
+      P.text(mid, 1086, T('estrelas de quarks', 'quark stars'), { color: COL.psr, align: 'center', size: 15 });
+      if (P.X(lo) - P.L > 110) P.text((Math.max(lo, 60) + 60) / 2, 1086, T('o ferro decairia', 'iron would decay'), { color: COL.text3, align: 'center', size: 14 });
+      if (P.R - P.X(hi) > 110) P.text((Math.min(hi, 220) + 220) / 2, 1086, T('estrelas híbridas', 'hybrid stars'), { color: COL.text3, align: 'center', size: 14 });
+    }
+    const gap = a2 < 1e4 ? Math.sqrt((1e4 - a2) / 4) : null;   // a₂ = m_s² − 4Δ², com m_s = 100 MeV
+    out.innerHTML = (ok
+      ? `<span>${T('janela', 'window')}: B<sup>1/4</sup> <b>${fmt(lo, 1)} – ${fmt(hi, 1)} MeV</b></span>`
+      : `<span><b class="c-warn">${T('sem janela: a matéria ud ficaria estável antes da uds', 'no window: ud matter would become stable before uds')}</b></span>`)
+      + `<span>${T('gap de cor', 'color gap')} Δ (m<sub>s</sub> = 100 MeV) <b>${gap == null ? '—' : fmt(gap, 0) + ' MeV'}</b></span>`;
+  }
+  onSlide(cv, draw);
+})();
+
+/* Painel: a família de estrelas de quarks para (a₄, a₂, B^¼), contra a SLy (estrela de nêutrons
+   comum), os vínculos do artigo (Tabela I) e o objeto central de HESS J1731−347. */
+(() => {
+  const cv = document.getElementById('qs-mr'); if (!cv) return;
+  const out = document.getElementById('qs-out'), seg = document.getElementById('qs-pre');
+  const els = { a4: document.getElementById('qs-a4'), a2: document.getElementById('qs-a2'), b: document.getElementById('qs-b') };
+  const FMT = { a4: v => fmt(v, 2), a2: v => minus(fmt(v, 0)), b: v => fmt(v, 1) };
+  const PRE = { free: [1, 10, 145], paper: [0.64, 14.61, 130.76], gap: [0.5, -100, 168] };   // a₄, a₂ (10³ MeV²), B^¼ (MeV)
+  let pend = 0;
+  const later = () => { if (!pend) pend = requestAnimationFrame(() => { pend = 0; draw(); }); };
+  const get = Object.fromEntries(Object.keys(els).map(k => [k, bindRange('qs-' + k, FMT[k], later)]));
+  seg.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    seg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    PRE[b.dataset.v].forEach((v, i) => { const k = ['a4', 'a2', 'b'][i]; els[k].value = v; document.querySelector(`output[for="qs-${k}"]`).textContent = FMT[k](v); });
+    later();
+  });
+  Object.values(els).forEach(el => el.addEventListener('input', () => seg.querySelectorAll('button').forEach(x => x.classList.remove('on'))));
+  const P = new Plot(cv, { x: [0, 16], y: [0, 3], m: [22, 24, 62, 72], fs: 16, yticks: [0, 0.5, 1, 1.5, 2, 2.5, 3] });
+  const mark = (ok, s) => `<b class="${ok ? 'c-psr' : 'c-warn'}">${s} ${ok ? '✓' : '✗'}</b>`;
+  function draw() {
+    const a4 = get.a4(), a2 = get.a2() * 1e3, b = get.b(), B = b ** 4;
+    const s = QS.seq(a2, a4, b), sly = BRANE.seq(8, 0, 0);
+    const inWin = B > QS.btil(a2, a4) && B < QS.blim(a2, a4);
+    P.begin().frame(T('raio (km)', 'radius (km)'), T('massa (M☉)', 'mass (M☉)'));
+    const c = P.ctx;
+    P.clip();
+    // M_máx aceito (2,13–2,33 M☉) e R₁,₄ aceito (10,00–13,25 km)
+    c.fillStyle = 'rgba(255,184,107,.09)'; c.fillRect(P.L, P.Y(2.33), P.R - P.L, P.Y(2.13) - P.Y(2.33));
+    P.text(0.3, 2.23, T('massa máxima aceita: 2,13–2,33 M☉', 'accepted maximum mass: 2.13–2.33 M☉'), { color: 'rgba(255,184,107,.85)', size: 14 });
+    c.strokeStyle = COL.bn; c.lineWidth = 2; c.beginPath(); c.moveTo(P.X(10), P.Y(1.4)); c.lineTo(P.X(13.25), P.Y(1.4)); c.stroke();
+    [10, 13.25].forEach(x => { c.beginPath(); c.moveTo(P.X(x), P.Y(1.4) - 6); c.lineTo(P.X(x), P.Y(1.4) + 6); c.stroke(); });
+    P.line(sly.R, sly.M, { color: 'rgba(255,255,255,.5)', width: 2, dash: [7, 6] });
+    if (s.M.length) P.line(s.R, s.M, inWin ? { color: COL.psr, width: 3.6, glow: 12 } : { color: COL.psr, width: 2.4, dash: [4, 6], alpha: 0.6 });
+    // XMMU J173203.3−344518: M = 0,77 (+0,20 −0,17) M☉, R = 10,40 (+0,86 −0,78) km
+    c.strokeStyle = COL.neb; c.lineWidth = 2;
+    c.beginPath(); c.moveTo(P.X(9.62), P.Y(0.77)); c.lineTo(P.X(11.26), P.Y(0.77)); c.moveTo(P.X(10.4), P.Y(0.60)); c.lineTo(P.X(10.4), P.Y(0.97)); c.stroke();
+    P.unclip();
+    P.dot(10.4, 0.77, { color: COL.neb, r: 5.5, glow: 10 });
+    P.text(11.45, 0.66, 'XMMU J1732−344', { color: COL.neb, size: 14 });
+    P.text(13.4, 1.4, T('R₁,₄ aceito', 'accepted R₁.₄'), { color: COL.bn, size: 14 });
+    if (sly.mmax) P.text(sly.R[sly.R.length - 1] + 0.2, sly.mmax + 0.1, T('nêutrons (SLy)', 'neutrons (SLy)'), { color: COL.text3, size: 14 });
+    if (s.M.length > 3) {
+      const k = s.M.findIndex(m => m > 0.35);   // o nome no ramo de baixa massa, onde M ∝ R³
+      if (k > 0) P.text(s.R[k] - 0.25, s.M[k], T('quarks', 'quarks'), { color: COL.psr, align: 'right', size: 15 });
+    }
+    const okM = s.mmax > 2.13 && s.mmax < 2.33, okR = s.r14 != null && s.r14 > 10 && s.r14 < 13.25, okL = s.l14 != null && s.l14 < 970;
+    out.innerHTML = `<span>M<sub>${T('máx', 'max')}</sub> ${mark(okM, fmt(s.mmax, 2) + ' M☉')}</span>
+      <span>R<sub>1${DEC}4</sub> ${mark(okR, s.r14 ? fmt(s.r14, 2) + ' km' : '—')}</span>
+      <span>Λ<sub>1${DEC}4</sub> ${mark(okL, s.l14 ? fmt(s.l14, 0) : '—')}</span>
+      <span>ρ<sub>${T('sup', 'surf')}</sub> <b>${fmt(s.rhos / 2.7e14, 2)} ρ<sub>sat</sub></b></span>
+      ${inWin ? '' : `<span><b class="c-warn">${B >= QS.blim(a2, a4) ? T('B acima da janela: estrela híbrida', 'B above the window: hybrid star') : T('B abaixo da janela: o ferro decairia', 'B below the window: iron would decay')}</b></span>`}`;
+  }
+  onSlide(cv, draw);
+})();
+
+/* Painel: o método do artigo, ao vivo. Pontos (a₂, a₄, B^¼) de uma sequência quase aleatória
+   (Halton nas bases 2, 3, 5) dentro da janela de estabilidade; cada ponto é uma família inteira
+   de estrelas. Âmbar: as que passam nos três vínculos da Tabela I. */
+(() => {
+  const cv = document.getElementById('qs-scan'); if (!cv) return;
+  const out = document.getElementById('qs-scan-out');
+  const getX = bindSeg('qs-x', () => draw()), getY = bindSeg('qs-y', () => draw());
+  const hal = (i, b) => { let f = 1, r = 0; for (; i > 0; i = Math.floor(i / b)) { f /= b; r += f * (i % b); } return r; };
+  const pts = [], MAXN = 6000;
+  let n = 0;
+  function one() {
+    for (;;) {
+      n++;
+      const a4 = 0.05 + 0.95 * hal(n, 2), a2 = -270e3 + 360e3 * hal(n, 3), b4 = 40 + 190 * hal(n, 5), B = b4 ** 4;
+      if (B <= QS.btil(a2, a4) || B >= QS.blim(a2, a4)) continue;
+      const s = QS.seq(a2, a4, b4, 0.07);
+      pts.push({ a4, a2: a2 / 1e3, b4, M: s.mmax, R: s.r14, L: s.l14,
+        ok: s.mmax > 2.13 && s.mmax < 2.33 && s.r14 > 10 && s.r14 < 13.25 && s.l14 < 970 });
+      return;
+    }
+  }
+  const AX = { a4: { r: [0, 1], lab: 'a₄', d: 2 }, a2: { r: [-280, 100], lab: T('a₂ (10³ MeV²)', 'a₂ (10³ MeV²)'), d: 0 }, b4: { r: [40, 230], lab: 'B¹ᐟ⁴ (MeV)', d: 0 } };
+  const AY = { M: { r: [1, 8.5], lab: T('massa máxima (M☉)', 'maximum mass (M☉)'), band: [2.13, 2.33] }, R: { r: [5, 30], lab: 'R₁,₄ (km)', band: [10, 13.25] },
+    L: { r: [3, 3e5], log: true, lab: 'Λ₁,₄', band: [3, 970] } };
+  if (LANG === 'en') AY.R.lab = 'R₁.₄ (km)', AY.L.lab = 'Λ₁.₄';
+  function draw() {
+    const xk = getX(), yk = getY(), ax = AX[xk], ay = AY[yk];
+    const P = new Plot(cv, { x: ax.r, y: ay.r, ylog: !!ay.log, m: [22, 24, 62, 80], fs: 16 });
+    P.begin().frame(ax.lab, ay.lab);
+    const c = P.ctx, ok = pts.filter(p => p.ok);
+    P.clip();
+    c.fillStyle = 'rgba(86,225,208,.10)'; c.fillRect(P.L, P.Y(ay.band[1]), P.R - P.L, P.Y(ay.band[0]) - P.Y(ay.band[1]));
+    c.fillStyle = 'rgba(124,196,255,.32)';
+    for (const p of pts) if (!p.ok && p[yk] != null) c.fillRect(P.X(p[xk]) - 1.4, P.Y(p[yk]) - 1.4, 2.8, 2.8);
+    c.fillStyle = COL.sol; c.shadowColor = COL.sol; c.shadowBlur = 6;
+    for (const p of ok) c.fillRect(P.X(p[xk]) - 2, P.Y(p[yk]) - 2, 4, 4);
+    c.shadowBlur = 0;
+    if (ok.length) {   // até onde vão os aceitos neste eixo
+      const xs = ok.map(p => p[xk]), lo = Math.min(...xs), hi = Math.max(...xs);
+      [lo, hi].forEach(x => P.vline(x, { color: 'rgba(255,184,107,.7)', dash: [5, 5], width: 1.4 }));
+    }
+    P.unclip();
+    const rg = k => { const v = ok.map(p => p[k]); return v.length ? `${minus(fmt(Math.min(...v), AX[k].d))} – ${minus(fmt(Math.max(...v), AX[k].d))}` : '—'; };
+    out.innerHTML = `<span>${T('famílias', 'families')} <b>${grp(pts.length)}</b> · ${T('aceitas', 'accepted')} <b class="c-sol">${grp(ok.length)}</b></span>
+      <span>a₄ <b>${rg('a4')}</b> <span class="muted">(${T('artigo', 'paper')} ${fmt(0.18, 2)} – ${fmt(0.81, 2)})</span></span>
+      <span>a₂ <b>${rg('a2')}</b> <span class="muted">(−202 – 42)</span></span>
+      <span>B<sup>1/4</sup> <b>${rg('b4')}</b> <span class="muted">(114 – 185)</span></span>`;
+  }
+  loopOn(cv, () => {
+    if (pts.length >= MAXN) return;
+    const t0 = performance.now();
+    do one(); while (performance.now() - t0 < 9 && pts.length < MAXN);
+    draw();
+  }, draw);
+  onSlide(cv, draw);
+})();
+
+/* Painel: rotação em duas camadas. À esquerda a estrela vista de cima — dentro de R★ gira com Ω⁻,
+   fora com Ω⁺ (a velocidade relativa é a de verdade, sem exagero); à direita ΔI/I_rig contra R★/R
+   para a massa escolhida (cheia) e para 1,0 e 2,0 M☉ (tracejadas), como na Fig. 2 do artigo. */
+(() => {
+  const cv = document.getElementById('strat-cv'); if (!cv) return;
+  const out = document.getElementById('strat-out');
+  let dirty = true;
+  const later = () => { dirty = true; };
+  const getM = bindRange('strat-m', v => fmt(v, 2) + ' M☉', later), getC = bindRange('strat-c', v => (v > 0 ? '+' : '') + minus(fmt(v, 0)) + '%', later);
+  const getX = bindRange('strat-x', v => fmt(v, 2), later);
+  const XS = linspace(0.02, 0.98, 49);
+  const at = (S, x) => Math.max(1, S.r.findIndex(r => r >= x * S.R));
+  const curve = (M, C) => { const S = STRAT.forMass(M); return XS.map(x => 100 * STRAT.dI(S, at(S, x), C)[0]); };
+  let cur = null, th1 = 0, th2 = 0;
+  function update() {
+    const M = getM(), C = getC() / 100, x = getX(), S = STRAT.forMass(M), [di, dw] = STRAT.dI(S, at(S, x), C);
+    cur = { M, C, x, di, dw, main: curve(M, C), lo: curve(1, C), hi: curve(2, C), I45: S.Irig * 1.3466e43 / 1e45, R: S.R };
+    dirty = false;
+    out.innerHTML = `<span>ΔI/I<sub>${T('ríg', 'rig')}</sub> <b>${(di >= 0 ? '+' : '') + minus(fmt(100 * di, 1))}%</b></span>
+      <span>ΔΩ/Ω⁺ <b>${(dw >= 0 ? '+' : '') + minus(fmt(100 * dw, 1))}%</b></span>
+      <span>I<sub>${T('ríg', 'rig')}</sub> <b>${fmt(cur.I45, 2)}×10⁴⁵ g cm²</b> (R = ${fmt(S.R, 1)} km)</span>
+      <span>${T('no raio', 'in the radius')}: ΔR/R ≈ ½ ΔI/I <b>${fmt(50 * Math.abs(di), 1)}%</b></span>`;
+  }
+  function draw() {
+    if (dirty || !cur) update();
+    const H = cv.clientHeight, SW = Math.min(H - 30, cv.clientWidth * 0.34);
+    const P = new Plot(cv, { x: [0, 1], y: [-25, 20], m: [22, 24, 62, SW + 86], fs: 16, xticks: [0, 0.2, 0.4, 0.6, 0.8, 1], yticks: [-20, -15, -10, -5, 0, 5, 10, 15, 20], yfmt: v => minus(v) });
+    P.begin().frame('R★ / R', null);
+    const c = P.ctx;
+    c.save(); c.translate(P.L - 62, (P.T + P.B) / 2); c.rotate(-Math.PI / 2); c.fillStyle = COL.text2; c.font = `17px ${FONT}`;
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(T('ΔI / I rígido (%)', 'ΔI / I rigid (%)'), 0, 0); c.restore();
+    P.clip();
+    c.fillStyle = 'rgba(255,255,255,.035)'; c.fillRect(P.L, P.Y(5), P.R - P.L, P.Y(-5) - P.Y(5));
+    [5, -5].forEach(y => P.hline(y, { color: COL.text3, dash: [4, 6], width: 1.2 }));
+    P.line(XS, cur.lo, { color: COL.sol, width: 1.8, dash: [6, 6], alpha: 0.55 });
+    P.line(XS, cur.hi, { color: COL.sol, width: 1.8, dash: [2, 5], alpha: 0.55 });
+    P.line(XS, cur.main, { color: COL.sol, width: 3.4, glow: 10 });
+    P.vline(cur.x, { color: 'rgba(86,225,208,.6)', dash: [5, 5], width: 1.4 });
+    P.unclip();
+    P.dot(cur.x, 100 * cur.di, { color: COL.psr, r: 6, glow: 12 });
+    P.text(0.03, 5, T('±5%: a precisão esperada para I', '±5%: the expected precision on I'), { color: COL.text3, size: 14, base: 'bottom' });
+    // a estrela vista de cima
+    const cx = SW / 2 + 8, cy = (P.T + P.B) / 2, Rp = SW / 2 - 10, Rs = Rp * cur.x;
+    c.save();
+    c.fillStyle = 'rgba(255,184,107,.16)'; c.beginPath(); c.arc(cx, cy, Rp, 0, 7); c.fill();
+    c.fillStyle = 'rgba(86,225,208,.20)'; c.beginPath(); c.arc(cx, cy, Rs, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(255,184,107,.7)'; c.lineWidth = 1.5; c.beginPath(); c.arc(cx, cy, Rp, 0, 7); c.stroke();
+    c.setLineDash([4, 5]); c.strokeStyle = 'rgba(86,225,208,.8)'; c.beginPath(); c.arc(cx, cy, Rs, 0, 7); c.stroke(); c.setLineDash([]);
+    c.lineCap = 'round';
+    for (let k = 0; k < 12; k++) {   // marcas da camada de fora
+      const a = th2 + k * Math.PI / 6;
+      c.strokeStyle = COL.sol; c.lineWidth = 3;
+      c.beginPath(); c.moveTo(cx + (Rs + 0.25 * (Rp - Rs)) * Math.cos(a), cy + (Rs + 0.25 * (Rp - Rs)) * Math.sin(a));
+      c.lineTo(cx + (Rp - 0.2 * (Rp - Rs)) * Math.cos(a), cy + (Rp - 0.2 * (Rp - Rs)) * Math.sin(a)); c.stroke();
+    }
+    for (let k = 0; k < 6; k++) {   // raios do caroço
+      const a = th1 + k * Math.PI / 3;
+      c.strokeStyle = COL.psr; c.lineWidth = 2.6;
+      c.beginPath(); c.moveTo(cx + 0.15 * Rs * Math.cos(a), cy + 0.15 * Rs * Math.sin(a)); c.lineTo(cx + 0.85 * Rs * Math.cos(a), cy + 0.85 * Rs * Math.sin(a)); c.stroke();
+    }
+    c.restore();
+    P.text(cx, cy + Rp + 22, T('Ω⁺ fora · Ω⁻ dentro', 'Ω⁺ outside · Ω⁻ inside'), { color: COL.text2, align: 'center', size: 15, px: true });
+    P.text(cx, cy - Rp - 14, 'R★ = ' + fmt(cur.x, 2) + ' R', { color: COL.psr, align: 'center', size: 15, px: true });
+  }
+  loopOn(cv, dt => {
+    const w2 = 0.8, w1 = w2 * (1 - (cur ? cur.dw : 0));   // Ω⁻ = Ω⁺ (1 − [Ω]/Ω⁺)
+    th2 += w2 * dt; th1 += w1 * dt; draw();
+  }, draw);
+  onSlide(cv, draw);
 })();

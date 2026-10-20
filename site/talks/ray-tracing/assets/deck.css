@@ -184,6 +184,8 @@ table.tbl tr.hl td { color: var(--text); background: color-mix(in srgb, var(--pa
 /* tags */
 .tag { display: inline-block; font: 600 15px var(--ui); letter-spacing: .14em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2); }
 .tag.part { border-color: color-mix(in srgb, var(--part) 55%, transparent); color: var(--part); }
+/* símbolos dentro de rótulos em caixa alta: λ, μ, ψ e p não podem virar Λ, Μ, Ψ e P */
+.nocase { text-transform: none; letter-spacing: .04em; }
 .ref { font: 17px/1.5 var(--ui); color: var(--text-3); }
 .cols.c4 .stack > p.ref { font-size: 15.5px; }
 .ref i { color: var(--text-2); }
