@@ -1,0 +1,142 @@
+{
+ "einstein": {
+  "file": "assets/img/einstein.jpg",
+  "title": "Einstein 1921 by F Schmutzer - restoration.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
+  "license": "Public domain",
+  "artist": "Ferdinand Schmutzer / Adam Cuerden"
+ },
+ "schwarzschild": {
+  "file": "assets/img/schwarzschild.jpg",
+  "title": "Karl Schwarzschild.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Karl_Schwarzschild.png",
+  "license": "Public domain",
+  "artist": "autor desconhecido"
+ },
+ "m87": {
+  "file": "assets/img/m87.jpg",
+  "title": "Black hole - Messier 87 crop max res.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Event Horizon Telescope Collaboration",
+  "short": "EHT Collaboration"
+ },
+ "sgra": {
+  "file": "assets/img/sgra.jpg",
+  "title": "Sag A*.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Sag_A%2A.jpg",
+  "license": "CC BY 4.0",
+  "artist": "EHT Collaboration"
+ },
+ "jocelyn-bell": {
+  "file": "assets/img/jocelyn-bell.jpg",
+  "title": "Susan Jocelyn Bell (Burnell), 1967.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Susan_Jocelyn_Bell_(Burnell),_1967.jpg",
+  "license": "CC BY-SA 2.0",
+  "artist": "Roger W Haworth"
+ },
+ "hewish": {
+  "file": "assets/img/hewish.jpg",
+  "title": "Anthony J. Hewish.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Anthony_J._Hewish.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Woodruff T. Sullivan III / NRAO/AUI Archives (NRAO/AUI/NSF)",
+  "note": "recortada",
+  "short": "W. T. Sullivan III / NRAO/AUI"
+ },
+ "bell-chart": {
+  "file": "assets/img/bell-chart.jpg",
+  "title": "Chart Showing Radio Signal of First Identified Pulsar, crop & rotate.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Chart_Showing_Radio_Signal_of_First_Identified_Pulsar,_crop_%26_rotate.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Bill Thompson (Billthom)"
+ },
+ "ns-manhattan": {
+  "file": "assets/img/ns-manhattan.jpg",
+  "title": "Manhattan NS.tif",
+  "page": "https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif",
+  "license": "Public domain",
+  "artist": "NASA's Goddard Space Flight Center"
+ },
+ "eclipse-1919": {
+  "file": "assets/img/eclipse-1919.jpg",
+  "title": "Highest resolution image of the 1919 solar eclipse (potw1926a).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Highest_resolution_image_of_the_1919_solar_eclipse_%28potw1926a%29.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESO/Landessternwarte Heidelberg-Königstuhl/F. W. Dyson, A. S. Eddington, & C. Davidson"
+ },
+ "smacs0723": {
+  "file": "assets/img/smacs0723.jpg",
+  "title": "Webb's First Deep Field.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Webb%27s_First_Deep_Field.jpg",
+  "license": "Public domain",
+  "artist": "NASA, ESA, CSA, and STScI",
+  "short": "NASA, ESA, CSA, STScI"
+ },
+ "nicer": {
+  "file": "assets/img/nicer.jpg",
+  "title": "ISS-57 NICER on station.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:ISS-57_NICER_on_station.jpg",
+  "license": "Public domain",
+  "artist": "NASA",
+  "short": "NASA"
+ },
+ "xmm-newton": {
+  "file": "assets/img/xmm-newton.jpg",
+  "title": "Artist rendering of the XMM-Newton telescope against Earth.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Artist_rendering_of_the_XMM-Newton_telescope_against_Earth.jpg",
+  "license": "CC BY-SA 3.0 IGO",
+  "artist": "ESA/XMM-Newton",
+  "short": "ESA/XMM-Newton"
+ },
+ "chandra": {
+  "file": "assets/img/chandra.jpg",
+  "title": "Chandra artist illustration.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Chandra_artist_illustration.jpg",
+  "license": "Public domain",
+  "artist": "NASA/CXC/NGST",
+  "short": "NASA/CXC/NGST"
+ },
+ "pulsar": {
+  "file": "assets/img/pulsar.jpg",
+  "title": "Pulsar model.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Pulsar_model.jpg",
+  "license": "Public domain",
+  "artist": "NASA",
+  "short": "NASA"
+ },
+ "magnetar": {
+  "file": "assets/img/magnetar.jpg",
+  "title": "Artist’s impression of the magnetar in the star cluster Westerlund 1.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Artist%E2%80%99s_impression_of_the_magnetar_in_the_star_cluster_Westerlund_1.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESO/L. Calçada",
+  "short": "ESO/L. Calçada"
+ },
+ "brans": {
+  "file": "assets/img/brans.jpg",
+  "title": "Carl-brans-loyola-university-new-orleans.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Carl-brans-loyola-university-new-orleans.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Cfbolner",
+  "note": "recortada",
+  "short": "Cfbolner (Wikimedia Commons)"
+ },
+ "damour": {
+  "file": "assets/img/damour.jpg",
+  "title": "Thibault Damour portrait.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Thibault_Damour_portrait.png",
+  "license": "CC BY 3.0",
+  "artist": "Melirius",
+  "note": "recortada",
+  "short": "Melirius (Wikimedia Commons)"
+ },
+ "nicer-j0030": {
+  "file": "assets/img/nicer-j0030.jpg",
+  "title": "NICER J0030+0451 hot-spot models (AMS144_Still.jpg, UM144_Still.jpg)",
+  "page": "https://svs.gsfc.nasa.gov/13240/",
+  "license": "Public domain",
+  "artist": "NASA's Goddard Space Flight Center",
+  "short": "NASA/GSFC"
+ }
+}

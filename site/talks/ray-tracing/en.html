@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080e">
+<title>From geometry to observation · Rafael C. R. de Lima</title>
+<meta name="description" content="Seminar: relativistic ray tracing in neutron stars and magnetars — how spacetime curvature decides the image, the spectrum and the light curve that an X-ray telescope receives.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<meta property="og:type" content="website">
+<meta property="og:title" content="From geometry to observation: ray tracing in relativistic stars">
+<meta property="og:description" content="Seminar · Rafael C. R. de Lima (UDESC/CCT)">
+<link rel="alternate" hreflang="pt-BR" href="index.html">
+
+<script>
+/* same language preference as the personal site (key rcrl-lang) */
+(function () {
+  var l = null; try { l = localStorage.getItem('rcrl-lang'); } catch (e) {}
+  if (l === 'pt') location.replace('index.html' + location.search + location.hash);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/deck.css?v=202610192200">
+</head>
+<body>
+
+<main id="stage" aria-live="polite">
+
+<!-- ================================================================
+     COVER
+     ================================================================ -->
+<section class="slide cover" data-title="Cover">
+  <canvas id="capa-rt" aria-hidden="true"></canvas>
+  <div class="veil"></div>
+  <div class="grain"></div>
+  <header class="top rise d1">
+    <div class="school"><span class="stages" aria-hidden="true"><i></i><i></i><i></i></span><span>Department of Physics · <b>UDESC</b></span></div>
+    <div class="date">Seminar · <b>2026</b></div>
+  </header>
+  <div class="main">
+    <p class="kicker rise d1">Ray tracing in relativistic stars</p>
+    <h1 class="rise d2">From geometry<br>to <em>observation</em></h1>
+    <p class="lede rise d3">How spacetime curvature decides the <i>image</i>, the <i>spectrum</i> and the <i>light curve</i> that an X-ray telescope receives from a neutron star.</p>
+  </div>
+  <footer class="bottom rise d5">
+    <div class="author">
+      <p class="name">Rafael C. R. de Lima</p>
+      <p class="aff">Department of Physics<span>·</span>UDESC/CCT<span>·</span>Joinville, Brazil</p>
+    </div>
+    <div class="right">
+      <div class="phase"><span class="eqn">ψ(<i>b</i>) = ∫ <i>du</i> / √(<i>b</i><sup>−2</sup> − <i>u</i>²(1 − <i>R</i><sub>S</sub><i>u</i>))</span><small>the light leaving the surface</small></div>
+      <div class="links"><a href="https://rafael-lima.pages.dev/talks.html">rafael-lima.pages.dev/talks</a></div>
+    </div>
+  </footer>
+  <aside class="notes">Good afternoon. This seminar is about a bridge: on one side, the geometry of spacetime around a neutron star; on the other, the photons that an X-ray telescope counts. Relativistic ray tracing is the tool that links the two. In the background, a neutron star computed pixel by pixel, with two hot spots, and light rays bending around it. The calculation is the same one we will build up over Part I.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Outline</p><h2>Three parts, <em>one path</em></h2></header>
+  <div class="body cols c3" style="align-items: center">
+    <div class="card" style="--part: var(--rt)">
+      <p class="stat roman">I</p>
+      <h3>Relativistic ray tracing</h3>
+      <p class="small">Null geodesics in Schwarzschild: light bending, redshift and time delays — and how to follow the rays backwards, from the telescope to the surface.</p>
+    </div>
+    <div class="card" style="--part: var(--psr)">
+      <p class="stat roman">II</p>
+      <h3>Pulsars and neutron stars</h3>
+      <p class="small">The laboratories: structure and equation of state, pulsars and magnetars, hot spots, rotation, atmospheres — and what NICER has already measured.</p>
+    </div>
+    <div class="card glow" style="--part: var(--res)">
+      <p class="stat roman">III</p>
+      <h3>Recent results</h3>
+      <p class="small">My published work: magnetar light curves, a massive low-field magnetar, accretion columns — and tests of alternative theories of gravity.</p>
+    </div>
+  </div>
+  <aside class="notes">Three parts. First the tool: how light propagates near a compact star and how ray tracing is done. Then the objects: neutron stars, pulsars, magnetars, and what gives a light curve its shape. Finally, results of mine and of my collaborators, including in alternative theories of gravity.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">The premise</p><h2>Everything we know arrives <em>as photons</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto 1fr; gap: 40px; align-content: start">
+    <p class="say" style="margin: 0; max-width: 1500px">Compact stars are <em>natural laboratories</em> of strong-field gravity — but we know them only through the photons that left them and crossed a curved spacetime.</p>
+    <div class="chain" style="--part: var(--rt)"><span>metric</span><i>→</i><span>null geodesics</span><i>→</i><span>image · spectrum · light curve</span><i>→</i><span>telescope</span><i>→</i><span class="on">M, R, field, gravity</span></div>
+    <div class="cols c3" style="gap: 28px">
+      <div class="card" style="--part: var(--rt)"><h4>The direct problem</h4><p class="small" style="margin: 0">Given the star and the metric, predict what is observed. That is <b>ray tracing</b>.</p></div>
+      <div class="card" style="--part: var(--psr)"><h4>The inverse problem</h4><p class="small" style="margin: 0">Given what is observed, infer mass, radius, spot geometry and magnetic field.</p></div>
+      <div class="card glow" style="--part: var(--res)"><h4>The test</h4><p class="small" style="margin: 0">If the metric is not Schwarzschild, the light curves change: observation tests <b>gravity</b>.</p></div>
+    </div>
+  </div>
+  <aside class="notes">The premise of the seminar. A neutron star is about twelve kilometres in radius and hundreds of parsecs away: we will never see it resolved. Everything we know comes from photons, and those photons were born deep in a gravitational well. The direct problem — given the star, predict the signal — is ray tracing. The inverse one is inference. And if we change the metric, the signal changes: the same observations become a test of gravity. That is the thread running through the three parts.</aside>
+</section>
+
+<!-- ================================================================
+     PART I · RELATIVISTIC RAY TRACING
+     ================================================================ -->
+<section class="slide partcover p1">
+  <div class="bg" style="background-image: url('assets/img/smacs0723.jpg'); background-position: 60% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">I</p>
+    <p class="label rise d2">Part one</p>
+    <h2 class="rise d2">Relativistic<br><em>ray tracing</em></h2>
+    <p class="sub lede rise d3">Near a mass, light does not travel in a straight line: it follows the null geodesics of the metric. Ray tracing means following those geodesics backwards — from the telescope to the source.</p>
+    <div class="topics rise d4"><span>null geodesics</span><span>light bending</span><span>redshift</span><span>the image of a compact star</span><span>the recipe</span></div>
+  </div>
+  <span class="credit" data-credit="smacs0723" data-label>SMACS 0723 (JWST) · NASA, ESA, CSA, STScI · public domain</span>
+  <aside class="notes">Part one. In the background, the James Webb’s first deep field: the cluster SMACS 0723 acts as a lens, and the galaxies behind it appear stretched into arcs. It is the same effect we will use on a neutron star — except that there the lens is the star itself, and the bending is tens of degrees.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">25 November 1915</p><h2>Einstein and <em>his field equations</em></h2></header>
+  <div class="body cols rr">
+    <figure class="portrait"><img src="assets/img/einstein.jpg" alt="Albert Einstein, 1921"><span class="credit">F. Schmutzer · public domain</span><figcaption><b>Albert Einstein</b>1921</figcaption></figure>
+    <div class="stack" style="gap: 30px">
+      <div class="eq" style="font-size: 64px"><i>G</i><sub>μν</sub> = <span class="frac"><span>8π<i>G</i></span><span><i>c</i><sup>4</sup></span></span> <i>T</i><sub>μν</sub><span class="note">curvature = energy and momentum content</span></div>
+      <div class="cols c2" style="gap: 24px">
+        <div class="eq sm"><span class="frac"><span><i>d</i>²<i>x</i><sup>μ</sup></span><span><i>d</i>λ²</span></span> + Γ<sup>μ</sup><sub>αβ</sub> <span class="frac"><span><i>dx</i><sup>α</sup></span><span><i>d</i>λ</span></span> <span class="frac"><span><i>dx</i><sup>β</sup></span><span><i>d</i>λ</span></span> = 0<span class="note">geodesic</span></div>
+        <div class="eq sm"><i>ds</i>² = <i>g</i><sub>μν</sub> <i>dx</i><sup>μ</sup><i>dx</i><sup>ν</sup><span class="note">the metric is the field</span></div>
+      </div>
+      <blockquote style="font-size: 40px">“Spacetime tells matter how to move; matter tells spacetime how to curve.”<footer>John A. Wheeler</footer></blockquote>
+    </div>
+  </div>
+  <aside class="notes">Ten coupled non-linear differential equations for the metric. Free particles, including light and neutrinos, follow geodesics of that metric.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The classical tests</p><h2>Sobral, 1919: light <em>bends</em></h2></header>
+  <div class="body cols l">
+    <figure class="fill"><img src="assets/img/eclipse-1919.jpg" alt="1919 eclipse plate" style="object-position: 40% 50%"><span class="credit">ESO / Landessternwarte Heidelberg-Königstuhl / Dyson, Eddington &amp; Davidson · CC BY 4.0</span></figure>
+    <div class="stack">
+      <table class="tbl">
+        <tr><th>effect</th><th>GR predicts</th></tr>
+        <tr><td>perihelion of Mercury (1915)</td><td class="n">43″ / century</td></tr>
+        <tr class="hl"><td>light grazing the Sun (1919)</td><td class="n">1.75″</td></tr>
+        <tr><td>redshift, Pound–Rebka (1959)</td><td class="n">2.5×10⁻¹⁵ over 22.5 m</td></tr>
+        <tr><td>Shapiro delay (1964)</td><td class="n">~200 μs</td></tr>
+        <tr><td>GPS clocks</td><td class="n">+38 μs / day</td></tr>
+      </table>
+      <p class="small">Sobral expedition (Ceará, Brazil): <b>1.98 ± 0.12″</b>. Príncipe: 1.61 ± 0.30″. The sky over north-eastern Brazil confirmed Einstein.</p>
+    </div>
+  </div>
+  <aside class="notes">A point of Brazilian pride: the best 1919 measurement was made in Sobral, Ceará. All these effects are small because here GM/Rc² is small. Let's see where it stops being small.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">December 1915 · Russian front</p><h2>Schwarzschild and the <em>first exact solution</em></h2></header>
+  <div class="body cols rr">
+    <figure class="portrait"><img src="assets/img/schwarzschild.jpg" alt="Karl Schwarzschild"><figcaption><b>Karl Schwarzschild</b>1873 – 1916</figcaption></figure>
+    <div class="stack" style="gap: 28px">
+      <div class="eq"><i>ds</i>² = −(1 − <span class="frac"><span><i>r</i><sub>s</sub></span><span><i>r</i></span></span>) <i>c</i>²<i>dt</i>² + <span class="frac"><span><i>dr</i>²</span><span>1 − <i>r</i><sub>s</sub>/<i>r</i></span></span> + <i>r</i>²<i>d</i>Ω²<span class="note"><i>r</i><sub>s</sub> = 2GM/c² · valid outside any non-rotating spherical body</span></div>
+      <div class="cols c4" style="gap: 18px">
+        <div class="card"><p class="stat" style="font-size: 60px">1 <small>r<sub>s</sub></small></p><p class="stat-label">event horizon</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">1.5 <small>r<sub>s</sub></small></p><p class="stat-label">photon sphere</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">3 <small>r<sub>s</sub></small></p><p class="stat-label">ISCO: last stable orbit</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">2.95 <small>km</small></p><p class="stat-label">r<sub>s</sub> of the Sun (Earth: 8.9 mm)</p></div>
+      </div>
+      <p class="small">He wrote to Einstein on 22 December 1915 while serving as an artillery officer. He died in May 1916.</p>
+    </div>
+  </div>
+  <aside class="notes">The Schwarzschild metric is the laboratory for everything that follows. The three characteristic radii: horizon, photon sphere, ISCO.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">What we need from the metric</p><h2>Curvature does <em>three things</em> to a photon</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.2fr .9fr; gap: 50px">
+    <div class="stack" style="gap: 14px">
+      <div class="card" style="padding: 20px 26px"><h4>1 · It bends the path</h4>
+        <p class="small" style="margin: 0">The photon follows a <b>null geodesic</b>. Near the surface of a neutron star the bending is tens of degrees: we see <b>more than half</b> of the star.</p></div>
+      <div class="card" style="padding: 20px 26px"><h4>2 · It changes the energy</h4>
+        <p class="small" style="margin: 0 0 8px">A photon emitted at <i>r</i> with local energy <i>E</i> reaches infinity with</p>
+        <div class="eq sm" style="font-size: 30px; padding: 12px 20px"><i>E</i><sub>∞</sub> = <i>E</i> √(1 − <i>R</i><sub>S</sub>/<i>r</i>)<span class="note">gravitational redshift</span></div></div>
+      <div class="card" style="padding: 20px 26px"><h4>3 · It delays</h4>
+        <p class="small" style="margin: 0">Different paths take different times (Shapiro delay): photons from each point of the star arrive tens of microseconds apart.</p></div>
+    </div>
+    <div class="stack" style="gap: 24px; align-self: center">
+      <p class="big" style="margin: 0">Ray tracing puts all three into a single calculation, <b>pixel by pixel</b>, for each instant of the rotation.</p>
+      <p style="margin: 0">In a neutron star, <i>R</i> ≈ 2.5–3 <i>R</i><sub>S</sub>: none of the three effects is a small correction.</p>
+      <p class="small muted" style="margin: 0">And all three depend only on the metric outside the star — which is why a light curve carries information about gravity.</p>
+    </div>
+  </div>
+  <aside class="notes">What the metric does to a photon, in three items. It bends the path: at the surface of a neutron star, a ray leaving at grazing incidence is deflected by almost 90 degrees, and that is why we see more than half of the surface. It changes the energy: the gravitational redshift, some 20 to 30% for a typical star. And it delays: light from different points travels along different paths. Ray tracing puts the three together. And since everything depends on the exterior metric, changing the theory of gravity changes the result — keep that in mind for Part III.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Null geodesics in Schwarzschild</p><h2>Two constants <em>and a potential</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.25fr; gap: 40px">
+    <div class="stack" style="gap: 16px">
+      <p class="small" style="margin: 0">The metric depends on neither <i>t</i> nor φ: energy and angular momentum are conserved.</p>
+      <div class="cols c2" style="gap: 14px">
+        <div class="eq sm" style="font-size: 30px; padding: 14px 10px"><i>E</i> = (1 − <span class="frac"><span><i>R</i><sub>S</sub></span><span><i>r</i></span></span>) <i>ṫ</i></div>
+        <div class="eq sm" style="font-size: 30px; padding: 14px 10px"><i>L</i> = <i>r</i>² φ̇</div>
+      </div>
+      <p class="small" style="margin: 0">For light only the ratio matters, the <b>impact parameter</b> <i>b</i> = <i>L</i>/<i>E</i>:</p>
+      <div class="eq sm" style="font-size: 32px"><span class="frac"><span>1</span><span><i>b</i>²</span></span> = <span class="frac"><span><i>ṙ</i>²</span><span><i>L</i>²</span></span> + <i>V</i>(<i>r</i>), &nbsp; <i>V</i> = <span class="frac"><span>1</span><span><i>r</i>²</span></span>(1 − <span class="frac"><span><i>R</i><sub>S</sub></span><span><i>r</i></span></span>)<span class="note">a “potential” from geometry alone</span></div>
+      <div class="eq sm" style="font-size: 32px">(<span class="frac"><span><i>du</i></span><span><i>d</i>φ</span></span>)² = <span class="frac"><span>1</span><span><i>b</i>²</span></span> − <i>u</i>²(1 − <i>R</i><sub>S</sub><i>u</i>)<span class="note">the orbit · <i>u</i> = 1/<i>r</i></span></div>
+      <p class="small" style="margin: 0">The maximum of <i>V</i> lies at <i>r</i> = 1.5 <i>R</i><sub>S</sub>: the <b>photon sphere</b>. Below <i>b</i><sub>c</sub> = (3√3/2) <i>R</i><sub>S</sub> the ray comes from the horizon — or from the star.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">the potential and the orbit · same b</span><span class="ref">drag b</span></div>
+      <div class="plots two"><div class="cv"><canvas id="veff"></canvas></div><div class="cv"><canvas id="veff-orb"></canvas></div></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="veff-b">impact parameter, <i>b</i>/<i>R</i><sub>S</sub> <output for="veff-b"></output></label><input type="range" id="veff-b" min="1.6" max="8" step="0.002" value="3.2"></div>
+      </div>
+      <div class="readout" id="veff-out"></div>
+    </div>
+  </div>
+  <aside class="notes">The mechanics of null geodesics. Since the metric changes neither with time nor with angle, there are two constants, E and L, and for light only their ratio matters: the impact parameter b. The radial equation becomes that of a particle with energy 1/b² in a potential V(r) = (1 − R_S/r)/r². On the left, that potential and the line 1/b²; where the line lies below the potential, the ray cannot get in — that is the turning point. On the right, the orbit with the same b. When 1/b² rises above the peak, at 1.5 R_S, the ray falls in. That is the photon sphere, and the critical b, 2.6 R_S, is the size of a black hole’s shadow.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Schwarzschild geodesics</p><h2>How light <em>bends</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="geo-s"></canvas></div>
+      <div class="readout" id="geo-s-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px">
+      <div class="eq sm" style="font-size: 36px"><i>u</i>″ + <i>u</i> = <span class="frac"><span>3</span><span>2</span></span> <i>R</i><sub>S</sub> <i>u</i>²<span class="note"><i>u</i> = 1/<i>r</i> · orbit equation for light</span></div>
+      <ul class="list" style="gap: 14px">
+        <li class="small"><i>b</i> &gt; 3√3 <i>GM</i>/<i>c</i>² ≈ 2.6 <i>R</i><sub>S</sub>: the light is deflected and escapes.</li>
+        <li class="small"><i>b</i> = 2.6 <i>R</i><sub>S</sub>: unstable orbit on the <b>photon sphere</b>, <i>r</i> = 1.5 <i>R</i><sub>S</sub>.</li>
+        <li class="small"><i>b</i> &lt; 2.6 <i>R</i><sub>S</sub>: captured.</li>
+      </ul>
+      <p class="small muted" style="margin: 0">The term on the right is the General Relativity correction. Without it, light would travel in a straight line.</p>
+    </div>
+  </div>
+  <aside class="notes">A beam of parallel light rays coming in from the left, each with an impact parameter b, integrated exactly with the orbit equation. Those passing far away are barely deflected. Close to b = 2.6 R_S they loop around the hole before leaving — that is the photon sphere. Below that, they fall in. It is this boundary that produces the shadow in the EHT images.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Event Horizon Telescope · 2019 and 2022</p><h2>The <em>shadows</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 26px">
+    <div class="duo">
+      <figure><img src="assets/img/m87.jpg" alt="M87*" style="object-fit: contain; background: #000"><span class="lbl">M87* · 2019 · 6.5 billion M☉ · 55 million light-years</span><span class="credit" data-credit="m87">EHT Collaboration · CC BY 4.0</span></figure>
+      <figure><img src="assets/img/sgra.jpg" alt="Sgr A*" style="object-fit: contain; background: #000"><span class="lbl">Sgr A* · 2022 · 4.3 million M☉ · 27,000 light-years</span><span class="credit" data-credit="sgra">EHT Collaboration · CC BY 4.0</span></figure>
+    </div>
+    <p style="margin: 0">The ring is ~5 <i>R</i><sub>S</sub> across: it is the photon sphere, at 1.5 <i>R</i><sub>S</sub>, seen through the lens of the black hole itself — shadow diameter = 2√27 <i>GM</i>/<i>c</i>² ≈ 5.2 <i>R</i><sub>S</sub>.</p>
+  </div>
+  <aside class="notes">In 2019 the Event Horizon Telescope, an Earth-sized network of radio telescopes, showed the shadow of M87*; in 2022, that of Sgr A*. Their masses differ by a factor of 1,500, yet they look almost the same size on the sky, because M87 is 2,000 times farther away. The size of the ring is the one predicted by the Schwarzschild metric: the shadow is five Schwarzschild radii across. These slides did not exist in the 2018 version — the images came later.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Compactness</p><h2>Where GR <em>stops being a correction</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">from the Earth to the horizon · click an object</span><div id="compact-sel" class="seg"></div></div>
+      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale"></canvas></div><div class="cv"><canvas id="compact-well"></canvas></div></div>
+      <div class="readout" id="compact-out"></div>
+      <p class="ref">z = (1 − R<sub>S</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection of a grazing ray from the exact orbit integral (weak field: 2R<sub>S</sub>/R). The objects advance on their own every few seconds.</p>
+    </div>
+  </div>
+  <aside class="notes">The yardstick of the seminar is compactness, R_S/R. On the Earth, 10⁻⁹; in the Sun, 10⁻⁶ — there relativity is a correction, like Mercury’s 43 arcseconds. In a white dwarf, 10⁻⁴. In a neutron star, between 0.3 and 0.5: the deflection of a grazing ray is tens of degrees and the redshift 20 to 30%. There, no series expansion will save us: the full metric is needed. And the scale carries on to the photon sphere and the horizon.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The angle that matters</p><h2>From the surface to infinity: <em>ψ(α)</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .78fr 1.3fr; gap: 40px">
+    <div class="stack" style="gap: 16px">
+      <p class="small" style="margin: 0">A photon leaves the surface at an angle α to the normal. By the time it reaches the observer, it has turned through ψ around the centre:</p>
+      <div class="eq sm" style="font-size: 30px"><i>b</i> = <span class="frac"><span><i>R</i> sin α</span><span>√(1 − <i>R</i><sub>S</sub>/<i>R</i>)</span></span></div>
+      <div class="eq sm" style="font-size: 30px">ψ(<i>b</i>) = ∫<sub>0</sub><sup>1/<i>R</i></sup> <span class="frac"><span><i>du</i></span><span>√(<i>b</i><sup>−2</sup> − <i>u</i>²(1 − <i>R</i><sub>S</sub><i>u</i>))</span></span><span class="note">exact</span></div>
+      <div class="eq sm" style="font-size: 30px; border-color: rgba(255,184,107,.5)">1 − cos α ≈ (1 − cos ψ)(1 − <span class="frac"><span><i>R</i><sub>S</sub></span><span><i>R</i></span></span>)<span class="note">Beloborodov (2002)</span></div>
+      <p class="small" style="margin: 0">Without gravity, ψ = α and the limb is at 90°. With gravity, the limb moves further round: <b>we see behind the star</b>. The approximation is excellent down to <i>R</i> ≈ 3 <i>R</i><sub>S</sub> and fails precisely where the secondary image appears.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">ψ(α): exact, Beloborodov and flat space</span><span class="ref">drag the compactness</span></div>
+      <div class="plots" style="grid-template-columns: 1.45fr 1fr"><div class="cv"><canvas id="psi"></canvas></div><div class="cv"><canvas id="psi-err"></canvas></div></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="psi-R">stellar radius, <i>R</i>/<i>R</i><sub>S</sub> <output for="psi-R"></output></label><input type="range" id="psi-R" min="1.52" max="6" step="0.005" value="2.42"></div>
+      </div>
+      <div class="readout" id="psi-out"></div>
+    </div>
+  </div>
+  <aside class="notes">For a star, what matters is the relation between the angle α at which the photon leaves the surface and the angle ψ it turns through before reaching us. The exact integral gives ψ for each α. Beloborodov’s approximation, from 2002, is a single line and is excellent for stars that are not too compact — less than one per cent error down to three Schwarzschild radii. But look at the right-hand panel: below about 1.8 R_S the maximum ψ goes past 180 degrees — the whole star becomes visible, and secondary images appear. That is where the approximation stops being useful and the exact integral becomes essential.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Ray tracing backwards</p><h2>One pixel, <em>one ray</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .75fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="plots" style="grid-template-columns: 1.25fr 1fr"><div class="cv"><canvas id="rt-side"></canvas></div><div class="cv"><canvas id="rt-image"></canvas></div></div>
+      <div class="readout" id="rt-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-self: center">
+      <ul class="list" style="gap: 14px">
+        <li class="small">Each pixel of the image is a ray that <b>arrives</b> at the observer. Its impact parameter <i>b</i> is the distance to the centre of the image.</li>
+        <li class="small">The geodesic is integrated <b>backwards</b>: the ray escapes to the sky or hits the surface at some point, at an angle α.</li>
+        <li class="small">The pixel takes the colour of the point the light left from — corrected for redshift and for the emission angle.</li>
+        <li class="small">Rays that would never reach the telescope are never computed: that is what makes the method efficient.</li>
+      </ul>
+      <p class="ref" style="margin: 0">With spherical symmetry, ψ depends only on <i>b</i>: one table ψ(<i>b</i>), computed once, serves every pixel.</p>
+    </div>
+  </div>
+  <aside class="notes">How it is done in practice. You start from the telescope, not from the star. Each pixel of the image is an incoming ray; the impact parameter is the distance from the pixel to the centre. That ray is integrated backwards: either it escapes, and the pixel is sky, or it hits the surface at some point, with some emission angle. The pixel takes the colour of the point of origin. On the left, the ray of the current pixel seen side-on; on the right, the image building up row by row. In a spherical metric the angle ψ depends only on b, so a table ψ(b) handles every pixel — it is what the labs on my website use, and what the panel on the next slide does in real time.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">What a compact star looks like</p><h2>We see <em>behind</em> the star</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .8fr; gap: 40px">
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">the same star, more and more compact · exact integral</span><span class="ref">drag the compactness and the inclination</span></div>
+      <div class="plots two"><div class="cv"><canvas id="globe-flat"></canvas></div><div class="cv"><canvas id="globe-gr"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="globe-R">radius, <i>R</i>/<i>R</i><sub>S</sub> <output for="globe-R"></output></label><input type="range" id="globe-R" min="1.55" max="6" step="0.005" value="2.42"></div>
+        <div class="ctl"><label for="globe-i">axis inclination <output for="globe-i"></output></label><input type="range" id="globe-i" min="0" max="90" step="1" value="60"></div>
+      </div>
+      <div class="readout" id="globe-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px; align-self: center">
+      <p style="margin: 0">On the left, the star as it would look without gravity; on the right, ray-traced. The grid is the same; gravity bends the light around the star and reveals the <b>far hemisphere</b>.</p>
+      <ul class="list" style="gap: 12px">
+        <li class="small">The image is larger: apparent radius <i>R</i>/√(1 − <i>R</i><sub>S</sub>/<i>R</i>).</li>
+        <li class="small">For <i>R</i> &lt; 1.76 <i>R</i><sub>S</sub> the whole surface is visible — the far pole becomes a ring.</li>
+        <li class="small">Below 1.5 <i>R</i><sub>S</sub> the star would lie inside the photon sphere.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">The most visual effect. Both stars have the same grid of latitudes and longitudes and a marked polar cap. Without gravity, we see half. With gravity, the lines fold out past the limb and we see the other side. Reduce the radius: below 1.76 R_S the whole far pole comes into view, spread into a ring at the edge. A real neutron star has R between 2 and 3 R_S, so 80 to 90% of the surface is always in view — and that is why neutron-star light curves are so much smoother than one might expect.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1959 · Pound &amp; Rebka · Jefferson tower, Harvard</p><h2>Light <em>loses energy as it climbs</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto auto">
+      <div class="plots" style="grid-template-columns: 1.35fr 1fr">
+        <div class="cv"><canvas id="pr-tower"></canvas></div>
+        <div class="cv"><canvas id="pr-ns"></canvas></div>
+      </div>
+      <div class="readout" id="pr-out"></div>
+      <p class="ref">14.4 keV γ rays from ⁵⁷Fe (Mössbauer effect). Pound &amp; Rebka, PRL 4, 337 (1960): ~10%; Pound &amp; Snider, Phys. Rev. 140, B788 (1965): ~1%. Every 12 s source and absorber swap places, as in the experiment.</p>
+    </div>
+  </div>
+  <aside class="notes">Pound and Rebka, 1959, in the 22.5-metre tower of the Jefferson laboratory at Harvard. Gravity shifts the frequency of light by gh/c², 2.5 parts in 10¹⁵. To measure it they used the Mössbauer effect of iron-57: a 14.4 keV line narrow enough to see that shift. Light that falls arrives with slightly more energy and is no longer absorbed; to compensate, they moved the absorber away at 0.74 micrometre per second — about 2.7 millimetres per hour. In the middle diagram, on top is the line of the arriving photon, shifted by gravity to +0.74; below, the line the absorber accepts, which slides by Doppler as it moves. When the two match, absorption is maximal — at v = gh/c = 0.74 μm/s. Every 12 seconds source and absorber swap places and the match moves to −0.74, just as they did to cancel systematics. On the right, the same law at a 1.4 solar-mass neutron star: with no exaggeration, 500 nanometres leave green and arrive orange, at 618 nm. It is the same factor neutrinos suffer on leaving the proto-neutron star.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Liouville · what reaches the telescope</p><h2>The spectrum that <em>climbs out of the well</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.25fr; gap: 40px">
+    <div class="stack" style="gap: 16px">
+      <p class="small" style="margin: 0">Along a ray, <i>I</i><sub>ν</sub>/ν³ is conserved. With <i>g</i> = √(1 − <i>R</i><sub>S</sub>/<i>R</i>):</p>
+      <div class="eq sm" style="font-size: 32px"><i>I</i><sub>obs</sub>(<i>E</i>) = <i>g</i>³ <i>I</i><sub>em</sub>(<i>E</i>/<i>g</i>)<span class="note">specific intensity</span></div>
+      <div class="cols c2" style="gap: 14px">
+        <div class="eq sm" style="font-size: 28px; padding: 14px 10px"><i>T</i><sub>∞</sub> = <i>g</i> <i>T</i></div>
+        <div class="eq sm" style="font-size: 28px; padding: 14px 10px"><i>R</i><sub>∞</sub> = <i>R</i>/<i>g</i></div>
+      </div>
+      <p class="small" style="margin: 0">A black body stays a black body, only cooler. The luminosity seen from afar is <i>L</i><sub>∞</sub> = <i>g</i>² <i>L</i>.</p>
+      <p class="small" style="margin: 0">A <b>spectral line</b> of known energy <i>E</i><sub>0</sub> arrives at <i>g E</i><sub>0</sub>: measuring the line means measuring the <b>compactness</b>.</p>
+    </div>
+    <div class="dash">
+      <div class="dash-head"><span class="tag part">thermal spectrum with an absorption line</span><span class="ref">drag the compactness</span></div>
+      <div class="cv"><canvas id="espectro"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="esp-R">radius, <i>R</i>/<i>R</i><sub>S</sub> <output for="esp-R"></output></label><input type="range" id="esp-R" min="1.6" max="10" step="0.01" value="2.9"></div>
+        <div class="ctl"><label for="esp-T">local temperature, <i>kT</i> <output for="esp-T"></output></label><input type="range" id="esp-T" min="0.05" max="0.5" step="0.005" value="0.12"></div>
+      </div>
+      <div class="readout" id="esp-out"></div>
+    </div>
+  </div>
+  <aside class="notes">What reaches the telescope. By Liouville’s theorem, I_ν over ν³ is conserved along the ray; in a static field, that makes the observed I equal to g³ times the emitted I at energy E/g. For a black body, the result is another black body, cooler by a factor g. And the radius we infer from the flux is larger, R/g. The dashed curve is the spectrum as it would be seen at the surface; the solid one, what arrives. The absorption line — here a generic line at 0.5 keV at the surface — slides along with it. That is why an identified line measures M/R directly. It is one of the routes, besides the pulse shape, to measuring compactness.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Part I in summary</p><h2>The <em>ray tracing</em> recipe</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.1fr .9fr; gap: 56px">
+    <ol class="steps">
+      <li><b>Choose the exterior metric</b>: Schwarzschild; Hartle–Thorne or Kerr with rotation; a different one for a different theory of gravity.</li>
+      <li><b>Build the table</b> ψ(<i>b</i>) and the delay Δ<i>t</i>(<i>b</i>) by integrating the null geodesics once.</li>
+      <li><b>For each pixel</b> (or each surface element): <i>b</i> → emitting point, angle α, redshift <i>g</i>, delay.</li>
+      <li><b>Intensity</b>: <i>I</i><sub>obs</sub> = <i>g</i>³ <i>I</i>(<i>E</i>/<i>g</i>, α′), with the atmosphere’s beaming and the Doppler shift from rotation.</li>
+      <li><b>Add up</b>: image, flux — and, phase by phase, the <b>light curve</b> and the phase-resolved spectrum.</li>
+    </ol>
+    <div class="stack" style="gap: 20px">
+      <div class="card"><h4>Exact or approximate?</h4>
+        <ul class="list" style="gap: 10px">
+          <li class="small"><b>Exact integral</b> (or elliptic integrals): always valid, secondary images included.</li>
+          <li class="small"><b>Beloborodov (2002)</b> and Poutanen &amp; Beloborodov (2006): closed formulae for ψ and for the delay, excellent for <i>R</i> ≳ 3 <i>R</i><sub>S</sub>.</li>
+          <li class="small"><b>Oblate Schwarzschild</b> (Morsink et al. 2007): a star flattened by rotation, for millisecond pulsars.</li>
+        </ul></div>
+      <p class="small muted" style="margin: 0">This is the engine behind NICER’s mass and radius measurements — and behind the results of Part III.</p>
+    </div>
+  </div>
+  <aside class="notes">The recipe, in five steps. The metric; the table of ψ and of the delay, computed once; for each pixel, the point the light came from, the angle, the redshift and the delay; the intensity, with the atmosphere’s beaming and, if the star spins fast, the Doppler shift; and the sum, which gives the image and, phase by phase, the light curve. In practice one chooses between the exact calculation and the closed-form approximations, depending on the compactness and the rotation. This is exactly what lies behind the NICER measurements and the work in Part III.</aside>
+</section>
+
+<!-- ================================================================
+     PART II · PULSARS AND NEUTRON STARS
+     ================================================================ -->
+<section class="slide partcover p2">
+  <div class="bg" style="background-image: url('assets/img/pulsar.jpg'); background-position: 60% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">II</p>
+    <p class="label rise d2">Part two</p>
+    <h2 class="rise d2">Pulsars and<br><em>neutron stars</em></h2>
+    <p class="sub lede rise d3">The laboratories: more compact than anything short of a black hole, spinning, magnetised — and with their surface visible in X-rays.</p>
+    <div class="topics rise d4"><span>structure and equation of state</span><span>pulsars and magnetars</span><span>hot spots</span><span>rotation and atmosphere</span><span>NICER</span></div>
+  </div>
+  <span class="credit" data-credit="pulsar" data-label>Pulsar (illustration) · NASA · public domain</span>
+  <aside class="notes">Part two: the objects. Neutron stars are the place in the Universe where gravity is strongest without a horizon hiding the surface. And many of them show us their surface directly, in X-rays.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Neutron stars in numbers</p><h2>A solar mass <em>in a city</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.1fr 1fr; gap: 44px">
+    <figure class="fill"><img src="assets/img/ns-manhattan.jpg" alt="Neutron star over Manhattan, to scale" style="object-position: 50% 45%"><span class="credit" data-credit="ns-manhattan">NASA's Goddard Space Flight Center · public domain</span><figcaption>A neutron star ~20 km across over Manhattan, to scale.</figcaption></figure>
+    <div class="stack" style="gap: 18px">
+      <div class="cols c2" style="gap: 16px">
+        <div class="card"><p class="stat" style="font-size: 60px">1.1–2.1 <small>M☉</small></p><p class="stat-label">measured masses</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">11–13 <small>km</small></p><p class="stat-label">radius (NICER, gravitational waves)</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">2–3 <small><i>R</i><sub>S</sub></small></p><p class="stat-label">compactness: the regime of Part I</p></div>
+        <div class="card"><p class="stat" style="font-size: 60px">10⁸–10¹⁵ <small>G</small></p><p class="stat-label">surface magnetic field</p></div>
+      </div>
+      <p style="margin: 0">Central density a few times that of the atomic nucleus, ~10¹⁵ g/cm³. Spin periods from <b>1.4 ms</b> to tens of seconds.</p>
+      <p class="small muted" style="margin: 0">Surface gravity is ~10¹¹ times the Earth’s; the escape velocity, 0.5 to 0.7 <i>c</i>.</p>
+    </div>
+  </div>
+  <aside class="notes">The numbers. Measured masses from 1.1 to 2.1 solar masses; radii of 11 to 13 km, which gives a compactness of 2 to 3 Schwarzschild radii — exactly the regime in which, according to Part I, relativity is not a correction. Fields from 10⁸ gauss in millisecond pulsars up to 10¹⁵ in magnetars. And they spin anywhere from 716 times a second to once every few tens of seconds.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Tolman–Oppenheimer–Volkoff · equation of state</p><h2>From nuclear physics <em>to the M–R curve</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">piecewise polytropes · observational constraints</span><span class="ref">hover over a curve</span></div>
+      <div class="cv"><canvas id="tov"></canvas></div>
+      <div class="readout" id="tov-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px">
+      <div class="eq sm" style="font-size: 26px; padding: 16px 14px"><span class="frac"><span><i>dP</i></span><span><i>dr</i></span></span> = −<span class="frac"><span><i>G</i>(ε + <i>P</i>)(<i>m</i> + 4π<i>r</i>³<i>P</i>/<i>c</i>²)</span><span><i>c</i>² <i>r</i>(<i>r</i> − 2<i>Gm</i>/<i>c</i>²)</span></span><span class="note">relativistic hydrostatic equilibrium (TOV)</span></div>
+      <p style="margin: 0">Each equation of state <i>P</i>(ε) gives a mass–radius curve and a maximum mass. Measuring the <b>mass and radius of the same star</b> picks between them.</p>
+      <p style="margin: 0">The lines of constant compactness link the curve to Part I: at <i>R</i> = 1.76 <i>R</i><sub>S</sub> the whole surface would be visible; at 1.5 <i>R</i><sub>S</sub>, the photon sphere.</p>
+      <p class="ref" style="margin: 0">Piecewise polytropes of Read, Lackey, Owen &amp; Friedman (2009); constraints (68%): NICER — Riley et al. 2019, 2021; Miller et al. 2019; Choudhury et al. 2024; PSR J0348+0432 (Antoniadis et al. 2013); GW170817 (Abbott et al. 2018).</p>
+    </div>
+  </div>
+  <aside class="notes">The structure. The Tolman–Oppenheimer–Volkoff equation is hydrostatic equilibrium in general relativity; with an equation of state, it gives one star for each central pressure, and the sequence of those stars is the mass–radius curve. Each curve here is a different equation of state, from the softest to the stiffest. The ellipses are the NICER measurements (68%), obtained by pulse-profile modelling — that is, ray tracing. The dashed lines are constant compactness: no real star reaches the photon sphere, but the most compact ones come close to showing their whole surface.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Cambridge · 28 November 1967</p><h2>The first pulsar: <em>“LGM-1”</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .9fr 1.35fr; gap: 34px">
+    <div class="stack" style="gap: 18px; align-content: start">
+      <div class="cols c2" style="gap: 18px; height: auto">
+        <figure class="portrait xs"><img src="assets/img/jocelyn-bell.jpg" alt="Jocelyn Bell Burnell"><span class="credit" data-credit="jocelyn-bell">Roger W Haworth · CC BY-SA 2.0</span><figcaption><b>Jocelyn Bell</b>in 1967, PhD student</figcaption></figure>
+        <figure class="portrait xs"><img src="assets/img/hewish.jpg" alt="Antony Hewish"><span class="credit" data-credit="hewish">W. T. Sullivan III / NRAO/AUI · CC BY 4.0</span><figcaption><b>Antony Hewish</b>supervisor · Nobel Prize 1974</figcaption></figure>
+      </div>
+      <figure><img src="assets/img/bell-chart.jpg" alt="Paper chart of the first pulsar, 1967" style="height: 250px; object-fit: cover; object-position: 50% 45%"><span class="credit" data-credit="bell-chart">Bill Thompson · CC BY-SA 4.0</span><figcaption>The original chart, August 1967: the “scruff” pencilled in as CP 1919.</figcaption></figure>
+    </div>
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto auto">
+      <div class="cv"><canvas id="lgm"></canvas></div>
+      <div class="readout" id="lgm-out"></div>
+      <p class="small" style="margin: 0">Bell noticed a bit of “scruff” that kept coming back on the radio telescope’s paper chart: pulses every <b>1.337 s</b>, as regular as clockwork. Nickname: <b>LGM-1</b>, for <i>Little Green Men</i>. It was a spinning neutron star.</p>
+    </div>
+  </div>
+  <aside class="notes">Jocelyn Bell, Antony Hewish’s PhD student in Cambridge, was going through kilometres of paper chart from a radio telescope she had helped to build herself. In August 1967 she noticed a little bit of “scruff” that always came back at the same sidereal time. On 28 November she managed to resolve the pulses: one every 1.337 seconds, with clockwork precision. They joked that it was a signal from little green men, LGM-1. Today it is called PSR B1919+21. The 1974 Nobel Prize went to Hewish and Ryle, and not to her; in 2018 she won the Breakthrough Prize and donated the three million dollars to fund scholarships for students under-represented in physics.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Pulsar theory</p><h2>What is measured, <em>and what is inferred</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr .85fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">ATNF catalogue · <span id="ppdot-n">2,855</span> pulsars with measured Ṗ</span><span class="ref">hover over the points</span></div>
+      <div class="cv"><canvas id="ppdot"></canvas></div>
+      <div class="readout" id="ppdot-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px">
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>observable</th><th>expression</th></tr>
+        <tr><td>period</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>P</i></td></tr>
+        <tr><td>characteristic age</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>t</i><sub>c</sub> = <i>P</i>/2<i>Ṗ</i></td></tr>
+        <tr><td>magnetic field</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>B</i> = (3<i>Ic</i>³<i>PṖ</i>/8π²<i>R</i>⁶)<sup>1/2</sup></td></tr>
+        <tr><td>rotational energy lost</td><td class="n" style="font-family: var(--display); font-size: 28px"><i>Ė</i><sub>rot</sub> = −4π²<i>IṖ</i>/<i>P</i>³</td></tr>
+      </table>
+      <div class="card"><h4>Canonical neutron star</h4>
+        <p class="small" style="margin: 0 0 8px"><i>M</i> = 1.4 M☉ · <i>R</i> = 10 km · <i>I</i> = 10⁴⁵ g cm²</p>
+        <p class="ui" style="margin: 0; font-size: 24px; color: var(--text)"><i>B</i> = 3.2×10¹⁹ (<i>PṖ</i>)<sup>1/2</sup> G</p>
+        <p class="ui" style="margin: 6px 0 0; font-size: 24px; color: var(--text)">|<i>Ė</i><sub>rot</sub>| = 3.9×10⁴⁶ <i>Ṗ</i>/<i>P</i>³ erg/s</p></div>
+      <p class="small muted" style="margin: 0">Only <i>P</i> and <i>Ṗ</i> are measured. The rest comes from assuming a spinning magnetic dipole — the straight lines in the diagram.</p>
+    </div>
+  </div>
+  <aside class="notes">What we measure from a pulsar is its period and how much it grows each second, Ṗ. Assuming a magnetic dipole spinning in vacuum, that gives the characteristic age, the magnetic field and the rotational energy lost. In the P–Ṗ diagram, each dot is a pulsar from the ATNF catalogue. The dashed lines are constant field; the dotted ones, constant age. The main cloud is the ordinary pulsars; bottom left, the millisecond pulsars, recycled by accretion; and top right, in pink, the magnetars: slow, but spinning down very fast, with fields of 10¹⁴ to 10¹⁵ gauss.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Transient activity</p><h2>A magnetar, <em>spinning</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.35fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="magnetar"></canvas></div>
+      <div class="readout" id="magnetar-out"></div>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>event</th><th style="text-align: right">energy</th></tr>
+        <tr><td>short bursts (~0.1 s)</td><td class="n">10³⁹ – 10⁴¹ erg</td></tr>
+        <tr><td><i>outbursts</i> (months)</td><td class="n">10⁴¹ – 10⁴³ erg</td></tr>
+        <tr class="hl"><td>giant flares</td><td class="n">10⁴⁴ – 10⁴⁶ erg</td></tr>
+      </table>
+      <p style="margin: 0">The field lines, anchored in the crust, get twisted over time. When the crust can no longer take the stress, it cracks — a <b>starquake</b> — and the magnetic energy comes out all at once.</p>
+      <p class="small muted" style="margin: 0">Giant flares in the Galaxy and the Magellanic Clouds: 1979, 1998 and 2004.</p>
+    </div>
+  </div>
+  <aside class="notes">A magnetar spinning, at the real rate of SGR J1745−2900: one turn every 3.76 seconds. The lines are those of a dipole tilted with respect to the rotation axis. Every so often the animation shows a burst: the crust cracks, the lines reconnect and a pulse of X-rays and gamma rays comes out. Short bursts are frequent; outbursts raise the brightness for months; giant flares are rare — three in 45 years.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">The surface in X-rays</p><h2>Why <em>hot spots</em> appear</h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 30px">
+    <div class="cols c3" style="gap: 26px">
+      <div class="card"><h4>Millisecond pulsars</h4><p class="small" style="margin: 0">Particles accelerated in the magnetosphere flow back and <b>heat the polar caps</b> to ~10⁶ K. They are NICER’s targets.</p></div>
+      <div class="card"><h4>Magnetars</h4><p class="small" style="margin: 0"><b>Field decay</b> and the currents along twisted field lines heat regions of the crust — which change after each <i>outburst</i>.</p></div>
+      <div class="card"><h4>Isolated cooling stars</h4><p class="small" style="margin: 0">The magnetic field makes <b>heat conduction anisotropic</b>: poles hotter than the equator (the “Magnificent Seven”).</p></div>
+    </div>
+    <div class="cols c3" style="gap: 26px; min-height: 0">
+      <figure class="fill"><img style="height: calc(100% - 74px)" src="assets/img/nicer.jpg" alt="NICER on the International Space Station"><span class="credit" data-credit="nicer">NASA · public domain</span><figcaption><b style="color: var(--text)">NICER</b> · on the Space Station since 2017 · ~100 ns time resolution</figcaption></figure>
+      <figure class="fill"><img style="height: calc(100% - 74px)" src="assets/img/xmm-newton.jpg" alt="XMM-Newton observatory"><span class="credit" data-credit="xmm-newton">ESA/XMM-Newton · CC BY-SA 3.0 IGO</span><figcaption><b style="color: var(--text)">XMM-Newton</b> · ESA, since 1999 · the largest area in soft X-rays</figcaption></figure>
+      <figure class="fill"><img style="height: calc(100% - 74px)" src="assets/img/chandra.jpg" alt="Chandra observatory"><span class="credit" data-credit="chandra">NASA/CXC/NGST · public domain</span><figcaption><b style="color: var(--text)">Chandra</b> · NASA, since 1999 · the sharpest angular resolution</figcaption></figure>
+    </div>
+  </div>
+  <aside class="notes">Where the light we are going to trace comes from. In millisecond pulsars, particles accelerated by the field flow back and heat the polar caps: kilometre-sized spots at a million degrees, ideal for NICER. In magnetars, the field itself decays and heats regions of the crust, which change with every burst. And in isolated stars that are simply cooling, the field makes heat conduction anisotropic, and the poles end up hotter. Three telescopes do almost all the work: NICER, for its time resolution; XMM-Newton, for its collecting area; Chandra, for its angular resolution.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Ray tracing a hot spot</p><h2>One spot, <em>one light curve</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">static star · exact integral, Beloborodov or flat space</span><div class="seg" id="spot-mode"><button type="button" data-v="flat">no gravity</button><button type="button" data-v="belo">Beloborodov</button><button type="button" data-v="exact" class="on">exact integral</button></div></div>
+      <div class="plots" style="grid-template-columns: .9fr 1.3fr"><div class="cv"><canvas id="spot-img"></canvas></div><div class="cv"><canvas id="spot-lc"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="spot-R">radius, <i>R</i>/<i>R</i><sub>S</sub> <output for="spot-R"></output></label><input type="range" id="spot-R" min="1.6" max="6" step="0.01" value="2.42"></div>
+        <div class="ctl"><label for="spot-i">spot ↔ axis, <i>i</i> <output for="spot-i"></output></label><input type="range" id="spot-i" min="0" max="90" step="1" value="60"></div>
+        <div class="ctl"><label for="spot-j">observer ↔ axis, <i>j</i> <output for="spot-j"></output></label><input type="range" id="spot-j" min="0" max="90" step="1" value="75"></div>
+        <div class="ctl"><label for="spot-th">angular radius of the spot <output for="spot-th"></output></label><input type="range" id="spot-th" min="5" max="45" step="1" value="20"></div>
+      </div>
+      <div class="readout" id="spot-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Now the tool in action. A hot spot on a rotating star, seen from far away, drawn by ray tracing pixel by pixel. Three modes: without gravity, with Beloborodov’s approximation and with the exact integral. Without gravity, the spot disappears behind the star and the flux drops to zero. With gravity it hardly ever disappears, and the curve gets smoother: the pulsed fraction drops. Reduce the radius: below 1.76 R_S the secondary image appears, an arc on the other side, and Beloborodov’s approximation starts to go wrong. The shape of the curve depends on the compactness — that is what lets us measure M/R from the light.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Two spots · Beloborodov’s classes</p><h2>Antipodal, <em>or not</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">two spots: one at each magnetic pole</span><div class="seg" id="two-geom"><button type="button" data-v="anti" class="on">antipodal</button><button type="button" data-v="off">offset</button></div></div>
+      <div class="plots" style="grid-template-columns: .9fr 1.3fr"><div class="cv"><canvas id="two-img"></canvas></div><div class="cv"><canvas id="two-lc"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="two-i">magnetic axis ↔ rotation, <i>i</i> <output for="two-i"></output></label><input type="range" id="two-i" min="0" max="90" step="1" value="45"></div>
+        <div class="ctl"><label for="two-j">observer ↔ rotation, <i>j</i> <output for="two-j"></output></label><input type="range" id="two-j" min="0" max="90" step="1" value="60"></div>
+        <div class="ctl"><label for="two-off">offset of the second spot <output for="two-off"></output></label><input type="range" id="two-off" min="0" max="60" step="1" value="0"></div>
+      </div>
+      <div class="readout" id="two-out"></div>
+    </div>
+  </div>
+  <aside class="notes">With two spots, one at each pole of a centred dipole, Beloborodov’s four classes appear: depending on i and j, we see only the primary; the primary always and the secondary sometimes; one at a time; or both always — and then the flux can become almost constant, a plateau. Now offset the second spot: the dipole is no longer centred and the pulse loses its symmetry. That is exactly what NICER saw in J0030+0451 — and what the analysis of SGR J1745−2900 in Part III called for.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">Rotation and atmosphere</p><h2>Doppler, aberration, delays <em>and beaming</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.4fr .75fr; gap: 36px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">15° spot · 1.4 M☉, 12 km, spinning</span><div class="seg" id="spin-beam"><button type="button" data-v="bb" class="on">black body</button><button type="button" data-v="h">H atmosphere</button><button type="button" data-v="pencil">pencil beam</button></div></div>
+      <div class="plots" style="grid-template-columns: .8fr 1.3fr"><div class="cv"><canvas id="spin-img"></canvas></div><div class="cv"><canvas id="spin-lc"></canvas></div></div>
+      <div class="controls" style="grid-template-columns: 1fr">
+        <div class="ctl"><label for="spin-f">spin frequency <output for="spin-f"></output></label><input type="range" id="spin-f" min="0" max="2.86" step="0.005" value="2.3"></div>
+      </div>
+      <div class="readout" id="spin-out"></div>
+    </div>
+    <div class="stack" style="gap: 14px">
+      <ul class="list" style="gap: 12px">
+        <li class="small"><b>Doppler</b>: the surface moves at up to 0.1–0.2 <i>c</i>; the approaching side is brighter (bolometric flux ∝ δ⁵).</li>
+        <li class="small"><b>Aberration</b>: the emission angle changes in the frame of the surface.</li>
+        <li class="small"><b>Delays</b>: tens of μs between points on the star — fractions of the period at hundreds of Hz.</li>
+        <li class="small"><b>Beaming</b>: an atmosphere does not emit equally in all directions; the profile depends on it.</li>
+      </ul>
+      <p class="small muted" style="margin: 0">Together they make the pulse <b>asymmetric</b> and create harmonics — and the asymmetry measures <i>R</i> separately from <i>M</i>.</p>
+    </div>
+  </div>
+  <aside class="notes">What changes when the star spins fast. The surface of a millisecond pulsar moves at 10 or 20% of the speed of light. The side coming towards us is brighter, through the Doppler effect; the emission angles change, through aberration; and the photons from each point arrive with delays that are already fractions of the period. The curve, which was symmetric, becomes lopsided, and harmonics appear. That is good news: the surface speed is 2πR/P, so the asymmetry measures the radius separately from the mass. And the beaming of the atmosphere — black body, hydrogen atmosphere, the pencil beam of a magnetised atmosphere — changes the pulsed fraction. All of this goes into the ray tracing that NICER uses.</aside>
+</section>
+
+<section class="slide content p2">
+  <header><p class="eyebrow">NICER · pulse-profile modelling</p><h2>Mass and radius <em>from the pulse shape</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .95fr 1.15fr; gap: 44px">
+    <figure class="fill"><img style="height: calc(100% - 74px)" src="assets/img/nicer-j0030.jpg" alt="Hot spots of PSR J0030+0451 inferred by NICER" style="object-fit: contain; background: #050712"><span class="credit" data-credit="nicer-j0030">NASA/GSFC · public domain</span><figcaption>PSR J0030+0451 · the solutions of the two teams: Amsterdam (Riley+ 2019, left) and Maryland (Miller+ 2019). In both, the spots are far from antipodal.</figcaption></figure>
+    <div class="stack" style="gap: 16px">
+      <table class="tbl" style="font-size: 21px">
+        <tr><th>pulsar</th><th style="text-align: right">mass (M☉)</th><th style="text-align: right">radius (km)</th></tr>
+        <tr><td>PSR J0030+0451 · Riley+ 2019</td><td class="n">1.34<sup style="font-size:.7em">+0.15</sup><sub style="font-size:.7em">−0.16</sub></td><td class="n">12.7<sup style="font-size:.7em">+1.1</sup><sub style="font-size:.7em">−1.2</sub></td></tr>
+        <tr><td>PSR J0030+0451 · Miller+ 2019</td><td class="n">1.44<sup style="font-size:.7em">+0.15</sup><sub style="font-size:.7em">−0.14</sub></td><td class="n">13.0<sup style="font-size:.7em">+1.2</sup><sub style="font-size:.7em">−1.1</sub></td></tr>
+        <tr class="hl"><td>PSR J0740+6620 · Riley+ 2021</td><td class="n">2.07<sup style="font-size:.7em">+0.07</sup><sub style="font-size:.7em">−0.07</sub></td><td class="n">12.4<sup style="font-size:.7em">+1.3</sup><sub style="font-size:.7em">−1.0</sub></td></tr>
+        <tr><td>PSR J0437−4715 · Choudhury+ 2024</td><td class="n">1.42 ± 0.04</td><td class="n">11.4<sup style="font-size:.7em">+1.0</sup><sub style="font-size:.7em">−0.6</sub></td></tr>
+      </table>
+      <p style="margin: 0">NICER time-stamps each photon to ~100 ns. Folding millions of photons at the period gives the pulse profile; ray tracing, with <i>M</i>, <i>R</i>, the geometry and the spots left free, fits that profile by Bayesian inference.</p>
+      <p class="small muted" style="margin: 0">J0030’s spots came out non-antipodal and elongated: the field is not a centred dipole.</p>
+    </div>
+  </div>
+  <aside class="notes">What the technique has already delivered. NICER, on the Space Station, measures the arrival time of each photon to a precision of 100 nanoseconds. Folding the photons at the period gives the pulse profile, and ray tracing with rotation, delays and atmosphere, fitted by Bayesian sampling, returns the mass and radius. For J0030, two independent teams found 1.3–1.4 solar masses and about 13 km; for J0740, the heaviest star, 2.07 and 12.4 km; for J0437, 1.42 and 11.4. Values rounded from the original analyses; the error bars are 68%. More recent reanalyses of J0030 find more than one solution for the spot geometry. And a by-product: the spots are not antipodal — the magnetic field is not a centred dipole.</aside>
+</section>
+
+<!-- ================================================================
+     PART III · RESULTS
+     ================================================================ -->
+<section class="slide partcover p3">
+  <div class="bg" style="background-image: url('assets/img/magnetar.jpg'); background-position: 60% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">III</p>
+    <p class="label rise d2">Part three</p>
+    <h2 class="rise d2">Recent<br><em>results</em></h2>
+    <p class="sub lede rise d3">Ray tracing applied to real data — magnetars, a massive magnetar, accretion columns — and the same tool used to test gravity beyond Einstein.</p>
+    <div class="topics rise d4"><span>SGR J1745−2900</span><span>3XMM J1852+0033</span><span>accretion columns</span><span>scalar-tensor gravity</span><span>braneworld</span></div>
+  </div>
+  <span class="credit" data-credit="magnetar" data-label>Magnetar (illustration) · ESO/L. Calçada · CC BY 4.0</span>
+  <aside class="notes">Part three: published results, mine and my collaborators’. In the background, an ESO illustration of a magnetar. First, applications of ray tracing to X-ray data; then, what happens to light curves when gravity is not Einstein’s.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">2017 – 2026</p><h2>Light curves <em>as an instrument</em></h2></header>
+  <div class="body" style="display: grid; align-content: center; gap: 40px">
+    <div class="timeline">
+      <div><p class="yr">2017</p><p><b>A&amp;A 599, A87</b>: rotation-powered SGRs and AXPs, with realistic neutron stars</p></div>
+      <div><p class="yr">2020</p><p><b>ApJ 889, 165</b>: SGR J1745−2900 and a multipolar field, from the light curve</p></div>
+      <div><p class="yr">2023</p><p><b>Galaxies 11, 18</b>: pulse profiles of accretion columns</p></div>
+      <div><p class="yr">2024</p><p><b>JHEAp 42, 52</b>: 3XMM J1852+0033, a massive low-field magnetar</p></div>
+      <div><p class="yr">2024</p><p><b>EPJC 84, 1337</b>: light curves as a test of scalar-tensor gravity</p></div>
+      <div><p class="yr">2024</p><p><b>PRD 110, 103014</b>: stratified rotation and the moment of inertia</p></div>
+      <div><p class="yr">2025</p><p><b>PRD 112, 083010</b>: quark stars and the QCD equation of state</p></div>
+      <div><p class="yr">2026</p><p><b>arXiv:2607.09836</b>: compact stars in a high-tension braneworld</p></div>
+    </div>
+    <p class="say sm" style="margin: 0">The common thread: reading in the light of a compact star its <em>mass</em>, its <em>radius</em>, its <em>field</em> — and the <em>gravity</em> that curves it.</p>
+  </div>
+  <aside class="notes">An overview of the work with collaborators, mainly Jaziel Coelho, Jonas Pereira and Jorge Rueda. It starts with the 2017 question — whether some magnetars could be rotation-powered — and goes through three applications of ray tracing to real data: a magnetar at the centre of the Galaxy, another near the remnant Kes 79, and a star accreting matter. Then two extensions to gravity beyond Einstein: scalar-tensor theories and braneworld. And two papers on structure: non-rigid rotation and quark stars.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">de Lima, Coelho, Pereira, Rodrigues &amp; Rueda · ApJ 889, 165 (2020)</p><h2>SGR J1745−2900: <em>more than two spots</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.05fr .7fr .85fr; gap: 34px">
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/sgr1745-1.png" alt="Chandra light curves of SGR J1745-2900 with three-spot fits"><figcaption>Chandra light curves (2013 and 2016) and the three-spot fits.</figcaption></figure>
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/sgr1745-2.png" alt="Positions of the three spots in 2013 and 2016"><figcaption>The three spots: two at the poles, one in the southern hemisphere.</figcaption></figure>
+    <div class="stack" style="gap: 16px">
+      <ul class="list" style="gap: 12px">
+        <li class="small">The magnetar 0.1 pc from Sgr A*; 3.5 years of <b>Chandra</b> data.</li>
+        <li class="small">Model: <i>M</i>, <i>R</i>, up to <b>three spots</b> of any size and position, Schwarzschild light bending; fitted with a genetic algorithm.</li>
+        <li class="small">Two or three spots describe the data; with three, they are <b>large</b> (16–67°).</li>
+        <li class="small">A field with non-trivial poloidal and toroidal structure — the same message NICER gave for J0030.</li>
+      </ul>
+      <div class="cols c2" style="gap: 12px">
+        <div class="card" style="padding: 16px 18px"><p class="stat" style="font-size: 44px">1.4 ± 0.1</p><p class="stat-label">M☉</p></div>
+        <div class="card" style="padding: 16px 18px"><p class="stat" style="font-size: 44px">10.9 ± 1.5</p><p class="stat-label">km</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">The first case, from 2020: SGR J1745−2900, the magnetar a tenth of a parsec from the black hole at the centre of the Galaxy. With three and a half years of Chandra light curves, we fitted a model with mass, radius and up to three hot spots, each with free size, temperature and position, and Schwarzschild light bending. Two or three spots describe the data; the ambiguity comes from how little data there is. With three, they have to be large. Our reading is that the field is not a simple dipole — which is what NICER saw, at around the same time, in J0030. The mass and radius come out consistent with an ordinary neutron star.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">de Lima et al. · JHEAp 42, 52 (2024) · 1/2</p><h2>3XMM J1852+0033: <em>ray tracing and inference</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.2fr .9fr; gap: 40px">
+    <figure class="paper" style="align-self: center"><img style="max-height: 600px; object-fit: contain" src="assets/img/pesquisa/3xmm-2.png" alt="Pulse profile of 3XMM J185246.6+003317 with the best fit"><figcaption>One of the five pulse profiles (XMM-Newton, 2008) and the best fit: dashed, the contribution of each spot.</figcaption></figure>
+    <div class="stack" style="gap: 16px">
+      <ul class="list" style="gap: 12px">
+        <li class="small">A <b>transient magnetar</b> near the remnant Kes 79, <i>P</i> = 11.56 s; until then there were only upper limits on the field.</li>
+        <li class="small">Five <b>XMM-Newton</b> epochs over three weeks in 2008.</li>
+        <li class="small"><b>Ray tracing</b> in Schwarzschild with circular spots of any size (Turolla &amp; Nobili 2013) and <b>magnetised atmospheres</b> (NSMAX: H, C, O), with anisotropic emission.</li>
+        <li class="small"><b>Bayesian inference</b> (MCMC): mass, radius, field and spot positions shared by all epochs; size and temperature free to vary.</li>
+        <li class="small">Tested by <b>injection and recovery</b> of simulated data.</li>
+      </ul>
+      <div class="card glow"><h4>Best model</h4><p class="small" style="margin: 0">Three small spots, two in the southern hemisphere, and a <b>carbon</b> atmosphere: χ²/dof = 1.22, well ahead of two spots or of hydrogen.</p></div>
+    </div>
+  </div>
+  <aside class="notes">The second case, published in 2024: 3XMM J185246.6+003317, a transient magnetar near the supernova remnant Kes 79. Until then, there were only upper limits on the field and the spin-down, and no estimate of mass or radius. We used five XMM-Newton epochs, ray tracing with spots of arbitrary size and magnetised atmospheres, and Bayesian inference with mass, radius and field common to all epochs. The model was validated by injecting simulated data with known parameters and recovering them. The best fit has three small spots and a carbon atmosphere.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">de Lima et al. · JHEAp 42, 52 (2024) · 2/2</p><h2>A <em>massive</em>, low-field magnetar</h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr .9fr 1fr; gap: 30px">
+    <div class="stack" style="gap: 16px">
+      <div class="card glow"><p class="stat" style="font-size: 62px">2.09<sup style="font-size: .45em">+0.16</sup><sub style="font-size: .45em">−0.09</sub> <small>M☉</small></p><p class="stat-label">mass (1σ): among the highest ever estimated</p></div>
+      <div class="card"><p class="stat" style="font-size: 54px">12.0 ± 1.4 <small>km</small></p><p class="stat-label">radius (2σ)</p></div>
+      <div class="card"><p class="stat" style="font-size: 54px">~8×10¹¹ <small>G</small></p><p class="stat-label">surface field: log <i>B</i> = 11.89<sup>+0.19</sup><sub>−0.93</sub>, below the critical value</p></div>
+    </div>
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/3xmm-3.png" alt="Posterior distributions of mass, radius and field"><figcaption>Posteriors of <i>M</i>, <i>R</i> and log <i>B</i>.</figcaption></figure>
+    <div class="stack" style="gap: 14px">
+      <figure class="paper"><img src="assets/img/pesquisa/3xmm-5.png" alt="Best-fit geometry: three spots"><figcaption>The best-fit geometry.</figcaption></figure>
+      <p class="small" style="margin: 0">Interpretation: accretion of supernova material <b>buried</b> the field, which is now re-emerging; the carbon atmosphere would come from diffusive nuclear burning of H/He.</p>
+      <p class="small muted" style="margin: 0">Compactness <i>GM</i>/<i>Rc</i>² ≈ 0.26: favours equations of state of intermediate stiffness.</p>
+    </div>
+  </div>
+  <aside class="notes">The results. A mass of 2.09 solar masses, which puts the object among the most massive neutron stars known; a radius of 12 km; and a field of about 8×10¹¹ gauss — subcritical, and low for a magnetar. The interpretation: supernova material fell back onto the star and buried the field, which is now making its way back to the surface; and the carbon atmosphere would come from nuclear burning of the accreted hydrogen and helium. These are first estimates, with a simple ray-tracing model and data of limited time resolution, and the paper discusses how much the modelling weighs in the uncertainties.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Silva, de Lima, Coelho, Stecchini, de Liz &amp; de Araujo · Galaxies 11, 18 (2023)</p><h2>When the light comes <em>from a column</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .9fr 1fr .9fr; gap: 30px">
+    <div class="stack" style="gap: 16px">
+      <figure><img src="assets/img/pesquisa/accretion-3.jpg" alt="3D mesh of the star with accretion columns" style="border-radius: 14px"><figcaption>The star and the columns (truncated cone and cylinder) as a 3D mesh.</figcaption></figure>
+      <figure class="paper"><img src="assets/img/pesquisa/accretion-2.png" alt="Sketch of the ray tracing with and without a periastron"><figcaption>Photons emitted above the surface may pass through a <b>periastron</b> before escaping.</figcaption></figure>
+    </div>
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/accretion-1.png" alt="Pulse profile of 1A 0535+262 with the best model"><figcaption>1A 0535+262 (NuSTAR, 2018): observed profile and the two-column model.</figcaption></figure>
+    <div class="stack" style="gap: 16px">
+      <ul class="list" style="gap: 12px">
+        <li class="small">In X-ray binaries, matter falls along the field lines and forms <b>columns</b> above the poles: the emission comes out sideways (fan beam).</li>
+        <li class="small"><b>Exact</b> ray tracing in Schwarzschild, tabulated, including for points above the surface; Doppler included.</li>
+        <li class="small">Genetic algorithm for the priors, then MCMC.</li>
+      </ul>
+      <div class="cols c2" style="gap: 12px">
+        <div class="card" style="padding: 16px 18px"><p class="stat" style="font-size: 42px">1.53<sup style="font-size: .45em">+0.52</sup><sub style="font-size: .45em">−0.40</sub></p><p class="stat-label">M☉</p></div>
+        <div class="card" style="padding: 16px 18px"><p class="stat" style="font-size: 42px">12.1<sup style="font-size: .45em">+1.1</sup><sub style="font-size: .45em">−0.9</sub></p><p class="stat-label">km</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">A third kind of geometry: accretion columns. In X-ray binaries, matter from the companion falls in, guided by the magnetic field, and forms columns above the poles, which emit sideways. Here the ray tracing has to deal with emission above the surface, and some photons pass through a periastron before escaping. The work, from 2023, led by Rafael R. Silva, builds the star and the columns as a 3D mesh, does exact ray tracing and fits the pulse profile of 1A 0535+262 observed by NuSTAR, with a genetic algorithm and MCMC: 1.5 solar masses and 12 km.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Brans &amp; Dicke 1961 · Damour &amp; Esposito-Farèse 1993</p><h2>What if gravity <em>is not Einstein’s?</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .5fr .5fr 1.4fr; gap: 30px">
+    <figure class="portrait sm"><img src="assets/img/brans.jpg" alt="Carl Brans"><span class="credit" data-credit="brans">Cfbolner (Wikimedia Commons) · CC BY-SA 4.0</span><figcaption><b>Carl Brans</b>1935 – 2022</figcaption></figure>
+    <figure class="portrait sm"><img src="assets/img/damour.jpg" alt="Thibault Damour"><span class="credit" data-credit="damour">Melirius (Wikimedia Commons) · CC BY 3.0</span><figcaption><b>Thibault Damour</b>b. 1951</figcaption></figure>
+    <div class="stack" style="gap: 16px">
+      <p style="margin: 0">In <b>scalar-tensor</b> theories, besides the metric there is a scalar field φ that couples to matter. In the Solar System the effect is tiny; in a neutron star <b>spontaneous scalarisation</b> can occur: the field grows on its own.</p>
+      <p style="margin: 0">Outside the star, the metric is no longer Schwarzschild: it is the <b>Just metric</b>, with a scalar charge <i>Q</i>:</p>
+      <div class="eq sm" style="font-size: 27px">d<i>s</i>² = −(1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup><i>b</i>/<i>a</i></sup><i>dt</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>−<i>b</i>/<i>a</i></sup><i>dr</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>1 − <i>b</i>/<i>a</i></sup><i>r</i>²<i>d</i>Ω²<span class="note"><i>b</i> = 2<i>GM</i>/<i>c</i>² · <i>a</i>/<i>b</i> = √(1 + <i>Q</i>²) · Einstein frame</span></div>
+      <p style="margin: 0">Two stars with the <b>same mass and the same radius</b> — “doppelgängers” — bend light in different ways. The light curve can tell the theories apart.</p>
+    </div>
+  </div>
+  <aside class="notes">Now gravity. In scalar-tensor theories, gravity has a scalar field in addition to the metric. Brans and Dicke proposed the first one in 1961; Damour and Esposito-Farèse showed in 1993 that, in neutron stars, the field can grow spontaneously — scalarisation — even if in the Solar System everything looks like general relativity. Outside a scalarised star the metric is the Just metric, with a scalar charge Q. The question of our work: do two stars with the same mass and the same radius, one in general relativity and the other scalarised, have different light curves?</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Ottoni, Coelho, de Lima, Pereira &amp; Rueda · EPJC 84, 1337 (2024)</p><h2>The same star, <em>different gravity</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">M = 2.1 M☉ · one 10° spot · ι = θ = 90° · static star · exact integral</span><div class="seg" id="stt-model"><button type="button" data-v="gr">GR</button><button type="button" data-v="s1" class="on">STT 1 · A<sub>s</sub> = 0.95</button><button type="button" data-v="s2">STT 2 · A<sub>s</sub> = 1.05</button></div></div>
+      <div class="plots" style="grid-template-columns: .85fr 1.35fr"><div class="cv"><canvas id="stt-img"></canvas></div><div class="cv"><canvas id="stt-lc"></canvas></div></div>
+      <div class="controls">
+        <div class="ctl"><label for="stt-C">compactness, <i>GM</i>/<i>Rc</i>² <output for="stt-C"></output></label><input type="range" id="stt-C" min="0.26" max="0.30" step="0.0005" value="0.284"></div>
+        <div class="ctl"><label for="stt-Q">scalar charge, <i>Q</i> <output for="stt-Q"></output></label><input type="range" id="stt-Q" min="0" max="0.6" step="0.01" value="0.5"></div>
+      </div>
+      <div class="readout" id="stt-out"></div>
+    </div>
+  </div>
+  <aside class="notes">This panel redoes the paper’s calculation. A star of 2.1 solar masses with compactness 0.284 — the value at which, in general relativity, the critical deflection angle is exactly 180 degrees: the point opposite the observer sits right at the edge of visibility. A 10-degree spot passes behind the star. In general relativity, the curve has a smooth minimum. In scalar-tensor theory 1, with A_s = 0.95, the critical angle drops to 0.90π: an invisible zone of 18 degrees opens up behind the star, and the spot is eclipsed — the flux goes to zero. In theory 2, with A_s = 1.05, the angle exceeds π and a zone of multiple images appears: a lensing peak in the middle of the minimum. Same mass, same radius, qualitatively different curves. Play with the scalar charge: at Q = 0 the three coincide.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Ottoni et al. · EPJC 84, 1337 (2024) · results</p><h2>Up to <em>80%</em> difference in flux</h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr 1fr .9fr; gap: 30px">
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/stt-2.png" alt="Critical deflection angle versus compactness"><figcaption>The critical angle versus <i>M</i>/<i>R</i>: the GR line and the scalar-tensor band.</figcaption></figure>
+    <figure class="paper" style="align-self: center"><img style="max-height: 600px; object-fit: contain" src="assets/img/pesquisa/stt-7.png" alt="Flux at 700 Hz and relative difference"><figcaption>Spinning at 700 Hz, with Doppler and delays: flux and difference relative to GR.</figcaption></figure>
+    <div class="stack" style="gap: 14px">
+      <ul class="list" style="gap: 12px">
+        <li class="small">The compactness at which ψ<sub>c</sub> = π ranges from <b>0.275 to 0.305</b> in scalar-tensor theory, against 0.284 in GR.</li>
+        <li class="small">The flux from a spot differs from GR by up to <b>~80%</b>.</li>
+        <li class="small">The radius changes by up to <b>~10%</b> for the same stellar parameters: today, this limits <i>Q</i> ≲ 0.5.</li>
+        <li class="small">With NICER, J0740+6620 has <i>C</i> = 0.21–0.28: not yet enough to separate the theories.</li>
+      </ul>
+      <div class="card glow"><h4>Outlook</h4><p class="small" style="margin: 0">Radii with smaller uncertainties — eXTP, NewAthena, and gravitational waves from Einstein Telescope and LISA — may constrain scalar-tensor theories through the <b>pulse shape</b>.</p></div>
+    </div>
+  </div>
+  <aside class="notes">The paper’s numbers. The critical angle depends on the compactness differently in scalar-tensor theory, over a wide band around the general-relativity line. With the star spinning at 700 Hz and Doppler and delays included, the difference in the flux from a spot reaches 80% at certain phases. The change in radius, of up to 10%, is what currently limits the scalar charge. The NICER compactnesses still have uncertainties too large to separate the theories — but the next generation of X-ray telescopes and gravitational-wave detectors should change that.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">dos Santos Júnior, de Lima &amp; Moraes · arXiv:2607.09836 (2026, submitted)</p><h2>Compact stars <em>in a braneworld</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .85fr 1fr .95fr; gap: 30px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0">In the braneworld, our Universe is a membrane in an extra dimension. In the star, this shows up as corrections to the TOV equations:</p>
+      <div class="eq sm" style="font-size: 24px; padding: 14px 12px; text-align: left; line-height: 1.6">ρ<sub>eff</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + α<sub>𝒰</sub>ρ<br><i>p</i><sub>eff</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>w</i><sub>𝒰</sub>α<sub>𝒰</sub>ρ<span class="note">λ: brane tension · α<sub>𝒰</sub>, <i>w</i><sub>𝒰</sub>: the Weyl sector</span></div>
+      <p class="small" style="margin: 0">MCMC with the <b>NICER</b> radii (J0740+6620, J1231−1411 — themselves ray-tracing results) and GW170817, for the SLy equation of state.</p>
+    </div>
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/brane-1.jpg" alt="Braneworld mass-radius band against GR"><figcaption>The braneworld M–R band (68% and 95%), GR (dashed) and the NICER and GW170817 constraints.</figcaption></figure>
+    <div class="stack" style="gap: 12px">
+      <div class="cols c2" style="gap: 12px">
+        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">−0.15<sup style="font-size: .45em">+0.30</sup><sub style="font-size: .45em">−0.08</sub></p><p class="stat-label">α<sub>𝒰</sub>: slightly negative Weyl coupling</p></div>
+        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">10<sup style="font-size: .5em">4.0 ± 1.5</sup></p><p class="stat-label">λ (km⁻²): high tension</p></div>
+        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">2.30<sup style="font-size: .45em">+0.14</sup><sub style="font-size: .45em">−0.08</sub></p><p class="stat-label"><i>M</i><sub>max</sub> (M☉) · GR+SLy: 2.05</p></div>
+        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">13.3 ± 0.6</p><p class="stat-label"><i>R</i><sub>1.4</sub> (km) · GR+SLy: 11.8</p></div>
+      </div>
+      <p class="small muted" style="margin: 0">Consistent with the data, with no large departures from GR. Preprint, under review.</p>
+    </div>
+  </div>
+  <aside class="notes">Another extension of gravity, in a preprint from this year with S. I. dos Santos Júnior and P. H. R. S. Moraes. In the braneworld, the Universe is a membrane in an extra dimension, and this modifies the structure equations with two kinds of correction: a quadratic one, controlled by the brane tension, and a Weyl sector, with a coupling α and an equation of state w. With the SLy equation of state and Bayesian inference on the NICER radii — which, remember, come from ray tracing — and the GW170817 data, the tension comes out high and the Weyl coupling slightly negative. The maximum mass rises to 2.3 and the radius of a 1.4 solar-mass star goes up to 13.3 km. In other words, current data allow this braneworld without large departures from general relativity. It is a preprint, still under review.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">PRD 110, 103014 (2024) · PRD 112, 083010 (2025)</p><h2>What goes into <em>M, R and I</em></h2></header>
+  <div class="body cols c2" style="gap: 44px">
+    <div class="stack" style="gap: 14px">
+      <figure class="paper"><img src="assets/img/pesquisa/stratrot-1.png" style="max-height: 400px" alt="Change in the moment of inertia against the position of the rotation jump"><figcaption>Δ<i>I</i>/<i>I</i> against the position <i>R</i>*/<i>R</i> of a jump in angular velocity.</figcaption></figure>
+      <p class="small" style="margin: 0"><b>Stratified rotation</b> (Pereira, Ottoni, Coelho, Rueda &amp; de Lima): if the interior rotates differently from the crust, the moment of inertia changes — little if the jump is deep (&lt; 40% of the radius), almost as much as Δω if it is near the surface. This affects the rotational energy budget of pulsars and weakens the universal I-Love-Q relations.</p>
+    </div>
+    <div class="stack" style="gap: 14px">
+      <figure class="paper"><img src="assets/img/pesquisa/quarkstar-1.png" style="max-height: 400px" alt="Allowed mass-radius band for quark stars"><figcaption>The allowed M–R band for quark stars, with XMMU J173203.3−344518.</figcaption></figure>
+      <p class="small" style="margin: 0"><b>Quark stars</b> (Zastrow, Pereira, de Lima &amp; Horvath): a QCD-inspired equation of state, scanned against maximum masses, radii and tidal deformability. The strong interactions must deviate by ≥ 20% from free quarks; a 1.4 M☉ star would be 10.0–12.3 km in radius.</p>
+    </div>
+  </div>
+  <aside class="notes">Two papers on structure, which feed ray tracing with M, R and I. Stratified rotation, from 2024: if the core rotates at a different rate from the crust — because of superfluidity or phase transitions — the moment of inertia changes, and with it the available rotational energy, the inferred radius and the universal relations. And quark stars, from 2025: a QCD-inspired equation of state, scanned against the observational constraints. Both show that the M and R that ray tracing measures do not come for free: they depend on nuclear physics and on assumptions about rotation.</aside>
+</section>
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Conclusions</p><h2>From geometry <em>to observation</em> — and back</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.1fr .9fr; gap: 50px">
+    <ul class="list" style="gap: 18px">
+      <li>In a neutron star, light bending, redshift and delays are <b>not corrections</b>: they define the image and the light curve.</li>
+      <li>Backward ray tracing — with the exact integral when the compactness calls for it — links the metric to what a telescope measures.</li>
+      <li>Applied to Chandra, XMM-Newton and NuSTAR data, it gave the mass, radius, field and spot geometry of magnetars and of an accreting star.</li>
+      <li>Since the light curve depends only on the exterior metric, it also <b>tests gravity</b>: scalar-tensor theories and braneworld.</li>
+    </ul>
+    <div class="stack" style="gap: 20px">
+      <div class="card glow" style="--part: var(--res)"><h4>Next steps</h4>
+        <ul class="list" style="gap: 10px">
+          <li class="small">Magnetised atmospheres and exact ray tracing together, for isolated cooling stars.</li>
+          <li class="small">Fast rotation and metrics beyond Schwarzschild in the same fits.</li>
+          <li class="small">Data from the next generation: eXTP, NewAthena, STROBE-X.</li>
+        </ul></div>
+      <p class="small muted" style="margin: 0">The panels in this seminar run in the browser: <i style="white-space: nowrap">rafael-lima.pages.dev/talks</i>.</p>
+    </div>
+  </div>
+  <aside class="notes">To wrap up. In a neutron star, the relativistic effects on light are not corrections: they are the shape of the signal. Ray tracing, done backwards and with the exact integral when the star is compact, links the geometry to the data. Applied to magnetars and to an accreting star, it measured masses, radii, fields and spots. And, since the light curve depends only on the metric outside, it becomes a test of gravity. The next steps are to combine magnetised atmospheres with exact ray tracing and to get the analyses ready for the next generation of telescopes. Thank you.</aside>
+</section>
+
+
+
+<section class="slide content p0">
+  <header><p class="eyebrow">Image credits</p><h2>Freely licensed <em>photos and figures</em></h2></header>
+  <div class="body credits" style="columns: 3; column-gap: 46px">
+    <!--CREDITS-->
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg"><b>Albert Einstein</b></a> — Ferdinand Schmutzer / Adam Cuerden · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Karl_Schwarzschild.png"><b>Karl Schwarzschild</b></a> — unknown author · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg"><b>M87* (EHT)</b></a> — Event Horizon Telescope Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Sag_A%2A.jpg"><b>Sgr A* (EHT)</b></a> — EHT Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Susan_Jocelyn_Bell_(Burnell),_1967.jpg"><b>Jocelyn Bell, 1967</b></a> — Roger W Haworth · CC BY-SA 2.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Anthony_J._Hewish.jpg"><b>Antony Hewish</b></a> — Woodruff T. Sullivan III / NRAO/AUI Archives (NRAO/AUI/NSF) · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Chart_Showing_Radio_Signal_of_First_Identified_Pulsar,_crop_%26_rotate.jpg"><b>Chart record of CP 1919, 1967</b></a> — Bill Thompson (Billthom) · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif"><b>Neutron star over Manhattan</b></a> — NASA&#x27;s Goddard Space Flight Center · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Highest_resolution_image_of_the_1919_solar_eclipse_%28potw1926a%29.jpg"><b>1919 eclipse</b></a> — ESO/Landessternwarte Heidelberg-Königstuhl/F. W. Dyson, A. S. Eddington, &amp; C. Davidson · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Webb%27s_First_Deep_Field.jpg"><b>SMACS 0723 (JWST)</b></a> — NASA, ESA, CSA, and STScI · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:ISS-57_NICER_on_station.jpg"><b>NICER</b></a> — NASA · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Artist_rendering_of_the_XMM-Newton_telescope_against_Earth.jpg"><b>XMM-Newton</b></a> — ESA/XMM-Newton · CC BY-SA 3.0 IGO</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Chandra_artist_illustration.jpg"><b>Chandra</b></a> — NASA/CXC/NGST · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Pulsar_model.jpg"><b>Pulsar (illustration)</b></a> — NASA · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Artist%E2%80%99s_impression_of_the_magnetar_in_the_star_cluster_Westerlund_1.jpg"><b>Magnetar (illustration)</b></a> — ESO/L. Calçada · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Carl-brans-loyola-university-new-orleans.jpg"><b>Carl Brans</b></a> — Cfbolner · CC BY-SA 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Thibault_Damour_portrait.png"><b>Thibault Damour</b></a> — Melirius · CC BY 3.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://svs.gsfc.nasa.gov/13240/"><b>PSR J0030+0451: hot-spot models</b></a> — NASA&#x27;s Goddard Space Flight Center · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Paper figures (Part III)</b> — de Lima et al., ApJ 889, 165 (2020); de Lima et al., JHEAp 42, 52 (2024, CC BY 4.0 on arXiv); Silva et al., Galaxies 11, 18 (2023, CC BY 4.0); Ottoni et al., EPJC 84, 1337 (2024, CC BY 4.0); dos Santos Júnior, de Lima &amp; Moraes, arXiv:2607.09836 (CC0); Pereira et al., PRD 110, 103014 (2024); Zastrow et al., PRD 112, 083010 (2025)</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>P–Ṗ diagram</b> — ATNF pulsar catalogue 2.8.1 (Manchester et al., AJ 129, 1993, 2005)</p>
+    <!--/CREDITS-->
+  </div>
+  <aside class="notes">The images come from Wikimedia Commons, in the public domain or under free licences. The figures from the papers are by me and my collaborators.</aside>
+</section>
+
+<section class="slide cover end">
+  <div class="grain"></div>
+  <div class="main" style="top: 300px">
+    <p class="kicker rise d1">Thank you</p>
+    <h1 class="rise d2"><em>Questions?</em></h1>
+    <p class="lede rise d3">Slides, animations and dashboards available at <i style="white-space: nowrap">rafael-lima.pages.dev/talks</i></p>
+  </div>
+  <footer class="bottom rise d4">
+    <div class="author"><p class="name">Rafael C. R. de Lima</p><p class="aff">rafael.lima@udesc.br<span>·</span>rafael-lima.pages.dev</p></div>
+  </footer>
+  <aside class="notes">Thank you.</aside>
+</section>
+
+</main>
+
+<nav class="langsw" aria-label="Idioma / Language"><a href="index.html" data-set-lang="pt">PT</a><a href="en.html" data-set-lang="en" class="on">EN</a></nav>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="counter" id="counter"></div>
+<div id="notes-panel"><h4>Notes</h4><div id="notes-body"></div></div>
+<div id="help" role="dialog" aria-label="Shortcuts">
+  <div class="box">
+    <h3>Shortcuts</h3>
+    <dl>
+      <dt>→ / space</dt><dd>next</dd>
+      <dt>←</dt><dd>previous</dd>
+      <dt>Home / End</dt><dd>first / last</dd>
+      <dt>F / F5</dt><dd>full screen (also double-click or ⛶ in the corner)</dd>
+      <dt>O</dt><dd>overview</dd>
+      <dt>N</dt><dd>speaker notes</dd>
+      <dt>Esc</dt><dd>release a control and go back to navigating</dd>
+      <dt>?</dt><dd>this help</dd>
+      <dt>PT / EN</dt><dd>top-right corner</dd>
+    </dl>
+  </div>
+</div>
+
+<script src="assets/deck.js?v=202610192200"></script>
+<script src="assets/ppdot.js?v=202610192200"></script>
+<script src="assets/dash.js?v=202610192200"></script>
+<script src="assets/dash-reuso.js?v=202610192200"></script>
+<script src="assets/dash-ns.js?v=202610192200"></script>
+<script src="assets/dash-res.js?v=202610192200"></script>
+<script>Deck.start();</script>
+</body>
+</html>
