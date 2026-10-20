@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610192200">
+<link rel="stylesheet" href="assets/deck.css?v=202610201200">
 </head>
 <body>
 
@@ -762,25 +762,130 @@
 </section>
 
 <section class="slide content p3">
-  <header><p class="eyebrow">dos Santos Júnior, de Lima &amp; Moraes · arXiv:2607.09836 (2026, submetido)</p><h2>Estrelas compactas <em>num braneworld</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .85fr 1fr .95fr; gap: 30px">
-    <div class="stack" style="gap: 14px">
-      <p class="small" style="margin: 0">No braneworld, o nosso Universo é uma membrana numa dimensão extra. Na estrela, isso aparece como correções nas equações TOV:</p>
-      <div class="eq sm" style="font-size: 24px; padding: 14px 12px; text-align: left; line-height: 1.6">ρ<sub>ef</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + α<sub>𝒰</sub>ρ<br><i>p</i><sub>ef</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>w</i><sub>𝒰</sub>α<sub>𝒰</sub>ρ<span class="note">λ: tensão da brana · α<sub>𝒰</sub>, <i>w</i><sub>𝒰</sub>: o setor de Weyl</span></div>
-      <p class="small" style="margin: 0">MCMC com os raios do <b>NICER</b> (J0740+6620, J1231−1411 — eles mesmos resultados de ray tracing) e GW170817, para a equação de estado SLy.</p>
-    </div>
-    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/brane-1.jpg" alt="Faixa massa-raio do braneworld contra a RG"><figcaption>A faixa M–R do braneworld (68% e 95%), a RG (tracejado) e os vínculos do NICER e de GW170817.</figcaption></figure>
-    <div class="stack" style="gap: 12px">
-      <div class="cols c2" style="gap: 12px">
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">−0,15<sup style="font-size: .45em">+0,30</sup><sub style="font-size: .45em">−0,08</sub></p><p class="stat-label">α<sub>𝒰</sub>: acoplamento de Weyl levemente negativo</p></div>
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">10<sup style="font-size: .5em">4,0 ± 1,5</sup></p><p class="stat-label">λ (km⁻²): tensão alta</p></div>
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">2,30<sup style="font-size: .45em">+0,14</sup><sub style="font-size: .45em">−0,08</sub></p><p class="stat-label"><i>M</i><sub>máx</sub> (M☉) · RG+SLy: 2,05</p></div>
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">13,3 ± 0,6</p><p class="stat-label"><i>R</i><sub>1,4</sub> (km) · RG+SLy: 11,8</p></div>
-      </div>
-      <p class="small muted" style="margin: 0">Compatível com os dados sem grandes desvios da RG. Preprint, em avaliação.</p>
+  <header><p class="eyebrow">Randall &amp; Sundrum 1999 · Shiromizu, Maeda &amp; Sasaki 2000</p><h2>O Universo numa <em>membrana</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.05fr 1fr; gap: 44px">
+    <svg class="diag" viewBox="0 0 700 470" aria-label="Uma brana de quatro dimensões dentro de um bulk de cinco dimensões">
+      <defs>
+        <linearGradient id="bw-bulk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9e8cff" stop-opacity=".16"/><stop offset="1" stop-color="#ffb86b" stop-opacity=".05"/></linearGradient>
+        <linearGradient id="bw-sheet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffb86b" stop-opacity=".10"/><stop offset=".5" stop-color="#ffb86b" stop-opacity=".26"/><stop offset="1" stop-color="#ffb86b" stop-opacity=".10"/></linearGradient>
+        <radialGradient id="bw-star" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#bff6ee"/><stop offset="1" stop-color="#2aa596"/></radialGradient>
+        <marker id="bw-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b8a6ff"/></marker>
+        <marker id="bw-ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#eef0f6"/></marker>
+      </defs>
+      <rect x="10" y="10" width="680" height="450" rx="22" fill="url(#bw-bulk)" stroke="rgba(158,140,255,.35)"/>
+      <text x="34" y="46" font-size="20" style="fill: #b8a6ff">bulk · 5 dimensões: só a gravidade</text>
+      <!-- a brana -->
+      <path d="M70 300 L520 222 L640 318 L190 400 Z" fill="url(#bw-sheet)" stroke="#ffb86b" stroke-opacity=".7" stroke-width="2"/>
+      <g stroke="#ffb86b" stroke-opacity=".22" stroke-width="1">
+        <path d="M115 292 L235 392 M160 284 L280 384 M205 276 L325 376 M250 268 L370 368 M295 261 L415 359 M340 253 L460 351 M385 245 L505 343 M430 238 L550 335 M475 230 L595 327"/>
+        <path d="M94 320 L544 241 M118 340 L568 261 M142 360 L592 280 M166 380 L616 299"/>
+      </g>
+      <text x="96" y="432" font-size="19" style="fill: #ffb86b">brana · 4 dimensões: matéria, luz — e nós</text>
+      <!-- luz presa na brana -->
+      <path d="M180 352 q12 -12 24 0 t24 0 t24 0 t24 0 t24 0" fill="none" stroke="#ffd58a" stroke-width="2.4" transform="rotate(-10 180 352)"/>
+      <text x="168" y="388" font-size="16" style="fill: #ffd58a">luz: presa na brana</text>
+      <!-- gravidade vazando -->
+      <path d="M392 300 C 392 220, 420 150, 470 96" fill="none" stroke="#b8a6ff" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#bw-ar)"/>
+      <path d="M392 300 C 352 230, 300 170, 230 120" fill="none" stroke="#b8a6ff" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#bw-ar)"/>
+      <path d="M392 300 C 430 240, 520 200, 600 168" fill="none" stroke="#b8a6ff" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#bw-ar)"/>
+      <text x="476" y="96" font-size="16" style="fill: #b8a6ff">a gravidade vaza</text>
+      <!-- o retorno do bulk -->
+      <path d="M150 150 C 200 200, 250 250, 300 282" fill="none" stroke="#eef0f6" stroke-width="2" marker-end="url(#bw-ar2)"/>
+      <text x="46" y="138" class="serif" font-size="26">E<tspan font-size="16" dy="6">μν</tspan></text>
+      <text x="46" y="168" font-size="16">o bulk visto da brana</text>
+      <!-- a estrela -->
+      <circle cx="392" cy="300" r="26" fill="#56e1d0" opacity=".25"/>
+      <circle cx="392" cy="300" r="17" fill="url(#bw-star)"/>
+      <text x="420" y="330" font-size="16" style="fill: #56e1d0">estrela de nêutrons</text>
+    </svg>
+    <div class="stack" style="gap: 16px">
+      <p style="margin: 0">No <b>braneworld</b>, o nosso Universo é uma hipersuperfície de quatro dimensões — a <b>brana</b> — dentro de um espaço com uma dimensão a mais, o <b>bulk</b>. Matéria e luz ficam presas na brana; só a gravidade se propaga no bulk.</p>
+      <p class="small" style="margin: 0">A ideia aparece para atacar o problema da hierarquia (por que a gravidade é tão fraca) e o da constante cosmológica e da expansão acelerada.</p>
+      <div class="eq sm" style="font-size: 30px"><i>G</i><sub>μν</sub> = 8π<i>T</i><sub>μν</sub> + κ<sub>5</sub><sup>4</sup><i>S</i><sub>μν</sub> − <i>E</i><sub>μν</sub><span class="note">Einstein efetivo na brana · Shiromizu, Maeda &amp; Sasaki 2000</span></div>
+      <ul class="list" style="gap: 10px">
+        <li class="small"><i>S</i><sub>μν</sub>: correções <b>locais</b>, quadráticas na matéria (∝ <i>T</i>²). Pesam quando a densidade se aproxima da <b>tensão da brana</b> λ.</li>
+        <li class="small"><i>E</i><sub>μν</sub>: o tensor de <b>Weyl</b> do bulk projetado na brana — <b>não local</b>: não se calcula só com o que existe na brana.</li>
+        <li class="small">Para λ → ∞ e <i>E</i><sub>μν</sub> → 0, volta a Relatividade Geral.</li>
+      </ul>
+      <p class="ref" style="margin: 0">No artigo: um fechamento efetivo em 4D, inspirado no cenário de Sahni–Shtanov (2003) — não uma solução completa do bulk em 5D.</p>
     </div>
   </div>
-  <aside class="notes">Outra extensão da gravidade, num preprint deste ano com S. I. dos Santos Júnior e P. H. R. S. Moraes. No braneworld, o Universo é uma membrana numa dimensão extra, e isso modifica as equações de estrutura com dois tipos de correção: uma quadrática, controlada pela tensão da brana, e um setor de Weyl, com um acoplamento α e uma equação de estado w. Com a equação de estado SLy e inferência bayesiana sobre os raios do NICER — que, lembrem, vêm de ray tracing — e os dados de GW170817, a tensão sai alta e o acoplamento de Weyl levemente negativo. A massa máxima sobe para 2,3 e o raio de uma estrela de 1,4 vai para 13,3 km. Ou seja, os dados atuais admitem esse braneworld sem grandes desvios da relatividade geral. É um preprint, ainda em avaliação.</aside>
+  <aside class="notes">O que é um braneworld. A ideia, de Randall e Sundrum em 1999, é que o nosso Universo de quatro dimensões seja uma membrana — a brana — mergulhada num espaço com uma dimensão a mais, o bulk. Todos os campos do Modelo Padrão, matéria e luz, ficam presos na brana; só a gravidade se espalha pelo bulk. Isso foi proposto para explicar por que a gravidade é tão mais fraca que as outras forças e, depois, para a energia escura. Shiromizu, Maeda e Sasaki mostraram como fica a equação de Einstein vista de dentro da brana: aparecem dois termos novos. Um local, quadrático na matéria, que só importa em densidades comparáveis à tensão da brana. E um não local, a projeção do tensor de Weyl do bulk: é o campo gravitacional da dimensão extra visto daqui, e não dá para calculá-lo só com o que está na brana. No nosso artigo usamos uma versão efetiva, em quatro dimensões, inspirada no cenário de Sahni e Shtanov.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">As equações TOV modificadas · equação de estado SLy</p><h2>Mesma física nuclear, <em>outra gravitação</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0">A equação de estado da matéria (SLy) <b>não muda</b>. Muda o quanto ela <b>gravita</b>: a estrela passa a sentir uma densidade e uma pressão efetivas.</p>
+      <div class="eq sm" style="font-size: 26px; padding: 14px 16px; text-align: left; line-height: 1.7">ρ<sub>ef</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + ρ<sub>𝒰</sub><br><i>p</i><sub>ef</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>p</i><sub>𝒰</sub><span class="note">termo local (λ) · setor de Weyl (𝒰)</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 16px; text-align: left; line-height: 1.8"><span class="frac"><span><i>dm</i></span><span><i>dr</i></span></span> = 4π<i>r</i>² ρ<sub>ef</sub><br><span class="frac"><span><i>dp</i></span><span><i>dr</i></span></span> = −(ρ + <i>p</i>) <span class="frac"><span><i>m</i> + 4π<i>r</i>³<i>p</i><sub>ef</sub></span><span><i>r</i>(<i>r</i> − 2<i>m</i>)</span></span><span class="note">a matéria se conserva: o fator (ρ + p) é o de sempre</span></div>
+      <p class="small" style="margin: 0">O termo local <b>aumenta a atração</b> e encolhe a estrela — mas só quando ρ se aproxima de λ. No centro de uma estrela de nêutrons ρ ≈ 2×10⁻³ km⁻²; com λ ~ 10⁴ km⁻², ρ/λ ~ 10⁻⁷.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">TOV modificada · SLy</span><div class="seg" id="brane-pre"><button type="button" data-v="gr">RG</button><button type="button" data-v="loc">só local</button><button type="button" data-v="med" class="on">melhor ajuste</button><button type="button" data-v="comp">ramo α&gt;0</button></div></div>
+      <div class="cv"><canvas id="brane-mr"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="ctl"><label for="brane-l">log<sub>10</sub>(λ / km⁻²) <output for="brane-l"></output></label><input type="range" id="brane-l" min="-4" max="8" step="0.01" value="4.02"></div>
+        <div class="ctl"><label for="brane-a">α<sub>𝒰</sub> <output for="brane-a"></output></label><input type="range" id="brane-a" min="-0.35" max="0.45" step="0.005" value="-0.169"></div>
+        <div class="ctl"><label for="brane-w">w<sub>𝒰</sub> <output for="brane-w"></output></label><input type="range" id="brane-w" min="-1.25" max="1.25" step="0.01" value="0.252"></div>
+      </div>
+      <div class="readout" id="brane-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Como isso entra numa estrela. A física nuclear não muda: a equação de estado continua sendo a SLy, a mesma da relatividade geral. O que muda é o quanto a matéria gravita. Na equação da massa entra uma densidade efetiva, e no numerador da TOV, uma pressão efetiva — cada uma com um termo local, controlado pela tensão λ, e um termo de Weyl. O fator ρ + p continua o de sempre porque a matéria comum se conserva. O painel resolve essas equações aqui, no navegador, com a SLy. O botão "só o termo local" põe λ = 10⁻³ km⁻²: a densidade efetiva sobe, a gravidade aperta, e a massa máxima despenca. Mas para isso λ precisa ser comparável à densidade no centro da estrela, uns 2×10⁻³ km⁻². Com o λ que os dados preferem, 10⁴, o termo local é dez milhões de vezes menor que ρ — quem mexe na curva é o setor de Weyl. O "melhor ajuste" é a melhor amostra do artigo: massa máxima de 2,28 e raio de 13,2 km, contra 2,05 e 11,7 na relatividade geral.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">O que vem do bulk</p><h2>O setor de Weyl: <em>blindagem</em> ou atração extra</h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0"><i>E</i><sub>μν</sub> é a marca do campo gravitacional do bulk na brana. Ali ele age como um <b>fluido efetivo</b> — em cosmologia, a “radiação escura”. Só que a brana não determina esse fluido: é preciso um <b>fechamento</b>.</p>
+      <div class="cols c2" style="gap: 12px">
+        <div class="eq sm" style="font-size: 28px; padding: 12px 8px">ρ<sub>𝒰</sub> = α<sub>𝒰</sub> ρ</div>
+        <div class="eq sm" style="font-size: 28px; padding: 12px 8px"><i>p</i><sub>𝒰</sub> = <i>w</i><sub>𝒰</sub> ρ<sub>𝒰</sub></div>
+      </div>
+      <p class="ref" style="margin: 0">Fechamento isotrópico; a tensão anisotrópica do Weyl (Δ<sub>𝒰</sub>) fica para trabalhos futuros.</p>
+      <table class="tbl" style="font-size: 19px">
+        <tr><th>se…</th><th>efeito na estrela</th></tr>
+        <tr class="hl"><td style="white-space: nowrap">α<sub>𝒰</sub> &lt; 0</td><td>ρ<sub>ef</sub> = ρ(1 + α<sub>𝒰</sub>) &lt; ρ: <b>blindagem</b> — menos massa gravitando, estrelas maiores e mais pesadas</td></tr>
+        <tr><td style="white-space: nowrap">α<sub>𝒰</sub> &gt; 0</td><td>mais atração: estrelas menores e mais leves</td></tr>
+        <tr><td style="white-space: nowrap"><i>w</i><sub>𝒰</sub></td><td>só aparece como <i>w</i><sub>𝒰</sub>α<sub>𝒰</sub>ρ na pressão efetiva: pesa pouco quando α<sub>𝒰</sub> é pequeno, e pode <b>compensar</b> α<sub>𝒰</sub></td></tr>
+      </table>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">curvas M–R com λ = 10⁴ km⁻² · SLy</span><span class="ref">tracejado: RG</span></div>
+      <div class="plots two"><div class="cv"><canvas id="weyl-a"></canvas></div><div class="cv"><canvas id="weyl-w"></canvas></div></div>
+      <div class="readout" id="weyl-out"></div>
+    </div>
+  </div>
+  <aside class="notes">O setor de Weyl é a parte interessante. O tensor de Weyl projetado é o campo gravitacional do bulk visto da brana, e na brana ele funciona como um fluido extra — em cosmologia ele aparece como “radiação escura”. O problema é que ele não é determinado pelas equações da brana: é preciso escolher um fechamento. O nosso é o mais simples: uma densidade de Weyl proporcional à densidade da matéria, com coeficiente α, e uma pressão com equação de estado w. À esquerda do painel, o leque em α com w = 0: α negativo reduz a densidade que gravita — uma blindagem — e a estrela cresce; α positivo aperta. À direita, o leque em w com α = −0,15: w só entra multiplicado por α, então pares diferentes de α e w dão curvas parecidas. É essa degenerescência que deixa w mal determinado pelos dados.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">dos Santos Júnior, de Lima &amp; Moraes · arXiv:2607.09836 (2026, submetido) · resultados</p><h2>Tensão alta, Weyl <em>levemente negativo</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr .95fr .9fr; gap: 28px">
+    <div class="stack" style="gap: 14px">
+      <div class="card" style="padding: 16px 20px"><h4>Dados e inferência</h4><p class="small" style="margin: 0">GW170817 (raios da deformabilidade de maré) + NICER: PSR J0740+6620 e PSR J1231−1411 — os dois, resultados de <b>ray tracing</b> de perfis de pulso. MCMC de ensemble (4 × 32 caminhantes × 3 000 passos, 288 000 amostras), priores centrados em λ grande e nos valores da RG.</p></div>
+      <table class="tbl" style="font-size: 18px">
+        <tr><th></th><th style="text-align: right">mediana</th><th style="text-align: right">68%</th><th style="text-align: right">RG</th></tr>
+        <tr><td>log<sub>10</sub>(λ/km⁻²)</td><td class="n">3,98</td><td class="n">2,54 – 5,50</td><td class="n">∞</td></tr>
+        <tr class="hl"><td>α<sub>𝒰</sub></td><td class="n">−0,15</td><td class="n">−0,23 – 0,15</td><td class="n">0</td></tr>
+        <tr><td><i>w</i><sub>𝒰</sub></td><td class="n">0,24</td><td class="n">−0,78 – 0,61</td><td class="n">0</td></tr>
+        <tr class="hl"><td><i>M</i><sub>máx</sub> (M☉)</td><td class="n">2,30</td><td class="n">2,22 – 2,44</td><td class="n">2,05</td></tr>
+        <tr class="hl"><td><i>R</i><sub>1,4</sub> (km)</td><td class="n">13,31</td><td class="n">12,74 – 13,85</td><td class="n">11,76</td></tr>
+      </table>
+    </div>
+    <figure class="paper" style="align-self: start"><img src="assets/img/pesquisa/brane-1.jpg" alt="Faixa massa-raio do braneworld contra a RG" style="max-height: 560px; object-fit: contain"><figcaption>A faixa M–R do posterior (68% e 95%), a RG+SLy (tracejado) e os vínculos usados.</figcaption></figure>
+    <ul class="list" style="gap: 12px; align-self: start">
+      <li class="small"><b>λ ~ 10⁴ km⁻²</b>: o termo local some (ρ/λ ~ 10⁻⁷). O posterior quase repete o prior: os dados são <i>compatíveis</i> com tensão alta, não medem λ.</li>
+      <li class="small"><b>α<sub>𝒰</sub> &lt; 0 em 83% das amostras</b>: uma blindagem leve. É o setor de Weyl, e não o termo local, que empurra a curva para a direita.</li>
+      <li class="small"><b>Um ramo secundário (17%)</b>: α<sub>𝒰</sub> &gt; 0 com <i>w</i><sub>𝒰</sub> &lt; 0 se compensam — <i>R</i><sub>1,4</sub> menor, <i>M</i><sub>máx</sub> maior, compacidade perto do limite imposto.</li>
+      <li class="small"><b><i>M</i><sub>máx</sub> ≈ 2,3 M☉</b>: compatível com PSR J0952−0607 (2,35 ± 0,11 M☉). GW190814 (2,50–2,67 M☉) só cabe na cauda de 95%.</li>
+      <li class="small"><b>O recado</b>: estrelas mais pesadas não são uma previsão genérica do braneworld — dependem do <b>sinal do setor de Weyl</b>.</li>
+    </ul>
+  </div>
+  <aside class="notes">Os resultados. Usamos três conjuntos de dados: as massas e raios de GW170817, inferidos da deformabilidade de maré, e dois pulsares do NICER — J0740 e J1231 —, cujos raios vêm, eles mesmos, de ray tracing de perfis de pulso, o tema deste seminário. A amostragem é um MCMC de ensemble com 288 mil amostras. A tensão da brana sai em torno de 10⁴ km⁻², mas é preciso honestidade: o posterior quase repete o prior; o que os dados dizem é que tensão alta é compatível, não que medimos λ. O acoplamento de Weyl sai levemente negativo, em 83% das amostras, o que dá a blindagem: a curva M–R vai para a direita, com massa máxima de 2,3 e raio de 13,3 km. O parâmetro w quase não é vinculado. Há um ramo secundário, com 17% das amostras, em que α positivo e w negativo se compensam. A massa máxima é compatível com o pulsar J0952, de 2,35; o secundário de GW190814 só entra na cauda. E a mensagem principal: em braneworld, estrelas mais pesadas não vêm de graça — dependem do sinal do setor de Weyl. Números da versão 1 do arXiv; o artigo está em avaliação.</aside>
 </section>
 
 <section class="slide content p3">
@@ -887,12 +992,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610192200"></script>
-<script src="assets/ppdot.js?v=202610192200"></script>
-<script src="assets/dash.js?v=202610192200"></script>
-<script src="assets/dash-reuso.js?v=202610192200"></script>
-<script src="assets/dash-ns.js?v=202610192200"></script>
-<script src="assets/dash-res.js?v=202610192200"></script>
+<script src="assets/deck.js?v=202610201200"></script>
+<script src="assets/ppdot.js?v=202610201200"></script>
+<script src="assets/dash.js?v=202610201200"></script>
+<script src="assets/dash-reuso.js?v=202610201200"></script>
+<script src="assets/dash-ns.js?v=202610201200"></script>
+<script src="assets/dash-res.js?v=202610201200"></script>
 <script>Deck.start();</script>
 </body>
 </html>

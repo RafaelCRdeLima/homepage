@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610192200">
+<link rel="stylesheet" href="assets/deck.css?v=202610201200">
 </head>
 <body>
 
@@ -761,25 +761,125 @@
 </section>
 
 <section class="slide content p3">
-  <header><p class="eyebrow">dos Santos Júnior, de Lima &amp; Moraes · arXiv:2607.09836 (2026, submitted)</p><h2>Compact stars <em>in a braneworld</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .85fr 1fr .95fr; gap: 30px">
-    <div class="stack" style="gap: 14px">
-      <p class="small" style="margin: 0">In the braneworld, our Universe is a membrane in an extra dimension. In the star, this shows up as corrections to the TOV equations:</p>
-      <div class="eq sm" style="font-size: 24px; padding: 14px 12px; text-align: left; line-height: 1.6">ρ<sub>eff</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + α<sub>𝒰</sub>ρ<br><i>p</i><sub>eff</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>w</i><sub>𝒰</sub>α<sub>𝒰</sub>ρ<span class="note">λ: brane tension · α<sub>𝒰</sub>, <i>w</i><sub>𝒰</sub>: the Weyl sector</span></div>
-      <p class="small" style="margin: 0">MCMC with the <b>NICER</b> radii (J0740+6620, J1231−1411 — themselves ray-tracing results) and GW170817, for the SLy equation of state.</p>
-    </div>
-    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/brane-1.jpg" alt="Braneworld mass-radius band against GR"><figcaption>The braneworld M–R band (68% and 95%), GR (dashed) and the NICER and GW170817 constraints.</figcaption></figure>
-    <div class="stack" style="gap: 12px">
-      <div class="cols c2" style="gap: 12px">
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">−0.15<sup style="font-size: .45em">+0.30</sup><sub style="font-size: .45em">−0.08</sub></p><p class="stat-label">α<sub>𝒰</sub>: slightly negative Weyl coupling</p></div>
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">10<sup style="font-size: .5em">4.0 ± 1.5</sup></p><p class="stat-label">λ (km⁻²): high tension</p></div>
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">2.30<sup style="font-size: .45em">+0.14</sup><sub style="font-size: .45em">−0.08</sub></p><p class="stat-label"><i>M</i><sub>max</sub> (M☉) · GR+SLy: 2.05</p></div>
-        <div class="card" style="padding: 14px 16px"><p class="stat" style="font-size: 40px">13.3 ± 0.6</p><p class="stat-label"><i>R</i><sub>1.4</sub> (km) · GR+SLy: 11.8</p></div>
-      </div>
-      <p class="small muted" style="margin: 0">Consistent with the data, with no large departures from GR. Preprint, under review.</p>
+  <header><p class="eyebrow">Randall &amp; Sundrum 1999 · Shiromizu, Maeda &amp; Sasaki 2000</p><h2>The Universe on a <em>membrane</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.05fr 1fr; gap: 44px">
+    <svg class="diag" viewBox="0 0 700 470" aria-label="A four-dimensional brane inside a five-dimensional bulk">
+      <defs>
+        <linearGradient id="bw-bulk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9e8cff" stop-opacity=".16"/><stop offset="1" stop-color="#ffb86b" stop-opacity=".05"/></linearGradient>
+        <linearGradient id="bw-sheet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffb86b" stop-opacity=".10"/><stop offset=".5" stop-color="#ffb86b" stop-opacity=".26"/><stop offset="1" stop-color="#ffb86b" stop-opacity=".10"/></linearGradient>
+        <radialGradient id="bw-star" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#bff6ee"/><stop offset="1" stop-color="#2aa596"/></radialGradient>
+        <marker id="bw-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b8a6ff"/></marker>
+        <marker id="bw-ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#eef0f6"/></marker>
+      </defs>
+      <rect x="10" y="10" width="680" height="450" rx="22" fill="url(#bw-bulk)" stroke="rgba(158,140,255,.35)"/>
+      <text x="34" y="46" font-size="20" style="fill: #b8a6ff">bulk · 5 dimensions: gravity only</text>
+      <path d="M70 300 L520 222 L640 318 L190 400 Z" fill="url(#bw-sheet)" stroke="#ffb86b" stroke-opacity=".7" stroke-width="2"/>
+      <g stroke="#ffb86b" stroke-opacity=".22" stroke-width="1">
+        <path d="M115 292 L235 392 M160 284 L280 384 M205 276 L325 376 M250 268 L370 368 M295 261 L415 359 M340 253 L460 351 M385 245 L505 343 M430 238 L550 335 M475 230 L595 327"/>
+        <path d="M94 320 L544 241 M118 340 L568 261 M142 360 L592 280 M166 380 L616 299"/>
+      </g>
+      <text x="96" y="432" font-size="19" style="fill: #ffb86b">brane · 4 dimensions: matter, light — and us</text>
+      <path d="M180 352 q12 -12 24 0 t24 0 t24 0 t24 0 t24 0" fill="none" stroke="#ffd58a" stroke-width="2.4" transform="rotate(-10 180 352)"/>
+      <text x="168" y="388" font-size="16" style="fill: #ffd58a">light: stuck on the brane</text>
+      <path d="M392 300 C 392 220, 420 150, 470 96" fill="none" stroke="#b8a6ff" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#bw-ar)"/>
+      <path d="M392 300 C 352 230, 300 170, 230 120" fill="none" stroke="#b8a6ff" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#bw-ar)"/>
+      <path d="M392 300 C 430 240, 520 200, 600 168" fill="none" stroke="#b8a6ff" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#bw-ar)"/>
+      <text x="476" y="96" font-size="16" style="fill: #b8a6ff">gravity leaks out</text>
+      <path d="M150 150 C 200 200, 250 250, 300 282" fill="none" stroke="#eef0f6" stroke-width="2" marker-end="url(#bw-ar2)"/>
+      <text x="46" y="138" class="serif" font-size="26">E<tspan font-size="16" dy="6">μν</tspan></text>
+      <text x="46" y="168" font-size="16">the bulk seen from the brane</text>
+      <circle cx="392" cy="300" r="26" fill="#56e1d0" opacity=".25"/>
+      <circle cx="392" cy="300" r="17" fill="url(#bw-star)"/>
+      <text x="420" y="330" font-size="16" style="fill: #56e1d0">neutron star</text>
+    </svg>
+    <div class="stack" style="gap: 16px">
+      <p style="margin: 0">In a <b>braneworld</b>, our Universe is a four-dimensional hypersurface — the <b>brane</b> — inside a space with one extra dimension, the <b>bulk</b>. Matter and light are stuck on the brane; only gravity propagates in the bulk.</p>
+      <p class="small" style="margin: 0">The idea was put forward to attack the hierarchy problem (why gravity is so weak) and the cosmological-constant problem and accelerated expansion.</p>
+      <div class="eq sm" style="font-size: 30px"><i>G</i><sub>μν</sub> = 8π<i>T</i><sub>μν</sub> + κ<sub>5</sub><sup>4</sup><i>S</i><sub>μν</sub> − <i>E</i><sub>μν</sub><span class="note">effective Einstein equations on the brane · Shiromizu, Maeda &amp; Sasaki 2000</span></div>
+      <ul class="list" style="gap: 10px">
+        <li class="small"><i>S</i><sub>μν</sub>: <b>local</b> corrections, quadratic in the matter (∝ <i>T</i>²). They matter when the density approaches the <b>brane tension</b> λ.</li>
+        <li class="small"><i>E</i><sub>μν</sub>: the bulk <b>Weyl</b> tensor projected onto the brane — <b>nonlocal</b>: it cannot be computed from brane quantities alone.</li>
+        <li class="small">For λ → ∞ and <i>E</i><sub>μν</sub> → 0, General Relativity is recovered.</li>
+      </ul>
+      <p class="ref" style="margin: 0">In the paper: an effective 4D closure, inspired by the Sahni–Shtanov scenario (2003) — not a complete 5D bulk solution.</p>
     </div>
   </div>
-  <aside class="notes">Another extension of gravity, in a preprint from this year with S. I. dos Santos Júnior and P. H. R. S. Moraes. In the braneworld, the Universe is a membrane in an extra dimension, and this modifies the structure equations with two kinds of correction: a quadratic one, controlled by the brane tension, and a Weyl sector, with a coupling α and an equation of state w. With the SLy equation of state and Bayesian inference on the NICER radii — which, remember, come from ray tracing — and the GW170817 data, the tension comes out high and the Weyl coupling slightly negative. The maximum mass rises to 2.3 and the radius of a 1.4 solar-mass star goes up to 13.3 km. In other words, current data allow this braneworld without large departures from general relativity. It is a preprint, still under review.</aside>
+  <aside class="notes">What a braneworld is. The idea, from Randall and Sundrum in 1999, is that our four-dimensional Universe is a membrane — the brane — embedded in a space with one more dimension, the bulk. All Standard Model fields, matter and light, are stuck on the brane; only gravity spreads into the bulk. It was proposed to explain why gravity is so much weaker than the other forces and, later, for dark energy. Shiromizu, Maeda and Sasaki showed what Einstein's equations look like from inside the brane: two new terms appear. A local one, quadratic in the matter, which only matters at densities comparable to the brane tension. And a nonlocal one, the projection of the bulk Weyl tensor: the gravitational field of the extra dimension seen from here, which cannot be computed from what lives on the brane alone. In our paper we use an effective, four-dimensional version inspired by the Sahni–Shtanov scenario.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">The modified TOV equations · SLy equation of state</p><h2>Same nuclear physics, <em>different gravitation</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0">The equation of state of the matter (SLy) <b>does not change</b>. What changes is how much it <b>gravitates</b>: the star now feels an effective density and pressure.</p>
+      <div class="eq sm" style="font-size: 26px; padding: 14px 16px; text-align: left; line-height: 1.7">ρ<sub>eff</sub> = ρ + <span class="frac"><span>ρ²</span><span>2λ</span></span> + ρ<sub>𝒰</sub><br><i>p</i><sub>eff</sub> = <i>p</i> + <span class="frac"><span><i>p</i>ρ</span><span>λ</span></span> + <span class="frac"><span>ρ²</span><span>2λ</span></span> + <i>p</i><sub>𝒰</sub><span class="note">local term (λ) · Weyl sector (𝒰)</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 16px; text-align: left; line-height: 1.8"><span class="frac"><span><i>dm</i></span><span><i>dr</i></span></span> = 4π<i>r</i>² ρ<sub>eff</sub><br><span class="frac"><span><i>dp</i></span><span><i>dr</i></span></span> = −(ρ + <i>p</i>) <span class="frac"><span><i>m</i> + 4π<i>r</i>³<i>p</i><sub>eff</sub></span><span><i>r</i>(<i>r</i> − 2<i>m</i>)</span></span><span class="note">matter is conserved: the (ρ + p) factor is the usual one</span></div>
+      <p class="small" style="margin: 0">The local term <b>strengthens attraction</b> and shrinks the star — but only when ρ approaches λ. At the centre of a neutron star ρ ≈ 2×10⁻³ km⁻²; with λ ~ 10⁴ km⁻², ρ/λ ~ 10⁻⁷.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">modified TOV · SLy</span><div class="seg" id="brane-pre"><button type="button" data-v="gr">GR</button><button type="button" data-v="loc">local only</button><button type="button" data-v="med" class="on">best fit</button><button type="button" data-v="comp">α&gt;0 branch</button></div></div>
+      <div class="cv"><canvas id="brane-mr"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="ctl"><label for="brane-l">log<sub>10</sub>(λ / km⁻²) <output for="brane-l"></output></label><input type="range" id="brane-l" min="-4" max="8" step="0.01" value="4.02"></div>
+        <div class="ctl"><label for="brane-a">α<sub>𝒰</sub> <output for="brane-a"></output></label><input type="range" id="brane-a" min="-0.35" max="0.45" step="0.005" value="-0.169"></div>
+        <div class="ctl"><label for="brane-w">w<sub>𝒰</sub> <output for="brane-w"></output></label><input type="range" id="brane-w" min="-1.25" max="1.25" step="0.01" value="0.252"></div>
+      </div>
+      <div class="readout" id="brane-out"></div>
+    </div>
+  </div>
+  <aside class="notes">How this enters a star. The nuclear physics does not change: the equation of state is still SLy, the same as in general relativity. What changes is how much the matter gravitates. The mass equation gets an effective density, and the numerator of the TOV equation an effective pressure — each with a local term, controlled by the tension λ, and a Weyl term. The (ρ + p) factor stays as usual because ordinary matter is conserved. The panel solves these equations here, in the browser, with SLy. The "local term only" button sets λ = 10⁻³ km⁻²: the effective density goes up, gravity squeezes harder, and the maximum mass collapses. But for that λ has to be comparable to the central density of the star, about 2×10⁻³ km⁻². With the λ the data prefer, 10⁴, the local term is ten million times smaller than ρ — it is the Weyl sector that moves the curve. "Best fit" is the paper's best sample: a maximum mass of 2.28 and a radius of 13.2 km, against 2.05 and 11.7 in general relativity.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">What comes from the bulk</p><h2>The Weyl sector: <em>screening</em> or extra attraction</h2></header>
+  <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
+    <div class="stack" style="gap: 14px">
+      <p class="small" style="margin: 0"><i>E</i><sub>μν</sub> is the imprint of the bulk's gravitational field on the brane. There it acts as an <b>effective fluid</b> — in cosmology, the “dark radiation”. But the brane does not determine this fluid: a <b>closure</b> is needed.</p>
+      <div class="cols c2" style="gap: 12px">
+        <div class="eq sm" style="font-size: 28px; padding: 12px 8px">ρ<sub>𝒰</sub> = α<sub>𝒰</sub> ρ</div>
+        <div class="eq sm" style="font-size: 28px; padding: 12px 8px"><i>p</i><sub>𝒰</sub> = <i>w</i><sub>𝒰</sub> ρ<sub>𝒰</sub></div>
+      </div>
+      <p class="ref" style="margin: 0">Isotropic closure; the anisotropic Weyl stress (Δ<sub>𝒰</sub>) is left for future work.</p>
+      <table class="tbl" style="font-size: 19px">
+        <tr><th>if…</th><th>effect on the star</th></tr>
+        <tr class="hl"><td style="white-space: nowrap">α<sub>𝒰</sub> &lt; 0</td><td>ρ<sub>eff</sub> = ρ(1 + α<sub>𝒰</sub>) &lt; ρ: <b>screening</b> — less mass gravitates, larger and heavier stars</td></tr>
+        <tr><td style="white-space: nowrap">α<sub>𝒰</sub> &gt; 0</td><td>more attraction: smaller and lighter stars</td></tr>
+        <tr><td style="white-space: nowrap"><i>w</i><sub>𝒰</sub></td><td>only appears as <i>w</i><sub>𝒰</sub>α<sub>𝒰</sub>ρ in the effective pressure: it matters little when α<sub>𝒰</sub> is small, and it can <b>compensate</b> α<sub>𝒰</sub></td></tr>
+      </table>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">M–R curves with λ = 10⁴ km⁻² · SLy</span><span class="ref">dashed: GR</span></div>
+      <div class="plots two"><div class="cv"><canvas id="weyl-a"></canvas></div><div class="cv"><canvas id="weyl-w"></canvas></div></div>
+      <div class="readout" id="weyl-out"></div>
+    </div>
+  </div>
+  <aside class="notes">The Weyl sector is the interesting part. The projected Weyl tensor is the gravitational field of the bulk seen from the brane, and on the brane it behaves as an extra fluid — in cosmology it shows up as “dark radiation”. The problem is that it is not determined by the brane equations: a closure has to be chosen. Ours is the simplest one: a Weyl density proportional to the matter density, with coefficient α, and a pressure with equation of state w. On the left of the panel, the fan in α with w = 0: negative α reduces the density that gravitates — a screening — and the star grows; positive α squeezes it. On the right, the fan in w with α = −0.15: w only enters multiplied by α, so different pairs of α and w give similar curves. That degeneracy is what leaves w poorly determined by the data.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">dos Santos Júnior, de Lima &amp; Moraes · arXiv:2607.09836 (2026, submitted) · results</p><h2>High tension, <em>mildly negative</em> Weyl coupling</h2></header>
+  <div class="body cols" style="grid-template-columns: 1fr .95fr .9fr; gap: 28px">
+    <div class="stack" style="gap: 14px">
+      <div class="card" style="padding: 16px 20px"><h4>Data and inference</h4><p class="small" style="margin: 0">GW170817 (radii from the tidal deformability) + NICER: PSR J0740+6620 and PSR J1231−1411 — both of them results of pulse-profile <b>ray tracing</b>. Ensemble MCMC (4 × 32 walkers × 3,000 steps, 288,000 samples), priors centred at large λ and at the GR values.</p></div>
+      <table class="tbl" style="font-size: 18px">
+        <tr><th></th><th style="text-align: right">median</th><th style="text-align: right">68%</th><th style="text-align: right">GR</th></tr>
+        <tr><td>log<sub>10</sub>(λ/km⁻²)</td><td class="n">3.98</td><td class="n">2.54 – 5.50</td><td class="n">∞</td></tr>
+        <tr class="hl"><td>α<sub>𝒰</sub></td><td class="n">−0.15</td><td class="n">−0.23 – 0.15</td><td class="n">0</td></tr>
+        <tr><td><i>w</i><sub>𝒰</sub></td><td class="n">0.24</td><td class="n">−0.78 – 0.61</td><td class="n">0</td></tr>
+        <tr class="hl"><td><i>M</i><sub>max</sub> (M☉)</td><td class="n">2.30</td><td class="n">2.22 – 2.44</td><td class="n">2.05</td></tr>
+        <tr class="hl"><td><i>R</i><sub>1.4</sub> (km)</td><td class="n">13.31</td><td class="n">12.74 – 13.85</td><td class="n">11.76</td></tr>
+      </table>
+    </div>
+    <figure class="paper" style="align-self: start"><img src="assets/img/pesquisa/brane-1.jpg" alt="Braneworld mass–radius band against GR" style="max-height: 560px; object-fit: contain"><figcaption>The posterior M–R band (68% and 95%), GR+SLy (dashed) and the constraints used.</figcaption></figure>
+    <ul class="list" style="gap: 12px; align-self: start">
+      <li class="small"><b>λ ~ 10⁴ km⁻²</b>: the local term vanishes (ρ/λ ~ 10⁻⁷). The posterior nearly repeats the prior: the data are <i>compatible</i> with high tension, they do not measure λ.</li>
+      <li class="small"><b>α<sub>𝒰</sub> &lt; 0 in 83% of the samples</b>: a mild screening. It is the Weyl sector, not the local term, that pushes the curve to the right.</li>
+      <li class="small"><b>A secondary branch (17%)</b>: α<sub>𝒰</sub> &gt; 0 and <i>w</i><sub>𝒰</sub> &lt; 0 compensate — smaller <i>R</i><sub>1.4</sub>, larger <i>M</i><sub>max</sub>, compactness near the imposed bound.</li>
+      <li class="small"><b><i>M</i><sub>max</sub> ≈ 2.3 M☉</b>: consistent with PSR J0952−0607 (2.35 ± 0.11 M☉). GW190814 (2.50–2.67 M☉) only fits in the 95% tail.</li>
+      <li class="small"><b>The message</b>: heavier stars are not a generic prediction of braneworlds — they depend on the <b>sign of the Weyl sector</b>.</li>
+    </ul>
+  </div>
+  <aside class="notes">The results. We used three datasets: the masses and radii of GW170817, inferred from the tidal deformability, and two NICER pulsars — J0740 and J1231 —, whose radii come, themselves, from pulse-profile ray tracing, the subject of this seminar. The sampling is an ensemble MCMC with 288 thousand samples. The brane tension comes out around 10⁴ km⁻², but honesty is needed: the posterior nearly repeats the prior; what the data say is that high tension is compatible, not that we measured λ. The Weyl coupling comes out mildly negative, in 83% of the samples, which gives the screening: the M–R curve moves to the right, with a maximum mass of 2.3 and a radius of 13.3 km. The parameter w is barely constrained. There is a secondary branch, with 17% of the samples, where positive α and negative w compensate. The maximum mass is consistent with the pulsar J0952, at 2.35; the secondary of GW190814 only enters in the tail. And the main message: in braneworlds, heavier stars do not come for free — they depend on the sign of the Weyl sector. Numbers from arXiv version 1; the paper is under review.</aside>
 </section>
 
 <section class="slide content p3">
@@ -886,12 +986,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610192200"></script>
-<script src="assets/ppdot.js?v=202610192200"></script>
-<script src="assets/dash.js?v=202610192200"></script>
-<script src="assets/dash-reuso.js?v=202610192200"></script>
-<script src="assets/dash-ns.js?v=202610192200"></script>
-<script src="assets/dash-res.js?v=202610192200"></script>
+<script src="assets/deck.js?v=202610201200"></script>
+<script src="assets/ppdot.js?v=202610201200"></script>
+<script src="assets/dash.js?v=202610201200"></script>
+<script src="assets/dash-reuso.js?v=202610201200"></script>
+<script src="assets/dash-ns.js?v=202610201200"></script>
+<script src="assets/dash-res.js?v=202610201200"></script>
 <script>Deck.start();</script>
 </body>
 </html>
