@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211000">
+<link rel="stylesheet" href="assets/deck.css?v=202610211300">
 </head>
 <body>
 
@@ -147,12 +147,12 @@
 
 <section class="slide content p1">
   <header><p class="eyebrow">Sobral, 29 de maio de 1919 · a medida</p><h2>Duas chapas, <em>o mesmo céu</em></h2></header>
-  <div class="body cols" style="grid-template-columns: 1.6fr .72fr; gap: 44px">
+  <div class="body cols" style="grid-template-columns: 1.75fr .64fr; gap: 44px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">chapa simulada · posições reais</span><div class="seg" id="sobral-mode"><button type="button" data-v="blink" class="on">piscar</button><button type="button" data-v="night">noite</button><button type="button" data-v="eclipse">eclipse</button><button type="button" data-v="both">as duas</button></div></div>
+      <div class="dash-head"><span class="tag part">chapa simulada · escala real</span><div class="seg" id="sobral-mode"><button type="button" data-v="blink" class="on">piscar</button><button type="button" data-v="night">noite</button><button type="button" data-v="eclipse">eclipse</button><button type="button" data-v="both">as duas</button></div></div>
       <div class="cv"><canvas id="sobral"></canvas></div>
       <div class="controls">
-        <div class="ctl"><label for="sobral-ex">exagero do deslocamento <output for="sobral-ex"></output></label><input type="range" id="sobral-ex" min="0" max="10" step="1" value="8"></div>
+        <div class="ctl"><label for="sobral-fwhm">largura da imagem da estrela <output for="sobral-fwhm"></output></label><input type="range" id="sobral-fwhm" min="1" max="4" step="0.1" value="2"></div>
         <div class="ctl"><label>previsão</label><div class="seg" id="sobral-th" style="justify-self: start"><button type="button" data-v="1" class="on">Einstein</button><button type="button" data-v="0.5">Newton</button></div></div>
       </div>
       <div class="readout" id="sobral-out"></div>
@@ -161,10 +161,32 @@
       <p class="small" style="margin: 0"><b>Noite:</b> as Híades fotografadas em julho, antes do amanhecer, com o mesmo telescópio — o Sol longe dali.</p>
       <p class="small" style="margin: 0"><b>Eclipse:</b> o mesmo campo em 29 de maio, com a Lua cobrindo o Sol. Cada estrela se afasta do Sol, na direção radial.</p>
       <div class="eq sm" style="font-size: 32px; padding: 16px 20px">δ = <span class="frac"><span>4<i>GM</i></span><span><i>c</i>²<i>b</i></span></span> = 1,75″ <span class="frac"><span><i>R</i><sub>☉</sub></span><span><i>b</i></span></span><span class="note">o dobro da conta newtoniana</span></div>
-      <p class="small muted" style="margin: 0">O deslocamento verdadeiro é de ~1″: centésimos de milímetro na chapa. Aqui ele está multiplicado para ser visto; as estrelas (Tycho-2) e o Sol estão onde estavam.</p>
+      <p class="small muted" style="margin: 0">Na chapa inteira nada se mexe: 1″ é um décimo de pixel. Nas lupas, em escala real, como no micrômetro, a estrela pula uma fração da própria largura — e o centro de uma mancha se mede bem melhor que a largura dela.</p>
     </div>
   </div>
-  <aside class="notes">Como se mede isso. Duas fotografias do mesmo pedaço de céu: o aglomerado das Híades, em Touro. Uma à noite, em julho, quando o Sol já está longe dali; a outra durante o eclipse, com o Sol bem na frente. O painel alterna as duas, como um comparador de piscar. No eclipse, cada estrela foge do Sol na direção radial, e tanto mais quanto mais perto do limbo: o desvio cai como 1/b. O deslocamento verdadeiro é de um segundo de arco, centésimos de milímetro na chapa; aqui ele aparece multiplicado por 300. As posições são as reais: estrelas do catálogo Tycho-2 e o Sol de 29 de maio de 1919, na mesma orientação da placa do slide anterior — dá para reconhecer κ Tauri, υ Tauri e 72 Tauri. Ponham o exagero em 1: não se vê nada. Troquem para Newton: o deslocamento cai à metade. Era essa a diferença que Sobral tinha de distinguir, e mediu 1,98″.</aside>
+  <aside class="notes">Como se mede isso. Duas fotografias do mesmo pedaço de céu: o aglomerado das Híades, em Touro. Uma à noite, em julho, quando o Sol já está longe dali; a outra durante o eclipse, com o Sol bem na frente. O painel alterna as duas, como um comparador de piscar, e tudo está em escala real, sem exagero. Na chapa inteira, nada se mexe: um segundo de arco é um décimo de pixel desta tela. Mas ninguém media a olho: a chapa ia para uma máquina com micrômetro, que é o que as lupas mostram — seis segundos de arco de céu em volta de uma estrela, com os fios na posição da noite. A imagem da estrela tem uns dois segundos de largura, por turbulência e pela óptica, e no eclipse ela pula quase metade disso, sempre para longe do Sol, o símbolo na borda da lupa. Perto do Sol pula mais, longe pula menos: o desvio cai como 1/b. Na chapa da lente de 4 polegadas, de 5,8 metros de focal, um segundo de arco são 28 micrômetros. O centro de uma mancha se mede muito melhor que a largura dela, e o ajuste de escala e rotação usa todas as estrelas juntas. Cliquem numa estrela para pô-la numa lupa. Troquem para Newton: o pulo cai à metade. Era essa a diferença que Sobral tinha de distinguir, e mediu 1,98″.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1859 – 1915 · o periélio de Mercúrio</p><h2>Mercúrio <em>não fecha a órbita</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr 1fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="mercury"></canvas></div>
+      <div class="readout" id="mercury-out"></div>
+    </div>
+    <div class="stack" style="gap: 22px">
+      <table class="tbl">
+        <tr><th>avanço do periélio</th><th style="text-align:right">por século</th></tr>
+        <tr><td>observado (relativo às estrelas)</td><td class="n">574″</td></tr>
+        <tr><td>outros planetas, por Newton</td><td class="n">531″</td></tr>
+        <tr class="hl"><td>sobra sem explicação</td><td class="n">43″</td></tr>
+      </table>
+      <div class="eq sm">Δφ = <span class="frac"><span>6π<i>GM</i><sub>☉</sub></span><span><i>c</i>² <i>a</i>(1 − <i>e</i>²)</span></span> = 0,104″ por órbita<span class="note">RG · Einstein, novembro de 1915 · 415 órbitas por século → 43,0″</span></div>
+      <p class="small">Le Verrier encontrou a sobra em 1859 e propôs um planeta escondido, Vulcano. Nunca foi achado. Einstein obteve os 43″ sem nenhum parâmetro ajustável.</p>
+      <blockquote style="font-size: 30px">“Por alguns dias, fiquei fora de mim de excitação alegre.”<footer>Einstein a Ehrenfest, janeiro de 1916</footer></blockquote>
+    </div>
+  </div>
+  <aside class="notes">Mercúrio, o planeta mais perto do Sol. Por Newton, um planeta sozinho descreveria a mesma elipse para sempre — o tracejado. Os outros planetas fazem o periélio avançar 531 segundos de arco por século; o observado é 574. Sobram 43, que Le Verrier encontrou em 1859 e tentou explicar com um planeta invisível, Vulcano. A relatividade geral dá exatamente 43: a órbita não fecha, cada volta começa um pouco adiante — a rosácea violeta. Na tela, a precessão está exagerada trezentas mil vezes; os contadores embaixo dão o valor real, que leva séculos para acumular. Foi o primeiro teste que Einstein calculou, em novembro de 1915.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1175,12 +1197,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211000"></script>
-<script src="assets/ppdot.js?v=202610211000"></script>
-<script src="assets/dash.js?v=202610211000"></script>
-<script src="assets/dash-reuso.js?v=202610211000"></script>
-<script src="assets/dash-ns.js?v=202610211000"></script>
-<script src="assets/dash-res.js?v=202610211000"></script>
+<script src="assets/deck.js?v=202610211300"></script>
+<script src="assets/ppdot.js?v=202610211300"></script>
+<script src="assets/dash.js?v=202610211300"></script>
+<script src="assets/dash-reuso.js?v=202610211300"></script>
+<script src="assets/dash-ns.js?v=202610211300"></script>
+<script src="assets/dash-res.js?v=202610211300"></script>
 <script>Deck.start();</script>
 </body>
 </html>

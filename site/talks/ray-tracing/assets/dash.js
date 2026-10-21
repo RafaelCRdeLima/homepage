@@ -189,34 +189,43 @@ const RT = (() => {
 })();
 
 /* Sobral, 29 de maio de 1919: a chapa de comparação (noite, julho) e a do eclipse, alternando como
-   num comparador de piscar. Estrelas do Tycho-2 (V < 10,6) levadas a 1919,4 pelo movimento próprio,
-   no plano tangente em volta do Sol daquela manhã (11h40 TU; Meeus, precessado para J2000): ξ para
-   leste, η para norte, em minutos de arco. A chapa tem a orientação da placa do slide anterior (ESO
-   potw1926a), ajustada pelas seis estrelas marcadas nela: resíduos de 2 px, e o Sol cai no centro do
-   disco. Cada estrela se afasta do Sol, na radial, δ = 4GM/(c²b) = 1,7505″ θ☉/θ (Newton: a metade),
-   vezes o exagero; a Lua tapa quem está atrás dela de verdade, não na posição exagerada. */
+   num comparador de piscar, em escala real. Estrelas do Tycho-2 (V < 10,6) levadas a 1919,4 pelo
+   movimento próprio, no plano tangente em volta do Sol daquela manhã (11h40 TU; Meeus, precessado
+   para J2000): ξ para leste, η para norte, em minutos de arco; nomes do BSC e números HD do Hipparcos.
+   A chapa tem a orientação da placa do slide anterior (ESO potw1926a), ajustada pelas seis estrelas
+   marcadas nela: resíduos de 2 px, e o Sol cai no centro do disco.
+   Cada estrela se afasta do Sol, na radial, δ = 4GM/(c²b) = 1,7505″ θ☉/θ (Newton: a metade). Na chapa
+   inteira isso é um décimo de pixel. As três lupas mostram 6″ de céu em volta de uma estrela, sem
+   exagero, como no micrômetro: a imagem da estrela (gaussiana que a emulsão satura; a largura é escolha,
+   ~2″ é estimativa) pula uma fração da própria largura. Escala da chapa da lente de 4 polegadas de
+   Sobral (19 pés = 5,79 m de focal): 1″ = 28,1 µm. */
 (() => {
   const cv = document.getElementById('sobral'); if (!cv) return;
   const out = document.getElementById('sobral-out');
   const STARS = [
     [-4.32, 36.87, 4.2, 'κ¹ Tau'], [8.67, 68.07, 4.3, 'υ Tau'], [-118.10, -65.27, 4.9, 'ω² Tau'], [-3.67, 31.24, 5.3, 'κ² Tau'],
     [-84.45, 6.06, 5.3, '56 Tau'], [-87.30, -31.80, 5.5, '53 Tau'], [22.38, 79.02, 5.5, '72 Tau'], [-101.76, -5.42, 5.6, '51 Tau'],
-    [32.54, -3.51, 5.7, 'HR 1403'], [-29.87, -41.81, 6.0, 'HR 1375'], [-46.16, -51.43, 6.0, 'HR 1370'], [125.76, 61.72, 6.8],
-    [-58.15, -38.20, 6.8], [-26.72, 77.14, 7.0], [-57.13, -29.35, 7.1], [65.23, -110.16, 7.1], [76.44, 100.38, 7.1], [90.11, -2.41, 7.1],
-    [-20.05, 3.44, 7.1], [64.68, 114.81, 7.2], [-77.26, 115.57, 7.2], [8.76, -12.54, 7.3], [19.13, -110.23, 7.5], [81.91, 70.34, 7.5],
-    [-102.75, 68.28, 7.6], [42.56, -60.07, 7.7], [-87.03, -103.58, 7.9], [-16.35, 63.74, 8.0], [127.51, -33.65, 8.0],
-    [-4.83, 126.53, 8.1], [-108.47, 41.14, 8.2], [-93.02, -22.32, 8.2], [138.30, 21.57, 8.2], [46.45, 14.43, 8.4],
-    [-56.02, -132.62, 8.4], [-117.37, -69.31, 8.4], [124.90, -33.55, 8.4], [1.72, -32.57, 8.5], [-32.14, -29.74, 8.5],
-    [-94.77, -105.93, 8.6], [20.33, -41.28, 8.6], [-30.34, -47.63, 8.6], [78.64, -92.47, 8.6],
-    [41.54, -116.28, 8.6], [62.34, -41.62, 8.6], [-85.54, -36.49, 8.6], [35.14, 39.23, 8.7], [41.52, -50.79, 8.8], [21.02, 110.02, 8.8],
-    [-23.10, -8.34, 8.8], [-46.39, 59.11, 8.8], [-32.24, -17.97, 8.9], [122.91, 62.76, 8.9], [86.99, -2.27, 8.9], [15.20, 81.20, 8.9],
-    [-10.00, -97.43, 8.9], [2.43, 113.04, 9.0], [-141.05, -22.83, 9.0], [39.45, 89.04, 9.1], [-127.01, 14.62, 9.1], [83.96, -53.42, 9.1],
-    [-94.99, 39.33, 9.2], [-17.90, -103.13, 9.2], [107.44, -0.13, 9.2], [-22.00, -121.63, 9.2], [-111.89, 35.56, 9.2],
-    [-1.27, 115.62, 9.3], [-12.04, -34.47, 9.3], [-113.46, 86.69, 9.3], [-32.50, -121.25, 9.4], [-2.40, -119.30, 9.4],
-    [55.90, -122.26, 9.4], [-103.40, 97.00, 9.5], [-1.94, -115.01, 9.5], [-51.11, 34.71, 9.5], [101.93, -14.98, 9.5],
-    [-44.13, 100.05, 9.5], [-26.64, -17.01, 9.5], [-35.03, -28.16, 9.5], [-36.20, -52.42, 9.5], [-68.60, 76.44, 9.6],
-    [-25.43, 136.79, 9.6], [-4.75, 55.03, 9.6], [143.20, -11.56, 9.6], [-15.64, -102.75, 9.7], [21.76, 18.07, 9.7], [-67.86, 33.35, 9.7],
-    [59.83, -49.39, 9.7], [45.20, 32.90, 9.7], [-1.35, 88.24, 9.7], [-64.23, 80.02, 9.7], [46.94, 68.32, 9.8], [99.08, -92.14, 9.8],
+    [32.54, -3.51, 5.7, 'HR 1403'], [-29.87, -41.81, 6.0, 'HR 1375'], [-46.16, -51.43, 6.0, 'HR 1370'],
+    [125.76, 61.72, 6.8, 'HD 28976'], [-58.15, -38.20, 6.8, 'HD 27524'], [-26.72, 77.14, 7.0, 'HD 27760'], [-57.13, -29.35, 7.1],
+    [65.23, -110.16, 7.1, 'HD 28483'], [76.44, 100.38, 7.1, 'HD 28581'], [90.11, -2.41, 7.1, 'HD 28676'],
+    [-20.05, 3.44, 7.1, 'HD 27808'], [64.68, 114.81, 7.2, 'HD 28482'], [-77.26, 115.57, 7.2, 'HD 27370'],
+    [8.76, -12.54, 7.3, 'HD 28033'], [19.13, -110.23, 7.5, 'HD 28138'], [81.91, 70.34, 7.5, 'HD 28621'],
+    [-102.75, 68.28, 7.6, 'HD 27160'], [42.56, -60.07, 7.7, 'HD 28304'], [-87.03, -103.58, 7.9, 'HD 27311'],
+    [-16.35, 63.74, 8.0, 'HD 27832'], [127.51, -33.65, 8.0], [-4.83, 126.53, 8.1, 'HD 27923'], [-108.47, 41.14, 8.2, 'HD 27129'],
+    [-93.02, -22.32, 8.2, 'HD 27249'], [138.30, 21.57, 8.2, 'HD 29097'], [46.45, 14.43, 8.4, 'HD 28343'],
+    [-56.02, -132.62, 8.4, 'HD 27560'], [-117.37, -69.31, 8.4, 'HD 284337'], [124.90, -33.55, 8.4, 'HD 28966'],
+    [1.72, -32.57, 8.5, 'HD 27973'], [-32.14, -29.74, 8.5], [-94.77, -105.93, 8.6, 'HD 27250'], [20.33, -41.28, 8.6, 'HD 28137'],
+    [-30.34, -47.63, 8.6], [78.64, -92.47, 8.6, 'HD 28593'], [41.54, -116.28, 8.6, 'HD 28291'], [62.34, -41.62, 8.6],
+    [-85.54, -36.49, 8.6, 'HD 27310'], [35.14, 39.23, 8.7, 'HD 28249'], [41.52, -50.79, 8.8], [21.02, 110.02, 8.8],
+    [-23.10, -8.34, 8.8], [-46.39, 59.11, 8.8, 'HD 27627'], [-32.24, -17.97, 8.9, 'HD 27732'], [122.91, 62.76, 8.9],
+    [86.99, -2.27, 8.9], [15.20, 81.20, 8.9], [-10.00, -97.43, 8.9], [2.43, 113.04, 9.0], [-141.05, -22.83, 9.0],
+    [39.45, 89.04, 9.1], [-127.01, 14.62, 9.1], [83.96, -53.42, 9.1], [-94.99, 39.33, 9.2], [-17.90, -103.13, 9.2],
+    [107.44, -0.13, 9.2], [-22.00, -121.63, 9.2], [-111.89, 35.56, 9.2], [-1.27, 115.62, 9.3], [-12.04, -34.47, 9.3],
+    [-113.46, 86.69, 9.3], [-32.50, -121.25, 9.4], [-2.40, -119.30, 9.4], [55.90, -122.26, 9.4], [-103.40, 97.00, 9.5],
+    [-1.94, -115.01, 9.5], [-51.11, 34.71, 9.5], [101.93, -14.98, 9.5], [-44.13, 100.05, 9.5], [-26.64, -17.01, 9.5],
+    [-35.03, -28.16, 9.5], [-36.20, -52.42, 9.5], [-68.60, 76.44, 9.6], [-25.43, 136.79, 9.6], [-4.75, 55.03, 9.6],
+    [143.20, -11.56, 9.6], [-15.64, -102.75, 9.7], [21.76, 18.07, 9.7], [-67.86, 33.35, 9.7], [59.83, -49.39, 9.7],
+    [45.20, 32.90, 9.7], [-1.35, 88.24, 9.7], [-64.23, 80.02, 9.7], [46.94, 68.32, 9.8], [99.08, -92.14, 9.8],
     [-118.64, 60.50, 9.8], [110.59, 34.43, 9.8], [-30.59, 26.28, 9.8], [62.53, -48.04, 9.8], [-31.14, -73.73, 9.8],
     [21.52, -133.23, 9.8], [125.15, 42.98, 9.8], [67.02, -67.69, 9.8], [-32.48, -65.69, 9.9], [-58.91, 90.56, 9.9],
     [-112.19, 25.59, 9.9], [122.11, -2.76, 9.9], [-52.08, -128.62, 9.9], [-123.59, -15.14, 9.9], [5.42, 88.73, 9.9],
@@ -238,17 +247,18 @@ const RT = (() => {
   const RSUN = 946.7 / 60, RMOON = 1.06 * RSUN, LIMB = 1.7505;        // ′ (Terra a 1,0137 UA); ″ no limbo
   const ROT = -132.05 * deg, CR = 4.2;                                  // céu (leste à esquerda) → placa do ESO; coroa até 4,2 R☉
   const FIELD = [142.7, 85.1], MID = [5.39, -4.88];                     // campo da placa do ESO e o centro dele, a partir do Sol (′)
-  const EXS = [1, 2, 5, 10, 20, 50, 100, 200, 300, 500, 1000];
+  const LUPA = 6, UM = 28.1;                                            // campo de cada lupa (″); µm por ″ na chapa de 4 pol.
   const HOLD = 1.4, FADE = 0.35, PER = 2 * (HOLD + FADE);
   const rot = (x, y) => [x * Math.cos(ROT) - y * Math.sin(ROT), x * Math.sin(ROT) + y * Math.cos(ROT)];
   const S = STARS.map(([xi, eta, V, name]) => { const [x, y] = rot(-xi, eta); return { x, y, th: Math.hypot(xi, eta), V, name }; });
-  const K2 = S.find(s => s.name === 'κ² Tau');
-  let t = 0, cor = null, corN = 0, grain = null, grainKey = '', outKey = '';
-  // no PDF (?ff) a chapa sai com as duas posições e as setas
+  // as estrelas das lupas, da mais antiga para a mais nova: um clique troca a mais antiga
+  let queue = ['HD 28343', '72 Tau', 'κ² Tau'].map(nm => S.findIndex(s => s.name === nm));
+  let t = 0, cor = null, corN = 0, grain = null, grainKey = '', outKey = '', lupKey = '', lup = [], geo = null;
+  // no PDF (?ff) as lupas saem com as duas posições e a seta
   if (FF) document.querySelectorAll('#sobral-mode button').forEach(b => b.classList.toggle('on', b.dataset.v === 'both'));
   const getMode = bindSeg('sobral-mode', () => { t = 0; redraw(); });
   const getTh = bindSeg('sobral-th', () => redraw());
-  const getEx = bindRange('sobral-ex', v => '×' + grp(EXS[v]), () => redraw());
+  const getW = bindRange('sobral-fwhm', v => fmt(v, 1) + '″', () => redraw());
 
   /* coroa sintética em n×n px (Sol de raio n/2CR): K em r⁻⁸ e streamers em r⁻³ que estreitam para fora,
      com raios finos irregulares; a emulsão satura (1 − e⁻ᴵ). Os streamers ficam mais ou menos onde estão na placa. */
@@ -277,6 +287,22 @@ const RT = (() => {
     for (let k = 0; k < d.length; k += 4) { d[k] = d[k + 1] = d[k + 2] = 255 * rnd(); d[k + 3] = 16; }
     g.putImageData(img, 0, 0); return c;
   }
+  /* uma das chapas dentro de uma lupa (n×n px, LUPA″ de lado), centrada na posição da noite: a estrela
+     como gaussiana que a emulsão satura um pouco (as brilhantes saem maiores), o fundo (no eclipse, a luz da coroa,
+     ∝ r⁻³) e o grão, outro em cada chapa. d = deslocamento (″), para fora do Sol. */
+  function plate(i, n, fwhm, d, ecl) {
+    const st = S[i], c = document.createElement('canvas'); c.width = c.height = n;
+    const g = c.getContext('2d'), img = g.createImageData(n, n), px = img.data, sc = LUPA / n;
+    const sg = fwhm / 2.3548, A = clamp(1.6 * 10 ** (-0.4 * (st.V - 6)), 0.9, 2.2);
+    const ox = ecl ? d * st.x / st.th : 0, oy = ecl ? d * st.y / st.th : 0, bg = 0.05 + (ecl ? 0.6 * (st.th / RSUN) ** -3 : 0);
+    let seed = 1 + 7919 * i + (ecl ? 104729 : 0); const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (let j = 0; j < n; j++) for (let q = 0; q < n; q++) {
+      const x = (q + 0.5) * sc - LUPA / 2 - ox, y = LUPA / 2 - (j + 0.5) * sc - oy;
+      const v = clamp(bg + 1 - Math.exp(-A * Math.exp(-(x * x + y * y) / (2 * sg * sg))) + 0.1 * (rnd() - 0.5), 0, 1);
+      const o = 4 * (j * n + q); px[o] = 236 * v; px[o + 1] = 240 * v; px[o + 2] = 250 * v; px[o + 3] = 255;
+    }
+    g.putImageData(img, 0, 0); return c;
+  }
   const spr = (() => {
     const c = document.createElement('canvas'), n = 48, h = n / 2; c.width = c.height = n;
     const g = c.getContext('2d'), gr = g.createRadialGradient(h, h, 0, h, h, h);
@@ -285,6 +311,7 @@ const RT = (() => {
     g.fillStyle = gr; g.fillRect(0, 0, n, n); return c;
   })();
   const phase = () => { const u = t % PER; return u < HOLD ? 0 : u < HOLD + FADE ? smooth(HOLD, HOLD + FADE, u) : u < PER - FADE ? 1 : 1 - smooth(PER - FADE, PER, u); };
+  const nameOf = st => st.name || `${T('estrela', 'star')} V ${fmt(st.V, 1)}`;
   function chip(c, x, y, s, color = COL.text) {
     c.font = `600 15px ${FONT}`; const W = c.measureText(s).width + 24;
     c.fillStyle = 'rgba(7,8,14,.66)'; c.beginPath(); c.roundRect(x, y, W, 32, 8); c.fill();
@@ -299,21 +326,25 @@ const RT = (() => {
 
   function draw(m = getMode()) {
     const { ctx: c, w, h } = fitCanvas(cv);
-    const k = Math.min(w / FIELD[0], h / FIELD[1]);                       // px por ′
-    const X = x => w / 2 + (x - MID[0]) * k, Y = y => h / 2 - (y - MID[1]) * k;
+    // a chapa à esquerda; as três lupas numa faixa à direita
+    const rl = Math.min(74, (h - 24) / 6 - 4), LW = 2 * rl + 150, fw = w - LW;
+    const k = Math.min(fw / FIELD[0], h / FIELD[1]);                      // px por ′
+    const X = x => fw / 2 + (x - MID[0]) * k, Y = y => h / 2 - (y - MID[1]) * k;
+    geo = { X, Y, fw };
     const sx = X(0), sy = Y(0), rS = RSUN * k, rM = RMOON * k;
     const s = m === 'night' ? 0 : m === 'blink' ? phase() : 1, both = m === 'both';
-    const ex = EXS[getEx()], lim = LIMB * +getTh();
-    const shift = st => 1 + lim * RSUN / st.th / 60 * ex / st.th;          // posição no eclipse = noite × isto (radial)
+    const lim = LIMB * +getTh(), fwhm = getW();
+    const sel = [...queue].sort((a, b) => Y(S[a].y) - Y(S[b].y));       // de cima para baixo, como na chapa: as linhas não se cruzam
     c.fillStyle = '#05060a'; c.fillRect(0, 0, w, h);
+    c.save(); c.beginPath(); c.rect(0, 0, fw, h); c.clip();
     // eclipse: a luz do céu, a coroa e a Lua
     if (s > 0) {
       const n = Math.min(720, Math.round(2 * CR * rS * Math.min(2, devicePixelRatio || 1)));
       if (n !== corN) { cor = corona(n); corN = n; }
       c.save(); c.globalAlpha = s;
-      const g = c.createRadialGradient(sx, sy, rS, sx, sy, Math.max(w, h) * 0.8);
+      const g = c.createRadialGradient(sx, sy, rS, sx, sy, Math.max(fw, h) * 0.8);
       g.addColorStop(0, 'rgba(120,130,160,.12)'); g.addColorStop(1, 'rgba(120,130,160,0)');
-      c.fillStyle = g; c.fillRect(0, 0, w, h);
+      c.fillStyle = g; c.fillRect(0, 0, fw, h);
       c.drawImage(cor, sx - CR * rS, sy - CR * rS, 2 * CR * rS, 2 * CR * rS);
       c.fillStyle = '#030305'; c.beginPath(); c.arc(sx, sy, rM, 0, 7); c.fill();
       c.restore();
@@ -327,68 +358,101 @@ const RT = (() => {
       c.fillText(T('o Sol em', 'the Sun on'), sx, sy - 10); c.fillText(T('29 de maio', '29 May'), sx, sy + 10);
       c.restore();
     }
-    // marcas fixas: as posições da noite, como os círculos da placa
-    c.lineWidth = 1.3; c.strokeStyle = 'rgba(158,140,255,.6)';
-    for (const st of S) {
-      if (st.V > 8.6) continue;
-      c.beginPath(); c.arc(X(st.x), Y(st.y), 7 + 1.3 * (8.6 - st.V), 0, 7); c.stroke();
-    }
-    // setas noite → eclipse
-    if (both) {
-      c.save(); c.strokeStyle = COL.sol; c.fillStyle = COL.sol; c.lineWidth = 1.8;
-      for (const st of S) {
-        if (st.th < RMOON || st.V > 9.6) continue;
-        const f = shift(st), x0 = X(st.x), y0 = Y(st.y), x1 = X(st.x * f), y1 = Y(st.y * f);
-        if (Math.hypot(x1 - x0, y1 - y0) > 5) arrow(c, x0, y0, x1, y1);
-      }
-      c.restore();
-    }
-    // as estrelas
+    // as estrelas, com o deslocamento verdadeiro (um décimo de pixel)
     c.save(); c.globalCompositeOperation = 'lighter';
     for (const st of S) {
       const a = st.th < RMOON ? 1 - s : 1;                               // atrás da Lua de verdade
       if (a <= 0) continue;
-      const f = 1 + s * (shift(st) - 1), D = 2.2 + 2.1 * (10.6 - st.V);
+      const f = 1 + s * lim * RSUN / 60 / (st.th * st.th), D = 2.2 + 2.1 * (10.6 - st.V);
       c.globalAlpha = a * Math.min(1, 0.45 + 0.09 * (10.6 - st.V));
       c.drawImage(spr, X(st.x * f) - D, Y(st.y * f) - D, 2 * D, 2 * D);
     }
     c.restore();
-    // nomes, presos às marcas
-    c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'middle';
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'middle'; c.textAlign = 'left';
     for (const st of S) {
-      if (!st.name) continue;
-      const x = X(st.x), y = Y(st.y), r = 7 + 1.3 * (8.6 - st.V) + 7, right = x < w - 110;
-      c.textAlign = right ? 'left' : 'right'; c.fillText(st.name, x + (right ? r : -r), y);
+      if (!st.name || st.name.startsWith('HD')) continue;
+      const x = X(st.x), r = 9 + 1.3 * (8.6 - st.V), right = x < fw - 80;
+      c.textAlign = right ? 'left' : 'right'; c.fillText(st.name, x + (right ? r : -r), Y(st.y) - (right ? 0 : 14));
     }
     // grão e vinheta
-    const gk = `${Math.round(w)}x${Math.round(h)}`;
-    if (gk !== grainKey) { grain = makeGrain(w, h); grainKey = gk; }
-    c.drawImage(grain, 0, 0, w, h);
-    const v = c.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.45, w / 2, h / 2, Math.hypot(w, h) / 2);
-    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.5)'); c.fillStyle = v; c.fillRect(0, 0, w, h);
+    const gk = `${Math.round(fw)}x${Math.round(h)}`;
+    if (gk !== grainKey) { grain = makeGrain(fw, h); grainKey = gk; }
+    c.drawImage(grain, 0, 0, fw, h);
+    const v = c.createRadialGradient(fw / 2, h / 2, Math.min(fw, h) * 0.45, fw / 2, h / 2, Math.hypot(fw, h) / 2);
+    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.5)'); c.fillStyle = v; c.fillRect(0, 0, fw, h);
     // rótulos da chapa
-    if (both) chip(c, 14, 14, T('as duas · setas: noite → eclipse', 'both · arrows: night → eclipse').toUpperCase(), COL.sol);
+    if (both) chip(c, 14, 14, T('as duas · lupas: noite → eclipse', 'both · loupes: night → eclipse').toUpperCase(), COL.sol);
     else chip(c, 14, 14, (s < 0.5 ? T('noite · julho de 1919', 'night · July 1919') : T('eclipse · 29 de maio de 1919', 'eclipse · 29 May 1919')).toUpperCase());
     c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
-    c.fillText(T(`Híades, em Touro · deslocamentos ×${grp(ex)}`, `Hyades, in Taurus · shifts ×${grp(ex)}`), 16, 56);
+    c.fillText(T('Híades, em Touro · escala real, sem exagero', 'Hyades, in Taurus · true scale, no exaggeration'), 16, 56);
+    c.textBaseline = 'bottom'; c.fillText(T('clique numa estrela para pô-la numa lupa', 'click a star to put it in a loupe'), 16, h - 12);
     // bússola e escala, no canto de cima
-    const cx = w - 64, cy = 62;
+    const cx = fw - 64, cy = 62;
     c.strokeStyle = COL.text3; c.fillStyle = COL.text3; c.lineWidth = 1.5; c.textAlign = 'center'; c.textBaseline = 'middle';
     [[rot(0, 1), 'N'], [rot(-1, 0), T('L', 'E')]].forEach(([[dx, dy], lab]) => {
       arrow(c, cx, cy, cx + 30 * dx, cy - 30 * dy); c.fillText(lab, cx + 44 * dx, cy - 44 * dy);
     });
-    const bar = 30 * k, bx = w - 18 - bar, by = 132;
+    const bar = 30 * k, bx = fw - 18 - bar, by = 132;
     c.beginPath(); c.moveTo(bx, by); c.lineTo(bx + bar, by); c.moveTo(bx, by - 5); c.lineTo(bx, by + 5); c.moveTo(bx + bar, by - 5); c.lineTo(bx + bar, by + 5); c.stroke();
     c.textBaseline = 'bottom'; c.fillText('30′', bx + bar / 2, by - 6);
-    const key = `${lim}|${ex}`;
-    if (key !== outKey) {
-      outKey = key;
-      out.innerHTML = `<span>${T('desvio no limbo', 'deflection at the limb')} <b>${fmt(lim, 2)}″</b></span>
-        <span>κ² Tau, ${T('a', 'at')} ${fmt(K2.th / RSUN, 1)} R<sub>☉</sub> <b>${fmt(lim * RSUN / K2.th, 2)}″</b></span>
-        <span>${T('Sobral mediu', 'Sobral measured')} <b>${fmt(1.98, 2)} ± ${fmt(0.12, 2)}″</b></span>
-        <span>${T('na tela', 'on screen')} <b>×${grp(ex)}</b></span>`;
+    c.restore();
+    // as lupas: as duas chapas em volta de cada estrela, sem exagero; os fios do micrômetro na posição da noite
+    const n = Math.round(2 * rl * Math.min(1.5, devicePixelRatio || 1)), key = `${n}|${fwhm}|${lim}|${sel}`;
+    if (key !== lupKey) { lupKey = key; lup = sel.map(i => { const d = lim * RSUN / S[i].th; return [plate(i, n, fwhm, d, false), plate(i, n, fwhm, d, true), d]; }); }
+    const lx = fw + 12 + rl, ppa = 2 * rl / LUPA;                         // px por ″ na lupa
+    sel.forEach((i, j) => {
+      const st = S[i], [pn, pe, d] = lup[j], ly = h * (j + 0.5) / 3;
+      // a estrela na chapa e a linha até a lupa
+      const zx = X(st.x), zy = Y(st.y), L = Math.hypot(zx - lx, zy - ly);
+      c.strokeStyle = 'rgba(255,184,107,.85)'; c.lineWidth = 1.5;
+      c.beginPath(); c.arc(zx, zy, 9 + 1.3 * Math.max(0, 8.6 - st.V), 0, 7); c.stroke();
+      c.strokeStyle = 'rgba(255,184,107,.4)'; c.setLineDash([4, 5]);
+      c.beginPath(); c.moveTo(zx, zy); c.lineTo(lx + (zx - lx) * rl / L, ly + (zy - ly) * rl / L); c.stroke(); c.setLineDash([]);
+      c.save(); c.beginPath(); c.arc(lx, ly, rl, 0, 7); c.clip();
+      c.drawImage(both ? pe : pn, lx - rl, ly - rl, 2 * rl, 2 * rl);
+      if (!both && s > 0) { c.globalAlpha = s; c.drawImage(pe, lx - rl, ly - rl, 2 * rl, 2 * rl); c.globalAlpha = 1; }
+      c.beginPath(); c.moveTo(lx - rl, ly); c.lineTo(lx + rl, ly); c.moveTo(lx, ly - rl); c.lineTo(lx, ly + rl);
+      for (let u = -2.5; u <= 2.5; u += 0.5) if (u) { const p = u * ppa; c.moveTo(lx + p, ly - 4); c.lineTo(lx + p, ly + 4); c.moveTo(lx - 4, ly + p); c.lineTo(lx + 4, ly + p); }
+      c.strokeStyle = 'rgba(8,8,20,.75)'; c.lineWidth = 3; c.stroke();                // fios escuros com borda: aparecem no claro e no escuro
+      c.strokeStyle = 'rgba(158,140,255,.95)'; c.lineWidth = 1; c.stroke();
+      if (both) {                                                        // a imagem da noite (tracejada) e a seta até a do eclipse
+        c.setLineDash([4, 4]); c.lineWidth = 1.5; c.beginPath(); c.arc(lx, ly, fwhm / 2 * ppa, 0, 7); c.stroke(); c.setLineDash([]);
+        c.strokeStyle = COL.sol; c.fillStyle = COL.sol; c.lineWidth = 2;
+        arrow(c, lx, ly, lx + d * st.x / st.th * ppa, ly - d * st.y / st.th * ppa);
+      }
+      c.restore();
+      c.strokeStyle = 'rgba(255,184,107,.7)'; c.lineWidth = 2; c.beginPath(); c.arc(lx, ly, rl, 0, 7); c.stroke();
+      // o lado do Sol, na borda
+      const ux = -st.x / st.th, uy = st.y / st.th, qx = lx + ux * (rl + 1), qy = ly + uy * (rl + 1);
+      c.fillStyle = '#0b0d14'; c.beginPath(); c.arc(qx, qy, 8, 0, 7); c.fill();
+      c.strokeStyle = COL.sol; c.lineWidth = 1.5; c.beginPath(); c.arc(qx, qy, 6, 0, 7); c.stroke();
+      c.fillStyle = COL.sol; c.beginPath(); c.arc(qx, qy, 1.8, 0, 7); c.fill();
+      // o que a lupa mostra
+      const tx = lx + rl + 16;
+      c.textAlign = 'left'; c.textBaseline = 'middle';
+      c.font = `600 16px ${FONT}`; c.fillStyle = COL.text; c.fillText(nameOf(st), tx, ly - 22);
+      c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.fillText(`${T('a', 'at')} ${fmt(st.th / RSUN, 1)} R☉`, tx, ly);
+      c.fillStyle = COL.sol; c.fillText(`δ ${fmt(d, 2)}″ · ${Math.round(d * UM)} µm`, tx, ly + 22);
+    });
+    const okey = `${lim}|${k.toFixed(3)}|${ppa.toFixed(1)}`;
+    if (okey !== outKey) {
+      outKey = okey;
+      out.innerHTML = `<span>${T('na chapa da lente de 4 pol.', 'on the 4-inch lens plate')} 1″ = <b>${Math.round(UM)} µm</b></span>
+        <span>${T('na tela', 'on screen')} 1″ = <b>${fmt(k / 60, 2)} px</b>, ${T('na lupa', 'in a loupe')} <b>${Math.round(ppa)} px</b></span>
+        <span>${T('Sobral mediu', 'Sobral measured')} <b>${fmt(1.98, 2)} ± ${fmt(0.12, 2)}″</b></span>`;
     }
   }
+  function pick(px, py) {                                                // a estrela da chapa mais perto do clique
+    if (!geo || px > geo.fw) return -1;
+    let best = -1, bd = 14;
+    S.forEach((st, i) => {
+      if (st.th < RMOON || st.V > 10) return;
+      const dd = Math.hypot(geo.X(st.x) - px, geo.Y(st.y) - py); if (dd < bd) { bd = dd; best = i; }
+    });
+    return best;
+  }
+  cv.addEventListener('click', e => { const i = pick(...canvasPoint(cv, e)); if (i < 0 || queue.includes(i)) return; queue = [...queue.slice(1), i]; redraw(); });
+  cv.addEventListener('pointermove', e => { cv.style.cursor = pick(...canvasPoint(cv, e)) >= 0 ? 'pointer' : ''; });
   const still = () => draw(getMode() === 'blink' ? 'both' : getMode());
   function redraw() { if (reduceMotion || document.body.classList.contains('overview')) still(); else draw(); }
   loopOn(cv, dt => { t += dt; draw(); }, still);

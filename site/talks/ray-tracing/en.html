@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211000">
+<link rel="stylesheet" href="assets/deck.css?v=202610211300">
 </head>
 <body>
 
@@ -146,12 +146,12 @@
 
 <section class="slide content p1">
   <header><p class="eyebrow">Sobral, 29 May 1919 · the measurement</p><h2>Two plates, <em>the same sky</em></h2></header>
-  <div class="body cols" style="grid-template-columns: 1.6fr .72fr; gap: 44px">
+  <div class="body cols" style="grid-template-columns: 1.75fr .64fr; gap: 44px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">simulated plate · real positions</span><div class="seg" id="sobral-mode"><button type="button" data-v="blink" class="on">blink</button><button type="button" data-v="night">night</button><button type="button" data-v="eclipse">eclipse</button><button type="button" data-v="both">both</button></div></div>
+      <div class="dash-head"><span class="tag part">simulated plate · true scale</span><div class="seg" id="sobral-mode"><button type="button" data-v="blink" class="on">blink</button><button type="button" data-v="night">night</button><button type="button" data-v="eclipse">eclipse</button><button type="button" data-v="both">both</button></div></div>
       <div class="cv"><canvas id="sobral"></canvas></div>
       <div class="controls">
-        <div class="ctl"><label for="sobral-ex">shift exaggeration <output for="sobral-ex"></output></label><input type="range" id="sobral-ex" min="0" max="10" step="1" value="8"></div>
+        <div class="ctl"><label for="sobral-fwhm">width of the star image <output for="sobral-fwhm"></output></label><input type="range" id="sobral-fwhm" min="1" max="4" step="0.1" value="2"></div>
         <div class="ctl"><label>prediction</label><div class="seg" id="sobral-th" style="justify-self: start"><button type="button" data-v="1" class="on">Einstein</button><button type="button" data-v="0.5">Newton</button></div></div>
       </div>
       <div class="readout" id="sobral-out"></div>
@@ -160,10 +160,32 @@
       <p class="small" style="margin: 0"><b>Night:</b> the Hyades photographed in July, before dawn, with the same telescope — the Sun far away.</p>
       <p class="small" style="margin: 0"><b>Eclipse:</b> the same field on 29 May, with the Moon covering the Sun. Every star moves away from the Sun, radially.</p>
       <div class="eq sm" style="font-size: 32px; padding: 16px 20px">δ = <span class="frac"><span>4<i>GM</i></span><span><i>c</i>²<i>b</i></span></span> = 1.75″ <span class="frac"><span><i>R</i><sub>☉</sub></span><span><i>b</i></span></span><span class="note">twice the Newtonian value</span></div>
-      <p class="small muted" style="margin: 0">The true shift is ~1″: hundredths of a millimetre on the plate. Here it is multiplied so it can be seen; the stars (Tycho-2) and the Sun are where they were.</p>
+      <p class="small muted" style="margin: 0">On the whole plate nothing moves: 1″ is a tenth of a pixel. In the loupes, at true scale, as under the micrometer, the star jumps by a fraction of its own width — and the centre of a blob can be measured far better than its width.</p>
     </div>
   </div>
-  <aside class="notes">How it is measured. Two photographs of the same patch of sky: the Hyades cluster, in Taurus. One at night, in July, when the Sun is already far away; the other during the eclipse, with the Sun right in front. The panel alternates between them, like a blink comparator. During the eclipse every star moves away from the Sun, radially, and the more so the closer it is to the limb: the deflection falls as 1/b. The true shift is one arcsecond, hundredths of a millimetre on the plate; here it is multiplied by 300. The positions are real: stars from the Tycho-2 catalogue and the Sun of 29 May 1919, in the same orientation as the plate on the previous slide — you can recognise κ Tauri, υ Tauri and 72 Tauri. Set the exaggeration to 1: nothing can be seen. Switch to Newton: the shift drops by half. That was the difference Sobral had to tell apart, and it measured 1.98″.</aside>
+  <aside class="notes">How it is measured. Two photographs of the same patch of sky: the Hyades cluster, in Taurus. One at night, in July, when the Sun is already far away; the other during the eclipse, with the Sun right in front. The panel alternates between them, like a blink comparator, and everything is at true scale, with no exaggeration. On the whole plate nothing moves: one arcsecond is a tenth of a pixel on this screen. But nobody measured by eye: the plate went to a machine with a micrometer, which is what the loupes show — six arcseconds of sky around a star, with the wires at the night position. The star image is about two arcseconds wide, from turbulence and the optics, and during the eclipse it jumps by almost half of that, always away from the Sun, the symbol on the rim of the loupe. Near the Sun it jumps more, far away less: the deflection falls as 1/b. On the plate of the 4-inch lens, with a 5.8-metre focal length, one arcsecond is 28 micrometres. The centre of a blob can be measured much better than its width, and the fit for scale and rotation uses all the stars together. Click a star to put it in a loupe. Switch to Newton: the jump drops by half. That was the difference Sobral had to tell apart, and it measured 1.98″.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1859 – 1915 · the perihelion of Mercury</p><h2>Mercury’s orbit <em>does not close</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr 1fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="mercury"></canvas></div>
+      <div class="readout" id="mercury-out"></div>
+    </div>
+    <div class="stack" style="gap: 22px">
+      <table class="tbl">
+        <tr><th>perihelion advance</th><th style="text-align:right">per century</th></tr>
+        <tr><td>observed (relative to the stars)</td><td class="n">574″</td></tr>
+        <tr><td>other planets, by Newton</td><td class="n">531″</td></tr>
+        <tr class="hl"><td>unexplained remainder</td><td class="n">43″</td></tr>
+      </table>
+      <div class="eq sm">Δφ = <span class="frac"><span>6π<i>GM</i><sub>☉</sub></span><span><i>c</i>² <i>a</i>(1 − <i>e</i>²)</span></span> = 0.104″ per orbit<span class="note">GR · Einstein, November 1915 · 415 orbits per century → 43.0″</span></div>
+      <p class="small">Le Verrier found the remainder in 1859 and proposed a hidden planet, Vulcan. It was never found. Einstein got the 43″ with no adjustable parameter.</p>
+      <blockquote style="font-size: 30px">“For a few days, I was beside myself with joyous excitement.”<footer>Einstein to Ehrenfest, January 1916</footer></blockquote>
+    </div>
+  </div>
+  <aside class="notes">Mercury, the planet closest to the Sun. By Newton, a lone planet would trace the same ellipse forever — the dashed line. The other planets advance the perihelion by 531 arcseconds per century; the observed value is 574. That leaves 43, which Le Verrier found in 1859 and tried to explain with an invisible planet, Vulcan. General relativity gives exactly 43: the orbit does not close, each loop starts a little further on — the violet rosette. On screen the precession is exaggerated three hundred thousand times; the counters below give the real value, which takes centuries to build up. It was the first test Einstein computed, in November 1915.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1169,12 +1191,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211000"></script>
-<script src="assets/ppdot.js?v=202610211000"></script>
-<script src="assets/dash.js?v=202610211000"></script>
-<script src="assets/dash-reuso.js?v=202610211000"></script>
-<script src="assets/dash-ns.js?v=202610211000"></script>
-<script src="assets/dash-res.js?v=202610211000"></script>
+<script src="assets/deck.js?v=202610211300"></script>
+<script src="assets/ppdot.js?v=202610211300"></script>
+<script src="assets/dash.js?v=202610211300"></script>
+<script src="assets/dash-reuso.js?v=202610211300"></script>
+<script src="assets/dash-ns.js?v=202610211300"></script>
+<script src="assets/dash-res.js?v=202610211300"></script>
 <script>Deck.start();</script>
 </body>
 </html>
