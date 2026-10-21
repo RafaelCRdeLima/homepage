@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610201500">
+<link rel="stylesheet" href="assets/deck.css?v=202610211000">
 </head>
 <body>
 
@@ -143,6 +143,28 @@
     </div>
   </div>
   <aside class="notes">Um orgulho brasileiro: a melhor medida de 1919 foi feita em Sobral, no Ceará. Todos esses efeitos são pequenos porque aqui GM/Rc² é pequeno. Vamos ver onde deixa de ser.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Sobral, 29 de maio de 1919 · a medida</p><h2>Duas chapas, <em>o mesmo céu</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.6fr .72fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">chapa simulada · posições reais</span><div class="seg" id="sobral-mode"><button type="button" data-v="blink" class="on">piscar</button><button type="button" data-v="night">noite</button><button type="button" data-v="eclipse">eclipse</button><button type="button" data-v="both">as duas</button></div></div>
+      <div class="cv"><canvas id="sobral"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="sobral-ex">exagero do deslocamento <output for="sobral-ex"></output></label><input type="range" id="sobral-ex" min="0" max="10" step="1" value="8"></div>
+        <div class="ctl"><label>previsão</label><div class="seg" id="sobral-th" style="justify-self: start"><button type="button" data-v="1" class="on">Einstein</button><button type="button" data-v="0.5">Newton</button></div></div>
+      </div>
+      <div class="readout" id="sobral-out"></div>
+    </div>
+    <div class="stack" style="gap: 24px; align-self: center">
+      <p class="small" style="margin: 0"><b>Noite:</b> as Híades fotografadas em julho, antes do amanhecer, com o mesmo telescópio — o Sol longe dali.</p>
+      <p class="small" style="margin: 0"><b>Eclipse:</b> o mesmo campo em 29 de maio, com a Lua cobrindo o Sol. Cada estrela se afasta do Sol, na direção radial.</p>
+      <div class="eq sm" style="font-size: 32px; padding: 16px 20px">δ = <span class="frac"><span>4<i>GM</i></span><span><i>c</i>²<i>b</i></span></span> = 1,75″ <span class="frac"><span><i>R</i><sub>☉</sub></span><span><i>b</i></span></span><span class="note">o dobro da conta newtoniana</span></div>
+      <p class="small muted" style="margin: 0">O deslocamento verdadeiro é de ~1″: centésimos de milímetro na chapa. Aqui ele está multiplicado para ser visto; as estrelas (Tycho-2) e o Sol estão onde estavam.</p>
+    </div>
+  </div>
+  <aside class="notes">Como se mede isso. Duas fotografias do mesmo pedaço de céu: o aglomerado das Híades, em Touro. Uma à noite, em julho, quando o Sol já está longe dali; a outra durante o eclipse, com o Sol bem na frente. O painel alterna as duas, como um comparador de piscar. No eclipse, cada estrela foge do Sol na direção radial, e tanto mais quanto mais perto do limbo: o desvio cai como 1/b. O deslocamento verdadeiro é de um segundo de arco, centésimos de milímetro na chapa; aqui ele aparece multiplicado por 300. As posições são as reais: estrelas do catálogo Tycho-2 e o Sol de 29 de maio de 1919, na mesma orientação da placa do slide anterior — dá para reconhecer κ Tauri, υ Tauri e 72 Tauri. Ponham o exagero em 1: não se vê nada. Troquem para Newton: o deslocamento cai à metade. Era essa a diferença que Sobral tinha de distinguir, e mediu 1,98″.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1110,6 +1132,7 @@
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Thibault_Damour_portrait.png"><b>Thibault Damour</b></a> — Melirius · CC BY 3.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://svs.gsfc.nasa.gov/13240/"><b>PSR J0030+0451: modelos das manchas</b></a> — NASA&#x27;s Goddard Space Flight Center · domínio público</p>
     <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Figuras dos artigos (Parte III)</b> — de Lima et al., ApJ 889, 165 (2020); de Lima et al., JHEAp 42, 52 (2024, CC BY 4.0 no arXiv); Silva et al., Galaxies 11, 18 (2023, CC BY 4.0); Ottoni et al., EPJC 84, 1337 (2024, CC BY 4.0); dos Santos Júnior, de Lima &amp; Moraes, arXiv:2607.09836 (CC0); Pereira et al., PRD 110, 103014 (2024); Zastrow et al., PRD 112, 083010 (2025)</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Chapa simulada de Sobral</b> — posições do catálogo Tycho-2 (Høg et al., A&amp;A 355, L27, 2000), via VizieR/CDS</p>
     <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Diagrama P–Ṗ</b> — catálogo de pulsares ATNF 2.8.1 (Manchester et al., AJ 129, 1993, 2005)</p>
     <!--/CREDITS-->
   </div>
@@ -1152,12 +1175,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610201500"></script>
-<script src="assets/ppdot.js?v=202610201500"></script>
-<script src="assets/dash.js?v=202610201500"></script>
-<script src="assets/dash-reuso.js?v=202610201500"></script>
-<script src="assets/dash-ns.js?v=202610201500"></script>
-<script src="assets/dash-res.js?v=202610201500"></script>
+<script src="assets/deck.js?v=202610211000"></script>
+<script src="assets/ppdot.js?v=202610211000"></script>
+<script src="assets/dash.js?v=202610211000"></script>
+<script src="assets/dash-reuso.js?v=202610211000"></script>
+<script src="assets/dash-ns.js?v=202610211000"></script>
+<script src="assets/dash-res.js?v=202610211000"></script>
 <script>Deck.start();</script>
 </body>
 </html>

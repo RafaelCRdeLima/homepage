@@ -188,6 +188,213 @@ const RT = (() => {
   return { psiExact, table, psiAt, psiBelo, orbit, pixelMap, paint, blit };
 })();
 
+/* Sobral, 29 de maio de 1919: a chapa de comparação (noite, julho) e a do eclipse, alternando como
+   num comparador de piscar. Estrelas do Tycho-2 (V < 10,6) levadas a 1919,4 pelo movimento próprio,
+   no plano tangente em volta do Sol daquela manhã (11h40 TU; Meeus, precessado para J2000): ξ para
+   leste, η para norte, em minutos de arco. A chapa tem a orientação da placa do slide anterior (ESO
+   potw1926a), ajustada pelas seis estrelas marcadas nela: resíduos de 2 px, e o Sol cai no centro do
+   disco. Cada estrela se afasta do Sol, na radial, δ = 4GM/(c²b) = 1,7505″ θ☉/θ (Newton: a metade),
+   vezes o exagero; a Lua tapa quem está atrás dela de verdade, não na posição exagerada. */
+(() => {
+  const cv = document.getElementById('sobral'); if (!cv) return;
+  const out = document.getElementById('sobral-out');
+  const STARS = [
+    [-4.32, 36.87, 4.2, 'κ¹ Tau'], [8.67, 68.07, 4.3, 'υ Tau'], [-118.10, -65.27, 4.9, 'ω² Tau'], [-3.67, 31.24, 5.3, 'κ² Tau'],
+    [-84.45, 6.06, 5.3, '56 Tau'], [-87.30, -31.80, 5.5, '53 Tau'], [22.38, 79.02, 5.5, '72 Tau'], [-101.76, -5.42, 5.6, '51 Tau'],
+    [32.54, -3.51, 5.7, 'HR 1403'], [-29.87, -41.81, 6.0, 'HR 1375'], [-46.16, -51.43, 6.0, 'HR 1370'], [125.76, 61.72, 6.8],
+    [-58.15, -38.20, 6.8], [-26.72, 77.14, 7.0], [-57.13, -29.35, 7.1], [65.23, -110.16, 7.1], [76.44, 100.38, 7.1], [90.11, -2.41, 7.1],
+    [-20.05, 3.44, 7.1], [64.68, 114.81, 7.2], [-77.26, 115.57, 7.2], [8.76, -12.54, 7.3], [19.13, -110.23, 7.5], [81.91, 70.34, 7.5],
+    [-102.75, 68.28, 7.6], [42.56, -60.07, 7.7], [-87.03, -103.58, 7.9], [-16.35, 63.74, 8.0], [127.51, -33.65, 8.0],
+    [-4.83, 126.53, 8.1], [-108.47, 41.14, 8.2], [-93.02, -22.32, 8.2], [138.30, 21.57, 8.2], [46.45, 14.43, 8.4],
+    [-56.02, -132.62, 8.4], [-117.37, -69.31, 8.4], [124.90, -33.55, 8.4], [1.72, -32.57, 8.5], [-32.14, -29.74, 8.5],
+    [-94.77, -105.93, 8.6], [20.33, -41.28, 8.6], [-30.34, -47.63, 8.6], [78.64, -92.47, 8.6],
+    [41.54, -116.28, 8.6], [62.34, -41.62, 8.6], [-85.54, -36.49, 8.6], [35.14, 39.23, 8.7], [41.52, -50.79, 8.8], [21.02, 110.02, 8.8],
+    [-23.10, -8.34, 8.8], [-46.39, 59.11, 8.8], [-32.24, -17.97, 8.9], [122.91, 62.76, 8.9], [86.99, -2.27, 8.9], [15.20, 81.20, 8.9],
+    [-10.00, -97.43, 8.9], [2.43, 113.04, 9.0], [-141.05, -22.83, 9.0], [39.45, 89.04, 9.1], [-127.01, 14.62, 9.1], [83.96, -53.42, 9.1],
+    [-94.99, 39.33, 9.2], [-17.90, -103.13, 9.2], [107.44, -0.13, 9.2], [-22.00, -121.63, 9.2], [-111.89, 35.56, 9.2],
+    [-1.27, 115.62, 9.3], [-12.04, -34.47, 9.3], [-113.46, 86.69, 9.3], [-32.50, -121.25, 9.4], [-2.40, -119.30, 9.4],
+    [55.90, -122.26, 9.4], [-103.40, 97.00, 9.5], [-1.94, -115.01, 9.5], [-51.11, 34.71, 9.5], [101.93, -14.98, 9.5],
+    [-44.13, 100.05, 9.5], [-26.64, -17.01, 9.5], [-35.03, -28.16, 9.5], [-36.20, -52.42, 9.5], [-68.60, 76.44, 9.6],
+    [-25.43, 136.79, 9.6], [-4.75, 55.03, 9.6], [143.20, -11.56, 9.6], [-15.64, -102.75, 9.7], [21.76, 18.07, 9.7], [-67.86, 33.35, 9.7],
+    [59.83, -49.39, 9.7], [45.20, 32.90, 9.7], [-1.35, 88.24, 9.7], [-64.23, 80.02, 9.7], [46.94, 68.32, 9.8], [99.08, -92.14, 9.8],
+    [-118.64, 60.50, 9.8], [110.59, 34.43, 9.8], [-30.59, 26.28, 9.8], [62.53, -48.04, 9.8], [-31.14, -73.73, 9.8],
+    [21.52, -133.23, 9.8], [125.15, 42.98, 9.8], [67.02, -67.69, 9.8], [-32.48, -65.69, 9.9], [-58.91, 90.56, 9.9],
+    [-112.19, 25.59, 9.9], [122.11, -2.76, 9.9], [-52.08, -128.62, 9.9], [-123.59, -15.14, 9.9], [5.42, 88.73, 9.9],
+    [-93.36, -108.93, 9.9], [-129.03, -60.96, 9.9], [-83.36, -114.83, 9.9], [16.09, 112.17, 9.9], [-25.75, -44.98, 9.9],
+    [-16.39, 84.61, 10.0], [-125.54, 66.91, 10.0], [-24.90, 23.87, 10.0], [-15.85, 79.27, 10.0], [-4.80, 127.02, 10.0],
+    [-61.26, 121.26, 10.0], [-70.31, -92.35, 10.0], [-62.99, 7.55, 10.0], [117.68, -19.34, 10.0], [38.67, -38.24, 10.0],
+    [34.46, -124.70, 10.0], [-55.17, 86.09, 10.1], [54.88, -27.41, 10.1], [32.59, -98.83, 10.1], [-39.45, 69.28, 10.1],
+    [-44.54, -9.60, 10.1], [-92.76, 28.17, 10.1], [29.46, 40.56, 10.1], [44.38, -86.85, 10.1], [20.70, 104.59, 10.1],
+    [17.85, 83.70, 10.1], [6.24, 73.55, 10.2], [-116.80, 12.31, 10.2], [45.94, 22.41, 10.2], [-39.79, -135.63, 10.2],
+    [-61.38, 66.38, 10.2], [81.72, 28.85, 10.2], [48.03, -64.18, 10.2], [132.67, -39.13, 10.2], [75.92, -107.86, 10.2],
+    [22.15, 84.45, 10.2], [-57.07, 19.94, 10.3], [54.46, 100.00, 10.3], [-128.11, 38.71, 10.3], [84.20, -22.40, 10.3],
+    [64.82, -17.62, 10.3], [65.77, -40.76, 10.3], [-31.12, -112.33, 10.3], [28.55, 79.21, 10.3], [-24.61, 2.38, 10.3],
+    [48.60, 29.52, 10.3], [101.29, 13.73, 10.3], [120.91, -69.74, 10.3], [132.39, 49.82, 10.3], [96.29, -35.29, 10.3],
+    [-111.52, -47.62, 10.4], [130.55, -36.28, 10.4], [-77.37, 49.61, 10.4], [-61.66, 36.75, 10.4], [61.99, -44.54, 10.4],
+    [-102.26, -48.13, 10.4], [98.72, 25.98, 10.4], [5.84, 73.57, 10.4], [71.97, -26.32, 10.4], [38.32, -48.14, 10.4],
+    [-66.81, 98.28, 10.4], [-24.23, -94.54, 10.4], [133.39, -29.37, 10.4], [-98.09, 61.85, 10.4], [-31.87, -117.08, 10.5],
+    [-71.79, 26.67, 10.5], [-93.78, 2.83, 10.5], [-68.09, -25.48, 10.5], [15.57, -45.78, 10.5], [-83.16, 79.10, 10.5],
+  ];
+  const RSUN = 946.7 / 60, RMOON = 1.06 * RSUN, LIMB = 1.7505;        // ′ (Terra a 1,0137 UA); ″ no limbo
+  const ROT = -132.05 * deg, CR = 4.2;                                  // céu (leste à esquerda) → placa do ESO; coroa até 4,2 R☉
+  const FIELD = [142.7, 85.1], MID = [5.39, -4.88];                     // campo da placa do ESO e o centro dele, a partir do Sol (′)
+  const EXS = [1, 2, 5, 10, 20, 50, 100, 200, 300, 500, 1000];
+  const HOLD = 1.4, FADE = 0.35, PER = 2 * (HOLD + FADE);
+  const rot = (x, y) => [x * Math.cos(ROT) - y * Math.sin(ROT), x * Math.sin(ROT) + y * Math.cos(ROT)];
+  const S = STARS.map(([xi, eta, V, name]) => { const [x, y] = rot(-xi, eta); return { x, y, th: Math.hypot(xi, eta), V, name }; });
+  const K2 = S.find(s => s.name === 'κ² Tau');
+  let t = 0, cor = null, corN = 0, grain = null, grainKey = '', outKey = '';
+  // no PDF (?ff) a chapa sai com as duas posições e as setas
+  if (FF) document.querySelectorAll('#sobral-mode button').forEach(b => b.classList.toggle('on', b.dataset.v === 'both'));
+  const getMode = bindSeg('sobral-mode', () => { t = 0; redraw(); });
+  const getTh = bindSeg('sobral-th', () => redraw());
+  const getEx = bindRange('sobral-ex', v => '×' + grp(EXS[v]), () => redraw());
+
+  /* coroa sintética em n×n px (Sol de raio n/2CR): K em r⁻⁸ e streamers em r⁻³ que estreitam para fora,
+     com raios finos irregulares; a emulsão satura (1 − e⁻ᴵ). Os streamers ficam mais ou menos onde estão na placa. */
+  const STREAM = [[10, .30, 1], [140, .35, .8], [178, .28, 1.1], [215, .32, .9], [300, .25, .7], [62, .22, .4]].map(([a, w, A]) => [a * deg, w, A]);
+  const RAYS = Array.from({ length: 9 }, (_, i) => [17 + 9 * i + (i * 7) % 5, (i * 2.399) % 6.283]);
+  function corona(n) {
+    const c = document.createElement('canvas'); c.width = c.height = n;
+    const g = c.getContext('2d'), img = g.createImageData(n, n), d = img.data, h = n / 2, rs = n / (2 * CR);
+    for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+      const x = (i + 0.5 - h) / rs, y = (h - j - 0.5) / rs, r = Math.hypot(x, y);
+      if (r < 0.95 || r > CR) continue;
+      const ph = Math.atan2(y, x);
+      let st = 0.3;
+      for (const [a, w, A] of STREAM) { const dp = Math.atan2(Math.sin(ph - a), Math.cos(ph - a)); st += A * Math.exp(-dp * dp * r / (w * w)); }
+      let ray = 1; for (const [f, p0] of RAYS) ray += 0.055 * Math.sin(f * ph + p0 + 0.6 * r);
+      const I = (3 * r ** -8 + 1.2 * st * r ** -3) * ray * (1 - smooth(0.7 * CR, CR, r));
+      const o = 4 * (j * n + i); d[o] = 232; d[o + 1] = 236; d[o + 2] = 246; d[o + 3] = 255 * (1 - Math.exp(-1.8 * I));
+    }
+    g.putImageData(img, 0, 0); return c;
+  }
+  // grão da emulsão: ruído fixo, fraco
+  function makeGrain(w, h) {
+    const c = document.createElement('canvas'); c.width = Math.ceil(w / 2); c.height = Math.ceil(h / 2);
+    const g = c.getContext('2d'), img = g.createImageData(c.width, c.height), d = img.data;
+    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    for (let k = 0; k < d.length; k += 4) { d[k] = d[k + 1] = d[k + 2] = 255 * rnd(); d[k + 3] = 16; }
+    g.putImageData(img, 0, 0); return c;
+  }
+  const spr = (() => {
+    const c = document.createElement('canvas'), n = 48, h = n / 2; c.width = c.height = n;
+    const g = c.getContext('2d'), gr = g.createRadialGradient(h, h, 0, h, h, h);
+    gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.22, 'rgba(236,240,255,.9)');
+    gr.addColorStop(0.5, 'rgba(200,210,255,.2)'); gr.addColorStop(1, 'rgba(200,210,255,0)');
+    g.fillStyle = gr; g.fillRect(0, 0, n, n); return c;
+  })();
+  const phase = () => { const u = t % PER; return u < HOLD ? 0 : u < HOLD + FADE ? smooth(HOLD, HOLD + FADE, u) : u < PER - FADE ? 1 : 1 - smooth(PER - FADE, PER, u); };
+  function chip(c, x, y, s, color = COL.text) {
+    c.font = `600 15px ${FONT}`; const W = c.measureText(s).width + 24;
+    c.fillStyle = 'rgba(7,8,14,.66)'; c.beginPath(); c.roundRect(x, y, W, 32, 8); c.fill();
+    c.fillStyle = color; c.textAlign = 'left'; c.textBaseline = 'middle'; c.fillText(s, x + 12, y + 17);
+  }
+  function arrow(c, x0, y0, x1, y1) {
+    const a = Math.atan2(y1 - y0, x1 - x0), L = Math.hypot(x1 - x0, y1 - y0), hd = Math.min(9, 0.45 * L);
+    c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke();
+    c.beginPath(); c.moveTo(x1, y1); c.lineTo(x1 - hd * Math.cos(a - 0.45), y1 - hd * Math.sin(a - 0.45));
+    c.lineTo(x1 - hd * Math.cos(a + 0.45), y1 - hd * Math.sin(a + 0.45)); c.closePath(); c.fill();
+  }
+
+  function draw(m = getMode()) {
+    const { ctx: c, w, h } = fitCanvas(cv);
+    const k = Math.min(w / FIELD[0], h / FIELD[1]);                       // px por ′
+    const X = x => w / 2 + (x - MID[0]) * k, Y = y => h / 2 - (y - MID[1]) * k;
+    const sx = X(0), sy = Y(0), rS = RSUN * k, rM = RMOON * k;
+    const s = m === 'night' ? 0 : m === 'blink' ? phase() : 1, both = m === 'both';
+    const ex = EXS[getEx()], lim = LIMB * +getTh();
+    const shift = st => 1 + lim * RSUN / st.th / 60 * ex / st.th;          // posição no eclipse = noite × isto (radial)
+    c.fillStyle = '#05060a'; c.fillRect(0, 0, w, h);
+    // eclipse: a luz do céu, a coroa e a Lua
+    if (s > 0) {
+      const n = Math.min(720, Math.round(2 * CR * rS * Math.min(2, devicePixelRatio || 1)));
+      if (n !== corN) { cor = corona(n); corN = n; }
+      c.save(); c.globalAlpha = s;
+      const g = c.createRadialGradient(sx, sy, rS, sx, sy, Math.max(w, h) * 0.8);
+      g.addColorStop(0, 'rgba(120,130,160,.12)'); g.addColorStop(1, 'rgba(120,130,160,0)');
+      c.fillStyle = g; c.fillRect(0, 0, w, h);
+      c.drawImage(cor, sx - CR * rS, sy - CR * rS, 2 * CR * rS, 2 * CR * rS);
+      c.fillStyle = '#030305'; c.beginPath(); c.arc(sx, sy, rM, 0, 7); c.fill();
+      c.restore();
+    }
+    // noite: onde o Sol estava em 29 de maio
+    if (s < 1) {
+      c.save(); c.globalAlpha = 1 - s;
+      c.strokeStyle = 'rgba(255,184,107,.6)'; c.lineWidth = 1.5; c.setLineDash([6, 7]);
+      c.beginPath(); c.arc(sx, sy, rS, 0, 7); c.stroke(); c.setLineDash([]);
+      c.fillStyle = 'rgba(255,184,107,.85)'; c.font = `15px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText(T('o Sol em', 'the Sun on'), sx, sy - 10); c.fillText(T('29 de maio', '29 May'), sx, sy + 10);
+      c.restore();
+    }
+    // marcas fixas: as posições da noite, como os círculos da placa
+    c.lineWidth = 1.3; c.strokeStyle = 'rgba(158,140,255,.6)';
+    for (const st of S) {
+      if (st.V > 8.6) continue;
+      c.beginPath(); c.arc(X(st.x), Y(st.y), 7 + 1.3 * (8.6 - st.V), 0, 7); c.stroke();
+    }
+    // setas noite → eclipse
+    if (both) {
+      c.save(); c.strokeStyle = COL.sol; c.fillStyle = COL.sol; c.lineWidth = 1.8;
+      for (const st of S) {
+        if (st.th < RMOON || st.V > 9.6) continue;
+        const f = shift(st), x0 = X(st.x), y0 = Y(st.y), x1 = X(st.x * f), y1 = Y(st.y * f);
+        if (Math.hypot(x1 - x0, y1 - y0) > 5) arrow(c, x0, y0, x1, y1);
+      }
+      c.restore();
+    }
+    // as estrelas
+    c.save(); c.globalCompositeOperation = 'lighter';
+    for (const st of S) {
+      const a = st.th < RMOON ? 1 - s : 1;                               // atrás da Lua de verdade
+      if (a <= 0) continue;
+      const f = 1 + s * (shift(st) - 1), D = 2.2 + 2.1 * (10.6 - st.V);
+      c.globalAlpha = a * Math.min(1, 0.45 + 0.09 * (10.6 - st.V));
+      c.drawImage(spr, X(st.x * f) - D, Y(st.y * f) - D, 2 * D, 2 * D);
+    }
+    c.restore();
+    // nomes, presos às marcas
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'middle';
+    for (const st of S) {
+      if (!st.name) continue;
+      const x = X(st.x), y = Y(st.y), r = 7 + 1.3 * (8.6 - st.V) + 7, right = x < w - 110;
+      c.textAlign = right ? 'left' : 'right'; c.fillText(st.name, x + (right ? r : -r), y);
+    }
+    // grão e vinheta
+    const gk = `${Math.round(w)}x${Math.round(h)}`;
+    if (gk !== grainKey) { grain = makeGrain(w, h); grainKey = gk; }
+    c.drawImage(grain, 0, 0, w, h);
+    const v = c.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.45, w / 2, h / 2, Math.hypot(w, h) / 2);
+    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.5)'); c.fillStyle = v; c.fillRect(0, 0, w, h);
+    // rótulos da chapa
+    if (both) chip(c, 14, 14, T('as duas · setas: noite → eclipse', 'both · arrows: night → eclipse').toUpperCase(), COL.sol);
+    else chip(c, 14, 14, (s < 0.5 ? T('noite · julho de 1919', 'night · July 1919') : T('eclipse · 29 de maio de 1919', 'eclipse · 29 May 1919')).toUpperCase());
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
+    c.fillText(T(`Híades, em Touro · deslocamentos ×${grp(ex)}`, `Hyades, in Taurus · shifts ×${grp(ex)}`), 16, 56);
+    // bússola e escala, no canto de cima
+    const cx = w - 64, cy = 62;
+    c.strokeStyle = COL.text3; c.fillStyle = COL.text3; c.lineWidth = 1.5; c.textAlign = 'center'; c.textBaseline = 'middle';
+    [[rot(0, 1), 'N'], [rot(-1, 0), T('L', 'E')]].forEach(([[dx, dy], lab]) => {
+      arrow(c, cx, cy, cx + 30 * dx, cy - 30 * dy); c.fillText(lab, cx + 44 * dx, cy - 44 * dy);
+    });
+    const bar = 30 * k, bx = w - 18 - bar, by = 132;
+    c.beginPath(); c.moveTo(bx, by); c.lineTo(bx + bar, by); c.moveTo(bx, by - 5); c.lineTo(bx, by + 5); c.moveTo(bx + bar, by - 5); c.lineTo(bx + bar, by + 5); c.stroke();
+    c.textBaseline = 'bottom'; c.fillText('30′', bx + bar / 2, by - 6);
+    const key = `${lim}|${ex}`;
+    if (key !== outKey) {
+      outKey = key;
+      out.innerHTML = `<span>${T('desvio no limbo', 'deflection at the limb')} <b>${fmt(lim, 2)}″</b></span>
+        <span>κ² Tau, ${T('a', 'at')} ${fmt(K2.th / RSUN, 1)} R<sub>☉</sub> <b>${fmt(lim * RSUN / K2.th, 2)}″</b></span>
+        <span>${T('Sobral mediu', 'Sobral measured')} <b>${fmt(1.98, 2)} ± ${fmt(0.12, 2)}″</b></span>
+        <span>${T('na tela', 'on screen')} <b>×${grp(ex)}</b></span>`;
+    }
+  }
+  const still = () => draw(getMode() === 'blink' ? 'both' : getMode());
+  function redraw() { if (reduceMotion || document.body.classList.contains('overview')) still(); else draw(); }
+  loopOn(cv, dt => { t += dt; draw(); }, still);
+  onSlide(cv, () => { if (!cv.closest('.slide').classList.contains('active')) still(); });
+})();
+
 /* Potencial efetivo dos fótons, V = (1 − 1/r)/r², e a órbita com o mesmo b.
    Onde 1/b² < V o raio não entra: ponto de retorno. Pico em r = 1,5 (esfera de fótons),
    V_max = 4/27 → b_c = (3√3/2) R_S. */
