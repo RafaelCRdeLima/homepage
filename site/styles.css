@@ -625,6 +625,16 @@ main {
   margin: 0; font-family: var(--ui); font-size: 0.85rem;
 }
 
+/* um segundo grupo na página de códigos: código de pesquisa, que se instala */
+.prog-secao { margin: 3rem 0 1.2rem; }
+.prog-secao h2 {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 1.3rem + 1.1vw, 2.1rem);
+  font-weight: 400; line-height: 1.1;
+  margin: 0 0 0.5rem;
+}
+.prog-secao p { margin: 0; max-width: 44rem; color: var(--text-2); }
+
 .cta { font-weight: 600; text-decoration: none; }
 .cta::after { content: " →"; font-weight: 400; }
 .cta:hover { text-decoration: underline; }

@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0b12">
 <title>Codes · Rafael C. R. de Lima</title>
-<meta name="description" content="ODEROM, TESSERA, ÁLETRA, PATHS e SUCURI — programas abertos que rodam no navegador.">
+<meta name="description" content="ODEROM, TESSERA, ÁLETRA, PATHS, SUCURI e FAROL — programas abertos que rodam no navegador — e o GHOST, código de pesquisa em oscilação de neutrinos.">
 <meta name="author" content="Rafael Camargo Rodrigues de Lima">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Codes · Rafael C. R. de Lima">
-<meta property="og:description" content="ODEROM, TESSERA, ÁLETRA, PATHS e SUCURI — programas abertos que rodam no navegador.">
+<meta property="og:description" content="ODEROM, TESSERA, ÁLETRA, PATHS, SUCURI e FAROL — programas abertos que rodam no navegador — e o GHOST, código de pesquisa em oscilação de neutrinos.">
 <meta property="og:image" content="https://rafael-lima.pages.dev/rafael-atlas.jpg?v=3">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -184,6 +184,32 @@
         <p lang="en">Pick any of the 4,331 pulsars with a period in the ATNF catalogue and watch the star turn at the rate it was measured — or listen: a low thump for every pulse, at the exact period. When the rotation outruns the screen's refresh rate the image blurs as your eye would see it, and slow motion (1/10 to 1/1000) shows the spin. Alongside, the P–Ṗ diagram and the position in the Galaxy; B, characteristic age and Ė follow from P and Ṗ.</p>
         <p class="prog-links">
           <a class="cta" href="/farol/"><span lang="pt">Abrir no navegador</span><span lang="en">Open in browser</span></a>
+        </p>
+      </div>
+    </article>
+
+    <div class="prog-secao">
+      <h2><span lang="pt">Código de pesquisa</span><span lang="en">Research code</span></h2>
+      <p lang="pt">Também aberto, mas para instalar: roda na linha de comando, numa máquina com compilador.</p>
+      <p lang="en">Open as well, but installed: it runs from the command line, on a machine with a compiler.</p>
+    </div>
+
+    <article class="prog">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+          <path d="M5 24c4-11 8-11 12 0s8 11 12 0 8-11 12 0"/>
+          <path d="M5 24c4 11 8 11 12 0s8-11 12 0 8 11 12 0" opacity=".45"/>
+        </svg>
+      </div>
+      <div class="prog-body">
+        <h3>GHOST</h3>
+        <p class="prog-expand">Graph Hamiltonian Open-System Transport</p>
+        <p lang="pt">Propaga estados de sabor de neutrinos — dois ou três sabores, no vácuo ou na matéria, com ou sem decoerência — calculando <span class="mono">exp(−iHt)|ψ(0)⟩</span> por uma expansão de Chebyshev com produto matriz–vetor esparso. Atravessa perfis de densidade de supernova, em lei de potência ou tabelados, varre espectros inteiros (um espectro tipo DUNE de 200 energias numa chamada) e trata o setor magnético, a precessão de spin de um neutrino com momento magnético. Encaixa no SNEWPY como transformação de sabor: a cadeia SNEWPY → SNOwGLoBES passa a usar a conversão propagada, e não os limites adiabático e não adiabático. É o código do preprint sobre o alargamento numérico da frente de choque.</p>
+        <p lang="en">Propagates neutrino flavour states — two or three flavours, in vacuum or in matter, with or without decoherence — by computing <span class="mono">exp(−iHt)|ψ(0)⟩</span> with a Chebyshev expansion and a sparse matrix–vector product. It crosses supernova density profiles, power-law or tabulated, scans whole spectra (a DUNE-like spectrum of 200 energies in one call), and handles the magnetic sector, the spin precession of a neutrino with a magnetic moment. It plugs into SNEWPY as a flavour transformation, so the SNEWPY → SNOwGLoBES chain uses the propagated conversion rather than the adiabatic and non-adiabatic limits. It is the code behind the preprint on numerical shock broadening.</p>
+        <p class="prog-links">
+          <a class="cta" href="https://github.com/RafaelCRdeLima/GHOST"><span lang="pt">Código no GitHub</span><span lang="en">Code on GitHub</span></a>
+          <a href="https://github.com/RafaelCRdeLima/GHOST/blob/main/docs/apostila/apostila.pdf"><span lang="pt">Manual (PDF)</span><span lang="en">Manual (PDF, in Portuguese)</span></a>
+          <a href="https://arxiv.org/abs/2610.27158"><span lang="pt">Artigo</span><span lang="en">Paper</span> · <span class="mono">arXiv:2610.27158</span></a>
         </p>
       </div>
     </article>
