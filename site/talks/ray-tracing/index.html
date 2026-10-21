@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211500">
+<link rel="stylesheet" href="assets/deck.css?v=202610211700">
 </head>
 <body>
 
@@ -325,7 +325,27 @@
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">Ray tracing de trás para a frente</p><h2>Um pixel, <em>um raio</em></h2></header>
+  <header><p class="eyebrow">A ideia ingênua: da estrela para a câmera</p><h2>Muitos raios, <em>quase nenhum pixel</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .75fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="plots" style="grid-template-columns: 1.25fr 1fr"><div class="cv"><canvas id="rt-fwd"></canvas></div><div class="cv"><canvas id="rt-fwd-image"></canvas></div></div>
+      <div class="readout" id="rt-fwd-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-self: center">
+      <ul class="list" style="gap: 14px">
+        <li class="small">Cada ponto da superfície emite em <b>todas as direções</b>; segue-se cada raio pela geodésica, para fora.</li>
+        <li class="small">Só os que passam pela abertura da câmera viram pixel: aqui, <b>2 em cada 10 000</b>.</li>
+        <li class="small">Para completar esta imagem seriam ~10⁸ raios: horas de conta.</li>
+        <li class="small">Com um telescópio de verdade, 1 m² a 1 kpc, chega <b>1 fóton em cada 10⁴⁰</b>.</li>
+      </ul>
+      <p class="ref" style="margin: 0">Contagem em 3D: ponto uniforme na superfície, direção isotrópica para fora, geodésica exata até a câmera, a 13 R<sub>S</sub>. Desenhada, só uma amostra no plano; os raios que entram na câmera aparecem todos.</p>
+    </div>
+  </div>
+  <aside class="notes">Antes do método, a ideia que qualquer um teria: fazer como a natureza. Cada ponto da superfície emite luz em todas as direções; seguimos cada raio pela geodésica e vemos onde ele vai parar. O problema é que quase nenhum vai parar na câmera. Aqui a câmera está pertinho, a 13 raios de Schwarzschild, e mesmo assim só uns 2 em cada 10 000 raios entram nela — exatamente a fração da esfera que a abertura cobre. À direita, o que a câmera juntou: um pixel aceso de vez em quando. Para completar uma imagem de 56 por 56 pixels seriam uns 10⁸ raios, horas de conta. E com um telescópio de verdade, um metro quadrado a um quiloparsec, é um fóton em cada 10⁴⁰. Daí a ideia do próximo slide: fazer o caminho ao contrário.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">O método: da câmera para a estrela</p><h2>Um pixel, <em>um raio</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.45fr .75fr; gap: 40px">
     <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
       <div class="plots" style="grid-template-columns: 1.25fr 1fr"><div class="cv"><canvas id="rt-side"></canvas></div><div class="cv"><canvas id="rt-image"></canvas></div></div>
@@ -333,15 +353,15 @@
     </div>
     <div class="stack" style="gap: 16px; align-self: center">
       <ul class="list" style="gap: 14px">
-        <li class="small">Cada pixel da imagem é um raio que <b>chega</b> ao observador. Seu parâmetro de impacto <i>b</i> é a distância ao centro da imagem.</li>
-        <li class="small">Integra-se a geodésica <b>de volta</b>: o raio escapa para o céu ou acerta a superfície num ponto, com um ângulo α.</li>
+        <li class="small">Os raios saem da <b>câmera</b>, um por pixel: o caminho da luz percorrido ao contrário. A direção do pixel dá o parâmetro de impacto <i>b</i>.</li>
+        <li class="small">Integra-se a geodésica até o raio escapar para o céu ou acertar a superfície num ponto, com um ângulo α.</li>
         <li class="small">A cor do pixel é a do ponto de onde a luz saiu — corrigida por redshift e pelo ângulo de emissão.</li>
-        <li class="small">Raios que nunca chegariam ao telescópio nunca são calculados: é isso que torna o método eficiente.</li>
+        <li class="small">Todo raio calculado vira pixel: <b>3 136 raios, 3 136 pixels</b>, contra os 10⁸ do slide anterior.</li>
       </ul>
-      <p class="ref" style="margin: 0">Na simetria esférica, ψ depende só de <i>b</i>: basta uma tabela ψ(<i>b</i>), calculada uma vez, para todos os pixels.</p>
+      <p class="ref" style="margin: 0">Na simetria esférica, ψ depende só de <i>b</i>: basta uma tabela ψ(<i>b</i>), calculada uma vez, para todos os pixels. Cada raio é girado para o plano do desenho.</p>
     </div>
   </div>
-  <aside class="notes">Como se faz, na prática. Começa-se pelo telescópio, não pela estrela. Cada pixel da imagem é um raio que chega; o parâmetro de impacto é a distância do pixel ao centro. Integra-se esse raio para trás: ou ele escapa, e o pixel é céu, ou acerta a superfície num ponto, com um ângulo de emissão. A cor do pixel é a do ponto de origem. À esquerda, o raio do pixel atual visto de lado; à direita, a imagem se formando linha a linha. Numa métrica esférica o ângulo ψ só depende de b, então uma tabela ψ(b) resolve todos os pixels — é o que os laboratórios da minha página usam, e o que o painel do próximo slide faz em tempo real.</aside>
+  <aside class="notes">Como se faz, na prática. Começa-se pela câmera, não pela estrela: de cada pixel sai um raio, que percorre ao contrário o caminho que a luz faria; a direção do pixel dá o parâmetro de impacto. Integra-se esse raio: ou ele escapa, e o pixel é céu, ou acerta a superfície num ponto, com um ângulo de emissão, e o pixel ganha a cor desse ponto. À esquerda, os raios saindo da câmera, primeiro um a um, depois às centenas; à direita, a imagem se formando. Todo raio calculado vira pixel: 3 136 raios para 3 136 pixels, contra os 10⁸ do slide anterior. Numa métrica esférica o ângulo ψ só depende de b, então uma tabela ψ(b) resolve todos os pixels — é o que os laboratórios da minha página usam, e o que o painel do próximo slide faz em tempo real.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1200,12 +1220,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211500"></script>
-<script src="assets/ppdot.js?v=202610211500"></script>
-<script src="assets/dash.js?v=202610211500"></script>
-<script src="assets/dash-reuso.js?v=202610211500"></script>
-<script src="assets/dash-ns.js?v=202610211500"></script>
-<script src="assets/dash-res.js?v=202610211500"></script>
+<script src="assets/deck.js?v=202610211700"></script>
+<script src="assets/ppdot.js?v=202610211700"></script>
+<script src="assets/dash.js?v=202610211700"></script>
+<script src="assets/dash-reuso.js?v=202610211700"></script>
+<script src="assets/dash-ns.js?v=202610211700"></script>
+<script src="assets/dash-res.js?v=202610211700"></script>
 <script>Deck.start();</script>
 </body>
 </html>

@@ -81,6 +81,15 @@ const bbColor = (() => {
 })();
 const specColor = l => xyz2rgb(CMF(l));
 const rgbs = (c, a = 1) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+/* texto no canvas com subscritos de uma letra: “r_s”, “R_S” (usa a fonte e a cor correntes) */
+function subText(c, s, x, y, size, align = 'left') {
+  const parts = s.split(/_(\w)/), f0 = c.font, f1 = f0.replace(/(\d+)px/, (_, n) => Math.round(n * 0.7) + 'px'), al = c.textAlign;
+  let W = 0; parts.forEach((q, i) => { c.font = i % 2 ? f1 : f0; W += c.measureText(q).width; });
+  let x0 = align === 'right' ? x - W : align === 'center' ? x - W / 2 : x;
+  c.textAlign = 'left';
+  parts.forEach((q, i) => { c.font = i % 2 ? f1 : f0; c.fillText(q, x0, y + (i % 2 ? 0.3 * size : 0)); x0 += c.measureText(q).width; });
+  c.font = f0; c.textAlign = al;
+}
 
 
 /* ====================== PARTE I · RAY TRACING ======================
@@ -566,14 +575,6 @@ const RT = (() => {
   const p3 = v => String(+v.toPrecision(3)).replace('.', DEC);
   const len = v => v >= 1e3 ? (v >= 1e5 ? grp(v / 1e3) : p3(v / 1e3)) + ' km' : v >= 1 ? p3(v) + ' m' : v >= 0.01 ? p3(v * 100) + ' cm' : p3(v * 1e3) + ' mm';
   const small = v => v < 1e-3 ? sci(v, 2) : p3(v);
-  function subt(c, s, x, y, size, align = 'left') {                         // texto com subscritos de uma letra: “r_s”
-    const parts = s.split(/_(\w)/), f0 = c.font, f1 = f0.replace(/(\d+)px/, (_, n) => Math.round(n * 0.7) + 'px'), al = c.textAlign;
-    let W = 0; parts.forEach((q, i) => { c.font = i % 2 ? f1 : f0; W += c.measureText(q).width; });
-    let x0 = align === 'right' ? x - W : align === 'center' ? x - W / 2 : x;
-    c.textAlign = 'left';
-    parts.forEach((q, i) => { c.font = i % 2 ? f1 : f0; c.fillText(q, x0, y + (i % 2 ? 0.3 * size : 0)); x0 += c.measureText(q).width; });
-    c.font = f0; c.textAlign = al;
-  }
   const dur = s => s < 1e-3 ? p3(s * 1e6) + ' μs' : s < 1 ? p3(s * 1e3) + ' ms' : s < 60 ? p3(s) + ' s' : s < 3600 ? p3(s / 60) + ' min' : p3(s / 3600) + ' h';
   const deflect = x => {                     // desvio exato de um raio rasante à superfície r = R (r_s = 1)
     const R = 1 / x; if (R <= 1.5) return Infinity;
@@ -615,7 +616,7 @@ const RT = (() => {
     [[1e-10, 1e-5, T('Newton basta', 'Newton is enough'), 'rgba(255,255,255,.03)'], [1e-5, 0.05, T('correções pós-newtonianas', 'post-Newtonian corrections'), 'rgba(158,140,255,.06)'], [0.05, 1.5, T('RG plena', 'full GR'), 'rgba(158,140,255,.16)']]
       .forEach(([a, b, t, f]) => { c.fillStyle = f; c.fillRect(P.X(a), P.T, P.X(b) - P.X(a), P.B - P.T); P.text(Math.sqrt(a * b), 0.8, t, { color: COL.text3, align: 'center', size: 15 }); });
     P.frame(null, null);
-    c.font = `16px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'middle'; subt(c, 'r_s / R', P.L - 14, (P.T + P.B) / 2, 16, 'right');
+    c.font = `16px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'middle'; subText(c, 'r_s / R', P.L - 14, (P.T + P.B) / 2, 16, 'right');
     OBJ.forEach((o, i) => { if (i !== sel) P.dot(o.rs / o.R, 0.3, { color: COL.text3, r: 4, glow: 0 }); });
     const o = OBJ[sel];
     P.dot(o.rs / o.R, 0.3, { color: COL.rt, r: 8, glow: 18 });
@@ -663,11 +664,11 @@ const RT = (() => {
     }
     const ra = Math.max(rp, 9), lx = cx - ra - 14;
     c.strokeStyle = 'rgba(158,140,255,.8)'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(cx - ra, cy); c.lineTo(lx + 4, cy); c.stroke();
-    c.fillStyle = COL.rt; subt(c, `r_s = ${len(o.rs)}`, lx, cy, 16, 'right');
+    c.fillStyle = COL.rt; subText(c, `r_s = ${len(o.rs)}`, lx, cy, 16, 'right');
     // a legenda, quando o zoom termina
     const fin = smooth(HOLD0 + ZT - 0.4, HOLD0 + ZT + 0.3, tz);
     c.font = `600 18px ${FONT}`; c.fillStyle = COL.text; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(o.n, 12, 10);
-    if (fin > 0) { c.globalAlpha = fin; c.font = `16px ${FONT}`; c.fillStyle = COL.text2; subt(c, o.cap, 12, 36, 16); c.globalAlpha = 1; }
+    if (fin > 0) { c.globalAlpha = fin; c.font = `16px ${FONT}`; c.fillStyle = COL.text2; subText(c, o.cap, 12, 36, 16); c.globalAlpha = 1; }
     // escala e zoom
     const tgt = w * 0.2 / S, e10 = 10 ** Math.floor(Math.log10(tgt)), L = [5, 2, 1].map(f => f * e10).find(v => v <= tgt), bl = L * S, by = h - 16;
     c.strokeStyle = COL.text2; c.lineWidth = 1.5; c.beginPath(); c.moveTo(14, by); c.lineTo(14 + bl, by); c.moveTo(14, by - 5); c.lineTo(14, by + 5); c.moveTo(14 + bl, by - 5); c.lineTo(14 + bl, by + 5); c.stroke();
@@ -722,88 +723,242 @@ const RT = (() => {
   onSlide(cv, draw);
 })();
 
-/* Ray tracing de trás para a frente, animado: cada pixel é um raio que chega ao observador;
-   à esquerda, o raio do pixel atual visto de lado (no plano que contém a linha de visada e o
-   pixel); à direita, a imagem se formando em ordem de varredura. Estrela de R = 2,42 R_S
-   (1,4 M☉ e 10 km), eixo de rotação inclinado de 60°. */
-(() => {
-  const cv = document.getElementById('rt-side'); if (!cv) return;
-  const cvI = document.getElementById('rt-image'), out = document.getElementById('rt-out');
-  const R = 2.42, INC = 60 * Math.PI / 180, S = 56, FIELD = 1.25;      // pixels por lado; campo = 1,25 b_max
-  const Tb = RT.table(R), map = RT.pixelMap(S, R, 'exact', INC);
-  const img = new ImageData(S, S), buf = document.createElement('canvas'); buf.width = buf.height = S;
-  RT.paint(img, map, 0.4, { w: 0.06 });
-  const full = new Uint8ClampedArray(img.data);                        // a imagem pronta; revelamos aos poucos
-  const shown = new ImageData(S, S);
-  let k = 0, hold = 0, trail = [];
-  const PIX_S = 30;                                                     // pixels por segundo no começo; acelera até ~1 800/s (imagem pronta em ~7 s)
-  function pixelInfo(idx) {
-    const i = idx % S, j = Math.floor(idx / S), px = ((i + 0.5) / S * 2 - 1) * FIELD, py = (1 - (j + 0.5) / S * 2) * FIELD;
-    const q = Math.hypot(px, py), b = q * Tb.bmax;
-    return { i, j, px, py, q, b };
+/* Os dois slides de ray tracing: a ideia ingênua (da estrela para a câmera) e o método (da câmera para
+   a estrela). Mesma estrela de sempre, R = 2,42 R_S (1,4 M☉ e 10 km), eixo inclinado de 60°, e uma câmera
+   pontual parada em r = D = 13 R_S, com abertura de raio A = 0,35 R_S. Um raio que sai da câmera a um
+   ângulo θ do centro da estrela tem b = D sen θ / √(1 − 1/D); se b ≤ b_max ele acerta a superfície depois
+   de varrer ψ_D(b) = ∫ du/√(1/b² − u²(1 − u)), de 1/D a 1/R — o mesmo ângulo que a luz varre, no sentido
+   contrário, da superfície até a câmera. A imagem é o mapa inverso com esse ψ_D. */
+const CAM = (() => {
+  const R = 2.42, D = 13, A = 0.35, INC = 60 * deg, S = 56, FIELD = 1.25;
+  const U = 1 / R, U0 = 1 / D, bmax = R / Math.sqrt(1 - U), kD = Math.sqrt(1 - U0);
+  const thMax = Math.asin(bmax * kD / D), thF = FIELD * thMax;          // raio angular da estrela e do campo
+  function psiD(b) {                                                    // u = U − (U − U0) t²: regular no raio rasante
+    if (b <= 0) return 0;
+    const ib2 = 1 / (b * b), N = 360; let s = 0;
+    for (let k = 0; k < N; k++) { const t = (k + 0.5) / N, u = U - (U - U0) * t * t, g = ib2 - u * u * (1 - u); s += 2 * (U - U0) * t / Math.sqrt(Math.max(g, 1e-300)) / N; }
+    return s;
   }
-  function reveal(n) {
-    for (let t = 0; t < n && k < S * S; t++, k++) {
-      const { px, py, q } = pixelInfo(k), o = k * 4;
-      if (q <= 1) {
-        // índice correspondente no mapa (que cobre só o disco aparente)
-        const ii = Math.floor(((px + 1) / 2) * S), jj = Math.floor(((1 - py) / 2) * S), m = (jj * S + ii) * 4;
-        shown.data[o] = full[m]; shown.data[o + 1] = full[m + 1]; shown.data[o + 2] = full[m + 2]; shown.data[o + 3] = 255;
-      } else { shown.data[o] = 12; shown.data[o + 1] = 14; shown.data[o + 2] = 26; shown.data[o + 3] = 255; }
+  const TB = { n: 361, psi: new Float64Array(361) };
+  for (let i = 0; i < TB.n; i++) TB.psi[i] = psiD(Math.sin(i / (TB.n - 1) * Math.PI / 2) * bmax);
+  const psiQ = q => RT.psiAt(TB, q);                                    // q = b/b_max = sen α na superfície
+  const bOf = th => D * Math.sin(th) / kD, thOf = b => Math.asin(Math.min(1, b * kD / D));
+  // pixel k ↔ direção na câmera: ângulo θ ao centro da estrela e direção ê no plano da imagem
+  const pixDir = k => { const i = k % S, j = Math.floor(k / S), px = (i + 0.5) / S * 2 - 1, py = 1 - (j + 0.5) / S * 2, r = Math.hypot(px, py); return { i, j, th: r * thF, ex: px / r, ey: py / r }; };
+  const pixOf = (th, ex, ey) => { const i = Math.floor((th / thF * ex + 1) / 2 * S), j = Math.floor((1 - th / thF * ey) / 2 * S); return i >= 0 && i < S && j >= 0 && j < S ? j * S + i : -1; };
+  // a imagem pronta: o mapa inverso com ψ_D, pintado como as outras estrelas; céu escuro fora do disco
+  const map = { S, nx: new Float32Array(S * S), ny: new Float32Array(S * S), nz: new Float32Array(S * S), ok: new Uint8Array(S * S) };
+  const si = Math.sin(INC), ci = Math.cos(INC);
+  for (let k = 0; k < S * S; k++) {
+    const { th, ex, ey } = pixDir(k), q = bOf(th) / bmax;
+    if (q > 1) continue;
+    const p = psiQ(q), sp = Math.sin(p), oy = sp * ey, oz = Math.cos(p);
+    map.nx[k] = sp * ex; map.ny[k] = oy * ci - oz * si; map.nz[k] = oy * si + oz * ci; map.ok[k] = 1;
+  }
+  const full = new ImageData(S, S); RT.paint(full, map, 0.4, { w: 0.06 });
+  for (let k = 0; k < S * S; k++) if (!map.ok[k]) full.data.set([12, 14, 26, 255], 4 * k);
+  /* geodésica no plano (RK4 em φ, u = 1/r) a partir de (1/u0, 0), com du/dφ = v0: para ao tocar a superfície
+     indo para dentro, ao passar de rOut indo para fora (os dois pontos interpolados) ou depois de 1,5 volta.
+     Devolve os pontos em R_S e o comprimento acumulado, para animar a cabeça a velocidade constante. */
+  function trace(u0, v0, rOut) {
+    const f = x => -x + 1.5 * x * x, uOut = 1 / rOut, pts = [[1 / u0, 0]];
+    let u = u0, v = v0, phi = 0, end = 'escape';
+    for (let k = 0; k < 8000; k++) {
+      const h = Math.min(0.01, 0.008 / Math.max(Math.abs(v), 1e-9));
+      const k1u = v, k1v = f(u), k2u = v + 0.5 * h * k1v, k2v = f(u + 0.5 * h * k1u), k3u = v + 0.5 * h * k2v, k3v = f(u + 0.5 * h * k2u), k4u = v + h * k3v, k4v = f(u + h * k3u);
+      const un = u + h / 6 * (k1u + 2 * k2u + 2 * k3u + k4u), vn = v + h / 6 * (k1v + 2 * k2v + 2 * k3v + k4v);
+      if (un >= U && v > 0) { const p = phi + h * (U - u) / (un - u); pts.push([R * Math.cos(p), R * Math.sin(p)]); end = 'hit'; break; }
+      if (un <= uOut && v < 0) { const p = phi + h * (u - uOut) / (u - un); pts.push([rOut * Math.cos(p), rOut * Math.sin(p)]); break; }
+      u = un; v = vn; phi += h;
+      if (phi > 3 * Math.PI) { end = 'orbit'; break; }
+      pts.push([Math.cos(phi) / u, Math.sin(phi) / u]);
     }
+    return withLen({ pts, end });
   }
-  function render() {
-    const cur = pixelInfo(Math.min(k, S * S - 1)), b = cur.b;
-    // lado: o raio do pixel atual
-    const { ctx: c, w, h } = fitCanvas(cv), sc = Math.min(w / 16, h / 9.5), cx = w * 0.28, cy = h * 0.55;
-    c.fillStyle = 'rgba(255,255,255,.04)'; c.fillRect(w - 26, 10, 14, h - 20);
-    c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'right'; c.textBaseline = 'top';
-    c.fillText(T('tela do observador →', 'observer’s screen →'), w - 34, 10);
+  function withLen(r) { const c = [0]; for (let i = 1; i < r.pts.length; i++) c.push(c[i - 1] + Math.hypot(r.pts[i][0] - r.pts[i - 1][0], r.pts[i][1] - r.pts[i - 1][1])); r.cum = c; r.len = c[c.length - 1]; return r; }
+  const fromCam = b => b < 1e-4 ? withLen({ pts: [[D, 0], [R, 0]], end: 'hit' }) : trace(U0, Math.sqrt(Math.max(1 / (b * b) - U0 * U0 * (1 - U0), 0)), 40);
+  const fromSurf = (b, rOut = 40) => b < 1e-4 ? withLen({ pts: [[R, 0], [rOut, 0]], end: 'escape' }) : trace(U, -Math.sqrt(Math.max(1 / (b * b) - U * U * (1 - U), 0)), rOut);
+  // o mesmo caminho, espelhado (s = −1) e girado de φ0
+  const place = (r, s, phi0) => { const c = Math.cos(phi0), n = Math.sin(phi0); return { ...r, pts: r.pts.map(([x, y]) => [x * c - s * y * n, x * n + s * y * c]) }; };
+  /* o desenho de lado: estrela à esquerda, câmera em x = D, olhando para ela */
+  function scene(c, w, h) {
+    const sc = Math.min((w - 74) / (D + 4.2), h / 11), cx = 14 + 3.4 * sc, cy = h / 2;
+    const X = x => cx + x * sc, Y = y => cy - y * sc;
     const g = c.createRadialGradient(cx, cy, R * sc * 0.6, cx, cy, R * sc * 1.4); g.addColorStop(0, 'rgba(158,140,255,.25)'); g.addColorStop(1, 'rgba(158,140,255,0)');
     c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R * sc * 1.4, 0, 7); c.fill();
     c.fillStyle = '#2a2f45'; c.beginPath(); c.arc(cx, cy, R * sc, 0, 7); c.fill();
     c.strokeStyle = 'rgba(190,180,255,.6)'; c.lineWidth = 1.5; c.stroke();
     c.setLineDash([4, 6]); c.strokeStyle = 'rgba(255,255,255,.18)'; c.beginPath(); c.arc(cx, cy, 1.5 * sc, 0, 7); c.stroke(); c.setLineDash([]);
-    const drawRay = (bb, col, lw) => {
-      const o = RT.orbit(bb, R, 30, 0.006);
-      c.strokeStyle = col; c.lineWidth = lw; c.beginPath();
-      o.pts.forEach(([x, y], n) => { const X = cx + x * sc, Y = cy - y * sc; n ? c.lineTo(X, Y) : c.moveTo(X, Y); });
-      c.stroke(); return o;
-    };
-    c.save(); c.beginPath(); c.rect(0, 0, w - 26, h); c.clip();
-    trail.forEach((bb, n) => drawRay(bb, `rgba(158,140,255,${(0.06 + 0.25 * n / trail.length).toFixed(3)})`, 1));
-    const o = drawRay(b, b <= Tb.bmax ? COL.sol : COL.psr, 2.6);
-    c.restore();
-    if (o.end === 'hit') { const [x, y] = o.pts[o.pts.length - 1]; c.fillStyle = '#fff'; c.shadowColor = COL.sol; c.shadowBlur = 14; c.beginPath(); c.arc(cx + x * sc, cy - y * sc, 5, 0, 7); c.fill(); c.shadowBlur = 0; }
-    c.fillStyle = '#fff'; c.beginPath(); c.arc(w - 19, cy - Math.min(b, 8.5) * sc, 4, 0, 7); c.fill();
-    c.textAlign = 'left'; c.textBaseline = 'bottom'; c.fillStyle = COL.text3;
-    c.fillText(T('estrela de nêutrons · R = 2,42 R_S', 'neutron star · R = 2.42 R_S').replace('2,42', fmt(2.42, 2)), 10, h - 8);
-    // imagem
-    const { ctx: d, w: w2, h: h2 } = fitCanvas(cvI), side = Math.min(w2, h2) - 20, ox = (w2 - side) / 2, oy = (h2 - side) / 2;
-    buf.getContext('2d').putImageData(shown, 0, 0);
-    d.imageSmoothingEnabled = false; d.drawImage(buf, ox, oy, side, side);
-    if (k < S * S) { const cell = side / S; d.strokeStyle = '#fff'; d.lineWidth = 2; d.strokeRect(ox + cur.i * cell, oy + cur.j * cell, cell, cell); }
-    d.strokeStyle = 'rgba(255,255,255,.15)'; d.lineWidth = 1; d.strokeRect(ox, oy, side, side);
-    d.font = `15px ${FONT}`; d.fillStyle = COL.text3; d.textAlign = 'left'; d.textBaseline = 'top';
-    d.fillText(T('a imagem, pixel a pixel', 'the image, pixel by pixel'), ox + 6, oy + 6);
-    const hit = cur.q <= 1;
-    const psi = hit ? RT.psiAt(Tb, cur.q) : NaN;
-    out.innerHTML = `<span>pixel <b>(${cur.i}, ${cur.j})</b></span><span>b <b>${fmt(b, 2)} R<sub>S</sub></b></span>
-      <span>${hit ? `${T('acerta a superfície', 'hits the surface')} · α <b>${fmt(Math.asin(cur.q) * 180 / Math.PI, 0)}°</b> · ψ <b>${fmt(psi * 180 / Math.PI, 0)}°</b>` : `<b>${T('escapa: céu', 'escapes: sky')}</b>`}</span>
-      <span>${T('pronto', 'done')} <b>${Math.round(100 * Math.min(k, S * S) / (S * S))}%</b></span>`;
+    // a câmera: abertura (raio A) em x = D, corpo atrás
+    const ax = X(D), ah = A * sc;
+    c.fillStyle = '#1b2030'; c.strokeStyle = 'rgba(255,255,255,.45)'; c.lineWidth = 1.5;
+    c.beginPath(); c.moveTo(ax, cy - ah); c.lineTo(ax + 12, cy - 15); c.lineTo(ax + 12, cy + 15); c.lineTo(ax, cy + ah); c.closePath(); c.fill(); c.stroke();
+    c.beginPath(); c.roundRect(ax + 12, cy - 17, 40, 34, 5); c.fill(); c.stroke();
+    c.strokeStyle = COL.text; c.lineWidth = 2.5; c.beginPath(); c.moveTo(ax, cy - ah); c.lineTo(ax, cy + ah); c.stroke();
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text3; c.textAlign = 'center'; c.textBaseline = 'top';
+    c.fillText(T('câmera', 'camera'), ax + 26, cy + 24);
+    c.textBaseline = 'bottom';
+    subText(c, T(`estrela de nêutrons · R = ${fmt(R, 2)} R_S · câmera a ${D} R_S`, `neutron star · R = ${fmt(R, 2)} R_S · camera at ${D} R_S`), 10, h - 12, 15);
+    return { X, Y, sc };
   }
-  let acc = 0;
+  /* um raio até a fração f do comprimento; tail > 0 desenha só o trecho final (um “cometa”) */
+  function stroke(c, P, r, f, color, width, tail = 0, head = 0) {
+    const L = f * r.len, L0 = tail ? Math.max(0, L - tail) : 0, p = r.pts, cum = r.cum;
+    let i = 0; while (i < p.length - 1 && cum[i + 1] <= L0) i++;
+    const at = (j, s) => { const t = (s - cum[j]) / Math.max(cum[j + 1] - cum[j], 1e-9); return [P.X(p[j][0] + t * (p[j + 1][0] - p[j][0])), P.Y(p[j][1] + t * (p[j + 1][1] - p[j][1]))]; };
+    c.strokeStyle = color; c.lineWidth = width; c.lineCap = 'round'; c.beginPath();
+    let [x, y] = p.length > 1 ? at(i, L0) : [P.X(p[0][0]), P.Y(p[0][1])]; c.moveTo(x, y);
+    for (; i < p.length - 1 && cum[i + 1] < L; i++) c.lineTo(P.X(p[i + 1][0]), P.Y(p[i + 1][1]));
+    if (i < p.length - 1) [x, y] = at(i, L); else [x, y] = [P.X(p[p.length - 1][0]), P.Y(p[p.length - 1][1])];
+    c.lineTo(x, y); c.stroke();
+    if (head) { c.fillStyle = '#fff'; c.shadowColor = color; c.shadowBlur = 10; c.beginPath(); c.arc(x, y, head, 0, 7); c.fill(); c.shadowBlur = 0; }
+  }
+  // o painel da imagem: o ImageData ampliado, com moldura
+  function image(cv, img, buf, title) {
+    const { ctx: d, w, h } = fitCanvas(cv), side = Math.min(w, h) - 20, ox = (w - side) / 2, oy = (h - side) / 2;
+    buf.getContext('2d').putImageData(img, 0, 0);
+    d.imageSmoothingEnabled = false; d.drawImage(buf, ox, oy, side, side);
+    d.strokeStyle = 'rgba(255,255,255,.15)'; d.lineWidth = 1; d.strokeRect(ox, oy, side, side);
+    d.font = `15px ${FONT}`; d.fillStyle = COL.text3; d.textAlign = 'left'; d.textBaseline = 'top'; d.fillText(title, ox + 6, oy + 6);
+    return { d, ox, oy, side, cell: side / S };
+  }
+  return { R, D, A, S, bmax, thMax, thF, psiQ, bOf, thOf, pixDir, pixOf, full, ok: map.ok, fromCam, fromSurf, place, scene, stroke, image };
+})();
+
+/* Da estrela para a câmera, a ideia ingênua: cada ponto da superfície emite em todas as direções e segue-se
+   cada raio. A contagem é em 3D, RATE raios por segundo: ponto uniforme na esfera, direção isotrópica para
+   fora (cos α uniforme); o raio cruza r = D a ψ_D(b) do ponto de partida, no plano (n̂, t̂), e entra na câmera
+   se cair a menos de A/D do eixo — 1,8×10⁻⁴ dos raios, a fração da esfera que a abertura cobre, como deve
+   ser. Quem entra acende o pixel da sua direção de chegada (θ de b, ê da projeção de n̂). Os raios desenhados
+   são uma amostra no plano do desenho; os que entram na câmera aparecem todos, com o caminho exato até ela. */
+(() => {
+  const cv = document.getElementById('rt-fwd'); if (!cv) return;
+  const cvI = document.getElementById('rt-fwd-image'), out = document.getElementById('rt-fwd-out');
+  const { S, D, A, bmax } = CAM, RATE = 4000, VIS = 14, SPEED = 13, cosAp = Math.cos(A / D);   // raios/s contados e desenhados; R_S/s
+  const NDISK = CAM.ok.reduce((s, v) => s + v, 0), FRAC = (1 - cosAp) / 2;
+  const canon = Array.from({ length: 46 }, (_, i) => CAM.fromSurf(bmax * Math.sin(2 * i * deg)));   // para fora, α de 0 a 90°
+  const shown = new ImageData(S, S), buf = document.createElement('canvas'); buf.width = buf.height = S;
+  const litMask = new Uint8Array(S * S);
+  let seed = 1, N = 0, hits = 0, lit = 0, acc = 0, accV = 0, t = 0, fly = [], glow = [];
+  const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+  function reset() { seed = 1; N = hits = lit = acc = accV = t = 0; fly = []; glow = []; litMask.fill(0); shown.data.fill(0); for (let k = 0; k < S * S; k++) shown.data.set([7, 8, 14, 255], 4 * k); }
+  function emit() {                                                     // um raio em 3D; devolve o que a câmera recebe, ou nada
+    const z = 2 * rnd() - 1, ph = 2 * Math.PI * rnd(), sq = Math.sqrt(1 - z * z), n = [sq * Math.cos(ph), sq * Math.sin(ph), z];
+    const ca = rnd(), sa = Math.sqrt(1 - ca * ca), be = 2 * Math.PI * rnd();
+    const a = Math.abs(n[2]) < 0.9 ? [0, 0, 1] : [1, 0, 0];
+    let e1 = [a[1] * n[2] - a[2] * n[1], a[2] * n[0] - a[0] * n[2], a[0] * n[1] - a[1] * n[0]]; const l = Math.hypot(...e1); e1 = e1.map(v => v / l);
+    const e2 = [n[1] * e1[2] - n[2] * e1[1], n[2] * e1[0] - n[0] * e1[2], n[0] * e1[1] - n[1] * e1[0]];
+    const tz = Math.cos(be) * e1[2] + Math.sin(be) * e2[2], ps = CAM.psiQ(sa);
+    if (Math.cos(ps) * n[2] + Math.sin(ps) * tz < cosAp) return null;
+    const b = bmax * sa, pe = Math.hypot(n[0], n[1]) || 1;
+    return { b, k: CAM.pixOf(CAM.thOf(b), n[0] / pe, n[1] / pe), up: n[1] >= 0 };
+  }
   function tick(dt) {
-    if (k < S * S) {
-      // começa devagar (dá para seguir os raios) e acelera
-      const rate = PIX_S * (1 + 60 * k / (S * S));
-      acc += dt * rate; const n = Math.floor(acc); acc -= n;
-      if (n > 0) { reveal(n); trail.push(pixelInfo(Math.min(k, S * S - 1)).b); if (trail.length > 14) trail.shift(); }
-    } else { hold += dt; if (hold > 3) { hold = 0; k = 0; trail = []; shown.data.fill(0); } }
+    t += dt;
+    acc += dt * RATE; const m = Math.floor(acc); acc -= m;
+    for (let i = 0; i < m; i++) {
+      N++; const h = emit(); if (!h) continue;
+      hits++;
+      const r = CAM.fromSurf(h.b, D), end = r.pts[r.pts.length - 1], psi = Math.atan2(end[1], end[0]);
+      fly.push({ ...CAM.place(r, h.up ? -1 : 1, h.up ? psi : -psi), t0: t, dur: r.len / SPEED, life: r.len / SPEED + 2.5, hit: true, k: h.k, done: false });
+    }
+    accV += dt * VIS;
+    for (; accV >= 1; accV--) {                                         // a amostra desenhada, em 2D
+      const al = (2 * rnd() - 1) * 90, r = canon[Math.round(Math.abs(al) / 2)];
+      fly.push({ ...CAM.place(r, al < 0 ? -1 : 1, 2 * Math.PI * rnd()), t0: t, dur: r.len / SPEED, life: 18 / SPEED, hit: false });   // some do quadro bem antes do fim
+    }
+    for (const r of fly) if (r.hit && !r.done && t - r.t0 >= r.dur) {
+      r.done = true;
+      if (r.k >= 0) { const o = 4 * r.k; if (!litMask[r.k] && CAM.ok[r.k]) lit++; litMask[r.k] = 1; shown.data.set(CAM.full.data.subarray(o, o + 4), o); glow.push({ k: r.k, t0: t }); }
+    }
+    fly = fly.filter(r => t - r.t0 < r.life);
+    glow = glow.filter(g => t - g.t0 < 2);
     render();
   }
-  loopOn(cv, tick, () => { reveal(S * S); render(); });
-  onSlide(cv, () => { if (!cv.closest('.slide').classList.contains('active')) render(); });
+  function render() {
+    const { ctx: c, w, h } = fitCanvas(cv), P = CAM.scene(c, w, h);
+    for (const r of fly) {
+      const f = Math.min(1, (t - r.t0) / r.dur);
+      if (r.hit) {
+        const fade = 1 - smooth(r.dur + 1.5, r.dur + 2.5, t - r.t0);
+        CAM.stroke(c, P, r, f, `rgba(255,214,150,${(0.9 * fade).toFixed(3)})`, 2.6, 0, f < 1 ? 4 : 0);
+        if (f >= 1 && fade > 0) { c.strokeStyle = `rgba(255,214,150,${fade.toFixed(3)})`; c.lineWidth = 2; c.beginPath(); c.arc(P.X(D), P.Y(0), 10 + 14 * (1 - fade), 0, 7); c.stroke(); }
+      } else CAM.stroke(c, P, r, f, 'rgba(255,184,107,.55)', 1.6, 3.5, 2);
+    }
+    const im = CAM.image(cvI, shown, buf, T('o que a câmera juntou', 'what the camera collected'));
+    const rr = CAM.thMax / CAM.thF * im.side / 2;
+    im.d.strokeStyle = 'rgba(158,140,255,.35)'; im.d.setLineDash([4, 6]); im.d.beginPath(); im.d.arc(im.ox + im.side / 2, im.oy + im.side / 2, rr, 0, 7); im.d.stroke(); im.d.setLineDash([]);
+    im.d.strokeStyle = 'rgba(255,184,107,.75)'; im.d.lineWidth = 1.2;                  // os pixels acesos, marcados (os escuros sumiriam no preto)
+    for (let k = 0; k < S * S; k++) if (litMask[k]) im.d.strokeRect(im.ox + (k % S) * im.cell, im.oy + Math.floor(k / S) * im.cell, im.cell, im.cell);
+    for (const g of glow) {
+      const a = 1 - (t - g.t0) / 2, i = g.k % S, j = Math.floor(g.k / S);
+      im.d.strokeStyle = `rgba(255,214,150,${a.toFixed(3)})`; im.d.lineWidth = 2; im.d.beginPath();
+      im.d.arc(im.ox + (i + 0.5) * im.cell, im.oy + (j + 0.5) * im.cell, im.cell * (1 + 3 * (1 - a)), 0, 7); im.d.stroke();
+    }
+    const hrs = NDISK * (Math.log(NDISK) + 0.577) / FRAC / RATE / 3600;
+    out.innerHTML = `<span>${T('raios lançados', 'rays launched')} <b>${grp(N)}</b></span>
+      <span>${T('entraram na câmera', 'entered the camera')} <b>${grp(hits)}</b> (${N ? fmt(100 * hits / N, 3) : '0'}%)</span>
+      <span>${T('pixels acesos', 'pixels lit')} <b>${grp(lit)}</b> ${T('de', 'of')} ${grp(NDISK)}</span>
+      <span>${T('imagem completa em', 'full image in')} <b>~${fmt(hrs, 0)} h</b></span>`;
+  }
+  const slide = cv.closest('.slide');
+  addEventListener('slidechange', () => { if (slide.classList.contains('active')) reset(); });   // antes de loopOn: cada visita começa do zero
+  reset();
+  loopOn(cv, tick, render);
+  onSlide(cv, () => { if (!slide.classList.contains('active')) render(); });
+})();
+
+/* Da câmera para a estrela, o método: um raio por pixel, saindo da câmera, o caminho da luz percorrido ao
+   contrário; o pixel ganha a cor quando o raio chega (à superfície: a cor do ponto; ao céu: escuro). Os
+   pixels vêm numa ordem embaralhada (sempre a mesma), para que os primeiros raios mostrem os dois destinos;
+   começa devagar e acelera, e com muitos raios no ar desenha só uma amostra. Todo raio calculado vira pixel. */
+(() => {
+  const cv = document.getElementById('rt-side'); if (!cv) return;
+  const cvI = document.getElementById('rt-image'), out = document.getElementById('rt-out');
+  const { S, bmax } = CAM, NP = S * S;
+  const order = Array.from({ length: NP }, (_, i) => i);
+  { let s = 5; for (let i = NP - 1; i > 0; i--) { s = s * 16807 % 2147483647; const j = s % (i + 1); [order[i], order[j]] = [order[j], order[i]]; } }
+  const shown = new ImageData(S, S), buf = document.createElement('canvas'); buf.width = buf.height = S;
+  let k = 0, done = 0, acc = 0, t = 0, hold = 0, fly = [], trail = [], cur = null;
+  const rate = () => Math.min(1500, 1.6 * Math.exp(k / 12));             // raios por segundo
+  const speed = () => Math.min(80, 12 * Math.exp(k / 20));              // R_S por segundo, para um raio desenhado
+  function reset() { k = done = acc = t = hold = 0; fly = []; trail = []; cur = null; shown.data.fill(0); }
+  const reveal = idx => { shown.data.set(CAM.full.data.subarray(4 * idx, 4 * idx + 4), 4 * idx); done++; };
+  function launch() {
+    const idx = order[k++], d = CAM.pixDir(idx), b = CAM.bOf(d.th), q = b / bmax;
+    if (k > 40 && k % Math.ceil(rate() / 45)) { reveal(idx); return; }  // com muitos raios no ar, só uma amostra é desenhada
+    const r = CAM.fromCam(b);
+    cur = { ...CAM.place(r, d.ey >= 0 ? 1 : -1, 0), t0: t, dur: Math.min(r.len, 22) / speed(), reach: Math.min(r.len, 22) / r.len, idx, i: d.i, j: d.j, b, q, th: d.th };   // os que escapam saem do quadro antes do fim
+    fly.push(cur);
+  }
+  function tick(dt) {
+    t += dt;
+    if (k < NP) { acc += dt * rate(); for (; acc >= 1 && k < NP; acc--) launch(); }
+    fly = fly.filter(r => { if (t - r.t0 < r.dur) return true; reveal(r.idx); trail.push(r); if (trail.length > 36) trail.shift(); return false; });
+    if (done >= NP) { hold += dt; if (hold > 3) reset(); }
+    render();
+  }
+  function render() {
+    const { ctx: c, w, h } = fitCanvas(cv), P = CAM.scene(c, w, h);
+    trail.forEach((r, n) => CAM.stroke(c, P, r, 1, r.end === 'hit' ? `rgba(255,184,107,${(0.08 + 0.3 * n / trail.length).toFixed(3)})` : `rgba(86,225,208,${(0.06 + 0.25 * n / trail.length).toFixed(3)})`, 1));
+    for (const r of trail.slice(-12)) if (r.end === 'hit') {
+      const [x, y] = r.pts[r.pts.length - 1], o = 4 * r.idx, px = CAM.full.data;
+      c.fillStyle = `rgb(${px[o]},${px[o + 1]},${px[o + 2]})`; c.beginPath(); c.arc(P.X(x), P.Y(y), 3.5, 0, 7); c.fill();
+    }
+    for (const r of fly) CAM.stroke(c, P, r, Math.min(1, (t - r.t0) / r.dur) * r.reach, r.end === 'hit' ? COL.sol : COL.psr, 2.4, 0, 4);
+    const im = CAM.image(cvI, shown, buf, T('a imagem, pixel a pixel', 'the image, pixel by pixel'));
+    im.d.strokeStyle = '#fff'; im.d.lineWidth = 2;
+    for (const r of fly.slice(-6)) im.d.strokeRect(im.ox + r.i * im.cell, im.oy + r.j * im.cell, im.cell, im.cell);
+    const fate = !cur ? '' : cur.q <= 1
+      ? `${T('acerta a superfície', 'hits the surface')} · α <b>${fmt(Math.asin(cur.q) / deg, 0)}°</b> · ψ <b>${fmt(CAM.psiQ(cur.q) / deg, 0)}°</b>`
+      : `<b>${T('escapa: céu', 'escapes: sky')}</b>`;
+    out.innerHTML = (cur ? `<span>pixel <b>(${cur.i}, ${cur.j})</b> · θ <b>${fmt(cur.th / deg, 1)}°</b> · b <b>${fmt(cur.b, 2)} R<sub>S</sub></b></span><span>${fate}</span>` : '') +
+      `<span>${T('raios calculados = pixels', 'rays computed = pixels')} <b>${grp(k)}</b> (${Math.round(100 * done / NP)}%)</span>`;
+  }
+  const slide = cv.closest('.slide');
+  addEventListener('slidechange', () => { if (slide.classList.contains('active')) reset(); });
+  loopOn(cv, tick, () => { while (k < NP) { const idx = order[k++]; reveal(idx); } fly = []; render(); });
+  onSlide(cv, () => { if (!slide.classList.contains('active')) render(); });
 })();
 
 /* A aparência de uma estrela compacta: a mesma estrela (grade de 30°, calota norte âmbar,

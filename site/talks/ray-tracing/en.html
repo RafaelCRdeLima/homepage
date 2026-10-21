@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211500">
+<link rel="stylesheet" href="assets/deck.css?v=202610211700">
 </head>
 <body>
 
@@ -324,7 +324,27 @@
 </section>
 
 <section class="slide content p1">
-  <header><p class="eyebrow">Ray tracing backwards</p><h2>One pixel, <em>one ray</em></h2></header>
+  <header><p class="eyebrow">The naive idea: from the star to the camera</p><h2>Many rays, <em>hardly any pixels</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.45fr .75fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="plots" style="grid-template-columns: 1.25fr 1fr"><div class="cv"><canvas id="rt-fwd"></canvas></div><div class="cv"><canvas id="rt-fwd-image"></canvas></div></div>
+      <div class="readout" id="rt-fwd-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-self: center">
+      <ul class="list" style="gap: 14px">
+        <li class="small">Every point of the surface emits in <b>every direction</b>; each ray is followed along its geodesic, outwards.</li>
+        <li class="small">Only those that pass through the camera aperture become pixels: here, <b>2 in every 10,000</b>.</li>
+        <li class="small">Completing this image would take ~10⁸ rays: hours of computing.</li>
+        <li class="small">With a real telescope, 1 m² at 1 kpc, <b>1 photon in every 10⁴⁰</b> arrives.</li>
+      </ul>
+      <p class="ref" style="margin: 0">3D count: uniform point on the surface, isotropic outward direction, exact geodesic to the camera, at 13 R<sub>S</sub>. Only a sample is drawn, in the plane; the rays that enter the camera are all shown.</p>
+    </div>
+  </div>
+  <aside class="notes">Before the method, the idea anyone would have: do what nature does. Every point of the surface emits light in every direction; we follow each ray along its geodesic and see where it ends up. The trouble is that almost none of them end up in the camera. Here the camera is very close, 13 Schwarzschild radii away, and even so only about 2 in 10,000 rays enter it — exactly the fraction of the sphere that the aperture covers. On the right, what the camera has collected: one pixel lit every now and then. Completing a 56 by 56 pixel image would take some 10⁸ rays, hours of computing. And with a real telescope, one square metre at one kiloparsec, it is one photon in 10⁴⁰. Hence the idea of the next slide: travel the path the other way round.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The method: from the camera to the star</p><h2>One pixel, <em>one ray</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.45fr .75fr; gap: 40px">
     <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
       <div class="plots" style="grid-template-columns: 1.25fr 1fr"><div class="cv"><canvas id="rt-side"></canvas></div><div class="cv"><canvas id="rt-image"></canvas></div></div>
@@ -332,15 +352,15 @@
     </div>
     <div class="stack" style="gap: 16px; align-self: center">
       <ul class="list" style="gap: 14px">
-        <li class="small">Each pixel of the image is a ray that <b>arrives</b> at the observer. Its impact parameter <i>b</i> is the distance to the centre of the image.</li>
-        <li class="small">The geodesic is integrated <b>backwards</b>: the ray escapes to the sky or hits the surface at some point, at an angle α.</li>
+        <li class="small">The rays leave the <b>camera</b>, one per pixel: the path of light travelled backwards. The direction of the pixel gives the impact parameter <i>b</i>.</li>
+        <li class="small">The geodesic is integrated until the ray escapes to the sky or hits the surface at some point, at an angle α.</li>
         <li class="small">The pixel takes the colour of the point the light left from — corrected for redshift and for the emission angle.</li>
-        <li class="small">Rays that would never reach the telescope are never computed: that is what makes the method efficient.</li>
+        <li class="small">Every ray computed becomes a pixel: <b>3,136 rays, 3,136 pixels</b>, against the 10⁸ of the previous slide.</li>
       </ul>
-      <p class="ref" style="margin: 0">With spherical symmetry, ψ depends only on <i>b</i>: one table ψ(<i>b</i>), computed once, serves every pixel.</p>
+      <p class="ref" style="margin: 0">With spherical symmetry, ψ depends only on <i>b</i>: one table ψ(<i>b</i>), computed once, serves every pixel. Each ray is rotated into the plane of the drawing.</p>
     </div>
   </div>
-  <aside class="notes">How it is done in practice. You start from the telescope, not from the star. Each pixel of the image is an incoming ray; the impact parameter is the distance from the pixel to the centre. That ray is integrated backwards: either it escapes, and the pixel is sky, or it hits the surface at some point, with some emission angle. The pixel takes the colour of the point of origin. On the left, the ray of the current pixel seen side-on; on the right, the image building up row by row. In a spherical metric the angle ψ depends only on b, so a table ψ(b) handles every pixel — it is what the labs on my website use, and what the panel on the next slide does in real time.</aside>
+  <aside class="notes">How it is done in practice. You start from the camera, not from the star: from each pixel a ray goes out, travelling backwards along the path light would take; the direction of the pixel gives the impact parameter. That ray is integrated: either it escapes, and the pixel is sky, or it hits the surface at some point, with some emission angle, and the pixel takes the colour of that point. On the left, the rays leaving the camera, first one by one, then by the hundreds; on the right, the image building up. Every ray computed becomes a pixel: 3,136 rays for 3,136 pixels, against the 10⁸ of the previous slide. In a spherical metric the angle ψ depends only on b, so a table ψ(b) handles every pixel — it is what the labs on my website use, and what the panel on the next slide does in real time.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1194,12 +1214,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211500"></script>
-<script src="assets/ppdot.js?v=202610211500"></script>
-<script src="assets/dash.js?v=202610211500"></script>
-<script src="assets/dash-reuso.js?v=202610211500"></script>
-<script src="assets/dash-ns.js?v=202610211500"></script>
-<script src="assets/dash-res.js?v=202610211500"></script>
+<script src="assets/deck.js?v=202610211700"></script>
+<script src="assets/ppdot.js?v=202610211700"></script>
+<script src="assets/dash.js?v=202610211700"></script>
+<script src="assets/dash-reuso.js?v=202610211700"></script>
+<script src="assets/dash-ns.js?v=202610211700"></script>
+<script src="assets/dash-res.js?v=202610211700"></script>
 <script>Deck.start();</script>
 </body>
 </html>
