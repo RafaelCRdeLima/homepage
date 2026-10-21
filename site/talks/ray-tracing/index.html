@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211300">
+<link rel="stylesheet" href="assets/deck.css?v=202610211500">
 </head>
 <body>
 
@@ -289,14 +289,17 @@
 <section class="slide content p1">
   <header><p class="eyebrow">Compacidade</p><h2>Onde a RG <em>deixa de ser correção</em></h2></header>
   <div class="body">
-    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">de Terra ao horizonte · clique num objeto</span><div id="compact-sel" class="seg"></div></div>
-      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale"></canvas></div><div class="cv"><canvas id="compact-well"></canvas></div></div>
-      <div class="readout" id="compact-out"></div>
-      <p class="ref">z = (1 − R<sub>S</sub>/R)<sup>−1/2</sup> − 1 · relógio parado na superfície comparado ao infinito · desvio de um raio rasante pela integral exata da órbita (fraco: 2R<sub>S</sub>/R). Os objetos passam sozinhos a cada poucos segundos.</p>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) 84px auto">
+      <div class="dash-head"><span class="tag part">o raio e o raio de Schwarzschild da mesma massa</span><div id="compact-sel" class="seg"></div></div>
+      <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 34px; min-height: 0">
+        <div class="cv"><canvas id="compact-zoom"></canvas></div>
+        <table class="tbl tight" id="compact-tab" style="align-self: center"></table>
+      </div>
+      <div class="cv"><canvas id="compact-scale"></canvas></div>
+      <p class="ref">Superfície comparada ao infinito: <i>z</i> = (1 − <i>r</i><sub>s</sub>/<i>R</i>)<sup>−1/2</sup> − 1, <i>g</i> = (<i>GM</i>/<i>R</i>²)(1 − <i>r</i><sub>s</sub>/<i>R</i>)<sup>−1/2</sup> · desvio pela integral exata da órbita (campo fraco: 2<i>r</i><sub>s</sub>/<i>R</i>) · ISCO, esfera de fótons e horizonte: uma estrela de 1,4 M☉ desse tamanho · os objetos passam sozinhos até o primeiro clique.</p>
     </div>
   </div>
-  <aside class="notes">A régua do seminário é a compacidade, R_S/R. Na Terra, 10⁻⁹; no Sol, 10⁻⁶ — aí a relatividade é correção, como nos 43 segundos de Mercúrio. Numa anã branca, 10⁻⁴. Numa estrela de nêutrons, entre 0,3 e 0,5: o desvio de um raio rasante é de dezenas de graus e o redshift, de 20 a 30%. Ali não há expansão em série que salve: é preciso a métrica inteira. E a escala continua até a esfera de fótons e o horizonte.</aside>
+  <aside class="notes">A régua do seminário é a compacidade: o raio do objeto comparado com o raio de Schwarzschild da sua massa, o tamanho em que ela viraria buraco negro. À esquerda, um zoom em potências de dez: a Terra inteira teria de caber numa bola de 9 milímetros de raio, uma bola de gude; o Sol, em 3 quilômetros. Por isso aqui a relatividade é correção: na Terra o relógio da superfície atrasa 60 microssegundos por dia, e no Sol a luz rasante desvia 1,75 segundo de arco — o de Sobral. Numa anã branca, r_s/R é 5×10⁻⁴. Numa estrela de nêutrons, o raio é só três vezes r_s: a velocidade de escape passa da metade da da luz, o redshift é de 23,5%, o desvio de um raio rasante é de dezenas de graus e vemos bem mais da metade da superfície. Ali não há expansão em série que salve: é preciso a métrica inteira. E a escala continua até a esfera de fótons e o horizonte.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1197,12 +1200,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211300"></script>
-<script src="assets/ppdot.js?v=202610211300"></script>
-<script src="assets/dash.js?v=202610211300"></script>
-<script src="assets/dash-reuso.js?v=202610211300"></script>
-<script src="assets/dash-ns.js?v=202610211300"></script>
-<script src="assets/dash-res.js?v=202610211300"></script>
+<script src="assets/deck.js?v=202610211500"></script>
+<script src="assets/ppdot.js?v=202610211500"></script>
+<script src="assets/dash.js?v=202610211500"></script>
+<script src="assets/dash-reuso.js?v=202610211500"></script>
+<script src="assets/dash-ns.js?v=202610211500"></script>
+<script src="assets/dash-res.js?v=202610211500"></script>
 <script>Deck.start();</script>
 </body>
 </html>

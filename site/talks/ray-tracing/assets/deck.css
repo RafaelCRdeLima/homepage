@@ -180,6 +180,9 @@ table.tbl th { text-align: left; font-weight: 600; font-size: 16px; letter-spaci
 table.tbl td { padding: 15px 16px; border-bottom: 1px solid var(--line); color: var(--text-2); }
 table.tbl td.n { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 22px; color: var(--text); }
 table.tbl tr.hl td { color: var(--text); background: color-mix(in srgb, var(--part) 9%, transparent); }
+table.tbl.tight { font-size: 20px; }
+table.tbl.tight td { padding: 9px 14px; }
+table.tbl.tight td.n { font: 500 21px var(--ui); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* tags */
 .tag { display: inline-block; font: 600 15px var(--ui); letter-spacing: .14em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text-2); }

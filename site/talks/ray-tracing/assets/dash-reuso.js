@@ -2,8 +2,8 @@
    Blocos reaproveitados dos seminários anteriores, sem mudança de física:
    · “Do nascimento à morte das estrelas”: geodésicas de Schwarzschild, o primeiro
      pulsar, o diagrama P–Ṗ e o magnetar girando;
-   · “Neutrinos em espaço-tempo curvo”: o periélio de Mercúrio, Pound–Rebka e a escala de
-     compacidade (aqui num slide só, com os objetos passando sozinhos ou por clique).
+   · “Neutrinos em espaço-tempo curvo”: o periélio de Mercúrio e Pound–Rebka. (O painel de
+     compacidade também veio de lá, mas foi refeito e mora em dash.js.)
    ===================================================================== */
 
 /* ---------------- geodésicas de Schwarzschild ---------------- */
@@ -944,85 +944,4 @@ const P4 = (() => {
   }
   addEventListener('slidechange', () => { if (cvT.closest('.slide').classList.contains('active')) { if (reduce) { t = 1.3; render(); } else loop(); } });
   onSlide(cvT, render);
-})();
-
-/* ---------------- compacidade ---------------- */
-/* Dashboard: compacidade — um slide só; os objetos passam sozinhos (a cada 3,5 s) até o primeiro clique. */
-(() => {
-  const cv = document.getElementById('compact-scale'); if (!cv) return;
-  const cv2 = document.getElementById('compact-well');
-  const OBJ = [
-    { n: T('Terra', 'Earth'), s: T('Terra', 'Earth'), rsR: 8.87e-3 / 6.371e6, R: '6 371 km' },
-    { n: T('Sol', 'Sun'), s: T('Sol', 'Sun'), rsR: 2953 / 6.957e8, R: '696 000 km' },
-    { n: 'Sirius B', s: 'Sirius B', rsR: 3010 / 5.84e6, R: '5 840 km', d: T('anã branca, 1,02 M☉', 'white dwarf, 1.02 M☉') },
-    { n: T('proto-estrela de nêutrons', 'proto-neutron star'), s: T('proto-EN', 'proto-NS'), rsR: 4135 / 30e3, R: '≈ 30 km', d: T('neutrinosfera, 1,4 M☉', 'neutrinosphere, 1.4 M☉') },
-    { n: T('estrela de nêutrons', 'neutron star'), s: T('est. nêutrons', 'neutron star'), rsR: 4135 / 12e3, R: '12 km', d: T('1,4 M☉', '1.4 M☉') },
-    { n: 'ISCO', s: 'ISCO', rsR: 1 / 3, R: '3 r_s', d: T('última órbita circular estável', 'innermost stable circular orbit') },
-    { n: T('esfera de fótons', 'photon sphere'), s: T('esf. fótons', 'photon sph.'), rsR: 1 / 1.5, R: T('1,5 r_s', '1.5 r_s'), d: T('luz em órbita circular', 'light on a circular orbit') },
-    { n: T('horizonte', 'horizon'), s: T('horizonte', 'horizon'), rsR: 1, R: 'r_s', d: T('buraco negro', 'black hole') },
-  ];
-  let sel = 4, auto = true, timer = 0;                      // começa na estrela de nêutrons
-  const seg = document.getElementById('compact-sel');
-  seg.innerHTML = OBJ.map((o, i) => `<button type="button" data-k="${i}" class="${i === sel ? 'on' : ''}">${o.s}</button>`).join('');
-  const pick = k => { sel = k; seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.k === sel)); draw(); };
-  seg.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; auto = false; pick(+b.dataset.k); });
-  const slide = cv.closest('.slide');
-  addEventListener('slidechange', () => {
-    clearInterval(timer);
-    if (!slide.classList.contains('active') || !auto || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    pick(0); timer = setInterval(() => { if (auto && slide.classList.contains('active')) pick((sel + 1) % OBJ.length); else clearInterval(timer); }, 3500);
-  });
-  const out = document.getElementById('compact-out');
-  const P = new Plot(cv, { x: [1e-10, 1.5], y: [0, 1], xlog: true, m: [26, 30, 60, 30], fs: 17, yticks: [], xticks: [1e-10, 1e-8, 1e-6, 1e-4, 1e-2, 1] });
-  const deflect = (x) => {                     // desvio exato de um raio rasante à superfície r = R (rs = 1)
-    const R = 1 / x; if (R <= 1.5) return Infinity;
-    if (x < 1e-3) return 2 * x + (15 * Math.PI / 16 - 1) * x * x;   // campo fraco: a quadratura perderia a precisão
-    const u0 = 1 / R, ib2 = u0 * u0 * (1 - u0);  // 1/b² com ponto de retorno em R
-    let s = 0; const n = 4000;
-    for (let i = 0; i < n; i++) {             // u = u0 (1 − t²): regular no ponto de retorno
-      const t = (i + .5) / n, u = u0 * (1 - t * t), g = ib2 - u * u + u * u * u;
-      s += 2 * u0 * t / Math.sqrt(Math.max(g, 1e-300)) / n;
-    }
-    return 2 * s - Math.PI;
-  };
-  function draw() {
-    const o = OBJ[sel], x = o.rsR;
-    P.begin();
-    const c = P.ctx;
-    [[1e-10, 1e-5, T('Newton basta', 'Newton is enough'), 'rgba(255,255,255,.03)'], [1e-5, 0.05, T('correções pós-newtonianas', 'post-Newtonian corrections'), 'rgba(158,140,255,.06)'], [0.05, 1.5, T('RG plena', 'full GR'), 'rgba(158,140,255,.16)']]
-      .forEach(([a, b, t, f]) => { c.fillStyle = f; c.fillRect(P.X(a), P.T, P.X(b) - P.X(a), P.B - P.T); P.text(Math.sqrt(a * b), 0.93, t, { color: COL.text3, align: 'center', size: 17 }); });
-    P.frame(null, null);
-    P.text(0.5 * (P.L + P.R), P.h - 6, 'r_s / R = 2GM/(Rc²)', { px: true, align: 'center', base: 'bottom', color: COL.text2, size: 18 });
-    OBJ.forEach((ob, i) => {
-      const on = i === sel, y = 0.2 + (i % 4) * 0.16;
-      P.ctx.save(); P.ctx.strokeStyle = on ? COL.rt : 'rgba(255,255,255,.25)'; P.ctx.lineWidth = on ? 2.5 : 1;
-      P.ctx.beginPath(); P.ctx.moveTo(P.X(ob.rsR), P.Y(0)); P.ctx.lineTo(P.X(ob.rsR), P.Y(y)); P.ctx.stroke(); P.ctx.restore();
-      P.dot(ob.rsR, y, { color: on ? COL.rt : COL.text3, r: on ? 8 : 5, glow: on ? 20 : 0 });
-      if (on || i < 3) P.text(ob.rsR, y + 0.075, ob.n, { color: on ? COL.text : COL.text3, align: i > 4 ? 'right' : 'center', size: on ? 19 : 16 });
-    });
-    // poço: perfil de Flamm z = 2√(r_s(r − r_s)), em unidades de R, fora do objeto
-    const { ctx, w, h } = fitCanvas(cv2);
-    const L = 40, Rr = w - 20, Tp = 30, B = h - 40, xmax = 6;
-    const X = r => L + (r / xmax) * (Rr - L);
-    const zOf = r => 2 * Math.sqrt(x * Math.max(r - x, 0));
-    const z6 = zOf(xmax), zR = zOf(1), dz = Math.max(z6 - zR, 1e-12);
-    const Y = r => Tp + (z6 - zOf(r)) / Math.max(dz, 1.2) * (B - Tp) * 0.95;
-    ctx.strokeStyle = 'rgba(158,140,255,.9)'; ctx.lineWidth = 3; ctx.shadowColor = COL.rt; ctx.shadowBlur = 12;
-    ctx.beginPath();
-    for (let i = 0; i <= 300; i++) { const r = 1 + (xmax - 1) * i / 300; i ? ctx.lineTo(X(r), Y(r)) : ctx.moveTo(X(r), Y(r)); }
-    ctx.stroke(); ctx.shadowBlur = 0;
-    ctx.fillStyle = 'rgba(158,140,255,.18)'; ctx.fillRect(L, Y(1), X(1) - L, B - Y(1) + 10);
-    ctx.fillStyle = COL.text3; ctx.font = `16px ${FONT}`; ctx.textAlign = 'center';
-    ctx.fillText('R', X(1), h - 12); ctx.fillText('6R', X(6), h - 12); ctx.fillText(T('superfície de mergulho (Flamm), escala real', 'embedding surface (Flamm), true scale'), (L + Rr) / 2, 16);
-    const z = 1 / Math.sqrt(1 - Math.min(x, 0.999999)) - 1, dt = (1 - Math.sqrt(1 - Math.min(x, 1))) * 86400, df = deflect(x);
-    const fmt = v => v < 1e-3 ? v.toExponential(2).replace('.', DEC) : v.toPrecision(3).replace('.', DEC);
-    const p3 = v => v.toPrecision(3).replace('.', DEC);
-    const dur = s => s < 1e-3 ? p3(s * 1e6) + ' μs' : s < 1 ? p3(s * 1e3) + ' ms' : s < 60 ? p3(s) + ' s' : s < 3600 ? p3(s / 60) + ' min' : p3(s / 3600) + ' h';
-    out.innerHTML = `<span>${o.n}${o.d ? ' · ' + o.d : ''} · R = ${o.R}</span>
-      <span>r_s/R <b>${fmt(x)}</b></span>
-      <span>${T('desvio para o vermelho', 'redshift')} z <b>${x >= 1 ? '∞' : fmt(z)}</b></span>
-      <span>${T('relógio perde', 'clock loses')} <b>${x >= 1 ? '—' : dur(dt)}</b> ${T('por dia', 'per day')}</span>
-      <span>${T('desvio da luz rasante', 'grazing light deflection')} <b>${isFinite(df) ? (df / deg < 1 ? (df / deg * 3600).toPrecision(3).replace('.', DEC) + '″' : (df / deg).toFixed(0) + '°') : T('captura', 'capture')}</b></span>`;
-  }
-  onSlide(cv, draw);
 })();

@@ -523,6 +523,168 @@ const RT = (() => {
   onSlide(cv, () => { if (!cv.closest('.slide').classList.contains('active')) render(); });
 })();
 
+/* Compacidade: o raio do objeto contra o raio de Schwarzschild da sua massa, r_s = 2GM/c², e o que a
+   razão r_s/R decide. À esquerda, um zoom em potências de dez do objeto inteiro até r_s (a Terra caberia
+   numa bola de 9 mm de raio); à direita, as contas para quem está parado na superfície, comparado a quem
+   está no infinito: escape √(r_s/R) c, g = GM/R² (1 − r_s/R)^−½, z = (1 − r_s/R)^−½ − 1, o relógio, o desvio
+   de um raio rasante pela integral exata da órbita e a fração da superfície vista de longe, (1 + sen(δ/2))/2
+   enquanto δ ≤ π. Embaixo, a régua de r_s/R. Nasceu do painel de compacidade do seminário de neutrinos;
+   os objetos passam sozinhos até o primeiro clique. */
+(() => {
+  const cv = document.getElementById('compact-zoom'); if (!cv) return;
+  const cvS = document.getElementById('compact-scale'), tab = document.getElementById('compact-tab'), seg = document.getElementById('compact-sel');
+  const RS1 = 2953.25, C = 2.99792458e8, G0 = 9.80665, RNS = 1.4 * RS1;     // r_s do Sol (m); m/s; m/s²; r_s de 1,4 M☉
+  const MS = v => `${fmt(v, v === 1 ? 0 : 2).replace(/[,.]?0+$/, '')} M☉`;
+  const OBJ = [
+    { n: T('Terra', 'Earth'), rs: 8.870e-3, R: 6.371e6, M: T('5,97×10²⁴ kg', '5.97×10²⁴ kg'), col: [90, 150, 255],
+      cap: T('comprimida até r_s, a Terra seria um buraco negro do tamanho de uma bola de gude', 'squeezed down to r_s, the Earth would be a black hole the size of a marble') },
+    { n: T('Sol', 'Sun'), rs: RS1, R: 6.957e8, M: MS(1), col: [255, 184, 107],
+      cap: T('comprimido até r_s, o Sol caberia numa cidade: 6 km de diâmetro', 'squeezed down to r_s, the Sun would fit in a town: 6 km across') },
+    { n: 'Sirius B', rs: 1.02 * RS1, R: 5.84e6, M: MS(1.02), col: [200, 215, 255],
+      cap: T('uma anã branca: o tamanho da Terra com a massa do Sol', 'a white dwarf: the size of the Earth with the mass of the Sun') },
+    { n: T('proto-estrela de nêutrons', 'proto-neutron star'), s: T('proto-EN', 'proto-NS'), rs: RNS, R: 3e4, M: MS(1.4), col: [255, 130, 90],
+      cap: T('a estrela de nêutrons recém-nascida, ainda inchada: R ≈ 7 r_s', 'the newborn neutron star, still puffed up: R ≈ 7 r_s') },
+    { n: T('estrela de nêutrons', 'neutron star'), s: T('est. nêutrons', 'neutron star'), rs: RNS, R: 1.2e4, M: MS(1.4), col: [86, 225, 208],
+      cap: T('R ≈ 3 r_s: a luz que sai da superfície sente a métrica inteira', 'R ≈ 3 r_s: light leaving the surface feels the full metric') },
+    { n: 'ISCO', rs: RNS, R: 3 * RNS, M: MS(1.4), ring: true,
+      cap: T('uma estrela de 1,4 M☉ do tamanho da última órbita circular estável', 'a 1.4 M☉ star as small as the innermost stable circular orbit') },
+    { n: T('esfera de fótons', 'photon sphere'), s: T('esf. fótons', 'photon sph.'), rs: RNS, R: 1.5 * RNS, M: MS(1.4), ring: true,
+      cap: T('do tamanho da esfera de fótons: a luz rasante fica em órbita', 'as small as the photon sphere: grazing light stays in orbit') },
+    { n: T('horizonte', 'horizon'), rs: RNS, R: RNS, M: MS(1.4), ring: true,
+      cap: T('R = r_s: nada sai, nem a luz — um buraco negro', 'R = r_s: nothing gets out, not even light — a black hole') },
+  ];
+  const HOLD0 = 0.9, ZT = 2.6, CYCLE = 6.5;                                   // s parado, s de zoom, s por objeto
+  let sel = 0, auto = !FF, tz = FF ? 99 : 0;                                // no PDF: a Terra já no fim do zoom
+  seg.innerHTML = OBJ.map((o, i) => `<button type="button" data-k="${i}" class="${i === sel ? 'on' : ''}">${o.s || o.n}</button>`).join('');
+  function pick(k, user) {
+    sel = k; tz = 0; if (user) auto = false;
+    seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.k === sel));
+    table(); redraw();
+  }
+  seg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) pick(+b.dataset.k, true); });
+
+  const p3 = v => String(+v.toPrecision(3)).replace('.', DEC);
+  const len = v => v >= 1e3 ? (v >= 1e5 ? grp(v / 1e3) : p3(v / 1e3)) + ' km' : v >= 1 ? p3(v) + ' m' : v >= 0.01 ? p3(v * 100) + ' cm' : p3(v * 1e3) + ' mm';
+  const small = v => v < 1e-3 ? sci(v, 2) : p3(v);
+  function subt(c, s, x, y, size, align = 'left') {                         // texto com subscritos de uma letra: “r_s”
+    const parts = s.split(/_(\w)/), f0 = c.font, f1 = f0.replace(/(\d+)px/, (_, n) => Math.round(n * 0.7) + 'px'), al = c.textAlign;
+    let W = 0; parts.forEach((q, i) => { c.font = i % 2 ? f1 : f0; W += c.measureText(q).width; });
+    let x0 = align === 'right' ? x - W : align === 'center' ? x - W / 2 : x;
+    c.textAlign = 'left';
+    parts.forEach((q, i) => { c.font = i % 2 ? f1 : f0; c.fillText(q, x0, y + (i % 2 ? 0.3 * size : 0)); x0 += c.measureText(q).width; });
+    c.font = f0; c.textAlign = al;
+  }
+  const dur = s => s < 1e-3 ? p3(s * 1e6) + ' μs' : s < 1 ? p3(s * 1e3) + ' ms' : s < 60 ? p3(s) + ' s' : s < 3600 ? p3(s / 60) + ' min' : p3(s / 3600) + ' h';
+  const deflect = x => {                     // desvio exato de um raio rasante à superfície r = R (r_s = 1)
+    const R = 1 / x; if (R <= 1.5) return Infinity;
+    if (x < 1e-3) return 2 * x + (15 * Math.PI / 16 - 1) * x * x;   // campo fraco: a quadratura perderia a precisão
+    const u0 = 1 / R, ib2 = u0 * u0 * (1 - u0);  // 1/b² com ponto de retorno em R
+    let s = 0; const n = 4000;
+    for (let i = 0; i < n; i++) {             // u = u0 (1 − t²): regular no ponto de retorno
+      const t = (i + .5) / n, u = u0 * (1 - t * t), g = ib2 - u * u + u * u * u;
+      s += 2 * u0 * t / Math.sqrt(Math.max(g, 1e-300)) / n;
+    }
+    return 2 * s - Math.PI;
+  };
+
+  // a tabela muda só com o objeto
+  function table() {
+    const o = OBJ[sel], x = o.rs / o.R, gm = o.rs * C * C / 2;
+    const z = x < 1 ? 1 / Math.sqrt(1 - x) - 1 : Infinity, g = x < 1 ? gm / (o.R * o.R) / Math.sqrt(1 - x) / G0 : Infinity;
+    const v = Math.sqrt(Math.min(x, 1)), lost = (1 - Math.sqrt(Math.max(0, 1 - x))) * 86400, df = deflect(x);
+    const vis = x >= 1 ? NaN : !isFinite(df) || df >= Math.PI ? 1 : (1 + Math.sin(df / 2)) / 2;
+    const sec = s => (s < 0.01 ? sci(s, 1) : p3(s)) + '″';
+    const rows = [
+      [T('massa · raio', 'mass · radius'), `${o.M} · ${len(o.R)}`],
+      [T('raio de Schwarzschild', 'Schwarzschild radius') + ', <i>r</i><sub>s</sub> = 2<i>GM</i>/<i>c</i>²', len(o.rs), true],
+      [T('compacidade', 'compactness') + ', <i>r</i><sub>s</sub>/<i>R</i>', small(x), true],
+      [T('velocidade de escape', 'escape velocity'), v >= 1 ? 'c' : v < 0.05 ? p3(v * C / 1e3) + ' km/s' : fmt(v, 2) + ' c'],
+      [T('gravidade na superfície', 'surface gravity'), isFinite(g) ? (g < 1e3 ? p3(g) : sci(g, 1)) + ' g' : '∞'],
+      [T('desvio para o vermelho', 'redshift') + ', <i>z</i>', isFinite(z) ? small(z) : '∞'],
+      [T('o relógio da superfície atrasa', 'the surface clock loses'), x >= 1 ? T('parado', 'stopped') : dur(lost) + T(' por dia', ' per day')],
+      [T('desvio de um raio rasante', 'grazing-ray deflection'), isFinite(df) ? (df / deg < 1 ? sec(df / deg * 3600) : (df / deg).toFixed(0) + '°') : x >= 1 ? T('captura', 'captured') : T('∞: fica em órbita', '∞: it orbits')],
+      [T('superfície vista de longe', 'surface seen from afar'), isNaN(vis) ? '—' : vis >= 0.9995 ? '100%' : vis - 0.5 < 1e-3 ? `50% + ${sci((vis - 0.5) * 100, 1)}%` : fmt(vis * 100, 1) + '%'],
+    ];
+    tab.innerHTML = rows.map(([a, b, hl]) => `<tr${hl ? ' class="hl"' : ''}><td>${a}</td><td class="n">${b}</td></tr>`).join('');
+  }
+
+  // a régua de r_s/R, embaixo; um clique nela também escolhe
+  const P = new Plot(cvS, { x: [1e-10, 1.5], y: [0, 1], xlog: true, m: [4, 24, 28, 74], fs: 15, yticks: [], xticks: [1e-10, 1e-8, 1e-6, 1e-4, 1e-2, 1] });
+  function strip() {
+    P.begin(); const c = P.ctx;
+    [[1e-10, 1e-5, T('Newton basta', 'Newton is enough'), 'rgba(255,255,255,.03)'], [1e-5, 0.05, T('correções pós-newtonianas', 'post-Newtonian corrections'), 'rgba(158,140,255,.06)'], [0.05, 1.5, T('RG plena', 'full GR'), 'rgba(158,140,255,.16)']]
+      .forEach(([a, b, t, f]) => { c.fillStyle = f; c.fillRect(P.X(a), P.T, P.X(b) - P.X(a), P.B - P.T); P.text(Math.sqrt(a * b), 0.8, t, { color: COL.text3, align: 'center', size: 15 }); });
+    P.frame(null, null);
+    c.font = `16px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'middle'; subt(c, 'r_s / R', P.L - 14, (P.T + P.B) / 2, 16, 'right');
+    OBJ.forEach((o, i) => { if (i !== sel) P.dot(o.rs / o.R, 0.3, { color: COL.text3, r: 4, glow: 0 }); });
+    const o = OBJ[sel];
+    P.dot(o.rs / o.R, 0.3, { color: COL.rt, r: 8, glow: 18 });
+  }
+  cvS.addEventListener('click', e => {
+    const [px] = canvasPoint(cvS, e); let best = 0;
+    OBJ.forEach((o, i) => { if (Math.abs(P.X(o.rs / o.R) - px) < Math.abs(P.X(OBJ[best].rs / OBJ[best].R) - px)) best = i; });
+    pick(best, true);
+  });
+
+  // o zoom: o objeto com raio 0,4 do quadro; amplia (em escala log) até r_s ocupar 0,22 do quadro
+  function draw() {
+    const o = OBJ[sel], x = o.rs / o.R, [r, g, b] = o.col || [158, 140, 255];
+    const { ctx: c, w, h } = fitCanvas(cv), m = Math.min(w, h), cx = w / 2, cy = h / 2 + 10, diag = Math.hypot(w, h);
+    const zEnd = x >= 0.15 ? 1 : 0.22 / (0.4 * x), u = smooth(HOLD0, HOLD0 + ZT, tz), Z = Math.exp(Math.log(zEnd) * u);
+    const S = 0.4 * m / o.R * Z, Rp = o.R * S, rp = o.rs * S;              // px por metro; raios na tela
+    c.fillStyle = '#06070c'; c.fillRect(0, 0, w, h);
+    // o objeto (as três marcas da RG são só raios: tracejado)
+    if (o.ring) {
+      if (Rp < 3 * diag) { c.strokeStyle = 'rgba(158,140,255,.75)'; c.lineWidth = 2; c.setLineDash([8, 7]); c.beginPath(); c.arc(cx, cy, Rp, 0, 7); c.stroke(); c.setLineDash([]); }
+    } else if (Rp > 2 * diag) {
+      c.fillStyle = `rgba(${r},${g},${b},.2)`; c.fillRect(0, 0, w, h);
+    } else {
+      const gr = c.createRadialGradient(cx, cy, 0, cx, cy, Rp);
+      gr.addColorStop(0, `rgba(${r},${g},${b},.2)`); gr.addColorStop(0.8, `rgba(${r},${g},${b},.22)`); gr.addColorStop(1, `rgba(${r},${g},${b},.42)`);
+      c.fillStyle = gr; c.beginPath(); c.arc(cx, cy, Rp, 0, 7); c.fill();
+      c.strokeStyle = `rgba(${r},${g},${b},.9)`; c.lineWidth = 2; c.shadowColor = `rgb(${r},${g},${b})`; c.shadowBlur = 16; c.stroke(); c.shadowBlur = 0;
+    }
+    // r_s: a esfera em que essa massa vira buraco negro
+    if (rp >= 1.5) {
+      c.fillStyle = '#000'; c.beginPath(); c.arc(cx, cy, rp, 0, 7); c.fill();
+      c.strokeStyle = COL.rt; c.lineWidth = 2; c.shadowColor = COL.rt; c.shadowBlur = 14; c.stroke(); c.shadowBlur = 0;
+    } else {
+      c.strokeStyle = COL.rt; c.lineWidth = 1.5; c.setLineDash([3, 4]); c.beginPath(); c.arc(cx, cy, 9, 0, 7); c.stroke(); c.setLineDash([]);
+      c.fillStyle = COL.rt; c.beginPath(); c.arc(cx, cy, 1.5, 0, 7); c.fill();
+    }
+    // rótulos dos dois raios
+    c.font = `16px ${FONT}`; c.textBaseline = 'middle';
+    if (Rp < 0.48 * m && !(o.ring && Math.abs(Rp - rp) < 4)) {
+      const a = -35 * deg, ex = cx + Rp * Math.cos(a), ey = cy + Rp * Math.sin(a);
+      c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(cx + Math.max(rp, 9) * Math.cos(a), cy + Math.max(rp, 9) * Math.sin(a)); c.lineTo(ex, ey); c.stroke();
+      c.fillStyle = COL.text; c.textAlign = 'left'; c.fillText(`R = ${len(o.R)}`, ex + 10, ey - 8);
+    } else if (!o.ring || Rp >= 0.48 * m) {
+      c.fillStyle = COL.text3; c.textAlign = 'right'; c.fillText(`R = ${len(o.R)} · ${T('a borda está fora do quadro', 'the edge is off the frame')}`, w - 12, 18);
+    }
+    const ra = Math.max(rp, 9), lx = cx - ra - 14;
+    c.strokeStyle = 'rgba(158,140,255,.8)'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(cx - ra, cy); c.lineTo(lx + 4, cy); c.stroke();
+    c.fillStyle = COL.rt; subt(c, `r_s = ${len(o.rs)}`, lx, cy, 16, 'right');
+    // a legenda, quando o zoom termina
+    const fin = smooth(HOLD0 + ZT - 0.4, HOLD0 + ZT + 0.3, tz);
+    c.font = `600 18px ${FONT}`; c.fillStyle = COL.text; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(o.n, 12, 10);
+    if (fin > 0) { c.globalAlpha = fin; c.font = `16px ${FONT}`; c.fillStyle = COL.text2; subt(c, o.cap, 12, 36, 16); c.globalAlpha = 1; }
+    // escala e zoom
+    const tgt = w * 0.2 / S, e10 = 10 ** Math.floor(Math.log10(tgt)), L = [5, 2, 1].map(f => f * e10).find(v => v <= tgt), bl = L * S, by = h - 16;
+    c.strokeStyle = COL.text2; c.lineWidth = 1.5; c.beginPath(); c.moveTo(14, by); c.lineTo(14 + bl, by); c.moveTo(14, by - 5); c.lineTo(14, by + 5); c.moveTo(14 + bl, by - 5); c.lineTo(14 + bl, by + 5); c.stroke();
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText(len(L), 14 + bl / 2, by - 7);
+    c.textAlign = 'right'; c.fillStyle = Z > 1.01 ? COL.rt : COL.text3; c.fillText(`zoom ×${Z < 100 ? p3(Z) : sci(Z, 1)}`, w - 12, h - 9);
+    strip();
+  }
+  const slide = cv.closest('.slide');
+  // registrado antes de loopOn: o passeio recomeça na Terra antes do primeiro quadro da visita
+  addEventListener('slidechange', () => { if (slide.classList.contains('active') && auto && !reduceMotion) { sel = 0; tz = 0; seg.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.k === 0)); table(); } });
+  const still = () => { tz = 99; draw(); };
+  function redraw() { if (reduceMotion || document.body.classList.contains('overview')) still(); else draw(); }
+  loopOn(cv, dt => { tz += dt; if (auto && tz > CYCLE) pick((sel + 1) % OBJ.length); draw(); }, still);
+  onSlide(cv, () => { if (!slide.classList.contains('active')) still(); });
+  table();
+})();
+
 /* ψ(α): integral exata, aproximação de Beloborodov (2002) e espaço plano, para a compacidade escolhida. */
 (() => {
   const cv = document.getElementById('psi'); if (!cv) return;

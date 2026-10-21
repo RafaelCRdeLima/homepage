@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211300">
+<link rel="stylesheet" href="assets/deck.css?v=202610211500">
 </head>
 <body>
 
@@ -288,14 +288,17 @@
 <section class="slide content p1">
   <header><p class="eyebrow">Compactness</p><h2>Where GR <em>stops being a correction</em></h2></header>
   <div class="body">
-    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">from the Earth to the horizon · click an object</span><div id="compact-sel" class="seg"></div></div>
-      <div class="plots" style="grid-template-columns: 1.7fr 1fr"><div class="cv"><canvas id="compact-scale"></canvas></div><div class="cv"><canvas id="compact-well"></canvas></div></div>
-      <div class="readout" id="compact-out"></div>
-      <p class="ref">z = (1 − R<sub>S</sub>/R)<sup>−1/2</sup> − 1 · clock at rest on the surface compared with infinity · deflection of a grazing ray from the exact orbit integral (weak field: 2R<sub>S</sub>/R). The objects advance on their own every few seconds.</p>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) 84px auto">
+      <div class="dash-head"><span class="tag part">the radius and the Schwarzschild radius of the same mass</span><div id="compact-sel" class="seg"></div></div>
+      <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 34px; min-height: 0">
+        <div class="cv"><canvas id="compact-zoom"></canvas></div>
+        <table class="tbl tight" id="compact-tab" style="align-self: center"></table>
+      </div>
+      <div class="cv"><canvas id="compact-scale"></canvas></div>
+      <p class="ref">Surface compared with infinity: <i>z</i> = (1 − <i>r</i><sub>s</sub>/<i>R</i>)<sup>−1/2</sup> − 1, <i>g</i> = (<i>GM</i>/<i>R</i>²)(1 − <i>r</i><sub>s</sub>/<i>R</i>)<sup>−1/2</sup> · deflection from the exact orbit integral (weak field: 2<i>r</i><sub>s</sub>/<i>R</i>) · ISCO, photon sphere and horizon: a 1.4 M☉ star of that size · the objects advance on their own until the first click.</p>
     </div>
   </div>
-  <aside class="notes">The yardstick of the seminar is compactness, R_S/R. On the Earth, 10⁻⁹; in the Sun, 10⁻⁶ — there relativity is a correction, like Mercury’s 43 arcseconds. In a white dwarf, 10⁻⁴. In a neutron star, between 0.3 and 0.5: the deflection of a grazing ray is tens of degrees and the redshift 20 to 30%. There, no series expansion will save us: the full metric is needed. And the scale carries on to the photon sphere and the horizon.</aside>
+  <aside class="notes">The yardstick of the seminar is compactness: the radius of the object compared with the Schwarzschild radius of its mass, the size at which it would become a black hole. On the left, a zoom in powers of ten: the whole Earth would have to fit in a ball 9 millimetres in radius, a marble; the Sun, in 3 kilometres. That is why relativity is a correction here: on the Earth the surface clock loses 60 microseconds a day, and at the Sun grazing light is deflected by 1.75 arcseconds — the Sobral value. In a white dwarf, r_s/R is 5×10⁻⁴. In a neutron star the radius is only three times r_s: the escape velocity is more than half the speed of light, the redshift 23.5%, a grazing ray is deflected by tens of degrees and we see well over half of the surface. There, no series expansion will save us: the full metric is needed. And the scale carries on to the photon sphere and the horizon.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1191,12 +1194,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211300"></script>
-<script src="assets/ppdot.js?v=202610211300"></script>
-<script src="assets/dash.js?v=202610211300"></script>
-<script src="assets/dash-reuso.js?v=202610211300"></script>
-<script src="assets/dash-ns.js?v=202610211300"></script>
-<script src="assets/dash-res.js?v=202610211300"></script>
+<script src="assets/deck.js?v=202610211500"></script>
+<script src="assets/ppdot.js?v=202610211500"></script>
+<script src="assets/dash.js?v=202610211500"></script>
+<script src="assets/dash-reuso.js?v=202610211500"></script>
+<script src="assets/dash-ns.js?v=202610211500"></script>
+<script src="assets/dash-res.js?v=202610211500"></script>
 <script>Deck.start();</script>
 </body>
 </html>
