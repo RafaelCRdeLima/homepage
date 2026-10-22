@@ -500,3 +500,8 @@ ol.steps li b { color: var(--text); font-weight: 500; }
 .pill { display: inline-block; font: 600 14px var(--ui); letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; color: #0a0b12; background: var(--c, var(--part)); }
 figure.paper.dark img { background: #fff; }
 .cap-en { position: absolute; top: 18px; font: 600 15px var(--ui); letter-spacing: .14em; text-transform: uppercase; color: #0a0b12; background: rgba(255,255,255,.92); padding: 5px 10px; border-radius: 6px; }
+/* legenda dos quatro quadrantes do plano (S, Θ_c), com os numerais nas cores do gráfico */
+.qkey { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 22px; font: 16px var(--ui); color: var(--text-2); }
+.qkey span { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.qkey b { font: italic 400 26px/1 var(--display); color: var(--c); min-width: 30px; }
+.qkey small { font-size: 14px; color: var(--text-3); }

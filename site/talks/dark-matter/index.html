@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610221800">
+<link rel="stylesheet" href="assets/deck.css?v=202610221900">
 </head>
 <body>
 
@@ -523,10 +523,19 @@
 <section class="slide content p2">
   <header><p class="eyebrow">The two diagnostics · live</p><h2>Move a cloud through <em>the plane</em></h2></header>
   <div class="body">
-    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto auto">
       <div class="dash-head"><div class="grp"><small>presets</small><div class="seg sm" id="calc-pre"><button type="button" data-v="fid" class="on">paper fiducial · 100 keV, 10⁹ K</button><button type="button" data-v="wimp">1 GeV WIMP, 10⁵ K</button><button type="button" data-v="kev">1 keV, 10⁶ K</button><button type="button" data-v="heavy">10⁶ GeV, 10⁵ K</button></div></div>
         <span class="key"><span class="ln" style="--c: #9e8cff">baryons</span><span class="ln" style="--c: #56e1d0">captured dark matter</span><span class="dl" style="--c: #eef0f6">same m, T, any mass</span><span style="--c: #ffb86b">paper fiducial</span></span></div>
       <div class="plots two" style="grid-template-columns: 1fr 1fr"><div class="cv"><canvas id="calc-prof"></canvas></div><div class="cv"><canvas id="calc-plane"></canvas></div></div>
+      <div class="cols c2" style="gap: 22px; height: auto; align-items: center">
+        <p class="small muted" style="margin: 0; font-size: 18px">Dashed lines: the thresholds S = 10⁻³, 10⁻¹ and Θ<sub>c</sub> = 10, 0.1. The bands between them are transitional.</p>
+        <div class="qkey">
+          <span style="--c: var(--obs)"><b>I</b>Boltzmann tracer <small>S &lt; 10⁻³, Θ<sub>c</sub> &gt; 10</small></span>
+          <span style="--c: var(--amb)"><b>II</b>Boltzmann, self-gravitating <small>S ≥ 10⁻¹, Θ<sub>c</sub> &gt; 10</small></span>
+          <span style="--c: var(--deg)"><b>III</b>Fermi tracer <small>S &lt; 10⁻³, Θ<sub>c</sub> &lt; 0.1</small></span>
+          <span style="--c: var(--neb)"><b>IV</b>Fermi, self-gravitating <small>S ≥ 10⁻¹, Θ<sub>c</sub> &lt; 0.1</small></span>
+        </div>
+      </div>
       <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
         <div class="ctl"><label for="calc-m">particle mass m<sub>χ</sub> <output for="calc-m"></output></label><input type="range" id="calc-m" min="-6" max="12" step="0.05" value="-4"></div>
         <div class="ctl"><label for="calc-T">core temperature <output for="calc-T"></output></label><input type="range" id="calc-T" min="5" max="9" step="0.05" value="9"></div>
