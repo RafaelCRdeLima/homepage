@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211700">
+<link rel="stylesheet" href="assets/deck.css?v=202610220900">
 </head>
 <body>
 
@@ -164,6 +164,25 @@
     </div>
   </div>
   <aside class="notes">How it is measured. Two photographs of the same patch of sky: the Hyades cluster, in Taurus. One at night, in July, when the Sun is already far away; the other during the eclipse, with the Sun right in front. The panel alternates between them, like a blink comparator, and everything is at true scale, with no exaggeration. On the whole plate nothing moves: one arcsecond is a tenth of a pixel on this screen. But nobody measured by eye: the plate went to a machine with a micrometer, which is what the loupes show — six arcseconds of sky around a star, with the wires at the night position. The star image is about two arcseconds wide, from turbulence and the optics, and during the eclipse it jumps by almost half of that, always away from the Sun, the symbol on the rim of the loupe. Near the Sun it jumps more, far away less: the deflection falls as 1/b. On the plate of the 4-inch lens, with a 5.8-metre focal length, one arcsecond is 28 micrometres. The centre of a blob can be measured much better than its width, and the fit for scale and rotation uses all the stars together. Click a star to put it in a loupe. Switch to Newton: the jump drops by half. That was the difference Sobral had to tell apart, and it measured 1.98″.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Einstein’s calculation · November 1915</p><h2>Where <em>the 1.75″</em> comes from</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr 1fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1.15fr) minmax(0,1fr) auto auto">
+      <div class="cv"><canvas id="impact-geo"></canvas></div>
+      <div class="cv"><canvas id="impact-plot"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr"><div class="ctl"><label for="impact-b">impact parameter, <i>b</i>/<i>R</i><sub>☉</sub> <output for="impact-b"></output></label><input type="range" id="impact-b" min="1" max="6" step="0.01" value="1"></div></div>
+      <div class="readout" id="impact-out"></div>
+    </div>
+    <div class="stack" style="gap: 14px; align-self: center">
+      <div class="eq sm" style="font-size: 36px; padding: 16px 22px">δ = <span class="frac"><span>4<i>GM</i><sub>☉</sub></span><span><i>c</i>²<i>b</i></span></span> = <span class="frac"><span>2<i>r</i><sub>s</sub></span><span><i>b</i></span></span><span class="note"><span class="nocase"><i>b</i></span>: from the centre of the Sun to the line of the incoming ray</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 22px">[<span class="frac"><span><i>GM</i></span><span><i>c</i>²<i>b</i></span></span>] = <span class="frac"><span>(m³ kg⁻¹ s⁻²)(kg)</span><span>(m² s⁻²)(m)</span></span> = 1<span class="note">dimensionless: the angle comes out in radians</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 22px"><i>b</i> = <i>R</i><sub>☉</sub>: &nbsp;δ = <span class="frac"><span>5.91 km</span><span>6.96×10⁵ km</span></span> = 8.49×10⁻⁶ rad<span class="note"><span class="nocase">4<i>GM</i><sub>☉</sub>/<i>c</i>² = 5.91 km</span>: twice the Sun’s <span class="nocase"><i>r</i><sub>s</sub></span></span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 22px">1 rad = <span class="frac"><span>180</span><span>π</span></span> × 3600″ ≈ 206,265″ &nbsp;→&nbsp; δ ≈ <b>1.75″</b><span class="note">Newton, with light as a particle: half of it, 0.87″</span></div>
+    </div>
+  </div>
+  <aside class="notes">The calculation behind the 1.75. For a ray passing far from a mass M, general relativity gives the deflection δ = 4GM/c²b — twice what a Newtonian calculation gives treating light as a particle. b is the impact parameter: the distance between the centre of the Sun and the line the ray would follow without gravity, the perpendicular in the drawing. The deflection falls as 1/b, the plot below: at the limb, 1.75 arcseconds; at twice the solar radius, where κ² Tauri was, half of that. The result comes out in radians, because GM/c²b is dimensionless. 4GM☉/c² is 5.9 kilometres, twice the Sun’s Schwarzschild radius; divided by the 696 thousand kilometres of the solar radius, it gives 8.5 millionths of a radian; times 206,265 arcseconds per radian, 1.75. Sobral measured 1.98 ± 0.12 and Príncipe 1.61 ± 0.30; Newton would give 0.87. Drag b on the plot.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1214,12 +1233,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211700"></script>
-<script src="assets/ppdot.js?v=202610211700"></script>
-<script src="assets/dash.js?v=202610211700"></script>
-<script src="assets/dash-reuso.js?v=202610211700"></script>
-<script src="assets/dash-ns.js?v=202610211700"></script>
-<script src="assets/dash-res.js?v=202610211700"></script>
+<script src="assets/deck.js?v=202610220900"></script>
+<script src="assets/ppdot.js?v=202610220900"></script>
+<script src="assets/dash.js?v=202610220900"></script>
+<script src="assets/dash-reuso.js?v=202610220900"></script>
+<script src="assets/dash-ns.js?v=202610220900"></script>
+<script src="assets/dash-res.js?v=202610220900"></script>
 <script>Deck.start();</script>
 </body>
 </html>

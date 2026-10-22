@@ -468,6 +468,107 @@ const RT = (() => {
   onSlide(cv, () => { if (!cv.closest('.slide').classList.contains('active')) still(); });
 })();
 
+/* A conta do 1,75″: δ = 4GM☉/(c²b) = 2r_s/b, em radianos (GM/c²b é adimensional), vezes 206 264,8″ por
+   radiano. Em cima, a geometria: b é a distância do centro do Sol à reta do raio que chega; o caminho é o
+   da aproximação de campo fraco, y(x) = b − (δ/2)(x + √(x² + b²)), cujas assíntotas se cruzam em x = 0
+   fazendo o ângulo δ — desenhado com o desvio exagerado EXAG vezes. Embaixo, δ(b) de Einstein e de Newton
+   (a metade), as medidas de 1919 (extrapoladas para o limbo) e as estrelas das lupas do slide anterior;
+   arrastar no gráfico também escolhe b. */
+(() => {
+  const cv = document.getElementById('impact-geo'); if (!cv) return;
+  const cvP = document.getElementById('impact-plot'), out = document.getElementById('impact-out');
+  const GM = 1.32712440018e20, C = 2.99792458e8, RSUN = 6.957e8, ARC = 180 / Math.PI * 3600;
+  const K = 4 * GM / (C * C), LIMB = K / RSUN * ARC, EXAG = 25000;          // 5 906 m; 1,751″ no limbo
+  const STARS = [['κ² Tau', 1.99], ['HD 28343', 3.08], ['72 Tau', 5.21]];
+  const el = document.getElementById('impact-b'), getB = bindRange('impact-b', v => fmt(v, 2), draw);
+  const P = new Plot(cvP, { x: [0, 6], y: [0, 2.4], m: [12, 18, 50, 66], fs: 15, xticks: [0, 1, 2, 3, 4, 5, 6], yticks: [0, 0.5, 1, 1.5, 2] });
+  function arrow(c, x0, y0, x1, y1, hd = 8) {
+    const a = Math.atan2(y1 - y0, x1 - x0);
+    c.beginPath(); c.moveTo(x1, y1); c.lineTo(x1 - hd * Math.cos(a - 0.4), y1 - hd * Math.sin(a - 0.4)); c.lineTo(x1 - hd * Math.cos(a + 0.4), y1 - hd * Math.sin(a + 0.4)); c.closePath(); c.fill();
+  }
+  function geo(b) {
+    const { ctx: c, w, h } = fitCanvas(cv), X0 = -6, X1 = 9, Y0 = -1.6, Y1 = Math.max(3.2, b + 1.4);   // o quadro acompanha b
+    const s = Math.min(w / (X1 - X0), h / (Y1 - Y0)), ox = (w - (X1 - X0) * s) / 2 - X0 * s, oy = (h - (Y1 - Y0) * s) / 2 + Y1 * s;
+    const X = x => ox + x * s, Y = y => oy - y * s;
+    const ds = LIMB / b * EXAG / ARC;                                       // o desvio desenhado (rad)
+    // o Sol
+    const g = c.createRadialGradient(X(0), Y(0), 0, X(0), Y(0), 1.5 * s);
+    g.addColorStop(0, 'rgba(255,214,150,1)'); g.addColorStop(0.62, 'rgba(255,184,107,.95)'); g.addColorStop(0.67, 'rgba(255,184,107,.25)'); g.addColorStop(1, 'rgba(255,184,107,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(X(0), Y(0), 1.5 * s, 0, 7); c.fill();
+    c.font = `600 16px ${FONT}`; c.fillStyle = '#4a2a08'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(T('Sol', 'Sun'), X(0), Y(-0.35));
+    // a reta sem gravidade e a assíntota de saída, tracejadas
+    c.setLineDash([6, 7]); c.lineWidth = 1.5;
+    c.strokeStyle = 'rgba(255,255,255,.3)'; c.beginPath(); c.moveTo(X(0), Y(b)); c.lineTo(X(X1), Y(b)); c.stroke();
+    c.strokeStyle = 'rgba(255,184,107,.5)'; c.beginPath(); c.moveTo(X(0), Y(b)); c.lineTo(X(X1), Y(b - ds * X1)); c.stroke();
+    c.setLineDash([]);
+    // o raio
+    c.strokeStyle = '#ffd696'; c.lineWidth = 3; c.shadowColor = COL.sol; c.shadowBlur = 10; c.beginPath();
+    for (let i = 0; i <= 300; i++) { const x = X0 + (X1 - X0) * i / 300, y = b - ds / 2 * (x + Math.hypot(x, b)); i ? c.lineTo(X(x), Y(y)) : c.moveTo(X(x), Y(y)); }
+    c.stroke(); c.shadowBlur = 0;
+    c.fillStyle = '#ffd696'; arrow(c, X(X1 - 0.3), Y(b - ds / 2 * (X1 - 0.3 + Math.hypot(X1 - 0.3, b))), X(X1), Y(b - ds / 2 * (X1 + Math.hypot(X1, b))), 11);
+    // b: a distância do centro do Sol à reta do raio que chega, cotada à esquerda do Sol
+    const xb = -2.1;
+    c.strokeStyle = 'rgba(158,140,255,.55)'; c.lineWidth = 1.2; c.setLineDash([3, 4]);
+    c.beginPath(); c.moveTo(X(0), Y(0)); c.lineTo(X(xb - 0.3), Y(0)); c.stroke(); c.setLineDash([]);
+    c.strokeStyle = COL.rt; c.fillStyle = COL.rt; c.lineWidth = 2;
+    c.beginPath(); c.moveTo(X(xb), Y(0)); c.lineTo(X(xb), Y(b)); c.stroke();
+    arrow(c, X(xb), Y(b / 2), X(xb), Y(b), 10); arrow(c, X(xb), Y(b / 2), X(xb), Y(0), 10);
+    c.beginPath(); c.arc(X(0), Y(0), 3.5, 0, 7); c.fill();
+    c.font = `italic 600 26px ${SERIF}`; c.textAlign = 'right'; c.textBaseline = 'middle'; c.fillText('b', X(xb) - 10, Y(b / 2));
+    // δ: o ângulo entre as assíntotas
+    const ra = 3.2 * s;
+    c.strokeStyle = COL.sol; c.lineWidth = 2; c.beginPath(); c.arc(X(0), Y(b), ra, 0, ds); c.stroke();
+    c.fillStyle = COL.sol; c.font = `italic 600 24px ${SERIF}`; c.textAlign = 'left'; c.fillText('δ', X(0) + (ra + 10) * Math.cos(ds / 2), Y(b) + (ra + 10) * Math.sin(ds / 2) + 2);
+    // rótulos
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'bottom';
+    c.textAlign = 'left'; c.fillText(T('o raio que chega', 'the incoming ray'), X(X0) + 4, Y(b) - 8);
+    c.textAlign = 'right'; c.fillStyle = COL.text3; c.fillText(T('sem gravidade', 'without gravity'), X(X1), Y(b) - 8);
+    c.fillStyle = COL.sol; c.textBaseline = 'top'; c.fillText(T('para a Terra', 'to the Earth'), X(X1) - 14, Y(b - ds * X1) + 10);
+    c.textAlign = 'left'; c.fillStyle = COL.warn; c.fillText(T(`desvio desenhado ${grp(EXAG)}× maior`, `deflection drawn ${grp(EXAG)}× larger`), 8, 6);
+  }
+  function plot(b) {
+    P.begin(); const c = P.ctx;
+    c.fillStyle = 'rgba(255,184,107,.08)'; c.fillRect(P.X(0), P.T, P.X(1) - P.X(0), P.B - P.T);
+    P.frame(T('b / R☉', 'b / R☉'), T('δ (segundos de arco)', 'δ (arcseconds)'));
+    P.text(0.5, 2.25, T('dentro do Sol', 'inside the Sun'), { align: 'center', size: 14, color: COL.text3 });
+    const xs = linspace(1, 6, 200);
+    P.clip();
+    P.line(xs, xs.map(x => LIMB / 2 / x), { color: 'rgba(255,255,255,.5)', width: 2, dash: [7, 6] });
+    P.line(xs, xs.map(x => LIMB / x), { color: COL.rt, width: 3, glow: 10 });
+    P.vline(b, { color: 'rgba(255,255,255,.3)', dash: [4, 5], width: 1.2 });
+    P.unclip();
+    P.text(1.55, LIMB / 1.55 + 0.25, 'Einstein · 4GM/c²b', { color: COL.rt, size: 15 });
+    P.text(2.3, LIMB / 2 / 2.3 - 0.2, 'Newton · 2GM/c²b', { color: COL.text2, size: 15 });
+    // 1919, extrapolado para o limbo
+    [[1.98, 0.12, 'Sobral'], [1.61, 0.30, 'Príncipe']].forEach(([v, e, n]) => {
+      c.strokeStyle = COL.sol; c.lineWidth = 2; c.beginPath(); c.moveTo(P.X(1), P.Y(v - e)); c.lineTo(P.X(1), P.Y(v + e));
+      c.moveTo(P.X(1) - 5, P.Y(v - e)); c.lineTo(P.X(1) + 5, P.Y(v - e)); c.moveTo(P.X(1) - 5, P.Y(v + e)); c.lineTo(P.X(1) + 5, P.Y(v + e)); c.stroke();
+      P.dot(1, v, { color: COL.sol, r: 5, glow: 0 }); P.text(0.93, v, n, { color: COL.sol, align: 'right', size: 14 });
+    });
+    // as estrelas das lupas
+    for (const [n, x] of STARS) {
+      c.strokeStyle = COL.text2; c.lineWidth = 1.5; c.beginPath(); c.arc(P.X(x), P.Y(LIMB / x), 5, 0, 7); c.stroke();
+      P.text(x + 0.08, LIMB / x + 0.17, n, { color: COL.text3, size: 13 });
+    }
+    P.dot(b, LIMB / b, { color: '#fff', r: 6, glow: 14 });
+    P.text(b + 0.1, LIMB / b + (b < 1.4 ? -0.22 : 0.3), `${fmt(LIMB / b, 2)}″`, { color: COL.text, size: 16 });
+  }
+  function draw() {
+    const b = getB(), dr = K / (b * RSUN);
+    geo(b); plot(b);
+    out.innerHTML = `<span>b <b>${fmt(b, 2)} R<sub>☉</sub></b> = <b>${grp(b * RSUN / 1e3)} km</b></span>
+      <span>δ <b>${sci(dr, 2)} rad</b> = <b>${fmt(dr * ARC, 2)}″</b></span>
+      <span>Newton <b>${fmt(dr * ARC / 2, 2)}″</b></span>`;
+  }
+  // arrastar no gráfico também escolhe b
+  let drag = false;
+  const fromPlot = e => { el.value = clamp(P.invX(canvasPoint(cvP, e)[0]), 1, 6).toFixed(2); el.dispatchEvent(new Event('input')); };
+  cvP.addEventListener('pointerdown', e => { drag = true; cvP.setPointerCapture(e.pointerId); fromPlot(e); });
+  cvP.addEventListener('pointermove', e => { if (drag) fromPlot(e); });
+  cvP.addEventListener('pointerup', () => { drag = false; });
+  onSlide(cv, draw);
+})();
+
 /* Potencial efetivo dos fótons, V = (1 − 1/r)/r², e a órbita com o mesmo b.
    Onde 1/b² < V o raio não entra: ponto de retorno. Pico em r = 1,5 (esfera de fótons),
    V_max = 4/27 → b_c = (3√3/2) R_S. */

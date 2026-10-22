@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610211700">
+<link rel="stylesheet" href="assets/deck.css?v=202610220900">
 </head>
 <body>
 
@@ -165,6 +165,25 @@
     </div>
   </div>
   <aside class="notes">Como se mede isso. Duas fotografias do mesmo pedaço de céu: o aglomerado das Híades, em Touro. Uma à noite, em julho, quando o Sol já está longe dali; a outra durante o eclipse, com o Sol bem na frente. O painel alterna as duas, como um comparador de piscar, e tudo está em escala real, sem exagero. Na chapa inteira, nada se mexe: um segundo de arco é um décimo de pixel desta tela. Mas ninguém media a olho: a chapa ia para uma máquina com micrômetro, que é o que as lupas mostram — seis segundos de arco de céu em volta de uma estrela, com os fios na posição da noite. A imagem da estrela tem uns dois segundos de largura, por turbulência e pela óptica, e no eclipse ela pula quase metade disso, sempre para longe do Sol, o símbolo na borda da lupa. Perto do Sol pula mais, longe pula menos: o desvio cai como 1/b. Na chapa da lente de 4 polegadas, de 5,8 metros de focal, um segundo de arco são 28 micrômetros. O centro de uma mancha se mede muito melhor que a largura dela, e o ajuste de escala e rotação usa todas as estrelas juntas. Cliquem numa estrela para pô-la numa lupa. Troquem para Newton: o pulo cai à metade. Era essa a diferença que Sobral tinha de distinguir, e mediu 1,98″.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">A conta de Einstein · novembro de 1915</p><h2>De onde vem <em>o 1,75″</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr 1fr; gap: 44px">
+    <div class="dash" style="grid-template-rows: minmax(0,1.15fr) minmax(0,1fr) auto auto">
+      <div class="cv"><canvas id="impact-geo"></canvas></div>
+      <div class="cv"><canvas id="impact-plot"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr"><div class="ctl"><label for="impact-b">parâmetro de impacto, <i>b</i>/<i>R</i><sub>☉</sub> <output for="impact-b"></output></label><input type="range" id="impact-b" min="1" max="6" step="0.01" value="1"></div></div>
+      <div class="readout" id="impact-out"></div>
+    </div>
+    <div class="stack" style="gap: 14px; align-self: center">
+      <div class="eq sm" style="font-size: 36px; padding: 16px 22px">δ = <span class="frac"><span>4<i>GM</i><sub>☉</sub></span><span><i>c</i>²<i>b</i></span></span> = <span class="frac"><span>2<i>r</i><sub>s</sub></span><span><i>b</i></span></span><span class="note"><span class="nocase"><i>b</i></span>: do centro do Sol à reta do raio que chega</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 22px">[<span class="frac"><span><i>GM</i></span><span><i>c</i>²<i>b</i></span></span>] = <span class="frac"><span>(m³ kg⁻¹ s⁻²)(kg)</span><span>(m² s⁻²)(m)</span></span> = 1<span class="note">adimensional: o ângulo sai em radianos</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 22px"><i>b</i> = <i>R</i><sub>☉</sub>: &nbsp;δ = <span class="frac"><span>5,91 km</span><span>6,96×10⁵ km</span></span> = 8,49×10⁻⁶ rad<span class="note"><span class="nocase">4<i>GM</i><sub>☉</sub>/<i>c</i>² = 5,91 km</span>: o dobro do <span class="nocase"><i>r</i><sub>s</sub></span> do Sol</span></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 22px">1 rad = <span class="frac"><span>180</span><span>π</span></span> × 3600″ ≈ 206 265″ &nbsp;→&nbsp; δ ≈ <b>1,75″</b><span class="note">Newton, com a luz como partícula: a metade, 0,87″</span></div>
+    </div>
+  </div>
+  <aside class="notes">A conta por trás do 1,75. A relatividade geral dá, para um raio que passa longe de uma massa M, o desvio δ = 4GM/c²b — o dobro do que dá uma conta newtoniana tratando a luz como partícula. O b é o parâmetro de impacto: a distância entre o centro do Sol e a reta que o raio seguiria sem gravidade, a perpendicular no desenho. O desvio cai como 1/b, que é o gráfico de baixo: no limbo, 1,75 segundo de arco; a duas vezes o raio do Sol, onde estava κ² Tauri, a metade. A conta sai em radianos, porque GM/c²b é adimensional. 4GM☉/c² são 5,9 quilômetros, o dobro do raio de Schwarzschild do Sol; divididos pelos 696 mil quilômetros do raio solar, dão 8,5 milionésimos de radiano; vezes 206 265 segundos de arco por radiano, 1,75. Sobral mediu 1,98 ± 0,12 e Príncipe 1,61 ± 0,30; Newton daria 0,87. Arrastem b no gráfico.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1220,12 +1239,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610211700"></script>
-<script src="assets/ppdot.js?v=202610211700"></script>
-<script src="assets/dash.js?v=202610211700"></script>
-<script src="assets/dash-reuso.js?v=202610211700"></script>
-<script src="assets/dash-ns.js?v=202610211700"></script>
-<script src="assets/dash-res.js?v=202610211700"></script>
+<script src="assets/deck.js?v=202610220900"></script>
+<script src="assets/ppdot.js?v=202610220900"></script>
+<script src="assets/dash.js?v=202610220900"></script>
+<script src="assets/dash-reuso.js?v=202610220900"></script>
+<script src="assets/dash-ns.js?v=202610220900"></script>
+<script src="assets/dash-res.js?v=202610220900"></script>
 <script>Deck.start();</script>
 </body>
 </html>
