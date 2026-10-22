@@ -35,6 +35,7 @@ site/mundo.svg        o mapa-múndi da página de visitas, gerado por tools/mund
 site/talks/2026-ebn/  slides da II Escola Brasileira de Neutrinos (cópia de RafaelCRdeLima/Seminario2026)
 site/talks/estrelas/  palestra “Do nascimento à morte das estrelas” (cópia de ~/Codes/Talk Do nascimento à Morte das Estrelas)
 site/talks/ray-tracing/  seminário “Da geometria à observação” (cópia de ~/Codes/Talk Ray Tracing em Estrelas Relativísticas)
+site/talks/dark-matter/  seminário “Simulating the invisible”, em inglês (cópia de ~/Codes/Talk Matéria Escura em Estrelas de Nêutrons)
 site/farol/          FAROL: os pulsares do catálogo ATNF girando no período medido (autônomo)
 site/quadro/         quadro de giz para dar aula no tablet (autônomo, fora dos buscadores)
 site/styles.css      a apresentação inteira
@@ -361,7 +362,9 @@ Cada palestra vive na própria pasta e é copiada para `site/talks/<nome>/`. A f
 EBN 2026 é `~/Codes/Talk Neutrinos em Epaçotempo curvo` (RafaelCRdeLima/Seminario2026), copiada para
 `site/talks/2026-ebn/`; a da palestra sobre estrelas é `~/Codes/Talk Do nascimento à Morte das Estrelas`,
 copiada para `site/talks/estrelas/`; a do seminário de ray tracing é
-`~/Codes/Talk Ray Tracing em Estrelas Relativísticas`, copiada para `site/talks/ray-tracing/`. O README de cada uma tem o `rsync` que atualiza a cópia daqui. Os slides não usam a navegação do site: são um deck de tela
+`~/Codes/Talk Ray Tracing em Estrelas Relativísticas`, copiada para `site/talks/ray-tracing/`; a do seminário
+sobre matéria escura (OBSCURA), só em inglês, é `~/Codes/Talk Matéria Escura em Estrelas de Nêutrons`, copiada para
+`site/talks/dark-matter/`. O README de cada uma tem o `rsync` que atualiza a cópia daqui. Os slides não usam a navegação do site: são um deck de tela
 cheia, com CSS e JS próprios.
 
 ## As visitas

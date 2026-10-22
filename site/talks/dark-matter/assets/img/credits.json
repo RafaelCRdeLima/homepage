@@ -1,0 +1,37 @@
+{
+ "bullet-cluster": {
+  "file": "assets/img/bullet-cluster.jpg",
+  "title": "1e0657 scale.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:1e0657_scale.jpg",
+  "license": "Public domain",
+  "artist": "NASA/CXC/M. Weiss"
+ },
+ "zwicky": {
+  "file": "assets/img/zwicky.jpg",
+  "title": "Fritz Zwicky in 1960.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Fritz_Zwicky_in_1960.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Comet Photo AG (Zürich), ETH-Bibliothek Zürich"
+ },
+ "rubin": {
+  "file": "assets/img/rubin.jpg",
+  "title": "Vera Rubin AIP (cropped).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Vera_Rubin_AIP_(cropped).jpg",
+  "license": "Attribution only (AIP)",
+  "artist": "AIP Emilio Segrè Visual Archives, AIP Gallery of Member Society Presidents"
+ },
+ "galactic-center": {
+  "file": "assets/img/galactic-center.jpg",
+  "title": "The centre of the Milky Way.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:The_centre_of_the_Milky_Way.jpg",
+  "license": "CC BY 4.0",
+  "artist": "ESO"
+ },
+ "ns-manhattan": {
+  "file": "assets/img/ns-manhattan.jpg",
+  "title": "Manhattan NS.tif",
+  "page": "https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif",
+  "license": "Public domain",
+  "artist": "NASA's Goddard Space Flight Center"
+ }
+}
