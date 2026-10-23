@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610231100">
+<link rel="stylesheet" href="assets/deck.css?v=202610231400">
 </head>
 <body>
 
@@ -818,6 +818,34 @@
 </section>
 
 <section class="slide content p3" data-paper="4">
+  <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submitted to JHEAp (2026) · the Becker &amp; Wolff model</p><h2>One equation for <em>the photons in the column</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto 1fr; gap: 18px">
+      <div class="eq terms-eq" id="bw-eq" style="font-size: 31px; padding: 20px 18px 16px">
+        <span class="t" data-term="0" style="--c: var(--text-2)"><i>v</i> <span class="frac"><span>∂<i>f</i></span><span>∂<i>R</i></span></span></span> =
+        <span class="t" data-term="1" style="--c: var(--sol)"><span class="frac"><span><i>ε</i></span><span>3<i>R</i>²</span></span> <span class="frac"><span>∂(<i>R</i>²<i>v</i>)</span><span>∂<i>R</i></span></span> <span class="frac"><span>∂<i>f</i></span><span>∂<i>ε</i></span></span></span> +
+        <span class="t" data-term="2" style="--c: var(--psr)"><span class="frac"><span>1</span><span><i>R</i>²</span></span> <span class="frac"><span>∂</span><span>∂<i>R</i></span></span>(<span class="frac"><span><i>R</i>²<i>c</i></span><span>3<i>n</i><sub>e</sub><i>σ</i><sub>∥</sub></span></span> <span class="frac"><span>∂<i>f</i></span><span>∂<i>R</i></span></span>)</span> +
+        <span class="t" data-term="3" style="--c: var(--rt)"><span class="frac"><span><i>n</i><sub>e</sub><i>σ̄c</i></span><span><i>m</i><sub>e</sub><i>c</i>²</span></span> <span class="frac"><span>1</span><span><i>ε</i>²</span></span> <span class="frac"><span>∂</span><span>∂<i>ε</i></span></span>[<i>ε</i>⁴(<i>f</i> + <i>kT</i><sub>e</sub> <span class="frac"><span>∂<i>f</i></span><span>∂<i>ε</i></span></span>)]</span>
+        <span class="t" data-term="4" style="--c: var(--warn)">− <span class="frac"><span><i>f</i></span><span><i>t</i><sub>esc</sub></span></span></span>
+        <span class="t" data-term="5" style="--c: var(--neb)">+ <i>Q</i>(<i>R</i>, <i>ε</i>)</span>
+        <span class="note">steady-state transport equation for the photon distribution, <span class="nocase"><i>f</i>(<i>R</i>, <i>ε</i>)</span> · Becker &amp; Wolff (2022), conical geometry</span>
+      </div>
+      <div class="term-cards" id="bw-terms">
+        <div class="card" data-term="0" style="--c: var(--text-2)"><h4>advection</h4><p>the infalling gas carries the photons along, with the <i>v</i>(<i>y</i>) of the previous slide</p></div>
+        <div class="card" data-term="1" style="--c: var(--sol)"><h4><i>bulk</i> Comptonization</h4><p>the flow converges: scattering off the infalling gas, photons gain energy</p></div>
+        <div class="card" data-term="2" style="--c: var(--psr)"><h4>diffusion</h4><p>photons move along the column, with the strong-field cross section <i>σ</i><sub>∥</sub></p></div>
+        <div class="card" data-term="3" style="--c: var(--rt)"><h4>thermal Comptonization</h4><p>the Kompaneets term: electrons at <i>T</i><sub>e</sub> drive the spectrum towards ~<i>kT</i><sub>e</sub></p></div>
+        <div class="card" data-term="4" style="--c: var(--warn)"><h4>escape</h4><p>photons leave through the walls in a time <i>t</i><sub>esc</sub>: the fan beam</p></div>
+        <div class="card" data-term="5" style="--c: var(--neb)"><h4>sources</h4><p>seed photons: bremsstrahlung, cyclotron and blackbody from the base</p></div>
+      </div>
+      <div class="cols c2" style="gap: 24px; align-items: stretch">
+        <div class="card" style="padding: 20px 24px"><h4>How it is solved</h4><div class="eq sm" style="font-size: 23px; padding: 10px 12px; margin: 0 0 12px"><i>f</i><sub>G</sub> = Σ<sub><i>n</i></sub> <i>C</i><sub><i>n</i></sub> <i>g</i><sub><i>n</i></sub>(<i>τ</i>) (<span class="frac"><span><i>ε</i></span><span><i>kT</i><sub>e</sub></span></span>)<sup><i>κ</i>−4</sup> <i>e</i><sup>−<i>ε</i>/2<i>kT</i><sub>e</sub></sup> <i>M</i><sub><i>κ</i>,<i>μ</i></sub>(<span class="frac"><span><i>ε</i><sub>min</sub></span><span><i>kT</i><sub>e</sub></span></span>) <i>W</i><sub><i>κ</i>,<i>μ</i></sub>(<span class="frac"><span><i>ε</i><sub>max</sub></span><span><i>kT</i><sub>e</sub></span></span>)</div><p class="small" style="margin: 0">Separation of variables: eigenfunctions <i>g</i><sub>n</sub>(<i>τ</i>) in optical depth and Whittaker functions in energy. The spectrum is this Green’s function convolved with the sources, adding the wall and the top of the column. Magnetic cross sections with vacuum polarization; cyclotron and iron lines, empirical. The implementation was checked equation by equation.</p></div>
+        <div class="card" style="padding: 20px 24px"><h4>What the MCMC samples: 12 parameters</h4><div class="chips"><span><b>α</b>velocity</span><span><b>ξ</b>diffusion</span><span><b>ψ</b>bulk/thermal</span><span><b>θ<sub>0</sub></b>opening</span><span><b>k<sub>0</sub></b>impact</span><span><b>y<sub>top</sub></b>height</span><span><b>T<sub>e</sub></b>electrons</span><span><b>Ṁ</b>accretion</span><span><b>B</b>field</span><span><b>d<sub>Fe</sub></b>iron</span><span><b>f<sub>sys</sub></b>systematics</span><span><b>D</b>distance</span></div><p class="small" style="margin: 0">Fixed: <i>M</i> = 1.4 M☉, <i>R</i>★ = 10 km, <i>N</i><sub>H</sub> and the cyclotron line, outside the band. <i>B</i> has a prior from the line (46.3 keV). The likelihood is Gaussian, with the systematic term <i>f</i><sub>sys</sub>, and charges the energy budget <i>L</i><sub>acc</sub> = <i>GMṀ</i>/<i>R</i>★ within a factor of 2.</p></div>
+      </div>
+  </div>
+  <aside class="notes">The details of the model. Becker and Wolff write a transport equation for the photon distribution in the column, f of R and ε, and solve it analytically. Term by term — the terms light up one at a time, and a click pins one. On the left, advection: the infalling gas carries the photons along. On the right, first bulk Comptonization: the flow converges, and photons scattering off the infalling gas gain energy, as in first-order Fermi acceleration. Then diffusion along the column, with the cross section reduced by the field. Then the Kompaneets term, thermal Comptonization, which drives the spectrum towards the electron temperature. Escape through the walls, which gives the fan beam. And the sources: bremsstrahlung, cyclotron and the blackbody from the base of the column. The solution separates variables — spatial eigenfunctions and Whittaker functions in energy — and the spectrum is the Green’s function convolved with the sources. In the fit this becomes twelve parameters: the temperature, the accretion rate, the cone geometry, the field, with a prior from the cyclotron line, and a free systematic uncertainty.</aside>
+</section>
+
+<section class="slide content p3" data-paper="4">
   <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submitted to JHEAp (2026) · results</p><h2>A hot, tall column — <em>and a missing piece</em></h2></header>
   <div class="body cols" style="grid-template-columns: .78fr 1.22fr; gap: 36px">
     <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/bw-1a0535.png" alt="NuSTAR spectrum of 1A 0535+262 with the Becker and Wolff model and residuals"><figcaption>The NuSTAR spectrum and the posterior (median and 1σ and 2σ bands), with the residuals. Inset: the iron line.</figcaption></figure>
@@ -1272,12 +1300,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610231100"></script>
-<script src="assets/ppdot.js?v=202610231100"></script>
-<script src="assets/dash.js?v=202610231100"></script>
-<script src="assets/dash-reuso.js?v=202610231100"></script>
-<script src="assets/dash-ns.js?v=202610231100"></script>
-<script src="assets/dash-res.js?v=202610231100"></script>
+<script src="assets/deck.js?v=202610231400"></script>
+<script src="assets/ppdot.js?v=202610231400"></script>
+<script src="assets/dash.js?v=202610231400"></script>
+<script src="assets/dash-reuso.js?v=202610231400"></script>
+<script src="assets/dash-ns.js?v=202610231400"></script>
+<script src="assets/dash-res.js?v=202610231400"></script>
 <script>Deck.start();</script>
 </body>
 </html>

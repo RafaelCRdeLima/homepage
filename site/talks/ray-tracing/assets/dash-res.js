@@ -118,6 +118,22 @@
   onSlide(cvV, prof);
 })();
 
+/* A equação de transporte de Becker & Wolff, termo a termo: o termo e o cartão que o explica acendem juntos, um
+   de cada vez, a cada 3,5 s, até o primeiro clique num deles — aí fica o escolhido. No PDF e com movimento
+   reduzido nada acende: todos os cartões já estão à vista. */
+(() => {
+  const eq = document.getElementById('bw-eq'); if (!eq) return;
+  const els = [...document.querySelectorAll('#bw-eq [data-term], #bw-terms [data-term]')], slide = eq.closest('.slide'), N = 6;
+  let k = -1, auto = true, timer = 0;
+  const show = i => { k = i; els.forEach(e => e.classList.toggle('on', +e.dataset.term === i)); };
+  els.forEach(e => e.addEventListener('click', () => { auto = false; clearInterval(timer); show(+e.dataset.term); }));
+  addEventListener('slidechange', () => {
+    clearInterval(timer);
+    if (!slide.classList.contains('active') || !auto || reduceMotion || FF) return;
+    show(0); timer = setInterval(() => { if (slide.classList.contains('active') && auto) show((k + 1) % N); else clearInterval(timer); }, 3500);
+  });
+})();
+
 /* A mesma estrela em outra gravidade (Ottoni, Coelho, de Lima, Pereira & Rueda, EPJC 84, 1337, 2024).
    Fora de uma estrela escalarizada, no referencial de Einstein, a métrica é a de Just:
      ds² = −(1 − a/r)^{b/a} dt² + (1 − a/r)^{−b/a} dr² + (1 − a/r)^{1−b/a} r² dΩ²,

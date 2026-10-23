@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610231100">
+<link rel="stylesheet" href="assets/deck.css?v=202610231400">
 </head>
 <body>
 
@@ -819,6 +819,34 @@
 </section>
 
 <section class="slide content p3" data-paper="4">
+  <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submetido ao JHEAp (2026) · o modelo de Becker &amp; Wolff</p><h2>Uma equação para <em>os fótons da coluna</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto 1fr; gap: 18px">
+      <div class="eq terms-eq" id="bw-eq" style="font-size: 31px; padding: 20px 18px 16px">
+        <span class="t" data-term="0" style="--c: var(--text-2)"><i>v</i> <span class="frac"><span>∂<i>f</i></span><span>∂<i>R</i></span></span></span> =
+        <span class="t" data-term="1" style="--c: var(--sol)"><span class="frac"><span><i>ε</i></span><span>3<i>R</i>²</span></span> <span class="frac"><span>∂(<i>R</i>²<i>v</i>)</span><span>∂<i>R</i></span></span> <span class="frac"><span>∂<i>f</i></span><span>∂<i>ε</i></span></span></span> +
+        <span class="t" data-term="2" style="--c: var(--psr)"><span class="frac"><span>1</span><span><i>R</i>²</span></span> <span class="frac"><span>∂</span><span>∂<i>R</i></span></span>(<span class="frac"><span><i>R</i>²<i>c</i></span><span>3<i>n</i><sub>e</sub><i>σ</i><sub>∥</sub></span></span> <span class="frac"><span>∂<i>f</i></span><span>∂<i>R</i></span></span>)</span> +
+        <span class="t" data-term="3" style="--c: var(--rt)"><span class="frac"><span><i>n</i><sub>e</sub><i>σ̄c</i></span><span><i>m</i><sub>e</sub><i>c</i>²</span></span> <span class="frac"><span>1</span><span><i>ε</i>²</span></span> <span class="frac"><span>∂</span><span>∂<i>ε</i></span></span>[<i>ε</i>⁴(<i>f</i> + <i>kT</i><sub>e</sub> <span class="frac"><span>∂<i>f</i></span><span>∂<i>ε</i></span></span>)]</span>
+        <span class="t" data-term="4" style="--c: var(--warn)">− <span class="frac"><span><i>f</i></span><span><i>t</i><sub>esc</sub></span></span></span>
+        <span class="t" data-term="5" style="--c: var(--neb)">+ <i>Q</i>(<i>R</i>, <i>ε</i>)</span>
+        <span class="note">equação de transporte estacionária para a distribuição dos fótons, <span class="nocase"><i>f</i>(<i>R</i>, <i>ε</i>)</span> · Becker &amp; Wolff (2022), geometria cônica</span>
+      </div>
+      <div class="term-cards" id="bw-terms">
+        <div class="card" data-term="0" style="--c: var(--text-2)"><h4>advecção</h4><p>o gás que cai arrasta os fótons, com o <i>v</i>(<i>y</i>) do slide anterior</p></div>
+        <div class="card" data-term="1" style="--c: var(--sol)"><h4>Comptonização de <i>bulk</i></h4><p>o fluxo converge: espalhando no gás que cai, os fótons ganham energia</p></div>
+        <div class="card" data-term="2" style="--c: var(--psr)"><h4>difusão</h4><p>os fótons andam ao longo da coluna, com a seção de choque <i>σ</i><sub>∥</sub> do campo forte</p></div>
+        <div class="card" data-term="3" style="--c: var(--rt)"><h4>Comptonização térmica</h4><p>o termo de Kompaneets: elétrons a <i>T</i><sub>e</sub> levam o espectro para ~<i>kT</i><sub>e</sub></p></div>
+        <div class="card" data-term="4" style="--c: var(--warn)"><h4>escape</h4><p>os fótons saem pelas paredes num tempo <i>t</i><sub>esc</sub>: o feixe em leque</p></div>
+        <div class="card" data-term="5" style="--c: var(--neb)"><h4>fontes</h4><p>fótons-semente: bremsstrahlung, cíclotron e corpo negro da base</p></div>
+      </div>
+      <div class="cols c2" style="gap: 24px; align-items: stretch">
+        <div class="card" style="padding: 20px 24px"><h4>Como se resolve</h4><div class="eq sm" style="font-size: 23px; padding: 10px 12px; margin: 0 0 12px"><i>f</i><sub>G</sub> = Σ<sub><i>n</i></sub> <i>C</i><sub><i>n</i></sub> <i>g</i><sub><i>n</i></sub>(<i>τ</i>) (<span class="frac"><span><i>ε</i></span><span><i>kT</i><sub>e</sub></span></span>)<sup><i>κ</i>−4</sup> <i>e</i><sup>−<i>ε</i>/2<i>kT</i><sub>e</sub></sup> <i>M</i><sub><i>κ</i>,<i>μ</i></sub>(<span class="frac"><span><i>ε</i><sub>min</sub></span><span><i>kT</i><sub>e</sub></span></span>) <i>W</i><sub><i>κ</i>,<i>μ</i></sub>(<span class="frac"><span><i>ε</i><sub>max</sub></span><span><i>kT</i><sub>e</sub></span></span>)</div><p class="small" style="margin: 0">Separação de variáveis: autofunções <i>g</i><sub>n</sub>(<i>τ</i>) na profundidade óptica e funções de Whittaker na energia. O espectro é essa função de Green convoluída com as fontes, somando parede e topo da coluna. Seções de choque magnéticas com polarização do vácuo; linhas de cíclotron e do ferro, empíricas. A implementação foi conferida equação por equação.</p></div>
+        <div class="card" style="padding: 20px 24px"><h4>O que o MCMC amostra: 12 parâmetros</h4><div class="chips"><span><b>α</b>velocidade</span><span><b>ξ</b>difusão</span><span><b>ψ</b>bulk/térmica</span><span><b>θ<sub>0</sub></b>abertura</span><span><b>k<sub>0</sub></b>impacto</span><span><b>y<sub>top</sub></b>altura</span><span><b>T<sub>e</sub></b>elétrons</span><span><b>Ṁ</b>acreção</span><span><b>B</b>campo</span><span><b>d<sub>Fe</sub></b>ferro</span><span><b>f<sub>sys</sub></b>sistemática</span><span><b>D</b>distância</span></div><p class="small" style="margin: 0">Fixos: <i>M</i> = 1,4 M☉, <i>R</i>★ = 10 km, <i>N</i><sub>H</sub> e a linha de cíclotron, fora da banda. <i>B</i> tem prior pela linha (46,3 keV). A verossimilhança é gaussiana, com a sistemática <i>f</i><sub>sys</sub>, e cobra o orçamento <i>L</i><sub>acc</sub> = <i>GMṀ</i>/<i>R</i>★ dentro de um fator 2.</p></div>
+      </div>
+  </div>
+  <aside class="notes">Os detalhes do modelo. Becker e Wolff escrevem uma equação de transporte para a distribuição dos fótons na coluna, f de R e ε, e a resolvem analiticamente. Termo a termo — os termos acendem um de cada vez, e um clique fixa um deles. À esquerda, a advecção: o gás que cai arrasta os fótons. À direita, primeiro a Comptonização de bulk: o fluxo converge, e os fótons que espalham no gás que cai ganham energia, como numa aceleração de Fermi de primeira ordem. Depois a difusão ao longo da coluna, com a seção de choque reduzida pelo campo. Depois o termo de Kompaneets, a Comptonização térmica, que leva o espectro para a temperatura dos elétrons. O escape pelas paredes, que dá o feixe em leque. E as fontes: bremsstrahlung, cíclotron e o corpo negro da base da coluna. A solução separa variáveis — autofunções espaciais e funções de Whittaker na energia — e o espectro é a função de Green convoluída com as fontes. No ajuste, isso vira doze parâmetros: a temperatura, a taxa de acreção, a geometria do cone, o campo, com prior vindo da linha de cíclotron, e uma incerteza sistemática livre.</aside>
+</section>
+
+<section class="slide content p3" data-paper="4">
   <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submetido ao JHEAp (2026) · resultados</p><h2>Uma coluna quente e alta — <em>e uma peça faltando</em></h2></header>
   <div class="body cols" style="grid-template-columns: .78fr 1.22fr; gap: 36px">
     <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/bw-1a0535.png" alt="Espectro NuSTAR de 1A 0535+262 com o modelo de Becker e Wolff e os resíduos"><figcaption>O espectro NuSTAR e o posterior (mediana e faixas de 1σ e 2σ), com os resíduos. No detalhe, a linha do ferro.</figcaption></figure>
@@ -1278,12 +1306,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610231100"></script>
-<script src="assets/ppdot.js?v=202610231100"></script>
-<script src="assets/dash.js?v=202610231100"></script>
-<script src="assets/dash-reuso.js?v=202610231100"></script>
-<script src="assets/dash-ns.js?v=202610231100"></script>
-<script src="assets/dash-res.js?v=202610231100"></script>
+<script src="assets/deck.js?v=202610231400"></script>
+<script src="assets/ppdot.js?v=202610231400"></script>
+<script src="assets/dash.js?v=202610231400"></script>
+<script src="assets/dash-reuso.js?v=202610231400"></script>
+<script src="assets/dash-ns.js?v=202610231400"></script>
+<script src="assets/dash-res.js?v=202610231400"></script>
 <script>Deck.start();</script>
 </body>
 </html>

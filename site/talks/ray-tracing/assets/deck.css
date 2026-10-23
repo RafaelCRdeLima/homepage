@@ -217,6 +217,18 @@ table.tbl.tight td.n { font: 500 21px var(--ui); font-variant-numeric: tabular-n
 .paper-badge .ref { letter-spacing: .1em; color: var(--text); }
 .foot .paper-tag { font-weight: 600; color: var(--part); }
 
+/* uma equação termo a termo: cada termo sublinhado na sua cor, e o cartão que o explica (dash-res.js acende os dois) */
+.terms-eq .t { border-bottom: 3px solid var(--c); padding: 0 4px 6px; border-radius: 6px; cursor: pointer; transition: background .3s, box-shadow .3s; }
+.terms-eq .t.on { background: color-mix(in srgb, var(--c) 16%, transparent); box-shadow: 0 0 22px color-mix(in srgb, var(--c) 30%, transparent); }
+.term-cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.term-cards .card { padding: 14px 16px; border-top: 3px solid var(--c); cursor: pointer; transition: background .3s, transform .3s; }
+.term-cards .card.on { background: color-mix(in srgb, var(--c) 13%, var(--surface)); transform: translateY(-4px); }
+.term-cards .card h4 { color: var(--c); font-size: 15px; letter-spacing: .12em; margin: 0 0 6px; }
+.term-cards .card p { font-size: 18px; line-height: 1.4; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+.chips span { font: 15px var(--ui); color: var(--text-2); border: 1px solid var(--line-2); border-radius: 999px; padding: 4px 12px; }
+.chips span b { font: 600 18px var(--read); color: var(--part); margin-right: 6px; }
+
 /* ---------- capa de parte ---------- */
 .partcover { display: grid; align-items: center; padding: 0 150px; }
 .partcover .bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: saturate(.9); }
