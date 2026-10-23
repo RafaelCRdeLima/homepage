@@ -1,6 +1,122 @@
 /* =====================================================================
-   Parte III · resultados — painel interativo
+   Parte III · resultados — painéis interativos
    ===================================================================== */
+
+/* A coluna de 1A 0535+262 pelo espectro (Silva, de Lima, Coelho & de Araújo, submetido ao JHEAp, 2026), no
+   modelo de Becker & Wolff (2022), com os números do modo dominante do posterior: cone de abertura
+   Θ₁ = e^{2,39}° = 10,9° (o artigo amostra log θ₀ = ln(Θ₁/1°)), topo em y_top = 4,54 R★ e o gás caindo com
+   v(y) = v_ff [(k_∞²(y³ − 1) + k₀²)/y⁴]^{1/2}, k₀ = 10^{−0,80}, k_∞ = 1, v_ff = √(2GM/R★) = 0,64c (1,4 M☉, 10 km).
+   Os fótons nascem dentro da coluna, ganham energia a cada espalhamento (ilustração da Comptonização, que
+   satura em alguns kT_e, kT_e = 7,4 keV) e escapam pelas paredes, de lado: o feixe em leque. Gás e fótons são
+   ilustração; a geometria e o perfil de velocidade são os do ajuste. À direita, o perfil v(y) contra a queda livre. */
+(() => {
+  const cv = document.getElementById('bw-col'); if (!cv) return;
+  const cvV = document.getElementById('bw-v'), out = document.getElementById('bw-out');
+  const YTOP = 4.536, TH = Math.exp(2.391) * deg, K0 = 10 ** -0.7997, VFF = 0.643, KT = 7.38;   // R★; rad; —; c; keV
+  const vOf = y => Math.sqrt(Math.max(0, (y ** 3 - 1 + K0 * K0) / y ** 4));   // |v|/v_ff
+  let seed = 11; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+  const VS = 1.6, CS = 3.2, MFP = 0.16;                                 // R★/s do gás (×v/v_ff) e dos fótons; livre caminho médio (R★)
+  let gas = [], ph = [], t = 0, acc = 0;
+  const inCone = (x, y) => { const r = Math.hypot(x, y); return r >= 1 && r <= YTOP && Math.abs(Math.atan2(x, y)) <= TH; };
+  function newGas(r) { return { a: (2 * rnd() - 1) * TH * 0.95, r: r ?? 1 + (YTOP + 0.8 - 1) * rnd() }; }
+  function newPhoton() {
+    const r = 1.02 + (YTOP - 1.02) * rnd() ** 1.6, a = (2 * rnd() - 1) * TH * 0.9, d = 2 * Math.PI * rnd();
+    return { x: r * Math.sin(a), y: r * Math.cos(a), dx: Math.cos(d), dy: Math.sin(d), left: -MFP * Math.log(1 - rnd()), E: 1 + rnd(), out: false, tr: [] };
+  }
+  function reset() { seed = 11; gas = Array.from({ length: 70 }, () => newGas()); ph = []; t = acc = 0; }
+  function tick(dt) {
+    t += dt;
+    for (const g of gas) { g.r -= vOf(g.r) * VS * dt; if (g.r <= 1) Object.assign(g, newGas(YTOP + 0.8)); }
+    acc += dt * 7; for (; acc >= 1; acc--) ph.push(newPhoton());       // 7 fótons por segundo
+    for (const p of ph) {
+      let s = CS * dt;
+      while (s > 0) {
+        const step = p.out ? s : Math.min(s, p.left);
+        p.x += p.dx * step; p.y += p.dy * step; s -= step;
+        if (p.out) break;
+        p.left -= step;
+        if (Math.hypot(p.x, p.y) < 1) { p.dead = true; break; }       // de volta à superfície: absorvido
+        if (!inCone(p.x, p.y)) { p.out = true; continue; }            // saiu pela parede (ou pelo topo)
+        if (p.left <= 0) {                                             // espalhamento: nova direção, mais energia
+          const d = 2 * Math.PI * rnd(); p.dx = Math.cos(d); p.dy = Math.sin(d);
+          p.left = -MFP * Math.log(1 - rnd()); p.E += 0.3 * (3 * KT - p.E) * rnd();
+        }
+      }
+      p.tr.push([p.x, p.y]); if (p.tr.length > 26) p.tr.shift();
+    }
+    ph = ph.filter(p => !p.dead && Math.hypot(p.x, p.y) < 9);
+    draw();
+  }
+  const colE = (E, a) => { const u = clamp(Math.log(E) / Math.log(3 * KT), 0, 1); return `hsla(${(28 + 172 * u).toFixed(0)},95%,${(62 + 18 * u).toFixed(0)}%,${a})`; };
+  function draw() {
+    const { ctx: c, w, h } = fitCanvas(cv), R = Math.min((h - 64) / (YTOP + 0.55), w / 4.2), sx = w * 0.42, sy = 52 + YTOP * R;
+    const X = x => sx + x * R, Y = y => sy - y * R;
+    // linhas de campo do dipolo (r = L sen²θ) e a estrela
+    c.strokeStyle = 'rgba(158,140,255,.16)'; c.lineWidth = 1;
+    for (const f of [0.55, 1, 1.6, 2.4, 3.6]) for (const sg of [-1, 1]) {
+      const th0 = f * TH, L = 1 / Math.sin(th0) ** 2; c.beginPath(); let on = false;
+      for (let th = th0; th < Math.PI / 2; th += 0.002) { const r = L * Math.sin(th) ** 2, x = sg * r * Math.sin(th), y = r * Math.cos(th); if (r > 9) break; on ? c.lineTo(X(x), Y(y)) : c.moveTo(X(x), Y(y)); on = true; }
+      c.stroke();
+    }
+    const g = c.createRadialGradient(X(0), Y(0), 0, X(0), Y(0), R);
+    g.addColorStop(0, '#3a3560'); g.addColorStop(1, '#22213a'); c.fillStyle = g; c.beginPath(); c.arc(X(0), Y(0), R, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(190,180,255,.5)'; c.lineWidth = 1.5; c.stroke();
+    // o cone: paredes radiais a ±Θ₁, de R★ a y_top; o prolongamento até o centro, tracejado
+    const wall = (r, sg) => [X(sg * r * Math.sin(TH)), Y(r * Math.cos(TH))];
+    const cg = c.createLinearGradient(0, Y(1), 0, Y(YTOP)); cg.addColorStop(0, 'rgba(255,184,107,.34)'); cg.addColorStop(1, 'rgba(255,184,107,.08)');
+    c.fillStyle = cg; c.beginPath(); c.moveTo(...wall(1, -1)); c.lineTo(...wall(YTOP, -1)); c.arc(X(0), Y(0), YTOP * R, -Math.PI / 2 - TH, -Math.PI / 2 + TH); c.lineTo(...wall(1, 1)); c.arc(X(0), Y(0), R, -Math.PI / 2 + TH, -Math.PI / 2 - TH, true); c.fill();
+    c.strokeStyle = 'rgba(255,184,107,.7)'; c.lineWidth = 1.5; for (const sg of [-1, 1]) { c.beginPath(); c.moveTo(...wall(1, sg)); c.lineTo(...wall(YTOP, sg)); c.stroke(); }
+    c.setLineDash([3, 5]); c.strokeStyle = 'rgba(255,184,107,.35)'; for (const sg of [-1, 1]) { c.beginPath(); c.moveTo(X(0), Y(0)); c.lineTo(...wall(1, sg)); c.stroke(); } c.setLineDash([]);
+    c.strokeStyle = COL.sol; c.beginPath(); c.arc(X(0), Y(0), 0.42 * R, -Math.PI / 2, -Math.PI / 2 + TH); c.stroke();
+    c.font = `15px ${FONT}`; c.fillStyle = COL.sol; c.textAlign = 'left'; c.textBaseline = 'middle'; c.fillText('Θ₁ ≈ 11°', X(0.14), Y(0.5));
+    // o gás caindo
+    c.fillStyle = 'rgba(200,195,255,.75)';
+    for (const g2 of gas) { if (g2.r > YTOP + 0.6) continue; const x = g2.r * Math.sin(g2.a), y = g2.r * Math.cos(g2.a), L = 0.05 + 0.25 * vOf(g2.r); c.globalAlpha = 0.7; c.fillRect(X(x) - 1, Y(y) - 1, 2.2, 2.2); c.strokeStyle = 'rgba(200,195,255,.35)'; c.beginPath(); c.moveTo(X(x), Y(y)); c.lineTo(X(x * (1 + L / g2.r)), Y(y * (1 + L / g2.r))); c.stroke(); }
+    c.globalAlpha = 1;
+    // os fótons: rastro e cabeça, cor pela energia
+    for (const p of ph) {
+      if (p.tr.length > 1) { c.strokeStyle = colE(p.E, 0.45); c.lineWidth = 1.3; c.beginPath(); p.tr.forEach(([x, y], i) => i ? c.lineTo(X(x), Y(y)) : c.moveTo(X(x), Y(y))); c.stroke(); }
+      c.fillStyle = colE(p.E, 1); c.beginPath(); c.arc(X(p.x), Y(p.y), 2.6, 0, 7); c.fill();
+    }
+    // cota de y_top, à direita
+    const qx = X(YTOP * Math.sin(TH)) + 34;
+    c.strokeStyle = COL.text2; c.fillStyle = COL.text2; c.lineWidth = 1.2;
+    c.beginPath(); c.moveTo(qx, Y(1)); c.lineTo(qx, Y(YTOP)); c.moveTo(qx - 6, Y(1)); c.lineTo(qx + 6, Y(1)); c.moveTo(qx - 6, Y(YTOP)); c.lineTo(qx + 6, Y(YTOP)); c.stroke();
+    c.textAlign = 'left'; c.fillStyle = COL.text; c.font = `600 16px ${FONT}`; subText(c, `y_{top} ≈ ${fmt(4.5, 1)} R★`, qx + 10, Y((1 + YTOP) / 2) - 10, 16);
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.fillText(T('≈ 35 km acima da superfície', '≈ 35 km above the surface'), qx + 10, Y((1 + YTOP) / 2) + 12);
+    c.fillStyle = COL.text3; c.textBaseline = 'bottom'; c.fillText(T('estrela de nêutrons · 1,4 M☉ · 10 km', 'neutron star · 1.4 M☉ · 10 km'), 10, h - 8);
+    c.textBaseline = 'top'; c.fillText(T('o gás cai pelas linhas de campo; os fótons escapam pelas paredes', 'the gas falls along the field lines; photons escape through the walls'), 10, 8);
+    // a escala de cor dos fótons
+    const lx = w - 150, ly = h - 40;
+    for (let i = 0; i < 100; i++) { c.fillStyle = colE(Math.exp(i / 99 * Math.log(3 * KT)), 1); c.fillRect(lx + i * 1.3, ly, 1.4, 8); }
+    c.fillStyle = COL.text3; c.textBaseline = 'top'; c.textAlign = 'left'; c.fillText('1', lx, ly + 11); c.textAlign = 'right'; c.fillText(`${Math.round(3 * KT)} keV`, lx + 130, ly + 11);
+    c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText(T('energia do fóton', 'photon energy'), lx + 65, ly - 3);
+  }
+  // o perfil de velocidade do ajuste contra a queda livre
+  function prof() {
+    const P = new Plot(cvV, { x: [1, 5], y: [0, 1.05], m: [26, 14, 50, 58], fs: 15, xticks: [1, 2, 3, 4, 5], yticks: [0, 0.25, 0.5, 0.75, 1] });
+    P.begin().frame('y = r / R★', null);
+    const c = P.ctx; c.save(); c.translate(18, (P.T + P.B) / 2); c.rotate(-Math.PI / 2); c.font = `16px ${FONT}`; c.fillStyle = COL.text2; c.textBaseline = 'middle'; subText(c, '|v| / v_{ff}', 0, 0, 16, 'center'); c.restore();
+    const ys = linspace(1, 5, 200);
+    P.clip();
+    P.line(ys, ys.map(y => 1 / Math.sqrt(y)), { color: 'rgba(255,255,255,.45)', width: 2, dash: [7, 6] });
+    P.line(ys, ys.map(vOf), { color: COL.sol, width: 3, glow: 10 });
+    P.vline(YTOP, { color: 'rgba(255,184,107,.5)' });
+    P.unclip();
+    P.dot(1, K0, { color: COL.sol, r: 5, glow: 12 });
+    c.font = `14px ${FONT}`; c.fillStyle = 'rgba(255,184,107,.8)'; c.textBaseline = 'bottom'; subText(c, 'y_{top}', P.X(YTOP) - 6, P.B - 6, 14, 'right');
+    P.text(1.12, K0 + 0.02, T(`k₀ = ${fmt(K0, 2)}: chega a ${fmt(K0 * VFF, 2)} c`, `k₀ = ${fmt(K0, 2)}: arrives at ${fmt(K0 * VFF, 2)} c`), { color: COL.sol, size: 14, base: 'bottom' });
+    P.text(2.6, 1 / Math.sqrt(2.6) + 0.06, T('queda livre', 'free fall'), { color: COL.text2, size: 14, base: 'bottom' });
+    P.text(1.02, 1.0, T('o gás, freado perto da superfície', 'the gas, braked near the surface'), { color: COL.text3, size: 13, base: 'top', px: false });
+  }
+  out.innerHTML = `<span>${T('cone', 'cone')} Θ<sub>1</sub> <b>≈ 11°</b></span><span>${T('topo', 'top')} <b>4,5 R★</b></span>
+    <span>kT<sub>e</sub> <b>${fmt(KT, 1)} keV</b></span><span>v<sub>ff</sub> <b>${fmt(VFF, 2)} c</b>, ${T('impacto', 'impact')} <b>${fmt(K0 * VFF, 2)} c</b></span>`.replace('4,5', fmt(4.5, 1));
+  const slide = cv.closest('.slide');
+  addEventListener('slidechange', () => { if (slide.classList.contains('active')) reset(); });
+  reset();
+  loopOn(cv, tick, () => { reset(); for (let i = 0; i < 180; i++) tick(1 / 60); });
+  onSlide(cvV, prof);
+})();
 
 /* A mesma estrela em outra gravidade (Ottoni, Coelho, de Lima, Pereira & Rueda, EPJC 84, 1337, 2024).
    Fora de uma estrela escalarizada, no referencial de Einstein, a métrica é a de Just:

@@ -81,9 +81,9 @@ const bbColor = (() => {
 })();
 const specColor = l => xyz2rgb(CMF(l));
 const rgbs = (c, a = 1) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
-/* texto no canvas com subscritos de uma letra: “r_s”, “R_S” (usa a fonte e a cor correntes) */
+/* texto no canvas com subscritos: “r_s”, “R_S”, “y_{top}” (usa a fonte e a cor correntes) */
 function subText(c, s, x, y, size, align = 'left') {
-  const parts = s.split(/_(\w)/), f0 = c.font, f1 = f0.replace(/(\d+)px/, (_, n) => Math.round(n * 0.7) + 'px'), al = c.textAlign;
+  const parts = s.split(/_\{([^}]*)\}|_(\w)/).reduce((a, q, i) => { if (i % 3 === 0) a.push(q); else if (q !== undefined) a.push(q); return a; }, []), f0 = c.font, f1 = f0.replace(/(\d+)px/, (_, n) => Math.round(n * 0.7) + 'px'), al = c.textAlign;
   let W = 0; parts.forEach((q, i) => { c.font = i % 2 ? f1 : f0; W += c.measureText(q).width; });
   let x0 = align === 'right' ? x - W : align === 'center' ? x - W / 2 : x;
   c.textAlign = 'left';

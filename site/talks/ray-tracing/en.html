@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610220900">
+<link rel="stylesheet" href="assets/deck.css?v=202610230900">
 </head>
 <body>
 
@@ -711,10 +711,11 @@
       <div><p class="yr">2024</p><p><b>PRD 110, 103014</b>: stratified rotation and the moment of inertia</p></div>
       <div><p class="yr">2025</p><p><b>PRD 112, 083010</b>: quark stars and the QCD equation of state</p></div>
       <div><p class="yr">2026</p><p><b>arXiv:2607.09836</b>: compact stars in a high-tension braneworld</p></div>
+      <div><p class="yr">2026</p><p><b>JHEAp (submitted)</b>: the column of 1A 0535+262 through its NuSTAR spectrum</p></div>
     </div>
     <p class="say sm" style="margin: 0">The common thread: reading in the light of a compact star its <em>mass</em>, its <em>radius</em>, its <em>field</em> — and the <em>gravity</em> that curves it.</p>
   </div>
-  <aside class="notes">An overview of the work with collaborators, mainly Jaziel Coelho, Jonas Pereira and Jorge Rueda. It starts with the 2017 question — whether some magnetars could be rotation-powered — and goes through three applications of ray tracing to real data: a magnetar at the centre of the Galaxy, another near the remnant Kes 79, and a star accreting matter. Then two extensions to gravity beyond Einstein: scalar-tensor theories and braneworld. And two papers on structure: non-rigid rotation and quark stars.</aside>
+  <aside class="notes">An overview of the work with collaborators, mainly Jaziel Coelho, Jonas Pereira and Jorge Rueda. It starts with the 2017 question — whether some magnetars could be rotation-powered — and goes through three applications of ray tracing to real data: a magnetar at the centre of the Galaxy, another near the remnant Kes 79, and a star accreting matter — which came back, through its spectrum, in a submitted paper. Then two extensions to gravity beyond Einstein: scalar-tensor theories and braneworld. And two papers on structure: non-rigid rotation and quark stars.</aside>
 </section>
 
 <section class="slide content p3">
@@ -795,6 +796,44 @@
     </div>
   </div>
   <aside class="notes">A third kind of geometry: accretion columns. In X-ray binaries, matter from the companion falls in, guided by the magnetic field, and forms columns above the poles, which emit sideways. Here the ray tracing has to deal with emission above the surface, and some photons pass through a periastron before escaping. The work, from 2023, led by Rafael R. Silva, builds the star and the columns as a 3D mesh, does exact ray tracing and fits the pulse profile of 1A 0535+262 observed by NuSTAR, with a genetic algorithm and MCMC: 1.5 solar masses and 12 km.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submitted to JHEAp (2026) · the model</p><h2>Inside the column, <em>through the spectrum</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.4fr .8fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="plots" style="grid-template-columns: 1.35fr 1fr"><div class="cv"><canvas id="bw-col"></canvas></div><div class="cv"><canvas id="bw-v"></canvas></div></div>
+      <div class="readout" id="bw-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-self: center">
+      <ul class="list" style="gap: 12px">
+        <li class="small">The same star as on the previous slide, now through its <b>spectrum</b>: NuSTAR, 3–44 keV, <i>L</i> ≈ 3.7×10³⁶ erg/s — 16 times below the critical luminosity.</li>
+        <li class="small"><b>Becker &amp; Wolff (2022)</b> model: a conical column; photons gain energy from the hot electrons and from the infalling gas (thermal and <i>bulk</i> Comptonization) and escape through the walls.</li>
+        <li class="small">12 parameters, 4 independent MCMC chains of 256 walkers. The posterior has <b>two modes</b>; the dominant one wins by Δln 𝒫 ≈ 55.</li>
+      </ul>
+      <div class="eq sm" style="font-size: 27px; padding: 14px 18px"><i>v</i>(<i>y</i>) = −<i>v</i><sub>ff</sub> [<span class="frac"><span><i>k</i><sub>∞</sub>²(<i>y</i>³ − 1) + <i>k</i><sub>0</sub>²</span><span><i>y</i><sup>4</sup></span></span>]<sup>1/2</sup><span class="note"><span class="nocase">y = r/R★</span> · free fall high up, braked near the surface</span></div>
+    </div>
+  </div>
+  <aside class="notes">A submitted paper, led by Rodrigo Silva, with Jaziel Coelho and José Carlos de Araújo: the same star as on the previous slide, 1A 0535+262, now through its spectrum rather than its pulse profile. A NuSTAR observation at a luminosity sixteen times below the critical one: the subcritical regime. The model is Becker and Wolff’s: a conical column over the pole, gas falling along the field lines and braking near the surface, and photons gaining energy by scattering off the hot electrons and off the infalling gas itself, until they escape through the walls — the fan beam. The animation uses the geometry and velocity profile of the fit: an 11-degree cone, the top at four and a half stellar radii, and gas reaching the surface at a tenth of the speed of light. There are twelve parameters, sampled with four independent MCMC chains; the posterior has two modes, and the dominant one is far more probable.</aside>
+</section>
+
+<section class="slide content p3">
+  <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submitted to JHEAp (2026) · results</p><h2>A hot, tall column — <em>and a missing piece</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .78fr 1.22fr; gap: 36px">
+    <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/bw-1a0535.png" alt="NuSTAR spectrum of 1A 0535+262 with the Becker and Wolff model and residuals"><figcaption>The NuSTAR spectrum and the posterior (median and 1σ and 2σ bands), with the residuals. Inset: the iron line.</figcaption></figure>
+    <div class="stack" style="gap: 14px; align-self: center">
+      <div class="cols c2" style="gap: 14px">
+        <div class="card" style="padding: 16px 20px"><p class="stat" style="font-size: 44px">8.56<small style="font-size: .5em">×10⁷ K</small></p><p class="stat-label">electron temperature, to 1% · <i>kT</i> ≈ 7.4 keV</p></div>
+        <div class="card" style="padding: 16px 20px"><p class="stat" style="font-size: 44px">4.5<small style="font-size: .5em"> R★</small></p><p class="stat-label">top of the column, ~35 km above the surface</p></div>
+        <div class="card" style="padding: 16px 20px"><p class="stat" style="font-size: 44px">0.070</p><p class="stat-label">ψ, <i>bulk</i>/thermal: <b>thermal</b> Comptonization dominates</p></div>
+        <div class="card" style="padding: 16px 20px"><p class="stat" style="font-size: 30px; line-height: 1.15">log θ<sub>0</sub> − 1.36 log <i>Ṁ</i><br>= −22.32 ± 0.10</p><p class="stat-label">the spectrum fixes the combination: more <i>Ṁ</i>, a wider column</p></div>
+      </div>
+      <div class="card glow" style="--part: var(--warn); padding: 16px 20px"><h4>A missing piece</h4>
+        <p class="small" style="margin: 0">The field comes out 2.3σ above that of the cyclotron line — which would then sit at 55 keV, not the measured 46 — and the residuals move together (runs test: <i>z</i> = −3.7). Candidate: recombination between excited Landau levels, seen in this source and absent from the model.</p></div>
+      <p class="ref" style="margin: 0">Dominant posterior mode. χ²<sub>ν</sub> = 1.00 with a free systematic uncertainty is not a goodness-of-fit test: the residuals are the diagnostic.</p>
+    </div>
+  </div>
+  <aside class="notes">The results. What the spectrum measures well is the electron temperature of the column: 8.6 times 10 to the 7 kelvin, to one per cent — kT of 7.4 keV — and the four chains agree with each other. Thermal Comptonization dominates: the parameter measuring bulk against thermal comes out at 0.07. Geometry and accretion rate are degenerate: more infalling matter can be compensated by a wider column, and the spectrum fixes the combination of the two. The top of the emitting region sits at four and a half stellar radii, some 35 kilometres above the surface — tall for a subcritical source, where a radiation-dominated shock is not expected. And the fit shows a missing piece: the magnetic field comes out stronger than the cyclotron line implies, and the residuals are correlated. One candidate is recombination emission between excited Landau levels, seen in this source and absent from the model. A reduced χ² of one proves nothing here, because the systematic uncertainty is free.</aside>
 </section>
 
 <section class="slide content p3">
@@ -1148,7 +1187,7 @@
     <ul class="list" style="gap: 18px">
       <li>In a neutron star, light bending, redshift and delays are <b>not corrections</b>: they define the image and the light curve.</li>
       <li>Backward ray tracing — with the exact integral when the compactness calls for it — links the metric to what a telescope measures.</li>
-      <li>Applied to Chandra, XMM-Newton and NuSTAR data, it gave the mass, radius, field and spot geometry of magnetars and of an accreting star.</li>
+      <li>Applied to Chandra, XMM-Newton and NuSTAR data, it gave the mass, radius, field and spot geometry of magnetars and of an accreting star — and, through its spectrum, the temperature and height of its column.</li>
       <li>Since the light curve depends only on the exterior metric, it also <b>tests gravity</b>: scalar-tensor theories and braneworld.</li>
       <li>And the interior matters: <b>quark stars</b> and <b>stratified rotation</b> change the <i>M</i>, <i>R</i> and <i>I</i> that ray tracing measures.</li>
     </ul>
@@ -1189,7 +1228,7 @@
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Carl-brans-loyola-university-new-orleans.jpg"><b>Carl Brans</b></a> — Cfbolner · CC BY-SA 4.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://commons.wikimedia.org/wiki/File:Thibault_Damour_portrait.png"><b>Thibault Damour</b></a> — Melirius · CC BY 3.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 6px"><a href="https://svs.gsfc.nasa.gov/13240/"><b>PSR J0030+0451: hot-spot models</b></a> — NASA&#x27;s Goddard Space Flight Center · public domain</p>
-    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Paper figures (Part III)</b> — de Lima et al., ApJ 889, 165 (2020); de Lima et al., JHEAp 42, 52 (2024, CC BY 4.0 on arXiv); Silva et al., Galaxies 11, 18 (2023, CC BY 4.0); Ottoni et al., EPJC 84, 1337 (2024, CC BY 4.0); dos Santos Júnior, de Lima &amp; Moraes, arXiv:2607.09836 (CC0); Pereira et al., PRD 110, 103014 (2024); Zastrow et al., PRD 112, 083010 (2025)</p>
+    <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Paper figures (Part III)</b> — de Lima et al., ApJ 889, 165 (2020); de Lima et al., JHEAp 42, 52 (2024, CC BY 4.0 on arXiv); Silva et al., Galaxies 11, 18 (2023, CC BY 4.0); Ottoni et al., EPJC 84, 1337 (2024, CC BY 4.0); dos Santos Júnior, de Lima &amp; Moraes, arXiv:2607.09836 (CC0); Pereira et al., PRD 110, 103014 (2024); Zastrow et al., PRD 112, 083010 (2025); Silva, de Lima, Coelho &amp; de Araújo (submitted to JHEAp, 2026)</p>
     <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>Simulated Sobral plate</b> — positions from the Tycho-2 catalogue (Høg et al., A&amp;A 355, L27, 2000), via VizieR/CDS</p>
     <p class="ref" style="break-inside: avoid; margin: 10px 0 6px"><b>P–Ṗ diagram</b> — ATNF pulsar catalogue 2.8.1 (Manchester et al., AJ 129, 1993, 2005)</p>
     <!--/CREDITS-->
@@ -1233,12 +1272,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610220900"></script>
-<script src="assets/ppdot.js?v=202610220900"></script>
-<script src="assets/dash.js?v=202610220900"></script>
-<script src="assets/dash-reuso.js?v=202610220900"></script>
-<script src="assets/dash-ns.js?v=202610220900"></script>
-<script src="assets/dash-res.js?v=202610220900"></script>
+<script src="assets/deck.js?v=202610230900"></script>
+<script src="assets/ppdot.js?v=202610230900"></script>
+<script src="assets/dash.js?v=202610230900"></script>
+<script src="assets/dash-reuso.js?v=202610230900"></script>
+<script src="assets/dash-ns.js?v=202610230900"></script>
+<script src="assets/dash-res.js?v=202610230900"></script>
 <script>Deck.start();</script>
 </body>
 </html>
