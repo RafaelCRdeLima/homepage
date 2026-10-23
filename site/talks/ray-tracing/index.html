@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610230900">
+<link rel="stylesheet" href="assets/deck.css?v=202610231100">
 </head>
 <body>
 
@@ -719,7 +719,7 @@
   <aside class="notes">Um panorama dos trabalhos com colaboradores, principalmente Jaziel Coelho, Jonas Pereira e Jorge Rueda. Começa com a pergunta de 2017 — se alguns magnetares podem ser movidos a rotação — e passa por três aplicações de ray tracing a dados reais: um magnetar no centro da Galáxia, outro perto do remanescente Kes 79, e uma estrela que acreta matéria — que voltou, pelo espectro, num trabalho submetido. Depois, duas extensões para gravidade além de Einstein: teorias escalar-tensoriais e braneworld. E dois trabalhos de estrutura: rotação não rígida e estrelas de quarks.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="1" data-ref="SGR J1745−2900 · ApJ 2020">
   <header><p class="eyebrow">de Lima, Coelho, Pereira, Rodrigues &amp; Rueda · ApJ 889, 165 (2020)</p><h2>SGR J1745−2900: <em>mais de duas manchas</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.05fr .7fr .85fr; gap: 34px">
     <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/sgr1745-1.png" alt="Curvas de luz do Chandra de SGR J1745-2900 com ajustes de três manchas"><figcaption>Curvas de luz do Chandra (2013 e 2016) e os ajustes com três manchas.</figcaption></figure>
@@ -740,7 +740,7 @@
   <aside class="notes">O primeiro caso, de 2020: SGR J1745−2900, o magnetar a um décimo de parsec do buraco negro do centro da Galáxia. Com três anos e meio de curvas de luz do Chandra, ajustamos um modelo com massa, raio e até três manchas quentes, cada uma com tamanho, temperatura e posição livres, e o desvio da luz em Schwarzschild. Duas ou três manchas descrevem os dados; a ambiguidade vem do pouco dado. Com três, elas precisam ser grandes. A leitura é que o campo não é um dipolo simples — o que o NICER viu, na mesma época, em J0030. A massa e o raio saem compatíveis com uma estrela de nêutrons comum.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="2" data-ref="3XMM J1852+0033 · JHEAp 2024">
   <header><p class="eyebrow">de Lima et al. · JHEAp 42, 52 (2024) · 1/2</p><h2>3XMM J1852+0033: <em>ray tracing e inferência</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.2fr .9fr; gap: 40px">
     <figure class="paper" style="align-self: center"><img style="max-height: 600px; object-fit: contain" src="assets/img/pesquisa/3xmm-2.png" alt="Perfil de pulso de 3XMM J185246.6+003317 com o melhor ajuste"><figcaption>Um dos cinco perfis de pulso (XMM-Newton, 2008) e o melhor ajuste: em tracejado, a contribuição de cada mancha.</figcaption></figure>
@@ -758,7 +758,7 @@
   <aside class="notes">O segundo caso, publicado em 2024: 3XMM J185246.6+003317, um magnetar transiente perto do remanescente de supernova Kes 79. Até então, só havia limites superiores para o campo e a desaceleração, e nenhuma estimativa de massa ou raio. Usamos cinco épocas do XMM-Newton, ray tracing com manchas de tamanho arbitrário e atmosferas magnetizadas, e inferência bayesiana com massa, raio e campo comuns a todas as épocas. O modelo foi validado injetando dados simulados com parâmetros conhecidos e recuperando-os. O melhor ajuste tem três manchas pequenas e atmosfera de carbono.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="2">
   <header><p class="eyebrow">de Lima et al. · JHEAp 42, 52 (2024) · 2/2</p><h2>Um magnetar <em>massivo</em>, de campo baixo</h2></header>
   <div class="body cols" style="grid-template-columns: .82fr .9fr 1fr; gap: 30px">
     <div class="stack" style="gap: 16px">
@@ -776,7 +776,7 @@
   <aside class="notes">Os resultados. Massa de 2,09 massas solares, o que põe o objeto entre as estrelas de nêutrons mais massivas conhecidas; raio de 12 km; e um campo de uns 8×10¹¹ gauss — subcrítico, baixo para um magnetar. A interpretação: o material da supernova caiu de volta sobre a estrela e enterrou o campo, que está voltando à superfície; e a atmosfera de carbono viria da queima nuclear do hidrogênio e do hélio acretados. São primeiras estimativas, com um modelo simples de ray tracing e dados de resolução temporal limitada, e o artigo discute quanto a modelagem pesa nas incertezas.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="3" data-ref="colunas de acreção · Galaxies 2023">
   <header><p class="eyebrow">Silva, de Lima, Coelho, Stecchini, de Liz &amp; de Araujo · Galaxies 11, 18 (2023)</p><h2>Quando a luz sai <em>de uma coluna</em></h2></header>
   <div class="body cols" style="grid-template-columns: .9fr 1fr .9fr; gap: 30px">
     <div class="stack" style="gap: 16px">
@@ -799,7 +799,7 @@
   <aside class="notes">Um terceiro tipo de geometria: colunas de acreção. Em binárias de raios X a matéria da companheira cai guiada pelo campo magnético e forma colunas sobre os polos, que emitem pelos lados. Aqui o ray tracing tem de lidar com emissão acima da superfície, e alguns fótons passam por um periastro antes de escapar. O trabalho, de 2023, liderado por Rafael R. Silva, monta a estrela e as colunas como uma malha 3D, faz o ray tracing exato e ajusta o perfil de pulso de 1A 0535+262 observado pelo NuSTAR, com algoritmo genético e MCMC: 1,5 massa solar e 12 km.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="4" data-ref="a coluna de 1A 0535+262 · submetido ao JHEAp">
   <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submetido ao JHEAp (2026) · o modelo</p><h2>Dentro da coluna, <em>pelo espectro</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.4fr .8fr; gap: 40px">
     <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
@@ -818,7 +818,7 @@
   <aside class="notes">Um trabalho submetido, liderado por Rodrigo Silva, com Jaziel Coelho e José Carlos de Araújo: a mesma estrela do slide anterior, 1A 0535+262, agora pelo espectro e não pelo perfil de pulso. Uma observação do NuSTAR numa luminosidade dezesseis vezes abaixo da crítica: o regime subcrítico. O modelo é o de Becker e Wolff: uma coluna cônica sobre o polo, o gás caindo pelas linhas de campo e freando perto da superfície, e os fótons ganhando energia ao espalhar nos elétrons quentes e no próprio gás que cai, até escaparem pelas paredes — o feixe em leque. A animação usa a geometria e o perfil de velocidade do ajuste: um cone de 11 graus, o topo a quatro raios e meio da estrela, e o gás chegando à superfície a um décimo da velocidade da luz. São doze parâmetros, amostrados com quatro cadeias de MCMC independentes; o posterior tem dois modos, e o dominante é muito mais provável.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="4">
   <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submetido ao JHEAp (2026) · resultados</p><h2>Uma coluna quente e alta — <em>e uma peça faltando</em></h2></header>
   <div class="body cols" style="grid-template-columns: .78fr 1.22fr; gap: 36px">
     <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/bw-1a0535.png" alt="Espectro NuSTAR de 1A 0535+262 com o modelo de Becker e Wolff e os resíduos"><figcaption>O espectro NuSTAR e o posterior (mediana e faixas de 1σ e 2σ), com os resíduos. No detalhe, a linha do ferro.</figcaption></figure>
@@ -837,7 +837,7 @@
   <aside class="notes">Os resultados. O que o espectro mede bem é a temperatura dos elétrons da coluna: 8,6 vezes 10 elevado a 7 kelvin, a um por cento — kT de 7,4 keV — e as quatro cadeias concordam entre si. A Comptonização térmica domina: o parâmetro que mede a de bulk contra a térmica sai em 0,07. A geometria e a taxa de acreção são degeneradas: mais matéria caindo pode ser compensada por uma coluna mais larga, e o espectro fixa a combinação das duas. O topo da região que emite fica a quatro raios e meio da estrela, uns 35 quilômetros acima da superfície — alto para uma fonte subcrítica, onde não se espera um choque dominado por radiação. E o ajuste mostra que falta uma peça: o campo magnético sai mais forte do que o da linha de cíclotron, e os resíduos são correlacionados. Uma candidata é a emissão de recombinação entre níveis de Landau excitados, vista nesta fonte e ausente do modelo. O χ² reduzido igual a um não prova nada aqui, porque a incerteza sistemática é livre.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="5" data-ref="gravidade escalar-tensorial · EPJC 2024">
   <header><p class="eyebrow">Brans &amp; Dicke 1961 · Damour &amp; Esposito-Farèse 1993</p><h2>E se a gravidade <em>não for a de Einstein?</em></h2></header>
   <div class="body cols" style="grid-template-columns: .5fr .5fr 1.4fr; gap: 30px">
     <figure class="portrait sm"><img src="assets/img/brans.jpg" alt="Carl Brans"><span class="credit" data-credit="brans">Cfbolner (Wikimedia Commons) · CC BY-SA 4.0</span><figcaption><b>Carl Brans</b>1935 – 2022</figcaption></figure>
@@ -852,7 +852,7 @@
   <aside class="notes">Agora a gravidade. Nas teorias escalar-tensoriais, a gravidade tem, além da métrica, um campo escalar. Brans e Dicke propuseram a primeira em 1961; Damour e Esposito-Farèse mostraram em 1993 que, em estrelas de nêutrons, o campo pode crescer espontaneamente — a escalarização — mesmo que no Sistema Solar tudo pareça relatividade geral. Fora de uma estrela escalarizada a métrica é a de Just, com uma carga escalar Q. A pergunta do nosso trabalho: duas estrelas com a mesma massa e o mesmo raio, uma em relatividade geral e outra escalarizada, têm curvas de luz diferentes?</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="5">
   <header><p class="eyebrow">Ottoni, Coelho, de Lima, Pereira &amp; Rueda · EPJC 84, 1337 (2024)</p><h2>A mesma estrela, <em>outra gravidade</em></h2></header>
   <div class="body">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
@@ -868,7 +868,7 @@
   <aside class="notes">Este painel refaz a conta do artigo. Uma estrela de 2,1 massas solares com compacidade 0,284 — o valor em que, na relatividade geral, o ângulo crítico de desvio é exatamente 180 graus: o ponto oposto ao observador fica bem no limite do visível. Uma mancha de 10 graus passa por trás da estrela. Na relatividade geral, a curva tem um mínimo suave. Na teoria escalar-tensorial 1, com A_s = 0,95, o ângulo crítico cai para 0,90π: aparece uma zona invisível de 18 graus atrás da estrela, e a mancha é eclipsada — o fluxo vai a zero. Na 2, com A_s = 1,05, o ângulo passa de π e surge uma zona de imagens múltiplas: um pico de lente no meio do mínimo. Mesma massa, mesmo raio, curvas qualitativamente diferentes. Mexam na carga escalar: com Q = 0 as três coincidem.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="5">
   <header><p class="eyebrow">Ottoni et al. · EPJC 84, 1337 (2024) · resultados</p><h2>Até <em>80%</em> de diferença no fluxo</h2></header>
   <div class="body cols" style="grid-template-columns: 1fr 1fr .9fr; gap: 30px">
     <figure class="paper" style="align-self: center"><img src="assets/img/pesquisa/stt-2.png" alt="Ângulo crítico de desvio contra a compacidade"><figcaption>O ângulo crítico contra <i>M</i>/<i>R</i>: a linha da RG e a faixa escalar-tensorial.</figcaption></figure>
@@ -886,7 +886,7 @@
   <aside class="notes">Os números do artigo. O ângulo crítico depende da compacidade de um jeito diferente na teoria escalar-tensorial, numa faixa larga em volta da linha da relatividade geral. Com a estrela girando a 700 Hz e Doppler e atrasos incluídos, a diferença no fluxo de uma mancha chega a 80% em certas fases. A mudança de raio, de até 10%, é o que hoje limita a carga escalar. As compacidades do NICER ainda têm incertezas grandes demais para separar as teorias — mas a próxima geração de telescópios de raios X e de detectores de ondas gravitacionais deve mudar isso.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="6" data-ref="braneworld · arXiv 2026">
   <header><p class="eyebrow">Randall &amp; Sundrum 1999 · Shiromizu, Maeda &amp; Sasaki 2000</p><h2>O Universo numa <em>membrana</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.05fr 1fr; gap: 44px">
     <svg class="diag" viewBox="0 0 700 470" aria-label="Uma brana de quatro dimensões dentro de um bulk de cinco dimensões">
@@ -938,7 +938,7 @@
   <aside class="notes">O que é um braneworld. A ideia, de Randall e Sundrum em 1999, é que o nosso Universo de quatro dimensões seja uma membrana — a brana — mergulhada num espaço com uma dimensão a mais, o bulk. Todos os campos do Modelo Padrão, matéria e luz, ficam presos na brana; só a gravidade se espalha pelo bulk. Isso foi proposto para explicar por que a gravidade é tão mais fraca que as outras forças e, depois, para a energia escura. Shiromizu, Maeda e Sasaki mostraram como fica a equação de Einstein vista de dentro da brana: aparecem dois termos novos. Um local, quadrático na matéria, que só importa em densidades comparáveis à tensão da brana. E um não local, a projeção do tensor de Weyl do bulk: é o campo gravitacional da dimensão extra visto daqui, e não dá para calculá-lo só com o que está na brana. No nosso artigo usamos uma versão efetiva, em quatro dimensões, inspirada no cenário de Sahni e Shtanov.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="6">
   <header><p class="eyebrow">As equações TOV modificadas · equação de estado SLy</p><h2>Mesma física nuclear, <em>outra gravitação</em></h2></header>
   <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
     <div class="stack" style="gap: 14px">
@@ -961,7 +961,7 @@
   <aside class="notes">Como isso entra numa estrela. A física nuclear não muda: a equação de estado continua sendo a SLy, a mesma da relatividade geral. O que muda é o quanto a matéria gravita. Na equação da massa entra uma densidade efetiva, e no numerador da TOV, uma pressão efetiva — cada uma com um termo local, controlado pela tensão λ, e um termo de Weyl. O fator ρ + p continua o de sempre porque a matéria comum se conserva. O painel resolve essas equações aqui, no navegador, com a SLy. O botão "só o termo local" põe λ = 10⁻³ km⁻²: a densidade efetiva sobe, a gravidade aperta, e a massa máxima despenca. Mas para isso λ precisa ser comparável à densidade no centro da estrela, uns 2×10⁻³ km⁻². Com o λ que os dados preferem, 10⁴, o termo local é dez milhões de vezes menor que ρ — quem mexe na curva é o setor de Weyl. O "melhor ajuste" é a melhor amostra do artigo: massa máxima de 2,28 e raio de 13,2 km, contra 2,05 e 11,7 na relatividade geral.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="6">
   <header><p class="eyebrow">O que vem do bulk</p><h2>O setor de Weyl: <em>blindagem</em> ou atração extra</h2></header>
   <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
     <div class="stack" style="gap: 14px">
@@ -987,7 +987,7 @@
   <aside class="notes">O setor de Weyl é a parte interessante. O tensor de Weyl projetado é o campo gravitacional do bulk visto da brana, e na brana ele funciona como um fluido extra — em cosmologia ele aparece como “radiação escura”. O problema é que ele não é determinado pelas equações da brana: é preciso escolher um fechamento. O nosso é o mais simples: uma densidade de Weyl proporcional à densidade da matéria, com coeficiente α, e uma pressão com equação de estado w. À esquerda do painel, o leque em α com w = 0: α negativo reduz a densidade que gravita — uma blindagem — e a estrela cresce; α positivo aperta. À direita, o leque em w com α = −0,15: w só entra multiplicado por α, então pares diferentes de α e w dão curvas parecidas. É essa degenerescência que deixa w mal determinado pelos dados.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="6">
   <header><p class="eyebrow">dos Santos Júnior, de Lima &amp; Moraes · arXiv:2607.09836 (2026, submetido) · resultados</p><h2>Tensão alta, Weyl <em>levemente negativo</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1fr .95fr .9fr; gap: 28px">
     <div class="stack" style="gap: 14px">
@@ -1013,7 +1013,7 @@
   <aside class="notes">Os resultados. Usamos três conjuntos de dados: as massas e raios de GW170817, inferidos da deformabilidade de maré, e dois pulsares do NICER — J0740 e J1231 —, cujos raios vêm, eles mesmos, de ray tracing de perfis de pulso, o tema deste seminário. A amostragem é um MCMC de ensemble com 288 mil amostras. A tensão da brana sai em torno de 10⁴ km⁻², mas é preciso honestidade: o posterior quase repete o prior; o que os dados dizem é que tensão alta é compatível, não que medimos λ. O acoplamento de Weyl sai levemente negativo, em 83% das amostras, o que dá a blindagem: a curva M–R vai para a direita, com massa máxima de 2,3 e raio de 13,3 km. O parâmetro w quase não é vinculado. Há um ramo secundário, com 17% das amostras, em que α positivo e w negativo se compensam. A massa máxima é compatível com o pulsar J0952, de 2,35; o secundário de GW190814 só entra na cauda. E a mensagem principal: em braneworld, estrelas mais pesadas não vêm de graça — dependem do sinal do setor de Weyl. Números da versão 1 do arXiv; o artigo está em avaliação.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="7" data-ref="estrelas de quarks · PRD 2025">
   <header><p class="eyebrow">Itoh 1970 · Bodmer 1971 · Witten 1984 · a hipótese da matéria estranha</p><h2>E se o ferro <em>não for</em> o fundo do poço?</h2></header>
   <div class="body cols" style="grid-template-columns: .85fr 1.2fr; gap: 40px">
     <div class="stack" style="gap: 14px">
@@ -1063,7 +1063,7 @@
   <aside class="notes">A hipótese da matéria estranha, de Itoh, Bodmer e Witten. Num núcleo, os quarks estão presos em prótons e nêutrons. Mas, se a matéria fosse comprimida até os nucleons se desfazerem, os quarks livres u e d poderiam converter parte de si em quarks s pela interação fraca. Por quê? Pauli: cada sabor tem o seu mar de Fermi. Com três sabores, o mesmo número de quarks se acomoda em níveis mais baixos, e a energia cai — mesmo pagando a massa do s. A hipótese é que essa matéria de três sabores tenha energia por bárion menor que a do ferro: seria o estado fundamental da matéria. Os núcleos não decaem porque precisariam de dezenas de conversões fracas ao mesmo tempo. E a matéria só de u e d tem que ser instável, senão o ferro já teria virado quarks. O painel mostra isso com o modelo do nosso artigo: a curva âmbar é a energia por bárion da matéria uds, a lilás a da ud. A faixa turquesa é a janela em que a uds fica abaixo do ferro e a ud acima: ali existem estrelas de quarks. À esquerda, o ferro decairia; à direita, a matéria estranha só aparece sob pressão, dentro de estrelas híbridas.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="7">
   <header><p class="eyebrow">Alford, Braby, Paris &amp; Reddy 2005 · uma equação de estado informada pela QCD</p><h2>A QCD densa em <em>três números</em></h2></header>
   <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 40px">
     <div class="stack" style="gap: 14px">
@@ -1090,7 +1090,7 @@
   <aside class="notes">Para fazer estrelas é preciso uma equação de estado. A de Alford e colaboradores parte da QCD em densidade muito alta e acrescenta correções: um potencial com três parâmetros. a4 mede a interação forte: vale 1 para quarks livres e algo como 0,7 se a QCD perturbativa estiver certa. a2 junta a massa do quark estranho e o gap da supercondutividade de cor — na fase CFL, em que quarks de cores e sabores diferentes formam pares, a2 é m_s² menos quatro vezes o gap ao quadrado, e pode ficar negativo se o gap for grande. B é a constante de sacola, o custo de abrir uma bolha de vácuo perturbativo. O painel resolve a TOV e a equação de maré para essa matéria. Repare na forma da curva: começa na origem. Uma estrela de quarks pequena é uma gota de matéria estranha, presa pela interação forte, e o raio cresce como a raiz cúbica da massa — o oposto da estrela de nêutrons, tracejada. “Quarks livres” não chega a 2,13 massas solares; o exemplo do artigo passa em tudo; e o “gap grande”, com a2 negativo, também — e passa pelo objeto compacto de HESS J1731, o ponto rosa.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="7">
   <header><p class="eyebrow">Zastrow, Pereira, de Lima &amp; Horvath · PRD 112, 083010 (2025) · o método</p><h2>Milhares de estrelas <em>sorteadas</em></h2></header>
   <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
     <div class="stack" style="gap: 14px">
@@ -1112,7 +1112,7 @@
   <aside class="notes">O método do artigo, do João Zastrow, da UDESC. O espaço de parâmetros tem três dimensões; cada ponto dentro da janela de estabilidade define uma equação de estado e, com ela, uma família inteira de estrelas — massa máxima, raio de 1,4 massa solar e deformabilidade de maré. Sorteamos 263 mil pontos por hipercubo latino, que cobre o espaço por igual sem o custo de um MCMC; o preço é não ter intervalos de credibilidade, só os limites. Os vínculos são conservadores: massa máxima entre 2,13 e 2,33, raio entre 10 e 13,25 km — e esses raios vêm do NICER, isto é, de ray tracing —, e Λ menor que 970, de GW170817. O painel refaz o método aqui: sorteia pontos, resolve as estrelas e pinta de âmbar as que passam. Troque os eixos: a massa máxima contra a4 mostra o corte de cima, em torno de 0,8; contra B, a forma do modelo de sacola, M_máx ∝ B^−1/2. Com alguns milhares de pontos os limites já se aproximam dos do artigo.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="7">
   <header><p class="eyebrow">Zastrow, Pereira, de Lima &amp; Horvath · PRD 112, 083010 (2025) · resultados</p><h2>Quarks que <em>interagem</em>, superfície densa</h2></header>
   <div class="body cols" style="grid-template-columns: .95fr .95fr 1fr; gap: 28px">
     <div class="stack" style="gap: 14px">
@@ -1140,7 +1140,7 @@
   <aside class="notes">Os resultados. Combinando os três vínculos, a4 fica abaixo de 0,81: a matéria de quarks numa estrela se afasta em pelo menos 20% do gás livre, e isso vale para qualquer massa. O limite inferior de a2, menos 202 mil MeV², com um quark estranho de 100 MeV, dá um gap de cor de no máximo 230 MeV — e um grupo independente, com outro método, achou 216. A constante de sacola fica numa faixa estreita, o que fixa a densidade da superfície entre 1,1 e 2,2 vezes a de saturação nuclear: esse salto é condição de contorno para maré, modos quase normais e elipticidade. O raio de uma estrela de quarks de 1,4 massa solar fica entre 10 e 12,3 km — igual ao de uma estrela de nêutrons; quem pode distinguir é a deformabilidade. E o objeto compacto de HESS J1731, com 0,77 massa solar e 10,4 km — leve demais para sair de uma supernova comum — cai naturalmente nessas curvas. Mas cuidado: esse raio vem de ajuste espectral, e depende do modelo de atmosfera e da distribuição de temperatura — os mesmos problemas que discutimos nas manchas quentes.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="8" data-ref="rotação estratificada · PRD 2024">
   <header><p class="eyebrow">Pereira, Ottoni, Coelho, Rueda &amp; de Lima · PRD 110, 103014 (2024)</p><h2>Quando o núcleo e a crosta <em>não giram juntos</em></h2></header>
   <div class="body cols" style="grid-template-columns: .8fr 1.3fr; gap: 40px">
     <div class="stack" style="gap: 14px">
@@ -1163,7 +1163,7 @@
   <aside class="notes">O outro trabalho é sobre rotação. Quase todo modelo de pulsar supõe que a estrela gira como um corpo rígido. Mas o interior pode ser superfluido e acoplado fracamente à crosta; pode haver uma transição de fase, com um caroço de quarks que, por conservação de momento angular, gira diferente; ou camadas acretadas de fora. O Sol tem isso: a tacoclina separa um interior que gira rígido de um envelope que gira diferente. Na relatividade geral, a rotação lenta é descrita pela equação de Hartle para o arrasto de referenciais. O que o artigo faz é deduzir as condições de salto quando Ω pula num raio R estrela: ω-barra salta junto, a derivada não. Como o momento angular J vem da derivada na superfície, ele sente o salto, e o momento de inércia, definido com a rotação observada da superfície, muda. O painel resolve isso aqui com a SLy. Arraste R estrela: se o salto for fundo, abaixo de uns 40% do raio, quase nada muda. Perto da superfície, a mudança em I chega à própria mudança em Ω. A estrela à esquerda gira com as duas velocidades de verdade, sem exagero.</aside>
 </section>
 
-<section class="slide content p3">
+<section class="slide content p3" data-paper="8">
   <header><p class="eyebrow">Pereira, Ottoni, Coelho, Rueda &amp; de Lima · PRD 110, 103014 (2024) · resultados</p><h2>Rotação rígida é uma <em>hipótese</em> — e tem custo</h2></header>
   <div class="body cols" style="grid-template-columns: 1.05fr .95fr; gap: 40px">
     <ul class="list" style="gap: 12px; align-self: start">
@@ -1278,12 +1278,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610230900"></script>
-<script src="assets/ppdot.js?v=202610230900"></script>
-<script src="assets/dash.js?v=202610230900"></script>
-<script src="assets/dash-reuso.js?v=202610230900"></script>
-<script src="assets/dash-ns.js?v=202610230900"></script>
-<script src="assets/dash-res.js?v=202610230900"></script>
+<script src="assets/deck.js?v=202610231100"></script>
+<script src="assets/ppdot.js?v=202610231100"></script>
+<script src="assets/dash.js?v=202610231100"></script>
+<script src="assets/dash-reuso.js?v=202610231100"></script>
+<script src="assets/dash-ns.js?v=202610231100"></script>
+<script src="assets/dash-res.js?v=202610231100"></script>
 <script>Deck.start();</script>
 </body>
 </html>

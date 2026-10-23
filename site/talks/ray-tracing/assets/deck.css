@@ -206,6 +206,17 @@ table.tbl.tight td.n { font: 500 21px var(--ui); font-variant-numeric: tabular-n
 .slide.p2 .foot .parts span:nth-child(2),
 .slide.p3 .foot .parts span:nth-child(3) { background: var(--part); box-shadow: 0 0 10px var(--part); }
 
+/* Parte III: o primeiro slide de cada artigo ganha faixa e selo (deck.js); o rodapé diz “artigo n/N · k de m” */
+.slide.paper-start { box-shadow: inset 12px 0 0 var(--part); }
+.paper-badge { position: absolute; top: 34px; left: 130px; display: flex; align-items: center; gap: 16px; font: 600 15px var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--text-2); }
+.paper-badge b { background: var(--part); color: #0a0b12; padding: 6px 14px; border-radius: 999px; }
+.paper-badge .dots { display: inline-flex; gap: 7px; }
+.paper-badge .dots i { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--part) 70%, transparent); }
+.paper-badge .dots i.done { background: color-mix(in srgb, var(--part) 45%, transparent); }
+.paper-badge .dots i.cur { background: var(--part); border-color: var(--part); box-shadow: 0 0 10px var(--part); }
+.paper-badge .ref { letter-spacing: .1em; color: var(--text); }
+.foot .paper-tag { font-weight: 600; color: var(--part); }
+
 /* ---------- capa de parte ---------- */
 .partcover { display: grid; align-items: center; padding: 0 150px; }
 .partcover .bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: saturate(.9); }

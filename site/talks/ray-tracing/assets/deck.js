@@ -35,6 +35,23 @@ const Deck = (() => {
     s.appendChild(f);
   });
 
+  /* Parte III: cada artigo é um bloco de slides (data-paper="n" em todos, data-ref no primeiro). O primeiro ganha
+     faixa e selo, com o número do artigo e a referência curta; todos levam no rodapé “artigo n/N · k de m”,
+     para saber onde termina um artigo e começa o outro. */
+  const papers = new Map();
+  slides.forEach(s => { const n = +s.dataset.paper; if (n) (papers.get(n) || papers.set(n, []).get(n)).push(s); });
+  papers.forEach((list, n) => list.forEach((s, k) => {
+    if (k === 0) {
+      s.classList.add('paper-start');
+      const b = document.createElement('div'); b.className = 'paper-badge';
+      const dots = Array.from({ length: papers.size }, (_, i) => `<i class="${i + 1 < n ? 'done' : i + 1 === n ? 'cur' : ''}"></i>`).join('');
+      b.innerHTML = `<b>${T(`Artigo ${n} de ${papers.size}`, `Paper ${n} of ${papers.size}`)}</b><span class="dots">${dots}</span><span class="ref">${s.dataset.ref || ''}</span>`;
+      s.appendChild(b);
+    }
+    const f = s.querySelector('.foot > span');
+    if (f) f.innerHTML += ` · <b class="paper-tag">${T(`artigo ${n}/${papers.size} · ${k + 1} de ${list.length}`, `paper ${n}/${papers.size} · ${k + 1} of ${list.length}`)}</b>`;
+  }));
+
   function fit() {
     scale = Math.min(innerWidth / 1920, innerHeight / 1080);
     stage.style.setProperty('--s', scale);
