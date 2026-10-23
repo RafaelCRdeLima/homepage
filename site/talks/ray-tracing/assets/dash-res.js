@@ -118,6 +118,135 @@
   onSlide(cvV, prof);
 })();
 
+/* De onde vem o gás da coluna: a binária Be/X 1A 0535+262 vista de cima. A órbita da estrela de nêutrons tem a
+   excentricidade e o período do sistema (e = 0,45, P = 111 d; Kepler, com a anomalia excêntrica), em torno da
+   estrela Be HD 245770, parada no foco, que solta um disco de gás no equador (girando kepleriano; a borda chega
+   ao periastro, como no truncamento por maré). Quando a estrela de nêutrons passa pela borda do disco, o gás a
+   menos de 0,16 a dela se solta e passa a sentir as duas gravidades (massas 15 e 1,4 M☉, a escala de G pelo
+   período); perto dela um arrasto (viscosidade, de brinquedo) faz o gás espiralar num disco pequeno antes de cair.
+   A taxa de captura é a curva de luz de baixo — uma explosão a cada periastro, que sobe e decai em ~40% da órbita. No
+   detalhe, o gás capturado sai do disco no raio magnetosférico e desce pelas linhas de campo r = r_m sen²θ até
+   os polos. Tamanhos das estrelas, do disco e do detalhe são esquemáticos; a órbita está na proporção certa. */
+(() => {
+  const cv = document.getElementById('bex-orbit'); if (!cv) return;
+  const out = document.getElementById('bex-out');
+  const E = 0.45, TS = 10, PDAYS = 111, MBE = 15, MNS = 1.4, RD = 0.57, RBE = 0.07;   // s de tela por órbita; raio do disco e da Be (em a)
+  const GM = 4 * Math.PI * Math.PI / (TS * TS), GBE = GM * MBE / (MBE + MNS), GNS = GM * MNS / (MBE + MNS);
+  const TP = 17.7, PRE = 10;                                          // periastro 7,7 s depois de abrir o slide (o PDF pega o gás sendo roubado)
+  let seed = 3; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+  let t = 0, disk = [], gas = [], fall = [], hist = [], rate = 0, caps = 0, sampleT = 0;
+  function nsAt(time) {                                               // posição da estrela de nêutrons (Be no foco, periastro em +x)
+    const M = 2 * Math.PI * (time - TP) / TS; let Ea = M;
+    for (let k = 0; k < 6; k++) Ea -= (Ea - E * Math.sin(Ea) - M) / (1 - E * Math.cos(Ea));
+    return [Math.cos(Ea) - E, Math.sqrt(1 - E * E) * Math.sin(Ea)];
+  }
+  const newDisk = () => ({ r: 0.1 + (RD - 0.1) * rnd() ** 0.35, a: 2 * Math.PI * rnd() });   // mais gás perto da borda
+  function reset() {
+    seed = 3; t = 0; gas = []; fall = []; hist = []; rate = caps = sampleT = 0;
+    disk = Array.from({ length: 500 }, newDisk);
+    for (let i = 0; i < PRE * 60; i++) step(1 / 60);                   // uma órbita antes, para a curva de luz já ter história
+  }
+  function step(dt) {
+    t += dt;
+    const [nx, ny] = nsAt(t);
+    for (const d of disk) {                                           // o disco gira; o gás perto da estrela de nêutrons se solta
+      d.a += Math.sqrt(GBE / d.r ** 3) * dt;
+      const x = d.r * Math.cos(d.a), y = d.r * Math.sin(d.a);
+      if (Math.hypot(x - nx, y - ny) < 0.16) {
+        const v = Math.sqrt(GBE / d.r);
+        gas.push({ x, y, vx: -v * Math.sin(d.a), vy: v * Math.cos(d.a), age: 0 });
+        Object.assign(d, newDisk());
+      }
+    }
+    const n = 6, h = dt / n;
+    for (let s = 0; s < n; s++) {
+      const tm = t - dt + (s + 0.5) * h, [qx, qy] = nsAt(tm), [px, py] = nsAt(tm + 1e-3), vnx = (px - qx) / 1e-3, vny = (py - qy) / 1e-3;
+      for (const g of gas) {
+        const rb = Math.hypot(g.x, g.y), dx = qx - g.x, dy = qy - g.y, dn = Math.hypot(dx, dy) + 1e-9, sn = (dn * dn + 1e-4) ** 1.5;
+        g.vx += (-GBE * g.x / rb ** 3 + GNS * dx / sn) * h; g.vy += (-GBE * g.y / rb ** 3 + GNS * dy / sn) * h;
+        if (dn < 0.07) { const k = 1 - 0.6 * h; g.vx = vnx + (g.vx - vnx) * k; g.vy = vny + (g.vy - vny) * k; }   // o arrasto do disco pequeno
+        g.x += g.vx * h; g.y += g.vy * h;
+        if (dn < 0.008) g.cap = true;
+      }
+    }
+    gas = gas.filter(g => {
+      g.age += dt;
+      if (g.cap) { caps++; for (const sg of [1, -1]) fall.push({ s: 0, sg, side: rnd() < 0.5 ? 1 : -1 }); return false; }
+      return g.age < 7 && Math.hypot(g.x, g.y) > RBE && Math.hypot(g.x, g.y) < 2.2;
+    });
+    rate = rate * Math.exp(-dt / 0.7) + caps; caps = 0;
+    sampleT += dt; if (sampleT >= 0.05) { sampleT = 0; hist.push([t, rate]); if (hist.length > 520) hist.shift(); }
+    for (const f of fall) f.s += dt * (0.5 + 2.2 * f.s);              // desce acelerando pela linha de campo
+    fall = fall.filter(f => f.s < 1);
+  }
+  function draw() {
+    const { ctx: c, w, h } = fitCanvas(cv), LC = 92, S = Math.min((h - LC - 40) / 1.9, (w - 330) / 2.15);
+    const fx = 30 + 1.47 * S, fy = 20 + 0.95 * S, X = x => fx + x * S, Y = y => fy - y * S;
+    const [nx, ny] = nsAt(t), rp = 1 - E;
+    // a órbita e o periastro
+    c.strokeStyle = 'rgba(255,255,255,.18)'; c.setLineDash([5, 7]); c.lineWidth = 1.2;
+    c.beginPath(); c.ellipse(X(-E), Y(0), S, S * Math.sqrt(1 - E * E), 0, 0, 7); c.stroke(); c.setLineDash([]);
+    c.fillStyle = COL.text3; c.font = `14px ${FONT}`; c.textAlign = 'left'; c.textBaseline = 'middle'; c.fillText(T('periastro', 'periastron'), X(rp) + 8, Y(0));
+    // o disco da estrela Be: brilho e o gás girando
+    const g = c.createRadialGradient(X(0), Y(0), 0, X(0), Y(0), RD * S);
+    g.addColorStop(0, 'rgba(150,190,255,.38)'); g.addColorStop(0.7, 'rgba(120,160,255,.14)'); g.addColorStop(1, 'rgba(120,160,255,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(X(0), Y(0), RD * S, 0, 7); c.fill();
+    c.fillStyle = 'rgba(190,215,255,.7)';
+    for (const d of disk) c.fillRect(X(d.r * Math.cos(d.a)) - 1, Y(d.r * Math.sin(d.a)) - 1, 2, 2);
+    const gb = c.createRadialGradient(X(0), Y(0), 0, X(0), Y(0), RBE * S * 1.8);
+    gb.addColorStop(0, '#ffffff'); gb.addColorStop(0.5, '#cfe0ff'); gb.addColorStop(1, 'rgba(160,190,255,0)');
+    c.fillStyle = gb; c.beginPath(); c.arc(X(0), Y(0), RBE * S * 1.8, 0, 7); c.fill();
+    // o gás roubado, do azul do disco ao âmbar perto da estrela de nêutrons
+    for (const p of gas) { const u = clamp(1 - Math.hypot(p.x - nx, p.y - ny) / 0.25, 0, 1); c.fillStyle = `rgba(${Math.round(190 + 65 * u)},${Math.round(215 - 30 * u)},${Math.round(255 - 148 * u)},.9)`; c.fillRect(X(p.x) - 1.3, Y(p.y) - 1.3, 2.6, 2.6); }
+    // a estrela de nêutrons, com o brilho da acreção
+    const L = clamp(rate / 6, 0, 1);
+    if (L > 0.01) { const ga = c.createRadialGradient(X(nx), Y(ny), 0, X(nx), Y(ny), 10 + 34 * L); ga.addColorStop(0, `rgba(255,214,150,${0.9 * L})`); ga.addColorStop(1, 'rgba(255,184,107,0)'); c.fillStyle = ga; c.beginPath(); c.arc(X(nx), Y(ny), 10 + 34 * L, 0, 7); c.fill(); }
+    c.fillStyle = '#fff'; c.shadowColor = COL.psr; c.shadowBlur = 12; c.beginPath(); c.arc(X(nx), Y(ny), 4.5, 0, 7); c.fill(); c.shadowBlur = 0;
+    c.font = `15px ${FONT}`; c.fillStyle = COL.text2; c.textAlign = 'center'; c.textBaseline = 'top';
+    c.fillText(T('HD 245770 · estrela Be', 'HD 245770 · Be star'), X(0), Y(-RD) + 6);
+    c.fillStyle = COL.psr; c.textBaseline = 'bottom'; c.fillText(T('estrela de nêutrons', 'neutron star'), X(nx), Y(ny) - 10);
+    // o detalhe: perto da estrela de nêutrons, de lado
+    const ix = w - 165, iy = 150, ir = 140, rs = 22, rm = 2.7 * rs;
+    c.save(); c.strokeStyle = 'rgba(86,225,208,.35)'; c.setLineDash([3, 5]); c.beginPath(); c.moveTo(X(nx), Y(ny));
+    const ang = Math.atan2(Y(ny) - iy, X(nx) - ix); c.lineTo(ix + ir * Math.cos(ang), iy + ir * Math.sin(ang)); c.stroke(); c.restore();
+    c.save(); c.beginPath(); c.arc(ix, iy, ir, 0, 7); c.fillStyle = '#080a12'; c.fill(); c.clip();
+    c.strokeStyle = 'rgba(158,140,255,.3)'; c.lineWidth = 1;
+    for (const Lf of [rm, 1.6 * rm, 2.4 * rm]) for (const sx of [1, -1]) { c.beginPath(); for (let th = 0.02; th < Math.PI - 0.02; th += 0.03) { const r = Lf * Math.sin(th) ** 2; if (r < rs) continue; const px = ix + sx * r * Math.sin(th), py = iy - r * Math.cos(th); th < 0.05 ? c.moveTo(px, py) : c.lineTo(px, py); } c.stroke(); }
+    for (const sx of [1, -1]) { const dg = c.createLinearGradient(ix + sx * rm, 0, ix + sx * ir, 0); dg.addColorStop(0, 'rgba(255,184,107,.75)'); dg.addColorStop(1, 'rgba(150,190,255,.25)'); c.fillStyle = dg; c.fillRect(Math.min(ix + sx * rm, ix + sx * ir), iy - 3, Math.abs(ir - rm), 6); }
+    for (const f of fall) {                                           // do raio magnetosférico ao polo, pela linha de campo
+      const th = Math.PI / 2 - f.s * (Math.PI / 2 - Math.asin(Math.sqrt(rs / rm))), r = rm * Math.sin(th) ** 2;
+      c.fillStyle = 'rgba(255,214,150,.9)'; c.fillRect(ix + f.side * r * Math.sin(th) - 1.3, iy - f.sg * r * Math.cos(th) - 1.3, 2.6, 2.6);
+    }
+    c.fillStyle = '#1c2236'; c.beginPath(); c.arc(ix, iy, rs, 0, 7); c.fill(); c.strokeStyle = 'rgba(86,225,208,.7)'; c.lineWidth = 1.5; c.stroke();
+    for (const sg of [1, -1]) { const pg = c.createRadialGradient(ix, iy - sg * rs, 0, ix, iy - sg * rs, 8 + 16 * L); pg.addColorStop(0, `rgba(255,230,180,${0.35 + 0.65 * L})`); pg.addColorStop(1, 'rgba(255,184,107,0)'); c.fillStyle = pg; c.beginPath(); c.arc(ix, iy - sg * rs, 8 + 16 * L, 0, 7); c.fill(); }
+    c.restore();
+    c.strokeStyle = 'rgba(86,225,208,.5)'; c.lineWidth = 1.5; c.beginPath(); c.arc(ix, iy, ir, 0, 7); c.stroke();
+    c.font = `14px ${FONT}`; c.fillStyle = COL.text2; c.textAlign = 'center'; c.textBaseline = 'top';
+    c.fillText(T('perto da estrela de nêutrons, de lado', 'near the neutron star, side-on'), ix, iy + ir + 8);
+    c.fillStyle = COL.text3; c.fillText(T('o disco para no raio magnetosférico;', 'the disc stops at the magnetospheric radius;'), ix, iy + ir + 28);
+    c.fillText(T('o gás desce pelo campo até os polos', 'the gas slides down the field to the poles'), ix, iy + ir + 46);
+    // a curva de luz: a taxa de captura no tempo, com os periastros marcados
+    const x0 = 20, x1 = w - 20, y1 = h - 22, y0 = h - LC + 4, span = 2.3 * TS, tx = tt => x1 - (t - tt) / span * (x1 - x0);
+    c.strokeStyle = 'rgba(255,255,255,.12)'; c.lineWidth = 1; c.beginPath(); c.moveTo(x0, y1); c.lineTo(x1, y1); c.stroke();
+    for (let k = Math.ceil((t - span - TP) / TS); TP + k * TS <= t; k++) { const xx = tx(TP + k * TS); c.setLineDash([3, 4]); c.strokeStyle = 'rgba(255,255,255,.22)'; c.beginPath(); c.moveTo(xx, y0); c.lineTo(xx, y1); c.stroke(); c.setLineDash([]); c.fillStyle = COL.text3; c.font = `13px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText(T('periastro', 'periastron'), xx, y0 + 2); }
+    const top = Math.max(6, ...hist.map(p => p[1])), yv = v => y1 - v / top * (y1 - y0 - 16);
+    c.beginPath(); c.moveTo(tx(hist.length ? hist[0][0] : t), y1); for (const [tt, v] of hist) if (tx(tt) >= x0) c.lineTo(tx(tt), yv(v)); c.lineTo(x1, y1); c.closePath();
+    c.fillStyle = 'rgba(255,184,107,.22)'; c.fill();
+    c.strokeStyle = COL.sol; c.lineWidth = 2; c.beginPath(); let on = false; for (const [tt, v] of hist) { if (tx(tt) < x0) continue; on ? c.lineTo(tx(tt), yv(v)) : c.moveTo(tx(tt), yv(v)); on = true; } c.stroke();
+    c.fillStyle = COL.text2; c.font = `14px ${FONT}`; c.textAlign = 'left'; c.textBaseline = 'top'; c.fillText(T('raios X (a taxa de acreção) · últimos 250 dias', 'X-rays (the accretion rate) · last 250 days'), x0, y1 + 4);
+    // leitura
+    const day = (((t - TP) / TS % 1) + 1) % 1 * PDAYS, dist = Math.hypot(nx, ny) / rp;
+    out.innerHTML = `<span>${T('dia', 'day')} <b>${Math.round(day)}</b> ${T('de', 'of')} ${PDAYS} ${T('desde o periastro', 'since periastron')}</span>
+      <span>${T('distância', 'distance')} <b>${fmt(dist, 2)}×</b> ${T('a do periastro', 'that at periastron')}</span>
+      <span>${T('gás capturado agora', 'gas captured now')} <b>${rate < 0.5 ? T('quase nada', 'almost none') : Math.round(rate)}</b></span>`;
+  }
+  const slide = cv.closest('.slide');
+  addEventListener('slidechange', () => { if (slide.classList.contains('active')) reset(); });   // antes de loopOn: cada visita recomeça
+  reset();
+  loopOn(cv, dt => { step(dt); draw(); }, () => { reset(); for (let i = 0; i < 480; i++) step(1 / 60); draw(); });
+  onSlide(cv, () => { if (!slide.classList.contains('active')) draw(); });
+})();
+
 /* A equação de transporte de Becker & Wolff, termo a termo: o termo e o cartão que o explica acendem juntos, um
    de cada vez, a cada 3,5 s, até o primeiro clique num deles — aí fica o escolhido. No PDF e com movimento
    reduzido nada acende: todos os cartões já estão à vista. */

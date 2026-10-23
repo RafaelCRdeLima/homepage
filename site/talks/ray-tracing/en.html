@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610231400">
+<link rel="stylesheet" href="assets/deck.css?v=202610231600">
 </head>
 <body>
 
@@ -818,6 +818,26 @@
 </section>
 
 <section class="slide content p3" data-paper="4">
+  <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submitted to JHEAp (2026) · the system</p><h2>Where <em>the column’s gas</em> comes from</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.55fr .72fr; gap: 40px">
+    <div class="dash" style="grid-template-rows: minmax(0,1fr) auto">
+      <div class="cv"><canvas id="bex-orbit"></canvas></div>
+      <div class="readout" id="bex-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-self: center">
+      <ul class="list" style="gap: 12px">
+        <li class="small"><b>1A 0535+262</b>: a neutron star pulsing every 103 s, with <i>B</i> ≈ 5×10¹² G, on an eccentric orbit — <i>e</i> ≈ 0.45, 111 days — around <b>HD 245770</b>, a Be star (O9.7–B0 IIIe), at 1.8 kpc.</li>
+        <li class="small">The Be star spins fast and sheds a <b>disc of gas</b> from its equator.</li>
+        <li class="small">At periastron the neutron star crosses the edge of the disc and <b>steals gas</b>: an X-ray outburst every orbit.</li>
+        <li class="small">Close to it, the field cuts the disc at the magnetospheric radius and leads the gas to the poles: <b>the columns</b>.</li>
+      </ul>
+      <p class="ref" style="margin: 0">In 2020 a giant outburst reached 1.2×10³⁸ erg/s; in quiescence, ~7×10³⁴ erg/s. The orbit has the system’s eccentricity and period; the stars, the disc and the close-up are schematic.</p>
+    </div>
+  </div>
+  <aside class="notes">Where the gas falling into the column comes from. 1A 0535+262 is a Be/X-ray binary: the neutron star, pulsing every 103 seconds, moves on a very eccentric 111-day orbit around a Be star — a hot star spinning so fast that it sheds a disc of gas from its equator. The orbit in the animation has the right eccentricity and period, with Keplerian timing: slow far away, fast at periastron. It is at periastron that the neutron star crosses the edge of the disc and tears gas off it; the gas spirals into a small disc around it and falls in. Below, the light curve: one X-ray outburst per passage. In the close-up, side-on, what happens near the star: the disc is cut at the magnetospheric radius, where the 10¹² gauss field takes over, and the gas slides down the field lines to the poles — the columns of the previous slide. Sometimes a giant outburst comes, like the one in 2020, which reached 10³⁸ erg per second; the paper’s observation is from a quiet phase.</aside>
+</section>
+
+<section class="slide content p3" data-paper="4">
   <header><p class="eyebrow">Silva, de Lima, Coelho &amp; de Araújo · submitted to JHEAp (2026) · the Becker &amp; Wolff model</p><h2>One equation for <em>the photons in the column</em></h2></header>
   <div class="body" style="display: grid; grid-template-rows: auto auto 1fr; gap: 18px">
       <div class="eq terms-eq" id="bw-eq" style="font-size: 31px; padding: 20px 18px 16px">
@@ -1300,12 +1320,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610231400"></script>
-<script src="assets/ppdot.js?v=202610231400"></script>
-<script src="assets/dash.js?v=202610231400"></script>
-<script src="assets/dash-reuso.js?v=202610231400"></script>
-<script src="assets/dash-ns.js?v=202610231400"></script>
-<script src="assets/dash-res.js?v=202610231400"></script>
+<script src="assets/deck.js?v=202610231600"></script>
+<script src="assets/ppdot.js?v=202610231600"></script>
+<script src="assets/dash.js?v=202610231600"></script>
+<script src="assets/dash-reuso.js?v=202610231600"></script>
+<script src="assets/dash-ns.js?v=202610231600"></script>
+<script src="assets/dash-res.js?v=202610231600"></script>
 <script>Deck.start();</script>
 </body>
 </html>
