@@ -1,6 +1,12 @@
 /* =====================================================================
-   Parte II · pulsares e estrelas de nêutrons — dashboards em canvas
-     #tov  — curvas massa–raio da equação TOV, resolvida aqui no navegador
+   Estrelas de nêutrons — dashboards em canvas
+   Parte I · a estrela por dentro:
+     #interior-bg — a capa: a estrela de 1,4 M☉ cortada ao meio, pela densidade
+     #ns-anat     — a anatomia em escala, com ρ(r)
+     #ns-newton   — Newton × TOV: a massa máxima
+     #ns-eos      — as equações de estado: P(ρ) e a velocidade do som
+     #tov         — curvas massa–raio da equação TOV, resolvida aqui no navegador
+   Parte III · pulsares e estrelas de nêutrons:
      #spot — uma mancha quente numa estrela estática: sem gravidade × Beloborodov × integral exata
      #two  — duas manchas (os polos magnéticos): as classes de Beloborodov e o dipolo deslocado
      #spin — a mesma mancha numa estrela que gira rápido: Doppler, aberração, atrasos e o feixe
@@ -342,7 +348,8 @@ const NS = (() => {
 })();
 
 /* ===================================================================================
-   Curvas massa–raio. A equação de Tolman–Oppenheimer–Volkoff (G = c = 1, r em km):
+   Equações de estado e a TOV, num objeto só (NSEOS): as Partes I e III usam as mesmas EOS e as mesmas
+   sequências de estrelas, resolvidas uma vez. A equação de Tolman–Oppenheimer–Volkoff (G = c = 1, r em km):
      dm/dr = 4π r² ε,   dP/dr = −(ε + P)(m + 4π r³ P) / [r (r − 2m)]
    integrada com Runge–Kutta de 4ª ordem em r, a partir do centro, até a pressão cair à de
    ρ = 10⁵ g/cm³ (o resto da crosta acrescenta metros). Passo: o menor entre 0,04 km e 6% da escala
@@ -361,10 +368,8 @@ const NS = (() => {
    (2,189/11,33), SLy 2,048/11,70 (2,049/11,71), ENG 2,238/11,97 (2,239/11,98), MPA1 2,456/12,43
    (2,457/12,44), H4 2,014/13,95 (2,015/13,96), MS1 2,753/14,93 (2,752/14,93).
    =================================================================================== */
-(() => {
-  const cv = document.getElementById('tov'); if (!cv) return;
-  const out = document.getElementById('tov-out');
-  const { MSUN, num, clip } = NS;
+const NSEOS = (() => {
+  const { MSUN } = NS;
   const C2 = 8.987551787e20, FG = 6.67430e-8 / C2 * 1e10;      // G/c² em cm/g → (g/cm³) para km⁻²
   // crosta SLy (Read et al. 2009, Tabela II): K_i (p/c² em g/cm³), Γ_i, densidade final ρ_i (g/cm³)
   const CRUST = [[6.80110e-9, 1.58425, 2.44034e7], [1.06186e-6, 1.28733, 3.78358e11], [5.32697e1, 0.62223, 2.62780e12], [3.99874e-8, 1.35692, Infinity]];
@@ -380,6 +385,7 @@ const NS = (() => {
   ].map(([name, lp1, g1, g2, g3, col]) => ({ name, lp1, g1, g2, g3, col, R: null, M: null }));
 
   function makeEOS(e) {
+    if (e.P) return e.P;
     const r1 = 10 ** 14.7, r2 = 1e15, p1 = 10 ** e.lp1 / C2;
     const K1 = p1 / r1 ** e.g1, K2 = p1 / r1 ** e.g2, K3 = K2 * r2 ** (e.g2 - e.g3);
     const pieces = []; let lo = 0, rho0 = 0;
@@ -391,42 +397,264 @@ const NS = (() => {
     pieces.push([K1, e.g1, rho0, r1], [K2, e.g2, r1, r2], [K3, e.g3, r2, Infinity]);
     // ε contínua; depois, tudo em unidades geométricas (km⁻²): K_geo = K·FG^(1−Γ)
     let eps = 0;
-    return pieces.map(([K, G, a0, hi], k) => {
+    return (e.P = pieces.map(([K, G, a0, hi], k) => {
       const a = k ? eps / a0 - 1 - K * a0 ** (G - 1) / (G - 1) : 0;
       if (hi < Infinity) eps = (1 + a) * hi + K * hi ** G / (G - 1);
       return { G, a, Kg: K * FG ** (1 - G), plo: K * a0 ** G * FG };
-    });
+    }));
   }
-  function epsOf(P, p) {
-    let k = P.length - 1; while (k > 0 && p < P[k].plo) k--;
-    const o = P[k], rho = (p / o.Kg) ** (1 / o.G);
-    return (1 + o.a) * rho + p / (o.G - 1);
-  }
+  const piece = (P, p) => { let k = P.length - 1; while (k > 0 && p < P[k].plo) k--; return P[k]; };
+  const rhoOf = (P, p) => { const o = piece(P, p); return (p / o.Kg) ** (1 / o.G); };        // densidade de repouso (km⁻²)
+  function epsOf(P, p) { const o = piece(P, p), rho = (p / o.Kg) ** (1 / o.G); return (1 + o.a) * rho + p / (o.G - 1); }
+  const cs2Of = (P, p) => piece(P, p).G * p / (epsOf(P, p) + p);                               // c_s²/c² = Γ P/(ε + P)
+  const pOfRho = (P, rho) => { let k = P.length - 1; while (k > 0 && rho < (P[k].plo / P[k].Kg) ** (1 / P[k].G)) k--; return P[k].Kg * rho ** P[k].G; };
   const PSURF = 6.80110e-9 * 1e5 ** 1.58425 * FG;               // p(ρ = 10⁵ g/cm³)
-  function star(P, pc) {
-    const f = (r, m, p) => { const e = epsOf(P, p > 0 ? p : 0); return [4 * Math.PI * r * r * e, -(e + p) * (m + 4 * Math.PI * r ** 3 * p) / (r * (r - 2 * m))]; };
+  /* Uma estrela, do centro (pressão pc) até PSURF: TOV (gr) ou Newton (dP/dr = −ε m/r², com ε como densidade
+     de massa). prof, se dado, recebe [r, m, p] a cada passo. Devolve [R em km, M em M☉]. */
+  function star(P, pc, gr = true, prof = null) {
+    const f = (r, m, p) => { const e = epsOf(P, p > 0 ? p : 0); return [4 * Math.PI * r * r * e, gr ? -(e + p) * (m + 4 * Math.PI * r ** 3 * p) / (r * (r - 2 * m)) : -e * m / (r * r)]; };
     let r = 1e-4, m = 4 / 3 * Math.PI * r ** 3 * epsOf(P, pc), p = pc;
+    if (prof) prof.push([0, 0, pc]);
     for (let n = 0; p > PSURF && n < 20000; n++) {
       const k1 = f(r, m, p), h = Math.min(0.04, 0.06 * p / Math.abs(k1[1] || 1e-30));
       const k2 = f(r + h / 2, m + h / 2 * k1[0], p + h / 2 * k1[1]), k3 = f(r + h / 2, m + h / 2 * k2[0], p + h / 2 * k2[1]), k4 = f(r + h, m + h * k3[0], p + h * k3[1]);
       m += h / 6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]); p += h / 6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]); r += h;
+      if (prof && p > 0) prof.push([r, m, p]);
     }
     return [r, m / MSUN];
   }
+  /* a sequência estável de uma EOS (até M_máx), guardada no próprio objeto: R, M, a pressão central pc de
+     cada estrela, M_máx, o raio e a pressão central da estrela de massa máxima e R₁,₄ */
   function solve(e) {
-    if (e.R) return;
-    const P = makeEOS(e), R = [], M = [];
+    if (e.R) return e;
+    const P = makeEOS(e), R = [], M = [], PC = [];
     let mmax = 0;
     for (let lp = 33.5; lp <= 37; lp += 0.035) {
-      const [r, m] = star(P, 10 ** lp / C2 * FG);
+      const pc = 10 ** lp / C2 * FG, [r, m] = star(P, pc);
       if (m < mmax) break;                                     // passou do máximo: fim do ramo estável
-      mmax = m; R.push(r); M.push(m);
+      mmax = m; R.push(r); M.push(m); PC.push(pc);
     }
-    e.R = R; e.M = M; e.mmax = mmax; e.rmax = R[R.length - 1];
+    e.R = R; e.M = M; e.PC = PC; e.mmax = mmax; e.rmax = R[R.length - 1]; e.pcmax = PC[PC.length - 1];
     e.r14 = null;
     for (let k = 1; k < M.length; k++) if (M[k - 1] < 1.4 && M[k] >= 1.4) e.r14 = R[k - 1] + (1.4 - M[k - 1]) / (M[k] - M[k - 1]) * (R[k] - R[k - 1]);
+    return e;
   }
+  /* a pressão central de uma estrela de massa Mt (M☉) no ramo estável, por bisseção em log pc */
+  function pcFor(e, Mt) {
+    solve(e); const P = makeEOS(e);
+    let lo = Math.log(e.PC[0]), hi = Math.log(e.pcmax);
+    for (let k = 0; k < 40; k++) { const mid = (lo + hi) / 2; star(P, Math.exp(mid))[1] < Mt ? lo = mid : hi = mid; }
+    return Math.exp((lo + hi) / 2);
+  }
+  // conversões: densidade e pressão geométricas (km⁻²) → g/cm³ e dyn/cm²
+  const toRho = x => x / FG, toP = x => x / FG * C2;
+  const RHO0 = 2.7e14;                                          // densidade de saturação nuclear (n₀ = 0,16 fm⁻³), g/cm³
+  return { C2, FG, EOS, makeEOS, epsOf, rhoOf, cs2Of, pOfRho, PSURF, star, solve, pcFor, toRho, toP, RHO0, sly: EOS[2] };
+})();
 
+/* ===================================================================================
+   Parte I · a estrela por dentro. O perfil de uma estrela de M☉ dada com a SLy (pela TOV de NSEOS) e as
+   camadas pela densidade: crosta externa até o gotejamento de nêutrons (4,3×10¹¹ g/cm³), crosta interna até a
+   transição crosta–núcleo (~ρ₀/2 = 1,27×10¹⁴, n = 0,076 fm⁻³ na SLy), núcleo externo até 2ρ₀ e núcleo interno
+   acima. Conferido: 1,4 M☉ dá R = 11,71 km, ρ_c = 8,9×10¹⁴ g/cm³ = 3,3 ρ₀ e crosta de 0,92 km; 2,0 M☉ dá
+   ρ_c = 5,9 ρ₀ e crosta de 0,38 km.
+   =================================================================================== */
+const NSI = (() => {
+  const { RHO0 } = NSEOS, DRIP = 4.3e11, CC = 1.27e14;
+  const LAYERS = [                                                  // do centro para fora: até que densidade, cor
+    { k: 'ic', lo: 2 * RHO0, col: [255, 196, 120] }, { k: 'oc', lo: CC, col: [158, 140, 255] },
+    { k: 'icr', lo: DRIP, col: [86, 225, 208] }, { k: 'ocr', lo: 0, col: [124, 196, 255] }];
+  const cache = new Map();
+  function profile(Mt) {
+    if (cache.has(Mt)) return cache.get(Mt);
+    const e = NSEOS.sly, P = NSEOS.makeEOS(e), pc = NSEOS.pcFor(e, Mt), pr = [];
+    const [R, M] = NSEOS.star(P, pc, true, pr);
+    const r = pr.map(q => q[0]), rho = pr.map(q => NSEOS.toRho(NSEOS.rhoOf(P, q[2])));
+    const rAt = th => { for (let i = rho.length - 1; i > 0; i--) if (rho[i] >= th) return r[i]; return 0; };
+    const o = { M, R, r, rho, rc: rho[0], pc, ec: NSEOS.epsOf(P, pc), bounds: { ic: rAt(2 * RHO0), oc: rAt(CC), icr: rAt(DRIP), rho0: rAt(RHO0) } };
+    cache.set(Mt, o); return o;
+  }
+  // a cor de uma densidade: das camadas de fora (azul) ao núcleo (âmbar), mais clara no centro
+  const STOPS = [[6, [40, 58, 92]], [Math.log10(DRIP), [70, 120, 175]], [Math.log10(CC), [86, 200, 214]], [Math.log10(RHO0), [150, 140, 255]], [Math.log10(2 * RHO0), [225, 125, 175]], [15.2, [255, 200, 130]], [15.5, [255, 240, 215]]];
+  function color(rho, a = 1) {
+    const x = Math.log10(Math.max(rho, 1e6)); let k = 0; while (k < STOPS.length - 2 && x > STOPS[k + 1][0]) k++;
+    const [x0, c0] = STOPS[k], [x1, c1] = STOPS[k + 1], t = clamp((x - x0) / (x1 - x0), 0, 1);
+    return `rgba(${c0.map((v, i) => Math.round(v + t * (c1[i] - v))).join(',')},${a})`;
+  }
+  return { profile, color, LAYERS, DRIP, CC, RHO0 };
+})();
+
+/* A capa da Parte I: a estrela de 1,4 M☉ cortada ao meio — à esquerda a superfície, à direita o corte com a
+   densidade do perfil da TOV, em escala. Desenho parado. */
+(() => {
+  const cv = document.getElementById('interior-bg'); if (!cv) return;
+  function draw() {
+    const { ctx: c, w, h } = fitCanvas(cv), pf = NSI.profile(1.4), cx = w * 0.735, cy = h * 0.52, Rp = h * 0.39, s = Rp / pf.R;
+    const g = c.createRadialGradient(cx, cy, Rp * 0.95, cx, cy, Rp * 1.35);
+    g.addColorStop(0, 'rgba(124,196,255,.22)'); g.addColorStop(1, 'rgba(124,196,255,0)');
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, Rp * 1.35, 0, 7); c.fill();
+    // a metade de fora: a superfície, com o terminador e uma grade de latitudes
+    c.save(); c.beginPath(); c.rect(0, 0, cx, h); c.clip();
+    const gs = c.createRadialGradient(cx - Rp * 0.35, cy - Rp * 0.35, Rp * 0.1, cx, cy, Rp);
+    gs.addColorStop(0, '#5a6c94'); gs.addColorStop(0.7, '#27304a'); gs.addColorStop(1, '#141a2b');
+    c.fillStyle = gs; c.beginPath(); c.arc(cx, cy, Rp, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(190,210,255,.12)'; c.lineWidth = 1;
+    for (let k = -2; k <= 2; k++) { const y = cy + k * Rp / 3, rr = Math.sqrt(Math.max(0, Rp * Rp - (k * Rp / 3) ** 2)); c.beginPath(); c.ellipse(cx, y, rr, rr * 0.12, 0, Math.PI / 2, 1.5 * Math.PI); c.stroke(); }
+    c.restore();
+    // o corte: anéis da densidade, de fora para dentro
+    c.save(); c.beginPath(); c.rect(cx, 0, w - cx, h); c.clip();
+    for (let i = pf.r.length - 1; i >= 0; i -= 3) { c.fillStyle = NSI.color(pf.rho[i]); c.beginPath(); c.arc(cx, cy, pf.r[i] * s, 0, 7); c.fill(); }
+    c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = 1.2;
+    for (const k of ['ic', 'oc', 'icr']) { c.beginPath(); c.arc(cx, cy, pf.bounds[k] * s, -Math.PI / 2, Math.PI / 2); c.stroke(); }
+    c.restore();
+    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(cx, cy - Rp); c.lineTo(cx, cy + Rp); c.stroke();
+  }
+  onSlide(cv, draw);
+})();
+
+/* A anatomia: em cima, uma fatia da estrela em escala (cunha de ±9°, o centro à esquerda); embaixo, ρ(r) em
+   escala log com as camadas em faixas — os dois com o mesmo eixo de r. Três massas para comparar. */
+(() => {
+  const cv = document.getElementById('ns-anat-cut'); if (!cv) return;
+  const cvR = document.getElementById('ns-anat-rho'), out = document.getElementById('ns-anat-out');
+  const RMAX = 12.6, TH = 9 * deg, ML = 74, MR = 26;
+  const NAMES = { ic: T('núcleo interno', 'inner core'), oc: T('núcleo externo', 'outer core'), icr: T('crosta interna', 'inner crust'), ocr: T('crosta externa', 'outer crust') };
+  const getM = bindSeg('ns-anat-m', () => draw());
+  const P = new Plot(cvR, { x: [0, RMAX], y: [1e6, 5e15], ylog: true, m: [10, MR, 56, ML], fs: 15, xticks: [0, 2, 4, 6, 8, 10, 12], yticks: [1e6, 1e8, 1e10, 1e12, 1e14] });
+  function draw() {
+    const Mt = +getM(), pf = NSI.profile(Mt), b = pf.bounds, layers = [[0, b.ic, 'ic'], [b.ic, b.oc, 'oc'], [b.oc, b.icr, 'icr'], [b.icr, pf.R, 'ocr']];
+    const lcol = k => NSI.LAYERS.find(l => l.k === k).col;
+    // a fatia
+    const { ctx: c, w, h } = fitCanvas(cv), x0 = ML, sx = (w - MR - ML) / RMAX, cy = h - 36;
+    const yTop = r => cy - r * sx * Math.sin(TH);
+    for (let i = pf.r.length - 1; i >= 0; i -= 2) {
+      c.fillStyle = NSI.color(pf.rho[i]); c.beginPath(); c.moveTo(x0, cy); c.arc(x0, cy, pf.r[i] * sx, -2 * TH, 0); c.closePath(); c.fill();
+    }
+    c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 1.2;
+    for (const [, r1] of layers.slice(0, 3)) { c.beginPath(); c.arc(x0, cy, r1 * sx, -2 * TH, 0); c.stroke(); }
+    c.strokeStyle = 'rgba(255,255,255,.8)'; c.beginPath(); c.arc(x0, cy, pf.R * sx, -2 * TH, 0); c.stroke();
+    c.fillStyle = COL.text3; c.textAlign = 'left'; c.textBaseline = 'top';
+    c.fillText(T(`uma fatia em escala · ${fmt(pf.M, 1)} M☉, SLy`, `a slice to scale · ${fmt(pf.M, 1)} M☉, SLy`), 8, 6);
+    c.textBaseline = 'middle'; c.textAlign = 'right'; c.fillText(T('centro', 'centre'), x0 - 8, cy);
+    c.textAlign = 'left'; c.fillText(T('superfície', 'surface'), x0 + pf.R * sx + 8, cy - 8);
+    // ρ(r), com as camadas em faixas e os nomes dentro delas (de pé nas cascas finas)
+    P.begin(); const d = P.ctx;
+    layers.forEach(([r0, r1, k]) => { const [cr, cg, cb] = lcol(k); d.fillStyle = `rgba(${cr},${cg},${cb},.16)`; d.fillRect(P.X(r0), P.T, P.X(r1) - P.X(r0), P.B - P.T); });
+    P.frame(T('r (km)', 'r (km)'), T('ρ (g/cm³)', 'ρ (g/cm³)'));
+    P.clip();
+    P.hline(NSI.DRIP, { color: 'rgba(86,225,208,.5)' });
+    P.hline(NSI.RHO0, { color: 'rgba(158,140,255,.6)' });
+    for (const m of ['1.0', '1.4', '2.0']) if (m !== getM()) { const q = NSI.profile(+m); P.line(q.r, q.rho, { color: 'rgba(255,255,255,.28)', width: 1.4, dash: [5, 5] }); }
+    P.line(pf.r, pf.rho, { color: '#fff', width: 3, glow: 10 });
+    P.text(0.25, NSI.RHO0 * 0.62, T('ρ₀: dentro de um núcleo atômico', 'ρ₀: inside an atomic nucleus'), { color: 'rgba(190,178,255,.95)', size: 14, base: 'top' });
+    P.text(0.25, NSI.DRIP * 0.62, T('gotejamento de nêutrons', 'neutron drip'), { color: 'rgba(120,235,220,.9)', size: 14, base: 'top' });
+    layers.forEach(([r0, r1, k]) => {
+      const [cr, cg, cb] = lcol(k), wpx = P.X(r1) - P.X(r0), xm = (P.X(r0) + P.X(r1)) / 2;
+      d.save(); d.font = `600 14px ${FONT}`; d.fillStyle = `rgb(${cr},${cg},${cb})`; d.textBaseline = 'middle'; d.textAlign = 'center';
+      d.strokeStyle = 'rgba(8,10,18,.9)'; d.lineWidth = 4; d.lineJoin = 'round';                   // contorno escuro: legível sobre a curva
+      if (wpx > 120) { d.strokeText(NAMES[k], xm, P.Y(1e8)); d.fillText(NAMES[k], xm, P.Y(1e8)); }
+      else { d.translate(xm, P.Y(1e10)); d.rotate(-Math.PI / 2); d.strokeText(NAMES[k], 0, 0); d.fillText(NAMES[k], 0, 0); }
+      d.restore();
+    });
+    P.unclip();
+    out.innerHTML = `<span><b>${fmt(pf.M, 2)} M☉</b> · R <b>${fmt(pf.R, 1)} km</b></span>
+      <span>${T('centro', 'centre')} ρ<sub>c</sub> <b>${sci(pf.rc, 1)} g/cm³</b> = <b>${fmt(pf.rc / NSI.RHO0, 1)} ρ₀</b></span>
+      <span>${T('crosta', 'crust')} <b>${fmt(pf.R - b.oc, 2)} km</b></span>
+      <span>${T('núcleo interno (ρ > 2ρ₀)', 'inner core (ρ > 2ρ₀)')}: ${T('raio', 'radius')} <b>${fmt(b.ic, 1)} km</b></span>`;
+  }
+  onSlide(cv, draw);
+})();
+
+/* Newton × TOV com a mesma EOS (SLy): a massa em função da densidade central. Em Newton a massa só cresce; na
+   TOV a pressão também gravita, e a curva tem um máximo (2,05 M☉ em ρ_c = 2,0×10¹⁵ g/cm³) — depois dele, o ramo
+   instável. O controle escolhe ρ_c; os cartões dão o tamanho de cada fator da TOV para essa estrela: no centro,
+   1 + P/ε e 1 + 4πr³P/m → 1 + 3P/ε; na superfície, (1 − 2GM/Rc²)⁻¹. */
+(() => {
+  const cv = document.getElementById('ns-newton'); if (!cv) return;
+  const out = document.getElementById('ns-tov-out'), e = NSEOS.sly, EP = NSEOS.makeEOS(e), FG = NSEOS.FG;
+  const getL = bindRange('ns-rhoc', v => sci(10 ** v, 1) + ' g/cm³', () => draw());
+  const P = new Plot(cv, { x: [10 ** 14.3, 10 ** 15.6], y: [0, 4], xlog: true, m: [16, 20, 56, 64], fs: 15, yticks: [0, 1, 2, 3, 4], xticks: [3e14, 1e15, 3e15], xfmt: v => sci(v, 0) });
+  let curves = null;
+  function build() {
+    const L = linspace(14.3, 15.6, 66), gr = [], nw = [];
+    for (const l of L) { const pc = NSEOS.pOfRho(EP, 10 ** l * FG); gr.push(NSEOS.star(EP, pc, true)); nw.push(NSEOS.star(EP, pc, false)); }
+    let kmax = 0; gr.forEach((q, k) => { if (q[1] > gr[kmax][1]) kmax = k; });
+    curves = { x: L.map(l => 10 ** l), gr, nw, kmax };
+  }
+  function draw() {
+    if (!curves) build();
+    const { x, gr, nw, kmax } = curves, l = getL(), pc = NSEOS.pOfRho(EP, 10 ** l * FG), ec = NSEOS.epsOf(EP, pc);
+    const [Rg, Mg] = NSEOS.star(EP, pc, true), [Rn, Mn] = NSEOS.star(EP, pc, false), u = 2 * Mg * NS.MSUN / Rg;
+    P.begin().frame(T('densidade no centro (g/cm³)', 'central density (g/cm³)'), T('massa (M☉)', 'mass (M☉)'));
+    P.clip();
+    P.vline(NSI.RHO0, { color: 'rgba(158,140,255,.8)', label: 'ρ₀', y: P.B - 26 });
+    P.line(x, nw.map(q => q[1]), { color: 'rgba(255,255,255,.75)', width: 2.4, dash: [8, 6] });
+    P.line(x.slice(0, kmax + 1), gr.slice(0, kmax + 1).map(q => q[1]), { color: COL.ana, width: 3.4, glow: 12 });
+    P.line(x.slice(kmax), gr.slice(kmax).map(q => q[1]), { color: COL.ana, width: 2, dash: [3, 5], alpha: 0.7 });
+    P.vline(10 ** l, { color: 'rgba(255,255,255,.3)', dash: [4, 5], width: 1.2 });
+    P.unclip();
+    P.dot(x[kmax], gr[kmax][1], { color: COL.ana, r: 6, glow: 14 });
+    P.text(x[kmax], gr[kmax][1] + 0.22, T(`M_máx = ${fmt(gr[kmax][1], 2)} M☉`, `M_max = ${fmt(gr[kmax][1], 2)} M☉`).replace('_máx', 'ₘₐₓ').replace('_max', 'ₘₐₓ'), { color: COL.ana, size: 16, align: 'center', base: 'bottom' });
+    P.text(10 ** 15.45, 1.35, T('ramo instável', 'unstable branch'), { color: 'rgba(124,196,255,.8)', size: 14, align: 'center' });
+    P.text(10 ** 14.93, 3.7, T('Newton: a massa não para de crescer', 'Newton: the mass keeps growing'), { color: COL.text, size: 15, align: 'right' });
+    P.text(10 ** 14.48, 2.6, T('TOV (relatividade geral)', 'TOV (general relativity)'), { color: COL.ana, size: 15 });
+    if (Mn <= 4) P.dot(10 ** l, Mn, { color: '#fff', r: 5, glow: 10 });
+    P.dot(10 ** l, Mg, { color: '#fff', r: 6, glow: 14 });
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = '×' + fmt(v, 2); };
+    set('tov-f1', 1 + pc / ec); set('tov-f2', 1 + 3 * pc / ec); set('tov-f3', 1 / (1 - u));
+    out.innerHTML = `<span>TOV <b>${fmt(Mg, 2)} M☉</b>, <b>${fmt(Rg, 1)} km</b></span>
+      <span>Newton <b>${fmt(Mn, 2)} M☉</b>, <b>${fmt(Rn, 1)} km</b></span>
+      <span>${T('no centro', 'at the centre')} P/ρc² <b>${fmt(pc / ec, 3)}</b></span><span>2<i>GM</i>/<i>Rc</i>² <b>${fmt(u, 3)}</b></span>`;
+  }
+  onSlide(cv, draw);
+})();
+
+/* As equações de estado de Read et al. (2009): P(ρ) e a velocidade do som c_s²/c² = Γ P/(ε + P), cheias até a
+   densidade central da estrela de massa máxima de cada uma (o ponto) e apagadas depois. Um botão realça uma. */
+(() => {
+  const cvP = document.getElementById('ns-eos-p'); if (!cvP) return;
+  const cvC = document.getElementById('ns-eos-cs'), seg = document.getElementById('ns-eos-sel'), { EOS, FG } = NSEOS;
+  seg.innerHTML = `<button type="button" data-v="" class="on">${T('todas', 'all')}</button>` + EOS.map(e => `<button type="button" data-v="${e.name}" style="color: ${e.col}">${e.name}</button>`).join('');
+  const getSel = bindSeg('ns-eos-sel', () => draw());
+  const X0 = 1e14, X1 = 3e15, xs = logspace(X0, X1, 160);
+  const PP = new Plot(cvP, { x: [X0, X1], y: [1e32, 1e37], xlog: true, ylog: true, m: [14, 18, 56, 66], fs: 15, xticks: [1e14, 3e14, 1e15, 3e15], xfmt: v => sci(v, 0) });
+  const PC = new Plot(cvC, { x: [X0, X1], y: [0, 1.15], xlog: true, m: [14, 18, 56, 56], fs: 15, xticks: [1e14, 3e14, 1e15, 3e15], xfmt: v => sci(v, 0), yticks: [0, 1 / 3, 2 / 3, 1], yfmt: v => ({ 0: '0', [1 / 3]: '1/3', [2 / 3]: '2/3', 1: '1' })[v] ?? fmt(v, 2) });
+  let ready = false;
+  function prep() { for (const e of EOS) { NSEOS.solve(e); const EP = NSEOS.makeEOS(e); e.rhoMax = NSEOS.toRho(NSEOS.rhoOf(EP, e.pcmax)); e.Pc = xs.map(r => NSEOS.toP(NSEOS.pOfRho(EP, r * FG))); e.cs = xs.map(r => NSEOS.cs2Of(EP, NSEOS.pOfRho(EP, r * FG))); } ready = true; }
+  function curve(Pl, e, ys, on, dim) {
+    const k = xs.findIndex(r => r > e.rhoMax), n = k < 0 ? xs.length : k;
+    Pl.line(xs.slice(0, n + 1), ys.slice(0, n + 1), { color: e.col, width: on ? 4 : 2.4, alpha: dim ? 0.22 : 1, glow: on ? 12 : 0 });
+    Pl.line(xs.slice(n), ys.slice(n), { color: e.col, width: 1.2, alpha: dim ? 0.1 : 0.3, dash: [3, 5] });
+    if (n < xs.length) Pl.dot(e.rhoMax, ys[n], { color: e.col, r: on ? 6 : 4, glow: on ? 12 : 0 });
+  }
+  function bands(Pl, top) {
+    const c = Pl.ctx; c.fillStyle = 'rgba(158,140,255,.08)'; c.fillRect(Pl.X(X0), Pl.T, Pl.X(NSI.RHO0 * 1.2) - Pl.X(X0), Pl.B - Pl.T);
+    Pl.vline(NSI.RHO0, { color: 'rgba(158,140,255,.55)', label: 'ρ₀', y: top }); Pl.vline(2 * NSI.RHO0, { color: 'rgba(255,255,255,.3)', label: '2ρ₀', y: top }); Pl.vline(6 * NSI.RHO0, { color: 'rgba(255,255,255,.3)', label: '6ρ₀', y: top });
+  }
+  function draw() {
+    if (!ready) prep();
+    const sel = getSel();
+    PP.begin(); bands(PP, PP.T + 4); PP.frame('ρ (g/cm³)', T('P (dyn/cm²)', 'P (dyn/cm²)')); PP.clip();
+    PP.text(1.08e14, 3e36, T('laboratório', 'laboratory'), { color: 'rgba(190,178,255,.85)', size: 14 });
+    PP.text(6.2e14, 3e36, T('extrapolação', 'extrapolation'), { color: COL.text3, size: 14 });
+    for (const e of EOS) curve(PP, e, e.Pc, sel === e.name, sel && sel !== e.name);
+    PP.unclip();
+    PC.begin(); bands(PC, PC.T + 4); PC.frame('ρ (g/cm³)', T('c_s² / c²', 'c_s² / c²').replace('c_s²', 'cₛ²')); PC.clip();
+    PC.hline(1, { color: 'rgba(255,122,138,.7)', dash: [], label: T('causalidade: c_s = c', 'causality: c_s = c').replace('c_s', 'cₛ'), align: 'left' });
+    PC.hline(1 / 3, { color: 'rgba(255,255,255,.4)', label: T('1/3: matéria de quarks livres', '1/3: free quark matter'), align: 'left' });
+    for (const e of EOS) curve(PC, e, e.cs, sel === e.name, sel && sel !== e.name);
+    PC.unclip();
+  }
+  onSlide(cvP, draw);
+})();
+
+/* Curvas massa–raio, o último slide da Parte I: as sequências estáveis de NSEOS, os vínculos do NICER, de
+   PSR J0348+0432 e de GW170817, e as retas de compacidade constante que a Parte II vai usar. */
+(() => {
+  const cv = document.getElementById('tov'); if (!cv) return;
+  const out = document.getElementById('tov-out');
+  const { MSUN, num, clip } = NS;
+  const { EOS, solve } = NSEOS;
   /* Vínculos observacionais (intervalos de 68%; elipses assimétricas desenhadas por quadrante).
      NICER: J0030+0451 — Riley et al. 2019 (ApJL 887, L21) e Miller et al. 2019 (ApJL 887, L24);
      J0740+6620 — Riley et al. 2021 (ApJL 918, L27); J0437−4715 — Choudhury et al. 2024 (ApJL 971, L20).
@@ -524,7 +752,7 @@ const NS = (() => {
     if (hover) tip(c, hover.e, hover.k);
   }
 
-  /* O ponto sob o mouse, visto com os olhos da Parte I: compacidade, desvio para o vermelho
+  /* O ponto sob o mouse, visto com os olhos da Parte II (ray tracing): compacidade, desvio para o vermelho
      z = 1/√(1 − u) − 1 e a fração da superfície à vista, (1 − cos ψ_máx)/2, com ψ_máx da integral
      exata em α = 90° (a superfície toda, se ψ_máx ≥ π). */
   function tip(c, e, k) {

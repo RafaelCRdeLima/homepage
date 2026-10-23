@@ -30,12 +30,12 @@ const Deck = (() => {
     const f = document.createElement('div');
     f.className = 'foot';
     f.innerHTML = `<span>${T('Da geometria à observação · ray tracing', 'From geometry to observation · ray tracing')}</span>
-      <span class="parts"><span></span><span></span><span></span></span>
+      <span class="parts"><span></span><span></span><span></span><span></span></span>
       <span>${String(k + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span>`;
     s.appendChild(f);
   });
 
-  /* Parte III: cada artigo é um bloco de slides (data-paper="n" em todos, data-ref no primeiro). O primeiro ganha
+  /* Parte IV: cada artigo é um bloco de slides (data-paper="n" em todos, data-ref no primeiro). O primeiro ganha
      faixa e selo, com o número do artigo e a referência curta; todos levam no rodapé “artigo n/N · k de m”,
      para saber onde termina um artigo e começa o outro. */
   const papers = new Map();

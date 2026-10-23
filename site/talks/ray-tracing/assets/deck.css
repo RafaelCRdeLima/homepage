@@ -26,10 +26,10 @@
   --bn: #9e8cff;                  /* V   · buracos negros: violeta */
   --warn: #ff7a8a;
   --abertura: #c3c8d6;            /* abertura e fechamento: neutro, fora das cinco partes */
-  /* as três partes deste seminário */
-  --rt: #9e8cff;                  /* I   · ray tracing relativístico: violeta */
-  --res: #ffb86b;                 /* III · resultados: âmbar (II · pulsares usa --psr, turquesa) */
-  --grad: linear-gradient(100deg, var(--rt) 0%, var(--psr) 52%, var(--res) 100%);
+  /* as quatro partes deste seminário: I · a estrela por dentro usa --ana (azul), III · pulsares usa --psr (turquesa) */
+  --rt: #9e8cff;                  /* II · ray tracing relativístico: violeta */
+  --res: #ffb86b;                 /* IV · resultados: âmbar */
+  --grad: linear-gradient(100deg, var(--ana) 0%, var(--rt) 34%, var(--psr) 66%, var(--res) 100%);
 
   --part: var(--abertura);        /* cor da parte atual; cada seção redefine */
   --W: 1920px;
@@ -56,9 +56,10 @@ a { color: inherit; }
 .notes { display: none; }
 
 .slide.p0 { --part: var(--abertura); }          /* abertura e fechamento */
-.slide.p1 { --part: var(--rt); }                /* Parte I   · ray tracing relativístico */
-.slide.p2 { --part: var(--psr); }               /* Parte II  · pulsares e estrelas de nêutrons */
-.slide.p3 { --part: var(--res); }               /* Parte III · resultados */
+.slide.p1 { --part: var(--ana); }               /* Parte I   · a estrela por dentro */
+.slide.p2 { --part: var(--rt); }                /* Parte II  · ray tracing relativístico */
+.slide.p3 { --part: var(--psr); }               /* Parte III · pulsares e estrelas de nêutrons */
+.slide.p4 { --part: var(--res); }               /* Parte IV  · resultados */
 
 /* ---------- slide de conteúdo ---------- */
 .content {
@@ -204,7 +205,8 @@ table.tbl.tight td.n { font: 500 21px var(--ui); font-variant-numeric: tabular-n
 .foot .parts span { width: 36px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.12); }
 .slide.p1 .foot .parts span:nth-child(1),
 .slide.p2 .foot .parts span:nth-child(2),
-.slide.p3 .foot .parts span:nth-child(3) { background: var(--part); box-shadow: 0 0 10px var(--part); }
+.slide.p3 .foot .parts span:nth-child(3),
+.slide.p4 .foot .parts span:nth-child(4) { background: var(--part); box-shadow: 0 0 10px var(--part); }
 
 /* Parte III: o primeiro slide de cada artigo ganha faixa e selo (deck.js); o rodapé diz “artigo n/N · k de m” */
 .slide.paper-start { box-shadow: inset 12px 0 0 var(--part); }
@@ -236,6 +238,7 @@ table.tbl.tight td.n { font: 500 21px var(--ui); font-variant-numeric: tabular-n
 /* ---------- capa de parte ---------- */
 .partcover { display: grid; align-items: center; padding: 0 150px; }
 .partcover .bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: saturate(.9); }
+.partcover .bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .partcover .bg::after {
   content: ""; position: absolute; inset: 0;
   background:
@@ -309,7 +312,7 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
 .school { display: flex; align-items: center; gap: 22px; }
 .stages { display: inline-flex; gap: 7px; }
 .stages i { width: 10px; height: 10px; border-radius: 50%; display: block; background: var(--c); box-shadow: 0 0 14px var(--c); }
-.stages i:nth-child(1) { --c: var(--rt); } .stages i:nth-child(2) { --c: var(--psr); } .stages i:nth-child(3) { --c: var(--res); }
+.stages i:nth-child(1) { --c: var(--ana); } .stages i:nth-child(2) { --c: var(--rt); } .stages i:nth-child(3) { --c: var(--psr); } .stages i:nth-child(4) { --c: var(--res); }
 .school b, .date b { color: var(--text); font-weight: 600; }
 .date { font-variant-numeric: tabular-nums; }
 .cover .main { position: absolute; left: 140px; top: 236px; width: 1500px; }

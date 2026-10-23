@@ -1,7 +1,7 @@
 /* =====================================================================
-   Utilitários comuns e as animações da Parte I (ray tracing relativístico).
+   Utilitários comuns e as animações da Parte II (ray tracing relativístico).
    Cada bloco procura o seu canvas pelo id e só roda se ele existir.
-   Parte II: dash-ns.js · Parte III: dash-res.js · blocos de outros seminários: dash-reuso.js.
+   Partes I e III: dash-ns.js · Parte IV: dash-res.js · blocos de outros seminários: dash-reuso.js.
    ===================================================================== */
 
 /* --------------------------- utilitários --------------------------- */
@@ -92,7 +92,23 @@ function subText(c, s, x, y, size, align = 'left') {
 }
 
 
-/* ====================== PARTE I · RAY TRACING ======================
+/* Equações termo a termo: cada .terms-eq com data-cards="id" tem termos [data-term] e, no contêiner id, cartões
+   com o mesmo data-term. Termo e cartão acendem juntos, um de cada vez, a cada 3,5 s, até o primeiro clique num
+   deles — aí fica o escolhido. No PDF e com movimento reduzido nada acende: todos os cartões já estão à vista. */
+document.querySelectorAll('.terms-eq[data-cards]').forEach(eq => {
+  const els = [...eq.querySelectorAll('[data-term]'), ...document.querySelectorAll(`#${eq.dataset.cards} [data-term]`)], slide = eq.closest('.slide');
+  const N = new Set(els.map(e => e.dataset.term)).size;
+  let k = -1, auto = true, timer = 0;
+  const show = i => { k = i; els.forEach(e => e.classList.toggle('on', +e.dataset.term === i)); };
+  els.forEach(e => e.addEventListener('click', () => { auto = false; clearInterval(timer); show(+e.dataset.term); }));
+  addEventListener('slidechange', () => {
+    clearInterval(timer);
+    if (!slide.classList.contains('active') || !auto || reduceMotion || FF) return;
+    show(0); timer = setInterval(() => { if (slide.classList.contains('active') && auto) show((k + 1) % N); else clearInterval(timer); }, 3500);
+  });
+});
+
+/* ====================== PARTE II · RAY TRACING ======================
    Unidades: R_S = 2GM/c² = 1, então M = 1/2 e u = 1/r. Equação da órbita da luz:
    (du/dφ)² = 1/b² − u²(1 − u),  u″ + u = (3/2) u². */
 
