@@ -138,13 +138,5 @@
   "license": "Public domain",
   "artist": "NASA's Goddard Space Flight Center",
   "short": "NASA/GSFC"
- },
- "be-star": {
-  "file": "assets/img/be-star.jpg",
-  "title": "Artist’s impression of HR 6819 (eso2204a)",
-  "page": "https://www.eso.org/public/images/eso2204a/",
-  "license": "CC BY 4.0",
-  "artist": "ESO/L. Calçada",
-  "short": "ESO/L. Calçada"
  }
 }
