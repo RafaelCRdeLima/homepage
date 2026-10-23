@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610231900">
+<link rel="stylesheet" href="assets/deck.css?v=202610232100">
 </head>
 <body>
 
@@ -212,7 +212,7 @@
   <div class="body cols rr">
     <figure class="portrait"><img src="assets/img/schwarzschild.jpg" alt="Karl Schwarzschild"><figcaption><b>Karl Schwarzschild</b>1873 – 1916</figcaption></figure>
     <div class="stack" style="gap: 28px">
-      <div class="eq"><i>ds</i>² = −(1 − <span class="frac"><span><i>r</i><sub>s</sub></span><span><i>r</i></span></span>) <i>c</i>²<i>dt</i>² + <span class="frac"><span><i>dr</i>²</span><span>1 − <i>r</i><sub>s</sub>/<i>r</i></span></span> + <i>r</i>²<i>d</i>Ω²<span class="note"><i>r</i><sub>s</sub> = 2GM/c² · valid outside any non-rotating spherical body</span></div>
+      <div class="eq"><i>ds</i>² = −(1 − <span class="frac"><span><i>r</i><sub>s</sub></span><span><i>r</i></span></span>) <i>c</i>²<i>dt</i>² + <span class="frac"><span><i>dr</i>²</span><span>1 − <i>r</i><sub>s</sub>/<i>r</i></span></span> + <i>r</i>²<i>d</i>Ω²<span class="note"><span class="nocase"><i>r</i><sub>s</sub> = 2<i>GM</i>/<i>c</i>²</span> · valid outside any non-rotating spherical body</span></div>
       <div class="cols c4" style="gap: 18px">
         <div class="card"><p class="stat" style="font-size: 60px">1 <small>r<sub>s</sub></small></p><p class="stat-label">event horizon</p></div>
         <div class="card"><p class="stat" style="font-size: 60px">1.5 <small>r<sub>s</sub></small></p><p class="stat-label">photon sphere</p></div>
@@ -257,7 +257,7 @@
       </div>
       <p class="small" style="margin: 0">For light only the ratio matters, the <b>impact parameter</b> <i>b</i> = <i>L</i>/<i>E</i>:</p>
       <div class="eq sm" style="font-size: 32px"><span class="frac"><span>1</span><span><i>b</i>²</span></span> = <span class="frac"><span><i>ṙ</i>²</span><span><i>L</i>²</span></span> + <i>V</i>(<i>r</i>), &nbsp; <i>V</i> = <span class="frac"><span>1</span><span><i>r</i>²</span></span>(1 − <span class="frac"><span><i>R</i><sub>S</sub></span><span><i>r</i></span></span>)<span class="note">a “potential” from geometry alone</span></div>
-      <div class="eq sm" style="font-size: 32px">(<span class="frac"><span><i>du</i></span><span><i>d</i>φ</span></span>)² = <span class="frac"><span>1</span><span><i>b</i>²</span></span> − <i>u</i>²(1 − <i>R</i><sub>S</sub><i>u</i>)<span class="note">the orbit · <i>u</i> = 1/<i>r</i></span></div>
+      <div class="eq sm" style="font-size: 32px">(<span class="frac"><span><i>du</i></span><span><i>d</i>φ</span></span>)² = <span class="frac"><span>1</span><span><i>b</i>²</span></span> − <i>u</i>²(1 − <i>R</i><sub>S</sub><i>u</i>)<span class="note">the orbit · <span class="nocase"><i>u</i> = 1/<i>r</i></span></span></div>
       <p class="small" style="margin: 0">The maximum of <i>V</i> lies at <i>r</i> = 1.5 <i>R</i><sub>S</sub>: the <b>photon sphere</b>. Below <i>b</i><sub>c</sub> = (3√3/2) <i>R</i><sub>S</sub> the ray comes from the horizon — or from the star.</p>
     </div>
     <div class="dash">
@@ -280,7 +280,7 @@
       <div class="readout" id="geo-s-out"></div>
     </div>
     <div class="stack" style="gap: 18px">
-      <div class="eq sm" style="font-size: 36px"><i>u</i>″ + <i>u</i> = <span class="frac"><span>3</span><span>2</span></span> <i>R</i><sub>S</sub> <i>u</i>²<span class="note"><i>u</i> = 1/<i>r</i> · orbit equation for light</span></div>
+      <div class="eq sm" style="font-size: 36px"><i>u</i>″ + <i>u</i> = <span class="frac"><span>3</span><span>2</span></span> <i>R</i><sub>S</sub> <i>u</i>²<span class="note"><span class="nocase"><i>u</i> = 1/<i>r</i></span> · orbit equation for light</span></div>
       <ul class="list" style="gap: 14px">
         <li class="small"><i>b</i> &gt; 3√3 <i>GM</i>/<i>c</i>² ≈ 2.6 <i>R</i><sub>S</sub>: the light is deflected and escapes.</li>
         <li class="small"><i>b</i> = 2.6 <i>R</i><sub>S</sub>: unstable orbit on the <b>photon sphere</b>, <i>r</i> = 1.5 <i>R</i><sub>S</sub>.</li>
@@ -901,17 +901,30 @@
 
 <section class="slide content p3" data-paper="5" data-ref="scalar-tensor gravity · EPJC 2024">
   <header><p class="eyebrow">Brans &amp; Dicke 1961 · Damour &amp; Esposito-Farèse 1993</p><h2>What if gravity <em>is not Einstein’s?</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .5fr .5fr 1.4fr; gap: 30px">
-    <figure class="portrait sm"><img src="assets/img/brans.jpg" alt="Carl Brans"><span class="credit" data-credit="brans">Cfbolner (Wikimedia Commons) · CC BY-SA 4.0</span><figcaption><b>Carl Brans</b>1935 – 2022</figcaption></figure>
-    <figure class="portrait sm"><img src="assets/img/damour.jpg" alt="Thibault Damour"><span class="credit" data-credit="damour">Melirius (Wikimedia Commons) · CC BY 3.0</span><figcaption><b>Thibault Damour</b>b. 1951</figcaption></figure>
-    <div class="stack" style="gap: 16px">
-      <p style="margin: 0">In <b>scalar-tensor</b> theories, besides the metric there is a scalar field φ that couples to matter. In the Solar System the effect is tiny; in a neutron star <b>spontaneous scalarisation</b> can occur: the field grows on its own.</p>
-      <p style="margin: 0">Outside the star, the metric is no longer Schwarzschild: it is the <b>Just metric</b>, with a scalar charge <i>Q</i>:</p>
-      <div class="eq sm" style="font-size: 27px">d<i>s</i>² = −(1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup><i>b</i>/<i>a</i></sup><i>dt</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>−<i>b</i>/<i>a</i></sup><i>dr</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>1 − <i>b</i>/<i>a</i></sup><i>r</i>²<i>d</i>Ω²<span class="note"><i>b</i> = 2<i>GM</i>/<i>c</i>² · <i>a</i>/<i>b</i> = √(1 + <i>Q</i>²) · Einstein frame</span></div>
-      <p style="margin: 0">Two stars with the <b>same mass and the same radius</b> — “doppelgängers” — bend light in different ways. The light curve can tell the theories apart.</p>
+  <div class="body cols" style="grid-template-columns: 1fr 1.12fr; gap: 40px">
+    <div class="stack" style="gap: 18px">
+      <div class="cols c2" style="gap: 18px; height: auto">
+        <figure class="portrait xs"><img style="max-height: 230px; object-position: 50% 18%" src="assets/img/brans.jpg" alt="Carl Brans"><span class="credit" data-credit="brans">Cfbolner (Wikimedia Commons) · CC BY-SA 4.0</span><figcaption><b>Carl Brans</b>1935 – 2022</figcaption></figure>
+        <figure class="portrait xs"><img style="max-height: 230px; object-position: 50% 12%" src="assets/img/damour.jpg" alt="Thibault Damour"><span class="credit" data-credit="damour">Melirius (Wikimedia Commons) · CC BY 3.0</span><figcaption><b>Thibault Damour</b>b. 1951</figcaption></figure>
+      </div>
+      <div class="card" style="padding: 18px 22px">
+        <h4>What “coupling to matter” means</h4>
+        <div class="coupling">
+          <div class="eq sm" style="font-size: 26px; padding: 10px 14px"><i>g̃</i><sub>μν</sub> = <i>A</i>²(φ) <i>g</i><sub>μν</sub><span class="note">the metric matter feels</span></div>
+          <p>Matter measures distances and times with <i>g̃</i>: its rulers and clocks change with φ. Light does not notice — a conformal change leaves null geodesics alone — but the radius matter measures is <i>R</i> = <i>A</i><sub>s</sub><i>R</i><sub>E</sub>.</p>
+          <div class="eq sm" style="font-size: 26px; padding: 10px 14px">α(φ) = <span class="frac"><span><i>d</i> ln <i>A</i></span><span><i>d</i>φ</span></span><span class="note">the strength of the coupling</span></div>
+          <p>Matter sources the field, □φ = −4π<i>G</i>α<i>T</i>, and feels an extra force, ∝ α∇φ: between two bodies, <i>G</i><sub>eff</sub> = <i>G</i>(1 + α²).</p>
+        </div>
+      </div>
+    </div>
+    <div class="stack" style="gap: 16px; align-self: center">
+      <p class="small" style="margin: 0">In <b>scalar-tensor</b> theories, besides the metric there is a scalar field φ that couples to matter. In the Solar System the coupling is tiny (α² &lt; 10⁻⁵, from the Cassini probe); in a neutron star <b>spontaneous scalarisation</b> can occur: with <i>A</i> = e<sup>βφ²/2</sup> and β ≲ −4.35, φ = 0 becomes unstable and the field grows on its own, like spontaneous magnetisation.</p>
+      <p class="small" style="margin: 0">Outside the star, the metric is no longer Schwarzschild: it is the <b>Just metric</b>, with a scalar charge <i>Q</i>:</p>
+      <div class="eq sm" style="font-size: 27px">d<i>s</i>² = −(1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup><i>b</i>/<i>a</i></sup><i>dt</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>−<i>b</i>/<i>a</i></sup><i>dr</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>1 − <i>b</i>/<i>a</i></sup><i>r</i>²<i>d</i>Ω²<span class="note"><span class="nocase"><i>b</i> = 2<i>GM</i>/<i>c</i>² · <i>a</i>/<i>b</i> = √(1 + <i>Q</i>²)</span> · Einstein frame</span></div>
+      <p class="small" style="margin: 0">Two stars with the <b>same mass and the same radius</b> — “doppelgängers” — bend light in different ways. The light curve can tell the theories apart.</p>
     </div>
   </div>
-  <aside class="notes">Now gravity. In scalar-tensor theories, gravity has a scalar field in addition to the metric. Brans and Dicke proposed the first one in 1961; Damour and Esposito-Farèse showed in 1993 that, in neutron stars, the field can grow spontaneously — scalarisation — even if in the Solar System everything looks like general relativity. Outside a scalarised star the metric is the Just metric, with a scalar charge Q. The question of our work: do two stars with the same mass and the same radius, one in general relativity and the other scalarised, have different light curves?</aside>
+  <aside class="notes">Now gravity. In scalar-tensor theories, gravity has a scalar field in addition to the metric. Brans and Dicke proposed the first one in 1961; Damour and Esposito-Farèse showed in 1993 that, in neutron stars, the field can grow spontaneously — scalarisation — even if in the Solar System everything looks like general relativity. Outside a scalarised star the metric is the Just metric, with a scalar charge Q. The question of our work: do two stars with the same mass and the same radius, one in general relativity and the other scalarised, have different light curves? What “coupling to matter” means: matter does not measure distances and times with the metric g, but with g̃ = A²(φ) g — rulers and clocks made of matter change with the field. The strength of that coupling is α, the derivative of ln A: matter sources the field, and the field pulls on matter with an extra force, so the effective gravity between two bodies becomes G(1 + α²). Light does not notice the conformal change, but the radius matter measures is A_s times the Einstein-frame one — and it is this A_s, 0.95 or 1.05, that changes on the next slide. In the Solar System the Cassini probe limits α² to below 10⁻⁵; with A = exp(βφ²/2), however, if β is more negative than −4.35, inside a neutron star φ = 0 becomes unstable and the field grows, like the spontaneous magnetisation of a ferromagnet.</aside>
 </section>
 
 <section class="slide content p3" data-paper="5">
@@ -981,18 +994,18 @@
       <text x="420" y="330" font-size="16" style="fill: #56e1d0">neutron star</text>
     </svg>
     <div class="stack" style="gap: 16px">
-      <p style="margin: 0">In a <b>braneworld</b>, our Universe is a four-dimensional hypersurface — the <b>brane</b> — inside a space with one extra dimension, the <b>bulk</b>. Matter and light are stuck on the brane; only gravity propagates in the bulk.</p>
+      <p class="small" style="margin: 0">In a <b>braneworld</b>, our Universe is a four-dimensional hypersurface — the <b>brane</b> — inside a space with one extra dimension, the <b>bulk</b>. Matter and light are stuck on the brane; only gravity propagates in the bulk.</p>
       <p class="small" style="margin: 0">The idea was put forward to attack the hierarchy problem (why gravity is so weak) and the cosmological-constant problem and accelerated expansion.</p>
-      <div class="eq sm" style="font-size: 30px"><i>G</i><sub>μν</sub> = 8π<i>T</i><sub>μν</sub> + κ<sub>5</sub><sup>4</sup><i>S</i><sub>μν</sub> − <i>E</i><sub>μν</sub><span class="note">effective Einstein equations on the brane · Shiromizu, Maeda &amp; Sasaki 2000</span></div>
+      <div class="eq sm" style="font-size: 30px"><i>G</i><sub>μν</sub> = 8π<i>T</i><sub>μν</sub> + <span class="frac"><span>48π</span><span>λ</span></span> <i>S</i><sub>μν</sub> − <i>E</i><sub>μν</sub><span class="note">Shiromizu, Maeda &amp; Sasaki 2000 · <span class="nocase">κ<sub>5</sub><sup>4</sup> = 48π/λ (<i>G</i> = <i>c</i> = 1)</span></span></div>
       <ul class="list" style="gap: 10px">
-        <li class="small"><i>S</i><sub>μν</sub>: <b>local</b> corrections, quadratic in the matter (∝ <i>T</i>²). They matter when the density approaches the <b>brane tension</b> λ.</li>
+        <li class="small"><i>S</i><sub>μν</sub>: <b>local</b> corrections, quadratic in the matter (∝ <i>T</i>²). In a fluid they add ρ²/2λ to the density: they matter when ρ approaches the <b>brane tension</b> λ.</li>
         <li class="small"><i>E</i><sub>μν</sub>: the bulk <b>Weyl</b> tensor projected onto the brane — <b>nonlocal</b>: it cannot be computed from brane quantities alone.</li>
         <li class="small">For λ → ∞ and <i>E</i><sub>μν</sub> → 0, General Relativity is recovered.</li>
       </ul>
       <p class="ref" style="margin: 0">In the paper: an effective 4D closure, inspired by the Sahni–Shtanov scenario (2003) — not a complete 5D bulk solution.</p>
     </div>
   </div>
-  <aside class="notes">What a braneworld is. The idea, from Randall and Sundrum in 1999, is that our four-dimensional Universe is a membrane — the brane — embedded in a space with one more dimension, the bulk. All Standard Model fields, matter and light, are stuck on the brane; only gravity spreads into the bulk. It was proposed to explain why gravity is so much weaker than the other forces and, later, for dark energy. Shiromizu, Maeda and Sasaki showed what Einstein's equations look like from inside the brane: two new terms appear. A local one, quadratic in the matter, which only matters at densities comparable to the brane tension. And a nonlocal one, the projection of the bulk Weyl tensor: the gravitational field of the extra dimension seen from here, which cannot be computed from what lives on the brane alone. In our paper we use an effective, four-dimensional version inspired by the Sahni–Shtanov scenario.</aside>
+  <aside class="notes">What a braneworld is. The idea, from Randall and Sundrum in 1999, is that our four-dimensional Universe is a membrane — the brane — embedded in a space with one more dimension, the bulk. All Standard Model fields, matter and light, are stuck on the brane; only gravity spreads into the bulk. It was proposed to explain why gravity is so much weaker than the other forces and, later, for dark energy. Shiromizu, Maeda and Sasaki showed what Einstein's equations look like from inside the brane: two new terms appear. A local one, quadratic in the matter, with coefficient 48π/λ, where λ is the brane tension: in a fluid it adds ρ²/2λ to the density, and it only matters when ρ is comparable to λ. And a nonlocal one, the projection of the bulk Weyl tensor: the gravitational field of the extra dimension seen from here, which cannot be computed from what lives on the brane alone. In our paper we use an effective, four-dimensional version inspired by the Sahni–Shtanov scenario.</aside>
 </section>
 
 <section class="slide content p3" data-paper="6">
@@ -1336,12 +1349,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610231900"></script>
-<script src="assets/ppdot.js?v=202610231900"></script>
-<script src="assets/dash.js?v=202610231900"></script>
-<script src="assets/dash-reuso.js?v=202610231900"></script>
-<script src="assets/dash-ns.js?v=202610231900"></script>
-<script src="assets/dash-res.js?v=202610231900"></script>
+<script src="assets/deck.js?v=202610232100"></script>
+<script src="assets/ppdot.js?v=202610232100"></script>
+<script src="assets/dash.js?v=202610232100"></script>
+<script src="assets/dash-reuso.js?v=202610232100"></script>
+<script src="assets/dash-ns.js?v=202610232100"></script>
+<script src="assets/dash-res.js?v=202610232100"></script>
 <script>Deck.start();</script>
 </body>
 </html>

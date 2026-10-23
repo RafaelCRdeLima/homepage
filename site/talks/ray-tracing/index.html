@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610231900">
+<link rel="stylesheet" href="assets/deck.css?v=202610232100">
 </head>
 <body>
 
@@ -213,7 +213,7 @@
   <div class="body cols rr">
     <figure class="portrait"><img src="assets/img/schwarzschild.jpg" alt="Karl Schwarzschild"><figcaption><b>Karl Schwarzschild</b>1873 – 1916</figcaption></figure>
     <div class="stack" style="gap: 28px">
-      <div class="eq"><i>ds</i>² = −(1 − <span class="frac"><span><i>r</i><sub>s</sub></span><span><i>r</i></span></span>) <i>c</i>²<i>dt</i>² + <span class="frac"><span><i>dr</i>²</span><span>1 − <i>r</i><sub>s</sub>/<i>r</i></span></span> + <i>r</i>²<i>d</i>Ω²<span class="note"><i>r</i><sub>s</sub> = 2GM/c² · vale fora de qualquer corpo esférico sem rotação</span></div>
+      <div class="eq"><i>ds</i>² = −(1 − <span class="frac"><span><i>r</i><sub>s</sub></span><span><i>r</i></span></span>) <i>c</i>²<i>dt</i>² + <span class="frac"><span><i>dr</i>²</span><span>1 − <i>r</i><sub>s</sub>/<i>r</i></span></span> + <i>r</i>²<i>d</i>Ω²<span class="note"><span class="nocase"><i>r</i><sub>s</sub> = 2<i>GM</i>/<i>c</i>²</span> · vale fora de qualquer corpo esférico sem rotação</span></div>
       <div class="cols c4" style="gap: 18px">
         <div class="card"><p class="stat" style="font-size: 60px">1 <small>r<sub>s</sub></small></p><p class="stat-label">horizonte de eventos</p></div>
         <div class="card"><p class="stat" style="font-size: 60px">1,5 <small>r<sub>s</sub></small></p><p class="stat-label">esfera de fótons</p></div>
@@ -258,7 +258,7 @@
       </div>
       <p class="small" style="margin: 0">Para a luz só importa a razão, o <b>parâmetro de impacto</b> <i>b</i> = <i>L</i>/<i>E</i>:</p>
       <div class="eq sm" style="font-size: 32px"><span class="frac"><span>1</span><span><i>b</i>²</span></span> = <span class="frac"><span><i>ṙ</i>²</span><span><i>L</i>²</span></span> + <i>V</i>(<i>r</i>), &nbsp; <i>V</i> = <span class="frac"><span>1</span><span><i>r</i>²</span></span>(1 − <span class="frac"><span><i>R</i><sub>S</sub></span><span><i>r</i></span></span>)<span class="note">um “potencial” só da geometria</span></div>
-      <div class="eq sm" style="font-size: 32px">(<span class="frac"><span><i>du</i></span><span><i>d</i>φ</span></span>)² = <span class="frac"><span>1</span><span><i>b</i>²</span></span> − <i>u</i>²(1 − <i>R</i><sub>S</sub><i>u</i>)<span class="note">a órbita · <i>u</i> = 1/<i>r</i></span></div>
+      <div class="eq sm" style="font-size: 32px">(<span class="frac"><span><i>du</i></span><span><i>d</i>φ</span></span>)² = <span class="frac"><span>1</span><span><i>b</i>²</span></span> − <i>u</i>²(1 − <i>R</i><sub>S</sub><i>u</i>)<span class="note">a órbita · <span class="nocase"><i>u</i> = 1/<i>r</i></span></span></div>
       <p class="small" style="margin: 0">O máximo de <i>V</i> fica em <i>r</i> = 1,5 <i>R</i><sub>S</sub>: a <b>esfera de fótons</b>. Abaixo de <i>b</i><sub>c</sub> = (3√3/2) <i>R</i><sub>S</sub> o raio vem do horizonte — ou da estrela.</p>
     </div>
     <div class="dash">
@@ -281,7 +281,7 @@
       <div class="readout" id="geo-s-out"></div>
     </div>
     <div class="stack" style="gap: 18px">
-      <div class="eq sm" style="font-size: 36px"><i>u</i>″ + <i>u</i> = <span class="frac"><span>3</span><span>2</span></span> <i>R</i><sub>S</sub> <i>u</i>²<span class="note"><i>u</i> = 1/<i>r</i> · equação da órbita da luz</span></div>
+      <div class="eq sm" style="font-size: 36px"><i>u</i>″ + <i>u</i> = <span class="frac"><span>3</span><span>2</span></span> <i>R</i><sub>S</sub> <i>u</i>²<span class="note"><span class="nocase"><i>u</i> = 1/<i>r</i></span> · equação da órbita da luz</span></div>
       <ul class="list" style="gap: 14px">
         <li class="small"><i>b</i> &gt; 3√3 <i>GM</i>/<i>c</i>² ≈ 2,6 <i>R</i><sub>S</sub>: a luz é desviada e escapa.</li>
         <li class="small"><i>b</i> = 2,6 <i>R</i><sub>S</sub>: órbita instável na <b>esfera de fótons</b>, <i>r</i> = 1,5 <i>R</i><sub>S</sub>.</li>
@@ -902,17 +902,30 @@
 
 <section class="slide content p3" data-paper="5" data-ref="gravidade escalar-tensorial · EPJC 2024">
   <header><p class="eyebrow">Brans &amp; Dicke 1961 · Damour &amp; Esposito-Farèse 1993</p><h2>E se a gravidade <em>não for a de Einstein?</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .5fr .5fr 1.4fr; gap: 30px">
-    <figure class="portrait sm"><img src="assets/img/brans.jpg" alt="Carl Brans"><span class="credit" data-credit="brans">Cfbolner (Wikimedia Commons) · CC BY-SA 4.0</span><figcaption><b>Carl Brans</b>1935 – 2022</figcaption></figure>
-    <figure class="portrait sm"><img src="assets/img/damour.jpg" alt="Thibault Damour"><span class="credit" data-credit="damour">Melirius (Wikimedia Commons) · CC BY 3.0</span><figcaption><b>Thibault Damour</b>n. 1951</figcaption></figure>
-    <div class="stack" style="gap: 16px">
-      <p style="margin: 0">Nas teorias <b>escalar-tensoriais</b>, além da métrica há um campo escalar φ que se acopla à matéria. No Sistema Solar o efeito é minúsculo; numa estrela de nêutrons pode ocorrer <b>escalarização espontânea</b>: o campo cresce sozinho.</p>
-      <p style="margin: 0">Fora da estrela, a métrica deixa de ser a de Schwarzschild: é a <b>métrica de Just</b>, com uma carga escalar <i>Q</i>:</p>
-      <div class="eq sm" style="font-size: 27px">d<i>s</i>² = −(1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup><i>b</i>/<i>a</i></sup><i>dt</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>−<i>b</i>/<i>a</i></sup><i>dr</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>1 − <i>b</i>/<i>a</i></sup><i>r</i>²<i>d</i>Ω²<span class="note"><i>b</i> = 2<i>GM</i>/<i>c</i>² · <i>a</i>/<i>b</i> = √(1 + <i>Q</i>²) · referencial de Einstein</span></div>
-      <p style="margin: 0">Duas estrelas com a <b>mesma massa e o mesmo raio</b> — “doppelgängers” — curvam a luz de maneiras diferentes. A curva de luz pode separar as teorias.</p>
+  <div class="body cols" style="grid-template-columns: 1fr 1.12fr; gap: 40px">
+    <div class="stack" style="gap: 18px">
+      <div class="cols c2" style="gap: 18px; height: auto">
+        <figure class="portrait xs"><img style="max-height: 230px; object-position: 50% 18%" src="assets/img/brans.jpg" alt="Carl Brans"><span class="credit" data-credit="brans">Cfbolner (Wikimedia Commons) · CC BY-SA 4.0</span><figcaption><b>Carl Brans</b>1935 – 2022</figcaption></figure>
+        <figure class="portrait xs"><img style="max-height: 230px; object-position: 50% 12%" src="assets/img/damour.jpg" alt="Thibault Damour"><span class="credit" data-credit="damour">Melirius (Wikimedia Commons) · CC BY 3.0</span><figcaption><b>Thibault Damour</b>n. 1951</figcaption></figure>
+      </div>
+      <div class="card" style="padding: 18px 22px">
+        <h4>O que é “acoplar-se à matéria”</h4>
+        <div class="coupling">
+          <div class="eq sm" style="font-size: 26px; padding: 10px 14px"><i>g̃</i><sub>μν</sub> = <i>A</i>²(φ) <i>g</i><sub>μν</sub><span class="note">a métrica que a matéria sente</span></div>
+          <p>A matéria mede distâncias e tempos com <i>g̃</i>: as suas réguas e relógios mudam com φ. A luz não percebe — uma troca conforme não muda as geodésicas nulas —, mas o raio que a matéria mede é <i>R</i> = <i>A</i><sub>s</sub><i>R</i><sub>E</sub>.</p>
+          <div class="eq sm" style="font-size: 26px; padding: 10px 14px">α(φ) = <span class="frac"><span><i>d</i> ln <i>A</i></span><span><i>d</i>φ</span></span><span class="note">a força do acoplamento</span></div>
+          <p>A matéria é fonte do campo, □φ = −4π<i>G</i>α<i>T</i>, e sente uma força a mais, ∝ α∇φ: entre dois corpos, <i>G</i><sub>ef</sub> = <i>G</i>(1 + α²).</p>
+        </div>
+      </div>
+    </div>
+    <div class="stack" style="gap: 16px; align-self: center">
+      <p class="small" style="margin: 0">Nas teorias <b>escalar-tensoriais</b>, além da métrica há um campo escalar φ que se acopla à matéria. No Sistema Solar o acoplamento é minúsculo (α² &lt; 10⁻⁵, pela sonda Cassini); numa estrela de nêutrons pode ocorrer <b>escalarização espontânea</b>: com <i>A</i> = e<sup>βφ²/2</sup> e β ≲ −4,35, φ = 0 fica instável e o campo cresce sozinho, como uma magnetização espontânea.</p>
+      <p class="small" style="margin: 0">Fora da estrela, a métrica deixa de ser a de Schwarzschild: é a <b>métrica de Just</b>, com uma carga escalar <i>Q</i>:</p>
+      <div class="eq sm" style="font-size: 27px">d<i>s</i>² = −(1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup><i>b</i>/<i>a</i></sup><i>dt</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>−<i>b</i>/<i>a</i></sup><i>dr</i>² + (1 − <span class="frac"><span><i>a</i></span><span><i>r</i></span></span>)<sup>1 − <i>b</i>/<i>a</i></sup><i>r</i>²<i>d</i>Ω²<span class="note"><span class="nocase"><i>b</i> = 2<i>GM</i>/<i>c</i>² · <i>a</i>/<i>b</i> = √(1 + <i>Q</i>²)</span> · referencial de Einstein</span></div>
+      <p class="small" style="margin: 0">Duas estrelas com a <b>mesma massa e o mesmo raio</b> — “doppelgängers” — curvam a luz de maneiras diferentes. A curva de luz pode separar as teorias.</p>
     </div>
   </div>
-  <aside class="notes">Agora a gravidade. Nas teorias escalar-tensoriais, a gravidade tem, além da métrica, um campo escalar. Brans e Dicke propuseram a primeira em 1961; Damour e Esposito-Farèse mostraram em 1993 que, em estrelas de nêutrons, o campo pode crescer espontaneamente — a escalarização — mesmo que no Sistema Solar tudo pareça relatividade geral. Fora de uma estrela escalarizada a métrica é a de Just, com uma carga escalar Q. A pergunta do nosso trabalho: duas estrelas com a mesma massa e o mesmo raio, uma em relatividade geral e outra escalarizada, têm curvas de luz diferentes?</aside>
+  <aside class="notes">Agora a gravidade. Nas teorias escalar-tensoriais, a gravidade tem, além da métrica, um campo escalar. Brans e Dicke propuseram a primeira em 1961; Damour e Esposito-Farèse mostraram em 1993 que, em estrelas de nêutrons, o campo pode crescer espontaneamente — a escalarização — mesmo que no Sistema Solar tudo pareça relatividade geral. Fora de uma estrela escalarizada a métrica é a de Just, com uma carga escalar Q. A pergunta do nosso trabalho: duas estrelas com a mesma massa e o mesmo raio, uma em relatividade geral e outra escalarizada, têm curvas de luz diferentes? O que quer dizer “acoplar-se à matéria”: a matéria não mede distâncias e tempos com a métrica g, e sim com g̃ = A²(φ) g — as réguas e os relógios feitos de matéria mudam com o campo. A força desse acoplamento é α, a derivada de ln A: a matéria gera o campo, e o campo puxa a matéria com uma força a mais, de modo que a gravidade efetiva entre dois corpos fica G(1 + α²). A luz não percebe a troca conforme, mas o raio que a matéria mede é A_s vezes o do referencial de Einstein — é esse A_s, 0,95 ou 1,05, que muda no próximo slide. No Sistema Solar, a sonda Cassini limita α² a menos de 10⁻⁵; com A = exp(βφ²/2), porém, se β for mais negativo que −4,35, dentro de uma estrela de nêutrons o φ = 0 fica instável e o campo cresce, como a magnetização espontânea de um ferromagneto.</aside>
 </section>
 
 <section class="slide content p3" data-paper="5">
@@ -987,18 +1000,18 @@
       <text x="420" y="330" font-size="16" style="fill: #56e1d0">estrela de nêutrons</text>
     </svg>
     <div class="stack" style="gap: 16px">
-      <p style="margin: 0">No <b>braneworld</b>, o nosso Universo é uma hipersuperfície de quatro dimensões — a <b>brana</b> — dentro de um espaço com uma dimensão a mais, o <b>bulk</b>. Matéria e luz ficam presas na brana; só a gravidade se propaga no bulk.</p>
+      <p class="small" style="margin: 0">No <b>braneworld</b>, o nosso Universo é uma hipersuperfície de quatro dimensões — a <b>brana</b> — dentro de um espaço com uma dimensão a mais, o <b>bulk</b>. Matéria e luz ficam presas na brana; só a gravidade se propaga no bulk.</p>
       <p class="small" style="margin: 0">A ideia aparece para atacar o problema da hierarquia (por que a gravidade é tão fraca) e o da constante cosmológica e da expansão acelerada.</p>
-      <div class="eq sm" style="font-size: 30px"><i>G</i><sub>μν</sub> = 8π<i>T</i><sub>μν</sub> + κ<sub>5</sub><sup>4</sup><i>S</i><sub>μν</sub> − <i>E</i><sub>μν</sub><span class="note">Einstein efetivo na brana · Shiromizu, Maeda &amp; Sasaki 2000</span></div>
+      <div class="eq sm" style="font-size: 30px"><i>G</i><sub>μν</sub> = 8π<i>T</i><sub>μν</sub> + <span class="frac"><span>48π</span><span>λ</span></span> <i>S</i><sub>μν</sub> − <i>E</i><sub>μν</sub><span class="note">Shiromizu, Maeda &amp; Sasaki 2000 · <span class="nocase">κ<sub>5</sub><sup>4</sup> = 48π/λ (<i>G</i> = <i>c</i> = 1)</span></span></div>
       <ul class="list" style="gap: 10px">
-        <li class="small"><i>S</i><sub>μν</sub>: correções <b>locais</b>, quadráticas na matéria (∝ <i>T</i>²). Pesam quando a densidade se aproxima da <b>tensão da brana</b> λ.</li>
+        <li class="small"><i>S</i><sub>μν</sub>: correções <b>locais</b>, quadráticas na matéria (∝ <i>T</i>²). Num fluido, somam ρ²/2λ à densidade: pesam quando ρ se aproxima da <b>tensão da brana</b> λ.</li>
         <li class="small"><i>E</i><sub>μν</sub>: o tensor de <b>Weyl</b> do bulk projetado na brana — <b>não local</b>: não se calcula só com o que existe na brana.</li>
         <li class="small">Para λ → ∞ e <i>E</i><sub>μν</sub> → 0, volta a Relatividade Geral.</li>
       </ul>
       <p class="ref" style="margin: 0">No artigo: um fechamento efetivo em 4D, inspirado no cenário de Sahni–Shtanov (2003) — não uma solução completa do bulk em 5D.</p>
     </div>
   </div>
-  <aside class="notes">O que é um braneworld. A ideia, de Randall e Sundrum em 1999, é que o nosso Universo de quatro dimensões seja uma membrana — a brana — mergulhada num espaço com uma dimensão a mais, o bulk. Todos os campos do Modelo Padrão, matéria e luz, ficam presos na brana; só a gravidade se espalha pelo bulk. Isso foi proposto para explicar por que a gravidade é tão mais fraca que as outras forças e, depois, para a energia escura. Shiromizu, Maeda e Sasaki mostraram como fica a equação de Einstein vista de dentro da brana: aparecem dois termos novos. Um local, quadrático na matéria, que só importa em densidades comparáveis à tensão da brana. E um não local, a projeção do tensor de Weyl do bulk: é o campo gravitacional da dimensão extra visto daqui, e não dá para calculá-lo só com o que está na brana. No nosso artigo usamos uma versão efetiva, em quatro dimensões, inspirada no cenário de Sahni e Shtanov.</aside>
+  <aside class="notes">O que é um braneworld. A ideia, de Randall e Sundrum em 1999, é que o nosso Universo de quatro dimensões seja uma membrana — a brana — mergulhada num espaço com uma dimensão a mais, o bulk. Todos os campos do Modelo Padrão, matéria e luz, ficam presos na brana; só a gravidade se espalha pelo bulk. Isso foi proposto para explicar por que a gravidade é tão mais fraca que as outras forças e, depois, para a energia escura. Shiromizu, Maeda e Sasaki mostraram como fica a equação de Einstein vista de dentro da brana: aparecem dois termos novos. Um local, quadrático na matéria, com coeficiente 48π/λ, em que λ é a tensão da brana: num fluido ele soma ρ²/2λ à densidade, e só importa quando ρ é comparável a λ. E um não local, a projeção do tensor de Weyl do bulk: é o campo gravitacional da dimensão extra visto daqui, e não dá para calculá-lo só com o que está na brana. No nosso artigo usamos uma versão efetiva, em quatro dimensões, inspirada no cenário de Sahni e Shtanov.</aside>
 </section>
 
 <section class="slide content p3" data-paper="6">
@@ -1342,12 +1355,12 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610231900"></script>
-<script src="assets/ppdot.js?v=202610231900"></script>
-<script src="assets/dash.js?v=202610231900"></script>
-<script src="assets/dash-reuso.js?v=202610231900"></script>
-<script src="assets/dash-ns.js?v=202610231900"></script>
-<script src="assets/dash-res.js?v=202610231900"></script>
+<script src="assets/deck.js?v=202610232100"></script>
+<script src="assets/ppdot.js?v=202610232100"></script>
+<script src="assets/dash.js?v=202610232100"></script>
+<script src="assets/dash-reuso.js?v=202610232100"></script>
+<script src="assets/dash-ns.js?v=202610232100"></script>
+<script src="assets/dash-res.js?v=202610232100"></script>
 <script>Deck.start();</script>
 </body>
 </html>
