@@ -36,6 +36,7 @@ site/talks/2026-ebn/  slides da II Escola Brasileira de Neutrinos (cópia de Raf
 site/talks/estrelas/  palestra “Do nascimento à morte das estrelas” (cópia de ~/Codes/Talk Do nascimento à Morte das Estrelas)
 site/talks/ray-tracing/  seminário “Da geometria à observação” (cópia de ~/Codes/Talk Ray Tracing em Estrelas Relativísticas)
 site/talks/dark-matter/  seminário “Simulating the invisible”, em inglês (cópia de ~/Codes/Talk Matéria Escura em Estrelas de Nêutrons)
+site/talks/scarlet/  seminário “Inelasticidade e composição ν/ν̄”, PT/EN (cópia de ~/Codes/Talk Inelasticidade de Neutrinos)
 site/farol/          FAROL: os pulsares do catálogo ATNF girando no período medido (autônomo)
 site/quadro/         quadro de giz para dar aula no tablet (autônomo, fora dos buscadores)
 site/styles.css      a apresentação inteira

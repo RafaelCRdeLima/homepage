@@ -1,0 +1,16 @@
+{
+  "icecube-lab": {
+    "file": "assets/img/icecube-lab.jpg",
+    "title": "The ICL at Night.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:The_ICL_at_Night.jpg",
+    "license": "CC BY 4.0",
+    "artist": "John Hardin"
+  },
+  "icecube-schematic": {
+    "file": "assets/img/icecube-schematic.jpg",
+    "title": "The IceCube Neutrino Observatory.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:The_IceCube_Neutrino_Observatory.jpg",
+    "license": "CC BY 4.0",
+    "artist": "Karen Andeen and Matthias Plum for the IceCube Collaboration"
+  }
+}

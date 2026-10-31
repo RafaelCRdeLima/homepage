@@ -1,0 +1,86 @@
+{
+  "paper_commit": "07ec038",
+  "aggregation": "2 H + O16, per nucleon for sigma; yhist normalised per model and probe; Q2 map bins combined in groups of 5",
+  "files": [
+    {
+      "file": "GHE19_00b_00_000_p14_t1000010010.json",
+      "sha256": "61c1dbbc781ff4c2d807560d16d9a92a44f145d25b83eb799d093fd4ff5020d5"
+    },
+    {
+      "file": "GHE19_00b_00_000_p14_t1000080160.json",
+      "sha256": "6c51ea6b339337b8710ee17351bf72ddfcb5b3f48ef2633100678604bb9ef1f6"
+    },
+    {
+      "file": "GHE19_00b_00_000_p-14_t1000010010.json",
+      "sha256": "c7dcc1217d64a62bcda73580b9b931c07387ae0fc6690b65c0d5b2f2d788d697"
+    },
+    {
+      "file": "GHE19_00b_00_000_p-14_t1000080160.json",
+      "sha256": "9337348e5222d02e12347ca4b03414c3b42773bf69323f0351372c60cf84caf6"
+    },
+    {
+      "file": "SC26_00d_00_000_p14_t1000010010.json",
+      "sha256": "fb7e881ec21909f753ec031e5ffa788a005585deefbdbdbb86d009fce1ef332d"
+    },
+    {
+      "file": "SC26_00d_00_000_p14_t1000080160.json",
+      "sha256": "7158fc11ab2dc54f25044de65078ddfc4b69dbb9cd710a64f3102ea0467b5b1a"
+    },
+    {
+      "file": "SC26_00d_00_000_p-14_t1000010010.json",
+      "sha256": "a36de14b34b8f5a392eff268a22cd658e7948ddfaf70f1bb490fc72faa8552e0"
+    },
+    {
+      "file": "SC26_00d_00_000_p-14_t1000080160.json",
+      "sha256": "72cbb81b5427fa6fa256b40da408453f87a710c84e8d9affda045a657fb95c6e"
+    },
+    {
+      "file": "SC26_00e_00_000_p14_t1000010010.json",
+      "sha256": "5a8494f4325d543340832979c09e982d5f0122682988eec78c5c991bdd8586fb"
+    },
+    {
+      "file": "SC26_00e_00_000_p14_t1000080160.json",
+      "sha256": "c09ce8fa40c65787008b83d3dd9672953cf54d6c8cb965e4b1d084af415f7953"
+    },
+    {
+      "file": "SC26_00e_00_000_p-14_t1000010010.json",
+      "sha256": "4ee9d1f53ae3eebe5a77c56437fb8c3cba7f9fab6c292b4c5319e4d62330c706"
+    },
+    {
+      "file": "SC26_00e_00_000_p-14_t1000080160.json",
+      "sha256": "5a55edf5fa4000025733288d4fbfbfe76b5fbe28f48fda03948b16e99db05a91"
+    },
+    {
+      "file": "SC26_00f_00_000_p14_t1000010010.json",
+      "sha256": "1c225263705cde0533c7bceac5da291ba520bf63404ca85b7fe583ed6700a025"
+    },
+    {
+      "file": "SC26_00f_00_000_p14_t1000080160.json",
+      "sha256": "386a7d2f5f23606813b81640ffcab65ff822826481495629aa259610ec9b8859"
+    },
+    {
+      "file": "SC26_00f_00_000_p-14_t1000010010.json",
+      "sha256": "93a4f7000fc17a70a116779df8d134b2f0898dd41e8c1dbf1e03f17186c8fa12"
+    },
+    {
+      "file": "SC26_00f_00_000_p-14_t1000080160.json",
+      "sha256": "2f6b506a0d90de188be346495773b8e3a52c29e055fa5d296ba03c3553f0598c"
+    },
+    {
+      "file": "SC26_00c_00_000_p14_t1000010010.json",
+      "sha256": "be948f1cde41486cc177aea462d887c52de24b2d6641f2441fd03a791bb59bf9"
+    },
+    {
+      "file": "SC26_00c_00_000_p14_t1000080160.json",
+      "sha256": "733058a869086b0ae187f6dbc0289ebce970fa078a984db96436361b2db12e98"
+    },
+    {
+      "file": "SC26_00c_00_000_p-14_t1000010010.json",
+      "sha256": "4085df503c108140f6c8e322d090c08a665089a0b200f51ba78fa8e25340b7c3"
+    },
+    {
+      "file": "SC26_00c_00_000_p-14_t1000080160.json",
+      "sha256": "479ee9c6a93c85fc4a337827259502b5d3cfea77216e9f1bbab69ff02c439670"
+    }
+  ]
+}
