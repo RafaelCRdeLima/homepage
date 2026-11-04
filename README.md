@@ -37,6 +37,7 @@ site/talks/estrelas/  palestra “Do nascimento à morte das estrelas” (cópia
 site/talks/ray-tracing/  seminário “Da geometria à observação” (cópia de ~/Codes/Talk Ray Tracing em Estrelas Relativísticas)
 site/talks/dark-matter/  seminário “Simulating the invisible”, em inglês (cópia de ~/Codes/Talk Matéria Escura em Estrelas de Nêutrons)
 site/talks/scarlet/  seminário “Inelasticidade e composição ν/ν̄”, PT/EN (cópia de ~/Codes/Talk Inelasticidade de Neutrinos)
+site/talks/double-pulsar/  seminário “O momento de inércia do pulsar A”, PT/EN (cópia de ~/Codes/Talk Momento de Inércia do Pulsar Duplo)
 site/farol/          FAROL: os pulsares do catálogo ATNF girando no período medido (autônomo)
 site/quadro/         quadro de giz para dar aula no tablet (autônomo, fora dos buscadores)
 site/styles.css      a apresentação inteira
@@ -365,7 +366,8 @@ EBN 2026 é `~/Codes/Talk Neutrinos em Epaçotempo curvo` (RafaelCRdeLima/Semina
 copiada para `site/talks/estrelas/`; a do seminário de ray tracing é
 `~/Codes/Talk Ray Tracing em Estrelas Relativísticas`, copiada para `site/talks/ray-tracing/`; a do seminário
 sobre matéria escura (OBSCURA), só em inglês, é `~/Codes/Talk Matéria Escura em Estrelas de Nêutrons`, copiada para
-`site/talks/dark-matter/`. O README de cada uma tem o `rsync` que atualiza a cópia daqui. Os slides não usam a navegação do site: são um deck de tela
+`site/talks/dark-matter/`; a do seminário sobre o momento de inércia do pulsar A é `~/Codes/Talk Momento de Inércia do Pulsar Duplo`, copiada para
+`site/talks/double-pulsar/`. O README de cada uma tem o `rsync` que atualiza a cópia daqui. Os slides não usam a navegação do site: são um deck de tela
 cheia, com CSS e JS próprios.
 
 ## As visitas

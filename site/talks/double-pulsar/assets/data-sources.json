@@ -1,0 +1,19 @@
+{
+ "gerado_por": "tools/export_data.py",
+ "fontes": {
+  "data_products/strange_P1_posterior.h5": "9a176d6112b92a045211de307fe9b91bfdb8a7f164242899b11ab752d7d86d8e",
+  "data_products/nucleonic_N1_library.h5": "5f53bfd147653b16fe6f5001731a2f33051f5d57f682e9b2555dbc1e7a3188ed",
+  "data_products/evidences.csv": "b2eca274ad63d4730a86172a3a7d06cfd9e03b77699a02544dd6155883e42b7f",
+  "data_products/predictions_by_configuration.csv": "f1a32d97da38470dd7ceaa38e0846da29bb6f2aa0f819eba81b14838a0d23b45",
+  "results/numeros_manuscrito.json": "85fd9c02f55c3b323be1c9462fd8f055e35de18fa0084a0c1c33d7b7f1c73a34",
+  "results/preditiva_prior.npz": "c03cef06fbc3a02dd3b787b7e38b9875ca09c99432410dbb5e74f35638532164",
+  "results/occam.json": "2282e02a1d6e210571b4976b10b6eef2acd9bc84192a21d9d14c350678036707",
+  "results/consistencia.json": "034c9868ae83c7acd95bfd9ac02182647a0a59623c24da19254b8cdff605cd33",
+  "results/projecoes/ss_main__nuc_main_biblioteca.json": "ca1e26dfea8e79e0328c43dd32387c128ee35c8b2017cf93a4ca51934050c558",
+  "results/validation/sbc_estranho_ranks.npz": "0d037cfd6fa3db1e69ca87a784b685292f51b56d947a46f8879c8c9e79829593",
+  "results/validation/teste_snooker.json": "2302cecf887c01a223f3e4bdbab15e510edc7e83fa6e759f1e24f2ced1d20c34",
+  "results/validation/amostradores.json": "9583175d42fe741b9c41bf79b5803c1d3f27dc97631e5805061ae8cccaabed1d",
+  "results/runs/ss_main/amostra_prior.npz": "1d764439867785871eb47f07151483255ad17dd1393aeb0782957de38b0d9637",
+  "results/runs/nuc_main/biblioteca_N1.npz": "8a2efec0ce00189c77c7a30f7c6390741935e77c4603367358d3068c1bfb4588"
+ }
+}
