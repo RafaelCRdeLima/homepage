@@ -1,5 +1,5 @@
 /* =====================================================================
-   Parte I · OBSCURA — os painéis
+   Parte II · OBSCURA — os painéis
    Tudo sobre PHYS (phys.js): a estrela SLy de 1,40 M☉ e 11,70 km, o transporte e a cinemática.
    ===================================================================== */
 const C_KMS = 299792.458;
@@ -22,6 +22,24 @@ function wilson(k, n) {
 function poissonTail(tau, k) { let s = 0, t = Math.exp(-tau); for (let j = 0; j < k; j++) { s += t; t *= tau / (j + 1); } return Math.max(0, 1 - s); }
 
 /* -------------------------------------------------------------------------
+   ℒ_c(ℰ) exterior, em unidades de R, M = C. Vinda do infinito, a órbita chega a R se ℰ² ≥ V²(r) para todo
+   r ≥ R, V² = (1 − 2M/r)(1 + ℒ²/r²). Se o máximo de V² acima de R é a própria superfície, vale a fórmula de
+   superfície, ℒ_c² = R²(ℰ² − 1 + 2C)/(1 − 2C). Isso acontece para ℰ² ≥ (1 − 2C)²/(1 − 3C), a energia da órbita
+   circular em R; logo sempre, para ℰ ≥ 1, se C ≤ 1/4. Senão manda o topo da barreira, em r_m ∈ (R, 6M): a órbita
+   circular instável de energia ℰ, com ℒ² = M r_m²/(r_m − 3M). Em ℰ = 1, r_m = ℒ = 4M, como num buraco negro.
+   Conferido com varredura direta de V²: erro da fórmula de superfície em ℒ_c de 2,4% em C = 0,304 e 5,6% em
+   C = 0,33, a v → 0; zero para C ≤ 1/4.
+   ------------------------------------------------------------------------- */
+function focusLc(C, E) {
+  const E2 = E * E;
+  if (C <= 0.25 || E2 >= (1 - 2 * C) ** 2 / (1 - 3 * C)) return { L: Math.sqrt((E2 - 1 + 2 * C) / (1 - 2 * C)), rm: 1, barrier: false };
+  let a = 1, b = 6 * C;
+  for (let k = 0; k < 70; k++) { const r = 0.5 * (a + b); if ((1 - 2 * C / r) ** 2 / (1 - 3 * C / r) > E2) a = r; else b = r; }
+  const rm = 0.5 * (a + b);
+  return { L: Math.sqrt(C * rm * rm / (rm - 3 * C)), rm, barrier: true };
+}
+
+/* -------------------------------------------------------------------------
    Focalização gravitacional. Uma partícula vinda do infinito com velocidade v tem
    𝓔 = γ e 𝓛 = γ v b; ela chega à superfície se 𝓛 < 𝓛_c(𝓔) = R √[(𝓔² − 1 + 2C)/(1 − 2C)],
    logo b_max/R = √[(γ² − 1 + 2C)/(1 − 2C)] / (γv). Newton: b_max/R = √(1 + 2C/v²).
@@ -33,7 +51,7 @@ function poissonTail(tau, k) { let s = 0, t = Math.exp(-tau); for (let j = 0; j 
 (() => {
   const geo = document.getElementById('focus-geo'); if (!geo) return;
   const plotCv = document.getElementById('focus-plot'), out = document.getElementById('focus-out');
-  const bGR = (C, b) => { const g = 1 / Math.sqrt(1 - b * b); return Math.sqrt((g * g - 1 + 2 * C) / (1 - 2 * C)) / (g * b); };
+  const bGR = (C, b) => { const g = 1 / Math.sqrt(1 - b * b); return focusLc(C, g).L / (g * b); };
   const bN = (C, b) => Math.sqrt(1 + 2 * C / (b * b));
   const getC = bindRange('focus-c', v => v.toFixed(3), () => go());
   const getV = bindRange('focus-v', v => { const b = 10 ** v; return b * C_KMS < 1e4 ? Math.round(b * C_KMS).toLocaleString('en') + ' km/s' : b.toFixed(2) + 'c'; }, () => go());
@@ -101,9 +119,49 @@ function poissonTail(tau, k) { let s = 0, t = Math.exp(-tau); for (let j = 0; j 
     P.text(16, 1.6, 'halo speeds', { color: COL.deg, size: 14 });
     const b220 = bGR(C, 220 / C_KMS), n220 = bN(C, 220 / C_KMS);
     out.innerHTML = `at this speed <b>b_max = ${bm < 100 ? bm.toFixed(2) : sci(bm)} R</b> &nbsp;·&nbsp; Newton <b>${bn < 100 ? bn.toFixed(2) : sci(bn)} R</b> &nbsp;·&nbsp; GR/Newton <b>${(bm / bn).toFixed(3)}</b>
-      &nbsp;·&nbsp; at 220 km/s: <b>${sci(b220, 2)} R</b>, ×<b>${(b220 / n220).toFixed(3)}</b> &nbsp;·&nbsp; slow limit 1/√(1−2C) = <b>${(1 / Math.sqrt(1 - 2 * C)).toFixed(3)}</b>`;
+      &nbsp;·&nbsp; at 220 km/s: <b>${sci(b220, 2)} R</b>, ×<b>${(b220 / n220).toFixed(3)}</b> &nbsp;·&nbsp; slow limit ${C <= 0.25 ? '1/√(1−2C)' : '2√(2C), the barrier'} = <b>${(C <= 0.25 ? 1 / Math.sqrt(1 - 2 * C) : 2 * Math.sqrt(2 * C)).toFixed(3)}</b>`;
   }
   const go = onSlide(geo, draw);
+})();
+
+/* Potencial efetivo: a conta do slide. Em unidades de R, com ℒ/ℒ_c no controle: o gráfico mostra V²(r) para
+   r ≥ R, a reta ℰ² e a região proibida V² > ℰ². A partícula vem da direita. */
+(() => {
+  const cv = document.getElementById('veff-plot'); if (!cv) return;
+  const out = document.getElementById('veff-out');
+  const getL = bindRange('veff-l', v => v.toFixed(2), () => go());
+  const getC = bindRange('veff-c', v => v.toFixed(3), () => go());
+  const getV = bindRange('veff-v', v => { const b = 10 ** v; return b * C_KMS < 1e4 ? Math.round(b * C_KMS).toLocaleString('en') + ' km/s' : b.toFixed(2) + 'c'; }, () => go());
+  const P = new Plot(cv, { x: [0.8, 30], y: [0, 2], xlog: true, m: [14, 22, 62, 76], fs: 16, xticks: [1, 2, 5, 10, 20] });
+  const V2 = (x, C, L) => (1 - 2 * C / x) * (1 + L * L / (x * x));
+  function draw() {
+    const C = getC(), beta = 10 ** getV(), g = 1 / Math.sqrt(1 - beta * beta), E2 = g * g, lc = focusLc(C, g), L = getL() * lc.L;
+    const xs = logspace(1, 30, 700), vv = xs.map(x => V2(x, C, L)), vc = xs.map(x => V2(x, C, lc.L));
+    const lo = Math.min(...vc, ...vv), span = Math.max(E2 - lo, 0.02);
+    P.set('y', [lo - 0.14 * span, E2 + 0.62 * span]);
+    P.begin().frame('radius r / R', 'V²(r)');
+    const c = P.ctx;
+    P.clip();
+    c.save(); c.fillStyle = 'rgba(255,255,255,.07)'; c.fillRect(P.X(0.8), P.T, P.X(1) - P.X(0.8), P.B - P.T); c.restore();
+    c.save(); c.fillStyle = COL.warn; c.globalAlpha = 0.24;
+    for (let i = 0; i + 1 < xs.length; i++) if (vv[i] > E2) { const X0 = P.X(xs[i]), X1 = P.X(xs[i + 1]); c.fillRect(X0, P.Y(vv[i]), X1 - X0 + 0.6, P.Y(E2) - P.Y(vv[i])); }
+    c.restore();
+    P.hline(E2, { color: COL.amb, dash: [], width: 2.6 });
+    P.line(xs, vc, { color: COL.text, width: 2, dash: [7, 6], alpha: 0.85 });
+    P.line(xs, vv, { color: COL.obs, width: 3.4, glow: 10 });
+    P.vline(1, { color: COL.text2, dash: [], width: 1.6 });
+    let tp = -1; for (let i = xs.length - 1; i >= 0; i--) if (vv[i] > E2) { tp = i; break; }
+    const rt = tp < 0 ? 1 : tp === xs.length - 1 ? xs[tp] : xs[tp] + (xs[tp + 1] - xs[tp]) * (vv[tp] - E2) / (vv[tp] - vv[tp + 1]);
+    P.dot(tp < 0 ? 1 : rt, E2, { color: tp < 0 ? COL.deg : COL.warn, r: 7 });
+    P.unclip();
+    P.text(0.895, (P.o.y[0] + P.o.y[1]) / 2, 'star', { color: COL.text3, size: 15, align: 'center' });
+    P.text(26, E2, 'ℰ²', { color: COL.amb, size: 19, align: 'right', base: 'bottom' });
+    const reach = tp < 0;
+    out.innerHTML = `<span>impact parameter <b>${sci(L / (g * beta), 2)} R</b></span><span>b<sub>max</sub> <b>${sci(lc.L / (g * beta), 2)} R</b></span>` +
+      `<span class="pill" style="--c: ${reach ? 'var(--deg)' : 'var(--warn)'}">${reach ? 'reaches the surface' : 'turns back at ' + rt.toFixed(2) + ' R'}</span>` +
+      `<span>limit set by <b>${lc.barrier ? 'barrier at ' + lc.rm.toFixed(2) + ' R' : 'the surface'}</b></span>`;
+  }
+  const go = onSlide(cv, draw);
 })();
 
 /* -------------------------------------------------------------------------

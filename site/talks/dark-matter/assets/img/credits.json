@@ -33,5 +33,26 @@
   "page": "https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif",
   "license": "Public domain",
   "artist": "NASA's Goddard Space Flight Center"
+ },
+ "coma": {
+  "file": "assets/img/coma.jpg",
+  "title": "Coma Cluster (noirlab2420a).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Coma_Cluster_(noirlab2420a).jpg",
+  "license": "CC BY 4.0",
+  "artist": "CTIO/NOIRLab/DOE/NSF/AURA, image processing D. de Martin & M. Zamani (NSF NOIRLab)"
+ },
+ "cmb-planck": {
+  "file": "assets/img/cmb-planck.jpg",
+  "title": "Cosmic Microwave Background (CMB).jpeg",
+  "page": "https://commons.wikimedia.org/wiki/File:Cosmic_Microwave_Background_(CMB).jpeg",
+  "license": "CC BY 4.0",
+  "artist": "ESA and the Planck Collaboration"
+ },
+ "ngc3198": {
+  "file": "assets/img/ngc3198.jpg",
+  "title": "NGC3198 - SDSS DR14.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:NGC3198_-_SDSS_DR14.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Sloan Digital Sky Survey"
  }
 }

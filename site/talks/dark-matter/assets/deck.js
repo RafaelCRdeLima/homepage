@@ -31,7 +31,7 @@ const Deck = (() => {
     const f = document.createElement('div');
     f.className = 'foot';
     f.innerHTML = `<span>Dark matter in neutron stars · OBSCURA</span>
-      <span class="parts"><span></span><span></span></span>
+      <span class="parts"><span></span><span></span><span></span></span>
       <span>${String(k + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span>`;
     s.appendChild(f);
   });
@@ -149,7 +149,7 @@ const COL = {
   grid: 'rgba(255,255,255,.07)', axis: 'rgba(255,255,255,.28)', warn: '#ff7a8a', bg: '#07080e',
 };
 COL.e = COL.bn; COL.mu = COL.psr; COL.tau = COL.sol;    // nomes antigos, ainda usados por Plot
-COL.obs = COL.bn; COL.deg = COL.psr; COL.amb = COL.sol;  // as duas partes deste seminário e o destaque
+COL.obs = COL.bn; COL.deg = COL.psr; COL.amb = COL.sol;  // as partes II e III deste seminário e o destaque
 COL.rt = COL.obs; COL.res = COL.amb;
 const FONT = '"Inter Tight", system-ui, sans-serif';
 const SERIF = '"Instrument Serif", Georgia, serif';
@@ -291,7 +291,7 @@ function bindSeg(id, cb) {
    centro de massa. Para que se veja alguma coisa em poucos segundos, a partícula da capa é pesada
    (m_χ = 0,5 m_n: cada colisão leva dezenas de por cento da energia) e σ dá τ ≈ 3 numa travessia —
    o caso dos painéis, 100 keV, precisa de dezenas de colisões. As capturadas (𝓔 < 1) seguem
-   colidindo até esfriar e ficam orbitando no fundo do poço: a nuvem que a Parte II examina.
+   colidindo até esfriar e ficam orbitando no fundo do poço: a nuvem que a Parte III examina.
    A composição é ilustração; cada trajetória é conta. */
 (() => {
   const cv = document.getElementById('capa-dm');

@@ -26,9 +26,10 @@
   --bn: #9e8cff;                  /* V   · buracos negros: violeta */
   --warn: #ff7a8a;
   --abertura: #c3c8d6;            /* abertura e fechamento: neutro, fora das cinco partes */
-  /* as duas partes deste seminário, no degradê do logo do OBSCURA (violeta → turquesa) */
-  --obs: #9e8cff;                 /* I  · OBSCURA: violeta */
-  --deg: #56e1d0;                 /* II · degenerescência antes da autogravidade: turquesa */
+  /* as três partes: âmbar para o problema, depois o degradê do logo do OBSCURA (violeta → turquesa) */
+  --dm: #ffb86b;                  /* I   · The missing mass: âmbar */
+  --obs: #9e8cff;                 /* II  · OBSCURA: violeta */
+  --deg: #56e1d0;                 /* III · degenerescência antes da autogravidade: turquesa */
   --amb: #ffb86b;                 /* destaque: o ponto fiducial, o que muda */
   --rt: var(--obs); --res: var(--amb);
   --grad: linear-gradient(100deg, var(--obs) 0%, var(--ana) 50%, var(--deg) 100%);
@@ -58,8 +59,9 @@ a { color: inherit; }
 .notes { display: none; }
 
 .slide.p0 { --part: var(--abertura); }          /* abertura e fechamento */
-.slide.p1 { --part: var(--obs); }               /* Parte I  · OBSCURA */
-.slide.p2 { --part: var(--deg); }               /* Parte II · degenerescência antes da autogravidade */
+.slide.p1 { --part: var(--dm); }                /* Parte I   · The missing mass */
+.slide.p2 { --part: var(--obs); }               /* Parte II  · OBSCURA */
+.slide.p3 { --part: var(--deg); }               /* Parte III · degenerescência antes da autogravidade */
 
 /* ---------- slide de conteúdo ---------- */
 .content {
@@ -204,7 +206,8 @@ table.tbl.tight td.n { font: 500 21px var(--ui); font-variant-numeric: tabular-n
 .foot .parts { display: flex; gap: 10px; align-items: center; }
 .foot .parts span { width: 36px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.12); }
 .slide.p1 .foot .parts span:nth-child(1),
-.slide.p2 .foot .parts span:nth-child(2) { background: var(--part); box-shadow: 0 0 10px var(--part); }
+.slide.p2 .foot .parts span:nth-child(2),
+.slide.p3 .foot .parts span:nth-child(3) { background: var(--part); box-shadow: 0 0 10px var(--part); }
 
 /* ---------- capa de parte ---------- */
 .partcover { display: grid; align-items: center; padding: 0 150px; }
@@ -282,7 +285,7 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
 .school { display: flex; align-items: center; gap: 22px; }
 .stages { display: inline-flex; gap: 7px; }
 .stages i { width: 10px; height: 10px; border-radius: 50%; display: block; background: var(--c); box-shadow: 0 0 14px var(--c); }
-.stages i:nth-child(1) { --c: var(--obs); } .stages i:nth-child(2) { --c: var(--deg); }
+.stages i:nth-child(1) { --c: var(--dm); } .stages i:nth-child(2) { --c: var(--obs); } .stages i:nth-child(3) { --c: var(--deg); }
 .school b, .date b { color: var(--text); font-weight: 600; }
 .date { font-variant-numeric: tabular-nums; }
 .cover .main { position: absolute; left: 140px; top: 236px; width: 1500px; }
@@ -505,3 +508,15 @@ figure.paper.dark img { background: #fff; }
 .qkey span { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
 .qkey b { font: italic 400 26px/1 var(--display); color: var(--c); min-width: 30px; }
 .qkey small { font-size: 14px; color: var(--text-3); }
+
+/* Parte I: orçamento do Universo e controles inativos */
+.budget { display: flex; height: 54px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+.budget span { background: var(--c); display: grid; place-items: center; font: 600 15px var(--ui); letter-spacing: .04em; color: var(--text); white-space: nowrap; overflow: hidden; }
+.ctl:has(input:disabled) { opacity: .35; }
+.ctl input:disabled { cursor: not-allowed; }
+.pill { white-space: nowrap; }
+table.tbl.tight.roomy td { padding: 17px 14px; }
+/* contas dentro de um passo numerado */
+.mq { font-family: var(--display); font-size: 1.24em; color: var(--text); white-space: nowrap; }
+.mq i { font-style: italic; }
+.mq sub, .mq sup { font-size: .62em; }

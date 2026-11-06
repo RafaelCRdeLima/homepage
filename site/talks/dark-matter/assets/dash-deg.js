@@ -1,5 +1,5 @@
 /* =====================================================================
-   Parte II · Degeneracy before self-gravity — os painéis
+   Parte III · Degeneracy before self-gravity — os painéis
    ===================================================================== */
 const LOG = v => Math.log10(v);
 const supx = e => String(e).split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹'['0123456789'.indexOf(c)] ?? '⁻').join('');

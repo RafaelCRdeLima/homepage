@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07080e">
 <title>Simulating the invisible · Rafael C. R. de Lima</title>
-<meta name="description" content="Seminar: dark matter in neutron stars — OBSCURA, a relativistic Monte Carlo of dark-matter capture, and the regimes of the captured population (degeneracy before self-gravity).">
+<meta name="description" content="Seminar: dark matter in neutron stars — the evidence, the candidates and the experiments; OBSCURA, a relativistic Monte Carlo of dark-matter capture; and the regimes of the captured population (degeneracy before self-gravity).">
 <meta name="author" content="Rafael Camargo Rodrigues de Lima">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Simulating the invisible: dark matter in neutron stars">
@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202610221900">
+<link rel="stylesheet" href="assets/deck.css?v=202611061500">
 </head>
 <body>
 
@@ -27,13 +27,13 @@
   <div class="veil"></div>
   <div class="grain"></div>
   <header class="top rise d1">
-    <div class="school"><span class="stages" aria-hidden="true"><i></i><i></i></span><span>Department of Physics · <b>UDESC</b></span></div>
+    <div class="school"><span class="stages" aria-hidden="true"><i></i><i></i><i></i></span><span>Department of Physics · <b>UDESC</b></span></div>
     <div class="date">Seminar · <b>2026</b></div>
   </header>
   <div class="main">
     <p class="kicker rise d1">Dark matter in neutron stars</p>
     <h1 class="rise d2">Simulating<br>the <em>invisible</em></h1>
-    <p class="lede rise d3">How a neutron star captures dark matter <i>one collision at a time</i> — and what state the captured particles end up in.</p>
+    <p class="lede rise d3">What we know about dark matter, how a neutron star captures it <i>one collision at a time</i>, and what state the captured particles end up in.</p>
   </div>
   <footer class="bottom rise d5">
     <div class="author">
@@ -46,29 +46,380 @@
       <div class="links"><a href="https://rafael-lima.pages.dev/talks.html">rafael-lima.pages.dev/talks</a></div>
     </div>
   </footer>
-  <aside class="notes">Good afternoon. This seminar is about dark matter inside neutron stars, and it has two halves. In the background, a 1.4 solar-mass neutron star with the SLy equation of state, and particles falling on it along Schwarzschild geodesics: some miss, some enter, scatter, lose energy, and stay. The ones that stay keep colliding and sink into the potential well — the small glowing cloud at the centre. The first part is about how we compute that capture; the second about what that cloud is. The criterion in the corner is the whole story of capture: a particle is captured when its conserved energy, measured at infinity, drops below its rest mass.</aside>
+  <aside class="notes">Good afternoon. This seminar is about dark matter inside neutron stars, and it has three parts. In the background, a 1.4 solar-mass neutron star with the SLy equation of state, and particles falling on it along Schwarzschild geodesics: some miss, some enter, scatter, lose energy, and stay. The ones that stay keep colliding and sink into the potential well — the small glowing cloud at the centre. The first part is about dark matter itself: why we believe in it, what it could be, and where it has been searched for. The second is about how we compute that capture; the third about what that cloud is. The criterion in the corner is the whole story of capture: a particle is captured when its conserved energy, measured at infinity, drops below its rest mass.</aside>
 </section>
 
 <section class="slide content p0">
-  <header><p class="eyebrow">Outline</p><h2>Two papers, <em>one code</em></h2></header>
-  <div class="body cols c2" style="align-items: stretch; gap: 40px; height: auto; align-self: center">
-    <div class="card" style="--part: var(--obs)">
+  <header><p class="eyebrow">Outline</p><h2>One problem, two papers, <em>one code</em></h2></header>
+  <div class="body cols c3" style="align-items: stretch; height: auto; align-self: center">
+    <div class="card" style="--part: var(--dm)">
       <p class="stat roman">I</p>
+      <h3>The missing mass</h3>
+      <p class="small">How the problem was found, why the evidence holds, the ideas most explored today, and what the experiments have ruled out. Why look at a neutron star at all?</p>
+      <p class="ref" style="margin: 0">From Zwicky to the neutrino fog</p>
+    </div>
+    <div class="card" style="--part: var(--obs)">
+      <p class="stat roman">II</p>
       <h3>OBSCURA: every collision</h3>
-      <p class="small">A relativistic Monte Carlo of dark-matter capture. Each particle follows the interior geodesic of the star, collides, changes direction and energy — and the code reduces exactly to the optical-depth closure when that extra physics is switched off. What does the closure miss?</p>
+      <p class="small">A relativistic Monte Carlo of capture that follows each particle through the interior metric, and reduces exactly to the optical-depth closure. What does the closure miss?</p>
       <p class="ref" style="margin: 0">de Lima &amp; Rueda, <i>A Monte Carlo relativistic framework for dark matter capture by neutron stars</i> (in preparation)</p>
     </div>
     <div class="card glow" style="--part: var(--deg)">
-      <p class="stat roman">II</p>
+      <p class="stat roman">III</p>
       <h3>Degeneracy before self-gravity</h3>
-      <p class="small">After capture: is the population a classical thermal tracer, a degenerate Fermi gas, or a self-gravitating dark component? Two independent diagnostics — <b>S</b> for gravity, <b>Θ</b> for statistics — and a map of where their thresholds fall.</p>
+      <p class="small">After capture: a classical tracer, a degenerate Fermi gas, or a dark component? Two diagnostics, <b>S</b> for gravity and <b>Θ</b> for statistics, and a map of their thresholds.</p>
       <p class="ref" style="margin: 0">de Lima &amp; Rueda, <i>Degeneracy Before Self-Gravity: Dark Matter Regimes in Neutron Stars</i> (draft)</p>
     </div>
   </div>
-  <aside class="notes">Two parts, two papers in preparation with Jorge Rueda, and one code underneath both, OBSCURA. Part one is the method: a Monte Carlo that follows each collision, and what it teaches us about the standard optical-depth closure. Part two uses the same pipeline downstream: once the particles are captured, what physical regime do they occupy?</aside>
+  <aside class="notes">Three parts. The first is the background: how the problem was found, what the evidence says, which ideas are the most explored today and what the experiments have ruled out. The other two are two papers in preparation with Jorge Rueda, with one code underneath both, OBSCURA. Part two is the method: a Monte Carlo that follows each collision, and what it teaches us about the standard optical-depth closure. Part three uses the same pipeline downstream: once the particles are captured, what physical regime do they occupy?</aside>
 </section>
 
-<section class="slide content p0">
+<!-- ================================================================
+     PART I · THE MISSING MASS
+     ================================================================ -->
+<section class="slide partcover p1">
+  <div class="bg" style="background-image: url('assets/img/coma.jpg'); background-position: 62% 50%"></div>
+  <div class="inner">
+    <p class="num rise d1">I</p>
+    <p class="label rise d2">Part one</p>
+    <h2 class="rise d2">The missing<br><em>mass</em></h2>
+    <p class="sub lede rise d3">Ninety years of evidence that most of the matter in the Universe is made of something we have never seen in a laboratory: how it was found, what it could be, and what has been ruled out.</p>
+    <div class="topics rise d4"><span>the discovery</span><span>rotation curves</span><span>lensing</span><span>the CMB</span><span>modified gravity</span><span>the candidates</span><span>WIMPs</span><span>axions</span><span>the hints</span><span>the RAR model</span></div>
+  </div>
+  <span class="credit" data-credit="coma" data-label>Coma Cluster · CTIO/NOIRLab/DOE/NSF/AURA, D. de Martin &amp; M. Zamani · CC BY 4.0</span>
+  <aside class="notes">Part one is the ground the rest of the seminar stands on. In the background, the Coma cluster, where the story starts. I will go through how the problem was found, why the evidence is now so hard to escape, which ideas are the most explored today, and what the experiments have ruled out so far. It ends with the reason to look at neutron stars at all.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1933 · The Coma cluster</p><h2>Seven galaxies, <em>far too fast</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .5fr 1fr .86fr; gap: 38px; align-items: center">
+    <figure class="portrait"><img src="assets/img/zwicky.jpg" alt="Fritz Zwicky, 1960"><span class="credit" data-credit="zwicky">Comet Photo AG (Zürich) · CC BY-SA 4.0</span><figcaption><b>Fritz Zwicky</b>Helv. Phys. Acta 6, 110 (1933)</figcaption></figure>
+    <div class="stack" style="gap: 22px">
+      <div class="eq sm" style="font-size: 38px">⟨<i>v</i>²⟩ = <span class="frac"><span>3</span><span>5</span></span> <span class="frac"><span><i>GM</i></span><span><i>R</i></span></span><span class="note">the virial theorem, for a uniform sphere</span></div>
+      <table class="tbl tight">
+        <tr><td>800 galaxies of 10⁹ M☉ within 10²⁴ cm</td><td class="n">80 km/s</td></tr>
+        <tr><td>Doppler spread he measured</td><td class="n">≳ 1000 km/s</td></tr>
+        <tr class="hl"><td>density required</td><td class="n">≥ 400 × luminous</td></tr>
+      </table>
+      <blockquote style="font-size: 35px; padding-left: 30px">“…dark matter exists in much greater density than luminous matter.”<footer>Zwicky 1933, transl. H. Andernach (2017)</footer></blockquote>
+    </div>
+    <div class="stack" style="gap: 20px">
+      <figure style="height: 286px"><img src="assets/img/coma.jpg" alt="The Coma cluster of galaxies" style="height: 100%; object-fit: cover; object-position: 60% 50%"><span class="credit" data-credit="coma">CTIO/NOIRLab · CC BY 4.0</span></figure>
+      <div class="card" style="padding: 22px 26px"><h4>What survived</h4><p class="small" style="margin: 0">Today's H₀ is seven times smaller than his, and X-rays later found hot gas outweighing the galaxies. The excess shrinks and stays: baryons are about <b>one sixth</b> of a cluster.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Zwicky, 1933. He had radial velocities for only seven galaxies in Coma, and they scatter by a thousand kilometres per second or more. Take 800 galaxies of a billion solar masses in a sphere of ten to the twenty-four centimetres: the virial theorem gives 80 kilometres per second. That 80 is a three-dimensional speed and a Doppler shift measures one component, about 46, so the ratio squared is close to 470, which is how he reaches “at least 400 times”. He called what was missing dunkle Materie. Two corrections since then. He used Hubble's expansion rate, about 500 kilometres per second per megaparsec, so distances were too small and the mass-to-light ratio was overestimated by about seven. And in the seventies X-ray satellites found hot gas with more mass than all the galaxies. Neither removes the problem: baryons add up to about one sixth of a cluster's mass, and with more than a thousand velocities today Coma's dispersion is very close to his. He was not the first to use the words: Poincaré wrote “matière obscure” in 1906, and Kapteyn and Oort looked for it near the Sun. But then the subject sat quiet for forty years.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">1970 – 1980 · Rotation curves</p><h2>Galaxies that <em>refuse to slow down</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .46fr 1.54fr; gap: 38px; align-items: stretch">
+    <div class="stack" style="gap: 16px; align-content: start">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
+        <figure class="portrait xs"><img src="assets/img/rubin.jpg" alt="Vera Rubin" style="aspect-ratio: 4 / 5.4"><span class="credit" data-credit="rubin" style="font-size: 10px; right: 6px; top: 6px">AIP ESVA</span></figure>
+        <figure class="portrait xs"><img src="assets/img/ngc3198.jpg" alt="The galaxy NGC 3198" style="aspect-ratio: 4 / 5.4; object-position: 50% 50%"><span class="credit" data-credit="ngc3198" style="font-size: 10px; right: 6px; top: 6px">SDSS · CC BY 4.0</span></figure>
+      </div>
+      <p class="small" style="margin: 0"><b style="font: 400 30px var(--display)">Vera Rubin</b><br>with Kent Ford, optical spectra from 1970; Albert Bosma in 21 cm, beyond the stars.</p>
+      <div class="eq sm" style="font-size: 32px; padding: 14px 16px"><i>v</i>²(<i>r</i>) = <span class="frac"><span><i>GM</i>(&lt;<i>r</i>)</span><span><i>r</i></span></span><span class="note" style="font-size: 14px">flat <span class="nocase">v</span> means <span class="nocase">M ∝ r</span></span></div>
+      <p class="ref">Rubin &amp; Ford 1970; Rubin, Ford &amp; Thonnard 1978, 1980; Bosma 1978. Data: SPARC, Lelli, McGaugh &amp; Schombert, AJ 152, 157 (2016).</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">NGC 3198 · measured · live</span><span class="key"><span class="ln" style="--c: #ffb86b">stars + gas</span><span class="ln" style="--c: #9e8cff">with halo</span><span class="ln" style="--c: #7cc4ff">MOND</span></span><div class="seg sm" id="rot-mode"><button data-v="light">light only</button><button class="on" data-v="halo">+ dark halo</button><button data-v="mond">MOND</button></div></div>
+      <div class="cv"><canvas id="rot-plot"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="rot-u">stellar mass-to-light, 3.6 μm <output for="rot-u"></output></label><input type="range" id="rot-u" min="0.1" max="1.5" step="0.01" value="0.45"></div>
+        <div class="ctl"><label for="rot-v">halo V<sub>200</sub> (NFW, c = 10.75) <output for="rot-v"></output></label><input type="range" id="rot-v" min="40" max="200" step="1" value="110"></div>
+      </div>
+      <div class="readout tight" id="rot-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Forty years later the problem came back inside single galaxies. From 1970 Vera Rubin and Kent Ford measured optical rotation curves, first in Andromeda and then in dozens of spirals, and at the same time Albert Bosma and others followed neutral hydrogen at 21 centimetres far beyond the stars. In 1973 Ostriker and Peebles had already argued that thin discs need a massive halo to be stable. If the mass stopped where the light stops, speed would fall as one over the square root of r. It does not. This panel is one modern galaxy, NGC 3198, in the SPARC sample: the dots are measured, and the amber curve is what the observed stars and gas predict. With light only, even the best mass-to-light ratio, 1.3, about three times what stellar populations allow, leaves a reduced chi-squared of 235. Add an NFW halo and it drops to 1.4, at a mass-to-light ratio of 0.45, with about four and a half times more dark than visible mass inside the last point. Drag the sliders. The third button is MOND with no halo: keep it in mind, we come back to it. Its chi-squared of about 10 is not a refutation: the outer error bars are two kilometres per second, the distance is held fixed here, and published MOND fits let distance and inclination vary.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">2006 · The Bullet Cluster</p><h2>Mass that <em>left the gas behind</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.22fr 1fr; gap: 44px; align-items: center">
+    <figure style="height: 100%"><img src="assets/img/bullet-cluster.jpg" alt="The Bullet Cluster" style="height: 100%; object-fit: cover"><span class="credit" data-credit="bullet-cluster">NASA/CXC/M. Weiss · public domain</span></figure>
+    <div class="stack" style="gap: 20px">
+      <div class="eq sm" style="font-size: 34px">θ<sub>E</sub>² = <span class="frac"><span>4<i>GM</i></span><span><i>c</i>²</span></span> <span class="frac"><span><i>D</i><sub>ls</sub></span><span><i>D</i><sub>l</sub> <i>D</i><sub>s</sub></span></span><span class="note">lensing weighs mass, luminous or not</span></div>
+      <p class="small" style="margin: 0"><b>Two clusters went through each other.</b> The gas (pink, X-rays), which holds most of the baryons, was braked. The lensing mass (blue) kept going with the galaxies.</p>
+      <div class="card" style="padding: 22px 28px"><h4>8<span class="nocase">σ</span> offset</h4><p class="small" style="margin: 0">Between the total mass and the baryons, and it “cannot be explained with an alteration of the gravitational force law.” Clowe et al. 2006</p></div>
+      <div class="card glow" style="padding: 22px 28px"><h4>72 collisions later</h4><p class="small" style="margin: 0">Dark matter stays with the stars: <b>σ/<i>m</i> &lt; 0.47 cm²/g</b> at 95%. It barely collides, even with itself. Harvey et al. 2015</p></div>
+    </div>
+  </div>
+  <aside class="notes">Lensing changes the argument, because it measures mass without assuming anything about orbits. The Bullet Cluster is two clusters that passed through each other. The hot gas, in pink, carries most of the ordinary mass; it collided and was left behind. The galaxies and the lensing mass, in blue, went straight through. Clowe and collaborators found the centre of the total mass offset from the centre of the baryons at eight sigma, and argued that no change in the force law can do that, since gravity should point to where the baryons are. Harvey and collaborators then stacked 72 cluster collisions and got a limit on the self-interaction, 0.47 square centimetres per gram. Hold on to the word “barely”: rare collisions are the regime in which a neutron star becomes interesting.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">380 000 years after the Big Bang</p><h2>The early Universe <em>weighs it</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.56fr .84fr; gap: 36px; align-items: stretch">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">CMB temperature spectrum · CLASS · live</span><span class="key"><span style="--c: #eef0f6">Planck 2018</span><span class="ln" style="--c: #ffb86b">your universe</span><span class="dl" style="--c: #737b90">best fit</span></span></div>
+      <div class="cv"><canvas id="cmb-plot"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="cmb-c">dark matter ω<sub>c</sub> = Ω<sub>c</sub>h² <output for="cmb-c"></output></label><input type="range" id="cmb-c" min="0" max="0.24" step="0.001" value="0.12"></div>
+        <div class="ctl"><label for="cmb-b">baryons ω<sub>b</sub> = Ω<sub>b</sub>h² <output for="cmb-b"></output></label><input type="range" id="cmb-b" min="0.01" max="0.032" step="0.0002" value="0.0224"></div>
+      </div>
+      <div class="readout tight" id="cmb-out"></div>
+    </div>
+    <div class="stack" style="gap: 18px; align-content: center">
+      <figure style="height: 166px"><img src="assets/img/cmb-planck.jpg" alt="The cosmic microwave background seen by Planck" style="height: 100%; object-fit: cover"><span class="credit" data-credit="cmb-planck" style="font-size: 11px">ESA, Planck · CC BY 4.0</span></figure>
+      <p class="small" style="margin: 0"><b>Baryons</b> load the photon fluid: compression peaks rise over rarefaction peaks.</p>
+      <p class="small" style="margin: 0"><b>Dark matter</b> feels no pressure, so its wells do not decay. Without it, the first peak more than doubles.</p>
+      <div class="eq sm" style="font-size: 27px; padding: 14px 16px">Ω<sub>c</sub>h² = 0.120 ± 0.001<br>Ω<sub>b</sub>h² = 0.0224 ± 0.0001<span class="note" style="font-size: 14px">Planck 2018</span></div>
+    </div>
+  </div>
+  <aside class="notes">The strongest evidence does not come from galaxies at all. Before recombination, photons and baryons oscillate as one fluid in the potential wells of the primordial perturbations, and the spectrum of the cosmic microwave background is a frozen record of those oscillations. The dots are Planck. The curve is a real Boltzmann calculation with CLASS, on a grid I ran for this slide; the only thing changing is what the sliders say. Baryons add inertia to the fluid, so compressions go deeper than rarefactions: odd peaks over even peaks. Dark matter does not oscillate, so its potential wells survive radiation pressure, and that is why the height of the third peak relative to the first counts it. Now take the dark matter away. I keep the acoustic angle fixed, measured to 0.03 per cent, so that the peaks stay roughly in place, and the price is in the readout: without dark matter you need a Hubble constant of about 240 and a Universe of 9.4 billion years. The wells decay as the modes enter the horizon, which drives the oscillations harder: the first peak more than doubles, the third hardly moves, and it ends at a fifth of the first instead of almost a half. Chi-squared per point goes from one to over two thousand. That chi-squared uses the diagonal error bars only, so it is a guide for the eye, not the Planck likelihood. Planck gets the dark-matter density to under one per cent, about five times the baryons.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Three minutes · 380 000 years · today</p><h2>It cannot be <em>atoms</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: stretch">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+      <div class="dash-head"><span class="tag part">Linear growth · k = 0.5 Mpc⁻¹ · CLASS</span><span class="key"><span class="ln" style="--c: #9e8cff">dark matter</span><span class="ln" style="--c: #ffb86b">baryons</span><span class="ln" style="--c: #ff7a8a">no dark matter</span></span></div>
+      <div class="cv"><canvas id="grow-plot"></canvas></div>
+      <p class="small" style="margin: 0">Same primordial fluctuations. With dark matter, <b>δ ≈ 1.7</b> today; with baryons alone, <b>δ ≈ 10⁻³</b>: no galaxies.</p>
+    </div>
+    <div class="stack" style="gap: 18px; align-content: center">
+      <div class="card" style="padding: 22px 28px"><h4>Two clocks agree on the baryons</h4><p class="small" style="margin: 0">Primordial deuterium, (D/H)<sub>P</sub> = (2.527 ± 0.030)×10⁻⁵, fixes the baryon density at three minutes. It matches the CMB, 380 000 years later, within 2σ.</p></div>
+      <div>
+        <div class="budget"><span style="flex: 68.5; --c: #2a3044">dark energy 68.5%</span><span style="flex: 26.5; --c: #9e8cff; color: #0a0b12">dark 26.5%</span><span style="flex: 4.9; --c: #ffb86b"></span></div>
+        <p class="ref" style="margin: 8px 0 0; text-align: right">atoms 4.9%, so dark matter is about 85% of all matter · Planck 2018, h = 0.674</p>
+      </div>
+      <div class="card" style="padding: 22px 28px"><h4>Not neutrinos either</h4><p class="small" style="margin: 0">Σ<i>m</i><sub>ν</sub> &lt; 0.12 eV makes them at most about <b>1%</b> of the dark matter, and too hot. <b>Nothing in the Standard Model fits.</b></p></div>
+    </div>
+  </div>
+  <aside class="notes">Could it simply be ordinary matter we cannot see? Two independent measurements say no. Deuterium made in the first three minutes fixes the baryon density, and the CMB measures the same number 380 thousand years later; Cooke and collaborators find agreement within two sigma. That total is five times too small. And there is a dynamical argument, in this plot, again from CLASS, at a wavenumber of half an inverse megaparsec, with amplitudes normalised to the Planck primordial spectrum. Dark matter starts growing at equality, in violet. Baryons are locked to the photons, oscillate, and only at recombination do they fall into the dark wells and catch up, in amber. Remove the dark matter and keep the same primordial fluctuations, the red curve: the baryons are erased by photon diffusion and end at one part in a thousand today, a factor of a thousand below the threshold for collapse. There would be no galaxies. The budget: dark energy, 68 and a half per cent; dark matter, 26 and a half; atoms, about 5. Neutrinos do exist, and they are dark, but the mass bound makes them about one per cent at most, and they would be hot. So dark matter is physics beyond the Standard Model.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The alternative</p><h2>Or is <em>gravity</em> wrong?</h2></header>
+  <div class="body cols" style="grid-template-columns: .82fr 1.28fr; gap: 44px; align-items: center">
+    <div class="stack" style="gap: 22px">
+      <div class="eq sm" style="font-size: 34px"><i>a</i> = (<i>a</i><sub>N</sub> <i>a</i><sub>0</sub>)<sup>1/2</sup>&nbsp; for&nbsp; <i>a</i><sub>N</sub> ≪ <i>a</i><sub>0</sub><br><i>v</i>⁴ = <i>GM a</i><sub>0</sub><span class="note">MOND, Milgrom 1983: <span class="nocase">a₀ ≈ 1.2×10⁻¹⁰ m/s²</span></span></div>
+      <p class="small" style="margin: 0">The regularity is real: in rotating galaxies, the baryons alone predict the acceleration. The MOND button in the rotation-curve panel uses exactly that relation, with no halo.</p>
+      <p class="small" style="margin: 0">Any dark-matter theory has to <b>explain</b> it. But a theory of gravity has to work on <b>every</b> scale.</p>
+    </div>
+    <table class="tbl tight roomy" style="font-size: 22px">
+      <tr><th>Scale</th><th>Test</th><th></th></tr>
+      <tr><td><b>Galaxies</b></td><td>2693 points in 153 galaxies follow one relation with one constant</td><td><span class="pill" style="--c: var(--deg)">works</span></td></tr>
+      <tr><td><b>Wide binaries</b></td><td>Gaia DR3: Newton preferred at 19σ (Banik et al.), an anomaly at low <i>g</i> (Chae)</td><td><span class="pill" style="--c: var(--amb)">disputed</span></td></tr>
+      <tr><td><b>Clusters</b></td><td>Still short of mass by about a factor of 2, and in the Bullet the potential follows the galaxies</td><td><span class="pill" style="--c: var(--warn)">fails</span></td></tr>
+      <tr><td><b>GW170817</b></td><td>Gravity and light arrive together: the end of “dark-matter emulators”</td><td><span class="pill" style="--c: var(--warn)">fails</span></td></tr>
+      <tr><td><b>CMB, <i>P</i>(<i>k</i>)</b></td><td>AeST fits both, with a new field that behaves as dust in the early Universe</td><td><span class="pill" style="--c: var(--amb)">at a price</span></td></tr>
+    </table>
+  </div>
+  <aside class="notes">The serious alternative is that we have the wrong gravity. Milgrom proposed in 1983 that below an acceleration of about ten to the minus ten metres per second squared, dynamics changes. That gives flat rotation curves and the Tully–Fisher relation at once, and it should be taken seriously: McGaugh, Lelli and Schombert showed 2693 points in 153 galaxies following one relation, with baryons predicting the total acceleration even where dark matter dominates. Any dark-matter theory has to explain why. But gravity is universal, so go through the scales. Wide binaries from Gaia are a clean test and they are disputed: Banik and collaborators prefer Newton at 19 sigma, Chae finds an anomaly. Clusters remain short of mass by about a factor of two even in MOND, and the Bullet Cluster's potential follows the galaxies. The relativistic versions built to emulate dark matter, in which matter and gravitational waves follow different metrics, were ruled out by GW170817, a neutron-star merger, as it happens. The newest theory, AeST by Skordis and Złośnik, does fit the CMB and the matter power spectrum, but through a new field that behaves like dust, which is hard to tell from dark matter. So most of the field works with particles, and that is what I will do too.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The candidates · ninety orders of magnitude</p><h2>We know how much, <em>not what</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto minmax(0,1fr) auto; gap: 16px">
+    <div class="chain" style="gap: 10px 14px"><span>non-baryonic</span><span>cold</span><span>neutral</span><span>stable over cosmic time</span><span>nearly collisionless</span><span class="on">Ω<sub>c</sub>h² = 0.120</span><span class="on">ρ<sub>χ</sub> ≈ 0.4 GeV/cm³ near the Sun</span></div>
+    <div class="cv"><canvas id="cand-plot"></canvas></div>
+    <p class="ref" style="margin: 0">Bounds: ultralight scalars <i>m</i> &gt; 2×10⁻²⁰ eV (Rogers &amp; Peiris 2021) · Pauli, any fermion <i>m</i> ≥ 0.13 keV (Alvey et al. 2021) · thermal warm dark matter <i>m</i> &gt; 5.7 keV (Iršič et al. 2024) · compact objects 10⁻⁸–10³ M☉ not the dominant component (OGLE, Mróz et al. 2024, 2025) · asteroid-mass window open (Gorton &amp; Green 2024). Bright bands: the most explored today.</p>
+  </div>
+  <aside class="notes">So what do we actually know? It is not baryons, it moves slowly, it does not couple to light, it has lasted for the age of the Universe, it barely collides, and we know its cosmic density to one per cent; near the Sun it is about 0.4 GeV per cubic centimetre, the number we will use. Gravity tells us the total mass, and nothing about how it is divided into particles. So the allowed masses run over some ninety orders of magnitude. At the light end, waves: ultralight scalars, where the Lyman-alpha forest now gives two times ten to the minus twenty electronvolts, which strongly disfavours the original fuzzy dark matter; axion-like particles; and the QCD axion. In the middle, particles. Fermions cannot go below about a tenth of a keV, because Pauli would not let them fit in dwarf galaxies. Then sterile neutrinos at keV, where warm dark matter limits are tight; RAR fermions, the case we use later, tens to hundreds of keV; sub-GeV dark sectors; WIMPs. At the heavy end, objects: primordial black holes. OGLE microlensing rules them out as the dominant component from ten to the minus eight to a thousand solar masses, which leaves the asteroid-mass window open. The three bright bands are where most of the effort has gone, and two of them come next.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The most explored idea</p><h2>The <em>WIMP</em> miracle</h2></header>
+  <div class="body cols" style="grid-template-columns: 1.3fr 1fr; gap: 38px; align-items: stretch">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">Freeze-out · Boltzmann equation · live</span><span class="key"><span class="dl" style="--c: #737b90">equilibrium</span><span class="ln" style="--c: #ffb86b">relic</span></span></div>
+      <div class="cv"><canvas id="fo-plot"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="fo-s">annihilation ⟨σv⟩ <output for="fo-s"></output></label><input type="range" id="fo-s" min="-27" max="-24" step="0.01" value="-25.68"></div>
+        <div class="ctl"><label for="fo-m">mass <output for="fo-m"></output></label><input type="range" id="fo-m" min="1" max="4" step="0.01" value="2"></div>
+      </div>
+      <div class="readout tight" id="fo-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-content: center">
+      <div class="eq sm" style="font-size: 26px; padding: 14px 16px"><span class="frac"><span><i>dY</i></span><span><i>dx</i></span></span> = −<span class="frac"><span>λ</span><span><i>x</i>²</span></span>(<i>Y</i>² − <i>Y</i><sub>eq</sub>²)<span class="note" style="font-size: 14px">the relic does not depend on the mass, almost</span></div>
+      <svg class="diag" viewBox="0 0 640 372" role="img" aria-label="One interaction read in three directions: annihilation, production and scattering">
+        <defs><marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffb86b"/></marker></defs>
+        <g stroke="#b3b9c9" stroke-width="2.5" fill="none"><line x1="150" y1="100" x2="278" y2="170"/><line x1="150" y1="268" x2="278" y2="198"/><line x1="486" y1="100" x2="358" y2="170"/><line x1="486" y1="268" x2="358" y2="198"/></g>
+        <circle cx="318" cy="184" r="48" fill="#151927" stroke="#ffb86b" stroke-width="2.5"/>
+        <text class="serif" x="318" y="198" text-anchor="middle" font-size="40">?</text>
+        <text class="serif" x="124" y="106" text-anchor="middle" font-size="38">χ</text><text class="serif" x="124" y="284" text-anchor="middle" font-size="38">χ</text>
+        <text class="serif" x="514" y="106" text-anchor="middle" font-size="30">SM</text><text class="serif" x="514" y="284" text-anchor="middle" font-size="30">SM</text>
+        <g stroke="#ffb86b" stroke-width="2.5" fill="none" marker-end="url(#arw)"><line x1="208" y1="52" x2="430" y2="52"/><line x1="430" y1="318" x2="208" y2="318"/><line x1="598" y1="72" x2="598" y2="298"/></g>
+        <text x="318" y="20" text-anchor="middle" font-size="19" fill="#eef0f6">annihilation</text><text x="318" y="42" text-anchor="middle" font-size="16">early Universe · Fermi · AMS-02</text>
+        <text x="318" y="344" text-anchor="middle" font-size="19" fill="#eef0f6">production</text><text x="318" y="366" text-anchor="middle" font-size="16">LHC, missing energy</text>
+        <text x="626" y="184" text-anchor="middle" font-size="19" fill="#eef0f6" transform="rotate(90 626 184)">scattering</text><text x="572" y="184" text-anchor="middle" font-size="16" transform="rotate(90 572 184)">LZ · XENONnT · PandaX</text>
+      </svg>
+      <p class="ref">Ωh² = 0.12 needs ⟨σv⟩ ≈ 2.2×10⁻²⁶ cm³/s above 10 GeV (Steigman, Dasgupta &amp; Beacom 2012).</p>
+    </div>
+  </div>
+  <aside class="notes">The idea that dominated for forty years. Suppose a new particle was in thermal equilibrium in the hot early Universe. When the temperature falls below its mass, its abundance should drop exponentially, but annihilation needs two particles to meet, and once the expansion outruns that rate the comoving number freezes. The panel solves this Boltzmann equation live, with the effective degrees of freedom of the Standard Model. Slide the cross section: stronger annihilation leaves less. Slide the mass: the answer hardly moves. The right density needs a cross section of about two times ten to the minus twenty-six, which is what you get from weak-scale masses and couplings. That is the miracle: a particle invented to stabilise the electroweak scale would give the right dark matter, without being asked. The live number agrees with the precise calculation of Steigman and collaborators to about five per cent. And the same interaction can be read three ways. Left to right, annihilation: in the early Universe, and today in the sky. Right to left, production at colliders. Top to bottom, scattering on nuclei. Three kinds of experiment, one diagram. Let us look at what they found.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Direct detection · 2010 – 2026</p><h2>Four orders of magnitude, <em>no WIMP</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.56fr .84fr; gap: 36px; align-items: stretch">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">Spin-independent limits · 90% CL · live</span><span class="key"><span class="ln" style="--c: #ffb86b">LZ</span><span class="ln" style="--c: #9e8cff">XENONnT</span><span class="ln" style="--c: #56e1d0">PandaX-4T</span><span class="ln" style="--c: #c3c8d6">XENON1T</span><span class="ln" style="--c: #8f97ab">LUX</span><span style="--c: #eef0f6">best of each year</span></span></div>
+      <div class="cv"><canvas id="dd-plot"></canvas></div>
+      <div class="controls">
+        <div class="ctl"><label for="dd-y">year <output for="dd-y"></output></label><input type="range" id="dd-y" min="2009" max="2026" step="1" value="2026"></div>
+        <div class="ctl"><label for="dd-m">mass <output for="dd-m"></output></label><input type="range" id="dd-m" min="-0.5" max="4" step="0.01" value="1.6"></div>
+      </div>
+      <div class="readout tight" id="dd-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-content: center">
+      <div class="eq sm" style="font-size: 25px; padding: 14px 14px"><span class="frac"><span><i>dR</i></span><span><i>dE</i><sub>R</sub></span></span> ∝ <span class="frac"><span>ρ<sub>χ</sub> σ <i>A</i>² <i>F</i>²(<i>E</i><sub>R</sub>)</span><span><i>m</i><sub>χ</sub> μ²</span></span> ∫ <span class="frac"><span><i>f</i>(<i>v</i>)</span><span><i>v</i></span></span> <i>d</i>³<i>v</i><span class="note" style="font-size: 14px"><span class="nocase">A²</span>: hence tonnes of xenon</span></div>
+      <div class="card" style="padding: 20px 24px"><h4>The fog has arrived</h4><p class="small" style="margin: 0">LZ, 5.7 t·yr: <b>⁸B solar neutrinos</b> scattering coherently on xenon, at <b>4.5σ</b>. The next limits must separate them from a signal.</p></div>
+      <div class="card glow" style="padding: 20px 24px"><h4>The blind spot</h4><p class="small" style="margin: 0">Recoils fall as μ²<i>v</i>²/<i>m</i><sub>A</sub>. Below a few GeV they drop under threshold: at 100 keV, about <b>1 μeV</b> on xenon.</p></div>
+      <p class="ref">Limits: compiled by C. O'Hare. Fog: O'Hare, PRL 127, 251802 (2021). Best points: the papers' abstracts.</p>
+    </div>
+  </div>
+  <aside class="notes">Direct detection is the cleanest channel. Tonnes of liquid xenon, a mile underground, wait for a nucleus to recoil; the rate grows as the square of the mass number, because the scattering is coherent. Move the year. Each white dot is the best limit of its year, from the abstract of the paper: CDMS II in 2010, 3.8 times ten to the minus forty-four; LZ in 2024, 2.2 times ten to the minus forty-eight at 40 GeV. That is a factor of about seventeen thousand in fourteen years, and no WIMP. The red island is DAMA, which we return to. LZ leads, with PandaX-4T and XENONnT within a factor of ten. Z-exchange WIMPs, near ten to the minus thirty-nine, went long ago, and Higgs-exchange ones, near ten to the minus forty-five or forty-six, are now under heavy pressure: the simplest models are largely gone, though not all. Two limits appear. The first is the blue region, the neutrino fog, where neutrinos mimic the signal. It has now arrived: in December 2025 LZ reported boron-8 solar neutrinos scattering coherently at 4.5 sigma, with 5.7 tonne-years. The second is on the left. Slide the mass cursor down and watch the largest recoil on xenon fall: about a hundred keV at 40 GeV, about a hundred eV at 1 GeV. LZ pushes its limits down to 5 GeV, and XENONnT with ionisation-only data goes lower, but at 100 keV the recoil is a micro-electronvolt. The dashed line appears at 2026, the projected XLZD reach of a thousand tonne-years.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">Axions</p><h2>A particle invented <em>for another problem</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .92fr 1.28fr; gap: 38px; align-items: stretch">
+    <div class="stack" style="gap: 16px; align-content: center">
+      <ol class="steps" style="gap: 14px">
+        <li style="font-size: 23px">QCD allows a CP-violating angle θ̄, yet the neutron's dipole moment gives <b>|θ̄| ≲ 10⁻¹⁰</b>.</li>
+        <li style="font-size: 23px">Peccei–Quinn: make θ̄ a field that relaxes to zero. Its quantum is the <b>axion</b>.</li>
+        <li style="font-size: 23px">Oscillating coherently since the QCD epoch, it behaves as <b>cold dark matter</b>.</li>
+        <li style="font-size: 23px">In a magnetic field <i>a</i> → γ: a tuned cavity collects photons of <b><i>hν</i> = <i>m</i><sub>a</sub><i>c</i>²</b>.</li>
+      </ol>
+      <div class="eq sm" style="font-size: 30px; padding: 14px 16px"><i>m</i><sub>a</sub> ≈ 5.7 μeV <span class="frac"><span>10¹² GeV</span><span><i>f</i><sub>a</sub></span></span></div>
+      <p class="small" style="margin: 0">Haloscopes reach the benchmark <b>DFSZ</b> line only around <b>3–5 μeV</b>, a tenth of the range scanned.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">Haloscope exclusions · live</span><span class="key"><span style="--c: #ffb86b">excluded</span><span class="ln" style="--c: #56e1d0">KSVZ</span><span class="dl" style="--c: #56e1d0">DFSZ</span></span></div>
+      <div class="cv"><canvas id="ax-plot"></canvas></div>
+      <div class="controls"><div class="ctl"><label for="ax-m">axion mass <output for="ax-m"></output></label><input type="range" id="ax-m" min="0.3" max="2.05" step="0.005" value="0.6"></div></div>
+      <div class="readout tight" id="ax-out"></div>
+      <p class="ref" style="margin: 0">Limits: C. O'Hare, AxionLimits (Zenodo 3932430). Sikivie 1983; Peccei &amp; Quinn 1977; Weinberg 1978; Wilczek 1978.</p>
+    </div>
+  </div>
+  <aside class="notes">The second most explored idea has a pedigree the WIMP does not: nobody invented it for dark matter. QCD allows a term that violates CP, with an angle theta-bar that could be anything from zero to two pi. The neutron electric dipole moment says it is below ten to the minus ten. Peccei and Quinn explained that by turning the angle into a dynamical field that relaxes to zero; Weinberg and Wilczek noticed that field has a particle, the axion. Its mass is set by a single scale f_a. And it comes with a production mechanism: the field starts displaced and oscillates from the QCD epoch on, which behaves exactly like cold dark matter. Sikivie then showed how to find it. In a strong magnetic field an axion converts into a microwave photon of energy equal to its mass, and a tuned cavity can collect it, one frequency at a time. Because the mass is unknown, you scan. The plot shows what has been excluded, in amber. The two lines are the benchmark couplings. ADMX and CAPP reach the lower one, DFSZ, around 3 to 5 micro-electronvolts, and everywhere else the searches are still above it. That reach is about a tenth of the logarithmic range scanned from 2 to 120. Sensitivity is finally there, but the search is slow, and it is one of the most promising places for a discovery in the next decade. Neutron stars join this game too, through axion–photon conversion in their magnetospheres, but that is another talk.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The sky and the LHC</p><h2>Hints, and <em>what became of them</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto; gap: 22px; align-content: center">
+    <table class="tbl tight roomy" style="font-size: 22px">
+      <tr><th>Claim</th><th>Since</th><th>Where it stands</th><th></th></tr>
+      <tr><td><b>DAMA/LIBRA</b> annual modulation</td><td class="n">1998</td><td>Same NaI target, no modulation: COSINE-100 + ANAIS-112 exclude it at 4.7σ (1–6 keV) and 3.5σ (2–6 keV)</td><td><span class="pill" style="--c: var(--warn)">refuted</span></td></tr>
+      <tr><td><b>XENON1T</b> electron excess</td><td class="n">2020</td><td>A 3.4σ solar-axion fit; gone in XENONnT, with a background five times lower</td><td><span class="pill" style="--c: var(--warn)">gone</span></td></tr>
+      <tr><td><b>3.5 keV</b> X-ray line</td><td class="n">2014</td><td>XRISM sees no line in ten clusters; its limit is still five times above the XMM detection</td><td><span class="pill" style="--c: var(--amb)">fading</span></td></tr>
+      <tr><td><b>Galactic Centre</b> γ-ray excess</td><td class="n">2009</td><td>The photons are real; recent work leans to unresolved millisecond pulsars, but it is not settled</td><td><span class="pill" style="--c: var(--amb)">open</span></td></tr>
+      <tr><td><b>20 GeV</b> Milky Way halo excess</td><td class="n">2025</td><td>Reproduced in Fermi data; in tension with dwarf galaxies and, in a preprint, with AMS-02 antiprotons</td><td><span class="pill" style="--c: var(--amb)">open</span></td></tr>
+      <tr><td><b>LHC</b> missing energy</td><td class="n">Run 1–3</td><td>No established excess; no new particle at the weak scale so far</td><td><span class="pill" style="--c: var(--text-3)">nothing</span></td></tr>
+    </table>
+    <p class="small" style="margin: 0">The cleanest indirect targets stay dark too: dwarf galaxies put ⟨σv⟩ <b>below the thermal value</b> for <i>m</i> ≲ 100 GeV in quark and τ channels (Fermi-LAT 2015). <span class="muted">Status as of November 2026.</span></p>
+  </div>
+  <aside class="notes">Over these decades there were many hints, and it is worth being honest about how they ended. DAMA in Italy has claimed an annual modulation since the nineties, the signature you expect as the Earth moves through the halo. No other target could test it cleanly until COSINE-100 and ANAIS-112 used the same sodium iodide; their combined six-year data exclude it at 4.7 sigma in the 1 to 6 keV band. XENON1T saw an electron excess in 2020; XENONnT, with a fifth of the background, saw nothing. The 3.5 keV line, a possible sterile neutrino: XRISM, with far better spectral resolution, sees no line in ten clusters, though its limit is still about five times above the original detection, so that is fading rather than dead. The Galactic Centre excess is real light, near a few GeV, and whether it is annihilation or a population of faint millisecond pulsars is still argued, with the recent work leaning to the pulsars. The newest is a 20 GeV halo-shaped excess reported by Totani in Fermi data: independent groups reproduce it, but it sits in tension with the dwarf-galaxy limits, and a preprint argues AMS-02 antiprotons rule out the dark-matter reading. The LHC has found the Higgs and, so far, nothing in missing energy. I checked these against the literature in November 2026, so please correct me if something moved last week. So: the mass is there, the interaction is not, in any channel, down to very small numbers. That is the state of the field.</aside>
+</section>
+
+<!-- ------------------ o modelo RAR ------------------ -->
+<section class="slide content p1">
+  <header><p class="eyebrow">The RAR model · Ruffini, Argüelles, Rueda</p><h2>What if dark matter is <em>a Fermi gas?</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto auto; gap: 34px; align-content: center">
+    <p class="say sm" style="margin: 0">Take neutral fermions, gravity and the Pauli principle, and solve Einstein's equations at finite temperature. <em>Nothing else.</em></p>
+    <div class="timeline" style="--grad: linear-gradient(100deg, var(--dm), var(--obs))">
+      <div style="--part: var(--dm)"><p class="yr">1939</p><p><b>Oppenheimer &amp; Volkoff</b><br>Pauli against gravity: a limit mass</p></div>
+      <div style="--part: var(--dm)"><p class="yr">1969</p><p><b>Ruffini &amp; Bonazzola</b><br>self-gravitating quantum particles</p></div>
+      <div style="--part: var(--dm)"><p class="yr">1983–92</p><p><b>Ruffini &amp; Stella; Ingrosso et al.</b><br>semi-degenerate, energy cutoff</p></div>
+      <div style="--part: var(--dm)"><p class="yr">2002</p><p><b>Bilić et al.</b><br>a Newtonian fermion ball at the Galactic Centre</p></div>
+      <div style="--part: var(--obs)"><p class="yr">2015</p><p><b>Ruffini, Argüelles &amp; Rueda</b><br>core, plateau and halo in GR</p></div>
+      <div style="--part: var(--obs)"><p class="yr">2018</p><p><b>Argüelles et al.</b><br>the cutoff: a core at Sgr A*, a halo for the Galaxy</p></div>
+    </div>
+    <div class="cols c3" style="gap: 26px; height: auto">
+      <div class="card" style="padding: 20px 26px"><h4>One particle</h4><p class="small" style="margin: 0">One distribution function and one fermion mass, from milliparsecs to a hundred kiloparsecs.</p></div>
+      <div class="card" style="padding: 20px 26px"><h4>No new force</h4><p class="small" style="margin: 0">The pressure comes from quantum statistics and temperature. No interaction beyond gravity is needed.</p></div>
+      <div class="card glow" style="padding: 20px 26px"><h4>The mass shows</h4><p class="small" style="margin: 0">Unlike cold dark matter, the particle mass sets the structure: a degenerate core shrinks as <i>m</i><sup>−8/3</sup>.</p></div>
+    </div>
+  </div>
+  <aside class="notes">One candidate deserves more time, because it is the one we use, and because it is a piece of relativistic astrophysics more than of particle physics. Forget new forces for a moment. Take neutral fermions, gravity and the Pauli principle, and solve Einstein's equations at finite temperature. The idea has a long pedigree. Oppenheimer and Volkoff in 1939: Pauli pressure against gravity gives a limit mass. Ruffini and Bonazzola in 1969 developed self-gravitating quantum particles in general relativity. In the eighties and early nineties Ruffini, Stella, Merafina, Ingrosso and collaborators added semi-degenerate fermions and an energy cutoff. Bilić and collaborators in 2002 put a Newtonian fermion ball at the Galactic Centre. The model that carries the initials is Ruffini, Argüelles and Rueda, 2015; Jorge Rueda, the R, is my collaborator in the rest of this talk. The extended version of 2018 brought the cutoff back and made the core compact enough to sit inside the orbit of the star S2. Three things set it apart: one particle and one distribution from the core to the edge of the Galaxy; no new force needed; and, unlike cold dark matter, the particle mass is visible in the structure.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The RAR model · the equations</p><h2>Fermi–Dirac, <em>with a way out</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.16fr 1fr; gap: 44px; align-items: center">
+    <div class="stack" style="gap: 20px">
+      <div class="eq" style="font-size: 40px"><i>f</i><sub>c</sub>(ε ≤ ε<sub>c</sub>) = <span class="frac"><span>1 − <i>e</i><sup>(ε − ε<sub>c</sub>)/<i>kT</i></sup></span><span><i>e</i><sup>(ε − <i>μ</i>)/<i>kT</i></sup> + 1</span></span>,&nbsp; <i>f</i><sub>c</sub>(ε &gt; ε<sub>c</sub>) = 0<span class="note">Fermi–Dirac, emptied above the escape energy</span></div>
+      <div class="eq sm" style="font-size: 29px">ρ = <i>m</i> <span class="frac"><span>2</span><span><i>h</i>³</span></span> ∫ <i>f</i><sub>c</sub> (1 + ε/<i>mc</i>²) <i>d</i>³<i>p</i>,&nbsp;&nbsp; <i>P</i> = <span class="frac"><span>1</span><span>3</span></span> <span class="frac"><span>2</span><span><i>h</i>³</span></span> ∫ <i>f</i><sub>c</sub> <i>p v d</i>³<i>p</i><span class="note">the equation of state, at every radius; TOV closes the system</span></div>
+      <p class="small" style="margin: 0">Not a guess: a maximum-entropy state of collisionless relaxation with evaporation.</p>
+      <p class="ref">Lynden-Bell 1967; Chavanis 2004; Ruffini, Argüelles &amp; Rueda 2015; Argüelles et al., PDU 21, 82 (2018).</p>
+    </div>
+    <div class="stack" style="gap: 14px">
+      <div class="card" style="padding: 18px 26px"><h4>Tolman</h4><p class="small" style="margin: 0"><i>e</i><sup>ν/2</sup> <i>T</i> = const: hotter deeper in the well</p></div>
+      <div class="card" style="padding: 18px 26px"><h4>Klein</h4><p class="small" style="margin: 0"><i>e</i><sup>ν/2</sup> (μ + <i>mc</i>²) = const: more degenerate deeper in</p></div>
+      <div class="card" style="padding: 18px 26px"><h4>Energy along a geodesic</h4><p class="small" style="margin: 0"><i>e</i><sup>ν/2</sup> (ε<sub>c</sub> + <i>mc</i>²) = const: one conserved escape energy</p></div>
+      <div class="eq sm" style="font-size: 25px; padding: 14px 16px">β = <span class="frac"><span><i>kT</i></span><span><i>mc</i>²</span></span>, θ = <span class="frac"><span>μ</span><span><i>kT</i></span></span>, <i>W</i> = <span class="frac"><span>ε<sub>c</sub></span><span><i>kT</i></span></span> &nbsp;⇒&nbsp; <i>W</i>(<i>r</i>) = <i>W</i><sub>0</sub> + θ(<i>r</i>) − θ<sub>0</sub><span class="note" style="font-size: 14px">free: <span class="nocase">m, β₀, θ₀, W₀</span></span></div>
+    </div>
+  </div>
+  <aside class="notes">The ingredients. The distribution is Fermi–Dirac, with one change: it goes to zero at a cutoff energy, because a particle with more energy than that has left the Galaxy. So this is a fermionic King model, and in the limit of no cutoff you recover plain Fermi–Dirac. It is not an arbitrary choice: it is a stationary state of a generalised Fokker–Planck equation that includes violent relaxation and evaporation, and a maximum of a coarse-grained entropy. From it you get density and pressure at each radius, and the Tolman–Oppenheimer–Volkoff equations close the system. Equilibrium in general relativity then fixes how things vary with the metric. Tolman: temperature is higher where the potential is deeper. Klein: the same for the chemical potential. And energy conservation along a geodesic says the cutoff is the same escape energy seen from everywhere. Those three become one simple statement in dimensionless variables: beta, the temperature; theta, the degeneracy; and W, the cutoff. W and theta differ by a constant. So there are only four numbers: the particle mass and the three central values. Everything else is a solution.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The RAR model · solved live</p><h2>One gas, <em>three regimes</em></h2></header>
+  <div class="body">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">TOV + Fermi–Dirac · solved in your browser</span><div class="grp"><small>fermion, keV</small><div class="seg sm" id="rar-m"><button data-v="48">48</button><button class="on" data-v="56">56</button><button data-v="100">100</button><button data-v="345">345</button></div></div><div class="grp"><small>right</small><div class="seg sm" id="rar-view"><button class="on" data-v="rot">rotation</button><button data-v="deg">θ and W</button><button data-v="fv">f(v) at 8 kpc</button></div></div></div>
+      <div class="plots two"><div class="cv"><canvas id="rar-rho"></canvas></div><div class="cv"><canvas id="rar-side"></canvas></div></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="ctl"><label for="rar-t">central degeneracy θ<sub>0</sub> <output for="rar-t"></output></label><input type="range" id="rar-t" min="15" max="60" step="0.01" value="37.77"></div>
+        <div class="ctl"><label for="rar-b">central temperature β<sub>0</sub> <output for="rar-b"></output></label><input type="range" id="rar-b" min="-5.6" max="-2.2" step="0.01" value="-4.92"></div>
+        <div class="ctl"><label for="rar-v">halo escape speed, c√(2Wβ) <output for="rar-v"></output></label><input type="range" id="rar-v" min="100" max="800" step="1" value="282"></div>
+      </div>
+      <div class="readout tight" id="rar-out"></div>
+    </div>
+  </div>
+  <aside class="notes">This is the actual model, solved in your browser in a few tens of milliseconds: the same equations, integrated from the centre outwards until W reaches zero. For 56 keV it reproduces the published solution, a core of 3.5 million solar masses in 0.43 milliparsecs. Read the density from left to right. An amber degenerate core, with theta of several tens: a Fermi gas, nearly uniform, at about ten to the eighteen GeV per cubic centimetre. Then a drop of fourteen orders of magnitude in ten milliparsecs, where the gas stops being degenerate. Then the violet part: a plateau, flat over three decades in radius, then the halo, which falls and ends at a finite radius where W reaches zero. Same gas, same equation. On the right, the rotation curve: a peak at the core, a Keplerian fall where the core looks like a point mass, and the Galactic halo peak at tens of kiloparsecs. Move the sliders. The third one changes the halo and leaves the core alone: that combination, the escape speed in the plateau, is worth noting, because the raw W-naught would need five digits. The first two change the core, and the halo with it, because the plateau density depends exponentially on how deep the core's well is. This is why the cutoff matters: it is what allows a compact core and a realistic halo at once. Now press “theta and W”. Theta crosses zero just outside the core. And look at W in the halo: it is only about 0.04. The temperature parameter corresponds to a thousand kilometres per second, far above halo speeds. So the halo is not an isothermal gas: it is held by the cutoff. Press “f(v)”: that is why the speed distribution at 8 kiloparsecs is cut off sharply, compared with the Maxwellian. This panel is dark matter only: the published fits add the baryons. And note the plateau gives about 0.2 GeV per cubic centimetre at 8 kiloparsecs for 56 keV, below the usual 0.4. The 100 keV case is a reconstruction of mine: the paper gives its central density, core mass and total mass, and I solved for the rest.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The RAR model · the core</p><h2>A neutron star, <em>rescaled</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.28fr 1fr; gap: 38px; align-items: stretch">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">The Oppenheimer–Volkoff limit · live</span><span class="key"><span class="ln" style="--c: #eef0f6">limit</span><span class="dl" style="--c: #ffb86b">Sgr A*</span><span style="--c: #56e1d0">stable window</span></span></div>
+      <div class="cv"><canvas id="ov-plot"></canvas></div>
+      <div class="controls"><div class="ctl"><label for="ov-m">fermion mass <output for="ov-m"></output></label><input type="range" id="ov-m" min="1" max="3" step="0.005" value="2"></div></div>
+      <div class="readout tight" id="ov-out"></div>
+    </div>
+    <div class="stack" style="gap: 16px; align-content: center">
+      <div class="eq sm" style="font-size: 30px; padding: 16px"><i>M</i><sub>OV</sub> = 0.384 <span class="frac"><span><i>m</i><sub>P</sub>³</span><span><i>m</i>²</span></span><span class="note">one formula, one number for each fermion</span></div>
+      <table class="tbl tight" style="font-size: 20px">
+        <tr><th>Ideal fermions</th><th style="text-align: right">Neutrons</th><th style="text-align: right">100 keV</th></tr>
+        <tr><td>Particle</td><td class="n">939.6 MeV</td><td class="n">100 keV</td></tr>
+        <tr class="hl"><td>Limit mass</td><td class="n">0.71 M☉</td><td class="n">6.3×10⁷ M☉</td></tr>
+        <tr><td>Radius there</td><td class="n">9.5 km</td><td class="n">5.6 AU</td></tr>
+        <tr><td>Central density</td><td class="n">3.6×10¹⁵ g/cm³</td><td class="n">0.46 g/cm³</td></tr>
+        <tr><td>Radius / <i>R</i><sub>S</sub></td><td class="n">4.5</td><td class="n">4.5</td></tr>
+      </table>
+      <p class="small" style="margin: 0">Lighter than water, and at the edge of collapse. Past the limit, a <b>black-hole seed</b> with no star involved.</p>
+      <p class="ref">Argüelles et al. 2018; Krut, Argüelles &amp; Chavanis 2025; Argüelles et al. 2024.</p>
+    </div>
+  </div>
+  <aside class="notes">Here is why this model belongs in a talk about neutron stars. The core is a neutron star, rescaled. It is the same equation: Pauli pressure against gravity in general relativity. The Oppenheimer–Volkoff limit goes as the Planck mass cubed over the fermion mass squared, so one formula gives every case. Put in the neutron and you get the classic result of 1939, 0.71 solar masses and 9.5 kilometres, for an ideal gas; real neutron stars go higher because of nuclear forces. Put in 100 keV and you get 63 million solar masses, in a radius of 5.6 astronomical units. Sizes and masses go as one over m squared, density as m to the fourth. So a core at the edge of collapse has a central density of 0.46 grams per cubic centimetre: less dense than water. The dimensionless compactness is the same, 4.5 Schwarzschild radii. I checked these with a cold TOV integration, and they match the published 6.27 times ten to the seven. On the plot, the white line is the limit: above it, no equilibrium. The amber line is Sgr A*. A core that replaces the black hole must fit below the white line, which gives an upper bound: the crossing is at 387 keV, exactly the value in the literature. Fermions lighter than about 55 keV give a core bigger than the orbit of S2. The turquoise band is the 2025 stability analysis, which we return to. And above the limit a core collapses, which would give a black hole seed of tens of millions of solar masses with no star involved. That is a prediction, and an interesting one in the JWST era.</aside>
+</section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">The RAR model · the Galactic Centre</p><h2>A black hole, <em>or a core?</em></h2></header>
+  <div class="body" style="display: grid; grid-template-rows: auto auto; gap: 20px; align-content: center">
+    <table class="tbl tight roomy" style="font-size: 21px">
+      <tr><th>Test</th><th>Result</th><th></th></tr>
+      <tr><td><b>Rotation curve</b></td><td>One continuous profile, with baryons, from the core to the Gaia DR3 curve</td><td><span class="pill" style="--c: var(--deg)">works</span></td></tr>
+      <tr><td><b>S2 and G-source orbits</b></td><td>Core and black hole differ by less than 1% in orbital parameters; no conclusive preference</td><td><span class="pill" style="--c: var(--amb)">undecided</span></td></tr>
+      <tr><td><b>S2 precession</b></td><td>Retrograde below 56 keV, prograde above. GRAVITY's prograde signal points to <i>m</i> ≳ 57 keV, with under 0.1% of the core inside the orbit</td><td><span class="pill" style="--c: var(--obs)">bounds <span class="nocase">m</span></span></td></tr>
+      <tr><td><b>Stability</b></td><td>Stable core–halo solutions with a 4.2×10⁶ M☉ core exist only for <b>194–387 keV</b></td><td><span class="pill" style="--c: var(--obs)">bounds <span class="nocase">m</span></span></td></tr>
+      <tr><td><b>Images</b></td><td>Central depression and a ring, down to about 35 μas, but <b>no photon ring</b>: the key difference from a black hole</td><td><span class="pill" style="--c: var(--amb)">next test</span></td></tr>
+      <tr><td><b>Collapse</b></td><td>Cores past the limit become black-hole seeds, sooner if baryons accrete onto them</td><td><span class="pill" style="--c: var(--text-3)">prediction</span></td></tr>
+    </table>
+    <p class="small" style="margin: 0">Our <b>100 keV</b> is a capture benchmark, not a claim about Sgr A*: it sits inside the 48–345 keV of the halo fits, below the stable window for a core that replaces the black hole. <span class="muted">Status as of November 2026.</span></p>
+    <p class="ref" style="margin: 0">Argüelles et al. 2018; Becerra-Vergara et al. 2020, 2021; Argüelles et al. 2022; Pelle et al. 2024; Krut, Argüelles &amp; Chavanis 2025; Crespi et al. 2026.</p>
+  </div>
+  <aside class="notes">So is Sgr A* a black hole or a core of fermions? Honest status. The rotation curve works: with baryons, a single continuous profile goes from the centre to the latest Gaia curve. The stars do not decide. Becerra-Vergara and collaborators showed in 2020 that 56 keV fermions fit S2 and G2 without a drag force, and in 2021 extended it to the seventeen best-measured S-stars. The newest analysis, by Crespi and collaborators, with Bayesian statistics, S2 and five G-objects, finds no conclusive preference, and core and black hole differ by less than one per cent in orbital parameters, so better data are needed, especially stars closer in. The precession bounds the mass. Below about 56 keV the extended mass inside the orbit makes the precession retrograde, while GRAVITY reports it prograde, which points to m above about 57 keV and to less than 0.1 per cent of the core's mass inside the orbit. That is compatible with GRAVITY's limit on extended mass, of order a thousand solar masses, because the core itself sits inside the pericentre and counts as a point. The analyses of publicly available astrometry do not yet discriminate, and S2 passes apocentre this year, so this should sharpen. Stability is the most recent bound: Krut, Argüelles and Chavanis find that a 4.2 million solar-mass core is stable only from 194 to 387 keV. So the 56 keV solution I showed is disfavoured twice, and the authors of the latest paper say so too. If the core replaces the black hole, the fermion is a few hundred keV. Images are the next test. Pelle and collaborators find a central depression and a ring, similar to a black hole, but no photon ring, which they point to as the way to tell them apart. A word on our own choice: we use 100 keV as a benchmark for capture. It is inside the range of the halo fits, but below the stable window for a core replacing Sgr A*, so I am not claiming that. For a capture calculation what matters from the model is the particle mass and the distribution of incoming speeds. Which brings us to the star.</aside>
+</section>
+
+<section class="slide content p1">
   <header><p class="eyebrow">The premise</p><h2>A neutron star is a <em>dark-matter detector</em></h2></header>
   <div class="body" style="display: grid; grid-template-rows: auto auto 1fr; gap: 40px; align-content: start">
     <p class="say" style="margin: 0; max-width: 1560px">As it crosses the Galaxy, a neutron star sweeps up dark matter: its potential well <em>focuses</em> the particles, its matter <em>stops</em> them.</p>
@@ -79,57 +430,45 @@
       <div class="card glow" style="--part: var(--deg)"><h4>An old, cold star</h4><p class="small" style="margin: 0">What accumulates can heat it, collapse into a black hole, or change its structure — <b>if</b> we know how much is captured and in what state.</p></div>
     </div>
   </div>
-  <aside class="notes">The premise. A neutron star has an escape speed of sixty per cent of the speed of light, so slow halo particles, a few hundred kilometres per second, are focused onto it from very far away. Inside, the baryon density is so high that even a cross section of ten to the minus forty-four square centimetres gives several collisions per crossing. The numbers here are for the star I will use throughout: 1.4 solar masses, SLy equation of state, 11.7 kilometres. What is captured accumulates over billions of years and could heat the star, make it collapse, or change its structure. Each of those questions needs two inputs: how much is captured, part one, and in what state it ends up, part two.</aside>
+  <aside class="notes">So here is the premise of the rest of the talk. Laboratory experiments lose the light particles because a slow, light particle cannot move a heavy nucleus. A neutron star has neither problem. Its escape speed is sixty per cent of the speed of light, so slow halo particles, a few hundred kilometres per second, are focused onto it from very far away and arrive fast. Inside, the baryon density is so high that even a cross section of ten to the minus forty-four square centimetres gives several collisions per crossing. For a 100 keV particle a collision on a neutron there transfers some ten electronvolts, against a micro-electronvolt on xenon on Earth, and the exposure is billions of years. The numbers here are for the star I will use throughout: 1.4 solar masses, SLy equation of state, 11.7 kilometres. What is captured accumulates and could heat the star, make it collapse, or change its structure. Each of those questions needs two inputs: how much is captured, part two, and in what state it ends up, part three.</aside>
 </section>
 
 <!-- ================================================================
-     PART I · OBSCURA
+     PART II · OBSCURA
      ================================================================ -->
-<section class="slide partcover p1">
+<section class="slide partcover p2">
   <div class="bg" style="background-image: url('assets/img/bullet-cluster.jpg'); background-position: 70% 50%"></div>
   <div class="inner">
-    <p class="num rise d1">I</p>
-    <p class="label rise d2">Part one</p>
+    <p class="num rise d1">II</p>
+    <p class="label rise d2">Part two</p>
     <h2 class="rise d2">OBSCURA:<br><em>every collision</em></h2>
     <p class="sub lede rise d3">A relativistic Monte Carlo that follows each dark-matter particle through the interior metric of the star, collision by collision — and recovers the optical-depth closure when its extra physics is switched off.</p>
-    <div class="topics rise d4"><span>the dark-matter background</span><span>focusing</span><span>the optical-depth closure</span><span>the transport</span><span>what the closure misses</span><span>count laws</span><span>cooling</span></div>
+    <div class="topics rise d4"><span>the halo</span><span>focusing</span><span>the optical-depth closure</span><span>the transport</span><span>what the closure misses</span><span>count laws</span><span>cooling</span></div>
   </div>
   <span class="credit" data-credit="bullet-cluster" data-label>Bullet Cluster, 1E 0657−56 · NASA/CXC/M. Weiss · public domain</span>
-  <aside class="notes">Part one. In the background, the Bullet Cluster: two clusters of galaxies that went through each other. The hot gas, in pink, seen in X-rays, was slowed down by the collision; the mass, in blue, measured by gravitational lensing, went straight through with the galaxies. Most of the mass does not collide with ordinary matter — or collides very rarely. Very rarely is exactly the regime where a neutron star becomes interesting.</aside>
+  <aside class="notes">Part two. The Bullet Cluster again, for one reason. Two clusters went through each other and the mass did not collide with the gas, or collided very rarely. Very rarely is exactly the regime where a neutron star becomes interesting: this part is about what happens to one of those particles, collision by collision, on its way through the star.</aside>
 </section>
 
-<section class="slide content p1">
-  <header><p class="eyebrow">1933 – 2006</p><h2>Matter we only see <em>through gravity</em></h2></header>
-  <div class="body cols" style="grid-template-columns: .55fr .55fr 1.3fr; gap: 34px; align-items: start">
-    <figure class="portrait"><img src="assets/img/zwicky.jpg" alt="Fritz Zwicky, 1960"><span class="credit" data-credit="zwicky">Comet Photo AG (Zürich) · CC BY-SA 4.0</span><figcaption><b>Fritz Zwicky</b>1933: the Coma cluster moves too fast for its visible mass — <i>dunkle Materie</i></figcaption></figure>
-    <figure class="portrait"><img src="assets/img/rubin.jpg" alt="Vera Rubin"><span class="credit" data-credit="rubin">AIP Emilio Segrè Visual Archives · attribution</span><figcaption><b>Vera Rubin</b>1970s: rotation curves of spiral galaxies stay flat far beyond the light</figcaption></figure>
-    <div class="stack" style="gap: 24px">
-      <figure style="height: 470px"><img src="assets/img/bullet-cluster.jpg" alt="The Bullet Cluster" style="height: 100%; object-fit: cover"><span class="credit" data-credit="bullet-cluster">NASA/CXC/M. Weiss · public domain</span></figure>
-      <p class="small" style="margin: 0"><b>2006, the Bullet Cluster:</b> the lensing mass (blue) is offset from the X-ray gas (pink). Today: about <b>85%</b> of the matter, a local density <b>ρ<sub>χ</sub> ≈ 0.4 GeV cm⁻³</b> — and no idea what it is made of.</p>
-    </div>
-  </div>
-  <aside class="notes">A short reminder of why we look for it at all. Zwicky, 1933: the galaxies of the Coma cluster move too fast to be held by the mass we see; he called the rest dunkle Materie. Vera Rubin, in the seventies: the rotation curves of spiral galaxies do not fall off where the light ends. And the Bullet Cluster, 2006: after the collision, the lensing mass sits with the galaxies, not with the gas that carries most of the ordinary mass. About eighty-five per cent of the matter in the Universe is of this kind, and near the Sun its density is about 0.4 GeV per cubic centimetre — the number we will use. What it is made of is open, and that is why the particle mass is a free parameter in everything that follows.</aside>
-</section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">The dark-matter background</p><h2>Two ways to fill <em>the halo</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1fr 1fr .78fr; gap: 30px; align-items: stretch">
     <div class="card" style="--part: var(--obs); display: grid; gap: 18px; align-content: start">
       <h4>Standard halo · Maxwell–Boltzmann</h4>
       <div class="eq sm" style="font-size: 40px"><i>f</i>(<i>v</i>) ∝ <i>v</i>² <i>e</i><sup>−<i>v</i>²/<i>v</i><sub>0</sub>²</sup>,&nbsp; <i>v</i> &lt; <i>v</i><sub>esc</sub><span class="note"><span class="nocase">v₀ = 220 km/s, v<sub>esc</sub> = 544 km/s</span></span></div>
-      <p style="margin: 0">The usual WIMP benchmark: particles of GeV to TeV, a few hundred km/s, isotropic. Used for the Maxwell–Boltzmann results of Part II.</p>
+      <p style="margin: 0">The usual WIMP benchmark: particles of GeV to TeV, a few hundred km/s, isotropic. Used for the Maxwell–Boltzmann results of Part III.</p>
     </div>
     <div class="card glow" style="--part: var(--deg); display: grid; gap: 18px; align-content: start">
       <h4>RAR fermions · truncated Fermi–Dirac</h4>
       <div class="eq sm" style="font-size: 36px"><i>f</i> ∝ <span class="frac"><span>1 − <i>e</i><sup>(<i>E</i> − <i>E</i><sub>c</sub>)/<i>kT</i></sup></span><span><i>e</i><sup>(<i>E</i> − <i>μ</i>)/<i>kT</i></sup> + 1</span></span>,&nbsp; <i>E</i> ≤ <i>E</i><sub>c</sub><span class="note">Ruffini–Argüelles–Rueda</span></div>
-      <p style="margin: 0">Self-gravitating fermions in general-relativistic equilibrium: a degenerate core at the Galactic centre and a Boltzmann halo. Rotation curves and the S-stars point to <b>~60–380 keV</b>; we take <b>100 keV</b>.</p>
+      <p style="margin: 0">Self-gravitating fermions in general-relativistic equilibrium: a degenerate core at the Galactic centre and a Boltzmann halo. Rotation curves and the S-stars allow <b>48–345 keV</b>; we take <b>100 keV</b>.</p>
     </div>
     <figure class="fill"><img src="assets/img/galactic-center.jpg" alt="The centre of the Milky Way" style="object-position: 50% 50%"><span class="credit" data-credit="galactic-center">ESO · CC BY 4.0</span></figure>
   </div>
-  <aside class="notes">Two pictures of the dark matter the star moves through. The standard halo: a Maxwellian with a dispersion of 220 kilometres per second, truncated at the Galactic escape speed — the usual setting for WIMPs, particles of GeV to TeV. And the RAR model, of Ruffini, Argüelles and Rueda: dark matter made of neutral fermions in general-relativistic equilibrium, with a Fermi–Dirac distribution that has an energy cutoff for the particles that escape the Galaxy. That model has a degenerate core at the Galactic centre and a classical halo outside, and fits to the rotation curve and to the orbits of the S-stars point to fermion masses of tens to hundreds of keV. Part one works at 100 keV, which, as we will see, is the hard case for capture.</aside>
+  <aside class="notes">Two pictures of the dark matter the star moves through. The standard halo: a Maxwellian with a dispersion of 220 kilometres per second, truncated at the Galactic escape speed — the usual setting for WIMPs, particles of GeV to TeV. And the RAR distribution we just met: a Fermi–Dirac with an energy cutoff. I want to be clear about what the code does with it: OBSCURA does not solve the self-gravitating model of the previous slides. It takes the same functional form as a local distribution of speeds at the position of the star. This part works at 100 keV, which, as we will see, is the hard case for capture.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Forty years of capture</p><h2>From the Sun to <em>neutron stars</em></h2></header>
   <div class="body" style="display: grid; align-content: center">
     <div class="timeline">
@@ -145,7 +484,34 @@
   <aside class="notes">A short history. Press and Spergel computed capture by the Sun in 1985; Gould built the formalism of the capture rate two years later; Goldman and Nussinov applied it to neutron stars in 1989. Around 2008 to 2010 Kouvaris and Tinyakov turned it into constraints: annihilation heating, and collapse of the captured dark matter into a black hole. In 2017 Baryakhtar and collaborators proposed kinetic heating — the energy deposited by the capture itself. And around 2020 Bell and collaborators put the relativistic kinematics, Pauli blocking, opacity and multiple scattering into one capture treatment. What OBSCURA adds is not a new ingredient in that list; it is to follow individual collision histories through the metric, and use them to test the deterministic approximations of an optical-depth closure.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
+  <header><p class="eyebrow">Gravitational focusing · the calculation</p><h2>The orbit must <em>reach the surface</em></h2></header>
+  <div class="body cols" style="grid-template-columns: 1.02fr 1fr; gap: 38px; align-items: stretch">
+    <div class="stack" style="gap: 14px; align-content: center">
+      <ol class="steps" style="gap: 15px">
+        <li style="font-size: 23px">Outside the star, two constants: <span class="mq">ℰ = (1 − 2<i>M</i>/<i>r</i>) <i>u<sup>t</sup></i></span>, <span class="mq">ℒ = <i>r</i>²<i>u<sup>φ</sup></i></span>. From infinity, <b>ℰ = γ</b> and <b>ℒ = γ<i>vb</i></b>.</li>
+        <li style="font-size: 23px"><span class="mq"><i>u<sub>μ</sub>u<sup>μ</sup></i> = −1</span> leaves one dimension: <span class="mq">(<i>u<sup>r</sup></i>)² = ℰ² − <i>V</i>²</span>, with <span class="mq"><i>V</i>² = (1 − 2<i>M</i>/<i>r</i>)(1 + ℒ²/<i>r</i>²)</span>.</li>
+        <li style="font-size: 23px">No turning point before the surface: <span class="mq">ℰ² ≥ <i>V</i>²(<i>R</i>)</span>, with <span class="mq"><i>C</i> = <i>M</i>/<i>R</i></span>.</li>
+        <li style="font-size: 23px">That caps the angular momentum: <span class="mq">ℒ<sub>c</sub> = <i>R</i> [(ℰ² − 1 + 2<i>C</i>)/(1 − 2<i>C</i>)]<sup>1/2</sup></span>.</li>
+      </ol>
+      <div class="eq sm" style="font-size: 33px; padding: 14px 18px"><span class="frac"><span><i>b</i><sub>max</sub>²</span><span><i>R</i>²</span></span> = <span class="frac"><span>1</span><span>1 − 2<i>C</i></span></span> <span style="font-size: 1.2em">[</span>1 + <span class="frac"><span>2<i>C</i></span><span>(γ<i>v</i>)²</span></span><span style="font-size: 1.2em">]</span> &nbsp;<span style="color: var(--text-3)">vs Newton</span>&nbsp; 1 + <span class="frac"><span>2<i>C</i></span><span><i>v</i>²</span></span><span class="note">two corrections: <span class="nocase">v → γv</span>, and the apparent radius <span class="nocase">R/√(1 − 2C)</span></span></div>
+      <p class="small muted" style="margin: 0">Exact for <i>C</i> ≤ 1/4. Above that, slow particles meet the barrier <i>outside</i> the star and <span style="white-space: nowrap">ℒ<sub>c</sub> → 4<i>M</i>.</span></p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">Effective potential · live</span><span class="key"><span class="ln" style="--c: #9e8cff">this ℒ</span><span class="dl" style="--c: #eef0f6">ℒ<sub>c</sub></span><span class="ln" style="--c: #ffb86b">ℰ²</span><span style="--c: #ff7a8a">forbidden</span></span></div>
+      <div class="cv"><canvas id="veff-plot"></canvas></div>
+      <div class="controls" style="grid-template-columns: repeat(3, 1fr); gap: 14px 24px">
+        <div class="ctl"><label for="veff-l">ℒ / ℒ<sub>c</sub> <output for="veff-l"></output></label><input type="range" id="veff-l" min="0" max="1.6" step="0.01" value="1.2"></div>
+        <div class="ctl"><label for="veff-c"><span class="nocase">C = GM/Rc²</span> <output for="veff-c"></output></label><input type="range" id="veff-c" min="0.01" max="0.33" step="0.001" value="0.177"></div>
+        <div class="ctl"><label for="veff-v">speed <output for="veff-v"></output></label><input type="range" id="veff-v" min="-3.2" max="-0.1" step="0.005" value="-0.52"></div>
+      </div>
+      <div class="readout tight" id="veff-out"></div>
+    </div>
+  </div>
+  <aside class="notes">Before the picture, the calculation, because it is short. Units with G and c equal to one. Outside the star the metric is Schwarzschild, and there are two conserved quantities per unit mass, energy and angular momentum. A particle from infinity with speed v and impact parameter b has energy gamma and angular momentum gamma v b. Normalising the four-velocity turns the orbit into a one-dimensional problem: radial velocity squared equals energy squared minus an effective potential. On the right, that potential. The amber line is the energy; the particle comes in from the right, and it can only be where the curve is below the line. Red is forbidden. At this angular momentum it turns back before the surface. Lower the first slider. The dashed curve is the critical case, which touches the energy line exactly at the surface. Setting the potential at R equal to the energy gives the maximum angular momentum, and there is a one-line reading of it: at grazing incidence all the momentum at the surface is tangential, and the local Lorentz factor is gamma blueshifted by the lapse, so L_c is R times the local momentum. Then L equal to gamma v b gives the maximum impact parameter, and it is worth writing it next to Newton. There are exactly two relativistic corrections. Speed becomes gamma v. And there is an overall factor, one over one minus 2C, which holds at every speed: it is the apparent radius of the star seen from infinity. At low speed it is all that survives, and at C equal to 0.177 it gives the 1.244 of the next slide. One caveat, which the textbooks tend to skip. This assumes the highest point of the potential outside the star is the surface. Drag C above 0.25 and take a slow particle: the top of the barrier is now outside the star, and the critical angular momentum saturates at 4M, as for a black hole. The readout says which case you are in. Our 1.4 solar-mass star, at 0.177, is safe at every energy; near the maximum mass it is not, and the surface formula would overestimate the capture area by about five per cent.</aside>
+</section>
+
+<section class="slide content p2">
   <header><p class="eyebrow">Gravitational focusing</p><h2>The star looks <em>a thousand times wider</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1fr 1fr; gap: 34px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
@@ -162,10 +528,10 @@
       <div class="readout tight" id="focus-out"></div>
     </div>
   </div>
-  <aside class="notes">The first effect is purely gravitational. A particle from infinity with speed v has conserved energy gamma and angular momentum gamma v b; it reaches the surface only if its angular momentum is below a critical value set by the metric at R. That gives the maximum impact parameter on the right. On the left, real Schwarzschild geodesics: violet ones hit, grey ones miss, and the bars on the left compare the relativistic capture radius with the Newtonian one. The drawing runs at a speed you can see; at the halo speed, 220 km/s, b_max is a thousand stellar radii — the readout gives 1.01 times ten to the three — and general relativity makes it 24 per cent larger than Newton, the factor one over the square root of one minus 2C. Drag the compactness: the more compact the star, the larger the gain.</aside>
+  <aside class="notes">And this is what that formula does. On the left, real Schwarzschild geodesics: violet ones hit, grey ones miss, and the bars on the left compare the relativistic capture radius with the Newtonian one. The drawing runs at a speed you can see; at the halo speed, 220 km/s, b_max is a thousand stellar radii — the readout gives 1.01 times ten to the three — and general relativity makes it 24 per cent larger than Newton, the factor one over the square root of one minus 2C. Drag the compactness: the more compact the star, the larger the gain, until the barrier takes over above C equal to one quarter.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Supply × probability</p><h2>What reaches the star, and <em>what stays</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.15fr 1fr; gap: 50px; align-items: center">
     <div class="stack" style="gap: 22px">
@@ -183,7 +549,7 @@
   <aside class="notes">How the capture rate is built. The star is a static TOV solution, with lapse e to the nu over two inside. The number of particles crossing the surface per unit energy and angular momentum is this simple kernel: eight pi squared m cubed times the distribution function times L, up to the critical angular momentum. Weighting it by the capture probability gives the capture rate. So the whole problem splits into supply, which is geometry, and probability, which is microphysics and transport. OBSCURA computes the kernel P_cap. The capture criterion is a statement about the conserved energy after a collision: once it falls below one, in units of the rest mass, the particle is bound. Note that it is evaluated with the lapse at the collision point — that will matter.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">The optical-depth closure</p><h2>A Poisson count and <em>three frozen choices</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1fr 1.05fr; gap: 50px; align-items: center">
     <div class="stack" style="gap: 24px">
@@ -200,7 +566,7 @@
   <aside class="notes">The standard way to close the kernel. Assume the number of collisions along the incident geodesic is Poisson, with mean equal to the optical depth — the collision rate integrated along the orbit, one crossing in and out. Then the particle is captured if it collides at least N_min times, where N_min is the number of energy losses needed to bring its conserved energy below one. The closure we compare with is the relativistic one of Sirvente and Rueda, submitted, and the comparison is in that spirit: we built the Monte Carlo to release three choices they make deterministically. The trajectory is frozen; the loss per collision is a fixed number; and it is evaluated with the lapse of the surface. Each of those can be switched on and off in OBSCURA.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">100 keV on a neutron of 939 MeV</p><h2>Capture decided in <em>a narrow window</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.45fr .85fr; gap: 40px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
@@ -222,7 +588,7 @@
   <aside class="notes">Why 100 keV is the hard case. In an elastic collision on a neutron at rest, the fraction of kinetic energy the neutron takes is given exactly by the formula on the right, with s the invariant mass squared. For a 100 keV particle that is at most five parts in ten thousand. Meanwhile, to be captured the particle must lose about one per cent of its kinetic energy at the surface. So the closure needs N_min of tens — the red and orange staircases: head-on losses and isotropic-mean losses, both with the surface lapse. The dashed curve is the same head-on loss evaluated with the lapse at the centre: the same collision removes more conserved energy where the well is deeper, and N_min halves. When capture is decided by tens of small steps, the distribution of the number of collisions — and where they happen — is the whole story. Move the mass slider up to a GeV: N_min drops to one, and none of this matters.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">The transport</p><h2>One history, <em>collision by collision</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.15fr 1fr; gap: 50px; align-items: center">
     <ol class="steps" style="--part: var(--obs)">
@@ -240,7 +606,7 @@
   <aside class="notes">What one history is. Draw a target optical depth, minus log of a uniform number, and fly along the interior geodesic until you accumulate it; the production step is R over 4096. At the collision, a relativistic elastic event on a neutron at rest, isotropic in the centre of mass. Energy and direction come from the same pair of angles, so a collision that removes little energy also deflects little — they are correlated as in the physical event. The new Lorentz factor and direction give a new energy and angular momentum, and a new orbit. Then the capture test. Every physical approximation in the code has an identifier, documented in one file and cited in the source where it applies — a discipline we adopted after the code misdescribed its own method once. And there are switches to undo each released ingredient, which is how we recover the closure exactly.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Three modes, one star · live</p><h2>Releasing the trajectory <em>broadens</em> the transition</h2></header>
   <div class="body cols" style="grid-template-columns: .82fr 1.25fr; gap: 30px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
@@ -258,7 +624,7 @@
   <aside class="notes">This panel runs the transport in the browser, live: same star, 100 keV, ten to the minus forty-four, no Pauli blocking; the step here is R over 300 instead of R over 4096, so it is a re-run, not the production numbers. Three modes, with the names of the paper. Grey: the closure realised by the Monte Carlo — frozen trajectory, isotropic-mean loss at the surface lapse. It sits on the dotted analytic Poisson closure: that is the reduction test, live. Pink: still frozen, but the loss is sampled and evaluated at the collision radius — the transition moves to higher energy, because deep collisions remove more conserved energy. Orange: the full transport — the transition broadens: fewer captures at low energy, more in the tail. On the left, the histories themselves at the energy you choose; switch between closure and transport and look at what the collisions do to the path.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Reduction</p><h2>Switch it off, and it <em>is</em> the closure</h2></header>
   <div class="body cols" style="grid-template-columns: 1.1fr 1fr; gap: 54px; align-items: center">
     <table class="tbl">
@@ -281,7 +647,7 @@
   <aside class="notes">Before measuring differences we must make sure the two calculations agree when they should. Each released ingredient has a switch, and each switch recovers one piece of the closure. With all three off, on the benchmark star at 41 energies and three angular momenta with 5000 histories each, every capture happens at exactly N_min, the number of collisions on the geodesic is Poisson, and the capture probability equals the Poisson tail within 2.8 standard deviations everywhere. The mean count agrees to 0.2 per cent with the column computed by an independent quadrature. The one convention we do not switch is the rate: our unblocked rate treats neutrons at rest, theirs carries Fermi motion through the flux factor; that moves the analytic closure by up to 0.035, and we quantify it separately.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">The decomposition · 2³ × 2 controls, order-averaged</p><h2>Two effects of <em>opposite sign</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.45fr .8fr; gap: 36px">
     <figure class="paper" style="height: 100%; min-height: 0"><img src="assets/img/papers/decomposition.png" alt="Decomposition of the capture probability" style="height: calc(100% - 40px)"><figcaption>Benchmark star, 100 keV, σ = 10⁻⁴⁴ cm², 5000 histories per point, no blocking.</figcaption></figure>
@@ -301,7 +667,7 @@
   <aside class="notes">The production result, on the benchmark star of the closure. We run all eight combinations of the three switches, for both deterministic variants, and attribute to each switch its increment averaged over the six orders in which they can be applied, so the three add up exactly to the total. Evaluating the loss at the collision raises the capture probability by 0.09 to 0.14 on average over the transition. Releasing the trajectory lowers it by 0.09 to 0.11. The dispersion of the loss about its mean does almost nothing on average. The two big effects nearly cancel in the signed mean — but the RMS difference stays at 0.16, 0.17, and single energies differ by almost 0.3. The closure gets the average right for the wrong reason. The bands in the lower panels are the order dependence, not error bars: the switches interact.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Mechanism · what the first collision does</p><h2>Half the particles <em>turn back</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center">
     <div class="stack" style="gap: 18px">
@@ -314,7 +680,7 @@
   <aside class="notes">Why does releasing the trajectory lower the capture probability? The histories let us measure it instead of guessing. For a 100 keV particle hitting a neutron, the deflection is large — the light particle bounces off a heavy wall. After the first collision, half of the particles are moving outward; on the frozen chord, almost none. The column left to the surface halves on average, and spreads enormously. A fifth of the released particles never collide again, against three per cent on the frozen chord, while a tail of particles that turn inward collide many more times. So the released trajectory makes the number of collisions more often small and occasionally large: the first lowers capture where few collisions are needed, the second raises it in the tail. The orbit also contracts after each loss, which alone would raise capture; at 100 keV the change of direction wins.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">How many collisions · live</p><h2>A count that is <em>not Poisson</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.45fr .85fr; gap: 36px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
@@ -333,7 +699,7 @@
   <aside class="notes">The Monte Carlo does more than move the capture probability: it measures the whole distribution of the number of collisions. At energies above the transition almost nothing is captured, so the count of each history is complete. Live again, on our SLy star: the mean is close to the optical depth of the incident geodesic, as the closure assumes. The distribution is not. The variance is many times the mean — around nine here; between 8 and 13 in the paper's runs — while a Poisson law has variance equal to the mean. Physically, a light particle in a dense star performs a random walk out of an optically thick sphere: many leave quickly, some wander for a long time. The negative binomial, a Poisson whose mean itself fluctuates, follows the histogram much better.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Count-law closures · calibrated and tested out of sample</p><h2>Better laws, <em>honest residuals</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.3fr .9fr; gap: 40px">
     <figure class="paper" style="height: 100%; min-height: 0"><img src="assets/img/papers/zoinb_nb_closure_headon.png" alt="Count-law closures tested out of sample" style="height: calc(100% - 40px)"><figcaption>SLy 1.40 M☉, 11.70 km; calibrated above the transition on independent runs, tested inside it.</figcaption></figure>
@@ -351,7 +717,7 @@
   <aside class="notes">Can we keep a closed form, but with the right count law? We calibrate three laws on independent runs above the transition, where the counts are complete, and test them inside the transition, where capture happens; calibration and test share no histories. Poisson with the measured mean misses by 0.15 to 0.19 on average. The negative binomial roughly halves that. A zero-and-one-inflated negative binomial, which treats separately the particles that collide zero or one time, gets to four to six hundredths. But I want to be honest about it: the residuals are systematic, far larger than the statistical and calibration errors, and the laws were tested at fixed mass, star and cross section. They are better closures, not a universal law.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">A more compact star · SLy at maximum mass, 2.05 M☉</p><h2>Broadening is <em>not a detail</em></h2></header>
   <div class="body" style="display: grid; grid-template-rows: auto auto; gap: 34px; align-content: center">
     <figure class="paper"><img src="assets/img/papers/slymax_validation_pcap.png" alt="Transport against the analytic closure on the maximum-mass SLy star"><figcaption>Points: the transport. Red: closure with head-on N<sub>min</sub>; orange dashed: isotropic-mean N<sub>min</sub>. 100 keV, σ = 10⁻⁴⁴ cm², no blocking.</figcaption></figure>
@@ -364,7 +730,7 @@
   <aside class="notes">A contrast, not a second decomposition. On the maximum-mass SLy star the closure has an optical depth three times larger, and its curves are steep steps. The transport begins to lose particles already at low energy and keeps more than ten per cent of them at energies twenty times higher, where both closures give zero. The mean absolute difference is three tenths. So the broadening is present in both stars, and it is larger where the star is denser — exactly the stars where capture matters most.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Same five particles · different stars</p><h2>The equation of state <em>decides the fate</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.5fr .75fr; gap: 40px; align-items: center">
     <figure class="paper" style="position: relative">
@@ -381,7 +747,7 @@
   <aside class="notes">A particle-level view of why the star matters. Five particles with exactly the same speed, impact parameter, energy and angular momentum, sent into two stars: the most compact SLy star, a hadronic equation of state, and the most compact strange-quark star, SQM3. In the SLy star all five are captured, in the quark star none: the same incident orbit meets a different density profile, collides at different depths and with a different lapse. These are selected cases, not an average; the ensemble version is a cross-section scan per equation of state, in the paper's appendix.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Beyond the benchmark</p><h2>Pauli blocking and <em>cooling</em></h2></header>
   <div class="body cols c2" style="gap: 40px">
     <div class="card" style="--part: var(--obs); display: grid; gap: 16px; align-content: start">
@@ -407,7 +773,7 @@
   <aside class="notes">Two things beyond the controlled benchmark. Pauli blocking is implemented: the recoiling neutron must end outside the Fermi sea, and that suppresses the optical depth by almost five orders of magnitude. But the few collisions that are allowed remove more than half of the kinetic energy each. The lesson is methodological: you cannot multiply the unblocked optical depth by a suppression factor and keep the old N_min — both must come from the same blocked kernel. Those campaigns are next. On the right, what happens after capture: we keep following captured particles until their local kinetic energy drops below three halves kT. Capture costs five collisions; cooling costs thousands, with hundreds of excursions out of the star — and takes only seconds, almost all of it outside. This is a cooling time in a model with no heating, not thermalisation. And that brings us to the question of part two.</aside>
 </section>
 
-<section class="slide content p1">
+<section class="slide content p2">
   <header><p class="eyebrow">Under the hood</p><h2>Validated <em>stage by stage</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.25fr 1fr; gap: 50px; align-items: center">
     <table class="tbl tight">
@@ -433,8 +799,8 @@
   <aside class="notes">A word about the code itself, because a Monte Carlo is only as good as its checks. Each stage is compared with something independent: the interior transport against a quadrature of the same orbit integrals that shares no code with it; the capture probability under step refinement; the exterior geodesics against the analytic turning point; the focusing against its known low-speed limit; the incidence sampler against isotropy; the CUDA backend against the CPU one; the population integrator against the analytic solution; and the Fermi equation of state against its two limits. Two of the three defects we found in the geodesic tracer were invisible to reasoning and only appeared against an independent method — that is the rule we follow now.</aside>
 </section>
 
-<section class="slide content p1">
-  <header><p class="eyebrow">Part I · in short</p><h2>What the closure <em>misses</em></h2></header>
+<section class="slide content p2">
+  <header><p class="eyebrow">Part II · in short</p><h2>What the closure <em>misses</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center">
     <ul class="list">
       <li>The Monte Carlo reduces <b>exactly</b> to the Poisson closure when its released ingredients are switched off.</li>
@@ -442,28 +808,28 @@
       <li>Collision counts are strongly <b>overdispersed</b>; negative-binomial laws calibrated out of sample do much better than Poisson.</li>
       <li>Pauli blocking changes rate <b>and</b> kernel together: it must be measured, not rescaled.</li>
     </ul>
-    <blockquote style="font-size: 44px">A correct mean number of collisions is not enough for a Poisson closure.<footer>the one-line summary of Part I</footer></blockquote>
+    <blockquote style="font-size: 44px">A correct mean number of collisions is not enough for a Poisson closure.<footer>the one-line summary of Part II</footer></blockquote>
   </div>
-  <aside class="notes">Part one in four lines. The transport is a controlled extension of the closure: it reduces to it exactly. Two deterministic choices — where the loss is evaluated, and the frozen trajectory — each move the capture probability by about a tenth, in opposite directions, so the closure is right on average and wrong in shape. The count of collisions is overdispersed, and better count laws exist, with honest residuals. And blocking has to be done consistently. Now, the particles are captured: what are they?</aside>
+  <aside class="notes">Part two in four lines. The transport is a controlled extension of the closure: it reduces to it exactly. Two deterministic choices — where the loss is evaluated, and the frozen trajectory — each move the capture probability by about a tenth, in opposite directions, so the closure is right on average and wrong in shape. The count of collisions is overdispersed, and better count laws exist, with honest residuals. And blocking has to be done consistently. Now, the particles are captured: what are they?</aside>
 </section>
 
 <!-- ================================================================
-     PART II · DEGENERACY BEFORE SELF-GRAVITY
+     PART III · DEGENERACY BEFORE SELF-GRAVITY
      ================================================================ -->
-<section class="slide partcover p2">
+<section class="slide partcover p3">
   <div class="bg" style="background-image: url('assets/img/ns-manhattan.jpg'); background-position: 60% 50%"></div>
   <div class="inner">
-    <p class="num rise d1">II</p>
-    <p class="label rise d2">Part two</p>
+    <p class="num rise d1">III</p>
+    <p class="label rise d2">Part three</p>
     <h2 class="rise d2">Degeneracy before<br><em>self-gravity</em></h2>
     <p class="sub lede rise d3">A captured population can be far too light to change the star — and still too dense to be a classical gas. Two diagnostics, and a map of where their thresholds fall.</p>
     <div class="topics rise d4"><span>tracer, Fermi gas or dark core?</span><span>S and Θ</span><span>the fiducial population</span><span>the regime map</span><span>what comes next</span></div>
   </div>
   <span class="credit" data-credit="ns-manhattan" data-label>Neutron star over Manhattan · NASA's Goddard Space Flight Center · public domain</span>
-  <aside class="notes">Part two. A neutron star is about the size of a city — here over Manhattan. The particles we captured are now inside it. The question of this part is what they are, as a physical system.</aside>
+  <aside class="notes">Part three. A neutron star is about the size of a city — here over Manhattan. The particles we captured are now inside it. The question of this part is what they are, as a physical system.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">The question</p><h2>After capture, <em>what is it?</em></h2></header>
   <div class="body" style="display: grid; grid-template-rows: auto auto; gap: 50px; align-content: center">
     <div class="chain" style="--part: var(--deg)"><span>capture supplies <i>N</i><sub>χ</sub>(<i>t</i>)</span><i>→</i><span class="on">which regime?</span><i>→</i><span>the right next model</span></div>
@@ -476,7 +842,7 @@
   <aside class="notes">Capture calculations give a particle budget. Models of dark-matter admixed neutron stars ask how a macroscopic dark fluid changes the structure. In between there is a question usually skipped: what regime does the captured population occupy? The standard assumption is the left one — a dilute classical gas in thermal equilibrium, a Boltzmann cloud in the potential of the star. But the same deep potential that confines the particles can push their phase-space density to where Pauli exclusion matters, the middle case, even if their mass is negligible. Only when the dark mass becomes comparable to the baryonic mass where it sits do we need the two-fluid structure on the right.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">Two independent diagnostics</p><h2>One for gravity, <em>one for statistics</em></h2></header>
   <div class="body cols c2" style="gap: 44px">
     <div class="stack" style="gap: 20px">
@@ -503,7 +869,7 @@
   <aside class="notes">The analysis rests on two numbers. S compares the dark mass with the baryonic mass enclosed in the same central region, the radius that holds ninety per cent of the particles: it asks whether the dark matter contributes to the local gravitational field. Since S is the ratio of the two local accelerations, the thresholds have a direct meaning: below ten to the minus three, neglecting the dark matter's gravity is a per-mille error. Theta compares the thermal energy with the Fermi energy of the captured particles: it asks whether Maxwell–Boltzmann statistics are adequate. Large Theta, classical; small Theta, degenerate. Note the convention: Theta is the inverse of the usual degeneracy parameter. The thresholds are operational, not new constants. The point of separating them is that they answer different questions — and there is no reason for them to be crossed together.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">The two closures</p><h2>A Boltzmann cloud, and <em>the Fermi limit</em></h2></header>
   <div class="body cols c2" style="gap: 44px; align-items: center">
     <div class="stack" style="gap: 20px">
@@ -520,7 +886,7 @@
   <aside class="notes">The two descriptions being compared. On the left, the classical reference: particles in thermal equilibrium at the core temperature, a Boltzmann cloud in the fixed potential of the star — the baryons make the potential, the dark matter does not feed back. The total number normalises it, with the proper volume element. On the right, the degenerate limit: the zero-temperature relativistic Fermi gas, with the Fermi momentum set by the local density. The Fermi energy goes from p squared over 2m to pc as x_F crosses one, and the pressure from rho to the five thirds to rho to the four thirds. Theta takes the Fermi energy at the centre of the classical cloud and asks whether the cloud is consistent with being classical.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">The two diagnostics · live</p><h2>Move a cloud through <em>the plane</em></h2></header>
   <div class="body">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto auto">
@@ -547,7 +913,7 @@
   <aside class="notes">This panel computes the thermal cloud live, the way OBSCURA does: the Boltzmann profile in the potential of the SLy star, r90, S, and Theta at the centre. It starts at the paper's fiducial, a 100 keV particle at ten to the nine kelvin with the mass captured in a billion years: S comes out 6.4 times ten to the minus sixteen and Theta 3.46, as in the paper. The cloud fills the star. The dashed line is what happens if you change only the captured mass: the profile keeps its shape, S grows in proportion, Theta falls as S to the minus two thirds, then minus one third once the Fermi momentum becomes relativistic. Now pick the 1 GeV WIMP at ten to the five kelvin: the cloud is a few metres wide, and Theta crosses one at S around ten to the minus eleven — eight orders of magnitude before self-gravity. Push the mass up to ten to the six GeV and the order reverses.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">Why the thresholds do not coincide · a back-of-the-envelope</p><h2>Pauli comes <em>first</em> for light particles</h2></header>
   <div class="body cols" style="grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center">
     <div class="stack" style="gap: 20px">
@@ -572,7 +938,7 @@
   <aside class="notes">Why should degeneracy come first? A back-of-the-envelope that I find useful, not in the paper in this form. A cloud much smaller than the star sits in the harmonic core of the potential. Its radius scales as the square root of T over m, but it cancels between S and the central density: the central density is about 4.6 times S times rho_c over m, whatever the temperature. Put that in the non-relativistic Fermi energy and Theta scales as T times m to the five thirds times S to the minus two thirds. So the value of S at which the gas becomes degenerate grows as m to the five halves. The table is from the full calculation of the previous panel: for a GeV particle at ten to the five kelvin, ten to the minus eleven; for a keV fermion, ten to the minus twenty-four. Only around a TeV does the degeneracy threshold approach the self-gravity one.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">The pipeline</p><h2>From the star to <em>the diagnostics</em></h2></header>
   <div class="body" style="display: grid; grid-template-rows: auto auto auto; gap: 56px; align-content: center">
     <div class="chain" style="--part: var(--deg)"><span>baryonic TOV star</span><i>→</i><span><i>b</i><sub>max</sub>(<i>v</i>)</span><i>→</i><span>Γ<sub>inc</sub></span><i>→</i><span><i>f</i><sub>cap</sub> (Monte Carlo)</span><i>→</i><span><i>C</i><sub>χ</sub></span><i>→</i><span><i>N</i><sub>χ</sub>(<i>t</i>)</span><i>→</i><span>ρ<sub>χ</sub>(<i>r</i>)</span><i>→</i><span class="on">(S, Θ)</span></div>
@@ -586,7 +952,7 @@
   <aside class="notes">The pipeline of the paper, end to end. The TOV star gives the background. The exterior geodesics give b_max as a function of speed, and averaging over the halo gives the focused incidence rate. The Monte Carlo gives the capture fraction, and the product is the capture rate. The population equation integrates it in time; with annihilation and evaporation switched off it is just C times t. That number normalises the profile, and from the profile come S and Theta. The order is the logic of the paper: first the budget, then gravity, then statistics.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">The fiducial population · after 10⁹ years</p><h2>Gravitationally invisible, <em>not quite classical</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: center">
     <table class="tbl tight">
@@ -608,7 +974,7 @@
   <aside class="notes">The fiducial model of the paper: a 100 keV particle, ten to the minus forty-four, the local density, a hot young core at ten to the nine kelvin, a billion years. With the Maxwellian halo, about ten to the forty-six particles, two times ten to the eighteen grams — ten to the minus fifteen of the star. S is ten to the minus sixteen: an extreme tracer, no structural effect at all. But Theta at the centre is 3.5: not classical, not degenerate — the transitional band, where Fermi–Dirac corrections are of order one. With the RAR halo the incidence rate drops by almost half, because the distribution is different, while the capture fraction hardly moves; the classification does not change. One honest remark: an earlier draft found this point strongly degenerate; with the updated multi-scatter capture it is transitional, and the degenerate tracers come from the survey.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">The regime map · every model of the survey</p><h2>The two boundaries <em>do not coincide</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.55fr .62fr; gap: 30px">
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
@@ -631,7 +997,7 @@
   <aside class="notes">The central figure of the paper, point by point: each dot is one model of the survey over ambient density, particle mass, cross section, accumulation time and core temperature; the coordinates are derived diagnostics, not inputs. Vertical lines: the gravitational thresholds; horizontal lines: the statistical ones. The colour is one input at a time — switch it and you see that no single input decides the quadrant. Hover over a point to see its inputs. The star is the fiducial, far to the left. The key observation: the survey has many models in quadrant three, degenerate yet gravitational tracers — degeneracy before self-gravity — and in the Fermi–Dirac map the correlation between the two coordinates is weak, minus 0.15: they are independent diagnostics. The track buttons isolate the straight families, next slide.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">Reading the map</p><h2>Two slopes, <em>one Fermi energy</em></h2></header>
   <div class="body cols c2" style="gap: 44px; align-items: center">
     <div class="stack" style="gap: 20px">
@@ -655,7 +1021,7 @@
   <aside class="notes">Two regularities. The straight families are not a new parameter: they are the two limits of the Fermi energy. Along a track where only the ambient density changes, the captured number changes, the profile shape does not, so S is proportional to the central density, and the Fermi momentum to its cube root. Non-relativistic Fermi energy gives Theta proportional to S to the minus two thirds; relativistic, to the minus one third. The fits in the Fermi–Dirac survey give exactly minus 0.667 and minus 0.334 — the panel on the previous slide reproduces these counts from the data. Second, the mass trend: heavier particles are more classical. And moving from quadrant three to four is not a different particle; it is the same Fermi gas becoming gravitationally important.</aside>
 </section>
 
-<section class="slide content p2">
+<section class="slide content p3">
   <header><p class="eyebrow">What comes next</p><h2>The right model <em>for each quadrant</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.15fr 1fr; gap: 50px; align-items: center">
     <div class="quad" style="height: 600px">
@@ -704,14 +1070,18 @@
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:1e0657_scale.jpg"><b>Bullet Cluster, 1E 0657−56</b></a> — NASA/CXC/M. Weiss · public domain</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Fritz_Zwicky_in_1960.jpg"><b>Fritz Zwicky, 1960</b></a> — Comet Photo AG (Zürich), ETH-Bibliothek · CC BY-SA 4.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Vera_Rubin_AIP_(cropped).jpg"><b>Vera Rubin</b></a> — AIP Emilio Segrè Visual Archives, AIP Gallery of Member Society Presidents · attribution</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Coma_Cluster_(noirlab2420a).jpg"><b>Coma Cluster</b></a> — CTIO/NOIRLab/DOE/NSF/AURA, image processing D. de Martin &amp; M. Zamani · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Cosmic_Microwave_Background_(CMB).jpeg"><b>Cosmic microwave background</b></a> — ESA and the Planck Collaboration · CC BY 4.0</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:NGC3198_-_SDSS_DR14.jpg"><b>NGC 3198</b></a> — Sloan Digital Sky Survey · CC BY 4.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:The_centre_of_the_Milky_Way.jpg"><b>The centre of the Milky Way</b></a> — ESO · CC BY 4.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif"><b>Neutron star over Manhattan</b></a> — NASA's Goddard Space Flight Center · public domain</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Paper figures</b> — de Lima &amp; Rueda, <i>A Monte Carlo relativistic framework for dark matter capture by neutron stars</i> (in preparation); de Lima &amp; Rueda, <i>Degeneracy Before Self-Gravity: Dark Matter Regimes in Neutron Stars</i> (draft)</p>
+    <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Data in Part I</b> — RAR model: solved in the browser after Argüelles et al., PDU 21, 82 (2018); rotation curve: SPARC (Lelli, McGaugh &amp; Schombert 2016); CMB: Planck 2018 and CLASS v3.4.1 (Blas, Lesgourgues &amp; Tram 2011); direct-detection and axion limits: compilations by C. O'Hare (DirectDetectionPlots; AxionLimits, Zenodo 3932430), neutrino fog: O'Hare 2021</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Regime-map panel</b> — the survey data of the second paper, from the OBSCURA pipeline</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Neutron star</b> — SLy equation of state (Douchin &amp; Haensel 2001) in the piecewise-polytropic fit of Read, Lackey, Owen &amp; Friedman, PRD 79, 124032 (2009)</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>OBSCURA logo</b> — OBSCURA project</p>
   </div>
-  <aside class="notes">The photographs are from Wikimedia Commons, in the public domain or under free licences; the figures are from the two papers.</aside>
+  <aside class="notes">The photographs are from Wikimedia Commons, in the public domain or under free licences; the figures are from the two papers; the data in Part I are public, and each panel says where they come from.</aside>
 </section>
 
 <section class="slide cover end">
@@ -749,11 +1119,13 @@
   </div>
 </div>
 
-<script src="assets/deck.js?v=202610221800"></script>
-<script src="assets/phys.js?v=202610221800"></script>
-<script src="assets/survey.js?v=202610221800"></script>
-<script src="assets/dash-obs.js?v=202610221800"></script>
-<script src="assets/dash-deg.js?v=202610221800"></script>
+<script src="assets/deck.js?v=202611061000"></script>
+<script src="assets/phys.js?v=202611061000"></script>
+<script src="assets/survey.js?v=202611061000"></script>
+<script src="assets/dash-obs.js?v=202611061500"></script>
+<script src="assets/dash-deg.js?v=202611061000"></script>
+<script src="assets/evidence.js?v=202611061000"></script>
+<script src="assets/dash-dm.js?v=202611061200"></script>
 <script>Deck.start();</script>
 </body>
 </html>
