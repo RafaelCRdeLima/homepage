@@ -735,16 +735,16 @@
   <div class="body cols" style="grid-template-columns: 1.5fr .75fr; gap: 40px; align-items: center">
     <figure class="paper" style="position: relative">
       <div style="display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 12px; text-align: center"><span class="tag part" style="justify-self: center">SLy · 2.05 M☉, 9.96 km · 5/5 captured</span><span class="tag" style="justify-self: center; color: var(--neb); border-color: rgba(255,143,171,.5)">SQM3 · 1.98 M☉, 10.84 km · 0/5 captured</span></div>
-      <img src="assets/img/papers/sly_sqm3_particles.png" alt="The same five incident particles in an SLy and an SQM3 star">
-      <figcaption>Identical ℰ, ℒ, speed and impact parameter in both panels; σ = 10⁻⁴⁴ cm². Squares: entry; dots: collisions; crosses: escape.</figcaption>
+      <img src="assets/img/papers/sly_sqm3_histories.png" alt="The same five incident particles along their geodesics in an SLy and an SQM3 star">
+      <figcaption>Identical ℰ, ℒ, speed and impact parameter in both panels; <i>m</i><sub>χ</sub> = 100 keV, σ = 10⁻⁴⁴ cm². Re-traced geodesics, closing on every recorded collision: radius exact, angle from the entry point.</figcaption>
     </figure>
     <div class="stack" style="gap: 20px">
       <p class="small" style="margin: 0">Five incident particles, the <b>same</b> phase-space points, sent into the maximum-compactness stars of a hadronic (SLy) and a strange-quark (SQM3) equation of state.</p>
-      <p class="small" style="margin: 0">The same orbit crosses a different column and collides at a different depth: <b>five captures against none</b>.</p>
-      <p class="small muted" style="margin: 0">Selected cases, not an ensemble average — an illustration of where the EOS dependence of P<sub>cap</sub> comes from.</p>
+      <p class="small" style="margin: 0">The same orbit crosses a different column and collides at different depths: ℰ falls below 1 in SLy and not in SQM3, <b>five captures against none</b>.</p>
+      <p class="small muted" style="margin: 0">Selected cases, not an average: over 50 000 histories, P<sub>cap</sub> = <b>0.56</b> in SLy and <b>0.44</b> in SQM3.</p>
     </div>
   </div>
-  <aside class="notes">A particle-level view of why the star matters. Five particles with exactly the same speed, impact parameter, energy and angular momentum, sent into two stars: the most compact SLy star, a hadronic equation of state, and the most compact strange-quark star, SQM3. In the SLy star all five are captured, in the quark star none: the same incident orbit meets a different density profile, collides at different depths and with a different lapse. These are selected cases, not an average; the ensemble version is a cross-section scan per equation of state, in the paper's appendix.</aside>
+  <aside class="notes">A particle-level view of why the star matters. Five particles with exactly the same speed, impact parameter, energy and angular momentum, sent into two stars: the most compact SLy star, a hadronic equation of state, and the most compact strange-quark star, SQM3. In the SLy star all five are captured, in the quark star none. What you see are the real paths, re-traced through the metric and closing on every recorded collision. The same incident orbit meets a different density profile, collides at different depths and with a different lapse, and the conserved energy falls below one in one star and not in the other. These are selected cases, not an average: over fifty thousand histories, with the same halo, the capture probability is 0.56 against 0.44, so the equation of state shifts the odds rather than deciding every particle. This is at 100 keV, where capture takes several collisions. At 1 GeV the first collision or two already capture the particle in both stars, and the two cannot be told apart. All five have angular momentum well below the critical value in both stars.</aside>
 </section>
 
 <section class="slide content p2">
@@ -770,7 +770,7 @@
       <p class="small" style="margin: 0">Medians. A first-passage time in a cooling-only model — no heating, no detailed balance: <b>not</b> thermal equilibrium.</p>
     </div>
   </div>
-  <aside class="notes">Two things beyond the controlled benchmark. Pauli blocking is implemented: the recoiling neutron must end outside the Fermi sea, and that suppresses the optical depth by almost five orders of magnitude. But the few collisions that are allowed remove more than half of the kinetic energy each. The lesson is methodological: you cannot multiply the unblocked optical depth by a suppression factor and keep the old N_min — both must come from the same blocked kernel. Those campaigns are next. On the right, what happens after capture: we keep following captured particles until their local kinetic energy drops below three halves kT. Capture costs five collisions; cooling costs thousands, with hundreds of excursions out of the star — and takes only seconds, almost all of it outside. This is a cooling time in a model with no heating, not thermalisation. And that brings us to the question of part two.</aside>
+  <aside class="notes">Two things beyond the controlled benchmark. Pauli blocking is implemented: the recoiling neutron must end outside the Fermi sea, and that suppresses the optical depth by almost five orders of magnitude. But the few collisions that are allowed remove more than half of the kinetic energy each. The lesson is methodological: you cannot multiply the unblocked optical depth by a suppression factor and keep the old N_min — both must come from the same blocked kernel. Those campaigns are next. On the right, what happens after capture: we keep following captured particles until their local kinetic energy drops below three halves kT. Capture costs five collisions; cooling costs thousands, with hundreds of excursions out of the star — and takes only seconds, almost all of it outside. This is a cooling time in a model with no heating, not thermalisation. And that brings us to the question of part three.</aside>
 </section>
 
 <section class="slide content p2">
@@ -1077,6 +1077,7 @@
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Manhattan_NS.tif"><b>Neutron star over Manhattan</b></a> — NASA's Goddard Space Flight Center · public domain</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Paper figures</b> — de Lima &amp; Rueda, <i>A Monte Carlo relativistic framework for dark matter capture by neutron stars</i> (in preparation); de Lima &amp; Rueda, <i>Degeneracy Before Self-Gravity: Dark Matter Regimes in Neutron Stars</i> (draft)</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Data in Part I</b> — RAR model: solved in the browser after Argüelles et al., PDU 21, 82 (2018); rotation curve: SPARC (Lelli, McGaugh &amp; Schombert 2016); CMB: Planck 2018 and CLASS v3.4.1 (Blas, Lesgourgues &amp; Tram 2011); direct-detection and axion limits: compilations by C. O'Hare (DirectDetectionPlots; AxionLimits, Zenodo 3932430), neutrino fog: O'Hare 2021</p>
+    <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>SLy × SQM3 histories</b> — OBSCURA, re-traced along their geodesics</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Regime-map panel</b> — the survey data of the second paper, from the OBSCURA pipeline</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>Neutron star</b> — SLy equation of state (Douchin &amp; Haensel 2001) in the piecewise-polytropic fit of Read, Lackey, Owen &amp; Friedman, PRD 79, 124032 (2009)</p>
     <p class="ref" style="break-inside: avoid; margin: 14px 0 8px"><b>OBSCURA logo</b> — OBSCURA project</p>
