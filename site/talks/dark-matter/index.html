@@ -216,21 +216,19 @@ That’s what makes this collision interesting. The simplest explanation is that
       <div class="readout tight" id="bul-out"></div>
     </div>
   </div>
-  <aside class="notes">The picture on the last slide is a single snapshot, so let’s play the collision as a movie, in two versions.
+  <aside class="notes">The last slide showed what the Bullet Cluster looks like after the collision. Here’s what happens if we play it forward.
 
-First, there are two kinds of galaxies here, and it helps to keep them apart. The yellow dots are the galaxies in the two clusters. They are the ones colliding. The small grey shapes are galaxies much farther away, behind the cluster. They are not part of the collision. We only use them as a backdrop: their light passes the cluster on its way to us, and gravity bends it.
+Before I press play, notice the two sets of galaxies. The yellow ones belong to the clusters. The grey ones are much farther away. Their light passes through the cluster on its way to us, and we use the distortion in their images to work out where the mass is.
 
 [Press play.]
 
-In both rows, the galaxies and the gas do the same thing. The galaxies are so far apart that they hardly ever hit each other, so they pass straight through. The two gas clouds do hit each other, so they slow down and stay behind, in the middle.
+Watch the pink gas. It slows down in both rows, while the yellow galaxies keep going. Now watch the blue.
 
-The difference is where the mass is. In the top row there is no dark matter, so most of the mass is in the gas. The distant galaxies get stretched around the gas, and the lensing map, in blue, sits on the pink.
+In the top row, most of the mass is in the gas, so the blue stays close to the pink. In the bottom row, most of the mass is in dark matter halos that pass through with the galaxies. So the blue moves out to the sides with them.
 
-In the bottom row most of the mass is dark matter. It doesn’t collide either, so it moves along with the galaxies. Now the distant galaxies are stretched around the cluster galaxies, and the blue ends up away from the gas.
+[Pause after the two clusters have passed through each other.]
 
-[Drag the time slider back and forth.]
-
-The bottom row is the pattern Clowe and collaborators measured in 2006. In the top row I gave the gas the same total mass, so only the position changes. And the stretching here is exaggerated: real galaxies have their own shapes, so the effect only shows after averaging thousands of them.</aside>
+And that’s what we saw in the real image. The gas is farther in, and the peaks in the lensing map are closer to the galaxies.</aside>
 </section>
 
 
@@ -253,15 +251,28 @@ The bottom row is the pattern Clowe and collaborators measured in 2006. In the t
       <div class="eq sm" style="font-size: 27px; padding: 14px 16px">Ω<sub>c</sub>h² = 0.120 ± 0.001<br>Ω<sub>b</sub>h² = 0.0224 ± 0.0001<span class="note" style="font-size: 14px">Planck 2018</span></div>
     </div>
   </div>
-  <aside class="notes">The strongest evidence does not come from galaxies at all. Before recombination, photons and baryons oscillate as one fluid in the potential wells of the primordial perturbations, and the spectrum of the cosmic microwave background is a frozen record of those oscillations. The dots are Planck. The curve is a real Boltzmann calculation with CLASS, on a grid I ran for this slide; the only thing changing is what the sliders say. Baryons add inertia to the fluid, so compressions go deeper than rarefactions: odd peaks over even peaks. Dark matter does not oscillate, so its potential wells survive radiation pressure, and that is why the height of the third peak relative to the first counts it. Now take the dark matter away. I keep the acoustic angle fixed, measured to 0.03 per cent, so that the peaks stay roughly in place, and the price is in the readout: without dark matter you need a Hubble constant of about 240 and a Universe of 9.4 billion years. The wells decay as the modes enter the horizon, which drives the oscillations harder: the first peak more than doubles, the third hardly moves, and it ends at a fifth of the first instead of almost a half. Chi-squared per point goes from one to over two thousand. That chi-squared uses the diagonal error bars only, so it is a guide for the eye, not the Planck likelihood. Planck gets the dark-matter density to under one per cent, about five times the baryons.</aside>
+  <aside class="notes">So far, we’ve looked for dark matter in galaxies and clusters. Now let’s go back to a time before galaxies had formed.
+
+Back then, light and ordinary matter were tightly coupled, and sound waves travelled through that mixture. We can still see the imprint of those waves in the cosmic microwave background. That’s where these peaks come from.
+
+The dots are measurements from Planck. The line is what the model predicts. With dark matter included, the line follows the dots pretty well. Now watch what happens when I take it out.
+
+[Move the dark matter slider to zero.]
+
+Look at the first peak. It shoots up. The third peak barely changes. So the two peaks are now much farther apart in height than they are in the data.
+
+Why does dark matter make a difference? The light pushes on ordinary matter. Dark matter feels gravity, but it doesn’t get pushed around by the light. So it changes how those waves evolve, and we can see that in the heights of the peaks.
+
+When we fit the full pattern, we get about five times as much dark matter as ordinary matter.</aside>
 </section>
 
 <section class="slide content p1">
   <header><p class="eyebrow">Three minutes · 380 000 years · today</p><h2>It cannot be <em>atoms</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: stretch">
-    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto">
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
       <div class="dash-head"><span class="tag part">Linear growth · k = 0.5 Mpc⁻¹ · CLASS</span><span class="key"><span class="ln" style="--c: #9e8cff">dark matter</span><span class="ln" style="--c: #ffb86b">baryons</span><span class="ln" style="--c: #ff7a8a">no dark matter</span></span></div>
       <div class="cv"><canvas id="grow-plot"></canvas></div>
+      <p class="small" style="margin: 0">In this plot, <i>a</i> shows how much the Universe has already expanded, and <i>δ</i> shows how large the density differences are.</p>
       <p class="small" style="margin: 0">Same primordial fluctuations. With dark matter, <b>δ ≈ 1.7</b> today; with baryons alone, <b>δ ≈ 10⁻³</b>: no galaxies.</p>
     </div>
     <div class="stack" style="gap: 18px; align-content: center">
@@ -273,7 +284,23 @@ The bottom row is the pattern Clowe and collaborators measured in 2006. In the t
       <div class="card" style="padding: 22px 28px"><h4>Not neutrinos either</h4><p class="small" style="margin: 0">Σ<i>m</i><sub>ν</sub> &lt; 0.12 eV makes them at most about <b>1%</b> of the dark matter, and too hot. <b>Nothing in the Standard Model fits.</b></p></div>
     </div>
   </div>
-  <aside class="notes">Could it simply be ordinary matter we cannot see? Two independent measurements say no. Deuterium made in the first three minutes fixes the baryon density, and the CMB measures the same number 380 thousand years later; Cooke and collaborators find agreement within two sigma. That total is five times too small. And there is a dynamical argument, in this plot, again from CLASS, at a wavenumber of half an inverse megaparsec, with amplitudes normalised to the Planck primordial spectrum. Dark matter starts growing at equality, in violet. Baryons are locked to the photons, oscillate, and only at recombination do they fall into the dark wells and catch up, in amber. Remove the dark matter and keep the same primordial fluctuations, the red curve: the baryons are erased by photon diffusion and end at one part in a thousand today, a factor of a thousand below the threshold for collapse. There would be no galaxies. The budget: dark energy, 68 and a half per cent; dark matter, 26 and a half; atoms, about 5. Neutrinos do exist, and they are dark, but the mass bound makes them about one per cent at most, and they would be hot. So dark matter is physics beyond the Standard Model.</aside>
+  <aside class="notes">To see why dark matter matters here, imagine a region that starts out a little denser than its surroundings. Gravity pulls more matter into it. What happens next depends on what that matter is made of.
+
+[Point to the orange curve before recombination.]
+
+Ordinary matter was a hot plasma back then, and photons were constantly scattering off the electrons. So when gravity squeezed the plasma, it squeezed the radiation along with it. That raised the radiation pressure, which pushed the plasma back out. The plasma went through cycles of compression and expansion. That’s why the orange line oscillates here.
+
+[Point to the purple curve.]
+
+Dark matter also feels gravity, but the photons don’t push it back. So while the plasma is still oscillating, the dark matter can build up in those denser regions. As it gathers, it makes the gravitational wells deeper.
+
+[Follow the orange curve after recombination.]
+
+Then the universe cools enough for electrons to bind to nuclei. Photons can now travel freely, and their pressure no longer holds the gas up the way it did before. By that point, the dark matter has already created gravitational wells. The gas falls into them, and that’s why the orange line rises and catches up with the purple one.
+
+[Point to the red curve.]
+
+The red line shows what happens if we start with the same tiny fluctuations but take away the dark matter. The gas can still clump once the photons decouple, but it has to grow from much smaller density contrasts. On the scale shown here, those contrasts are still only about one part in a thousand today. With dark matter, the gas had a head start because gravity had already gathered matter into the regions where galaxies could later form.</aside>
 </section>
 
 <section class="slide content p1">
@@ -1210,7 +1237,7 @@ The bottom row is the pattern Clowe and collaborators measured in 2006. In the t
 <script src="assets/dash-obs.js?v=202611061500"></script>
 <script src="assets/dash-deg.js?v=202611061000"></script>
 <script src="assets/evidence.js?v=202611061000"></script>
-<script src="assets/dash-dm.js?v=202611071300"></script>
+<script src="assets/dash-dm.js?v=202611071800"></script>
 <script>Deck.start();</script>
 </body>
 </html>

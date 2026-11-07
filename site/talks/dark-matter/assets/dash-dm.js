@@ -576,7 +576,7 @@ const RAR = (() => {
   const fmtT = v => { const m = Math.round((v - 0.5) * 300); return (m > 0 ? '+' : m < 0 ? '−' : '') + Math.abs(m) + ' Myr' + (v > 0.999 ? ' · today' : ''); };
   let auto = null, raf = 0;
   const getMap = bindSeg('bul-map', () => go());
-  const getT = bindRange('bul-t', fmtT, () => { auto = null; cancelAnimationFrame(raf); go(); });
+  const getT = bindRange('bul-t', fmtT, () => go());
   const setT = v => { tIn.value = v; tOut.textContent = fmtT(+tIn.value); };
 
   const M2 = 0.25, FD = 0.85, FG = 0.13, FS = 0.02, YR = 225, X0 = -110;
@@ -770,20 +770,27 @@ const RAR = (() => {
   }
   const go = onSlide(cv, draw);
 
-  // entra no slide parado no começo, com os rótulos; o play segura 1,4 s e roda a colisão em 9 s
+  // entra no slide parado no começo, com os rótulos. O botão alterna play e pausa: do começo, segura
+  // 1,4 s e roda a colisão em 9 s; pausado, continua de onde parou; no fim, recomeça
   // ?bt=s (testes): fixa o instante, sem autoplay
   const Q = new URLSearchParams(location.search), FF = Q.has('ff'), BT = Q.get('bt'), HOLD = 1400, DUR = 9000;
+  const btn = document.getElementById('bul-play');
+  const stop = () => { auto = null; cancelAnimationFrame(raf); btn.textContent = '▶ play'; };
   function loop(now) {
-    if (!auto || !slide.classList.contains('active')) { auto = null; return; }
-    const s = Math.min(1, Math.max(0, (now - auto.t0 - HOLD) / DUR));
+    if (!auto || !slide.classList.contains('active')) { stop(); return; }
+    const s = Math.min(1, Math.max(0, auto.s0 + (now - auto.t0 - auto.hold) / DUR));
     setT(s); draw();
-    if (s < 1) raf = requestAnimationFrame(loop); else auto = null;
+    if (s < 1) raf = requestAnimationFrame(loop); else stop();
   }
-  function play() { cancelAnimationFrame(raf); auto = { t0: performance.now() }; setT(0); raf = requestAnimationFrame(loop); }
-  document.getElementById('bul-play').addEventListener('click', play);
+  btn.addEventListener('click', () => {
+    if (auto) { stop(); return; }
+    let s0 = getT(); if (s0 >= 0.999) { s0 = 0; setT(0); }
+    auto = { t0: performance.now(), s0, hold: s0 === 0 ? HOLD : 0 };
+    btn.textContent = '❚❚ pause'; raf = requestAnimationFrame(loop);
+  });
+  tIn.addEventListener('input', stop);
   addEventListener('slidechange', () => {
-    if (!slide.classList.contains('active')) { auto = null; cancelAnimationFrame(raf); return; }
-    auto = null; cancelAnimationFrame(raf);
-    setT(BT != null ? +BT : FF ? 1 : 0); go();
+    stop();
+    if (slide.classList.contains('active')) { setT(BT != null ? +BT : FF ? 1 : 0); go(); }
   });
 })();
