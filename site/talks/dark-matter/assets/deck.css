@@ -520,3 +520,21 @@ table.tbl.tight.roomy td { padding: 17px 14px; }
 .mq { font-family: var(--display); font-size: 1.24em; color: var(--text); white-space: nowrap; }
 .mq i { font-style: italic; }
 .mq sub, .mq sup { font-size: .62em; }
+
+/* ---------- Bullet Cluster como filme: vista de lado e as quatro populações ---------- */
+.bul-geo { width: 100%; height: auto; display: block; }
+.bul-key { display: grid; gap: 14px; }
+.bul-key > div { display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start; }
+.bul-key p { margin: 0; font-size: 20px; line-height: 1.4; }
+.bul-key .sw { display: block; width: 30px; height: 30px; margin-top: 3px; border-radius: 50%; }
+.bul-key .sw.gal { background:
+  radial-gradient(circle at 34% 40%, #ffe0b0 0 3.5px, transparent 4.5px),
+  radial-gradient(circle at 70% 64%, #ffe0b0 0 2.6px, transparent 3.6px),
+  radial-gradient(circle at 64% 24%, #ffe0b0 0 2px, transparent 3px),
+  radial-gradient(circle, rgba(255,214,150,.22), transparent 70%); }
+.bul-key .sw.gas { background: radial-gradient(circle, rgba(255,111,174,.95), rgba(255,111,174,0) 70%); }
+.bul-key .sw.bg { border-radius: 4px; background:
+  radial-gradient(3px 6px at 28% 34%, #d6dcec 92%, transparent 100%),
+  radial-gradient(6px 3px at 70% 30%, #d6dcec 92%, transparent 100%),
+  radial-gradient(4px 3px at 52% 74%, #d6dcec 92%, transparent 100%); }
+.bul-key .sw.lens { border: 2px solid #96cdff; background: radial-gradient(circle, rgba(79,149,255,.55), transparent 72%); box-shadow: 0 0 12px rgba(79,149,255,.45); }

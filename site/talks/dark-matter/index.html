@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/deck.css?v=202611061500">
+<link rel="stylesheet" href="assets/deck.css?v=202611071200">
 </head>
 <body>
 
@@ -108,7 +108,13 @@
       <div class="card" style="padding: 22px 26px"><h4>What survived</h4><p class="small" style="margin: 0">Today's H₀ is seven times smaller than his, and X-rays later found hot gas outweighing the galaxies. The excess shrinks and stays: baryons are about <b>one sixth</b> of a cluster.</p></div>
     </div>
   </div>
-  <aside class="notes">Zwicky, 1933. He had radial velocities for only seven galaxies in Coma, and they scatter by a thousand kilometres per second or more. Take 800 galaxies of a billion solar masses in a sphere of ten to the twenty-four centimetres: the virial theorem gives 80 kilometres per second. That 80 is a three-dimensional speed and a Doppler shift measures one component, about 46, so the ratio squared is close to 470, which is how he reaches “at least 400 times”. He called what was missing dunkle Materie. Two corrections since then. He used Hubble's expansion rate, about 500 kilometres per second per megaparsec, so distances were too small and the mass-to-light ratio was overestimated by about seven. And in the seventies X-ray satellites found hot gas with more mass than all the galaxies. Neither removes the problem: baryons add up to about one sixth of a cluster's mass, and with more than a thousand velocities today Coma's dispersion is very close to his. He was not the first to use the words: Poincaré wrote “matière obscure” in 1906, and Kapteyn and Oort looked for it near the Sun. But then the subject sat quiet for forty years.</aside>
+  <aside class="notes">In 1933, Zwicky had velocity measurements for seven galaxies in the Coma cluster. The velocities varied by about a thousand kilometres per second. That was much more than he expected.
+
+He estimated the mass of the cluster from the galaxies he could see. With that much mass, the virial theorem gave him a typical speed of about 80 kilometres per second. But that’s in three dimensions. The Doppler measurements only give us the motion along the line of sight. If there’s no preferred direction, you divide 80 by the square root of three. So the number to compare with a thousand is about 46.
+
+The mass scales with the square of that velocity, so you need hundreds of times more mass to explain what he saw. Zwicky put it at at least 400 times. He called the missing mass <i>dunkle Materie</i>, dark matter.
+
+We now know Coma is farther away than he thought, and there’s a lot of hot gas between the galaxies. Both change the numbers. But even after we account for the gas, there’s still too little ordinary matter to explain how fast the galaxies are moving.</aside>
 </section>
 
 <section class="slide content p1">
@@ -124,7 +130,7 @@
       <p class="ref">Rubin &amp; Ford 1970; Rubin, Ford &amp; Thonnard 1978, 1980; Bosma 1978. Data: SPARC, Lelli, McGaugh &amp; Schombert, AJ 152, 157 (2016).</p>
     </div>
     <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
-      <div class="dash-head"><span class="tag part">NGC 3198 · measured · live</span><span class="key"><span class="ln" style="--c: #ffb86b">stars + gas</span><span class="ln" style="--c: #9e8cff">with halo</span><span class="ln" style="--c: #7cc4ff">MOND</span></span><div class="seg sm" id="rot-mode"><button data-v="light">light only</button><button class="on" data-v="halo">+ dark halo</button><button data-v="mond">MOND</button></div></div>
+      <div class="dash-head"><span class="tag part">NGC 3198 · measured · live</span><span class="key"><span class="ln" style="--c: #ffb86b">stars + gas</span><span class="ln" style="--c: #9e8cff">with halo</span><span class="ln" style="--c: #7cc4ff">MOND</span></span><div class="seg sm" id="rot-mode"><button class="on" data-v="light">light only</button><button data-v="halo">+ dark halo</button><button data-v="mond">MOND</button></div></div>
       <div class="cv"><canvas id="rot-plot"></canvas></div>
       <div class="controls">
         <div class="ctl"><label for="rot-u">stellar mass-to-light, 3.6 μm <output for="rot-u"></output></label><input type="range" id="rot-u" min="0.1" max="1.5" step="0.01" value="0.45"></div>
@@ -133,13 +139,27 @@
       <div class="readout tight" id="rot-out"></div>
     </div>
   </div>
-  <aside class="notes">Forty years later the problem came back inside single galaxies. From 1970 Vera Rubin and Kent Ford measured optical rotation curves, first in Andromeda and then in dozens of spirals, and at the same time Albert Bosma and others followed neutral hydrogen at 21 centimetres far beyond the stars. In 1973 Ostriker and Peebles had already argued that thin discs need a massive halo to be stable. If the mass stopped where the light stops, speed would fall as one over the square root of r. It does not. This panel is one modern galaxy, NGC 3198, in the SPARC sample: the dots are measured, and the amber curve is what the observed stars and gas predict. With light only, even the best mass-to-light ratio, 1.3, about three times what stellar populations allow, leaves a reduced chi-squared of 235. Add an NFW halo and it drops to 1.4, at a mass-to-light ratio of 0.45, with about four and a half times more dark than visible mass inside the last point. Drag the sliders. The third button is MOND with no halo: keep it in mind, we come back to it. Its chi-squared of about 10 is not a refutation: the outer error bars are two kilometres per second, the distance is held fixed here, and published MOND fits let distance and inclination vary.</aside>
+  <aside class="notes">In Coma, we were looking at galaxies moving through a cluster. Now let’s look at how stars and gas move inside a single galaxy.
+
+The dots here show how fast the gas is orbiting at different distances from the centre. The orange line is what we expect from the gravity of the stars and gas we can see. Out here, the orange line goes down, but the dots stay at about the same speed. And we can follow the gas well beyond most of the stars, where that difference is easier to see.
+
+[Move the stellar mass-to-light slider.]
+
+I can make the stars heavier, but that mainly brings the curve up where the stars are. It still falls too quickly farther out.
+
+[Switch to the dark matter halo.]
+
+Now let’s add a dark matter halo. Its mass extends well beyond most of the stars, so it can keep the orbital speeds high out there. You can see how much closer the curve gets to the data.
+
+[Point to the MOND option.]
+
+There’s one more option here. MOND changes how we calculate gravity in this regime and fits the rotation curve without adding a halo. We’ll come back to it. First, let’s look at a different way to measure mass, using light from galaxies in the background.</aside>
 </section>
 
 <section class="slide content p1">
   <header><p class="eyebrow">2006 · The Bullet Cluster</p><h2>Mass that <em>left the gas behind</em></h2></header>
   <div class="body cols" style="grid-template-columns: 1.22fr 1fr; gap: 44px; align-items: center">
-    <figure style="height: 100%"><img src="assets/img/bullet-cluster.jpg" alt="The Bullet Cluster" style="height: 100%; object-fit: cover"><span class="credit" data-credit="bullet-cluster">NASA/CXC/M. Weiss · public domain</span></figure>
+    <figure style="height: 100%"><img src="assets/img/bullet-cluster.jpg" alt="The Bullet Cluster" style="height: 100%; object-fit: cover"><span class="credit" data-credit="bullet-cluster">X-ray NASA/CXC/CfA/M. Markevitch et al. · optical and lensing D. Clowe et al.</span></figure>
     <div class="stack" style="gap: 20px">
       <div class="eq sm" style="font-size: 34px">θ<sub>E</sub>² = <span class="frac"><span>4<i>GM</i></span><span><i>c</i>²</span></span> <span class="frac"><span><i>D</i><sub>ls</sub></span><span><i>D</i><sub>l</sub> <i>D</i><sub>s</sub></span></span><span class="note">lensing weighs mass, luminous or not</span></div>
       <p class="small" style="margin: 0"><b>Two clusters went through each other.</b> The gas (pink, X-rays), which holds most of the baryons, was braked. The lensing mass (blue) kept going with the galaxies.</p>
@@ -147,8 +167,72 @@
       <div class="card glow" style="padding: 22px 28px"><h4>72 collisions later</h4><p class="small" style="margin: 0">Dark matter stays with the stars: <b>σ/<i>m</i> &lt; 0.47 cm²/g</b> at 95%. It barely collides, even with itself. Harvey et al. 2015</p></div>
     </div>
   </div>
-  <aside class="notes">Lensing changes the argument, because it measures mass without assuming anything about orbits. The Bullet Cluster is two clusters that passed through each other. The hot gas, in pink, carries most of the ordinary mass; it collided and was left behind. The galaxies and the lensing mass, in blue, went straight through. Clowe and collaborators found the centre of the total mass offset from the centre of the baryons at eight sigma, and argued that no change in the force law can do that, since gravity should point to where the baryons are. Harvey and collaborators then stacked 72 cluster collisions and got a limit on the self-interaction, 0.47 square centimetres per gram. Hold on to the word “barely”: rare collisions are the regime in which a neutron star becomes interesting.</aside>
+  <aside class="notes">On the last slide, we used orbital speeds to work out where the mass was. Here we can do that another way. We look at how the cluster bends light from galaxies behind it.
+
+This is the Bullet Cluster. Two galaxy clusters have passed through each other. The pink shows hot gas, which holds most of the ordinary matter. When the clusters collided, the gas slowed down. The galaxies mostly kept going.
+
+Now look at the blue. That’s where gravitational lensing tells us most of the mass is. It’s closer to the galaxies, even though most of the ordinary matter is back here, in the gas.
+
+That’s what makes this collision interesting. The simplest explanation is that most of the mass was in dark matter, and it passed through with the galaxies. If dark matter particles collided often, we’d expect them to slow each other down, too. So systems like this give us a way to ask how often dark matter particles can scatter off one another.</aside>
 </section>
+
+<section class="slide content p1">
+  <header><p class="eyebrow">2006 · The Bullet Cluster, as a movie</p><h2>Same collision, <em>two predictions</em></h2></header>
+  <div class="body cols" style="grid-template-columns: .56fr 1.44fr; gap: 40px; align-items: stretch">
+    <div class="stack" style="gap: 18px; align-content: start">
+      <svg class="bul-geo" viewBox="0 0 450 206" role="img" aria-label="Side view: us, the colliding clusters, and the distant galaxies far behind them">
+        <defs>
+          <radialGradient id="bgeo-dm"><stop offset="0" stop-color="#4f95ff" stop-opacity=".6"/><stop offset="1" stop-color="#4f95ff" stop-opacity="0"/></radialGradient>
+          <radialGradient id="bgeo-gas"><stop offset="0" stop-color="#ff6fae" stop-opacity=".95"/><stop offset="1" stop-color="#ff6fae" stop-opacity="0"/></radialGradient>
+        </defs>
+        <path d="M426 60 L214 36 L30 103" fill="none" stroke="#d6dcec" stroke-opacity=".55" stroke-width="1.6"/>
+        <path d="M426 150 L214 174 L30 107" fill="none" stroke="#d6dcec" stroke-opacity=".55" stroke-width="1.6"/>
+        <path d="M44 98 L30 103 L42 109" fill="none" stroke="#d6dcec" stroke-opacity=".8" stroke-width="1.6"/>
+        <ellipse cx="214" cy="105" rx="44" ry="70" fill="url(#bgeo-dm)"/>
+        <ellipse cx="214" cy="105" rx="22" ry="36" fill="url(#bgeo-gas)"/>
+        <g fill="#ffe0b0"><circle cx="206" cy="92" r="3"/><circle cx="222" cy="112" r="2.4"/><circle cx="213" cy="124" r="2"/><circle cx="200" cy="114" r="2"/><circle cx="226" cy="90" r="1.8"/><circle cx="214" cy="104" r="3.6"/></g>
+        <g fill="#d6dcec"><ellipse cx="426" cy="60" rx="3.2" ry="6"/><ellipse cx="430" cy="104" rx="5" ry="3"/><ellipse cx="426" cy="150" rx="3" ry="5.5"/></g>
+        <circle cx="22" cy="105" r="6" fill="#eef0f6"/>
+        <g font-family="Inter Tight, system-ui, sans-serif" font-size="15" fill="#b3b9c9">
+          <text x="22" y="134" text-anchor="middle">us</text>
+          <text x="214" y="17" text-anchor="middle">the colliding clusters</text>
+          <text x="446" y="17" text-anchor="end">distant galaxies</text>
+          <text x="118" y="200" text-anchor="middle" fill="#737b90">3.4 billion light-years</text>
+          <text x="330" y="200" text-anchor="middle" fill="#737b90">billions more</text>
+        </g>
+      </svg>
+      <div class="bul-key">
+        <div><i class="sw gal"></i><p><b>Cluster galaxies</b> are in the collision. They almost never hit each other, so they pass through.</p></div>
+        <div><i class="sw gas"></i><p><b>Hot gas</b> holds most of the ordinary matter. The two clouds hit each other and slow down.</p></div>
+        <div><i class="sw bg"></i><p><b>Distant galaxies</b> are far behind, not in the collision. Their light passes the cluster on its way to us.</p></div>
+        <div><i class="sw lens"></i><p><b>Lensing mass</b> is read from how those distant galaxies are stretched. It counts all the mass, seen or not.</p></div>
+      </div>
+      <p class="ref">Pattern measured by Clowe et al., ApJ 648, L109 (2006). Illustration, not a fit: 85% dark matter, 13% gas, 2% stars; in the top row the same total mass is all gas and stars. Stretching exaggerated.</p>
+    </div>
+    <div class="dash" style="grid-template-rows: auto minmax(0,1fr) auto auto">
+      <div class="dash-head"><span class="tag part">Illustration · live</span><div class="grp"><div class="seg sm" id="bul-map"><button data-v="0">galaxies + gas</button><button class="on" data-v="1">+ lensing map</button></div><div class="seg sm"><button id="bul-play" type="button">▶ play</button></div></div></div>
+      <div class="cv"><canvas id="bul-cv"></canvas></div>
+      <div class="controls" style="grid-template-columns: 1fr"><div class="ctl"><label for="bul-t">time since the two cores crossed <output for="bul-t"></output></label><input type="range" id="bul-t" min="0" max="1" step="0.001" value="1"></div></div>
+      <div class="readout tight" id="bul-out"></div>
+    </div>
+  </div>
+  <aside class="notes">The picture on the last slide is a single snapshot, so let’s play the collision as a movie, in two versions.
+
+First, there are two kinds of galaxies here, and it helps to keep them apart. The yellow dots are the galaxies in the two clusters. They are the ones colliding. The small grey shapes are galaxies much farther away, behind the cluster. They are not part of the collision. We only use them as a backdrop: their light passes the cluster on its way to us, and gravity bends it.
+
+[Press play.]
+
+In both rows, the galaxies and the gas do the same thing. The galaxies are so far apart that they hardly ever hit each other, so they pass straight through. The two gas clouds do hit each other, so they slow down and stay behind, in the middle.
+
+The difference is where the mass is. In the top row there is no dark matter, so most of the mass is in the gas. The distant galaxies get stretched around the gas, and the lensing map, in blue, sits on the pink.
+
+In the bottom row most of the mass is dark matter. It doesn’t collide either, so it moves along with the galaxies. Now the distant galaxies are stretched around the cluster galaxies, and the blue ends up away from the gas.
+
+[Drag the time slider back and forth.]
+
+The bottom row is the pattern Clowe and collaborators measured in 2006. In the top row I gave the gas the same total mass, so only the position changes. And the stretching here is exaggerated: real galaxies have their own shapes, so the effect only shows after averaging thousands of them.</aside>
+</section>
+
 
 <section class="slide content p1">
   <header><p class="eyebrow">380 000 years after the Big Bang</p><h2>The early Universe <em>weighs it</em></h2></header>
@@ -445,7 +529,7 @@
     <p class="sub lede rise d3">A relativistic Monte Carlo that follows each dark-matter particle through the interior metric of the star, collision by collision — and recovers the optical-depth closure when its extra physics is switched off.</p>
     <div class="topics rise d4"><span>the halo</span><span>focusing</span><span>the optical-depth closure</span><span>the transport</span><span>what the closure misses</span><span>count laws</span><span>cooling</span></div>
   </div>
-  <span class="credit" data-credit="bullet-cluster" data-label>Bullet Cluster, 1E 0657−56 · NASA/CXC/M. Weiss · public domain</span>
+  <span class="credit" data-credit="bullet-cluster" data-label>Bullet Cluster, 1E 0657−56 · X-ray NASA/CXC/CfA/M. Markevitch et al. · optical and lensing D. Clowe et al.</span>
   <aside class="notes">Part two. The Bullet Cluster again, for one reason. Two clusters went through each other and the mass did not collide with the gas, or collided very rarely. Very rarely is exactly the regime where a neutron star becomes interesting: this part is about what happens to one of those particles, collision by collision, on its way through the star.</aside>
 </section>
 
@@ -1067,7 +1151,7 @@
 <section class="slide content p0">
   <header><p class="eyebrow">Image credits</p><h2>Freely licensed <em>photos and figures</em></h2></header>
   <div class="body credits" style="columns: 2; column-gap: 56px">
-    <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:1e0657_scale.jpg"><b>Bullet Cluster, 1E 0657−56</b></a> — NASA/CXC/M. Weiss · public domain</p>
+    <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:1e0657_scale.jpg"><b>Bullet Cluster, 1E 0657−56</b></a> — X-ray: NASA/CXC/CfA/M. Markevitch et al.; optical: NASA/STScI, Magellan/U. Arizona/D. Clowe et al.; lensing map: NASA/STScI, ESO WFI, Magellan/U. Arizona/D. Clowe et al.</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Fritz_Zwicky_in_1960.jpg"><b>Fritz Zwicky, 1960</b></a> — Comet Photo AG (Zürich), ETH-Bibliothek · CC BY-SA 4.0</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Vera_Rubin_AIP_(cropped).jpg"><b>Vera Rubin</b></a> — AIP Emilio Segrè Visual Archives, AIP Gallery of Member Society Presidents · attribution</p>
     <p class="ref" style="break-inside: avoid; margin: 0 0 8px"><a href="https://commons.wikimedia.org/wiki/File:Coma_Cluster_(noirlab2420a).jpg"><b>Coma Cluster</b></a> — CTIO/NOIRLab/DOE/NSF/AURA, image processing D. de Martin &amp; M. Zamani · CC BY 4.0</p>
@@ -1126,7 +1210,7 @@
 <script src="assets/dash-obs.js?v=202611061500"></script>
 <script src="assets/dash-deg.js?v=202611061000"></script>
 <script src="assets/evidence.js?v=202611061000"></script>
-<script src="assets/dash-dm.js?v=202611061200"></script>
+<script src="assets/dash-dm.js?v=202611071300"></script>
 <script>Deck.start();</script>
 </body>
 </html>

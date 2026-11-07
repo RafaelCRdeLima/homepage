@@ -554,3 +554,236 @@ const RAR = (() => {
   }
   const go = onSlide(cv, draw);
 })();
+
+/* -------------------------------------------------------------------------
+   O Bullet Cluster como filme: a mesma colisão sem e com matéria escura. Ilustração, não ajuste.
+   kpc no plano do céu, y para baixo, referencial do centro de massa. Razão de massas 4:1; velocidade
+   relativa de 1440 kpc em 300 Myr, ≈ 4700 km/s (a do choque, Markevitch et al.). Hoje (+150 Myr) os
+   picos de massa estão em −330 e +390 kpc, 720 kpc um do outro (Clowe et al. 2006), e o gás de cada
+   um ficou ~200 kpc atrás, como na composição de 2006: freado enquanto as nuvens se atravessam
+   (degrau suave em s = 0,27…0,70), depois segue junto.
+   Cada aglomerado: 85% matéria escura, 13% gás, 2% estrelas. Sem matéria escura, o mesmo total vai
+   para gás e estrelas, para que só a posição mude. O gás é o mesmo nas duas faixas.
+   Lente: gaussianas circulares, κ̄(<r) = κ₀(1 − e^{−q})/q com q = r²/2σ², γ_t = κ̄ − κ, somadas em
+   (γ₁, γ₂); κ = 0,5 no pico principal de hoje com matéria escura. Cada galáxia de fundo é desenhada
+   por A⁻¹·S (A, a jacobiana da lente; S, a forma intrínseca, quase redonda), com o cisalhamento
+   exagerado 1,5× e o aumento de área limitado a 1,6. Raio X ∝ Σ_gás².
+   ------------------------------------------------------------------------- */
+(() => {
+  const cv = document.getElementById('bul-cv'); if (!cv) return;
+  const slide = cv.closest('.slide'), out = document.getElementById('bul-out');
+  const tIn = document.getElementById('bul-t'), tOut = document.querySelector('output[for="bul-t"]');
+  const fmtT = v => { const m = Math.round((v - 0.5) * 300); return (m > 0 ? '+' : m < 0 ? '−' : '') + Math.abs(m) + ' Myr' + (v > 0.999 ? ' · today' : ''); };
+  let auto = null, raf = 0;
+  const getMap = bindSeg('bul-map', () => go());
+  const getT = bindRange('bul-t', fmtT, () => { auto = null; cancelAnimationFrame(raf); go(); });
+  const setT = v => { tIn.value = v; tOut.textContent = fmtT(+tIn.value); };
+
+  const M2 = 0.25, FD = 0.85, FG = 0.13, FS = 0.02, YR = 225, X0 = -110;
+  const XC = -186, A1 = -288, A2 = 1152;
+  const ss = (a, b, x) => { const u = Math.min(1, Math.max(0, (x - a) / (b - a))); return u * u * (3 - 2 * u); };
+  function model(s, dark) {
+    const f = ss(0.27, 0.70, s);
+    const x1 = XC + A1 * (s - 0.5), x2 = XC + A2 * (s - 0.5), y1 = 8, y2 = -16;
+    const g1 = x1 + 240 * f, g2 = x2 - 190 * f;
+    const gas = [[g1 - 70 * f, y1, 180, 0.5 * FG], [g1 + 70 * f, y1, 180, 0.5 * FG],
+                 [g2, y2, 85, 0.6 * M2 * FG], [g2 - 110 * f, y2, 120, 0.4 * M2 * FG]];
+    const kb = dark ? 1 : 1 / (FG + FS);
+    const lens = gas.map(([x, y, sg, m]) => [x, y, sg, m * kb]);
+    lens.push([x1, y1, 120, FS * kb], [x2, y2, 65, M2 * FS * kb]);
+    if (dark) lens.push([x1, y1, 170, FD], [x2, y2, 95, M2 * FD]);
+    return { gas, lens, x1, x2, y1, y2, g1, g2, f };
+  }
+  let K = 1;
+  function field(lens, x, y, o) {
+    let k = 0, g1 = 0, g2 = 0;
+    for (const [cx, cy, sg, m] of lens) {
+      const dx = x - cx, dy = y - cy, r2 = dx * dx + dy * dy, q = r2 / (2 * sg * sg);
+      const k0 = K * m / (2 * Math.PI * sg * sg), e = Math.exp(-q), kk = k0 * e;
+      k += kk;
+      if (o && r2 > 1e-6) {
+        const gt = (q < 1e-4 ? k0 * (1 - q / 2) : k0 * (1 - e) / q) - kk;
+        g1 -= gt * (dx * dx - dy * dy) / r2; g2 -= gt * 2 * dx * dy / r2;
+      }
+    }
+    if (o) { o.k = k; o.g1 = g1; o.g2 = g2; }
+    return k;
+  }
+  { const m = model(1, true); K = 0.5 / field(m.lens, m.x1, m.y1); }
+  const SREF = FG / (2 * Math.PI * 180 * 180);
+  const gasSigma = (gas, x, y) => { let S = 0; for (const [cx, cy, sg, m] of gas) { const dx = x - cx, dy = y - cy; S += m / (2 * Math.PI * sg * sg) * Math.exp(-(dx * dx + dy * dy) / (2 * sg * sg)); } return S; };
+
+  let seed = 20061;
+  const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+  const gauss = () => Math.sqrt(-2 * Math.log(rnd())) * Math.cos(2 * Math.PI * rnd());
+  const members = [];
+  const cluster = (c, n, sg) => {
+    members.push({ c, dx: 0, dy: 0, r: 6, w: 0 });
+    for (let i = 1; i < n; i++) members.push({ c, dx: sg * gauss(), dy: 0.9 * sg * gauss(), r: 1.8 + 3 * rnd() ** 3, w: rnd() - 0.5 });
+  };
+  cluster(1, 36, 105); cluster(2, 15, 55);
+  const bgs = [];
+  for (let i = 0; i < 28; i++) for (let j = 0; j < 6; j++)
+    bgs.push({ u: (i + 0.15 + 0.7 * rnd()) / 28, v: (j + 0.15 + 0.7 * rnd()) / 6, r: 2.6 + 1.8 * rnd(), e: 0.14 * rnd(), p: Math.PI * rnd(), a: 0.4 + 0.4 * rnd() });
+  const near = (u, v) => bgs.reduce((b, g) => Math.hypot(g.u - u, (g.v - v) * 0.22) < Math.hypot(b.u - u, (b.v - v) * 0.22) ? g : b);
+  const tagBg = near(0.88, 0.3);
+  const tagGal = members.filter(g => g.c === 1 && g.dx > 50 && g.dy < -30 && g.r > 2.4).sort((a, b) => b.r - a.r)[0] || members[1];
+
+  const off = document.createElement('canvas'), octx = off.getContext('2d');
+  const LEV = [0.15, 0.3, 0.45];
+
+  function label(ctx, txt, x, y, o = {}) {
+    ctx.save();
+    ctx.font = `${o.w || 500} ${o.size || 15}px ${FONT}`; ctx.fillStyle = o.color || COL.text2;
+    ctx.textAlign = o.align || 'left'; ctx.textBaseline = o.base || 'top'; ctx.globalAlpha = o.alpha ?? 1;
+    if (o.ls) ctx.letterSpacing = o.ls;
+    const wd = ctx.measureText(txt).width, sz = o.size || 15, al = ctx.textAlign, bs = ctx.textBaseline;
+    const x0 = al === 'center' ? x - wd / 2 : al === 'right' ? x - wd : x, y0 = bs === 'middle' ? y - sz / 2 : bs === 'bottom' ? y - sz : y;
+    ctx.fillStyle = 'rgba(4,5,10,.72)'; ctx.beginPath(); ctx.roundRect(x0 - 7, y0 - 4, wd + 14, sz + 9, 6); ctx.fill();
+    ctx.fillStyle = o.color || COL.text2; ctx.fillText(txt, x, y); ctx.restore();
+  }
+
+  function row(ctx, rx, ry, rw, rh, s, dark, map) {
+    const m = model(s, dark), k = rh / (2 * YR), cx = rx + rw / 2, cy = ry + rh / 2;
+    const PX = x => cx + (x - X0) * k, PY = y => cy + y * k;
+    const KX = px => X0 + (px - cx) / k, KY = py => (py - cy) / k;
+    ctx.save();
+    ctx.beginPath(); ctx.roundRect(rx, ry, rw, rh, 14);
+    ctx.fillStyle = '#04050a'; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.09)'; ctx.lineWidth = 1; ctx.stroke(); ctx.clip();
+
+    // galáxias distantes, deformadas pela massa da faixa
+    const o = {};
+    ctx.fillStyle = '#cfd6e8';
+    for (const b of bgs) {
+      const px = rx + b.u * rw, py = ry + b.v * rh;
+      field(m.lens, KX(px), KY(py), o);
+      const kd = Math.min(o.k, 0.7), a = 1 - kd;
+      let G1 = 1.5 * o.g1, G2 = 1.5 * o.g2, gm = Math.hypot(G1, G2);
+      const lim = a - 0.2; if (gm > lim) { G1 *= lim / gm; G2 *= lim / gm; gm = lim; }
+      const det = a * a - gm * gm, c = Math.min(1, Math.sqrt(1.6 * det)) / det;
+      const i00 = (a + G1) * c, i01 = G2 * c, i11 = (a - G1) * c;
+      const cp = Math.cos(b.p), sp = Math.sin(b.p), sa = b.r * (1 + b.e), sb = b.r * (1 - b.e);
+      const s00 = cp * sa, s01 = -sp * sb, s10 = sp * sa, s11 = cp * sb;
+      ctx.save(); ctx.globalAlpha = b.a;
+      ctx.transform(i00 * s00 + i01 * s10, i01 * s00 + i11 * s10, i00 * s01 + i01 * s11, i01 * s01 + i11 * s11, px, py);
+      ctx.beginPath(); ctx.arc(0, 0, 1, 0, 2 * Math.PI); ctx.fill(); ctx.restore();
+    }
+
+    // massa da lente (azul) e gás em raio X (rosa), somados como na composição
+    const nx = Math.ceil(rw / 4), ny = Math.ceil(rh / 4);
+    if (off.width !== nx || off.height !== ny) { off.width = nx; off.height = ny; }
+    const img = octx.createImageData(nx, ny), D = img.data, KG = new Float32Array(nx * ny);
+    for (let j = 0; j < ny; j++) {
+      const y = KY(ry + (j + 0.5) * rh / ny);
+      for (let i = 0; i < nx; i++) {
+        const x = KX(rx + (i + 0.5) * rw / nx), p = j * nx + i;
+        const kap = field(m.lens, x, y), b = (gasSigma(m.gas, x, y) / SREF) ** 2;
+        const aP = Math.min(1, 0.85 * b ** 0.8), aB = map ? 0.55 * Math.min(1, kap / 0.6) ** 1.5 : 0;
+        KG[p] = kap;
+        D[4 * p] = 255 * aP + 50 * aB; D[4 * p + 1] = 95 * aP + 120 * aB; D[4 * p + 2] = 165 * aP + 255 * aB; D[4 * p + 3] = 255;
+      }
+    }
+    octx.putImageData(img, 0, 0);
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(off, rx, ry, rw, rh); ctx.restore();
+
+    // frente de choque à frente do gás do "bullet"
+    const aS = ss(0.5, 0.8, s);
+    if (aS > 0) {
+      ctx.save(); ctx.strokeStyle = `rgba(255,111,174,${0.4 * aS})`; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(PX(m.g2 - 60), PY(m.y2), 170 * k, -0.85, 0.85); ctx.stroke(); ctx.restore();
+    }
+
+    // galáxias dos aglomerados
+    const gpos = g => {
+      const an = g.w * s * 2.2, ca = Math.cos(an), sa = Math.sin(an), x0 = g.c === 1 ? m.x1 : m.x2, y0 = g.c === 1 ? m.y1 : m.y2;
+      return [PX(x0 + ca * g.dx - sa * g.dy), PY(y0 + sa * g.dx + ca * g.dy)];
+    };
+    for (const g of members) {
+      const [px, py] = gpos(g);
+      ctx.fillStyle = 'rgba(255,205,140,.16)'; ctx.beginPath(); ctx.arc(px, py, g.r * 2.6, 0, 2 * Math.PI); ctx.fill();
+      ctx.fillStyle = '#ffe3b8'; ctx.beginPath(); ctx.arc(px, py, g.r, 0, 2 * Math.PI); ctx.fill();
+    }
+
+    // contornos de κ: o mapa de massa que a lente devolve
+    const GX = fi => rx + (fi + 0.5) * rw / nx, GY = fj => ry + (fj + 0.5) * rh / ny;
+    if (map) {
+      ctx.save(); ctx.strokeStyle = 'rgba(150,205,255,.85)'; ctx.lineWidth = 1.4; ctx.lineCap = 'round';
+      for (const L of LEV) {
+        ctx.beginPath();
+        for (let j = 0; j < ny - 1; j++) for (let i = 0; i < nx - 1; i++) {
+          const A = KG[j * nx + i], B = KG[j * nx + i + 1], C = KG[(j + 1) * nx + i + 1], E = KG[(j + 1) * nx + i];
+          const pts = [];
+          if ((A > L) !== (B > L)) pts.push([GX(i + (L - A) / (B - A)), GY(j)]);
+          if ((B > L) !== (C > L)) pts.push([GX(i + 1), GY(j + (L - B) / (C - B))]);
+          if ((E > L) !== (C > L)) pts.push([GX(i + (L - E) / (C - E)), GY(j + 1)]);
+          if ((A > L) !== (E > L)) pts.push([GX(i), GY(j + (L - A) / (E - A))]);
+          for (let q = 0; q + 1 < pts.length; q += 2) { ctx.moveTo(pts[q][0], pts[q][1]); ctx.lineTo(pts[q + 1][0], pts[q + 1][1]); }
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // pico da lente do lado do "bullet", para comparar com o gás
+    let best = -1, bx = 0, by = 0;
+    const sep = m.x2 - m.x1, mid = (m.x1 + m.x2) / 2;
+    if (Math.abs(sep) > 300) for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+      const x = KX(GX(i)); if ((x - mid) * Math.sign(sep) <= 0) continue;
+      const v = KG[j * nx + i]; if (v > best) { best = v; bx = x; by = KY(GY(j)); }
+    }
+
+    // rótulos
+    label(ctx, dark ? 'WITH DARK MATTER' : 'IF THERE WERE NO DARK MATTER', rx + 18, ry + 14, { size: 14, w: 600, ls: '2px', color: dark ? '#96cdff' : COL.text });
+    label(ctx, dark ? 'the pattern Clowe et al. measured in 2006' : 'all the mass is in the galaxies and the gas', rx + 18, ry + 35, { size: 15, w: 400, color: COL.text3 });
+    const a0 = 1 - ss(0.12, 0.24, s), a1 = ss(0.82, 0.97, s);
+    if (a0 > 0) {
+      label(ctx, '← main cluster', PX(m.x1), PY(m.y1 + 168), { align: 'center', alpha: a0, color: COL.text2 });
+      label(ctx, '“bullet” →', PX(m.x2), PY(m.y2 + 140), { align: 'center', alpha: a0, color: COL.text2 });
+      if (!dark) {
+        ctx.save(); ctx.globalAlpha = a0; ctx.strokeStyle = COL.text2; ctx.lineWidth = 1.5;
+        const bx0 = rx + tagBg.u * rw, by0 = ry + tagBg.v * rh, [gx0, gy0] = gpos(tagGal);
+        ctx.beginPath(); ctx.arc(bx0, by0, 14, 0, 2 * Math.PI); ctx.stroke();
+        ctx.beginPath(); ctx.arc(gx0, gy0, 12, 0, 2 * Math.PI); ctx.stroke(); ctx.restore();
+        label(ctx, 'distant galaxy, far behind', bx0, by0 + 20, { align: 'center', alpha: a0 });
+        label(ctx, 'cluster galaxy', gx0 + 18, gy0, { base: 'middle', alpha: a0 });
+      }
+    }
+    if (a1 > 0) label(ctx, dark ? 'stretched around the cluster galaxies, away from the gas' : 'distant galaxies stretched around the gas',
+      rx + 18, ry + rh - 14, { base: 'bottom', alpha: a1, size: 16, color: dark ? '#96cdff' : COL.text });
+    if (dark) {
+      const L = 500 * k, x = rx + rw - 22 - L, y = ry + rh - 18;
+      ctx.save(); ctx.strokeStyle = COL.text3; ctx.lineWidth = 1.5; ctx.beginPath();
+      ctx.moveTo(x, y - 5); ctx.lineTo(x, y); ctx.lineTo(x + L, y); ctx.lineTo(x + L, y - 5); ctx.stroke(); ctx.restore();
+      label(ctx, '500 kpc', x + L / 2, y - 6, { align: 'center', base: 'bottom', size: 13, color: COL.text3 });
+    }
+    ctx.restore();
+    return best > 0 ? Math.hypot(bx - m.g2, by - m.y2) : null;
+  }
+
+  function draw() {
+    const { ctx, w, h } = fitCanvas(cv);
+    const s = getT(), map = getMap() === '1', gap = 18, rh = (h - gap) / 2;
+    const p = [row(ctx, 0, 0, w, rh, s, false, map), row(ctx, 0, rh + gap, w, rh, s, true, map)];
+    const f = v => v == null ? '—' : Math.round(v / 10) * 10 + ' kpc';
+    out.innerHTML = `<span>“bullet” side, lensing peak to gas peak: no dark matter <b>${f(p[0])}</b> · with dark matter <b>${f(p[1])}</b></span><span>relative speed <b>≈ 4700 km/s</b></span>`;
+  }
+  const go = onSlide(cv, draw);
+
+  // entra no slide parado no começo, com os rótulos; o play segura 1,4 s e roda a colisão em 9 s
+  // ?bt=s (testes): fixa o instante, sem autoplay
+  const Q = new URLSearchParams(location.search), FF = Q.has('ff'), BT = Q.get('bt'), HOLD = 1400, DUR = 9000;
+  function loop(now) {
+    if (!auto || !slide.classList.contains('active')) { auto = null; return; }
+    const s = Math.min(1, Math.max(0, (now - auto.t0 - HOLD) / DUR));
+    setT(s); draw();
+    if (s < 1) raf = requestAnimationFrame(loop); else auto = null;
+  }
+  function play() { cancelAnimationFrame(raf); auto = { t0: performance.now() }; setT(0); raf = requestAnimationFrame(loop); }
+  document.getElementById('bul-play').addEventListener('click', play);
+  addEventListener('slidechange', () => {
+    if (!slide.classList.contains('active')) { auto = null; cancelAnimationFrame(raf); return; }
+    auto = null; cancelAnimationFrame(raf);
+    setT(BT != null ? +BT : FF ? 1 : 0); go();
+  });
+})();
