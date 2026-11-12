@@ -304,7 +304,7 @@ a:hover { color: var(--acc-2); }
 .p8 { left: 3%;  top: 5%;  animation-delay: -3.7s; }
 .p1 { left: 1%;  top: 28%; animation-delay: -0.6s; }
 .p2 { left: -1%; top: 53%; animation-delay: -2.4s; }
-.p3 { left: 12%; top: 77%; animation-delay: -4.1s; }
+.p3 { left: 6%;  top: 77%; animation-delay: -4.1s; }
 .p4 { right: 2%;  top: 5%;  animation-delay: -1.5s; }
 .p7 { right: 0%;  top: 28%; animation-delay: -2.9s; }
 .p5 { right: 1%;  top: 53%; animation-delay: -3.3s; }
@@ -313,6 +313,11 @@ a:hover { color: var(--acc-2); }
    espelho. Centrada por margem e não por translateX: o transform é da
    animação de flutuar. */
 .p9 { left: 0; right: 0; margin-inline: auto; width: max-content; top: 5%; animation-delay: -4.6s; }
+/* As duas mais novas, lado a lado embaixo do pulsar, fazem o espelho da nona.
+   Juntas elas ocupam ~26rem no meio da fileira de baixo; foi por isso que a
+   .p3 saiu de 12% para 6%, o mesmo recuo da .p6 do outro lado. */
+.p10 { right: calc(50% + 0.4rem); top: 80%; animation-delay: -2.1s; }
+.p11 { left: calc(50% + 0.4rem);  top: 80%; animation-delay: -5.8s; }
 
 @keyframes flutua {
   0%, 100% { transform: translateY(0); }
@@ -981,6 +986,82 @@ main {
 .fl-regime.alerta { border-left-color: #ff9c6e; background: rgba(255, 156, 110, 0.09); color: #ffcdb5; }
 .fl-regime.alerta b { color: #fff; }
 
+/* ── laboratório 09: cones de luz no horizonte ─────────────────
+   Dois diagramas lado a lado (empilhados no celular) e, embaixo,
+   a faixa com o cone local nas três cartas.                      */
+.hz-telas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 46rem) { .hz-telas { grid-template-columns: 1fr; } }
+.lab-stage.hz-palco { aspect-ratio: 1 / 1.06; }
+/* Arrastar para os lados move o ponto; para cima e para baixo, a página rola. */
+.hz-palco canvas { touch-action: pan-y; cursor: pointer; }
+.lab-stage.hz-lupa { aspect-ratio: auto; height: 12.5rem; margin-top: 1rem; }
+@media (max-width: 46rem) { .lab-stage.hz-lupa { height: 10.6rem; } }
+.hz-lupa canvas { cursor: default; touch-action: auto; }
+
+.hz-abas { position: absolute; left: 0.6rem; top: 0.6rem; display: flex; gap: 0.35rem; font-family: var(--ui); }
+.lab .hz-abas button {
+  padding: 0.28rem 0.75rem;
+  font-size: 0.72rem;
+  background: rgba(10, 11, 18, 0.72);
+}
+.lab .hz-abas button[aria-pressed="true"],
+.lab .hz-modos button[aria-pressed="true"] {
+  border-color: var(--acc);
+  background: var(--acc-dim);
+  color: var(--text);
+}
+.hz-modos { flex-basis: 100%; gap: 0.6rem; }
+.hz-titulo {
+  position: absolute; left: 0.9rem; top: 0.75rem; margin: 0;
+  font-family: var(--ui); font-size: 0.78rem; font-weight: 600;
+  color: var(--text-2); pointer-events: none;
+}
+.hz-titulo span { font-weight: 400; color: var(--text-3); }
+.lab-ctl[hidden] { display: none; }
+
+.sw-hz-h { border-top: 2px solid #56e1d0; }
+.sw-hz-s { border-top: 2px solid #ff9c6e; }
+.sw-hz-l { border-top: 2.5px solid #ffc46e; }
+.sw-hz-c { height: 0.7rem; border: 1px solid #d6ceff; background: rgba(158, 140, 255, 0.42); border-radius: 2px; }
+.sw-hz-r { border-top: 1.5px solid rgba(255, 232, 170, 0.7); }
+.sw-hz-o { border-top: 1.5px dotted rgba(237, 239, 244, 0.6); }
+
+.hz-painel {
+  margin: 1.15rem 0 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 12px;
+  border-left: 2px solid #ffc46e;
+  background: var(--surface);
+  font-family: var(--ui); font-size: 0.8rem; line-height: 1.5;
+  color: var(--text-2);
+}
+.hz-painel dl {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.7rem 1.6rem; margin: 0;
+}
+.hz-painel dt { color: var(--text-3); font-size: 0.72rem; }
+.hz-painel dd { margin: 0.1rem 0 0; color: var(--text); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.hz-painel dd small { color: var(--text-3); font-size: 0.7rem; margin-left: 0.3rem; }
+.hz-painel .hz-forte dd { color: #ffc46e; font-weight: 600; font-size: 1rem; }
+
+.hz-regime {
+  margin: 1rem 0 0;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border-left: 2px solid var(--line-2);
+  background: var(--surface);
+  font-family: var(--ui); font-size: 0.8rem; line-height: 1.55;
+  color: var(--text-2);
+}
+.hz-regime b { color: var(--text); font-weight: 600; }
+.hz-regime.dentro { border-left-color: #ff9c6e; background: rgba(255, 156, 110, 0.09); color: #ffcdb5; }
+.hz-regime.dentro b { color: #fff; }
+.hz-regime.branco { border-left-color: var(--acc-2); background: rgba(86, 225, 208, 0.08); }
+
 /* ── visitas ──────────────────────────────────────────────────
    Só /visitas.html usa daqui até o rodapé. Uma cor só para os
    dados, porque todas as marcas são da mesma série — pessoas: o
@@ -1202,7 +1283,7 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
   .p8 { left: 0; top: 2%; }
   .p1 { left: 0; top: 26%; }
   .p2 { left: 0; top: 52%; }
-  .p3 { left: 6%; top: 78%; }
+  .p3 { left: 0; top: 78%; }
   .p4 { right: 0; top: 2%; }
   .p7 { right: 0; top: 26%; }
   .p5 { right: 0; top: 52%; }
@@ -1237,6 +1318,8 @@ footer { margin-top: clamp(2rem, 6vw, 4rem); }
     margin: 0.6rem 0.2rem 0;
     font-size: 0.78rem;
   }
+  /* Em posição relativa, o calc(50% …) das duas de baixo as jogaria para fora da tela. */
+  .p10, .p11 { left: auto; right: auto; }
 }
 
 @media (max-width: 34rem) {

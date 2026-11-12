@@ -1,0 +1,1251 @@
+<!doctype html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0b12">
+<title>Laboratório · Cones de luz no horizonte</title>
+<meta name="description" content="Demonstrador interativo: o que acontece com as coordenadas de Schwarzschild perto do horizonte de eventos, vindo de fora e vindo de dentro. Uma queda radial desenhada em Schwarzschild, Eddington–Finkelstein e Kruskal–Szekeres, com o cone de luz da partícula se fechando, tombando e apontando para o centro.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Laboratório · Cones de luz no horizonte">
+<meta property="og:description" content="Demonstrador interativo: o que acontece com as coordenadas de Schwarzschild perto do horizonte de eventos, vindo de fora e vindo de dentro. Uma queda radial desenhada em Schwarzschild, Eddington–Finkelstein e Kruskal–Szekeres, com o cone de luz da partícula se fechando, tombando e apontando para o centro.">
+<meta property="og:image" content="https://rafael-lima.pages.dev/rafael-atlas.jpg?v=3">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/styles.css">
+<script src="/visita.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
+
+<div class="panel panel-slim">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M11.6 5.6A11.4 11.4 0 1 1 5.9 21.6"/>
+          <circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brandname">R. C. R. de Lima</span>
+    </a>
+    <nav class="nav" aria-label="Seções / Sections">
+      <a href="/pesquisa.html"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="/codes.html">Codes</a>
+      <a href="/producao.html"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="/material.html"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+      <a href="/laboratorio.html"><span lang="pt">Laboratório</span><span lang="en">Lab</span></a>
+      <a href="/talks.html">Talks</a>
+    </nav>
+    <div class="topbar-end">
+      <div class="langswitch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <span class="langsep" aria-hidden="true">/</span>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn" href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+    </div>
+  </header>
+
+  <header class="pagehead">
+    <p class="pagenum">09</p>
+    <h1><span lang="pt">Cones de luz<br>no horizonte</span><span lang="en">Light cones<br>at the horizon</span></h1>
+    <p class="pagelede" lang="pt">O que acontece com as coordenadas de Schwarzschild perto do horizonte de eventos — para quem chega de fora e para quem já está dentro. A mesma queda desenhada em três mapas do espaço-tempo, com o cone de luz da partícula: ele se fecha, tomba e, lá dentro, aponta sempre para o centro.</p>
+    <p class="pagelede" lang="en">What happens to Schwarzschild coordinates near the event horizon — for someone arriving from outside and for someone already inside. The same fall drawn on three maps of spacetime, with the particle's light cone: it closes up, tips over and, inside, always points to the centre.</p>
+  </header>
+</div>
+
+<main id="conteudo">
+  <p class="lab-switch">
+    <span lang="pt">Laboratórios:</span><span lang="en">Labs:</span>
+    <a href="/laboratorio.html"><span lang="pt">Luz em torno de um buraco negro</span><span lang="en">Light around a black hole</span></a>
+    <a href="/estrela.html"><span lang="pt">Estrela de nêutrons girando</span><span lang="en">Spinning neutron star</span></a>
+    <a href="/fusao.html"><span lang="pt">Fusão de duas estrelas de nêutrons</span><span lang="en">Merger of two neutron stars</span></a>
+    <a href="/flamm.html"><span lang="pt">Paraboloide de Flamm</span><span lang="en">Flamm's paraboloid</span></a>
+    <b aria-current="page"><span lang="pt">Cones de luz no horizonte</span><span lang="en">Light cones at the horizon</span></b>
+  </p>
+
+  <div class="lab hz">
+    <div class="hz-telas">
+      <div class="lab-stage hz-palco">
+        <canvas id="esq" aria-label="Diagrama de espaço-tempo em coordenadas de Schwarzschild ou de Eddington–Finkelstein, com a linha de mundo e o cone de luz da partícula; toque ou arraste para mover o ponto / Spacetime diagram in Schwarzschild or Eddington–Finkelstein coordinates, with the particle's world line and light cone; tap or drag to move the point"></canvas>
+        <div class="hz-abas" role="group" aria-label="Coordenadas do diagrama / Diagram coordinates">
+          <button type="button" data-carta="sch" aria-pressed="true">Schwarzschild</button>
+          <button type="button" data-carta="ef" aria-pressed="false">Eddington–Finkelstein</button>
+        </div>
+      </div>
+      <div class="lab-stage hz-palco">
+        <canvas id="dir" aria-label="Diagrama de Kruskal–Szekeres, com os horizontes a 45 graus e a singularidade r = 0 como hipérbole; toque ou arraste para mover o ponto / Kruskal–Szekeres diagram, with the horizons at 45 degrees and the singularity r = 0 as a hyperbola; tap or drag to move the point"></canvas>
+        <p class="hz-titulo">Kruskal–Szekeres <span>(X, T)</span></p>
+      </div>
+    </div>
+
+    <div class="lab-stage hz-lupa">
+      <canvas id="lupa" aria-label="O cone de luz local nas três coordenadas, em escala igual nos dois eixos / The local light cone in the three coordinate systems, at equal scale on both axes"></canvas>
+    </div>
+
+    <ul class="lab-legend">
+      <li><span class="sw sw-hz-h"></span><span lang="pt">horizonte, r = r<sub>s</sub></span><span lang="en">horizon, r = r<sub>s</sub></span></li>
+      <li><span class="sw sw-hz-s"></span><span lang="pt">singularidade, r = 0</span><span lang="en">singularity, r = 0</span></li>
+      <li><span class="sw sw-hz-l"></span><span lang="pt">linha de mundo</span><span lang="en">world line</span></li>
+      <li><span class="sw sw-hz-c"></span><span lang="pt">cone de luz futuro (o passado, tracejado)</span><span lang="en">future light cone (past one dashed)</span></li>
+      <li><span class="sw sw-hz-r"></span><span lang="pt">sinais de luz para o observador</span><span lang="en">light signals to the observer</span></li>
+      <li><span class="sw sw-hz-o"></span><span lang="pt">observador parado em r = 4 r<sub>s</sub></span><span lang="en">observer at rest at r = 4 r<sub>s</sub></span></li>
+    </ul>
+
+    <div class="lab-controls">
+      <div class="lab-toggles hz-modos" role="group" aria-label="Trajetória / Trajectory">
+        <button type="button" data-modo="inf" aria-pressed="true"><span lang="pt">Vindo do infinito</span><span lang="en">Falling from infinity</span></button>
+        <button type="button" data-modo="repouso" aria-pressed="false"><span lang="pt">Do repouso em r₀</span><span lang="en">From rest at r₀</span></button>
+        <button type="button" data-modo="branco" aria-pressed="false"><span lang="pt">Saindo do buraco branco</span><span lang="en">Out of the white hole</span></button>
+        <button type="button" data-modo="livre" aria-pressed="false"><span lang="pt">Cone livre</span><span lang="en">Free cone</span></button>
+      </div>
+      <div class="lab-ctl" id="ctlTau">
+        <span><span lang="pt">Tempo próprio τ</span><span lang="en">Proper time τ</span><i id="lblTau"></i></span>
+        <input id="tau" type="range" min="0" max="1000" step="1" value="0" aria-label="Tempo próprio / Proper time">
+      </div>
+      <div class="lab-ctl" id="ctlR" hidden>
+        <span><span lang="pt">Raio r do ponto</span><span lang="en">Radius r of the point</span><i id="lblR"></i></span>
+        <input id="rr" type="range" min="0.02" max="4" step="0.002" value="3" aria-label="Raio / Radius">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Repouso inicial r₀</span><span lang="en">Initial rest r₀</span><i id="lblR0"></i></span>
+        <input id="r0" type="range" min="1.2" max="3.8" step="0.01" value="2" aria-label="Raio de repouso / Rest radius">
+      </div>
+      <div class="lab-ctl">
+        <span><span lang="pt">Massa central</span><span lang="en">Central mass</span><i id="lblM"></i></span>
+        <input id="mm" type="range" min="1" max="30" step="0.1" value="10" aria-label="Massa central / Central mass">
+      </div>
+      <div class="lab-toggles">
+        <button type="button" id="toca"><span lang="pt">Pausar</span><span lang="en">Pause</span></button>
+        <label class="lab-check"><input type="checkbox" id="sinais" checked>
+          <span lang="pt">sinais de luz</span><span lang="en">light signals</span></label>
+        <button type="button" id="reset"><span lang="pt">Recomeçar</span><span lang="en">Reset</span></button>
+      </div>
+    </div>
+
+    <div class="hz-painel" id="painel"></div>
+    <p class="hz-regime" id="regime"></p>
+  </div>
+
+  <div class="lab-notas">
+    <h2><span lang="pt">O que está sendo calculado</span><span lang="en">What is being computed</span></h2>
+
+    <div lang="pt" class="prose">
+      <p>A métrica de Schwarzschild, reduzida ao plano (t, r): o movimento é radial, e os ângulos não entram.</p>
+      <p class="eq">ds² = −(1 − r<sub>s</sub>/r) c²dt² + dr² / (1 − r<sub>s</sub>/r), &nbsp; r<sub>s</sub> = 2GM/c² = 2,953 km × (M/M☉)</p>
+      <p>A luz anda com <span class="mono">ds² = 0</span>, e as duas bordas do cone de luz são</p>
+      <p class="eq">c dt/dr = ± 1 / (1 − r<sub>s</sub>/r)</p>
+      <p>Longe da massa, ±1: o cone de 45° do espaço plano. Perto do horizonte a inclinação vai a infinito e o cone se fecha num segmento vertical — no mapa de Schwarzschild a luz parece parar. Não é a luz que para: é a coordenada <span class="mono">t</span> que deixa de servir. <span class="mono">t</span> é o tempo de um relógio parado muito longe, e esse relógio atribui <span class="mono">t = ∞</span> ao horizonte inteiro. A partícula que cai chega lá num tempo próprio <span class="mono">τ</span> finito e não nota nada de especial; quem marca infinito é só a coordenada.</p>
+
+      <p class="destaque"><b>Dentro, r vira tempo.</b> Abaixo de <span class="mono">r<sub>s</sub></span>, <span class="mono">1 − r<sub>s</sub>/r</span> fica negativo e os dois termos da métrica trocam de sinal: <span class="mono">g<sub>tt</sub> &gt; 0</span> e <span class="mono">g<sub>rr</sub> &lt; 0</span>. O cone tomba de lado, e as duas bordas apontam para r menor. Dentro dele não há direção que mantenha r constante, e muito menos que o aumente. Lá dentro, <span class="mono">r = 0</span> não é um lugar no centro: é um instante no futuro de toda partícula, tão inevitável quanto amanhã.</p>
+
+      <p><b>Eddington–Finkelstein.</b> Para seguir o cone através do horizonte, troque t pela coordenada nula <span class="mono">v = t + r*</span>, com <span class="mono">r* = r + r<sub>s</sub> ln|r/r<sub>s</sub> − 1|</span>:</p>
+      <p class="eq">ds² = −(1 − r<sub>s</sub>/r) dv² + 2 dv dr &nbsp; (c = 1)</p>
+      <p>As bordas do cone são <span class="mono">dv/dr = 0</span>, a luz que entra, e <span class="mono">dv/dr = 2/(1 − r<sub>s</sub>/r)</span>, a que sai. O diagrama usa <span class="mono">t̃ = v − r</span> no eixo vertical, para a luz que entra andar a 45°. Nada degenera: a borda de saída vai ficando vertical, fica vertical exatamente em <span class="mono">r = r<sub>s</sub></span> — a luz emitida para fora fica parada ali; o horizonte é feito dela — e lá dentro tomba para r menor. Em escala igual, a abertura do cone nessas coordenadas é <span class="mono">arctan(r/r<sub>s</sub>)</span>: 90° longe, 45° no horizonte, zero em r = 0. As curvas tracejadas são as linhas <span class="mono">t = const</span> de Schwarzschild, e todas mergulham para <span class="mono">−∞</span> no horizonte.</p>
+
+      <p><b>Kruskal–Szekeres.</b> Kruskal e Szekeres (1960) foram até o fim. Em unidades de <span class="mono">r<sub>s</sub></span> e <span class="mono">r<sub>s</sub>/c</span>, fora do horizonte</p>
+      <p class="eq">U = −√(r − 1) e<sup>(r − t)/2</sup>, &nbsp; V = √(r − 1) e<sup>(r + t)/2</sup>, &nbsp; T = (V + U)/2, &nbsp; X = (V − U)/2</p>
+      <p>e dentro <span class="mono">U = +√(1 − r) e<sup>(r − t)/2</sup></span>. Em todo lugar <span class="mono">T² − X² = (1 − r) e<sup>r</sup></span>, e a luz anda a 45°. O horizonte são as retas <span class="mono">T = ±X</span>; as linhas <span class="mono">t = const</span> são retas pela origem, as <span class="mono">r = const</span> são hipérboles, e <span class="mono">r = 0</span> é a hipérbole <span class="mono">T² − X² = 1</span>. A linha de mundo atravessa o horizonte sem dobra nenhuma: a singularidade em <span class="mono">r = r<sub>s</sub></span> era das coordenadas, não do espaço-tempo. A de <span class="mono">r = 0</span> é de verdade — ali a curvatura diverge — e, dentro, toda direção do cone futuro acaba nela.</p>
+
+      <p><b>As quedas.</b> <em>Vindo do infinito</em> é a queda radial de quem estava parado no infinito (energia por massa <span class="mono">E = 1</span>), mostrada a partir de <span class="mono">r = 4 r<sub>s</sub></span>:</p>
+      <p class="eq">dr/dτ = −c √(r<sub>s</sub>/r), &nbsp; ct = r<sub>s</sub> [ −⅔ (r/r<sub>s</sub>)<sup>3/2</sup> − 2 (r/r<sub>s</sub>)<sup>1/2</sup> + ln| (√(r/r<sub>s</sub>) + 1) / (√(r/r<sub>s</sub>) − 1) | ] + const</p>
+      <p>A mesma fórmula vale dos dois lados do horizonte, com a mesma constante. τ é finito em <span class="mono">r<sub>s</sub></span>; t diverge, e do lado de dentro a partícula reaparece com t vindo de <span class="mono">+∞</span>. <em>Do repouso em r₀</em> é a cicloide (Misner, Thorne e Wheeler, eq. 31.10): <span class="mono">r = (r₀/2)(1 + cos η)</span>, <span class="mono">cτ = (r₀/2)√(r₀/r<sub>s</sub>) (η + sen η)</span>, e até <span class="mono">r = 0</span> leva <span class="mono">cτ = π r₀<sup>3/2</sup> / (2√r<sub>s</sub>)</span> — 0,44 ms a partir de 2 r<sub>s</sub> numa massa de 10 M☉. A constante de t não muda a física (em Kruskal ela só desliza a curva ao longo das hipérboles); aqui ela foi escolhida para que todas as quedas terminem no mesmo ponto de <span class="mono">r = 0</span>, em <span class="mono">X = 0,6</span>.</p>
+
+      <p class="destaque"><b>E vindo de dentro?</b> De dentro de um buraco negro, nada que siga para o futuro chega ao horizonte: o cone inteiro aponta para r menor, e o horizonte fica no passado. O <em>cone livre</em> mostra isso — arraste o ponto de <span class="mono">r = 0</span> até <span class="mono">r<sub>s</sub></span>, e em todo <span class="mono">r &lt; r<sub>s</sub></span> as duas bordas apontam para dentro. O que sai pelo horizonte é a mesma solução passada ao contrário, o <b>buraco branco</b>: a região IV de Kruskal, onde o cone tomba para r maior. A partícula nasce em <span class="mono">r = 0</span>, é empurrada para fora tão inevitavelmente quanto no buraco negro é puxada para dentro, cruza <span class="mono">r<sub>s</sub></span> e aparece na região I com t vindo de <span class="mono">−∞</span>. As coordenadas de entrada não chegam à região IV, e para essa trajetória o diagrama usa as de saída, <span class="mono">u = t − r*</span> e <span class="mono">t̂ = u + r</span>.</p>
+
+      <p><b>Os sinais.</b> A intervalos iguais de τ, a partícula manda um pulso de luz para fora, para um observador parado em <span class="mono">r = 4 r<sub>s</sub></span>. O pulso segue <span class="mono">u = t − r*</span> constante e chega em <span class="mono">t = u + r*<sub>obs</sub></span>. Perto do horizonte os pulsos chegam cada vez mais espaçados — o espaçamento cresce como <span class="mono">e<sup>ct/2r<sub>s</sub></sup></span>, com escala <span class="mono">2r<sub>s</sub>/c</span>, 0,2 ms para 10 M☉ — e o pulso emitido no horizonte chegaria em <span class="mono">t = ∞</span>: o observador de fora nunca vê a travessia. Os emitidos lá de dentro também vão “para fora”, e mesmo assim acabam em <span class="mono">r = 0</span>.</p>
+    </div>
+
+    <div lang="en" class="prose">
+      <p>The Schwarzschild metric, restricted to the (t, r) plane: the motion is radial, and the angles drop out.</p>
+      <p class="eq">ds² = −(1 − r<sub>s</sub>/r) c²dt² + dr² / (1 − r<sub>s</sub>/r), &nbsp; r<sub>s</sub> = 2GM/c² = 2.953 km × (M/M☉)</p>
+      <p>Light travels with <span class="mono">ds² = 0</span>, so the two edges of the light cone are</p>
+      <p class="eq">c dt/dr = ± 1 / (1 − r<sub>s</sub>/r)</p>
+      <p>Far from the mass, ±1: the 45° cone of flat space. Near the horizon the slope goes to infinity and the cone closes into a vertical segment — on the Schwarzschild map light seems to stop. It is not the light that stops: it is the coordinate <span class="mono">t</span> that stops working. <span class="mono">t</span> is the time of a clock at rest far away, and that clock assigns <span class="mono">t = ∞</span> to the whole horizon. The falling particle gets there in a finite proper time <span class="mono">τ</span> and notices nothing special; only the coordinate reads infinity.</p>
+
+      <p class="destaque"><b>Inside, r becomes time.</b> Below <span class="mono">r<sub>s</sub></span>, <span class="mono">1 − r<sub>s</sub>/r</span> turns negative and the two terms of the metric swap sign: <span class="mono">g<sub>tt</sub> &gt; 0</span> and <span class="mono">g<sub>rr</sub> &lt; 0</span>. The cone tips over on its side, and both edges point to smaller r. Inside it there is no direction that keeps r constant, let alone one that increases it. In there, <span class="mono">r = 0</span> is not a place at the centre: it is a moment in the future of every particle, as unavoidable as tomorrow.</p>
+
+      <p><b>Eddington–Finkelstein.</b> To follow the cone across the horizon, trade t for the null coordinate <span class="mono">v = t + r*</span>, with <span class="mono">r* = r + r<sub>s</sub> ln|r/r<sub>s</sub> − 1|</span>:</p>
+      <p class="eq">ds² = −(1 − r<sub>s</sub>/r) dv² + 2 dv dr &nbsp; (c = 1)</p>
+      <p>The edges of the cone are <span class="mono">dv/dr = 0</span>, ingoing light, and <span class="mono">dv/dr = 2/(1 − r<sub>s</sub>/r)</span>, outgoing light. The diagram puts <span class="mono">t̃ = v − r</span> on the vertical axis, so that ingoing light runs at 45°. Nothing degenerates: the outgoing edge turns steeper, is exactly vertical at <span class="mono">r = r<sub>s</sub></span> — light sent outwards stays put there; the horizon is made of it — and inside it tips towards smaller r. At equal scale, the opening of the cone in these coordinates is <span class="mono">arctan(r/r<sub>s</sub>)</span>: 90° far away, 45° at the horizon, zero at r = 0. The dashed curves are the Schwarzschild lines <span class="mono">t = const</span>, and all of them plunge to <span class="mono">−∞</span> at the horizon.</p>
+
+      <p><b>Kruskal–Szekeres.</b> Kruskal and Szekeres (1960) went all the way. In units of <span class="mono">r<sub>s</sub></span> and <span class="mono">r<sub>s</sub>/c</span>, outside the horizon</p>
+      <p class="eq">U = −√(r − 1) e<sup>(r − t)/2</sup>, &nbsp; V = √(r − 1) e<sup>(r + t)/2</sup>, &nbsp; T = (V + U)/2, &nbsp; X = (V − U)/2</p>
+      <p>and inside <span class="mono">U = +√(1 − r) e<sup>(r − t)/2</sup></span>. Everywhere <span class="mono">T² − X² = (1 − r) e<sup>r</sup></span>, and light runs at 45°. The horizon is the pair of lines <span class="mono">T = ±X</span>; the lines <span class="mono">t = const</span> are straight lines through the origin, the <span class="mono">r = const</span> ones are hyperbolas, and <span class="mono">r = 0</span> is the hyperbola <span class="mono">T² − X² = 1</span>. The world line crosses the horizon without any kink: the singularity at <span class="mono">r = r<sub>s</sub></span> belonged to the coordinates, not to spacetime. The one at <span class="mono">r = 0</span> is real — the curvature diverges there — and, inside, every direction in the future cone ends on it.</p>
+
+      <p><b>The falls.</b> <em>Falling from infinity</em> is the radial fall of something that was at rest at infinity (energy per mass <span class="mono">E = 1</span>), shown from <span class="mono">r = 4 r<sub>s</sub></span>:</p>
+      <p class="eq">dr/dτ = −c √(r<sub>s</sub>/r), &nbsp; ct = r<sub>s</sub> [ −⅔ (r/r<sub>s</sub>)<sup>3/2</sup> − 2 (r/r<sub>s</sub>)<sup>1/2</sup> + ln| (√(r/r<sub>s</sub>) + 1) / (√(r/r<sub>s</sub>) − 1) | ] + const</p>
+      <p>The same formula holds on both sides of the horizon, with the same constant. τ is finite at <span class="mono">r<sub>s</sub></span>; t diverges, and on the inside the particle reappears with t coming down from <span class="mono">+∞</span>. <em>From rest at r₀</em> is the cycloid (Misner, Thorne and Wheeler, eq. 31.10): <span class="mono">r = (r₀/2)(1 + cos η)</span>, <span class="mono">cτ = (r₀/2)√(r₀/r<sub>s</sub>) (η + sin η)</span>, and reaching <span class="mono">r = 0</span> takes <span class="mono">cτ = π r₀<sup>3/2</sup> / (2√r<sub>s</sub>)</span> — 0.44 ms from 2 r<sub>s</sub> for a 10 M☉ mass. The constant in t changes no physics (in Kruskal it only slides the curve along the hyperbolas); here it is chosen so that every fall ends at the same point of <span class="mono">r = 0</span>, at <span class="mono">X = 0.6</span>.</p>
+
+      <p class="destaque"><b>And coming from inside?</b> From inside a black hole, nothing moving into the future reaches the horizon: the whole cone points to smaller r, and the horizon lies in the past. The <em>free cone</em> shows this — drag the point from <span class="mono">r = 0</span> up to <span class="mono">r<sub>s</sub></span>, and at every <span class="mono">r &lt; r<sub>s</sub></span> both edges point inwards. What does come out through the horizon is the same solution run backwards, the <b>white hole</b>: region IV of Kruskal, where the cone tips towards larger r. The particle is born at <span class="mono">r = 0</span>, is pushed outwards as inevitably as a black hole pulls inwards, crosses <span class="mono">r<sub>s</sub></span> and appears in region I with t coming up from <span class="mono">−∞</span>. Ingoing coordinates do not reach region IV, so for this trajectory the diagram uses the outgoing ones, <span class="mono">u = t − r*</span> and <span class="mono">t̂ = u + r</span>.</p>
+
+      <p><b>The signals.</b> At equal intervals of τ, the particle sends a light pulse outwards, to an observer at rest at <span class="mono">r = 4 r<sub>s</sub></span>. The pulse follows constant <span class="mono">u = t − r*</span> and arrives at <span class="mono">t = u + r*<sub>obs</sub></span>. Near the horizon the pulses arrive further and further apart — the spacing grows as <span class="mono">e<sup>ct/2r<sub>s</sub></sup></span>, on a scale of <span class="mono">2r<sub>s</sub>/c</span>, 0.2 ms for 10 M☉ — and the pulse sent at the horizon would arrive at <span class="mono">t = ∞</span>: the outside observer never sees the crossing. Those sent from inside also go “outwards”, and still end at <span class="mono">r = 0</span>.</p>
+    </div>
+
+    <p class="note">
+      <span lang="pt">A região IV (buraco branco) e a III, do outro lado da ponte de Einstein–Rosen, fazem parte da extensão máxima da solução de Schwarzschild, não de um buraco negro formado por colapso, que só tem as regiões I e II. Nos dois diagramas da esquerda os eixos têm escalas diferentes, para caber a queda inteira; na faixa de baixo cada cone está em escala igual, e a luz no espaço plano andaria a 45°. As fórmulas fechadas foram conferidas contra a integração numérica das geodésicas radiais, em Eddington–Finkelstein e em Schwarzschild: r(τ) bate a 10⁻¹⁰, fora e dentro, e t(τ) a 10⁻⁶ — o que sobra é ln|r/r<sub>s</sub> − 1| amplificando o erro de r junto ao horizonte; em Kruskal a curva e as derivadas são contínuas no horizonte; e τ até r = 0 bate com π r₀<sup>3/2</sup>/2√r<sub>s</sub> a 10⁻⁸. Unidades: <span class="mono">GM☉/c² = 1,4766 km</span>; tempos em <span class="mono">r<sub>s</sub>/c</span> = 9,85 μs × (M/M☉).</span>
+      <span lang="en">Region IV (white hole) and region III, on the far side of the Einstein–Rosen bridge, belong to the maximal extension of the Schwarzschild solution, not to a black hole formed by collapse, which has only regions I and II. In the two diagrams on the left the axes have different scales, so that the whole fall fits; in the strip below each cone is at equal scale, and light in flat space would run at 45°. The closed forms were checked against numerical integration of the radial geodesics, in Eddington–Finkelstein and in Schwarzschild coordinates: r(τ) agrees to 10⁻¹⁰, outside and inside, and t(τ) to 10⁻⁶ — the remainder is ln|r/r<sub>s</sub> − 1| amplifying the error in r next to the horizon; in Kruskal the curve and its derivatives are continuous at the horizon; and τ down to r = 0 agrees with π r₀<sup>3/2</sup>/2√r<sub>s</sub> to 10⁻⁸. Units: <span class="mono">GM☉/c² = 1.4766 km</span>; times in <span class="mono">r<sub>s</sub>/c</span> = 9.85 μs × (M/M☉).</span>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="foot-block">
+      <p class="footlabel"><span lang="pt">Vamos conversar</span><span lang="en">Let's talk</span></p>
+      <p class="footmail"><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></p>
+    </div>
+
+    <a class="footbtn" href="mailto:rafael.lima@udesc.br" aria-label="Enviar e-mail / Send an email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/>
+      </svg>
+    </a>
+
+    <div class="foot-block foot-right">
+      <p class="footlabel"><span lang="pt">Onde me encontrar</span><span lang="en">Find me</span></p>
+      <p class="footlinks">
+        <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+        <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
+        <a href="https://github.com/RafaelCRdeLima">GitHub</a>
+      </p>
+    </div>
+  </div>
+  <p class="footnote">Universidade do Estado de Santa Catarina · CCT · Joinville, SC</p>
+</footer>
+
+<script>
+(function () {
+  var KEY = 'rcrl-lang';
+  var buttons = document.querySelectorAll('[data-set-lang]');
+
+  function apply(lang) {
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    try { localStorage.setItem(KEY, lang); } catch (e) { /* modo privado */ }
+  }
+
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) { /* modo privado */ }
+
+  apply(stored === 'pt' || stored === 'en'
+    ? stored
+    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.setLang); });
+  });
+
+  // A navegação é idêntica nas cinco páginas; quem acende o item da página
+  // atual é isto, não uma classe escrita à mão em cada arquivo.
+  var aqui = location.pathname.replace(/index\.html$/, '') || '/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    var alvo = new URL(a.getAttribute('href'), location.origin).pathname;
+    if (alvo === aqui) a.setAttribute('aria-current', 'page');
+  });
+})();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  // Unidades: r em r_s, tempos em r_s/c (c = r_s = 1). A massa só entra na
+  // conversão para km e ms, porque a geometria em unidades de r_s é a mesma
+  // para qualquer massa.
+  //
+  // Todo evento é guardado em Kruskal, (U, V), com x = r/r_s ao lado:
+  //   I  (fora):          U < 0 < V     II (buraco negro): U > 0, V > 0
+  //   IV (buraco branco): U < 0, V < 0  III (outro lado):  U > 0 > V
+  // UV = (1 − x) e^x, T = (V + U)/2, X = (V − U)/2, t = ln|V/U|.
+  // As três cartas desenhadas saem daí:
+  //   Schwarzschild (x, t): I mais uma região interna, II ou IV, conforme a trajetória;
+  //   Eddington–Finkelstein de entrada (x, t̃ = v − x, v = 2 ln V): I e II;
+  //   de saída (x, t̂ = u + x, u = −2 ln(−U)): I e IV, para o buraco branco;
+  //   Kruskal (X, T): tudo.
+
+  const KM = 1.476625;              // GM☉/c², km
+  const RS1 = 2 * KM;               // r_s de 1 M☉, km
+  const CLUZ = 299792.458;          // km/s
+  const XMAX = 4.25;                // borda direita dos diagramas de Schwarzschild e EF
+  const XOBS = 4;                   // o observador parado
+  const XINI = 4;                   // de onde a queda do infinito é mostrada
+  const XFIM = 0.6;                 // toda queda termina em r = 0 com X = 0,6
+  const CE = 2 * Math.asinh(XFIM);  // ... o que dá t = CE em r = 0
+  const KR = { x0: -2.3, x1: 4.3, y0: -3.3, y1: 3.3 };   // janela de Kruskal
+  const NSINAIS = 15;              // com 16, um sairia exatamente no horizonte (τ_H/τ_fim = 7/8)
+  const DUR = 12;                   // segundos para a queda inteira
+
+  const $ = id => document.getElementById(id);
+  const reduzido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ── geometria ─────────────────────────────────────────────────────────
+  // x a partir de w = UV = (1 − x) e^x. g(x) = (1 − x)e^x − w é decrescente
+  // em x > 0, então Newton com salvaguarda de bissecção.
+  function xDeW(w) {
+    if (!(w < 1)) return 0;
+    let lo = 0, hi = 1;
+    while ((1 - hi) * Math.exp(hi) > w && hi < 700) { lo = hi; hi *= 2; }
+    let x = w > 0 ? Math.min(hi, Math.sqrt(2 * (1 - w))) : 1 + Math.log1p(-w / Math.E);
+    if (!(x > lo && x < hi)) x = 0.5 * (lo + hi);
+    for (let i = 0; i < 100; i++) {
+      const ex = Math.exp(x), g = (1 - x) * ex - w, dg = -x * ex;
+      if (g > 0) lo = x; else hi = x;
+      let xn = dg !== 0 ? x - g / dg : NaN;
+      if (!(xn > lo && xn < hi)) xn = 0.5 * (lo + hi);
+      if (Math.abs(xn - x) <= 1e-15 * Math.max(1, x) || hi - lo < 1e-15) { x = xn; break; }
+      x = xn;
+    }
+    return x;
+  }
+
+  const ev = (x, U, V) => ({ x, U, V, T: (V + U) / 2, X: (V - U) / 2 });
+  const evUV = (U, V) => ev(xDeW(U * V), U, V);
+
+  // ── trajetórias ───────────────────────────────────────────────────────
+  // Queda do infinito, E = 1, de x = 4 em τ = 0. Com s = √x e
+  // h = −⅔s³ − 2s + CE, t = h + ln|(s + 1)/(s − 1)| e então
+  //   U = −(s − 1) e^{(x − h)/2},  V = (s + 1) e^{(x + h)/2},
+  // regulares dos dois lados do horizonte (s = 1).
+  function trajInf() {
+    const A = Math.pow(XINI, 1.5), tauFim = 2 / 3 * A;
+    const at = tau => {
+      const q = Math.max(0, A - 1.5 * tau), x = Math.cbrt(q * q), s = Math.sqrt(x);
+      const h = -2 / 3 * s * s * s - 2 * s + CE;
+      return ev(x, -(s - 1) * Math.exp((x - h) / 2), (s + 1) * Math.exp((x + h) / 2));
+    };
+    return { tipo: "inf", dom: "II", E: 1, tauFim, tauH: 2 / 3 * (A - 1), at };
+  }
+
+  // Do repouso em r0: a cicloide, x = r0 cos²(η/2), τ = k(η + sen η), k = (r0/2)√r0.
+  // Com a = √(r0 − 1) e g = a[η + (r0/2)(η + sen η)] + β, MTW 31.10 vira
+  //   U = −(a cos(η/2) − sen(η/2)) e^{(x − g)/2},  V = (a cos(η/2) + sen(η/2)) e^{(x + g)/2}.
+  function trajRepouso(r0) {
+    const k = r0 / 2 * Math.sqrt(r0), a = Math.sqrt(r0 - 1);
+    const beta = CE - a * Math.PI * (1 + r0 / 2);
+    const eta = tau => {
+      let lo = 0, hi = Math.PI, n = Math.min(Math.PI, tau / (2 * k));
+      for (let i = 0; i < 80; i++) {
+        const f = k * (n + Math.sin(n)) - tau, d = k * (1 + Math.cos(n));
+        if (f < 0) lo = n; else hi = n;
+        let m = d > 0 ? n - f / d : NaN;
+        if (!(m > lo && m < hi)) m = 0.5 * (lo + hi);
+        if (Math.abs(m - n) < 1e-15 || hi - lo < 1e-15) { n = m; break; }
+        n = m;
+      }
+      return n;
+    };
+    const at = tau => {
+      const n = eta(Math.min(tau, k * Math.PI)), c = Math.cos(n / 2), s = Math.sin(n / 2);
+      const x = r0 * c * c, g = a * (n + r0 / 2 * (n + Math.sin(n))) + beta;
+      return ev(x, -(a * c - s) * Math.exp((x - g) / 2), (a * c + s) * Math.exp((x + g) / 2));
+    };
+    const nh = 2 * Math.atan(a);
+    return { tipo: "repouso", dom: "II", E: Math.sqrt(1 - 1 / r0), r0, tauFim: k * Math.PI, tauH: k * (nh + Math.sin(nh)), at };
+  }
+
+  // O buraco branco: a queda do infinito passada ao contrário (T → −T,
+  // isto é, U → −V e V → −U; em Schwarzschild, t → −t).
+  function trajBranco() {
+    const q = trajInf();
+    const at = tau => { const e = q.at(q.tauFim - tau); return ev(e.x, -e.V, -e.U); };
+    return { tipo: "branco", dom: "IV", E: 1, sai: true, tauFim: q.tauFim, tauH: q.tauFim - q.tauH, at };
+  }
+
+  // ── estado ────────────────────────────────────────────────────────────
+  const st = {
+    M: 10, rs: 10 * RS1,
+    modo: "inf", r0: 2, tau: 0, tocando: !reduzido,
+    livre: { x: 3, tt: 0 },       // o ponto livre, em (x, t̃) de entrada
+    carta: "sch", sinais: true,
+    traj: null, dom: "II", jan: null, lista: []
+  };
+
+  function eventoLivre() {
+    const x = st.livre.x, V = Math.exp((st.livre.tt + x) / 2);
+    return ev(x, (1 - x) * Math.exp(x) / V, V);
+  }
+  const eventoAtual = () => (st.traj ? st.traj.at(st.tau) : eventoLivre());
+
+  // ── as cartas ─────────────────────────────────────────────────────────
+  function emSch(e) {
+    if (e.U < 0 && e.V > 0) return [e.x, Math.log(-e.V / e.U)];
+    if (st.dom === "II" && e.V > 0 && e.U >= 0) return [e.x, e.U > 0 ? Math.log(e.V / e.U) : Infinity];
+    if (st.dom === "IV" && e.U < 0 && e.V <= 0) return [e.x, e.V < 0 ? Math.log(e.V / e.U) : -Infinity];
+    if (e.U < 0 && e.V === 0) return [e.x, -Infinity];
+    return null;
+  }
+  function emEF(e) {
+    if (st.dom === "II") return e.V > 0 ? [e.x, 2 * Math.log(e.V) - e.x] : null;
+    return e.U < 0 ? [e.x, -2 * Math.log(-e.U) + e.x] : null;
+  }
+  const MAPA = { sch: emSch, ef: emEF, kr: e => [e.X, e.T] };
+
+  // As bordas do cone futuro, em coordenadas da carta: a (a luz que sai,
+  // u = const) e b (a que entra, v = const), mais o eixo do cone quando ele
+  // pode passar de 90° na tela. Em Schwarzschild, com f = 1 − 1/x:
+  //   I:  (f, 1) e (−f, 1)    II: (f, 1) e (f, −1)    IV: (−f, −1) e (−f, 1)
+  // isto é, dt/dr = ±1/f; no horizonte, um segmento (fora) ou um semiplano (dentro).
+  // Em EF de entrada, dt̃/dr = −1 e (x + 1)/(x − 1), isto é, dv/dr = 0 e 2/f;
+  // em EF de saída, dt̂/dr = 1 e −(x + 1)/(x − 1). Em Kruskal, sempre ±45°.
+  function bordas(carta, x, dom) {
+    const f = 1 - 1 / x;
+    if (carta === "kr") return { a: [1, 1], b: [-1, 1], eixo: [0, 1] };
+    if (carta === "sch") {
+      if (x > 1) return { a: [f, 1], b: [-f, 1], eixo: [0, 1] };
+      if (dom === "IV") return { a: [-f, -1], b: [-f, 1], eixo: [1, 0] };
+      return { a: [f, 1], b: [f, -1], eixo: [-1, 0] };
+    }
+    if (dom === "IV") return { a: [1, 1], b: [1 - x, 1 + x], eixo: null };
+    return { a: [x - 1, x + 1], b: [-1, 1], eixo: null };
+  }
+
+  // ── a trajetória e as janelas ─────────────────────────────────────────
+  function sinais(tr) {
+    const out = [], rsObs = XOBS + Math.log(XOBS - 1);
+    for (let k = 0; k < NSINAIS; k++) {
+      const tau = k * tr.tauFim / NSINAIS, e = tr.at(tau);
+      out.push({ k, tau, e, chega: e.U < 0 ? -2 * Math.log(-e.U) + rsObs : Infinity });
+    }
+    return out;
+  }
+
+  function montaTraj() {
+    st.traj = st.modo === "inf" ? trajInf() : st.modo === "repouso" ? trajRepouso(st.r0)
+      : st.modo === "branco" ? trajBranco() : null;
+    st.dom = st.traj ? st.traj.dom : "II";
+    st.lista = st.traj ? sinais(st.traj) : [];
+    if (st.traj) st.tau = Math.min(st.tau, st.traj.tauFim);
+    let sch = [-2.6, 5.4], ef = [-3.4, 4.2];
+    if (st.traj) {
+      const a = st.traj.at(0), b = st.traj.at(st.traj.tauFim);
+      const ta = emSch(a)[1], tb = emSch(b)[1];
+      const lo = Math.min(ta, tb), hi = Math.max(ta, tb), sp = hi - lo;
+      const extra = Math.max(2.7, 0.22 * sp), pad = 0.05 * sp + 0.35;
+      sch = st.dom === "II" ? [lo - pad, hi + extra] : [lo - extra, hi + pad];
+      const ea = emEF(a)[1], eb = emEF(b)[1];
+      const l2 = Math.min(ea, eb), h2 = Math.max(ea, eb), s2 = h2 - l2;
+      ef = [l2 - 0.05 * s2 - 0.35, h2 + Math.max(1.3, 0.14 * s2)];
+    }
+    st.jan = { sch, ef };
+    sujo = true;
+  }
+
+  // ── tela ──────────────────────────────────────────────────────────────
+  let DPR = 1, sujo = true;
+  const telas = {
+    esq: { cv: $("esq") }, dir: { cv: $("dir") }, lupa: { cv: $("lupa") }
+  };
+  for (const k in telas) telas[k].g = telas[k].cv.getContext("2d");
+
+  function medir(t) {
+    const r = t.cv.getBoundingClientRect();
+    t.W = Math.max(1, r.width); t.H = Math.max(1, r.height);
+    const w = Math.round(t.W * DPR), h = Math.round(t.H * DPR);
+    if (t.cv.width !== w || t.cv.height !== h) { t.cv.width = w; t.cv.height = h; return true; }
+    return false;
+  }
+
+  const MARG = { sch: [36, 12, 46, 28], ef: [36, 12, 46, 28], kr: [10, 10, 44, 10] };
+  function vista(carta, W, H) {
+    const [mL, mR, mT, mB] = MARG[carta];
+    const Wp = Math.max(10, W - mL - mR), Hp = Math.max(10, H - mT - mB);
+    let x0, x1, y0, y1;
+    if (carta === "kr") {
+      ({ x0, x1, y0, y1 } = KR);
+      const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, ax = x1 - x0, ay = y1 - y0;
+      if (Wp / Hp > ax / ay) { const n = ay * Wp / Hp; x0 = cx - n / 2; x1 = cx + n / 2; }
+      else { const n = ax * Hp / Wp; y0 = cy - n / 2; y1 = cy + n / 2; }
+    } else { x0 = -0.12; x1 = XMAX; [y0, y1] = st.jan[carta]; }
+    const kx = Wp / (x1 - x0), ky = Hp / (y1 - y0);
+    const lim = v => (v > 1e5 ? 1e5 : v < -1e5 ? -1e5 : v);
+    return {
+      carta, L: mL, T: mT, Wp, Hp, x0, x1, y0, y1, kx, ky,
+      sx: x => lim(mL + (x - x0) * kx), sy: y => lim(mT + (y1 - y) * ky),
+      inv: (px, py) => [x0 + (px - mL) / kx, y1 - (py - mT) / ky],
+      dentro: (px, py) => px >= mL - 0.5 && px <= mL + Wp + 0.5 && py >= mT - 0.5 && py <= mT + Hp + 0.5
+    };
+  }
+
+  // Amostragem adaptativa de uma curva p ↦ evento na tela de uma carta:
+  // divide enquanto o trecho tiver mais de 3 px ou fizer curva, corta onde a
+  // carta não cobre o evento e não perde tempo com trechos fora da tela.
+  function amostra(f, p0, p1, V, n0 = 40, prof = 16) {
+    const mapa = MAPA[V.carta];
+    const P = p => { const e = f(p), c = e && mapa(e); return c && isFinite(c[0]) && !isNaN(c[1]) ? [V.sx(c[0]), V.sy(c[1])] : null; };
+    const lado = s => (s[0] < V.L - 30 ? 1 : s[0] > V.L + V.Wp + 30 ? 2 : s[1] < V.T - 30 ? 3 : s[1] > V.T + V.Hp + 30 ? 4 : 0);
+    const out = [];
+    function rec(pa, A, pb, B, d) {
+      if (d <= 0) { out.push({ p: pb, s: B }); return; }
+      if (A && B) {
+        const la = lado(A);
+        if (la && la === lado(B)) { out.push({ p: pb, s: B }); return; }
+        const pm = (pa + pb) / 2, M = P(pm);
+        if (M) {
+          const dx = B[0] - A[0], dy = B[1] - A[1];
+          const ex = M[0] - (A[0] + B[0]) / 2, ey = M[1] - (A[1] + B[1]) / 2;
+          if (dx * dx + dy * dy < 9 && ex * ex + ey * ey < 0.2) { out.push({ p: pm, s: M }, { p: pb, s: B }); return; }
+        }
+        rec(pa, A, pm, M, d - 1); rec(pm, M, pb, B, d - 1);
+        return;
+      }
+      if (!A && !B) { out.push({ p: pb, s: null }); return; }
+      const pm = (pa + pb) / 2, M = P(pm);
+      rec(pa, A, pm, M, d - 1); rec(pm, M, pb, B, d - 1);
+    }
+    let pa = p0, A = P(p0);
+    out.push({ p: p0, s: A });
+    for (let i = 1; i <= n0; i++) {
+      const pb = p0 + (p1 - p0) * i / n0, B = P(pb);
+      rec(pa, A, pb, B, prof);
+      pa = pb; A = B;
+    }
+    return out;
+  }
+
+  function traca(g, pts, ate) {
+    g.beginPath();
+    let nova = true;
+    for (const q of pts) {
+      if (ate !== undefined && q.p > ate) break;
+      if (!q.s) { nova = true; continue; }
+      if (nova) { g.moveTo(q.s[0], q.s[1]); nova = false; } else g.lineTo(q.s[0], q.s[1]);
+    }
+    return !nova;
+  }
+
+  // Os dois raios de luz por um evento: o que sai (U fixo, V varia) e o que
+  // entra (V fixo, U varia), do lado do futuro (sentido 1) ou do passado (−1).
+  // Vão até r = 0 ou até um r além da borda dos diagramas.
+  const W_LONGE = -(XMAX + 0.6 - 1) * Math.exp(XMAX + 0.6);
+  function raio(e, quem, sentido) {
+    const fixo = quem === "sai" ? e.U : e.V, var0 = quem === "sai" ? e.V : e.U;
+    let a, b;
+    if (fixo === 0) { a = var0 - 60; b = var0 + 60; }
+    else if (fixo < 0) { a = 1 / fixo; b = W_LONGE / fixo; }
+    else { a = W_LONGE / fixo; b = 1 / fixo; }
+    const fim = sentido > 0 ? b : a;
+    const f = quem === "sai" ? p => (p * fixo < 1 ? evUV(fixo, p) : null) : p => (p * fixo < 1 ? evUV(p, fixo) : null);
+    return { f, p0: var0, p1: fim };
+  }
+
+  // ── desenho ───────────────────────────────────────────────────────────
+  const idioma = () => (document.documentElement.dataset.lang === "en" ? "en" : "pt");
+  const COR = {
+    dentro: "rgba(255,156,110,0.055)", alem: "rgba(255,156,110,0.07)",
+    grade: "rgba(165,172,189,0.11)", txt: "rgba(165,172,189,0.7)", txt2: "rgba(165,172,189,0.5)",
+    hz: "#56e1d0", sing: "#ff9c6e", linha: "#ffc46e", linhaDim: "rgba(255,196,110,0.3)",
+    cone: "rgba(158,140,255,0.42)", borda: "#d6ceff", pas: "rgba(214,206,255,0.55)",
+    fundoCone: "rgba(158,140,255,0.2)", futuro: "rgba(158,140,255,0.09)",
+    raio: "rgba(214,206,255,0.6)", raioPas: "rgba(214,206,255,0.2)",
+    sinal: "rgba(255,232,170,0.5)", obs: "rgba(237,239,244,0.45)", tcurva: "rgba(158,140,255,0.28)"
+  };
+  const FONTE = (p, w) => (w || 500) + " " + p + "px 'Inter Tight', system-ui, sans-serif";
+  const dec = (v, d, l) => {
+    if (Math.abs(v) < 0.5 * Math.pow(10, -d)) v = 0;
+    const s = v.toFixed(d).replace("-", "−");
+    return l === "pt" ? s.replace(".", ",") : s;
+  };
+  const unit = v => { const n = Math.hypot(v[0], v[1]) || 1; return [v[0] / n, v[1] / n]; };
+  const naTela = (V, d) => unit([d[0] * V.kx, -d[1] * V.ky]);
+
+  function linha(g, x0, y0, x1, y1) { g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke(); }
+  function passoBom(v) {
+    const p = Math.pow(10, Math.floor(Math.log10(v))), m = v / p;
+    return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p;
+  }
+
+  // um setor do ponto P, entre as direções a e b (unitárias, na tela), do lado de "eixo"
+  function setor(g, P, a, b, eixo, L) {
+    const n = t => ((t % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    const aa = Math.atan2(a[1], a[0]), ab = Math.atan2(b[1], b[0]);
+    const e = eixo || unit([a[0] + b[0], a[1] + b[1]]), ae = Math.atan2(e[1], e[0]);
+    const ccw = !(n(ae - aa) <= n(ab - aa));
+    g.beginPath(); g.moveTo(P[0], P[1]);
+    g.arc(P[0], P[1], L, aa, ab, ccw);
+    g.closePath();
+  }
+
+  // O cone tangente num ponto: futuro cheio, passado tracejado.
+  function conePonto(g, V, P, x, L, fraco) {
+    const B = bordas(V.carta, x, st.dom);
+    const a = naTela(V, B.a), b = naTela(V, B.b), e = B.eixo ? naTela(V, B.eixo) : null;
+    const neg = v => v && [-v[0], -v[1]];
+    if (fraco) {
+      setor(g, P, a, b, e, L); g.fillStyle = COR.fundoCone; g.fill();
+      return;
+    }
+    setor(g, P, neg(a), neg(b), neg(e), L * 0.8);
+    g.fillStyle = "rgba(158,140,255,0.07)"; g.fill();
+    g.setLineDash([3, 3]); g.strokeStyle = COR.pas; g.lineWidth = 1.2;
+    linha(g, P[0], P[1], P[0] - a[0] * L * 0.8, P[1] - a[1] * L * 0.8);
+    linha(g, P[0], P[1], P[0] - b[0] * L * 0.8, P[1] - b[1] * L * 0.8);
+    g.setLineDash([]);
+    setor(g, P, a, b, e, L); g.fillStyle = COR.cone; g.fill();
+    g.strokeStyle = COR.borda; g.lineWidth = 1.7;
+    linha(g, P[0], P[1], P[0] + a[0] * L, P[1] + a[1] * L);
+    linha(g, P[0], P[1], P[0] + b[0] * L, P[1] + b[1] * L);
+  }
+
+  function texto(g, s, x, y, cor, alin, tam, peso) {
+    g.font = FONTE(tam || 10.5, peso); g.fillStyle = cor || COR.txt;
+    g.textAlign = alin || "left"; g.fillText(s, x, y);
+  }
+
+  // Recorte: r ≥ 0 em Schwarzschild e EF; entre as duas hipérboles r = 0 em Kruskal.
+  function recorta(g, V) {
+    g.beginPath();
+    if (V.carta === "kr") {
+      const N = 120, a = V.x0 - 1, b = V.x1 + 1;
+      for (let i = 0; i <= N; i++) { const X = a + (b - a) * i / N; g.lineTo(V.sx(X), V.sy(Math.sqrt(1 + X * X))); }
+      for (let i = N; i >= 0; i--) { const X = a + (b - a) * i / N; g.lineTo(V.sx(X), V.sy(-Math.sqrt(1 + X * X))); }
+      g.closePath(); g.clip();
+      g.beginPath();
+    }
+    const x0 = V.carta === "kr" ? V.L : V.sx(0);
+    g.rect(x0, V.T, V.L + V.Wp - x0, V.Hp); g.clip();
+  }
+
+  // ── fundo de Schwarzschild e de EF ────────────────────────────────────
+  function fundoRT(g, V) {
+    const l = idioma(), ef = V.carta === "ef", s0 = V.sx(0), s1 = V.sx(1);
+    const iv = st.dom === "IV";
+    g.save();
+    g.beginPath(); g.rect(V.L, V.T, V.Wp, V.Hp); g.clip();
+    // além de r = 0, nada; a faixa de dentro, tingida
+    g.fillStyle = "rgba(255,156,110,0.05)"; g.fillRect(V.L, V.T, s0 - V.L, V.Hp);
+    g.strokeStyle = "rgba(255,156,110,0.16)"; g.lineWidth = 1;
+    for (let y = V.T - 20; y < V.T + V.Hp + 20; y += 7) linha(g, V.L, y + 7, s0, y);
+    g.fillStyle = COR.dentro; g.fillRect(s0, V.T, s1 - s0, V.Hp);
+    // grade
+    g.strokeStyle = COR.grade; g.lineWidth = 1;
+    for (let x = 0.5; x < V.x1; x += 0.5) if (x !== 1) linha(g, V.sx(x), V.T, V.sx(x), V.T + V.Hp);
+    const passo = passoBom((V.y1 - V.y0) / 6);
+    for (let y = Math.ceil(V.y0 / passo) * passo; y <= V.y1; y += passo) linha(g, V.L, V.sy(y), V.L + V.Wp, V.sy(y));
+    // em EF, as linhas t = const de Schwarzschild
+    if (ef) {
+      g.strokeStyle = COR.tcurva; g.setLineDash([4, 4]);
+      const sp = passoBom((V.y1 - V.y0) / 4), sgn = iv ? -1 : 1;
+      for (let t = Math.ceil((V.y0 - 6) / sp) * sp; t <= V.y1 + 6; t += sp) {
+        for (const fora of [true, false]) {
+          g.beginPath();
+          for (let i = 0; i <= 90; i++) {
+            const q = 14 * i / 90, x = fora ? 1 + (XMAX - 1) * Math.exp(-q) : 1 - Math.exp(-q);
+            const y = t + sgn * Math.log(Math.abs(x - 1));
+            i ? g.lineTo(V.sx(x), V.sy(y)) : g.moveTo(V.sx(x), V.sy(y));
+          }
+          g.stroke();
+        }
+      }
+      g.setLineDash([]);
+    }
+    // cones de fundo
+    const xs = [0.3, 0.7, 1.45, 2.15, 2.85, 3.55], fr = [0.14, 0.38, 0.62, 0.86];
+    for (const x of xs) for (const q of fr) {
+      const P = [V.sx(x), V.T + V.Hp * q];
+      conePonto(g, V, P, x, 11, true);
+    }
+    // o observador
+    if (st.traj) {
+      g.strokeStyle = COR.obs; g.setLineDash([2, 4]); g.lineWidth = 1;
+      linha(g, V.sx(XOBS), V.T, V.sx(XOBS), V.T + V.Hp); g.setLineDash([]);
+    }
+    // horizonte e singularidade
+    g.strokeStyle = COR.hz; g.lineWidth = 1.8; linha(g, s1, V.T, s1, V.T + V.Hp);
+    g.strokeStyle = COR.sing; g.lineWidth = 2; linha(g, s0, V.T, s0, V.T + V.Hp);
+    g.restore();
+
+    // eixos e rótulos
+    g.textBaseline = "middle";
+    for (let x = 0; x <= 4; x++) texto(g, String(x), V.sx(x), V.T + V.Hp + 13, COR.txt, "center");
+    texto(g, "r/rₛ", V.L - 5, V.T + V.Hp + 13, COR.txt2, "right", 10, 600);
+    for (let y = Math.ceil(V.y0 / passo) * passo; y <= V.y1 + 1e-9; y += passo) {
+      const py = V.sy(y);
+      if (py > V.T + 30 && py < V.T + V.Hp - 4) texto(g, dec(y, passo < 1 ? 1 : 0, l), V.L - 5, py, COR.txt, "right");
+    }
+    const eixo = ef ? (iv ? "t̂" : "t̃") : "t";
+    texto(g, eixo, V.L - 5, V.T + 7, COR.txt2, "right", 11, 600);
+    texto(g, "rₛ/c", V.L - 5, V.T + 19, COR.txt2, "right", 9);
+    // título pequeno à direita das abas
+    const sub = ef ? (iv ? (l === "pt" ? "de saída · t̂ = u + r" : "outgoing · t̂ = u + r") : (l === "pt" ? "de entrada · t̃ = v − r" : "ingoing · t̃ = v − r"))
+      : (iv ? (l === "pt" ? "r < rₛ: buraco branco (IV)" : "r < rₛ: white hole (IV)") : (l === "pt" ? "r < rₛ: buraco negro (II)" : "r < rₛ: black hole (II)"));
+    texto(g, sub, V.L + V.Wp, V.T - 9, COR.txt2, "right", 9.5);
+    // nomes no topo
+    g.save(); g.beginPath(); g.rect(V.L, V.T, V.Wp, V.Hp); g.clip();
+    texto(g, l === "pt" ? "r = 0" : "r = 0", s0 + 4, V.T + V.Hp - 10, COR.sing, "left", 10, 600);
+    texto(g, "r = rₛ", s1 + 4, V.T + 10, COR.hz, "left", 10, 600);
+    if (st.traj) texto(g, l === "pt" ? "observador" : "observer", V.sx(XOBS) - 4, V.T + 10, COR.obs, "right", 10);
+    if (ef) texto(g, l === "pt" ? "t = const" : "t = const", V.sx(2.6), V.T + V.Hp - 10, "rgba(186,174,255,0.75)", "center", 9.5);
+    g.restore();
+  }
+
+  // ── fundo de Kruskal ──────────────────────────────────────────────────
+  function fundoKr(g, V) {
+    const l = idioma(), pt = l === "pt";
+    const P = (X, T) => [V.sx(X), V.sy(T)];
+    g.save();
+    g.beginPath(); g.rect(V.L, V.T, V.Wp, V.Hp); g.clip();
+    // além das singularidades: hachurado
+    g.strokeStyle = "rgba(255,156,110,0.14)"; g.lineWidth = 1;
+    for (let k = -V.Hp - V.Wp; k < V.Wp + V.Hp; k += 8) linha(g, V.L + k, V.T, V.L + k + V.Hp, V.T + V.Hp);
+    g.restore();
+    g.save();
+    recorta(g, V);
+    g.fillStyle = "#06070d"; g.fillRect(V.L, V.T, V.Wp, V.Hp);
+    // as regiões de dentro, tingidas
+    const A = 12;
+    for (const s of [1, -1]) {
+      g.beginPath(); g.moveTo(...P(-A, s * A)); g.lineTo(...P(0, 0)); g.lineTo(...P(A, s * A)); g.closePath();
+      g.fillStyle = COR.dentro; g.fill();
+    }
+    // r = const e t = const
+    g.strokeStyle = COR.grade; g.lineWidth = 1;
+    for (const x of [0.25, 0.5, 0.75, 1.25, 1.5, 1.75, 2, 2.5, 3]) {
+      const w = (1 - x) * Math.exp(x), rho = Math.sqrt(Math.abs(w));
+      for (const s of [1, -1]) {
+        g.beginPath();
+        for (let i = 0; i <= 200; i++) {
+          const t = -9 + 18 * i / 200, c = rho * Math.cosh(t / 2), h = rho * Math.sinh(t / 2);
+          const q = w > 0 ? P(h, s * c) : P(s * c, h);
+          i ? g.lineTo(...q) : g.moveTo(...q);
+        }
+        g.stroke();
+      }
+    }
+    for (let t = -4; t <= 4; t++) {
+      const c = Math.cosh(t / 2), h = Math.sinh(t / 2);
+      linha(g, ...P(0, 0), ...P(20 * c, 20 * h)); linha(g, ...P(0, 0), ...P(-20 * c, -20 * h));
+      linha(g, ...P(0, 0), ...P(h, c)); linha(g, ...P(0, 0), ...P(-h, -c));
+    }
+    // cones de fundo
+    for (let X = Math.ceil(V.x0); X <= V.x1 - 0.3; X += 1) for (let T = Math.ceil(V.y0); T <= V.y1 - 0.3; T += 1) {
+      if (T * T - X * X > 0.8 || (X === 0 && T === 0)) continue;
+      conePonto(g, V, P(X + 0.5, T + 0.5), 2, 10, true);
+    }
+    g.restore();
+    // horizontes e singularidades
+    g.save(); g.beginPath(); g.rect(V.L, V.T, V.Wp, V.Hp); g.clip();
+    g.strokeStyle = COR.hz; g.lineWidth = 1.8;
+    linha(g, ...P(-A, -A), ...P(A, A)); linha(g, ...P(-A, A), ...P(A, -A));
+    g.strokeStyle = COR.sing; g.lineWidth = 2;
+    for (const s of [1, -1]) {
+      g.beginPath();
+      for (let i = 0; i <= 160; i++) { const X = V.x0 - 0.5 + (V.x1 - V.x0 + 1) * i / 160; const q = P(X, s * Math.sqrt(1 + X * X)); i ? g.lineTo(...q) : g.moveTo(...q); }
+      g.stroke();
+    }
+    // rótulos
+    g.textBaseline = "middle";
+    const rot = (s, X, T, ang, cor, tam, peso, alin) => {
+      const q = P(X, T);
+      g.save(); g.translate(q[0], q[1]); g.rotate(ang);
+      texto(g, s, 0, 0, cor, alin || "center", tam || 10, peso); g.restore();
+    };
+    const d45 = Math.PI / 4;
+    // os horizontes, rotulados do lado de fora (região I), afastados da reta
+    rot("r = rₛ · t = +∞", 2.25 + 0.2, 2.25 - 0.2, -d45, COR.hz, 10, 600);
+    rot("r = rₛ · t = −∞", 2.25 + 0.2, -2.25 + 0.2, d45, COR.hz, 10, 600);
+    const xs = V.x0 + 0.25;
+    rot("r = 0", xs + 0.35, Math.sqrt(1 + (xs + 0.35) ** 2) + 0.2, 0, COR.sing, 10, 600, "left");
+    rot("r = 0", xs + 0.35, -Math.sqrt(1 + (xs + 0.35) ** 2) - 0.2, 0, COR.sing, 10, 600, "left");
+    rot(pt ? "I · fora" : "I · outside", 3.2, 1.05, 0, COR.txt, 10.5, 600);
+    rot(pt ? "II · buraco negro" : "II · black hole", 0, 0.66, 0, COR.txt, 10, 600);
+    rot(pt ? "IV · buraco branco" : "IV · white hole", 0, -0.66, 0, COR.txt, 10, 600);
+    rot(pt ? "III · outro lado" : "III · far side", -1.55, 0.18, 0, COR.txt2, 10, 600);
+    for (const x of [1.5, 2]) {
+      const X = Math.sqrt((x - 1) * Math.exp(x));
+      rot("r = " + dec(x, 1, l).replace(/[,.]0$/, ""), X + 0.08, -0.16, 0, COR.txt2, 9.5, 500, "left");
+    }
+    rot("t = 0", 3.65, 0.16, 0, COR.txt2, 9.5);
+    g.restore();
+    texto(g, "X", V.L + V.Wp - 4, V.T + V.Hp - 9, COR.txt2, "right", 11, 600);
+  }
+
+  // ── cache: fundo, linha de mundo e sinais de cada carta ───────────────
+  function refaz(t, carta) {
+    t.V = vista(carta, t.W, t.H);
+    if (!t.fundo) t.fundo = document.createElement("canvas");
+    t.fundo.width = t.cv.width; t.fundo.height = t.cv.height;
+    const g = t.fundo.getContext("2d");
+    g.setTransform(DPR, 0, 0, DPR, 0, 0);
+    g.clearRect(0, 0, t.W, t.H);
+    (carta === "kr" ? fundoKr : fundoRT)(g, t.V);
+    t.linha = st.traj ? amostra(st.traj.at, 0, st.traj.tauFim, t.V, 60, 16) : null;
+    t.sinais = st.lista.map(s => {
+      const R = raio(s.e, "sai", 1);
+      const fim = s.e.U < 0 ? -(XOBS - 1) * Math.exp(XOBS) / s.e.U : R.p1;
+      return amostra(R.f, R.p0, fim, t.V, 30, 14);
+    });
+    t.livreTt = null;
+    // a linha de mundo inteira, apagada, vai para o fundo
+    if (t.linha) {
+      g.save(); recorta(g, t.V);
+      g.strokeStyle = COR.linhaDim; g.lineWidth = 1.6;
+      if (traca(g, t.linha)) g.stroke();
+      g.restore();
+    }
+  }
+
+  function prepara() {
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    let mudou = false;
+    for (const k in telas) mudou = medir(telas[k]) || mudou;
+    if (mudou || sujo) {
+      refaz(telas.esq, st.carta);
+      refaz(telas.dir, "kr");
+      sujo = false;
+    }
+  }
+
+  function desenhaCarta(t, e) {
+    const g = t.g, V = t.V, l = idioma();
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, t.cv.width, t.cv.height);
+    g.drawImage(t.fundo, 0, 0);
+    g.setTransform(DPR, 0, 0, DPR, 0, 0);
+    const c = MAPA[V.carta](e);
+    const P = c && isFinite(c[1]) ? [V.sx(c[0]), V.sy(c[1])] : null;
+    const L = Math.max(34, Math.min(62, 0.15 * Math.min(V.Wp, V.Hp)));
+
+    g.save();
+    recorta(g, V);
+    // a região futura do ponto, em Kruskal: entre os dois raios, até r = 0
+    const LK = Math.abs(e.X) + Math.abs(e.T) + 40;     // longe o bastante para sair da janela
+    if (V.carta === "kr" && P) {
+      g.beginPath(); g.moveTo(P[0], P[1]);
+      g.lineTo(V.sx(e.X + LK), V.sy(e.T + LK)); g.lineTo(V.sx(e.X - LK), V.sy(e.T + LK)); g.closePath();
+      g.fillStyle = COR.futuro; g.fill();
+    }
+    // sinais já emitidos
+    if (st.traj && st.sinais) {
+      g.strokeStyle = COR.sinal; g.lineWidth = 1;
+      st.lista.forEach((s, i) => {
+        if (s.tau > st.tau + 1e-9) return;
+        if (traca(g, t.sinais[i])) g.stroke();
+      });
+      if (V.carta !== "kr") {
+        const desl = V.carta === "sch" ? 0 : (st.dom === "IV" ? -1 : 1) * Math.log(XOBS - 1);
+        g.fillStyle = "rgba(255,232,170,0.9)";
+        for (const s of st.lista) {
+          if (s.tau > st.tau + 1e-9 || !isFinite(s.chega)) continue;
+          const y = V.sy(s.chega + desl);
+          if (y < V.T || y > V.T + V.Hp) continue;
+          g.fillRect(V.sx(XOBS) - 5, y - 0.75, 10, 1.5);
+        }
+      }
+    }
+    // o caminho do ponto livre: a linha t̃ = const por onde o controle de r o leva
+    if (!st.traj && t.livreTt !== st.livre.tt) {
+      const tt = st.livre.tt;
+      t.livre = amostra(x => { const Vk = Math.exp((tt + x) / 2); return ev(x, (1 - x) * Math.exp(x) / Vk, Vk); }, 0.002, 4, V, 60, 14);
+      t.livreTt = tt;
+    }
+    if (!st.traj && t.livre) {
+      g.strokeStyle = "rgba(255,196,110,0.22)"; g.setLineDash([3, 4]); g.lineWidth = 1.2;
+      if (traca(g, t.livre)) g.stroke();
+      g.setLineDash([]);
+    }
+    // a linha de mundo já percorrida
+    if (t.linha) {
+      g.strokeStyle = COR.linha; g.lineWidth = 2.4;
+      if (traca(g, t.linha, st.tau)) { if (P) g.lineTo(P[0], P[1]); g.stroke(); }
+    }
+    // os raios de luz pelo ponto
+    for (const quem of ["sai", "entra"]) for (const sentido of [1, -1]) {
+      g.strokeStyle = sentido > 0 ? COR.raio : COR.raioPas; g.lineWidth = 1;
+      if (V.carta === "kr") {
+        const d = quem === "sai" ? [1, 1] : [-1, 1];
+        if (P) linha(g, P[0], P[1], V.sx(e.X + sentido * d[0] * LK), V.sy(e.T + sentido * d[1] * LK));
+        continue;
+      }
+      const R = raio(e, quem, sentido);
+      if (traca(g, amostra(R.f, R.p0, R.p1, V, 24, 15))) g.stroke();
+    }
+    // o cone tangente e o ponto
+    if (P && V.dentro(P[0], P[1])) {
+      conePonto(g, V, P, e.x, L, false);
+      g.beginPath(); g.arc(P[0], P[1], 5, 0, 2 * Math.PI);
+      g.fillStyle = COR.linha; g.fill();
+      g.strokeStyle = "#0a0b12"; g.lineWidth = 1.5; g.stroke();
+    }
+    g.restore();
+
+    // fora da janela: uma seta na borda
+    if (!P || !V.dentro(P[0], P[1])) {
+      let px, py, s;
+      const r = dec(e.x, 2, l) + " rₛ";
+      if (!c) { px = V.sx(e.x); py = V.T + V.Hp; s = l === "pt" ? "fora desta carta" : "not on this chart"; }
+      else if (!isFinite(c[1])) {
+        px = V.sx(c[0]); py = c[1] > 0 ? V.T : V.T + V.Hp;
+        s = (V.carta === "sch" ? "t = " : "") + (c[1] > 0 ? "+∞" : "−∞") + (l === "pt" ? " · no horizonte" : " · on the horizon");
+      } else {
+        px = V.sx(c[0]); py = V.sy(c[1]);
+        s = V.carta === "kr" ? "r = " + r : (V.carta === "sch" ? "t = " : (st.dom === "IV" ? "t̂ = " : "t̃ = ")) + dec(c[1], 1, l);
+      }
+      setaBorda(g, V, px, py, s);
+    }
+  }
+
+  function setaBorda(g, V, px, py, s) {
+    const cx = V.L + V.Wp / 2, cy = V.T + V.Hp / 2;
+    const x = Math.min(Math.max(px, V.L + 8), V.L + V.Wp - 8), y = Math.min(Math.max(py, V.T + 8), V.T + V.Hp - 8);
+    const d = unit([px - cx, py - cy]);
+    g.save();
+    g.translate(x, y); g.rotate(Math.atan2(d[1], d[0]));
+    g.beginPath(); g.moveTo(7, 0); g.lineTo(-5, -5); g.lineTo(-5, 5); g.closePath();
+    g.fillStyle = COR.linha; g.fill();
+    g.restore();
+    g.textBaseline = "middle";
+    const alin = x > V.L + V.Wp - 90 ? "right" : x < V.L + 90 ? "left" : "center";
+    const ty = y < cy ? y + 16 : y - 16;
+    const tx = alin === "right" ? x - 4 : alin === "left" ? x + 4 : x;
+    g.save(); g.shadowColor = "#000"; g.shadowBlur = 4;
+    texto(g, s, tx, ty, "#ffd9a0", alin, 10.5, 600);
+    g.restore();
+  }
+
+  // ── a lupa: o cone local nas três cartas, em escala igual ────────────
+  function desenhaLupa(e) {
+    const t = telas.lupa, g = t.g, l = idioma(), pt = l === "pt";
+    g.setTransform(DPR, 0, 0, DPR, 0, 0);
+    g.clearRect(0, 0, t.W, t.H);
+    const cw = t.W / 3, estreito = cw < 150;
+    const R = Math.max(26, Math.min(cw * (estreito ? 0.4 : 0.34), (t.H - 74) / 2));
+    const f = 1 - 1 / e.x, iv = st.dom === "IV", noH = Math.abs(f) < 1e-6;
+    const cartas = ["sch", "ef", "kr"];
+    const nomes = { sch: "Schwarzschild", ef: estreito ? "Edd.–Finkelstein" : "Eddington–Finkelstein", kr: "Kruskal" };
+    const fmt = v => (Math.abs(v) >= 1000 ? (pt ? "> 1000" : "> 1000") : dec(v, Math.abs(v) >= 100 ? 0 : Math.abs(v) >= 10 ? 1 : 2, l));
+    cartas.forEach((carta, i) => {
+      const cx = cw * (i + 0.5), cy = 22 + R + 4 + (estreito ? 0 : 2);
+      g.textBaseline = "middle";
+      texto(g, nomes[carta], cx, 11, COR.txt, "center", estreito ? 9.5 : 10.5, 600);
+      g.save();
+      g.beginPath(); g.arc(cx, cy, R, 0, 2 * Math.PI);
+      g.fillStyle = "#0b0d16"; g.fill();
+      g.strokeStyle = "rgba(49,56,80,0.9)"; g.lineWidth = 1; g.stroke();
+      g.clip();
+      // r menor de que lado? (o gradiente de T² − X² em Kruskal)
+      let gr, tg;
+      if (carta === "kr") {
+        gr = unit([-e.X, -e.T]);
+        if (!isFinite(gr[0]) || (e.X === 0 && e.T === 0)) gr = [-1, 0];
+        tg = [gr[1], -gr[0]];
+      } else { gr = [-1, 0]; tg = [0, 1]; }
+      // o lado de r menor, tingido
+      g.beginPath();
+      g.moveTo(cx + tg[0] * 2 * R, cy + tg[1] * 2 * R);
+      g.lineTo(cx + tg[0] * 2 * R + gr[0] * 2 * R, cy + tg[1] * 2 * R + gr[1] * 2 * R);
+      g.lineTo(cx - tg[0] * 2 * R + gr[0] * 2 * R, cy - tg[1] * 2 * R + gr[1] * 2 * R);
+      g.lineTo(cx - tg[0] * 2 * R, cy - tg[1] * 2 * R);
+      g.closePath(); g.fillStyle = "rgba(255,156,110,0.07)"; g.fill();
+      // r = const pelo centro
+      g.strokeStyle = "rgba(165,172,189,0.45)"; g.setLineDash([3, 3]); g.lineWidth = 1;
+      linha(g, cx - tg[0] * R, cy - tg[1] * R, cx + tg[0] * R, cy + tg[1] * R);
+      g.setLineDash([]);
+      // o cone, em escala igual (V com kx = ky = 1)
+      const Vu = { carta, kx: 1, ky: 1 };
+      if (!(carta === "sch" && noH)) conePonto(g, Vu, [cx, cy], e.x, R, false);
+      else {
+        g.strokeStyle = COR.borda; g.lineWidth = 1.7;
+        linha(g, cx, cy - R, cx, cy + R);
+      }
+      // seta para r menor
+      g.strokeStyle = "rgba(255,156,110,0.85)"; g.fillStyle = "rgba(255,156,110,0.85)"; g.lineWidth = 1.4;
+      const ax = cx + gr[0] * R * 0.62, ay = cy + gr[1] * R * 0.62;
+      const bx = cx + gr[0] * R * 0.9, by = cy + gr[1] * R * 0.9;
+      linha(g, ax, ay, bx, by);
+      g.beginPath(); g.moveTo(bx + gr[0] * 3, by + gr[1] * 3);
+      g.lineTo(bx - gr[0] * 5 + tg[0] * 3.5, by - gr[1] * 5 + tg[1] * 3.5);
+      g.lineTo(bx - gr[0] * 5 - tg[0] * 3.5, by - gr[1] * 5 - tg[1] * 3.5); g.closePath(); g.fill();
+      g.beginPath(); g.arc(cx, cy, 3.2, 0, 2 * Math.PI); g.fillStyle = COR.linha; g.fill();
+      g.restore();
+      // o rótulo "r = 0" junto à seta, do lado de fora do miolo
+      g.save(); g.shadowColor = "#000"; g.shadowBlur = 3;
+      // Em Schwarzschild e EF, r = 0 é a borda da esquerda; em Kruskal a seta só diz para que lado r diminui.
+      texto(g, carta === "kr" ? (pt ? "r menor" : "smaller r") : "r = 0", cx + gr[0] * R * 0.62 + tg[0] * 11, cy + gr[1] * R * 0.62 + tg[1] * 11, "rgba(255,170,130,0.95)", "center", 9, 600);
+      g.restore();
+      // legenda: inclinações e abertura
+      let l1, l2;
+      if (carta === "sch") {
+        if (noH) { l1 = pt ? "dt/dr = ±∞" : "dt/dr = ±∞"; l2 = pt ? "t não existe aqui" : "t fails here"; }
+        else {
+          l1 = "dt/dr = ±" + fmt(1 / Math.abs(f));
+          const ab = (e.x > 1 ? 2 * Math.atan(f) : 2 * Math.atan(1 / Math.abs(f))) * 180 / Math.PI;
+          l2 = (pt ? "abertura " : "opening ") + dec(ab, 0, l) + "°" + (e.x < 1 ? (iv ? (pt ? " · r maior" : " · larger r") : (pt ? " · r menor" : " · smaller r")) : "");
+        }
+      } else if (carta === "ef") {
+        if (iv) l1 = "du/dr = 0 " + (pt ? "e " : "& ") + (noH ? "∞" : fmt(-2 / f));
+        else l1 = "dv/dr = 0 " + (pt ? "e " : "& ") + (noH ? "∞" : fmt(2 / f));
+        l2 = (pt ? "abertura " : "opening ") + dec(Math.atan(e.x) * 180 / Math.PI, 0, l) + "°";
+      } else { l1 = "dT/dX = ±1"; l2 = pt ? "abertura 90°, sempre" : "opening 90°, always"; }
+      texto(g, l1, cx, cy + R + 14, COR.txt, "center", estreito ? 9 : 10, 500);
+      texto(g, l2, cx, cy + R + 27, COR.txt2, "center", estreito ? 9 : 10, 500);
+    });
+  }
+
+  // ── números ───────────────────────────────────────────────────────────
+  const bi = (pt, en) => '<span lang="pt">' + pt + '</span><span lang="en">' + en + "</span>";
+  const dois = f => bi(f("pt"), f("en"));
+  const RS = "r<sub>s</sub>";
+  const msPorRs = () => st.rs / CLUZ * 1000;
+  function km(v, l) {
+    const d = v >= 1000 ? 0 : v >= 100 ? 1 : v >= 10 ? 2 : 3;
+    return dec(v, d, l) + " km";
+  }
+  function sig(v, l) {
+    const a = Math.abs(v), d = a >= 100 ? 1 : a >= 10 ? 2 : a >= 1 ? 3 : a >= 0.1 ? 3 : 4;
+    return dec(v, d, l);
+  }
+  const tempo = (v, l) => dec(v, 2, l) + " " + RS + "/c <small>" + sig(v * msPorRs(), l) + " ms</small>";
+
+  let ultimoPainel = "", ultimoRegime = "";
+  function painel(e) {
+    const tr = st.traj, f = 1 - 1 / e.x, sch = emSch(e), efc = emEF(e);
+    const html = dois(l => {
+      const pt = l === "pt";
+      const item = (dt, dd, cls) => "<div" + (cls ? ' class="' + cls + '"' : "") + "><dt>" + dt + "</dt><dd>" + dd + "</dd></div>";
+      let s = "<dl>";
+      s += item(pt ? "tempo próprio τ" : "proper time τ", tr ? tempo(st.tau, l) : (pt ? "— (sem partícula)" : "— (no particle)"), "hz-forte");
+      s += item("r", km(e.x * st.rs, l) + " <small>" + dec(e.x, 3, l) + " " + RS + "</small>", "hz-forte");
+      let tS;
+      if (!sch) tS = pt ? "— (fora desta carta)" : "— (not on this chart)";
+      else if (!isFinite(sch[1])) tS = (sch[1] > 0 ? "+∞" : "−∞") + (pt ? " <small>no horizonte</small>" : " <small>on the horizon</small>");
+      else tS = tempo(sch[1], l);
+      s += item(pt ? "t de Schwarzschild" : "Schwarzschild t", tS);
+      s += item(st.dom === "IV" ? (pt ? "t̂ de Eddington–Finkelstein (de saída)" : "Eddington–Finkelstein t̂ (outgoing)") : (pt ? "t̃ de Eddington–Finkelstein" : "Eddington–Finkelstein t̃"),
+        efc ? tempo(efc[1], l) : "—");
+      s += item(pt ? "Kruskal" : "Kruskal", "T = " + dec(e.T, 3, l) + " &nbsp;·&nbsp; X = " + dec(e.X, 3, l) +
+        " <small>T² − X² = " + dec(e.T * e.T - e.X * e.X, 3, l) + "</small>");
+      const gtt = -f, grr = Math.abs(f) > 1e-9 ? 1 / f : NaN;
+      const grrTxt = !isFinite(grr) ? "±∞" : Math.abs(grr) >= 1000 ? (grr > 0 ? "+∞" : "−∞") : (grr > 0 ? "+" : "") + dec(grr, 3, l);
+      s += item(pt ? "g<sub>tt</sub> e g<sub>rr</sub>" : "g<sub>tt</sub> and g<sub>rr</sub>",
+        (gtt > 0 ? "+" : "") + dec(gtt, 3, l) + (pt ? " &nbsp;e&nbsp; " : " &nbsp;and&nbsp; ") + grrTxt +
+        " <small>" + (e.x < 1 ? (pt ? "trocaram de sinal: r é tempo" : "signs swapped: r is time") : (pt ? "fora: t é tempo" : "outside: t is time")) + "</small>");
+      let vel;
+      if (!tr) vel = pt ? "— (sem partícula)" : "— (no particle)";
+      else if (e.x <= 1) vel = pt ? "— não há observador parado dentro do horizonte" : "— there is no observer at rest inside the horizon";
+      else {
+        const v = Math.sqrt(Math.max(0, 1 - f / (tr.E * tr.E)));
+        vel = dec(v, 3, l) + " c <small>" + (tr.sai ? (pt ? "para fora" : "outwards") : (st.tau === 0 && tr.tipo === "repouso" ? (pt ? "parada" : "at rest") : (pt ? "para dentro" : "inwards"))) + "</small>";
+      }
+      s += item(pt ? "velocidade medida por um observador parado ali" : "speed measured by an observer at rest there", vel);
+      let sinal = "—";
+      if (tr) {
+        const k = Math.min(NSINAIS - 1, Math.floor(st.tau / (tr.tauFim / NSINAIS) + 1e-9));
+        const s1 = st.lista[k], s0 = k > 0 ? st.lista[k - 1] : null;
+        if (!isFinite(s1.chega)) sinal = (pt ? "nº " : "no. ") + (k + 1) + (pt ? ", emitido dentro do horizonte: não sai, vai para r = 0" : ", sent from inside the horizon: never gets out, goes to r = 0");
+        else sinal = (pt ? "nº " : "no. ") + (k + 1) + (pt ? ", chega em t = " : ", arrives at t = ") + tempo(s1.chega, l) +
+          (s0 && isFinite(s0.chega) ? " <small>" + dec(s1.chega - s0.chega, 2, l) + (pt ? " depois do anterior" : " after the previous one") + "</small>" : "");
+      }
+      s += item(pt ? "último sinal ao observador em r = 4 " + RS : "latest signal to the observer at r = 4 " + RS, sinal);
+      return s + "</dl>";
+    });
+    if (html !== ultimoPainel) { $("painel").innerHTML = html; ultimoPainel = html; }
+  }
+
+  function regime(e) {
+    const tr = st.traj, el = $("regime");
+    let cls = "hz-regime";
+    const f = 1 - 1 / e.x;
+    const html = dois(l => {
+      const pt = l === "pt", r = dec(e.x, 3, l) + " " + RS;
+      const resta = tr ? dec(tr.tauFim - st.tau, 2, l) + " " + RS + "/c (" + sig((tr.tauFim - st.tau) * msPorRs(), l) + " ms)" : "";
+      if (Math.abs(f) < 2e-3) {
+        return pt ? "<b>No horizonte</b>, r = " + r + ". Em Schwarzschild o cone virou um segmento e t foi a infinito: a carta não chega aqui. Em Eddington–Finkelstein a borda de saída está vertical — luz emitida para fora fica parada em r<sub>s</sub>, e o horizonte é feito desses raios. Em Kruskal, o cone é igual a todos os outros."
+          : "<b>On the horizon</b>, r = " + r + ". In Schwarzschild the cone has become a segment and t has gone to infinity: the chart does not reach here. In Eddington–Finkelstein the outgoing edge is vertical — light sent outwards stays put at r<sub>s</sub>, and the horizon is made of such rays. In Kruskal, the cone is like every other.";
+      }
+      if (e.x < 1 && st.dom === "IV") {
+        return pt ? "<b>Dentro do buraco branco</b> (região IV), a r = " + r + ". O cone tombou para o outro lado: as duas bordas apontam para r maior, e a partícula é empurrada para fora tão inevitavelmente quanto, num buraco negro, seria puxada para dentro. Em Schwarzschild ela cruza o horizonte em t = −∞."
+          : "<b>Inside the white hole</b> (region IV), at r = " + r + ". The cone has tipped the other way: both edges point to larger r, and the particle is pushed outwards as inevitably as a black hole would pull it in. In Schwarzschild it crosses the horizon at t = −∞.";
+      }
+      if (e.x < 1) {
+        const fim = tr && tr.tauFim - st.tau < 1e-6;
+        if (fim) return pt ? "<b>Em r = 0</b>, ao fim de τ = " + dec(tr.tauFim, 2, l) + " " + RS + "/c. A geodésica acaba aqui: não há futuro para onde continuar."
+          : "<b>At r = 0</b>, after τ = " + dec(tr.tauFim, 2, l) + " " + RS + "/c. The geodesic ends here: there is no future to carry on into.";
+        return pt ? "<b>Dentro do buraco negro</b>, a r = " + r + ". g<sub>tt</sub> e g<sub>rr</sub> trocaram de sinal: quem mede tempo agora é r. As duas bordas do cone apontam para r menor, nos três mapas" +
+            (tr ? "; chegar a r = 0 leva mais τ = " + resta + ", e não há como evitar." : ", e não há direção futura que leve de volta ao horizonte.")
+          : "<b>Inside the black hole</b>, at r = " + r + ". g<sub>tt</sub> and g<sub>rr</sub> have swapped sign: r is now what measures time. Both edges of the cone point to smaller r, on all three maps" +
+            (tr ? "; reaching r = 0 takes τ = " + resta + " more, and there is no avoiding it." : ", and no future direction leads back to the horizon.");
+      }
+      if (tr && tr.sai) {
+        return pt ? "<b>Fora</b>, a r = " + r + ", saindo do buraco branco. Em Schwarzschild a linha de mundo começa em t = −∞ no horizonte; os sinais que a partícula mandou lá de dentro chegam ao observador normalmente — é o filme da queda passado ao contrário."
+          : "<b>Outside</b>, at r = " + r + ", out of the white hole. In Schwarzschild the world line starts at t = −∞ on the horizon; the signals the particle sent from inside reach the observer normally — it is the film of the fall run backwards.";
+      }
+      const ab = dec(2 * Math.atan(f) * 180 / Math.PI, 0, l);
+      if (e.x < 1.25) {
+        const falta = tr ? dec(Math.max(0, tr.tauH - st.tau), 3, l) + " " + RS + "/c" : "";
+        return pt ? "<b>A " + dec(e.x - 1, 3, l) + " " + RS + " do horizonte.</b> No mapa de Schwarzschild o cone virou quase um risco (abertura de " + ab + "°, em escala igual) e t dispara para +∞. Em Eddington–Finkelstein e em Kruskal nada de especial acontece" +
+            (tr ? " — e o relógio da partícula também não nota nada: faltam τ = " + falta + " até o horizonte." : ".")
+          : "<b>" + dec(e.x - 1, 3, l) + " " + RS + " from the horizon.</b> On the Schwarzschild map the cone is almost a line (" + ab + "° wide, at equal scale) and t shoots off to +∞. In Eddington–Finkelstein and Kruskal nothing special happens" +
+            (tr ? " — and the particle's clock notices nothing either: τ = " + falta + " left to the horizon." : ".");
+      }
+      return pt ? "<b>Fora</b>, a r = " + r + ". O cone de Schwarzschild já é mais estreito que o de 45° (abertura de " + ab + "°, em escala igual): perto da massa, a luz cobre menos r por unidade de t. Ele se fecha de vez em r<sub>s</sub>."
+        : "<b>Outside</b>, at r = " + r + ". The Schwarzschild cone is already narrower than 45° (" + ab + "° wide, at equal scale): near the mass, light covers less r per unit of t. It closes up completely at r<sub>s</sub>.";
+    });
+    if (e.x < 1) cls += st.dom === "IV" ? " branco" : " dentro";
+    else if (Math.abs(f) < 2e-3) cls += " dentro";
+    if (html !== ultimoRegime || el.className !== cls) { el.innerHTML = html; el.className = cls; ultimoRegime = html; }
+  }
+
+  function rotulos() {
+    const l = idioma();
+    $("lblTau").textContent = st.traj ? dec(st.tau, 2, l) + " rₛ/c" : "—";
+    $("lblR").textContent = dec(st.livre.x, 3, l) + " rₛ";
+    $("lblR0").textContent = dec(st.r0, 2, l) + " rₛ";
+    $("lblM").textContent = dec(st.M, 1, l) + " M☉";
+    if (st.traj) $("tau").value = Math.round(1000 * st.tau / st.traj.tauFim);
+    else $("rr").value = st.livre.x;
+    $("toca").innerHTML = st.tocando ? bi("Pausar", "Pause") : (fimDaLinha() ? bi("Tocar de novo", "Play again") : bi("Tocar", "Play"));
+  }
+  const fimDaLinha = () => (st.traj ? st.tau >= st.traj.tauFim - 1e-9 : st.livre.x <= 0.0201);
+
+  function desenha() {
+    prepara();
+    const e = eventoAtual();
+    desenhaCarta(telas.esq, e);
+    desenhaCarta(telas.dir, e);
+    desenhaLupa(e);
+    painel(e); regime(e); rotulos();
+  }
+
+  // ── laço ──────────────────────────────────────────────────────────────
+  let pedido = false, ultimo = 0, visivel = true;
+  function pede() { if (!pedido && visivel) { pedido = true; requestAnimationFrame(quadro); } }
+  function quadro(t) {
+    pedido = false;
+    if (st.tocando) {
+      const dt = ultimo ? Math.min(0.05, (t - ultimo) / 1000) : 0;
+      ultimo = t;
+      if (st.traj) {
+        st.tau += dt * st.traj.tauFim / DUR;
+        if (st.tau >= st.traj.tauFim) { st.tau = st.traj.tauFim; st.tocando = false; }
+      } else {
+        st.livre.x -= dt * 4 / DUR;
+        if (st.livre.x <= 0.02) { st.livre.x = 0.02; st.tocando = false; }
+      }
+      if (st.tocando) pede();
+    }
+    if (!st.tocando) ultimo = 0;
+    desenha();
+  }
+
+  // ── ponteiro: tocar ou arrastar move o ponto ──────────────────────────
+  // Com trajetória, vai para o ponto mais próximo da linha de mundo; no cone
+  // livre, para o evento sob o dedo (em Kruskal, só nas regiões I e II).
+  function aplica(t, px, py) {
+    const V = t.V;
+    if (st.traj) {
+      if (!t.linha) return;
+      let melhor = null, dm = Infinity;
+      for (let i = 1; i < t.linha.length; i++) {
+        const A = t.linha[i - 1].s, B = t.linha[i].s;
+        if (!A || !B) continue;
+        const dx = B[0] - A[0], dy = B[1] - A[1], L2 = dx * dx + dy * dy;
+        const u = L2 > 0 ? Math.min(1, Math.max(0, ((px - A[0]) * dx + (py - A[1]) * dy) / L2)) : 0;
+        const d = Math.hypot(A[0] + u * dx - px, A[1] + u * dy - py);
+        if (d < dm) { dm = d; melhor = t.linha[i - 1].p + u * (t.linha[i].p - t.linha[i - 1].p); }
+      }
+      if (melhor !== null) st.tau = Math.min(st.traj.tauFim, Math.max(0, melhor));
+    } else {
+      const [a, b] = V.inv(px, py);
+      let x, tt;
+      if (V.carta === "kr") {
+        let U = b - a, Vk = b + a;
+        if (Vk < 0.01) Vk = 0.01;
+        if (U * Vk > 0.9995) U = 0.9995 / Vk;
+        x = xDeW(U * Vk); tt = 2 * Math.log(Vk) - x;
+        if (x > XMAX) { tt += 0; x = XMAX; }
+      } else {
+        x = Math.min(XMAX, Math.max(0.02, a));
+        if (Math.abs(x - 1) < 1e-4) x = 1 + (x >= 1 ? 1e-4 : -1e-4);
+        tt = V.carta === "ef" ? b : b + Math.log(Math.abs(x - 1));
+      }
+      x = Math.min(4, Math.max(0.02, x));
+      st.livre = { x, tt: Math.max(-8, Math.min(8, tt)) };
+    }
+    st.tocando = false;
+    pede();
+  }
+
+  for (const k of ["esq", "dir"]) {
+    const t = telas[k];
+    let id = null;
+    const local = ev => { const r = t.cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; };
+    t.cv.addEventListener("pointerdown", ev => {
+      id = ev.pointerId; t.cv.setPointerCapture(id);
+      t.cv.classList.add("grabbing");
+      aplica(t, ...local(ev));
+    });
+    t.cv.addEventListener("pointermove", ev => { if (ev.pointerId === id) aplica(t, ...local(ev)); });
+    const fim = ev => { if (ev.pointerId === id) { id = null; t.cv.classList.remove("grabbing"); } };
+    t.cv.addEventListener("pointerup", fim);
+    t.cv.addEventListener("pointercancel", fim);
+  }
+
+  // ── controles ─────────────────────────────────────────────────────────
+  function poeModo(m) {
+    st.modo = m; st.tau = 0;
+    document.querySelectorAll("[data-modo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.modo === m)));
+    $("ctlTau").hidden = m === "livre"; $("ctlR").hidden = m !== "livre";
+    if (m === "livre") st.livre = { x: 3, tt: 0 };
+    montaTraj();
+    st.tocando = !reduzido && m !== "livre";
+    pede();
+  }
+  document.querySelectorAll("[data-modo]").forEach(b => { b.onclick = () => poeModo(b.dataset.modo); });
+  document.querySelectorAll("[data-carta]").forEach(b => {
+    b.onclick = () => {
+      st.carta = b.dataset.carta;
+      document.querySelectorAll("[data-carta]").forEach(c => c.setAttribute("aria-pressed", String(c === b)));
+      sujo = true; pede();
+    };
+  });
+  $("tau").oninput = e => { if (st.traj) { st.tau = st.traj.tauFim * e.target.value / 1000; st.tocando = false; pede(); } };
+  $("rr").oninput = e => { st.livre.x = +e.target.value; st.tocando = false; pede(); };
+  $("r0").oninput = e => {
+    st.r0 = +e.target.value;
+    if (st.modo !== "repouso") poeModo("repouso");
+    else { const fr = st.traj ? st.tau / st.traj.tauFim : 0; montaTraj(); st.tau = fr * st.traj.tauFim; pede(); }
+  };
+  $("mm").oninput = e => { st.M = +e.target.value; st.rs = st.M * RS1; pede(); };
+  $("sinais").onchange = e => { st.sinais = e.target.checked; pede(); };
+  $("toca").onclick = () => {
+    if (!st.tocando && fimDaLinha()) { if (st.traj) st.tau = 0; else st.livre.x = 4; }
+    st.tocando = !st.tocando; pede();
+  };
+  $("reset").onclick = () => {
+    st.M = 10; st.rs = 10 * RS1; st.r0 = 2; st.carta = "sch"; st.sinais = true;
+    $("mm").value = 10; $("r0").value = 2; $("sinais").checked = true;
+    document.querySelectorAll("[data-carta]").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.carta === "sch")));
+    poeModo("inf");
+  };
+  document.querySelectorAll("[data-set-lang]").forEach(b => b.addEventListener("click", () => { sujo = true; pede(); }));
+
+  new ResizeObserver(() => { sujo = true; pede(); }).observe($("esq"));
+  new ResizeObserver(() => { sujo = true; pede(); }).observe($("lupa"));
+  new IntersectionObserver(es => {
+    visivel = es.some(x => x.isIntersecting);
+    if (visivel) { ultimo = 0; pede(); }
+  }).observe(document.querySelector(".hz"));
+
+  // Para conferir no console: horizonte.bordas("ef", 0.5, "II"), horizonte.trajInf().at(1) ...
+  window.horizonte = { trajInf, trajRepouso, trajBranco, xDeW, emSch, emEF, bordas, estado: st, eventoAtual };
+
+  montaTraj();
+  if (reduzido) st.tau = 0.8 * st.traj.tauH;
+  pede();
+})();
+</script>
+
+</body>
+</html>

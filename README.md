@@ -15,7 +15,7 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
-Onze páginas de HTML puro, mais os slides das palestras em `site/talks/` e uma função
+Doze páginas de HTML puro, mais os slides das palestras em `site/talks/` e uma função
 na Cloudflare para o contador de visitas. Não há build, não há dependência e não há
 `node_modules`.
 
@@ -29,7 +29,8 @@ site/laboratorio.html 05 · luz em torno de um buraco negro
 site/estrela.html     06 · estrela de nêutrons girando, com hot spot
 site/fusao.html       07 · fusão de duas estrelas de nêutrons (GW170817)
 site/flamm.html       08 · paraboloide de Flamm em 3D, com distância própria entre dois pontos
-site/talks.html       09 · seminários e palestras
+site/horizonte.html   09 · cones de luz no horizonte: Schwarzschild, Eddington–Finkelstein e Kruskal
+site/talks.html       10 · seminários e palestras
 site/visitas.html     quantas pessoas vieram, e de onde (fora da navegação; o globo da capa leva até ela)
 site/visita.js        conta a visita — uma linha no <head> de cada página pública
 site/mundo.svg        o mapa-múndi da página de visitas, gerado por tools/mundo.py
@@ -56,7 +57,7 @@ Para ver localmente:
 python3 -m http.server -d site 8000
 ```
 
-**A navegação é byte-a-byte idêntica nas onze páginas.** Quem acende o item
+**A navegação é byte-a-byte idêntica nas doze páginas.** Quem acende o item
 da página atual é o JS, comparando `location.pathname` com o `href` de cada
 link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
 navegação, troque o bloco `<nav class="nav">` em todos os arquivos e confira com:
@@ -86,11 +87,19 @@ em fase porque a animação é a mesma e começa junto. O SVG ocupa exatamente a
 caixa que era do retrato: as pílulas de fora encostam nela, e crescer ali é
 atropelar a `.p3`.
 
-As sete pílulas são links, e só isso: quatro para as seções do site, duas
-para os laboratórios e uma para o e-mail. Cada uma das quatro leva o mesmo
-ícone do cartão de destino lá embaixo — mesmo lugar, mesmo desenho — e a
-ordem delas no HTML segue a da navegação, porque abaixo de 46rem elas
-embrulham numa faixa e essa ordem vira a que se lê.
+As onze pílulas são links, e só isso: quatro para as seções do site, cinco
+para os laboratórios, uma para o Farol e uma para o e-mail. Cada uma das quatro
+seções leva o mesmo ícone do cartão de destino lá embaixo — mesmo lugar, mesmo
+desenho — e a ordem delas no HTML segue a da navegação, porque abaixo de 46rem
+elas embrulham numa faixa e essa ordem vira a que se lê.
+
+As duas mais novas (`.p10`, Flamm, e `.p11`, cones de luz) ficam lado a lado no
+meio da fileira de baixo, sob o pulsar, o espelho da `.p9` em cima. Juntas elas
+ocupam uns 26rem, e para caberem a `.p3` (Material didático) saiu de 12% para 6%,
+o mesmo recuo da `.p6` do outro lado (abaixo de 60rem, de 6% para 0). Conferido
+sem sobreposição de 1440 a 750 px; abaixo de 46rem elas entram na faixa e o
+`left`/`right` delas é zerado, porque em posição relativa o `calc(50% …)` as
+jogaria para fora da tela.
 
 Até setembro de 2026 quatro delas eram conceitos (objetos compactos, matéria
 densa, magnetares, neutrinos) que abriam um balão de explicação ao passar o
@@ -365,6 +374,60 @@ pontos ficam em km, e é isso que faz a garganta crescer quando a massa sobe. Os
 `r = const` são desenhados no fragmento em potências de 10 km, cada nível aparecendo
 quando passa de ~7 px na tela. `window.flamm` expõe `geodesica`, `lRad`, `estado` e
 `tela` para conferir no console.
+
+## O laboratório dos cones de luz no horizonte
+
+`/horizonte.html` mostra o que acontece com as coordenadas de Schwarzschild perto do
+horizonte, para quem chega de fora e para quem está dentro. Uma queda radial é desenhada
+em três cartas ao mesmo tempo: Schwarzschild `(r, t)` ou Eddington–Finkelstein `(r, t̃)`,
+numa aba, e Kruskal–Szekeres `(X, T)` ao lado. O destaque é o **cone de luz** preso à
+partícula: nos diagramas, o cone tangente e os dois raios de luz pelo ponto; na faixa de
+baixo, o cone local nas três cartas em escala igual, com a reta `r = const` e uma seta
+para r menor. Em Schwarzschild ele se fecha num segmento no horizonte e tomba para r = 0
+lá dentro; em EF a borda de saída fica vertical em `r_s` e a abertura é `arctan(r/r_s)`;
+em Kruskal ele fica a 45° sempre. Canvas 2D, sem biblioteca.
+
+Quatro modos: **vindo do infinito** (E = 1, mostrada de 4 r_s), **do repouso em r₀** (a
+cicloide de MTW 31.10, r₀ de 1,2 a 3,8 r_s), **saindo do buraco branco** (a queda passada
+ao contrário: região IV → I, com t começando em −∞) e **cone livre** (um ponto que se
+arrasta à mão, ou pelo controle de r ao longo de `t̃ = const`). Tocar ou arrastar num
+diagrama leva o ponto ao lugar mais próximo da linha de mundo. A massa (1 a 30 M☉) só
+muda km e ms: em unidades de r_s a geometria é a mesma. Quinze sinais de luz saem a
+intervalos iguais de τ para um observador parado em 4 r_s, com `u = t − r*` constante.
+
+Todo evento é guardado em Kruskal, `(U, V)`, e as cartas saem daí; `r` vem de
+`UV = (1 − r)e^r` por Newton com bissecção. As trajetórias têm forma fechada **regular
+no horizonte**: com `s = √r`, a queda do infinito dá `U = −(s − 1)e^{(r−h)/2}`,
+`V = (s + 1)e^{(r+h)/2}`; a cicloide dá `U = −(a cos(η/2) − sen(η/2))e^{(r−g)/2}`,
+`V = (a cos(η/2) + sen(η/2))e^{(r+g)/2}`. A constante de t é escolhida para toda queda
+terminar em r = 0 com X = 0,6, o que deixa a travessia no meio da janela de Kruskal. A
+faixa `r < r_s` de Schwarzschild é a região II ou a IV conforme a trajetória, e para o
+buraco branco a aba EF passa para as coordenadas de saída (`t̂ = u + r`), porque as de
+entrada não chegam à região IV.
+
+Conferências (`r_s = c = 1`), com as geodésicas radiais integradas pelas equações de
+segunda ordem, sem usar as constantes de movimento (DOP853, `rtol 1e-12`):
+
+- **Queda do infinito**, de 4 r_s até 0,025 r_s, em Eddington–Finkelstein: r(τ) bate
+  com a fórmula a 5·10⁻¹² e t̃(τ) a 4·10⁻¹²; t(τ) a 4·10⁻⁹ (o resto é o `ln|r − 1|`
+  amplificando o erro de r junto ao horizonte). Na carta de Schwarzschild, fora (4 → 1,02)
+  e dentro (0,98 → 0,01) separadamente: 2·10⁻¹¹ ou melhor.
+- **Cicloide** de r₀ = 2: r a 3·10⁻¹¹, t̃ a 3·10⁻¹¹, t a 3·10⁻⁷ (idem).
+- **Kruskal liso**: no horizonte T = X = 0,767583174582 (T − X = −9·10⁻¹⁶); dT/dτ antes
+  e depois, com passo 10⁻⁴: 1,077322 e 1,077145, e d²T/dτ² = −1,770888, −1,770676,
+  −1,770464 — variação do tamanho do passo, sem salto. (U, V) da integração e da fórmula
+  batem a 3·10⁻¹² em τ_H ± 0,05, e `−(4/r)e^{−r} dU dV/dτ² = −1` ao longo da cicloide.
+- **Tempo próprio até r = 0** do repouso: r₀ = 10 → 49,67294133 integrado, contra
+  `π r₀^{3/2}/2 = 49,67294133`; r₀ = 2 → 4,44288294; r₀ = 4 → 12,56637061.
+- **Cones**: as bordas da página, em r = 4; 2; 1,1; 1,01; 0,9; 0,5; 0,1, dão
+  `dt/dr = ±1/(1 − 1/r)` em Schwarzschild e `dv/dr = 0` e `2/(1 − 1/r)` em EF (por
+  exemplo +2,6667 em r = 4, +202 em 1,01, −2 em 0,5), com `ds²` nulo a 6·10⁻¹⁷; levadas a
+  Kruskal pela transformação, ficam a `dT/dX = ±1` a 10⁻⁵. Dentro, as duas bordas têm
+  dr < 0 (região II) ou dr > 0 (região IV).
+- A página contra o Python, nas mesmas fórmulas: 4·10⁻¹⁶ em r e 8·10⁻¹⁵ em t.
+
+`window.horizonte` expõe `trajInf`, `trajRepouso`, `trajBranco`, `emSch`, `emEF`,
+`bordas` e `estado` para conferir no console.
 
 ## O quadro de giz
 
