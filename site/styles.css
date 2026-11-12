@@ -920,6 +920,67 @@ main {
 .gw-regime.alerta { border-left-color: #ff9c6e; background: rgba(255, 156, 110, 0.09); color: #ffcdb5; }
 .gw-regime.alerta b { color: #fff; }
 
+/* ── laboratório 08: paraboloide de Flamm ──────────────────────
+   WebGL embaixo, um canvas 2D por cima para os pontos e rótulos. */
+.fl-palco { aspect-ratio: 16 / 10; }
+@media (max-width: 40rem) { .fl-palco { aspect-ratio: 4 / 5; } }
+.fl-palco canvas.fl-ov { position: absolute; inset: 0; pointer-events: none; cursor: auto; }
+.fl-palco canvas:focus-visible { outline: 2px solid var(--acc-edge); outline-offset: -2px; }
+.fl-palco .lab-readout { right: 0.9rem; }
+.fl-palco .lab-hint { left: 3.6rem; text-align: right; }
+
+.fl-zoom {
+  position: absolute; left: 0.7rem; top: 0.7rem;
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.lab .fl-zoom button {
+  width: 2.1rem; height: 2.1rem; padding: 0;
+  display: grid; place-items: center;
+  font-size: 1.1rem; line-height: 1;
+  background: rgba(10, 11, 18, 0.72);
+}
+.fl-zoom svg { width: 16px; height: 16px; }
+
+.fl-semgl {
+  position: absolute; inset: 0; margin: 0;
+  display: grid; place-items: center; padding: 2rem;
+  font-family: var(--ui); font-size: 0.85rem; color: var(--text-2); text-align: center;
+}
+.fl-semgl[hidden] { display: none; }
+
+.fl-painel {
+  margin: 1.15rem 0 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 12px;
+  border-left: 2px solid #ffc46e;
+  background: var(--surface);
+  font-family: var(--ui); font-size: 0.8rem; line-height: 1.5;
+  color: var(--text-2);
+}
+.fl-painel b { color: var(--text); font-weight: 600; }
+.fl-painel dl {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.7rem 1.6rem; margin: 0;
+}
+.fl-painel dt { color: var(--text-3); font-size: 0.72rem; }
+.fl-painel dd { margin: 0.1rem 0 0; color: var(--text); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.fl-painel dd small { color: var(--text-3); font-size: 0.7rem; margin-left: 0.3rem; white-space: nowrap; }
+.fl-painel .fl-propria dd, .fl-painel .fl-razao dd { color: #ffc46e; font-weight: 600; font-size: 1rem; }
+
+.fl-regime {
+  margin: 1rem 0 0;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border-left: 2px solid var(--line-2);
+  background: var(--surface);
+  font-family: var(--ui); font-size: 0.8rem; line-height: 1.55;
+  color: var(--text-2);
+}
+.fl-regime b { color: var(--text); font-weight: 600; }
+.fl-regime.exotico { border-left-color: var(--acc-2); background: rgba(86, 225, 208, 0.08); }
+.fl-regime.alerta { border-left-color: #ff9c6e; background: rgba(255, 156, 110, 0.09); color: #ffcdb5; }
+.fl-regime.alerta b { color: #fff; }
+
 /* ── visitas ──────────────────────────────────────────────────
    Só /visitas.html usa daqui até o rodapé. Uma cor só para os
    dados, porque todas as marcas são da mesma série — pessoas: o

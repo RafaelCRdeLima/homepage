@@ -15,7 +15,7 @@ em `site/index.html` e esta seção.
 
 ## Estrutura
 
-Dez páginas de HTML puro, mais os slides das palestras em `site/talks/` e uma função
+Onze páginas de HTML puro, mais os slides das palestras em `site/talks/` e uma função
 na Cloudflare para o contador de visitas. Não há build, não há dependência e não há
 `node_modules`.
 
@@ -28,7 +28,8 @@ site/material.html   04 · disciplinas e material didático
 site/laboratorio.html 05 · luz em torno de um buraco negro
 site/estrela.html     06 · estrela de nêutrons girando, com hot spot
 site/fusao.html       07 · fusão de duas estrelas de nêutrons (GW170817)
-site/talks.html       08 · seminários e palestras
+site/flamm.html       08 · paraboloide de Flamm em 3D, com distância própria entre dois pontos
+site/talks.html       09 · seminários e palestras
 site/visitas.html     quantas pessoas vieram, e de onde (fora da navegação; o globo da capa leva até ela)
 site/visita.js        conta a visita — uma linha no <head> de cada página pública
 site/mundo.svg        o mapa-múndi da página de visitas, gerado por tools/mundo.py
@@ -55,7 +56,7 @@ Para ver localmente:
 python3 -m http.server -d site 8000
 ```
 
-**A navegação é byte-a-byte idêntica nas dez páginas.** Quem acende o item
+**A navegação é byte-a-byte idêntica nas onze páginas.** Quem acende o item
 da página atual é o JS, comparando `location.pathname` com o `href` de cada
 link — não há classe `ativo` escrita à mão em arquivo nenhum. Ao mexer na
 navegação, troque o bloco `<nav class="nav">` em todos os arquivos e confira com:
@@ -317,6 +318,53 @@ Quatro coisas que exigiram cuidado:
 
 O pós-fusão de estrelas de nêutrons **não** está modelado — em GW170817 ele
 não foi detectado — e a faixa da onda diz isso em vez de inventar um sinal.
+
+## O laboratório do paraboloide de Flamm
+
+`/flamm.html` desenha em 3D a fatia equatorial `t = const` de Schwarzschild,
+`dl² = dr²/(1 − r_s/r) + r²dφ²`, mergulhada como `z(r) = 2√(r_s(r − r_s))`. Dois
+cliques marcam A e B; o painel dá r₁, r₂ (km e r_s), Δr, a distância plana com as
+mesmas coordenadas, a distância própria (o comprimento da geodésica da superfície) e
+a razão entre as duas. É WebGL direto, sem biblioteca, como o Farol: a superfície, e
+um canvas 2D por cima para os pontos e os rótulos.
+
+A geodésica sai de Clairaut, `x² dφ/dl = h` (x = r/r_s), com as integrais de Δφ e
+de L feitas na altura z, onde a métrica é regular até a garganta
+(`dl² = x dz² + x² dφ²`). A troca `z = z_a + s²` tira a singularidade do ponto de
+retorno e `s = κ senh w` espalha o pico de quando a geodésica raspa a garganta;
+Simpson adaptativo. Um parâmetro só, monotônico, cobre as geodésicas sem retorno e
+as com retorno, e a bissecção acha o `h` que fecha em B. Com curvatura negativa
+(`K = −r_s/2r³`) não há pontos conjugados, então cada Δφ ∈ [0, π] tem uma geodésica
+só. Elas ficam na folha de cima: perto da garganta a que liga lados opostos contorna
+o círculo.
+
+Conferências, em unidades de r_s:
+
+- **Radial** (`r₁ = 3`, `r₂ = 10`, mesmo φ; para M = 10 M☉, 227,7 km contra
+  Δr = 206,7 km): a geodésica numérica dá 7,7095738621734, a fórmula fechada
+  `[√(r(r−r_s)) + r_s ln(√r + √(r−r_s))]` dá 7,7095738621734 — diferença de 4·10⁻¹⁶.
+- **Fora do radial**, contra um tiro independente com a EDO da geodésica em
+  Python (DOP853, `rtol 1e-12`): seis casos, entre eles dois pontos a 1,5 r_s em
+  lados opostos (4,258078110222) e um a 1,05 r_s, batem a 3·10⁻¹³ ou melhor.
+- **Limite plano** (M = 10⁻⁶ M☉, r em km): a geodésica bate com
+  `√(r₁² + r₂² − 2r₁r₂ cos Δφ)` a 2·10⁻⁸, que é o tamanho de r_s/r.
+- A poligonal desenhada, medida em 3D, tem o comprimento da integral a 10⁻⁶ — o
+  mergulho é isométrico.
+
+Duas coisas que exigiram cuidado:
+
+1. **Pontos quase coincidentes.** Com Δφ ~ 10⁻⁶ o retorno fica a 10⁻¹³ de x₁ e a
+   bissecção não o resolve (erro de 0,2%). Abaixo de 10⁻³ r_s de separação vale a
+   métrica local, com erro `K·L² < 10⁻⁶`.
+2. **O furo da garganta.** Aproximar com a roda sobre o furo, vista de cima, levava a
+   câmera para dentro dele e a tela ficava preta. O limite de perto vale para a
+   distância até o ponto sob o cursor (0,1 r_s); com o alvo no furo, 3 r_s.
+
+A malha é feita uma vez, em unidades de r_s, até 2500 r_s; a câmera, o alvo e os
+pontos ficam em km, e é isso que faz a garganta crescer quando a massa sobe. Os anéis
+`r = const` são desenhados no fragmento em potências de 10 km, cada nível aparecendo
+quando passa de ~7 px na tela. `window.flamm` expõe `geodesica`, `lRad`, `estado` e
+`tela` para conferir no console.
 
 ## O quadro de giz
 

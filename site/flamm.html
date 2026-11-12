@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="pt-BR" data-lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0b12">
+<title>Laboratório · Paraboloide de Flamm</title>
+<meta name="description" content="Demonstrador interativo: o paraboloide de Flamm, a geometria do espaço em volta de uma massa de Schwarzschild, em 3D. Clique em dois pontos e compare a distância de coordenada com a distância própria, medida sobre a superfície.">
+<meta name="author" content="Rafael Camargo Rodrigues de Lima">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Laboratório · Paraboloide de Flamm">
+<meta property="og:description" content="Demonstrador interativo: o paraboloide de Flamm, a geometria do espaço em volta de uma massa de Schwarzschild, em 3D. Clique em dois pontos e compare a distância de coordenada com a distância própria, medida sobre a superfície.">
+<meta property="og:image" content="https://rafael-lima.pages.dev/rafael-atlas.jpg?v=3">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300..700;1,400&family=Literata:ital,opsz,wght@0,7..72,300..600;1,7..72,300..500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/styles.css">
+<script src="/visita.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#conteudo"><span lang="pt">Ir para o conteúdo</span><span lang="en">Skip to content</span></a>
+
+<div class="panel panel-slim">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+          <path d="M11.6 5.6A11.4 11.4 0 1 1 5.9 21.6"/>
+          <circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </span>
+      <span class="brandname">R. C. R. de Lima</span>
+    </a>
+    <nav class="nav" aria-label="Seções / Sections">
+      <a href="/pesquisa.html"><span lang="pt">Pesquisa</span><span lang="en">Research</span></a>
+      <a href="/codes.html">Codes</a>
+      <a href="/producao.html"><span lang="pt">Produção</span><span lang="en">Publications</span></a>
+      <a href="/material.html"><span lang="pt">Material didático</span><span lang="en">Teaching</span></a>
+      <a href="/laboratorio.html"><span lang="pt">Laboratório</span><span lang="en">Lab</span></a>
+      <a href="/talks.html">Talks</a>
+    </nav>
+    <div class="topbar-end">
+      <div class="langswitch" role="group" aria-label="Idioma / Language">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <span class="langsep" aria-hidden="true">/</span>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn" href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+    </div>
+  </header>
+
+  <header class="pagehead">
+    <p class="pagenum">08</p>
+    <h1><span lang="pt">Paraboloide<br>de Flamm</span><span lang="en">Flamm's<br>paraboloid</span></h1>
+    <p class="pagelede" lang="pt">A geometria do espaço em volta de uma massa, desenhada como superfície. Gire, aproxime, afaste — e clique em dois pontos para comparar a distância que as coordenadas sugerem com a distância de verdade, medida sobre a superfície.</p>
+    <p class="pagelede" lang="en">The geometry of space around a mass, drawn as a surface. Turn it, zoom in and out — and click two points to compare the distance the coordinates suggest with the real one, measured along the surface.</p>
+  </header>
+</div>
+
+<main id="conteudo">
+  <p class="lab-switch">
+    <span lang="pt">Laboratórios:</span><span lang="en">Labs:</span>
+    <a href="/laboratorio.html"><span lang="pt">Luz em torno de um buraco negro</span><span lang="en">Light around a black hole</span></a>
+    <a href="/estrela.html"><span lang="pt">Estrela de nêutrons girando</span><span lang="en">Spinning neutron star</span></a>
+    <a href="/fusao.html"><span lang="pt">Fusão de duas estrelas de nêutrons</span><span lang="en">Merger of two neutron stars</span></a>
+    <b aria-current="page"><span lang="pt">Paraboloide de Flamm</span><span lang="en">Flamm's paraboloid</span></b>
+  </p>
+
+  <div class="lab fl">
+    <div class="lab-stage fl-palco">
+      <canvas id="gl" tabindex="0" aria-label="Paraboloide de Flamm em 3D: arraste para girar, roda ou pinça para aproximar, clique em dois pontos / Flamm's paraboloid in 3D: drag to turn, wheel or pinch to zoom, click two points"></canvas>
+      <canvas id="ov" class="fl-ov" aria-hidden="true"></canvas>
+      <div class="fl-zoom">
+        <button type="button" id="mais" aria-label="Aproximar / Zoom in">+</button>
+        <button type="button" id="menos" aria-label="Afastar / Zoom out">−</button>
+        <button type="button" id="centro" aria-label="Recentralizar a vista / Recentre the view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M12 2.5v3.5M12 18v3.5M2.5 12H6M18 12h3.5"/></svg>
+        </button>
+      </div>
+      <div class="lab-readout" id="readout"></div>
+      <div class="lab-hint" id="hint">
+        <span lang="pt">arraste para girar · roda ou pinça para aproximar · clique em dois pontos</span>
+        <span lang="en">drag to turn · wheel or pinch to zoom · click two points</span>
+      </div>
+      <p class="fl-semgl" id="semgl" hidden>
+        <span lang="pt">Este navegador não abriu o WebGL, e sem ele não há como desenhar a superfície.</span>
+        <span lang="en">This browser did not open WebGL, and without it the surface cannot be drawn.</span>
+      </p>
+    </div>
+
+    <div class="lab-controls">
+      <div class="lab-ctl">
+        <span><span lang="pt">Massa central</span><span lang="en">Central mass</span><i id="lblM"></i></span>
+        <input id="mm" type="range" min="1" max="30" step="0.1" value="10" aria-label="Massa central / Central mass">
+      </div>
+      <div class="lab-toggles">
+        <button type="button" data-massa="1.4"><span lang="pt">Estrela de nêutrons · 1,4 M☉</span><span lang="en">Neutron star · 1.4 M☉</span></button>
+        <button type="button" data-massa="10"><span lang="pt">Buraco negro · 10 M☉</span><span lang="en">Black hole · 10 M☉</span></button>
+        <button type="button" data-massa="30">30 M☉</button>
+      </div>
+      <div class="lab-toggles">
+        <label class="lab-check"><input type="checkbox" id="estrela">
+          <span lang="pt">superfície de uma estrela de 12 km</span><span lang="en">surface of a 12 km star</span></label>
+        <label class="lab-check"><input type="checkbox" id="folha">
+          <span lang="pt">a outra folha (ponte de Einstein–Rosen)</span><span lang="en">the other sheet (Einstein–Rosen bridge)</span></label>
+        <button type="button" id="limpa"><span lang="pt">Apagar os pontos</span><span lang="en">Clear the points</span></button>
+        <button type="button" id="reset"><span lang="pt">Recomeçar</span><span lang="en">Reset</span></button>
+      </div>
+    </div>
+
+    <div class="fl-painel" id="painel" aria-live="polite"></div>
+    <p class="fl-regime" id="regime" hidden></p>
+  </div>
+
+  <div class="lab-notas">
+    <h2><span lang="pt">O que está sendo calculado</span><span lang="en">What is being computed</span></h2>
+
+    <div lang="pt" class="prose">
+      <p>Tome a métrica de Schwarzschild num instante fixo (<span class="mono">t = const</span>) e só no plano do equador (<span class="mono">θ = π/2</span>). Sobra a geometria de uma superfície de duas dimensões:</p>
+      <p class="eq">dl² = dr² / (1 − r<sub>s</sub>/r) + r² dφ², &nbsp; r<sub>s</sub> = 2GM/c² = 2,953 km × (M/M☉)</p>
+      <p>A coordenada <b>r</b> não é a distância até o centro: ela é definida pela circunferência, que vale <span class="mono">2πr</span> como no espaço plano. O que muda é a distância radial — o fator <span class="mono">1/√(1 − r<sub>s</sub>/r)</span> estica cada passo <span class="mono">dr</span>, e estica mais quanto mais perto de <span class="mono">r<sub>s</sub></span>.</p>
+
+      <p>Para enxergar essa geometria, Ludwig Flamm (1916) a desenhou como uma superfície de revolução no espaço euclidiano de três dimensões, escolhida para que as distâncias medidas sobre ela sejam exatamente as de <span class="mono">dl²</span>:</p>
+      <p class="eq">z(r) = 2 √( r<sub>s</sub> (r − r<sub>s</sub>) ), &nbsp; r ≥ r<sub>s</sub></p>
+      <p>O círculo <span class="mono">r = r<sub>s</sub></span>, em turquesa, é a <b>garganta</b> — num buraco negro, o horizonte. Os anéis violeta são <span class="mono">r = const</span> a intervalos fixos em quilômetros, e se afastam uns dos outros na parede do poço: o mesmo <span class="mono">Δr</span> custa mais distância ali. Longe da garganta a inclinação <span class="mono">dz/dr = √(r<sub>s</sub>/(r − r<sub>s</sub>))</span> vai a zero; afaste a câmera e o poço vira uma dobra pequena num lençol plano.</p>
+
+      <p class="destaque"><b>A altura z não existe.</b> Ela é uma dimensão auxiliar, que só serve para dar à superfície o formato certo: nenhum observador mede z, e o poço não é um buraco “para baixo” no espaço. O tempo também não aparece — o desenho é a geometria do espaço num instante, não a trajetória de nada. O que é físico é a distância medida <em>ao longo</em> da superfície, e é ela que o painel mostra.</p>
+
+      <p><b>Distância própria.</b> Entre dois pontos no mesmo φ, a distância medida por réguas paradas é</p>
+      <p class="eq">∫ dr / √(1 − r<sub>s</sub>/r) = [ √(r(r − r<sub>s</sub>)) + r<sub>s</sub> ln(√r + √(r − r<sub>s</sub>)) ] <sub>r₁</sub><sup>r₂</sup></p>
+      <p>Com φ diferentes, é o comprimento da <b>geodésica</b> da superfície, o caminho mais curto sobre ela. Numa superfície de revolução vale a relação de Clairaut, <span class="mono">r² dφ/dl = h</span> constante; para cada <span class="mono">h</span> o ângulo varrido e o comprimento saem de duas integrais, e o programa procura o <span class="mono">h</span> que leva de um ponto ao outro. As integrais são feitas na altura z, que é regular até a garganta, com uma troca de variável que tira a singularidade do ponto de retorno. As geodésicas ficam na folha de cima: perto da garganta, a que liga dois pontos em lados opostos contorna o círculo em vez de atravessá-lo.</p>
+
+      <p><b>Por que a própria nunca é menor que a plana.</b> Projete o caminho no plano de coordenadas <span class="mono">(r, φ)</span>: o comprimento ao longo de φ não muda, porque as circunferências são as mesmas, e o ao longo de r encolhe. Todo caminho sobre a superfície é então mais comprido que a sua sombra no plano, e a sombra é mais comprida que a reta. A razão própria/plana é sempre maior que 1, chega perto de 1 longe da massa e cresce sem limite junto à garganta.</p>
+
+      <p>A curvatura de Gauss da superfície é <span class="mono">K = −r<sub>s</sub>/(2r³)</span>: negativa, como a de uma sela, e mais forte perto da garganta. Por isso duas geodésicas que partem paralelas se afastam, e um triângulo de geodésicas soma menos de 180°.</p>
+    </div>
+
+    <div lang="en" class="prose">
+      <p>Take the Schwarzschild metric at a fixed instant (<span class="mono">t = const</span>) and only in the equatorial plane (<span class="mono">θ = π/2</span>). What remains is the geometry of a two-dimensional surface:</p>
+      <p class="eq">dl² = dr² / (1 − r<sub>s</sub>/r) + r² dφ², &nbsp; r<sub>s</sub> = 2GM/c² = 2.953 km × (M/M☉)</p>
+      <p>The coordinate <b>r</b> is not the distance to the centre: it is defined by the circumference, which is <span class="mono">2πr</span> just as in flat space. What changes is radial distance — the factor <span class="mono">1/√(1 − r<sub>s</sub>/r)</span> stretches every step <span class="mono">dr</span>, and stretches it more the closer it is to <span class="mono">r<sub>s</sub></span>.</p>
+
+      <p>To make this geometry visible, Ludwig Flamm (1916) drew it as a surface of revolution in three-dimensional Euclidean space, chosen so that distances measured along it are exactly those of <span class="mono">dl²</span>:</p>
+      <p class="eq">z(r) = 2 √( r<sub>s</sub> (r − r<sub>s</sub>) ), &nbsp; r ≥ r<sub>s</sub></p>
+      <p>The circle <span class="mono">r = r<sub>s</sub></span>, in turquoise, is the <b>throat</b> — for a black hole, the horizon. The violet rings are <span class="mono">r = const</span> at fixed intervals in kilometres, and they spread apart on the wall of the well: the same <span class="mono">Δr</span> costs more distance there. Far from the throat the slope <span class="mono">dz/dr = √(r<sub>s</sub>/(r − r<sub>s</sub>))</span> goes to zero; pull the camera back and the well becomes a small dimple in a flat sheet.</p>
+
+      <p class="destaque"><b>The height z does not exist.</b> It is an auxiliary dimension whose only job is to give the surface the right shape: no observer measures z, and the well is not a hole going “down” in space. Time does not appear either — the picture is the geometry of space at one instant, not the path of anything. What is physical is distance measured <em>along</em> the surface, and that is what the panel shows.</p>
+
+      <p><b>Proper distance.</b> Between two points at the same φ, the distance measured with rulers at rest is</p>
+      <p class="eq">∫ dr / √(1 − r<sub>s</sub>/r) = [ √(r(r − r<sub>s</sub>)) + r<sub>s</sub> ln(√r + √(r − r<sub>s</sub>)) ] <sub>r₁</sub><sup>r₂</sup></p>
+      <p>At different φ, it is the length of the surface's <b>geodesic</b>, the shortest path along it. On a surface of revolution Clairaut's relation holds, <span class="mono">r² dφ/dl = h</span> constant; for each <span class="mono">h</span> the swept angle and the length come from two integrals, and the program looks for the <span class="mono">h</span> that takes one point to the other. The integrals are done in the height z, which is regular down to the throat, with a change of variable that removes the turning-point singularity. Geodesics stay on the upper sheet: near the throat, the one joining two points on opposite sides goes round the circle instead of through it.</p>
+
+      <p><b>Why the proper distance is never shorter than the flat one.</b> Project the path onto the coordinate plane <span class="mono">(r, φ)</span>: its length along φ is unchanged, because the circumferences are the same, and its length along r shrinks. Every path on the surface is therefore longer than its shadow on the plane, and the shadow is longer than the straight line. The proper/flat ratio is always above 1, approaches 1 far from the mass and grows without bound at the throat.</p>
+
+      <p>The Gaussian curvature of the surface is <span class="mono">K = −r<sub>s</sub>/(2r³)</span>: negative, like a saddle, and strongest near the throat. That is why two geodesics that start out parallel move apart, and why a triangle of geodesics adds up to less than 180°.</p>
+    </div>
+
+    <p class="note">
+      <span lang="pt">A fatia completa de Schwarzschild, na extensão máxima, tem <b>duas folhas</b> coladas na garganta — a ponte de Einstein–Rosen; a caixa <em>a outra folha</em> mostra a de baixo, só como desenho. O exterior de um buraco negro formado por colapso é só a folha de cima. Para uma estrela, a fatia de Schwarzschild só vale fora da superfície: uma estrela de nêutrons de 1,4 M☉ tem raio perto de 12 km ≈ 3 r<sub>s</sub>, e lá dentro o fundo do poço é liso, sem garganta. Unidades: <span class="mono">GM☉/c² = 1,4766 km</span>; as contas são feitas em unidades de r<sub>s</sub>, e a geodésica foi conferida contra a fórmula fechada (Δφ = 0) e contra a reta do espaço plano (M → 0).</span>
+      <span lang="en">The complete Schwarzschild slice, in the maximal extension, has <b>two sheets</b> glued at the throat — the Einstein–Rosen bridge; the <em>other sheet</em> box shows the lower one, as a drawing only. The exterior of a black hole formed by collapse is the upper sheet alone. For a star, the Schwarzschild slice only holds outside the surface: a 1.4 M☉ neutron star has a radius near 12 km ≈ 3 r<sub>s</sub>, and inside it the bottom of the well is smooth, with no throat. Units: <span class="mono">GM☉/c² = 1.4766 km</span>; the computation is done in units of r<sub>s</sub>, and the geodesic was checked against the closed form (Δφ = 0) and against the straight line of flat space (M → 0).</span>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="foot-block">
+      <p class="footlabel"><span lang="pt">Vamos conversar</span><span lang="en">Let's talk</span></p>
+      <p class="footmail"><a href="mailto:rafael.lima@udesc.br">rafael.lima@udesc.br</a></p>
+    </div>
+
+    <a class="footbtn" href="mailto:rafael.lima@udesc.br" aria-label="Enviar e-mail / Send an email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 6.5l9 6.5 9-6.5"/>
+      </svg>
+    </a>
+
+    <div class="foot-block foot-right">
+      <p class="footlabel"><span lang="pt">Onde me encontrar</span><span lang="en">Find me</span></p>
+      <p class="footlinks">
+        <a href="http://lattes.cnpq.br/0799234795742587">Lattes</a>
+        <a href="https://orcid.org/0000-0003-1718-3838">ORCID</a>
+        <a href="https://github.com/RafaelCRdeLima">GitHub</a>
+      </p>
+    </div>
+  </div>
+  <p class="footnote">Universidade do Estado de Santa Catarina · CCT · Joinville, SC</p>
+</footer>
+
+<script>
+(function () {
+  var KEY = 'rcrl-lang';
+  var buttons = document.querySelectorAll('[data-set-lang]');
+
+  function apply(lang) {
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    try { localStorage.setItem(KEY, lang); } catch (e) { /* modo privado */ }
+  }
+
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) { /* modo privado */ }
+
+  apply(stored === 'pt' || stored === 'en'
+    ? stored
+    : ((navigator.language || 'pt').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'));
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.setLang); });
+  });
+
+  // A navegação é idêntica nas cinco páginas; quem acende o item da página
+  // atual é isto, não uma classe escrita à mão em cada arquivo.
+  var aqui = location.pathname.replace(/index\.html$/, '') || '/';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    var alvo = new URL(a.getAttribute('href'), location.origin).pathname;
+    if (alvo === aqui) a.setAttribute('aria-current', 'page');
+  });
+})();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  // Tudo o que é geometria está em unidades de r_s: x = r/r_s ≥ 1 e a altura
+  // z = 2√(x − 1). Como a forma do paraboloide é a mesma para qualquer massa,
+  // a malha é feita uma vez só; mudar a massa só muda quantos km vale um r_s.
+  // A câmera, o alvo da órbita e os pontos clicados ficam guardados em km, e
+  // é isso que faz a garganta crescer na tela quando a massa sobe.
+
+  const KM = 1.476625;               // GM☉/c², em km
+  const RS1 = 2 * KM;                // r_s de uma massa solar: 2,953 km
+  const XMAX = 2500;                 // borda da malha, em r_s
+  const DMIN = 0.1, DMAX = 1200;     // distância da câmera ao alvo, em r_s
+  const DPAD = 22;                   // distância da vista inicial, em r_s
+  const EL0 = 0.88, AZ0 = -1.05;     // elevação (≈ 50°) e azimute da vista inicial
+  const FOV = 40 * Math.PI / 180;
+  const R_ESTRELA = 12;              // km
+  const FUNDO = [6 / 255, 7 / 255, 13 / 255];
+
+  const $ = id => document.getElementById(id);
+  const cv = $("gl"), ov = $("ov"), octx = ov.getContext("2d");
+  const reduzido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const st = {
+    M: 10, rs: 10 * RS1,
+    az: AZ0, el: EL0, dKm: DPAD * 10 * RS1, alvo: [0, 0, 0],
+    pts: [],                         // { rKm, phi }
+    geo: null,                       // a geodésica entre os dois pontos
+    estrela: false, folha: false,
+    hover: null
+  };
+
+  // ── geodésicas na superfície ──────────────────────────────────────────
+  // Na altura z a métrica da fatia é regular até a garganta:
+  //   dl² = x dz² + x² dφ²,   x = 1 + z²/4.
+  // Clairaut (superfície de revolução): x² dφ/dl = h, constante. Então
+  //   dφ/dz = h / (√x √(x² − h²)),   dl/dz = x^{3/2} / √(x² − h²).
+  // O ponto de retorno (x = h) é singular como 1/√(z − z_a); a troca
+  // z = z_a + s² o remove, e s = κ senh w espalha o pico que aparece quando
+  // a geodésica raspa a garganta (h → 1, onde ela daria voltas sem fim).
+
+  const lRad = x => Math.sqrt(x * (x - 1)) + Math.log(Math.sqrt(x) + Math.sqrt(x - 1));
+
+  // [dφ/dw, dl/dw] num trecho que sai de x_a (retorno, ou ponto interno) para fora
+  function integrando(h, za, ga, kap) {
+    return w => {
+      const s = kap * Math.sinh(w), ds = kap * Math.cosh(w), s2 = s * s;
+      const z = za + s2, x = 1 + z * z / 4;
+      // (x − h)/s² sem perder precisão: x − x_a = s²(2z_a + s²)/4, ga = x_a − h
+      const A = (2 * za + s2) / 4 + (s2 > 0 ? ga / s2 : (ga > 0 ? Infinity : 0));
+      const Q = 2 / Math.sqrt(A * (x + h));        // = 2s / √((x − h)(x + h))
+      return [h * Q / Math.sqrt(x) * ds, x * Math.sqrt(x) * Q * ds];
+    };
+  }
+
+  function trechoW(h, xa, xb) {
+    const za = 2 * Math.sqrt(xa - 1), zb = 2 * Math.sqrt(xb - 1);
+    const S = Math.sqrt(Math.max(0, zb - za));
+    const kap = Math.max(Math.sqrt(2 * za), 1e-7 * S);
+    return { f: integrando(h, za, Math.max(0, xa - h), kap), W: Math.asinh(S / kap), za, kap };
+  }
+
+  // Simpson adaptativo para um par de integrais ao mesmo tempo
+  function simpson(f, a, b, fa, fm, fb, S, tol, nivel) {
+    const m = (a + b) / 2, fl = f((a + m) / 2), fr = f((m + b) / 2), k = (b - a) / 12;
+    const L0 = k * (fa[0] + 4 * fl[0] + fm[0]), L1 = k * (fa[1] + 4 * fl[1] + fm[1]);
+    const R0 = k * (fm[0] + 4 * fr[0] + fb[0]), R1 = k * (fm[1] + 4 * fr[1] + fb[1]);
+    const e0 = L0 + R0 - S[0], e1 = L1 + R1 - S[1];
+    if (nivel <= 0 || (Math.abs(e0) <= 15 * tol[0] && Math.abs(e1) <= 15 * tol[1]))
+      return [L0 + R0 + e0 / 15, L1 + R1 + e1 / 15];
+    const t = [tol[0] / 2, tol[1] / 2];
+    const A = simpson(f, a, m, fa, fl, fm, [L0, L1], t, nivel - 1);
+    const B = simpson(f, m, b, fm, fr, fb, [R0, R1], t, nivel - 1);
+    return [A[0] + B[0], A[1] + B[1]];
+  }
+
+  function integra(f, a, b) {
+    const N = 8, k = (b - a) / N, fs = [];
+    for (let i = 0; i <= 2 * N; i++) fs.push(f(a + i * k / 2));
+    let g0 = 0, g1 = 0;
+    for (let i = 0; i < N; i++) {
+      g0 += k / 6 * (fs[2 * i][0] + 4 * fs[2 * i + 1][0] + fs[2 * i + 2][0]);
+      g1 += k / 6 * (fs[2 * i][1] + 4 * fs[2 * i + 1][1] + fs[2 * i + 2][1]);
+    }
+    const tol = [1e-12 * Math.max(1e-3, Math.abs(g0)) / N, 1e-12 * Math.max(1, Math.abs(g1)) / N];
+    let r0 = 0, r1 = 0;
+    for (let i = 0; i < N; i++) {
+      const p = a + i * k, A = fs[2 * i], B = fs[2 * i + 1], C = fs[2 * i + 2];
+      const S = [k / 6 * (A[0] + 4 * B[0] + C[0]), k / 6 * (A[1] + 4 * B[1] + C[1])];
+      const r = simpson(f, p, p + k, A, B, C, S, tol, 40);
+      r0 += r[0]; r1 += r[1];
+    }
+    return [r0, r1];
+  }
+
+  // [Δφ, L] de x_a até x_b > x_a
+  function trecho(h, xa, xb) {
+    if (!(xb > xa)) return [0, 0];
+    const T = trechoW(h, xa, xb);
+    return integra(T.f, 0, T.W);
+  }
+
+  // Um parâmetro só, p ∈ [0, 2), percorre todas as geodésicas que saem do
+  // ponto interno x1 rumo ao externo x2, em ordem crescente de Δφ:
+  //   p ∈ [0, 1]  sem retorno, h = p·x1 (p = 0 é a radial);
+  //   p ∈ (1, 2)  com retorno em x = h, que desce de x1 até a garganta.
+  // Com curvatura negativa não há pontos conjugados: Δφ(p) é monotônica e
+  // cada Δφ tem uma geodésica só.
+  function varre(p, x1, x2) {
+    if (p <= 1) {
+      const h = p * x1, t = trecho(h, x1, x2);
+      return { dphi: t[0], L: t[1], h, tipo: 1 };
+    }
+    const h = x1 - (p - 1) * (x1 - 1);
+    const a = trecho(h, h, x1), b = trecho(h, h, x2);
+    return { dphi: a[0] + b[0], L: a[1] + b[1], h, tipo: 2, a, b };
+  }
+
+  // pontos (x, z, φ acumulado) de x_a para fora, para o desenho
+  function amostra(h, xa, xb, n) {
+    const out = [[xa, 2 * Math.sqrt(xa - 1), 0]];
+    if (!(xb > xa)) return out;
+    const T = trechoW(h, xa, xb), dw = T.W / n;
+    let phi = 0, ant = T.f(0)[0];
+    for (let i = 1; i <= n; i++) {
+      const fm = T.f((i - 0.5) * dw)[0], f1 = T.f(i * dw)[0];
+      phi += dw / 6 * (ant + 4 * fm + f1);
+      ant = f1;
+      const s = T.kap * Math.sinh(i * dw), z = T.za + s * s;
+      out.push([1 + z * z / 4, z, phi]);
+    }
+    return out;
+  }
+
+  // A geodésica (na folha de cima) entre (xA, φA) e (xB, φB), x em r_s.
+  function geodesica(xA, fA, xB, fB) {
+    xA = Math.max(xA, 1 + 1e-9); xB = Math.max(xB, 1 + 1e-9);
+    let D = fB - fA;
+    D = Math.atan2(Math.sin(D), Math.cos(D));      // o lado mais curto, (−π, π]
+    const alvo = Math.abs(D), sg = D < 0 ? -1 : 1;
+    const troca = xA > xB;
+    const x1 = troca ? xB : xA, x2 = troca ? xA : xB;
+    const f1 = troca ? fB : fA, dir = troca ? -sg : sg;
+
+    // Pontos quase coincidentes: o retorno ficaria a menos de 1e-13 de x1 e
+    // a bissecção em p não o resolve. Ali a superfície é plana na prática
+    // (erro ~ K·L² < 1e-6), e basta a métrica local.
+    const dl = lRad(x2) - lRad(x1), dt = (x1 + x2) / 2 * alvo;
+    if (alvo > 0 && dl < 1e-3 && dt < 1e-3) {
+      const pts = [];
+      for (let i = 0; i <= 8; i++) {
+        const x = x1 + (x2 - x1) * i / 8;
+        pts.push([x, 2 * Math.sqrt(x - 1), f1 + dir * alvo * i / 8]);
+      }
+      if (troca) pts.reverse();
+      return { L: Math.hypot(dl, dt), dphi: alvo, h: x1, tipo: 1, xmin: x1, pts };
+    }
+
+    let sol;
+    if (alvo < 1e-13) sol = varre(0, x1, x2);
+    else {
+      let lo = 0, hi = 2;                          // Δφ(p → 2) → ∞
+      for (let k = 0; k < 80 && hi - lo > 1e-15; k++) {
+        const m = (lo + hi) / 2;
+        if (varre(m, x1, x2).dphi < alvo) lo = m; else hi = m;
+      }
+      sol = varre((lo + hi) / 2, x1, x2);
+    }
+
+    // o desenho: φ acumulado reescalado para fechar exatamente no ponto final
+    let pts;
+    if (sol.tipo === 1) {
+      const s = amostra(sol.h, x1, x2, 260), tot = s[s.length - 1][2];
+      const k = tot > 0 ? alvo / tot : 0;
+      pts = s.map(q => [q[0], q[1], f1 + dir * q[2] * k]);
+    } else {
+      const sa = amostra(sol.h, sol.h, x1, 160), sb = amostra(sol.h, sol.h, x2, 260);
+      const ka = sa[sa.length - 1][2] > 0 ? sol.a[0] / sa[sa.length - 1][2] : 0;
+      const kb = sb[sb.length - 1][2] > 0 ? sol.b[0] / sb[sb.length - 1][2] : 0;
+      pts = sa.reverse().map(q => [q[0], q[1], f1 + dir * (sol.a[0] - q[2] * ka)])
+        .concat(sb.slice(1).map(q => [q[0], q[1], f1 + dir * (sol.a[0] + q[2] * kb)]));
+    }
+    if (troca) pts.reverse();
+    return { L: sol.L, dphi: alvo, h: sol.h, tipo: sol.tipo, xmin: sol.tipo === 2 ? sol.h : x1, pts };
+  }
+
+  // Para conferir no console: flamm.geodesica(3, 0, 10, 0).L contra
+  // flamm.lRad(10) − flamm.lRad(3); flamm.tela(r em km, φ) diz onde um ponto
+  // da superfície cai no canvas.
+  window.flamm = { geodesica, lRad, RS1, estado: st, tela: (rKm, f) => naTela(camera(), sup(rKm / st.rs, f)) };
+
+  // ── a superfície, analítica: raio e visibilidade ──────────────────────
+  // G = ρ − 1 − z²/4 zera na superfície inteira (as duas folhas); é negativo
+  // dentro do funil e positivo fora. Amostra-se G ao longo do raio em passos
+  // geométricos (a câmera pode estar a 0,1 r_s ou a mil r_s da superfície)
+  // e cada troca de sinal é refinada por bissecção.
+  function raio(o, d, comFolha) {
+    const G = t => {
+      const x = o[0] + t * d[0], y = o[1] + t * d[1], z = o[2] + t * d[2];
+      return Math.hypot(x, y) - 1 - z * z / 4;
+    };
+    const t0 = 1e-6 * Math.max(1e-3, Math.hypot(o[0], o[1], o[2]));
+    const t1 = Math.hypot(o[0], o[1], o[2]) + 1.5 * XMAX, N = 2400;
+    const q = Math.pow(t1 / t0, 1 / N);
+    let ta = 0, ga = G(0), tb = t0;
+    for (let i = 0; i <= N; i++, tb *= q) {
+      const gb = G(tb);
+      if ((ga <= 0) !== (gb <= 0)) {
+        let lo = ta, hi = tb, glo = ga;
+        for (let k = 0; k < 60; k++) {
+          const m = (lo + hi) / 2, gm = G(m);
+          if ((gm <= 0) === (glo <= 0)) { lo = m; glo = gm; } else hi = m;
+        }
+        const t = (lo + hi) / 2, p = [o[0] + t * d[0], o[1] + t * d[1], o[2] + t * d[2]];
+        if (Math.hypot(p[0], p[1]) <= XMAX) {
+          if (p[2] >= -1e-9) return { t, p, folha: 1 };
+          if (comFolha) return { t, p, folha: -1 };
+        }
+      }
+      ta = tb; ga = gb;
+    }
+    return null;
+  }
+
+  const sup = (x, f) => [x * Math.cos(f), x * Math.sin(f), 2 * Math.sqrt(Math.max(0, x - 1))];
+
+  function visivel(cam, P) {
+    const v = [P[0] - cam.c[0], P[1] - cam.c[1], P[2] - cam.c[2]], L = Math.hypot(v[0], v[1], v[2]);
+    const h = raio(cam.c, [v[0] / L, v[1] / L, v[2] / L], st.folha);
+    return !h || h.t >= L * (1 - 2e-3) - 1e-6;
+  }
+
+  // ── câmera ────────────────────────────────────────────────────────────
+  let W = 1, H = 1, DPR = 1;
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const unit = a => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+
+  function camera() {
+    const rs = st.rs, d = st.dKm / rs;
+    const T = [st.alvo[0] / rs, st.alvo[1] / rs, st.alvo[2] / rs];
+    const ce = Math.cos(st.el), off = [ce * Math.cos(st.az), ce * Math.sin(st.az), Math.sin(st.el)];
+    const c = [T[0] + d * off[0], T[1] + d * off[1], T[2] + d * off[2]];
+    const fw = [-off[0], -off[1], -off[2]];
+    const rt = unit(cross(fw, [0, 0, 1])), up = cross(rt, fw);
+    const near = 0.02 * d, far = Math.min(Math.hypot(c[0], c[1], c[2]) + 1.2 * XMAX, 600 * d);
+    return { c, T, d, fw, rt, up, th: Math.tan(FOV / 2), asp: W / H, near, far };
+  }
+
+  function mvp(cam) {
+    const { c, fw, rt, up, th, asp, near, far } = cam;
+    const V = [rt[0], up[0], -fw[0], 0, rt[1], up[1], -fw[1], 0, rt[2], up[2], -fw[2], 0,
+      -dot(rt, c), -dot(up, c), dot(fw, c), 1];
+    const f = 1 / th, nf = 1 / (near - far);
+    const P = [f / asp, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0];
+    const out = new Float32Array(16);
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) {
+      let s = 0;
+      for (let k = 0; k < 4; k++) s += P[k * 4 + j] * V[i * 4 + k];
+      out[i * 4 + j] = s;
+    }
+    return out;
+  }
+
+  function naTela(cam, P) {
+    const v = [P[0] - cam.c[0], P[1] - cam.c[1], P[2] - cam.c[2]];
+    const zc = dot(v, cam.fw);
+    if (zc <= cam.near) return null;
+    return [W / 2 * (1 + dot(v, cam.rt) / (zc * cam.th * cam.asp)), H / 2 * (1 - dot(v, cam.up) / (zc * cam.th))];
+  }
+
+  function direcao(cam, px, py) {
+    const nx = (2 * px / W - 1) * cam.th * cam.asp, ny = (1 - 2 * py / H) * cam.th;
+    return unit([cam.fw[0] + nx * cam.rt[0] + ny * cam.up[0],
+      cam.fw[1] + nx * cam.rt[1] + ny * cam.up[1],
+      cam.fw[2] + nx * cam.rt[2] + ny * cam.up[2]]);
+  }
+
+  // ── WebGL ─────────────────────────────────────────────────────────────
+  const opc = { antialias: true, alpha: false };
+  const gl = cv.getContext("webgl2", opc) || cv.getContext("webgl", opc);
+  const GL2 = !!gl && typeof WebGL2RenderingContext !== "undefined" && gl instanceof WebGL2RenderingContext;
+  if (!gl || (!GL2 && !gl.getExtension("OES_standard_derivatives"))) {
+    $("semgl").hidden = false;
+    return;
+  }
+  const IDX32 = GL2 || !!gl.getExtension("OES_element_index_uint");
+
+  // Os shaders são escritos em GLSL ES 1.00; no WebGL2 o cabeçalho os traduz.
+  const VCAB = GL2 ? "#version 300 es\n#define attribute in\n#define varying out\n" : "";
+  const FCAB = GL2
+    ? "#version 300 es\nprecision highp float;\n#define varying in\nout vec4 corSaida;\n#define gl_FragColor corSaida\n"
+    : "#extension GL_OES_standard_derivatives : enable\nprecision highp float;\n";
+
+  const VS_SUP = `
+attribute vec3 aPos; attribute vec3 aNrm;
+uniform mat4 uMVP; uniform float uFolha;
+varying vec3 vPos; varying vec3 vNrm;
+void main() {
+  vPos = vec3(aPos.xy, aPos.z * uFolha);
+  vNrm = vec3(aNrm.xy, aNrm.z * uFolha);
+  gl_Position = uMVP * vec4(vPos, 1.0);
+}`;
+
+  // A malha de linhas é desenhada no próprio fragmento, a partir de (r, φ)
+  // exatos: largura constante na tela, sem briga de profundidade com a
+  // superfície. Os anéis vêm em potências de 10 km e cada nível aparece
+  // quando o espaçamento na tela passa de uns 7 px — por isso a malha se
+  // refaz sozinha ao aproximar e afastar.
+  const FS_SUP = `
+varying vec3 vPos; varying vec3 vNrm;
+uniform vec3 uCam; uniform float uRs; uniform float uXmax; uniform float uFar;
+uniform float uDim; uniform vec3 uFundo; uniform float uDpr; uniform float uEstrela;
+
+float traco(float dpx, float w) { return 1.0 - smoothstep(0.5 * w - 0.6, 0.5 * w + 0.6, dpx); }
+
+float aneis(float r, float dr) {
+  float n = ceil(log(dr * 7.0) * 0.4342944819);
+  float a = 0.0;
+  for (int i = 0; i < 3; i++) {
+    float D = pow(10.0, n + float(i));
+    float spx = D / dr, t = r / D;
+    float dpx = abs(t - floor(t + 0.5)) * spx;
+    float w = i == 0 ? 1.0 : (i == 1 ? 1.3 : 1.8);
+    float k = i == 0 ? 0.45 * smoothstep(7.0, 28.0, spx) : (i == 1 ? 0.8 : 1.0);
+    a = max(a, traco(dpx, w) * k);
+  }
+  return a;
+}
+
+float meridianos(vec2 p) {
+  float f1 = atan(p.y, p.x), f2 = atan(-p.y, -p.x);
+  float df = max(min(fwidth(f1), fwidth(f2)) / uDpr, 1e-7);
+  float a = 0.0;
+  for (int i = 0; i < 3; i++) {
+    float passo = 6.2831853 / (i == 0 ? 24.0 : (i == 1 ? 72.0 : 360.0));
+    float spx = passo / df, t = f1 / passo;
+    float dpx = abs(t - floor(t + 0.5)) * spx;
+    float k = i == 0 ? smoothstep(3.0, 9.0, spx) : 0.55 * smoothstep(16.0, 48.0, spx);
+    a = max(a, traco(dpx, 1.0) * k);
+  }
+  return a;
+}
+
+void main() {
+  vec3 n = normalize(vNrm);
+  vec3 v = uCam - vPos; float dist = length(v); v /= dist;
+  float fc = dot(n, v);
+  vec3 nn = fc >= 0.0 ? n : -n;
+  float lam = max(dot(nn, normalize(vec3(0.45, 0.3, 1.0))), 0.0);
+  vec3 col = (fc >= 0.0 ? vec3(0.07, 0.08, 0.145) : vec3(0.12, 0.085, 0.18)) * (0.55 + 0.7 * lam);
+  col += vec3(0.18, 0.16, 0.38) * pow(1.0 - abs(fc), 4.0) * 0.5;
+  float rho = length(vPos.xy), rkm = rho * uRs;
+  float dr = max(fwidth(rkm) / uDpr, 1e-9);
+  col = mix(col, vec3(0.42, 0.50, 0.68), meridianos(vPos.xy) * 0.5);
+  col = mix(col, vec3(0.62, 0.55, 1.0), aneis(rkm, dr) * 0.8);
+  col += vec3(0.34, 0.88, 0.82) * 0.22 * exp(-abs(vPos.z) / 0.06);
+  if (uEstrela > 1.0 && rho < uEstrela) col = mix(col, vec3(dot(col, vec3(0.333))), 0.6) * 0.42;
+  col *= uDim;
+  float neblina = max(smoothstep(0.35 * uFar, uFar, dist), smoothstep(0.55 * uXmax, uXmax, rho));
+  gl_FragColor = vec4(mix(col, uFundo, neblina), 1.0);
+}`;
+
+  // Fitas: cada vértice da linha vira dois, empurrados para os lados na tela
+  // (largura em pixels, como num traço de caneta) e um pouco para o lado da
+  // superfície que a câmera vê, para não afundar nela.
+  const VS_FITA = `
+attribute vec3 aPos; attribute vec3 aAnt; attribute vec3 aProx; attribute vec3 aNrm;
+attribute float aLado; attribute float aDist;
+uniform mat4 uMVP; uniform vec2 uRes; uniform float uLarg; uniform vec3 uCam; uniform float uSobe;
+varying float vLado; varying float vDist;
+vec3 sobe(vec3 p) { return p + aNrm * (sign(dot(aNrm, uCam - p)) * uSobe * length(uCam - p)); }
+void main() {
+  vec4 c = uMVP * vec4(sobe(aPos), 1.0);
+  vec4 a = uMVP * vec4(sobe(aAnt), 1.0);
+  vec4 b = uMVP * vec4(sobe(aProx), 1.0);
+  vec2 sc = c.xy / c.w * uRes;
+  vec2 d1 = sc - a.xy / max(a.w, 1e-6) * uRes, d2 = b.xy / max(b.w, 1e-6) * uRes - sc;
+  if (dot(d1, d1) < 1e-10) d1 = d2;
+  if (dot(d2, d2) < 1e-10) d2 = d1;
+  d1 = normalize(d1 + vec2(1e-9)); d2 = normalize(d2 + vec2(1e-9));
+  vec2 t = normalize(d1 + d2 + vec2(1e-9)), nl = vec2(-t.y, t.x);
+  float m = 1.0 / max(dot(nl, vec2(-d1.y, d1.x)), 0.35);
+  c.xy += nl * (aLado * uLarg * 0.5 * m) / uRes * c.w;
+  vLado = aLado; vDist = aDist;
+  gl_Position = c;
+}`;
+
+  const FS_FITA = `
+varying float vLado; varying float vDist;
+uniform vec4 uCor; uniform float uTraco;
+void main() {
+  if (uTraco > 0.0 && fract(vDist / uTraco) > 0.5) discard;
+  gl_FragColor = vec4(uCor.rgb, uCor.a * (1.0 - smoothstep(0.55, 1.0, abs(vLado))));
+}`;
+
+  function programa(vs, fs, atribs, unifs) {
+    const sh = (tipo, src) => {
+      const o = gl.createShader(tipo);
+      gl.shaderSource(o, src); gl.compileShader(o);
+      if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o));
+      return o;
+    };
+    const p = gl.createProgram();
+    gl.attachShader(p, sh(gl.VERTEX_SHADER, VCAB + vs));
+    gl.attachShader(p, sh(gl.FRAGMENT_SHADER, FCAB + fs));
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const A = {}, U = {};
+    for (const a of atribs) A[a] = gl.getAttribLocation(p, a);
+    for (const u of unifs) U[u] = gl.getUniformLocation(p, u);
+    return { p, A, U };
+  }
+
+  const PS = programa(VS_SUP, FS_SUP, ["aPos", "aNrm"],
+    ["uMVP", "uFolha", "uCam", "uRs", "uXmax", "uFar", "uDim", "uFundo", "uDpr", "uEstrela"]);
+  const PF = programa(VS_FITA, FS_FITA, ["aPos", "aAnt", "aProx", "aNrm", "aLado", "aDist"],
+    ["uMVP", "uRes", "uLarg", "uCam", "uSobe", "uCor", "uTraco"]);
+
+  // A malha da superfície: anéis em z = senh(w), com w uniforme — passo de
+  // 0,02 r_s junto à garganta e geométrico (≈2% em r) lá fora, até 2500 r_s.
+  const MALHA = (() => {
+    const NR = IDX32 ? 260 : 200, NF = IDX32 ? 384 : 240;
+    const Wt = Math.asinh(2 * Math.sqrt(XMAX - 1));
+    const v = new Float32Array((NR + 1) * (NF + 1) * 6);
+    let k = 0;
+    for (let i = 0; i <= NR; i++) {
+      const z = Math.sinh(i * Wt / NR), rho = 1 + z * z / 4, nn = Math.sqrt(4 + z * z);
+      for (let j = 0; j <= NF; j++) {
+        const f = j * 2 * Math.PI / NF, c = Math.cos(f), s = Math.sin(f);
+        v[k++] = rho * c; v[k++] = rho * s; v[k++] = z;
+        v[k++] = -2 * c / nn; v[k++] = -2 * s / nn; v[k++] = z / nn;
+      }
+    }
+    const I = IDX32 ? new Uint32Array(NR * NF * 6) : new Uint16Array(NR * NF * 6);
+    k = 0;
+    for (let i = 0; i < NR; i++) for (let j = 0; j < NF; j++) {
+      const a = i * (NF + 1) + j, b = a + 1, c = a + NF + 1, d = c + 1;
+      I[k++] = a; I[k++] = c; I[k++] = b; I[k++] = b; I[k++] = c; I[k++] = d;
+    }
+    const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
+    const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, I, gl.STATIC_DRAW);
+    return { vb, ib, n: I.length, tipo: IDX32 ? gl.UNSIGNED_INT : gl.UNSIGNED_SHORT };
+  })();
+
+  // pontos [x, z, φ] na superfície → fita
+  function fita(pts, fechada, antiga) {
+    const P = pts.map(q => sup(q[0], q[2]).slice(0, 2).concat([q[1]]));
+    const N = pts.map(q => { const n = Math.sqrt(4 + q[1] * q[1]); return [-2 * Math.cos(q[2]) / n, -2 * Math.sin(q[2]) / n, q[1] / n]; });
+    if (fechada) { P.push(P[0]); N.push(N[0]); }
+    const n = P.length, dados = new Float32Array(n * 2 * 14);
+    let dist = 0, k = 0;
+    for (let i = 0; i < n; i++) {
+      const a = i > 0 ? P[i - 1] : (fechada ? P[n - 2] : P[0]);
+      const b = i < n - 1 ? P[i + 1] : (fechada ? P[1] : P[n - 1]);
+      if (i > 0) dist += Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1], P[i][2] - P[i - 1][2]);
+      for (const lado of [-1, 1]) {
+        dados.set(P[i], k); dados.set(a, k + 3); dados.set(b, k + 6); dados.set(N[i], k + 9);
+        dados[k + 12] = lado; dados[k + 13] = dist; k += 14;
+      }
+    }
+    const buf = antiga ? antiga.buf : gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, dados, gl.DYNAMIC_DRAW);
+    return { buf, n: n * 2, comp: dist };
+  }
+
+  const circulo = (x, n) => Array.from({ length: n }, (_, i) => [x, 2 * Math.sqrt(x - 1), i * 2 * Math.PI / n]);
+  const GARGANTA = fita(circulo(1, 512), true);
+  let ESTRELA = null, GEO = null;
+
+  // ── desenho ───────────────────────────────────────────────────────────
+  function medir() {
+    const r = cv.getBoundingClientRect();
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    W = Math.max(1, r.width); H = Math.max(1, r.height);
+    for (const c of [cv, ov]) {
+      const w = Math.round(W * DPR), h = Math.round(H * DPR);
+      if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
+    }
+  }
+
+  // aPos, aAnt, aProx, aNrm: 3 floats cada; aLado, aDist: 1 — 14 floats por vértice
+  const FITA_ATR = [["aPos", 3, 0], ["aAnt", 3, 12], ["aProx", 3, 24], ["aNrm", 3, 36], ["aLado", 1, 48], ["aDist", 1, 52]];
+  const atribsFita = liga => { for (const a of Object.values(PF.A)) if (a >= 0) liga ? gl.enableVertexAttribArray(a) : gl.disableVertexAttribArray(a); };
+
+  function desenhaFita(F, cam, M, larg, cor, traco) {
+    const { A, U } = PF;
+    gl.uniformMatrix4fv(U.uMVP, false, M);
+    gl.uniform2f(U.uRes, cv.width / 2, cv.height / 2);
+    gl.uniform1f(U.uLarg, larg * DPR);
+    gl.uniform3fv(U.uCam, cam.c);
+    gl.uniform1f(U.uSobe, 0.0025);
+    gl.uniform4fv(U.uCor, cor);
+    gl.uniform1f(U.uTraco, traco || 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, F.buf);
+    for (const [nome, n, desl] of FITA_ATR) if (A[nome] >= 0) gl.vertexAttribPointer(A[nome], n, gl.FLOAT, false, 56, desl);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, F.n);
+  }
+
+  function desenha() {
+    medir();
+    const cam = camera(), M = mvp(cam);
+    gl.viewport(0, 0, cv.width, cv.height);
+    gl.clearColor(FUNDO[0], FUNDO[1], FUNDO[2], 1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    // a superfície
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL); gl.depthMask(true);
+    gl.disable(gl.BLEND);
+    gl.useProgram(PS.p);
+    const U = PS.U;
+    gl.uniformMatrix4fv(U.uMVP, false, M);
+    gl.uniform3fv(U.uCam, cam.c);
+    gl.uniform1f(U.uRs, st.rs);
+    gl.uniform1f(U.uXmax, XMAX);
+    gl.uniform1f(U.uFar, cam.far);
+    gl.uniform3fv(U.uFundo, FUNDO);
+    gl.uniform1f(U.uDpr, DPR);
+    gl.uniform1f(U.uEstrela, st.estrela ? R_ESTRELA / st.rs : 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, MALHA.vb);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, MALHA.ib);
+    gl.enableVertexAttribArray(PS.A.aPos); gl.enableVertexAttribArray(PS.A.aNrm);
+    gl.vertexAttribPointer(PS.A.aPos, 3, gl.FLOAT, false, 24, 0);
+    gl.vertexAttribPointer(PS.A.aNrm, 3, gl.FLOAT, false, 24, 12);
+    gl.uniform1f(U.uFolha, 1); gl.uniform1f(U.uDim, 1);
+    gl.drawElements(gl.TRIANGLES, MALHA.n, MALHA.tipo, 0);
+    if (st.folha) {
+      gl.uniform1f(U.uFolha, -1); gl.uniform1f(U.uDim, 0.6);
+      gl.drawElements(gl.TRIANGLES, MALHA.n, MALHA.tipo, 0);
+    }
+    gl.disableVertexAttribArray(PS.A.aPos); gl.disableVertexAttribArray(PS.A.aNrm);
+
+    // as fitas por cima, sem escrever profundidade
+    gl.useProgram(PF.p);
+    atribsFita(true);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.depthMask(false);
+    gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(-1, -4);
+    desenhaFita(GARGANTA, cam, M, 9, [0.34, 0.88, 0.82, 0.16]);
+    desenhaFita(GARGANTA, cam, M, 2.4, [0.34, 0.88, 0.82, 1]);
+    if (st.estrela && ESTRELA) desenhaFita(ESTRELA, cam, M, 1.8, [0.9, 0.92, 0.98, 0.85], ESTRELA.comp / 120);
+    if (GEO) {
+      // o trecho escondido atrás da parede, apagado; o visível, cheio
+      gl.depthFunc(gl.GREATER);
+      desenhaFita(GEO, cam, M, 2.2, [1, 0.77, 0.43, 0.28]);
+      gl.depthFunc(gl.LEQUAL);
+      desenhaFita(GEO, cam, M, 7, [1, 0.77, 0.43, 0.14]);
+      desenhaFita(GEO, cam, M, 2.8, [1, 0.8, 0.47, 1]);
+    }
+    gl.disable(gl.POLYGON_OFFSET_FILL);
+    gl.depthMask(true);
+    atribsFita(false);
+
+    sobrepoe(cam);
+    leitura(cam);
+  }
+
+  // ── o que é escrito por cima: pontos e rótulos dos anéis ──────────────
+  const idioma = () => (document.documentElement.dataset.lang === "en" ? "en" : "pt");
+  const dec = (v, d, l) => { const s = v.toFixed(d); return l === "pt" ? s.replace(".", ",") : s; };
+  function km(v, l) {
+    const d = v >= 1000 ? 0 : v >= 100 ? 1 : v >= 10 ? 2 : 3;
+    let s = dec(v, d, l);
+    if (v >= 10000) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return s + " km";
+  }
+  // valor redondo de anel (potência de 10 vezes um inteiro), sem zeros à toa
+  function anelKm(r, l) {
+    let s = String(+r.toPrecision(6));
+    if (r >= 10000) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return (l === "pt" ? s.replace(".", ",") : s) + " km";
+  }
+
+  // espaçamento dos anéis perto do alvo — a mesma regra do shader
+  function niveis(cam) {
+    const kpp = st.dKm * 2 * cam.th / H;           // km por px no alvo
+    const n = Math.ceil(Math.log10(kpp * 7));
+    return { fino: Math.pow(10, n), medio: Math.pow(10, n + 1) };
+  }
+
+  function sobrepoe(cam) {
+    octx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    octx.clearRect(0, 0, W, H);
+    const l = idioma();
+    octx.font = "500 11px 'Inter Tight', system-ui, sans-serif";
+    octx.textBaseline = "middle";
+    octx.shadowColor = "#000"; octx.shadowBlur = 4;
+
+    // rótulos dos anéis, ao longo do meridiano que aponta para a direita da tela
+    const fL = Math.atan2(cam.rt[1], cam.rt[0]);
+    const D = niveis(cam).medio;
+    let ultimo = null, feitos = 0;
+    for (let m = 1; m <= 40 && feitos < 8; m++) {
+      const r = m * D, x = r / st.rs;
+      if (x <= 1.02 || x > XMAX * 0.6) continue;
+      const P = sup(x, fL), s = naTela(cam, P);
+      if (!s || s[0] < 8 || s[0] > W - 60 || s[1] < 12 || s[1] > H - 12) continue;
+      if (ultimo && Math.hypot(s[0] - ultimo[0], s[1] - ultimo[1]) < 40) continue;
+      if (!visivel(cam, P)) continue;
+      octx.fillStyle = "rgba(186,174,255,.9)";
+      octx.fillText(anelKm(r, l), s[0] + 5, s[1]);
+      ultimo = s; feitos++;
+    }
+    // a garganta, do lado oposto
+    {
+      const P = sup(1, fL + Math.PI), s = naTela(cam, P);
+      if (s && s[0] > 70 && s[0] < W - 8 && s[1] > 12 && s[1] < H - 12 && visivel(cam, P)) {
+        octx.fillStyle = "rgba(86,225,208,.95)"; octx.textAlign = "right";
+        octx.fillText(l === "pt" ? "garganta, r = rₛ" : "throat, r = rₛ", s[0] - 6, s[1]);
+        octx.textAlign = "left";
+      }
+    }
+
+    // o ponto sob o cursor
+    if (st.hover && st.hover.folha === 1) {
+      const s = naTela(cam, st.hover.p);
+      if (s) {
+        octx.shadowBlur = 0;
+        octx.strokeStyle = "rgba(237,239,244,.75)"; octx.lineWidth = 1.2;
+        octx.beginPath(); octx.arc(s[0], s[1], 5, 0, 2 * Math.PI); octx.stroke();
+      }
+    }
+
+    // os pontos marcados; apagados quando a parede os esconde
+    st.pts.forEach((p, i) => {
+      const x = p.rKm / st.rs;
+      if (x <= 1) return;
+      const P = sup(x, p.phi), s = naTela(cam, P);
+      if (!s) return;
+      const vis = visivel(cam, P);
+      octx.shadowBlur = vis ? 6 : 0;
+      octx.globalAlpha = vis ? 1 : 0.45;
+      octx.beginPath(); octx.arc(s[0], s[1], 6, 0, 2 * Math.PI);
+      octx.fillStyle = vis ? "#ffc46e" : "rgba(255,196,110,.25)";
+      octx.fill();
+      octx.setLineDash(vis ? [] : [2, 2]);
+      octx.strokeStyle = vis ? "#0a0b12" : "#ffc46e"; octx.lineWidth = 1.5; octx.stroke();
+      octx.setLineDash([]);
+      octx.font = "600 13px 'Inter Tight', system-ui, sans-serif";
+      octx.fillStyle = "#edeff4";
+      octx.fillText(i ? "B" : "A", s[0] + 9, s[1] - 9);
+      octx.font = "500 11px 'Inter Tight', system-ui, sans-serif";
+      octx.globalAlpha = 1;
+    });
+    octx.shadowBlur = 0;
+  }
+
+  // ── textos ────────────────────────────────────────────────────────────
+  const bi = (pt, en) => '<span lang="pt">' + pt + '</span><span lang="en">' + en + "</span>";
+  const dois = f => bi(f("pt"), f("en"));
+  const RS = "r<sub>s</sub>";
+
+  function leitura(cam) {
+    const N = niveis(cam);
+    let s = dois(l => "M = <b>" + dec(st.M, 1, l) + " M☉</b> &nbsp;·&nbsp; " + RS + " = <b>" + km(st.rs, l) + "</b>");
+    s += "<br>" + dois(l => (l === "pt" ? "anéis a cada <b>" : "rings every <b>") + anelKm(N.medio, l) + "</b>" +
+      (l === "pt" ? " · finos a cada " : " · faint every ") + anelKm(N.fino, l));
+    if (st.hover) {
+      const x = Math.hypot(st.hover.p[0], st.hover.p[1]);
+      s += "<br>" + (st.hover.folha === 1
+        ? dois(l => "cursor: r = <b>" + km(x * st.rs, l) + "</b> = " + dec(x, x < 10 ? 3 : 1, l) + " " + RS)
+        : bi("cursor na outra folha — só a de cima é o exterior", "cursor on the other sheet — only the upper one is the exterior"));
+    }
+    $("readout").innerHTML = s;
+  }
+
+  const graus = (v, l) => dec(v * 180 / Math.PI, 1, l) + "°";
+
+  function painel() {
+    const el = $("painel"), n = st.pts.length;
+    const ponto = (p, i, l) => {
+      const x = p.rKm / st.rs;
+      return "<div><dt>" + (i ? "B" : "A") + "</dt><dd>r" + (i ? "₂" : "₁") + " = " + km(p.rKm, l) + " = " +
+        (x > 1 ? dec(x, 3, l) + " " + RS : "<b>" + (l === "pt" ? "dentro de " : "inside ") + RS + "</b>") +
+        " &nbsp;·&nbsp; φ = " + graus(((p.phi % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI), l) + "</dd></div>";
+    };
+    if (n === 0) {
+      el.innerHTML = bi("Clique na superfície para marcar o ponto <b>A</b>, e depois o <b>B</b>. Um terceiro clique recomeça.",
+        "Click on the surface to mark point <b>A</b>, then <b>B</b>. A third click starts over.");
+      return;
+    }
+    if (n === 1 || !st.geo) {
+      el.innerHTML = dois(l => "<dl>" + st.pts.map((p, i) => ponto(p, i, l)).join("") +
+        (n === 1 ? "<div><dt>B</dt><dd>" + (l === "pt" ? "clique no segundo ponto" : "click the second point") + "</dd></div>" : "") + "</dl>");
+      return;
+    }
+    const [A, B] = st.pts, g = st.geo;
+    const dr = Math.abs(B.rKm - A.rKm);
+    const plana = Math.sqrt(A.rKm * A.rKm + B.rKm * B.rKm - 2 * A.rKm * B.rKm * Math.cos(g.dphi));
+    const L = g.L * st.rs;
+    el.innerHTML = dois(l => {
+      const pt = l === "pt";
+      return "<dl>" + ponto(A, 0, l) + ponto(B, 1, l) +
+        "<div><dt>Δφ</dt><dd>" + graus(g.dphi, l) + "</dd></div>" +
+        "<div><dt>" + (pt ? "Δr de coordenada" : "coordinate Δr") + "</dt><dd>" + km(dr, l) + "</dd></div>" +
+        "<div><dt>" + (pt ? "distância plana, com as mesmas coordenadas" : "flat distance, same coordinates") +
+          "</dt><dd>" + km(plana, l) + " <small>√(r₁² + r₂² − 2r₁r₂ cos Δφ)</small></dd></div>" +
+        '<div class="fl-propria"><dt>' + (pt ? "distância própria, ao longo da geodésica" : "proper distance, along the geodesic") +
+          "</dt><dd>" + km(L, l) + "</dd></div>" +
+        '<div class="fl-razao"><dt>' + (pt ? "própria / plana" : "proper / flat") + "</dt><dd>" +
+          (plana > 1e-9 ? dec(L / plana, 4, l) : "—") + "</dd></div>" +
+        (g.tipo === 2 && g.xmin < Math.min(A.rKm, B.rKm) / st.rs - 1e-6
+          ? "<div><dt>" + (pt ? "a geodésica desce até" : "the geodesic dips to") + "</dt><dd>r = " + km(g.xmin * st.rs, l) +
+            " = " + dec(g.xmin, 3, l) + " " + RS + "</dd></div>" : "") +
+        "</dl>";
+    });
+  }
+
+  function regime() {
+    const el = $("regime");
+    const fora = st.pts.map((p, i) => [p, i]).filter(q => q[0].rKm <= st.rs);
+    let cls = "fl-regime", html = "";
+    if (fora.length) {
+      cls += " alerta";
+      const nomes = fora.map(q => (q[1] ? "B" : "A"));
+      html = dois(l => {
+        const pt = l === "pt", um = nomes.length === 1;
+        return "M = " + dec(st.M, 1, l) + " M☉ " + (pt ? "põe " : "puts ") + RS + " = " + km(st.rs, l) + (pt ? ": " : ": ") +
+          (pt ? (um ? "o ponto <b>" + nomes[0] + "</b> ficou" : "os pontos <b>A</b> e <b>B</b> ficaram") + " dentro da garganta, onde a fatia não chega. Diminua a massa ou marque outro ponto."
+              : (um ? "point <b>" + nomes[0] + "</b> is" : "points <b>A</b> and <b>B</b> are") + " now inside the throat, where the slice does not reach. Lower the mass or mark another point.");
+      });
+    } else if (st.estrela) {
+      const x = R_ESTRELA / st.rs;
+      if (x > 1) {
+        cls += " exotico";
+        html = dois(l => l === "pt"
+          ? "A linha tracejada é a superfície de uma estrela de 12 km, em r = " + dec(x, 2, l) + " " + RS + ". A fatia de Schwarzschild só vale do lado de fora; o miolo apagado não existe numa estrela, cujo poço tem fundo liso, sem garganta. A garganta é coisa de buraco negro."
+          : "The dashed line is the surface of a 12 km star, at r = " + dec(x, 2, l) + " " + RS + ". The Schwarzschild slice only holds outside it; the dimmed core does not exist for a star, whose well has a smooth bottom, with no throat. The throat belongs to black holes.");
+      } else {
+        cls += " alerta";
+        html = dois(l => l === "pt"
+          ? "Com M = " + dec(st.M, 1, l) + " M☉, " + RS + " = " + km(st.rs, l) + " passa de 12 km: uma estrela desse tamanho estaria dentro do próprio horizonte. Nenhuma estrela de nêutrons conhecida passa de ~2,3 M☉."
+          : "At M = " + dec(st.M, 1, l) + " M☉, " + RS + " = " + km(st.rs, l) + " exceeds 12 km: a star that size would sit inside its own horizon. No known neutron star exceeds ~2.3 M☉.");
+      }
+    }
+    el.className = cls;
+    el.innerHTML = html;
+    el.hidden = !html;
+  }
+
+  // ── estado → geometria ────────────────────────────────────────────────
+  function recalcula() {
+    st.geo = null;
+    if (st.pts.length === 2 && st.pts.every(p => p.rKm > st.rs)) {
+      const [A, B] = st.pts;
+      st.geo = geodesica(A.rKm / st.rs, A.phi, B.rKm / st.rs, B.phi);
+    }
+    GEO = st.geo ? fita(st.geo.pts, false, GEO) : null;
+    const x = R_ESTRELA / st.rs;
+    ESTRELA = x > 1 ? fita(circulo(x, 360), true, ESTRELA) : null;
+    painel(); regime();
+    $("lblM").textContent = dec(st.M, 1, idioma()) + " M☉";
+  }
+
+  function poeMassa(M) {
+    st.M = M; st.rs = M * RS1;
+    st.dKm = Math.min(Math.max(st.dKm, DMIN * st.rs), DMAX * st.rs);
+    $("mm").value = M;
+    recalcula(); pede();
+  }
+
+  // ── laço: só desenha quando algo muda ─────────────────────────────────
+  let pedido = false, anim = null;
+  function pede() { if (!pedido) { pedido = true; requestAnimationFrame(quadro); } }
+  function quadro(t) {
+    pedido = false;
+    if (anim) {
+      const u = Math.min(1, (t - (anim.t0 ??= t)) / anim.ms), e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      st.az = anim.de.az + (anim.para.az - anim.de.az) * e;
+      st.el = anim.de.el + (anim.para.el - anim.de.el) * e;
+      st.dKm = Math.exp(Math.log(anim.de.dKm) + (Math.log(anim.para.dKm) - Math.log(anim.de.dKm)) * e);
+      st.alvo = anim.de.alvo.map((v, i) => v + (anim.para.alvo[i] - v) * e);
+      if (u >= 1) anim = null; else pede();
+    }
+    desenha();
+  }
+  function anima(para, ms) {
+    const de = { az: st.az, el: st.el, dKm: st.dKm, alvo: st.alvo.slice() };
+    para = Object.assign({}, de, para);
+    // o azimute vai pelo caminho mais curto
+    para.az = de.az + Math.atan2(Math.sin(para.az - de.az), Math.cos(para.az - de.az));
+    if (reduzido) { anim = null; Object.assign(st, para); pede(); return; }
+    anim = { de, para, ms, t0: undefined };
+    pede();
+  }
+
+  // ── câmera: girar, mover, aproximar ───────────────────────────────────
+  // Com o alvo no furo da garganta não há superfície à frente: chegar mais
+  // perto que 3 r_s só mostra o vazio. Perto da superfície, vale DMIN.
+  function limitaD(d) {
+    const T = st.alvo.map(v => v / st.rs);
+    const furo = Math.hypot(T[0], T[1]) < 1 && Math.abs(T[2]) < 1;
+    return Math.min(Math.max(d, (furo ? 3 : DMIN) * st.rs), DMAX * st.rs);
+  }
+  function limitaAlvo() {
+    const m = Math.hypot(st.alvo[0], st.alvo[1], st.alvo[2]), lim = 0.8 * XMAX * st.rs;
+    if (m > lim) st.alvo = st.alvo.map(v => v * lim / m);
+  }
+
+  // Aproxima por um fator k mantendo parado na tela o ponto P sob (px, py):
+  // a câmera e o alvo encolhem juntos em direção a P. O limite de perto vale
+  // para a distância até P, que é o que se está olhando.
+  function zoom(px, py, k) {
+    anim = null;
+    const cam = camera(), h = px === null ? null : raio(cam.c, direcao(cam, px, py), st.folha);
+    if (h) {
+      k = Math.min(Math.max(k, DMIN / h.t, DMIN * st.rs / st.dKm), DMAX * st.rs / st.dKm);
+      const P = h.p.map(v => v * st.rs);
+      st.alvo = st.alvo.map((v, i) => P[i] + (v - P[i]) * k);
+      st.dKm *= k;
+    } else st.dKm = limitaD(st.dKm * k);
+    limitaAlvo(); pede();
+  }
+
+  function gira(dx, dy) {
+    anim = null;
+    st.az -= dx * 0.008;
+    st.el = Math.min(1.53, Math.max(-1.4, st.el + dy * 0.008));
+    pede();
+  }
+
+  function move(dx, dy) {
+    anim = null;
+    const cam = camera(), s = st.dKm * 2 * cam.th / H;
+    for (let i = 0; i < 3; i++) st.alvo[i] += (-cam.rt[i] * dx + cam.up[i] * dy) * s;
+    limitaAlvo(); pede();
+  }
+
+  function clique(px, py) {
+    const cam = camera(), h = raio(cam.c, direcao(cam, px, py), st.folha);
+    if (!h) return;
+    if (h.folha < 0) { st.hover = h; pede(); return; }
+    const x = Math.hypot(h.p[0], h.p[1]);
+    if (st.pts.length >= 2) st.pts = [];
+    st.pts.push({ rKm: x * st.rs, phi: Math.atan2(h.p[1], h.p[0]) });
+    recalcula(); pede();
+  }
+
+  // ── ponteiro: um dedo gira, dois aproximam e movem, toque marca ───────
+  const toques = new Map();
+  let gesto = null;
+  const local = ev => { const r = cv.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; };
+  const escondeDica = () => { $("hint").style.opacity = 0; };
+
+  cv.addEventListener("pointerdown", ev => {
+    cv.setPointerCapture(ev.pointerId);
+    toques.set(ev.pointerId, local(ev));
+    cv.style.cursor = "";
+    escondeDica();
+    if (toques.size === 1) {
+      const p = local(ev);
+      gesto = { tipo: ev.button === 2 || ev.shiftKey ? "move" : "gira", ini: p, ant: p, t0: performance.now(), toque: ev.button === 0 };
+      cv.classList.add("grabbing");
+    } else if (toques.size === 2) {
+      const [a, b] = [...toques.values()];
+      gesto = { tipo: "pinca", d: Math.hypot(a[0] - b[0], a[1] - b[1]), m: [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], toque: false };
+    } else if (gesto) gesto.toque = false;
+  });
+
+  cv.addEventListener("pointermove", ev => {
+    if (!toques.has(ev.pointerId)) {
+      // sem botão: só mostra onde o cursor está na superfície
+      if (ev.pointerType === "mouse") {
+        const p = local(ev), cam = camera();
+        st.hover = raio(cam.c, direcao(cam, p[0], p[1]), st.folha);
+        cv.style.cursor = st.hover ? "crosshair" : "";
+        pede();
+      }
+      return;
+    }
+    toques.set(ev.pointerId, local(ev));
+    if (!gesto) return;
+    if (gesto.tipo === "pinca" && toques.size >= 2) {
+      const [a, b] = [...toques.values()];
+      const d = Math.hypot(a[0] - b[0], a[1] - b[1]), m = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+      move(m[0] - gesto.m[0], m[1] - gesto.m[1]);
+      if (d > 1 && gesto.d > 1) zoom(m[0], m[1], gesto.d / d);
+      gesto.d = d; gesto.m = m;
+      return;
+    }
+    const p = local(ev);
+    if (Math.hypot(p[0] - gesto.ini[0], p[1] - gesto.ini[1]) > 5) gesto.toque = false;
+    if (!gesto.toque) {
+      const dx = p[0] - gesto.ant[0], dy = p[1] - gesto.ant[1];
+      gesto.tipo === "move" ? move(dx, dy) : gira(dx, dy);
+    }
+    gesto.ant = p;
+    st.hover = null;
+  });
+
+  function solta(ev) {
+    if (!toques.has(ev.pointerId)) return;
+    const p = local(ev);
+    toques.delete(ev.pointerId);
+    if (gesto && gesto.toque && ev.type === "pointerup" && performance.now() - gesto.t0 < 700) clique(p[0], p[1]);
+    if (toques.size === 1) {
+      const q = [...toques.values()][0];
+      gesto = { tipo: "gira", ini: q, ant: q, t0: 0, toque: false };
+    } else if (toques.size === 0) { gesto = null; cv.classList.remove("grabbing"); }
+  }
+  cv.addEventListener("pointerup", solta);
+  cv.addEventListener("pointercancel", solta);
+  cv.addEventListener("pointerleave", ev => { if (ev.pointerType === "mouse" && !toques.size) { st.hover = null; pede(); } });
+  cv.addEventListener("contextmenu", ev => ev.preventDefault());
+  cv.addEventListener("wheel", ev => {
+    ev.preventDefault();
+    escondeDica();
+    const p = local(ev), u = ev.deltaMode === 1 ? 16 : ev.deltaMode === 2 ? 400 : 1;
+    zoom(p[0], p[1], Math.exp(Math.max(-60, Math.min(60, ev.deltaY * u)) * 0.004));
+  }, { passive: false });
+
+  cv.addEventListener("keydown", ev => {
+    const k = ev.key;
+    if (k === "ArrowLeft") gira(-18, 0);
+    else if (k === "ArrowRight") gira(18, 0);
+    else if (k === "ArrowUp") gira(0, -12);
+    else if (k === "ArrowDown") gira(0, 12);
+    else if (k === "+" || k === "=") zoom(null, null, 0.8);
+    else if (k === "-" || k === "_") zoom(null, null, 1.25);
+    else return;
+    ev.preventDefault();
+  });
+
+  // ── controles ─────────────────────────────────────────────────────────
+  $("mais").onclick = () => anima({ dKm: limitaD(st.dKm * 0.6) }, 260);
+  $("menos").onclick = () => anima({ dKm: limitaD(st.dKm / 0.6) }, 260);
+  $("centro").onclick = () => anima({ el: EL0, dKm: DPAD * st.rs, alvo: [0, 0, 0] }, 550);
+  $("mm").oninput = e => poeMassa(+e.target.value);
+  document.querySelectorAll("[data-massa]").forEach(b => {
+    b.onclick = () => {
+      const M = +b.dataset.massa;
+      st.estrela = M < 3;
+      $("estrela").checked = st.estrela;
+      poeMassa(M);
+    };
+  });
+  $("estrela").onchange = e => { st.estrela = e.target.checked; recalcula(); pede(); };
+  $("folha").onchange = e => { st.folha = e.target.checked; pede(); };
+  $("limpa").onclick = () => { st.pts = []; recalcula(); pede(); };
+  $("reset").onclick = () => {
+    st.pts = []; st.estrela = false; st.folha = false;
+    $("estrela").checked = false; $("folha").checked = false;
+    poeMassa(10);
+    anima({ az: AZ0, el: EL0, dKm: DPAD * st.rs, alvo: [0, 0, 0] }, 550);
+  };
+  // os números do painel e da tela mudam de vírgula para ponto com o idioma
+  document.querySelectorAll("[data-set-lang]").forEach(b => b.addEventListener("click", () => {
+    $("lblM").textContent = dec(st.M, 1, idioma()) + " M☉";
+    pede();
+  }));
+
+  new ResizeObserver(pede).observe(cv);
+  recalcula();
+  pede();
+})();
+</script>
+
+</body>
+</html>
